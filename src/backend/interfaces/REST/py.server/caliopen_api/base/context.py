@@ -24,6 +24,9 @@ class DefaultContext(object):
         self.request = request
         self.return_schema = None
         self._acl = DefaultContext.default_acl[:]
+        # TODO: cors should be enabled only in development environment
+        self.cors_origins = ('*',)
+        self.cors_max_age = 3600
 
     @reify
     def authenticated_user(self):
