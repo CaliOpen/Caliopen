@@ -64,7 +64,7 @@ sleep 10
 # Setup caliopen
 export CQLENG_ALLOW_SCHEMA_MANAGEMENT="true"
 caliopen -f ${CONF_FILE} setup
-caliopen -f ${CONF_FILE} create_user -e dev@caliopen.local -g John -f Dœuf -p 123456
+caliopen -f ${CONF_FILE} create_user -e dev -g John -f Dœuf -p 123456
 caliopen -f ${CONF_FILE} import -e dev@caliopen.local -f mbox -p ${CALIOPEN_BASE_DIR}/code/devtools/fixtures/mbox/dev@caliopen.local
 
 # start caliopen API
