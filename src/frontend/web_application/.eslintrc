@@ -1,5 +1,6 @@
 {
   "extends": "airbnb",
+  "parser": "babel-eslint",
   "ecmaFeatures": {
     "modules": true
   },
