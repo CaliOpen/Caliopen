@@ -1,0 +1,10 @@
+// --- Base ---
+// global rules
+$co-font-path: '../../fonts';
+@import '../../styles/base/fonts';
+@import '../../styles/base/reset';
+
+// --- Vendor ---
+$fa-font-path: '../../../node_modules/font-awesome/fonts';
+@import '../../styles/vendor/foundation-sites';
+@import '../../styles/vendor/font-awesome';

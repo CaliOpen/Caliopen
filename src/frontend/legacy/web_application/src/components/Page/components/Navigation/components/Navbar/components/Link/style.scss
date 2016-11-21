@@ -1,0 +1,29 @@
+@import '../../../../../../../../styles/common';
+
+.m-navbar-link,
+.m-navbar-button {
+  display: inline-block;
+  vertical-align: middle;
+  text-decoration: none;
+}
+
+.m-navbar-link {
+  max-width: 12rem;
+  padding: 0 ($co-margin / 2);
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: inherit;
+  white-space: nowrap;
+
+  &:hover   { color: $co-color__fg__text--high; }
+  &:active  { color: $co-color__fg__text--lower; }
+}
+
+.m-navbar-button {
+  padding-right: ($co-margin / 2);
+  color: $co-color__primary--low;
+
+  &:hover   { color: $co-color__primary--high; }
+  &:active  { color: $co-color__primary--lower; }
+}

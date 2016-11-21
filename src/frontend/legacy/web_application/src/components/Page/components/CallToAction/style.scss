@@ -1,0 +1,33 @@
+@import '../../../../styles/common';
+
+.l-call-to-action {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  // trick to prevent too easily hide buttons
+  padding: $co-margin $co-margin / 2 $co-margin / 2 $co-margin;
+}
+
+.m-call-to-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  visibility: hidden;
+
+  &:focus,
+  &:hover {
+    visibility: visible;
+  }
+
+  &__btn {
+    margin-bottom: 1rem;
+    box-shadow: $co-shadow;
+    text-align: right;
+
+    &--principal {
+      margin-bottom: 0;
+      font-size: 1em;
+      visibility: visible;
+    }
+  }
+}

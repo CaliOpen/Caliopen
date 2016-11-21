@@ -1,0 +1,40 @@
+@mixin o-form-element {
+  display: inline-block;
+  padding: ($co-margin / 3) ($co-margin / 2);
+
+  border: 1px solid;
+  border-radius: 3px;
+  box-shadow: $co-shadow inset;
+
+  @if has-value($co-animation__box-transition) {
+    transition: $co-animation__box-transition;
+  }
+
+  &:focus {
+    box-shadow: $co-shadow inset;
+  }
+}
+
+@mixin o-form-element--dark {
+  border-color: $co-color__fg__border;
+  background-color: $co-color__fg__back--low;
+  color: $co-color__fg__text--low;
+
+  &:focus {
+    border-color: $co-color__fg__border--high;
+    background-color: $co-color__fg__back;
+    color: $co-color__fg__text;
+  }
+}
+
+@mixin o-form-element--light {
+  border-color: $co-color__contrast__border;
+  background-color: $co-color__contrast__back--low;
+  color: $co-color__contrast__text--low;
+
+  &:focus {
+    border-color: $co-color__contrast__border--low;
+    background-color: $co-color__contrast__back--high;
+    color: $co-color__contrast__text;
+  }
+}

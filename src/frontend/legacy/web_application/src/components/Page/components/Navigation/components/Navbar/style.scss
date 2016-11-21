@@ -1,0 +1,7 @@
+@import '../../../../../../styles/common';
+
+$m-navbar__height: $co-component__height !default;
+
+.m-navbar {
+  line-height: $m-navbar__height;
+}

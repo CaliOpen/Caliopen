@@ -1,0 +1,13 @@
+$co-font-path: '../../fonts/' !default;
+
+@font-face {
+  font-family: 'open_sansregular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('#{$co-font-path}/Open_Sans/opensans-regular-webfont.eot');
+  src: url('#{$co-font-path}/Open_Sans/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+       url('#{$co-font-path}/Open_Sans/opensans-regular-webfont.woff2') format('woff2'),
+       url('#{$co-font-path}/Open_Sans/opensans-regular-webfont.woff') format('woff'),
+       url('#{$co-font-path}/Open_Sans/opensans-regular-webfont.ttf') format('truetype'),
+       url('#{$co-font-path}/Open_Sans/opensans-regular-webfont.svg#open_sansregular') format('svg');
+}

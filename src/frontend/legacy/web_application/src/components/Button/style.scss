@@ -1,0 +1,11 @@
+@import '../../styles/common';
+@import '../../styles/object/o-clickable';
+
+.m-button {
+  @include o-clickable;
+  @include o-clickable--button;
+
+  &--expanded { @include o-clickable--expanded; }
+  &--plain { @include o-clickable--plain; }
+  &--hollow { @include o-clickable--hollow; }
+}

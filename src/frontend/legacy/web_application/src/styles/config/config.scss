@@ -1,0 +1,37 @@
+$co-margin: 1.5rem;
+$co-radius: .125rem;
+
+$co-font__size: 1rem;
+$co-font__size--small: .75rem;
+$co-font__line-height: 1.4rem;
+
+$co-component__height: 2.6rem;
+$co-component__spacing: .5rem;
+
+$co-form__width: (
+  small:  10rem,  // 160 px
+  medium: 13rem,  // 208 px
+  large:  16rem   // 256 px
+);
+
+$co-form__height: (
+  small:  1.5rem,   // 24 px
+  medium: 2.25rem,  // 36 px
+  large:  3rem      // 48 px
+);
+
+$co-form__spacing: (
+  small: .625rem, // 10 px
+  medium: .9375rem, // 15 px
+  large:  1.5625rem // 25 px
+);
+
+$co-grid__gutter: 30px;
+$co-grid__gutter--small: 20px;
+
+$co-animation__clickable-transition: background-color 0.1s ease-out, color 0.1s ease-out !default;
+$co-animation__box-transition: box-shadow .15s, border-color .15s ease-in-out !default;
+$co-animation__margin-transition: margin .15s, padding .15s ease !default;
+
+$l-z-index__navbar: 1;
+$l-z-index__flash-message: 2;

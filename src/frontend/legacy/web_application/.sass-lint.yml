@@ -1,0 +1,216 @@
+# Linter Options
+options:
+  merge-default-rules: true
+
+# Rule Configuration
+rules:
+
+  # Allow color keyword, in waiting of
+  # rule disable comment
+  no-color-keywords: 0
+
+  # Allow mergeable selectors in waiting of:
+  # https://github.com/sasstools/sass-lint/issues/599
+  no-mergeable-selectors: 0
+
+  # Allow a bigger nesting depth max in waiting of:
+  # https://github.com/sasstools/sass-lint/issues/603
+  nesting-depth:
+    [1, {
+      max-depth: 3
+    }]
+
+  # Name Formats
+  class-name-format:
+    [1, {
+      convention: hyphenatedbem
+    }]
+  function-name-format:
+    [1, {
+      convention: '(?![A-Z]|-{3}|_{3}|[^_]_[^_])' # hyphenatedbem
+    }]
+  mixin-name-format:
+    [1, {
+      convention: '(?![A-Z]|-{3}|_{3}|[^_]_[^_])' # hyphenatedbem
+    }]
+  placeholder-name-format:
+    [1, {
+      convention: '(?![A-Z]|-{3}|_{3}|[^_]_[^_])' # hyphenatedbem
+    }]
+  variable-name-format:
+    [1, {
+      convention: '(?![A-Z]|-{3}|_{3}|[^_]_[^_])' # hyphenatedbem
+    }]
+
+  # Property sort order, inspired from SMACCS
+  # https://github.com/sasstools/sass-lint/blob/develop/lib/config/property-sort-orders/smacss.yml
+  property-sort-order:
+    - 1
+    -
+      ignore-custom-properties: true
+      order:
+
+        # Box
+        - 'display'
+        - 'content'
+
+        # Position
+        - 'position'
+        - 'top'
+        - 'right'
+        - 'bottom'
+        - 'left'
+        - 'z-index'
+
+        # Disposition
+        - 'vertical-align'
+        - 'float'
+        - 'clear'
+        - 'list-style'
+        - 'list-style-image'
+        - 'list-style-position'
+        - 'list-style-type'
+
+        - 'flex'
+        - 'flex-basis'
+        - 'flex-direction'
+        - 'flex-flow'
+        - 'flex-grow'
+        - 'flex-shrink'
+        - 'flex-wrap'
+        - 'align-content'
+        - 'align-items'
+        - 'align-self'
+        - 'justify-content'
+        - 'order'
+
+        - 'columns'
+        - 'column-gap'
+        - 'column-fill'
+        - 'column-rule'
+        - 'column-span'
+        - 'column-count'
+        - 'column-width'
+
+        # Dimension
+        - 'width'
+        - 'min-width'
+        - 'max-width'
+
+        - 'height'
+        - 'min-height'
+        - 'max-height'
+
+        - 'margin'
+        - 'margin-top'
+        - 'margin-right'
+        - 'margin-bottom'
+        - 'margin-left'
+
+        - 'padding'
+        - 'padding-top'
+        - 'padding-right'
+        - 'padding-bottom'
+        - 'padding-left'
+
+        # Appearance
+        - 'transform'
+        - 'transform-box'
+        - 'transform-origin'
+        - 'transform-style'
+        
+        - 'transition'
+        - 'transition-delay'
+        - 'transition-duration'
+        - 'transition-property'
+        - 'transition-timing-function'
+
+        # Border
+        - 'border'
+        - 'border-top'
+        - 'border-right'
+        - 'border-bottom'
+        - 'border-left'
+        - 'border-width'
+        - 'border-top-width'
+        - 'border-right-width'
+        - 'border-bottom-width'
+        - 'border-left-width'
+
+        - 'border-style'
+        - 'border-top-style'
+        - 'border-right-style'
+        - 'border-bottom-style'
+        - 'border-left-style'
+
+        - 'border-radius'
+        - 'border-top-left-radius'
+        - 'border-top-right-radius'
+        - 'border-bottom-left-radius'
+        - 'border-bottom-right-radius'
+
+        - 'border-color'
+        - 'border-top-color'
+        - 'border-right-color'
+        - 'border-bottom-color'
+        - 'border-left-color'
+
+        - 'border-collapse'
+        - 'border-spacing'
+
+        - 'outline'
+        - 'outline-color'
+        - 'outline-offset'
+        - 'outline-style'
+        - 'outline-width'
+
+        # Background
+        - 'background'
+        - 'background-attachment'
+        - 'background-clip'
+        - 'background-color'
+        - 'background-image'
+        - 'background-repeat'
+        - 'background-position'
+        - 'background-size'
+
+        # Shadow
+        - 'box-shadow'
+
+        # Text
+        - 'overflow'
+        - 'text-overflow'
+
+        - 'color'
+
+        - 'font'
+        - 'font-family'
+        - 'font-size'
+        - 'font-smoothing'
+        - 'font-style'
+        - 'font-variant'
+        - 'font-weight'
+
+        - 'letter-spacing'
+        - 'line-height'
+
+        - 'text-align'
+        - 'text-decoration'
+        - 'text-indent'
+        - 'text-rendering'
+        - 'text-shadow'
+        - 'text-transform'
+        - 'text-wrap'
+
+        - 'white-space'
+        - 'word-spacing'
+
+        # Other
+        - 'caption-side'
+        - 'cursor'
+        - 'empty-cells'
+        - 'opacity'
+        - 'quotes'
+        - 'speak'
+        - 'table-layout'
+        - 'visibility'

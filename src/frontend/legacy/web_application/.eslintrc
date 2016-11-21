@@ -1,0 +1,29 @@
+{
+  "extends": "airbnb",
+  "ecmaFeatures": {
+    "modules": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jasmine": true,
+    "protractor": true
+  },
+  "rules": {
+    "newline-before-return": "error"
+  },
+  "globals": {
+    "inject": true,
+    "Foundation": true,
+    "jQuery": true,
+    "jest": true,
+    "BUILD_TARGET": true,
+    "CALIOPEN_ENV": true
+  }
+}

@@ -1,0 +1,72 @@
+@import '../../styles/common';
+
+// XXX: move or remove
+@mixin m-menu--horizontal {
+  &__item {
+    float: left;
+  }
+
+  &__separator {
+    float: left;
+    width: 1px;
+    height: auto;
+    margin: 0 ($co-margin / 4);
+  }
+}
+
+@mixin m-menu--vertical {
+  &__item {
+    // float: none;
+  }
+
+  &__separator {
+    // float: none;
+    // width: auto;
+    height: 1px;
+    margin: ($co-margin / 4) 0;
+  }
+}
+
+@mixin m-menu--height($height) {
+  @if (map-has-key($co-form__height, $height)) {
+    $height: map-get($co-form__height, $height);
+  }
+
+  &__item { min-height: $height; }
+  &__item-content { line-height: $height; }
+}
+
+@mixin m-menu {
+  // @include clearfix;
+
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  &__item--is-active { color: $co-color__fg__text--high; }
+
+  &__item-content {
+    display: block;
+    padding: 0 1rem;
+    white-space: nowrap;
+  }
+
+  &__separator {
+    background-color: $co-color__fg__border;
+  }
+
+  // @include m-menu--horizontal;
+  @include m-menu--height(medium);
+  //
+  // &--horizontal   { @include m-menu--horizontal; }
+  // &--vertical { @include m-menu--vertical; }
+
+  &--small  { @include m-menu--height(small); }
+  &--medium { @include m-menu--height(medium); }
+  &--large  { @include m-menu--height(large); }
+}
+
+.m-vertical-menu {
+  @include m-menu;
+  @include m-menu--vertical;
+}

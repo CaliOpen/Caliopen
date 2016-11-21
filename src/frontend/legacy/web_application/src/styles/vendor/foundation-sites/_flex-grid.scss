@@ -1,0 +1,8 @@
+@mixin flex-grid-size($columns) {
+  flex: flex-grid-column($columns);
+
+  // max-width fixes IE 10/11 not respecting the flex-basis property
+  @if $columns != null and $columns != shrink {
+    max-width: grid-column($columns);
+  }
+}

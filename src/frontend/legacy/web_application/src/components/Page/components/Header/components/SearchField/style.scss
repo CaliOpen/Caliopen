@@ -1,0 +1,52 @@
+@import '../../../../../../styles/common';
+
+@mixin m-search-field--width($width) {
+  @if ($width == block) {
+    display: block;
+    width: auto;
+  } @else {
+    @if (map-has-key($co-form__width, $width)) {
+      $width: map-get($co-form__width, $width);
+    }
+
+    display: inline-block;
+    width: $width;
+  }
+}
+
+.m-search-field {
+  position: relative;
+
+  &__input {
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    padding-right: 2rem;
+  }
+
+  &__button {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: 2rem;
+    height: 100%;
+
+    border: 0;
+    background: transparent;
+    color: $co-color__fg__text--lower;
+
+    &:hover   { color: $co-color__fg__text--high; }
+    &:active  { color: $co-color__fg__text--lower; }
+    &:focus   { outline: 0; }
+  }
+
+  // default
+  // @include m-search-field--width(medium);
+
+  // modifiers
+  // &--block  { @include m-search-field--width(block); }
+  // &--small  { @include m-search-field--width(small); }
+  // &--medium { @include m-search-field--width(medium); }
+  // &--large  { @include m-search-field--width(large); }
+}

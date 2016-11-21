@@ -1,0 +1,21 @@
+# dependencies
+node_modules
+
+# testing
+coverage
+
+# production
+build
+dist
+cordova/www
+
+# misc
+.DS_Store
+.env
+npm-debug.log
+cordova/*.log
+
+# build targets
+cordova/platforms
+cordova/plugins
+.kotatsu

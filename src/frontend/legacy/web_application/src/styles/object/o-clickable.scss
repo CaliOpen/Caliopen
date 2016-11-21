@@ -1,0 +1,73 @@
+@mixin o-clickable {
+  color: $co-color__fg__text--low;
+  border-color: $co-color__primary;
+  text-decoration: none;
+  cursor: pointer;
+  transition: $co-animation__clickable-transition;
+
+  &:hover {
+    color: $co-color__fg__text--high;
+  }
+
+  &:active {
+    color: $co-color__fg__text--high;
+  }
+
+  &.is-active {
+    color: $co-color__fg__text;
+    cursor: default;
+  }
+
+  @each $name, $color in $caliopen-palette {
+    &--#{$name} {
+      $color-hover: scale-color($color, $lightness: -50%);
+      border-color: $color;
+      color: $color;
+
+      &:hover,
+      &:focus {
+        background-color: $color-hover;
+        color: $co-color__fg__text--high;
+      }
+    }
+  }
+}
+
+@mixin o-clickable--text {
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+@mixin o-clickable--button {
+  display: inline-block;
+  padding: 0 1rem;
+  line-height: $co-component__height;
+
+  &:hover {
+    background-color: $co-color__primary;
+  }
+
+  &:active {
+    background-color: $co-color__primary--lower;
+  }
+
+  &.is-active {
+    background-color: $co-color__primary--low;
+  }
+}
+
+@mixin o-clickable--expanded {
+  display: block;
+  line-height: inherit;
+}
+
+@mixin o-clickable--hollow {
+  border-width: 1px;
+  border-style: solid;
+}
+
+@mixin o-clickable--plain {
+  background-color: $co-color__primary;;
+}

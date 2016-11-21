@@ -1,0 +1,18 @@
+@import '../../../../../../../../styles/common';
+
+.m-tab {
+  margin-right: .25rem;
+  border-bottom: .25rem solid $co-color__bg__back;
+  background-color: $co-color__fg__back;
+  color: $co-color__fg__text--low;
+  white-space: nowrap;
+
+  &--is-active {
+    border-bottom-color: transparent;
+    color: $co-color__fg__text--higher;
+  }
+
+  &--last {
+    margin-right: 0;
+  }
+}

@@ -1,0 +1,8 @@
+@import 'react-redux-notify/src/components/Notify/Notify';
+
+.l-notification-center {
+  @include container;
+  top: 50px; // cf. header
+  right: 0;
+  flex-direction: column;
+}

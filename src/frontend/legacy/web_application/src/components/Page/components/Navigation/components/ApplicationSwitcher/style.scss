@@ -1,0 +1,23 @@
+@import '../../../../../../styles/common';
+
+.m-application-switcher {
+  display: inline-block;
+  position: relative;
+
+  &__toggler {
+    vertical-align: middle;
+    line-height: $co-component__height;
+  }
+
+  &__dropdown {
+    position: absolute;
+    width: 100%;
+    background-color: $co-color__fg__back--higher;
+    box-shadow: $co-shadow;
+    visibility: hidden;
+
+    &.is-open {
+      visibility: visible;
+    }
+  }
+}

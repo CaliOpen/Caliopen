@@ -1,0 +1,56 @@
+@import '../../../../styles/common';
+@import '../../../../styles/vendor/foundation-sites';
+
+.l-navigation {
+  min-height: $co-component__height;
+
+  &__wrapper {
+    @include flex-grid-row($width: none);
+    position: fixed;
+    z-index: $l-z-index__navbar;
+    width: 100%;
+    padding-top: .75rem;
+    transition: $co-animation__margin-transition;
+    background-color: $co-color__bg__back;
+
+    &::after {
+      display: block;
+      content: ' ';
+      width: 100%;
+      height: 10px;
+      transition: $co-animation__box-transition;
+      background-color: $co-color__fg__back;
+    }
+
+    &--sticky {
+      padding-top: .25rem;
+
+      &::after {
+        box-shadow: $co-shadow;
+      }
+    }
+  }
+
+  &__application-switcher {
+    @include flex-grid-column(shrink, 0);
+  }
+
+  &__tab-list {
+    @include flex-grid-column($gutter: 0);
+  }
+
+  &__sliders-toggle {
+    @include flex-grid-column(shrink, 0);
+  }
+
+  &__sliders-container {
+    height: 50vh;
+    margin: 1rem;
+    white-space: nowrap;
+  }
+
+  &__slider {
+    display: inline-block;
+    margin: 0 .5rem;
+  }
+}

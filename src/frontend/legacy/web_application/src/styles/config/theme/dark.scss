@@ -1,0 +1,107 @@
+// --- Colors ---
+// bright colors
+$co-color__primary:                   #1395ba;
+$co-color__primary--lower:            darken($co-color__primary, 15%);
+$co-color__primary--low:              darken($co-color__primary, 10%);
+$co-color__primary--high:             lighten($co-color__primary, 10%);
+$co-color__primary--higher:           lighten($co-color__primary, 15%);
+
+$co-color__secondary:                 #13ba95;
+$co-color__secondary--lower:          darken($co-color__secondary, 15%);
+$co-color__secondary--low:            darken($co-color__secondary, 10%);
+$co-color__secondary--high:           lighten($co-color__secondary, 10%);
+$co-color__secondary--higher:         lighten($co-color__secondary, 15%);
+
+// semantic
+$co-color__success:                   #3adb76;
+$co-color__success--low:              darken($co-color__success, 10%);
+$co-color__success--high:             lighten($co-color__success, 10%);
+
+$co-color__info:                      #39badb;
+$co-color__info--low:                 darken($co-color__info, 10%);
+$co-color__info--high:                lighten($co-color__info, 10%);
+
+$co-color__warning:                   #ffae00;
+$co-color__warning--low:              darken($co-color__warning, 10%);
+$co-color__warning--high:             lighten($co-color__warning, 10%);
+
+$co-color__alert:                     #ec5840;
+$co-color__alert--low:                darken($co-color__alert, 10%);
+$co-color__alert--high:               lighten($co-color__alert, 10%);
+
+$co-color__importance:                #d2bc00;
+$co-color__privacy:                   #97b707;
+
+// contrasted foreground
+$co-color__contrast__back:            #fff;
+$co-color__contrast__back--lower:     darken($co-color__contrast__back, 5%);
+$co-color__contrast__back--low:       darken($co-color__contrast__back, 2.5%);
+$co-color__contrast__back--high:      lighten($co-color__contrast__back, 5%);
+$co-color__contrast__back--higher:    lighten($co-color__contrast__back, 10%);
+
+$co-color__contrast__border:          #b3b3b3;
+$co-color__contrast__border--lower:   darken($co-color__contrast__border, 20%);
+$co-color__contrast__border--low:     darken($co-color__contrast__border, 10%);
+$co-color__contrast__border--high:    lighten($co-color__contrast__border, 10%);
+$co-color__contrast__border--higher:  lighten($co-color__contrast__border, 20%);
+
+$co-color__contrast__text:            #1a1a1a;
+$co-color__contrast__text--lower:     darken($co-color__contrast__text, 30%);
+$co-color__contrast__text--low:       darken($co-color__contrast__text, 15%);
+$co-color__contrast__text--high:      lighten($co-color__contrast__text, 10%);
+$co-color__contrast__text--higher:    lighten($co-color__contrast__text, 20%);
+
+// foreground
+$co-color__fg__back:                  #333;
+$co-color__fg__back--lower:           darken($co-color__fg__back, 5%);
+$co-color__fg__back--low:             darken($co-color__fg__back, 2.5%);
+$co-color__fg__back--high:            lighten($co-color__fg__back, 5%);
+$co-color__fg__back--higher:          lighten($co-color__fg__back, 10%);
+
+$co-color__fg__border:                #424242;
+$co-color__fg__border--lower:         darken($co-color__fg__border, 20%);
+$co-color__fg__border--low:           darken($co-color__fg__border, 10%);
+$co-color__fg__border--high:          lighten($co-color__fg__border, 10%);
+$co-color__fg__border--higher:        lighten($co-color__fg__border, 20%);
+
+$co-color__fg__text:                  #e8e8e8;
+$co-color__fg__text--lower:           darken($co-color__fg__text, 30%);
+$co-color__fg__text--low:             darken($co-color__fg__text, 15%);
+$co-color__fg__text--high:            lighten($co-color__fg__text, 10%);
+$co-color__fg__text--higher:          lighten($co-color__fg__text, 20%);
+
+// background
+$co-color__bg__back:                  #1d1d1d;
+$co-color__bg__back--lower:           darken($co-color__bg__back, 5%);
+$co-color__bg__back--low:             darken($co-color__bg__back, 2.5%);
+$co-color__bg__back--high:            lighten($co-color__bg__back, 5%);
+$co-color__bg__back--higher:          lighten($co-color__bg__back, 10%);
+
+$co-color__bg__border:                #424242;
+$co-color__bg__border--lower:         darken($co-color__bg__border, 20%);
+$co-color__bg__border--low:           darken($co-color__bg__border, 10%);
+$co-color__bg__border--high:          lighten($co-color__bg__border, 10%);
+$co-color__bg__border--higher:        lighten($co-color__bg__border, 20%);
+
+$co-color__bg__text:                  #888;
+$co-color__bg__text--lower:           darken($co-color__bg__text, 30%);
+$co-color__bg__text--low:             darken($co-color__bg__text, 15%);
+$co-color__bg__text--high:            lighten($co-color__bg__text, 10%);
+$co-color__bg__text--higher:          lighten($co-color__bg__text, 20%);
+
+
+// --- Shadows ---
+$co-color__shadow:                    rgba(0, 0, 0, .3);
+
+$co-shadow--low:                      0 1px .25rem $co-color__shadow;
+$co-shadow:                           0 1px .5rem $co-color__shadow;
+$co-shadow--high:                     0 1px .75rem $co-color__shadow;
+
+// --- Palette ---
+$caliopen-palette: (
+  primary: $co-color__primary,
+  secondary: $co-color__secondary,
+  success: #3adb76,
+  warning: #ffae00,
+  alert: #ec5840,
+);
