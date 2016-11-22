@@ -20,7 +20,6 @@ from caliopen_main.user.returns import (ReturnContact,
                                         ReturnPublicKey)
 
 from caliopen_main.user.parameters import (NewContact as NewContactParam,
-                                           Contact as ContactParam,
                                            NewPostalAddress, NewEmail, NewIM)
 
 from ..base import Api
@@ -58,12 +57,12 @@ class Contact(Api):
         pi_range = self.request.authenticated_userid.pi_range
         contact_id = self.request.matchdict.get('contact_id')
         try:
-            contact = CoreContact.get(self.user, contact_id)
+            contact_pi = CoreContact.get_pi(self.user, contact_id)
         except NotFound:
             raise ResourceNotFound('No such contact')
-        if pi_range[0] > contact.privacy_index < pi_range[1]:
+        if pi_range[0] > contact_pi < pi_range[1]:
             raise HTTPExpectationFailed('Invalid privacy index')
-        return {'contacts': ReturnContact.build(contact).serialize()}
+        return {'contact': CoreContact.get_serialized(self.user, contact_id)}
 
     @view(renderer='json', permission='authenticated')
     def collection_post(self):
