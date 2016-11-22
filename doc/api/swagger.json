@@ -1,9 +1,8 @@
-var caliopen_api =
 {
     "swagger": "2.0",
     "info": {
         "version": "0.0.2",
-        "title": "Caliopen User API"
+        "title": "Caliopen HTTP/REST API"
     },
     "host": "localhost:6543",
     "schemes": [
@@ -11,6 +10,72 @@ var caliopen_api =
     ],
     "basePath": "/api/v1",
     "paths": {
+        "/authentications": {
+            "post": {
+                "description": "Returns auth token to build basicAuth for the provided credentials",
+                "tags": [
+                    "users"
+                ],
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "default": "dev@caliopen.local"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "default": "123456"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful authentication",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                },
+                                "user_id": {
+                                    "type": "string",
+                                    "description": "the user_id makes the 'username' for basicAuth"
+                                },
+                                "tokens": {
+                                    "type": "object",
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "description": "the access_token makes the 'password' for basicAuth"
+                                        },
+                                        "expires_in": {
+                                            "type": "number",
+                                            "format": "int32"
+                                        },
+                                        "expires_at": {
+                                            "type": "string"
+                                        },
+                                        "refresh_token": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/me": {
             "get": {
                 "description": "Gets `user + contact` objects for current logged-in user\n",
@@ -19,12 +84,25 @@ var caliopen_api =
                 ],
                 "security": [
                     {
-                        "api_auth_token": []
+                        "basicAuth": []
+                    }
+                ],
+                "tags": [
+                    "users"
+                ],
+                "parameters": [
+                    {
+                        "name": "X-Caliopen-PI",
+                        "in": "header",
+                        "required": true,
+                        "description": "The PI range requested in form of `1;100`",
+                        "type": "string",
+                        "default": "1;100"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful response",
+                        "description": "Successful response with json objects",
                         "schema": {
                             "$ref": "#/definitions/User"
                         }
@@ -204,8 +282,9 @@ var caliopen_api =
         }
     },
     "securityDefinitions": {
-        "api_auth_token": {
-            "type": "basic"
+        "basicAuth": {
+            "type": "basic",
+            "description": "HTTP Basic Authentication. `Password` is the `access_token` return by /authentications and `Username` is the `user_id` returned by /authentications"
         }
     }
-};
+}
