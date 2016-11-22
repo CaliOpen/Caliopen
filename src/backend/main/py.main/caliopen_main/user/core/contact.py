@@ -267,6 +267,10 @@ class Contact(BaseUserCore, MixinCoreRelation, MixinContactNested):
         from ..returns.contact import ReturnContact
         return ReturnContact.build(contact).serialize()
 
+    @classmethod
+    def search(cls, user, **filter_params):
+        return cls._model_class.search(user, **filter_params)
+
     # MixinCoreRelation methods
     def add_organization(self, organization):
         return self._add_nested('organizations', organization)
