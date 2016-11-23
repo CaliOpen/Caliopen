@@ -25,12 +25,14 @@
     "test:unit": "jest",
     "test:unit:watch": "jest --watch",
     "lint": "npm-run-all lint:js lint:sass",
-    "lint:js": "eslint src/",
-    "lint:sass": "sass-lint 'src/**/*.scss'"
+    "lint:js": "eslint --ext .js --ext .jsx src/",
+    "lint:sass": "sass-lint 'src/**/*.scss'",
+    "i18n": "react-translate-scripts"
   },
   "author": "CaliOpen <contact@caliopen.org> (https://caliopen.org/)",
   "license": "MIT",
   "dependencies": {
+    "@gandi/react-translate": "^1.0.0-alpha",
     "babel-core": "^6.17.0",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.5",
