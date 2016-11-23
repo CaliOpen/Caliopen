@@ -34,9 +34,7 @@ class UserAuthenticationParameter(colander.MappingSchema):
           collection_path='/authentications',
           name='Authentication',
           schema=UserAuthenticationParameter,
-          factory=DefaultContext,
-          cors_origins=('*',),
-          cors_max_age=3600
+          factory=DefaultContext
           )
 class AuthenticationAPI(Api):
 
