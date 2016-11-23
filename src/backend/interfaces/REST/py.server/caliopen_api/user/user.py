@@ -60,7 +60,9 @@ class AuthenticationAPI(Api):
         access_token = create_token()
         refresh_token = create_token(80)
 
-        ttl = self.request.cache.client.ttl
+        # ttl = self.request.cache.client.ttl
+        # TODO: remove this ttl to go back to cache.client
+        ttl = 86400
         expires_at = (datetime.datetime.utcnow() +
                       datetime.timedelta(seconds=ttl))
         tokens = {'access_token': access_token,
