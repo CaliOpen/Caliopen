@@ -85,7 +85,5 @@ def includeme(config):
     #                render='simplejson')
     config.add_cornice_deserializer('application/json',
                                     json_deserializer)
-    config.add_static_view('doc/api', 'caliopen_api:../../../../../../doc/api/', cache_max_age=3600)
-    config.add_static_view('api-ui', 'caliopen_api:../../../../../../devtools/swagger-ui/', cache_max_age=3600)
     config.commit()
     log.info('Base API configured')

@@ -34,6 +34,7 @@ if sys.version_info < (3, 3):
 extras_require = {
     'dev': [
         'pyramid_debugtoolbar',
+        'caliopen_api_doc',
     ],
     'doc': [
         'sphinx',
