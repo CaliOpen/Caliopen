@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
+import { withTranslator } from '@gandi/react-translate';
 import classnames from 'classnames';
 import Link from '../../../Link';
 import Icon from '../../../Icon';
 import VerticalMenu, { VerticalMenuItem } from '../../../VerticalMenu';
 import './style.scss';
 
-const NavigationAlt = ({ user, currentApplication, applications }) => (
+const NavigationAlt = ({ user, currentApplication, applications, __ }) => (
   <div className="l-nav-alt">
     <div className="l-nav-alt__user">
       <div className="l-nav-alt__avatar">
@@ -28,7 +29,7 @@ const NavigationAlt = ({ user, currentApplication, applications }) => (
               modifiers={{ button: true, expanded: true }}
               className={classnames({ 'is-active': currentApplication === application })}
             >
-              <Icon type={application.icon} /> {`header.menu.${application.name}`}
+              <Icon type={application.icon} /> {__(`header.menu.${application.name}`)}
             </Link>
           </VerticalMenuItem>
         ))
@@ -38,7 +39,7 @@ const NavigationAlt = ({ user, currentApplication, applications }) => (
     <VerticalMenu className="l-nav-alt__menu">
       <VerticalMenuItem>
         <Link to="/auth/logout" modifiers={{ button: true, expanded: true }}>
-          {'header.menu.signout'}
+          {__('header.menu.signout')}
         </Link>
       </VerticalMenuItem>
     </VerticalMenu>
@@ -49,6 +50,7 @@ NavigationAlt.propTypes = {
   user: PropTypes.shape({}).isRequired,
   applications: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   currentApplication: PropTypes.shape({}).isRequired,
+  __: PropTypes.func.isRequired,
 };
 
-export default NavigationAlt;
+export default withTranslator()(NavigationAlt);

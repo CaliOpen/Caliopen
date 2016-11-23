@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { withTranslator } from '@gandi/react-translate';
 import ActionButton from '../ActionButton';
 import Icon from '../../../../../Icon';
 
-const Presenter = props => (
+const Presenter = ({ translator: { __ }, ...props }) => (
   <ActionButton {...props}>
-    <Icon type="user" /> {'call-to-action.action.create_contact'}
+    <Icon type="user" /> {__('call-to-action.action.create_contact')}
   </ActionButton>
 );
 
-export default Presenter;
+Presenter.propTypes = {
+  translator: PropTypes.shape({ __: PropTypes.func.isRequired }),
+};
+
+export default withTranslator({ propsNamespace: 'translator' })(Presenter);

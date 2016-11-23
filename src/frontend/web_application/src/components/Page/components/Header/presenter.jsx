@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
+import { withTranslator } from '@gandi/react-translate';
 import classnames from 'classnames';
 import './style.scss';
 import brandImgPath from './images/brand.png';
 
-const Presenter = ({ brand, searchAsDropdownToggler, searchAsDropdown, search, user }) => {
+const Presenter = ({ brand, searchAsDropdownToggler, searchAsDropdown, search, user, __ }) => {
   const searchClassName = classnames(
     'l-header__search',
     { 'l-header__search--as-dropdown': searchAsDropdown }
@@ -15,7 +16,7 @@ const Presenter = ({ brand, searchAsDropdownToggler, searchAsDropdown, search, u
         <div className="l-header__brand">
           <span className="show-for-small-only">
             <button
-              aria-label={'header.menu.toggle-navigation'}
+              aria-label={__('header.menu.toggle-navigation')}
               data-toggle="left_off_canvas"
               type="button"
               className="l-header__menu-icon menu-icon"
@@ -43,6 +44,7 @@ Presenter.propTypes = {
   searchAsDropdown: PropTypes.bool,
   search: PropTypes.element.isRequired,
   user: PropTypes.element.isRequired,
+  __: PropTypes.func.isRequired,
 };
 
-export default Presenter;
+export default withTranslator()(Presenter);
