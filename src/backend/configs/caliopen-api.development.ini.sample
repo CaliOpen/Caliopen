@@ -17,7 +17,7 @@ pyramid.includes =
     caliopen.api.base
 
 kvs.cache = {"kvs": "redis",
-             "ttl": 3600,
+             "ttl": 86400,
              "key_prefix": "tokens::"}
 
 
