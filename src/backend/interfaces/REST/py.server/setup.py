@@ -23,7 +23,8 @@ requires = [
     'pyramid_kvs',
     'waitress',
     'cornice==1.2.1',
-    'colander'
+    'colander',
+    'pyramid-swagger',
     ]
 
 tests_require = ['nose', 'coverage']
