@@ -1,0 +1,13 @@
+{
+    "application_switcher.action.choose": "application_switcher.action.choose",
+    "call-to-action.action.compose": "call-to-action.action.compose",
+    "call-to-action.action.compose_contact": "call-to-action.action.compose_contact",
+    "call-to-action.action.create_contact": "call-to-action.action.create_contact",
+    "call-to-action.action.reply": "call-to-action.action.reply",
+    "header.menu.account": "header.menu.account",
+    "header.menu.search": "header.menu.search",
+    "header.menu.signin": "header.menu.signin",
+    "header.menu.signout": "header.menu.signout",
+    "header.menu.toggle-navigation": "header.menu.toggle-navigation",
+    "header.menu.toggle-search-form": "header.menu.toggle-search-form"
+}

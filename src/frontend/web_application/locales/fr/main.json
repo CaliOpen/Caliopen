@@ -1,0 +1,13 @@
+{
+    "application_switcher.action.choose": "Sélectionner",
+    "call-to-action.action.compose": "Écrire",
+    "call-to-action.action.compose_contact": "Écrire à ce contact",
+    "call-to-action.action.create_contact": "Créer un contact",
+    "call-to-action.action.reply": "Répondre",
+    "header.menu.account": "Compte",
+    "header.menu.search": "Recherche",
+    "header.menu.signin": "Connexion",
+    "header.menu.signout": "Déconnexion",
+    "header.menu.toggle-navigation": "Afficher/Masquer la navigation",
+    "header.menu.toggle-search-form": "Afficher/Masquer le champ de recherche"
+}
