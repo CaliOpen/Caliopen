@@ -41,6 +41,12 @@ There's no HMR, so old school `ctrl+R` to see changes.
 
 There're requirements to build and run a cordova app, follow installation instructions from [cordova website](https://cordova.apache.org/docs/en/latest/guide/cli/index.html#install-pre-requisites-for-building).
 
+Sometimes it is required to install or update plugins and platforms by running:
+
+```
+npm run cordova prepare
+```
+
 For android, when `npm run cordova requirements` is ok and if you have [AVD and a working emulated
 android](https://developer.android.com/studio/run/managing-avds.html), you may want to launch the stack:
 

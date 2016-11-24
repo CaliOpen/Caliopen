@@ -12,6 +12,8 @@ let config = Object.assign(baseConfig.getBase('electron'), {
   },
 });
 
+config.module.loaders.push({ test: /\.json$/, loader: 'json-loader' });
+
 config.plugins.push(
   new InterpolateHtmlPlugin({
     HEAD: '',
