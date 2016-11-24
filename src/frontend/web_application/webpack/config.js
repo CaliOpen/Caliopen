@@ -51,6 +51,7 @@ module.exports = {
               'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false',
             ],
           },
+          { test: /\.json$/, loader: 'json-loader' },
           { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader?mimetype=image/svg+xml' },
           { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader?mimetype=application/font-woff' },
           { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader?mimetype=application/font-woff' },

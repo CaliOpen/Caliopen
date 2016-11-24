@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import { Router, browserHistory, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import routes from './routes';
+import getRoutes from './routes';
 
 let history;
 
@@ -22,6 +22,8 @@ class App extends Component {
     this.history = syncHistoryWithStore(history, this.props.store);
   }
   render() {
+    const routes = getRoutes();
+
     return (
       <Provider store={this.props.store}>
         <Router history={this.history} routes={routes} />

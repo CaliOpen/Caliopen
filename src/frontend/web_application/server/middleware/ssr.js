@@ -4,7 +4,7 @@ const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const ReactRouter = require('react-router');
 const Provider = require('react-redux').Provider;
-const routes = require('../../src/routes').default;
+const getRoutes = require('../../src/routes').default;
 const configureStore = require('../../src/store/configure-store').default;
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -31,10 +31,16 @@ function getMarkup(reactElement, store, assets) {
   ].reduce((str, current) => str.replace(current.key, current.value), tpl);
 }
 
+function applyUserLocaleToGlobal(req) {
+  global.USER_LOCALE = req.cookies.locale || req.locale;
+}
+
 module.exports = (req, res) => {
+  applyUserLocaleToGlobal(req);
   const match = ReactRouter.match;
   const routerContext = React.createFactory(ReactRouter.RouterContext);
   const provider = React.createFactory(Provider);
+  const routes = getRoutes();
 
   // XXX: prefetch
   const initialState = {

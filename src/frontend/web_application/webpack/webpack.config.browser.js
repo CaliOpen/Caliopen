@@ -5,7 +5,7 @@ const baseConfig = require('./config.js');
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 
-const config = Object.assign(baseConfig.getBase('web'), {
+const config = Object.assign(baseConfig.getBase('browser'), {
   entry: [
     'script-loader!jquery',
     'script-loader!foundation-sites',

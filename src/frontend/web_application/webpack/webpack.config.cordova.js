@@ -4,7 +4,7 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const baseConfig = require('./config.js');
 
 let config = Object.assign(baseConfig.getBase('cordova'), {
-  entry: [path.join(__dirname, '../src/index.js')],
+  entry: [path.join(__dirname, '../src/index.jsx')],
   output: {
     path: path.join(__dirname, '..', 'cordova', 'www'),
     filename: 'bundle.js',
