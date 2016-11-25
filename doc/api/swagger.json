@@ -25,15 +25,13 @@
                         "name": "username",
                         "in": "formData",
                         "type": "string",
-                        "required": true,
-                        "default": "dev@caliopen.local"
+                        "required": true
                     },
                     {
                         "name": "password",
                         "in": "formData",
                         "type": "string",
-                        "required": true,
-                        "default": "123456"
+                        "required": true
                     }
                 ],
                 "produces": [
