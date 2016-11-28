@@ -4,6 +4,8 @@ Here you will find tools for CaliOpen development. There is many possibles
 scenarios for setup of an environment development, depending on what you
 want to do.
 
+_For complete documentation, see the [doc/for-developers]() directory._
+
 # Development scenarios
 
 ## Client development
@@ -71,5 +73,3 @@ if you have a jvm >= 7.x available.
 
 We experiment many problems with cassandra and docker container (with persistent
 data accros container restart), so we don't encourage it for running storage services.
-
-
