@@ -8,9 +8,29 @@ want to do.
 
 ## Client development
 
-You will need a running API server where you can consume data, so we have
-a [vagrant](https://vagrantup.com) box for you. You can develop locally
-using your normal practices, just plug to localhost:6543 your client.
+You will need a running API server where you can consume data, so we have a
+[vagrant](https://vagrantup.com) box for you.
+
+You can develop using the box, the code will be immediatly updated. The first compilation is a bit
+long, up to 1 min. You can use tail to see when it's ready :
+
+```
+tail -f src/frontend/web_application/kotatsu.log
+```
+
+> [kotatsu] Serving your app on port 4000... //<- ready
+
+Also you can develop locally using your normal practices:
+
+```
+cd src/frontend/web_application
+npm install
+npm start
+```
+
+Same as above, it's a bit long to compile. Running client on both vagrant locally will not work
+since it uses the same port.
+
 
 ## Api development
 

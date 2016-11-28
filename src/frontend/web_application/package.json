@@ -7,9 +7,10 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dashboard -- npm-run-all --parallel --race start:dev:server start:dev:assets",
-    "start:dev:server": "NODE_ENV=development PORT=3001 kotatsu start -c webpack/webpack.config.server.js",
-    "start:dev:assets": "NODE_ENV=development kotatsu serve -c webpack/webpack.config.browser.js -p 3000 --proxy / http://localhost:3001",
-    "start:dev:browser": "NODE_ENV=development webpack-dashboard -- kotatsu serve -c webpack/webpack.config.browser.js --port 3000 --index ./template/index.kotatsu-serve.html",
+    "start:dev": "DASHBOARD=false npm-run-all --parallel --race start:dev:server start:dev:assets",
+    "start:dev:server": "NODE_ENV=development PORT=4001 kotatsu start -c webpack/webpack.config.server.js",
+    "start:dev:assets": "NODE_ENV=development kotatsu serve -c webpack/webpack.config.browser.js -p 4000 --proxy / http://localhost:4001",
+    "start:dev:browser": "DASHBOARD=false kotatsu serve --config webpack/webpack.config.browser.js --port 4000 --index ./template/index.kotatsu-serve.html",
     "start:prod": "NODE_ENV=production ./bin/server",
     "start:desktop": "npm-run-all --parallel --race build:desktop:dev start:desktop:electron",
     "start:desktop:electron": "NODE_ENV=development electron ./electron/",

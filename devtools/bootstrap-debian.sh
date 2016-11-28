@@ -1,4 +1,7 @@
 #!/bin/bash
+
+set -ev
+
 CALIOPEN_BASE_DIR="/opt/caliopen"
 CALIOPEN_BACKEND_DIR="${CALIOPEN_BASE_DIR}/code/src/backend"
 CALIOPEN_FRONTEND_DIR="${CALIOPEN_BASE_DIR}/code/src/frontend/web_application"
@@ -90,5 +93,8 @@ cd ${CALIOPEN_BACKEND_DIR}/protocols/py.smtp/caliopen_smtp/bin
 ./lmtpd.py -f ${CONF_FILE}  > lmtp.log 2>&1 &
 
 # Start client
-# cd ${CALIOPEN_FRONTEND_DIR}
-# npm run start:prod
+cd ${CALIOPEN_FRONTEND_DIR}
+npm install
+npm run start:dev > kotatsu.log 2>&1 &
+
+set +ev
