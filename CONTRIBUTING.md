@@ -27,5 +27,5 @@ _(People involved in the project)_
 * [@ziir](https://github.com/ziir)
 * [@iamdey](https://github.com/iamdey)
 * [@ncoden](https://github.com/ncoden)
-* [@stansab](https://github.com/stansab)
-* [@yanndiendal](https://github.com/yanndiendal)
+* [@sapiens-sapide](https://github.com/sapiens-sapide)
+* [@yanndinendal](https://github.com/yanndinendal)
