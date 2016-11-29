@@ -103,7 +103,7 @@ Test suits go there.
 
 ## Code organization for the frontends
 
-#### `web_appliaction` directory
+#### `web_application` directory
 
 All the code needed to render and to distribute the User Interface that runs into the browser. For now, it is a *Node/Express/React* application.
 

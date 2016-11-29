@@ -19,13 +19,13 @@ _(This code of conduct may evolve)_.
 
 _(People involved in the project)_
 
-* [@LaurentChemla](@LaurentChemla)
-* [@Lauth0](@Lauth0)
-* [@gdchamal](@gdchamal)
-* [@steventlucek](@steventlucek)
-* [@themouette](@themouette)
-* [@ziir](@ziir)
-* [@iamdey](@iamdey)
-* [@ncoden](@ncoden)
-* [@stansab](@stansab)
-* [@yanndiendal](@yanndiendal)
+* [@LaurentChemla](/@LaurentChemla)
+* [@Lauth0](/@Lauth0)
+* [@gdchamal](/@gdchamal)
+* [@steventlucek](/@steventlucek)
+* [@themouette](/@themouette)
+* [@ziir](/@ziir)
+* [@iamdey](/@iamdey)
+* [@ncoden](/@ncoden)
+* [@stansab](/@stansab)
+* [@yanndiendal](/@yanndiendal)
