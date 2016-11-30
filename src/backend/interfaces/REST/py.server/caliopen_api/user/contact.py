@@ -51,7 +51,7 @@ class Contact(Api):
         results = CoreContact._model_class.search(self.user, **filter_params)
         data = [ReturnContact.build(CoreContact.get(self.user, x.contact_id)).
                 serialize() for x in results]
-        return {'contacts': data, 'total': len(data)}
+        return {'contacts': data, 'total': results.hits.total}
 
     @view(renderer='json', permission='authenticated')
     def get(self):

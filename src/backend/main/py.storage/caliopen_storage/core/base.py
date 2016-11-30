@@ -137,7 +137,8 @@ class BaseUserCore(BaseCore):
             return objs.count()
         if limit or offset:
             objs = objs[offset:(limit+offset)]
-        return [cls(x) for x in objs]
+
+        return {'objects': [cls(x) for x in objs], 'total': len(q)}
 
     @classmethod
     def count(cls, user, filters=None):
