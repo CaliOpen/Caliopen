@@ -185,12 +185,12 @@ class Thread(BaseUserCore):
         # XXX use of correct pagination and correct datasource (index)
         threads = cls.find(user, None,  limit=limit, offset=offset)
         res = []
-        for th in threads:
+        for th in threads['objects']:
             if pi_min <= th.privacy_index <= pi_max:
                 res.append(th)
             else:
                 log.debug('Thread do not fit PI range {}'.format(th.thread_id))
-        return {'threads': res, 'total': len(res)}
+        return {'threads': res, 'total': threads['total']}
 
 
 class ReturnThread(ReturnCoreObject):

@@ -43,9 +43,9 @@ class Message(Api):
                                             limit=self.get_limit(),
                                             offset=self.get_offset())
         results = []
-        for msg in messages:
+        for msg in messages['hits']:
             results.append(ReturnMessage.build(msg).serialize())
-        return {'messages': results, 'total': len(results)}
+        return {'messages': results, 'total': messages['total']}
 
     @view(renderer='json', permission='authenticated')
     def collection_post(self):

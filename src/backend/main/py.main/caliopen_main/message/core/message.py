@@ -82,7 +82,7 @@ class Message(BaseUserCore):
         messages = []
         if res.hits:
             messages = [cls.get(user, x.meta.id) for x in res.hits]
-        return messages
+        return {'hits': messages, 'total': res.hits.total}
 
     @property
     def raw(self):
