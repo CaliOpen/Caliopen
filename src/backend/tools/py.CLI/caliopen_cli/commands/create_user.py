@@ -21,7 +21,6 @@ def create_user(**kwargs):
     contact.family_name = kwargs.get('family_name')
     email = NewEmail()
     email.address = param.name
-    contact.emails = [email]
     param.contact = contact
     user = User.create(param)
     user.save()

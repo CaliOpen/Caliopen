@@ -11,17 +11,26 @@ from elasticsearch import Elasticsearch
 from caliopen_storage.config import Configuration
 from caliopen_storage.exception import NotFound, CredentialException
 from ..store.user import (User as ModelUser,
-                                      UserName as ModelUserName,
-                                      IndexUser,
-                                      Counter as ModelCounter,
-                                      Tag as ModelTag,
-                                      FilterRule as ModelFilterRule,
-                                      ReservedName as ModelReservedName)
+                          UserName as ModelUserName,
+                          IndexUser,
+                          Counter as ModelCounter,
+                          Tag as ModelTag,
+                          FilterRule as ModelFilterRule,
+                          ReservedName as ModelReservedName,
+                          LocalIdentity as ModelLocalIdentity)
 
 from caliopen_storage.core import BaseCore, BaseUserCore, core_registry
 from .contact import Contact
 
 log = logging.getLogger(__name__)
+
+
+class LocalIdentity(BaseCore):
+
+    """User local identity core class."""
+
+    _model_class = ModelLocalIdentity
+    _pkey_name = 'address'
 
 
 class Counter(BaseCore):
@@ -154,6 +163,14 @@ class User(BaseCore):
         default_tags = Configuration('global').get('system.default_tags')
         for tag in default_tags:
             Tag.create(core, **tag)
+
+        # Add a default local identity on a default configured domain
+        default_domain = Configuration('global').get('default_domain')
+        default_local_id = '{}@{}'.format(core.name, default_domain)
+        if not core.add_local_identity(default_local_id):
+            log.warn('Impossible to create default local identity {}'.
+                     format(default_local_id))
+
         return core
 
     @classmethod
@@ -161,6 +178,12 @@ class User(BaseCore):
         """Get user by name."""
         uname = UserName.get(name.lower())
         return cls.get(uname.user_id)
+
+    @classmethod
+    def by_local_identity(cls, address):
+        """Get a user by one of its local identity."""
+        identity = LocalIdentity.get(address.lower())
+        return cls.get(identity.user_id)
 
     @classmethod
     def authenticate(cls, user_name, password):
@@ -237,3 +260,29 @@ class User(BaseCore):
         objs = FilterRule._model_class.filter(user_id=self.user_id)
         cores = [FilterRule(x) for x in objs]
         return sorted(cores, key=lambda x: x.position)
+
+    def add_local_identity(self, address):
+        """
+        Add a local identity to an user.
+
+        return: True if success, False otherwise
+        rtype: bool
+        """
+
+        formatted = address.lower()
+        try:
+            identity = LocalIdentity.get(formatted)
+            if identity.user_id == self.user_id:
+                if identity.address in self.local_identities:
+                    # Already in local identities
+                    return True
+            raise Exception('Inconsistent local identity {}'.format(address))
+        except NotFound:
+            identity = LocalIdentity.create(address=formatted,
+                                            user_id=self.user_id,
+                                            type='local',
+                                            status='active')
+            self.local_identities.append(formatted)
+        except Exception as exc:
+            log.error('Unexpected exception {}'.format(exc))
+        return False

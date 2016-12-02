@@ -20,7 +20,6 @@ from caliopen_main.user.returns import (ReturnContact,
                                         ReturnPublicKey)
 
 from caliopen_main.user.parameters import (NewContact as NewContactParam,
-                                           Contact as ContactParam,
                                            NewPostalAddress, NewEmail, NewIM)
 
 from ..base import Api
@@ -48,22 +47,21 @@ class Contact(Api):
                          'limit': self.get_limit(),
                          'offset': self.get_offset()}
         log.debug('Filter parameters {}'.format(filter_params))
-        results = CoreContact._model_class.search(self.user, **filter_params)
-        data = [ReturnContact.build(CoreContact.get(self.user, x.contact_id)).
-                serialize() for x in results]
-        return {'contacts': data, 'total': results.hits.total}
+        results = CoreContact.search(self.user, **filter_params)
+        data = [CoreContact.get_serialized(self.user, x.contact_id) for x in results]
+        return {'contacts': data, 'total': len(data)}
 
     @view(renderer='json', permission='authenticated')
     def get(self):
         pi_range = self.request.authenticated_userid.pi_range
         contact_id = self.request.matchdict.get('contact_id')
         try:
-            contact = CoreContact.get(self.user, contact_id)
+            contact_pi = CoreContact.get_pi(self.user, contact_id)
         except NotFound:
             raise ResourceNotFound('No such contact')
-        if pi_range[0] > contact.privacy_index < pi_range[1]:
+        if pi_range[0] > contact_pi < pi_range[1]:
             raise HTTPExpectationFailed('Invalid privacy index')
-        return {'contacts': ReturnContact.build(contact).serialize()}
+        return {'contact': CoreContact.get_serialized(self.user, contact_id)}
 
     @view(renderer='json', permission='authenticated')
     def collection_post(self):
@@ -75,10 +73,9 @@ class Contact(Api):
         except Exception as exc:
             raise ValidationError(exc)
         contact = CoreContact.create(self.user, contact_param)
-        contact_url = self.request.route_path('contact', contact_id=contact.contact_id)
-        self.request.response.location = contact_url.encode('utf-8')
+        out_contact = ReturnContact.build(contact).serialize()
         # XXX return a Location to get contact not send it direct
-        return {'location': contact_url}
+        return Response(status=201, body={'contacts': out_contact})
 
 
 class BaseSubContactApi(Api):

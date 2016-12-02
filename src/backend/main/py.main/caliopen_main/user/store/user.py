@@ -46,6 +46,7 @@ class User(BaseModel):
     main_user_id = columns.UUID()
     privacy_index = columns.Integer()
     privacy_features = columns.Map(columns.Text(), columns.Text())
+    local_identities = columns.List(columns.Text())
 
 
 class Counter(BaseModel):
@@ -92,6 +93,16 @@ class RemoteIdentity(BaseModel):
     status = columns.Text()
     credentials = columns.List(columns.Text)
     last_check = columns.DateTime()
+
+
+class LocalIdentity(BaseModel):
+
+    """User local identity, where message are received."""
+
+    address = columns.Text(primary_key=True)
+    user_id = columns.UUID(primary_key=True)
+    type = columns.Text()
+    status = columns.Text()
 
 
 class IndexUser(object):

@@ -3,12 +3,15 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import hashlib
+import logging
 
 from caliopen_storage.core import BaseUserCore
+from caliopen_storage.exception import NotFound
 
 from ..store import RawMessage as ModelRaw
 from ..format import MailMessage
 
+log = logging.getLogger(__name__)
 
 class RawMessage(BaseUserCore):
 
@@ -29,9 +32,12 @@ class RawMessage(BaseUserCore):
 
     @classmethod
     def get(cls, user, message_id):
-        """Get raw message by message_id."""
-        key = hashlib.sha256(message_id).hexdigest()
-        return super(RawMessage, cls).get(user, key)
+        """Get raw message by raw_message_id."""
+        try:
+            return super(RawMessage, cls).get(user, message_id)
+        except NotFound:
+            return None
+
 
     def parse(self):
         """Parse raw message to get a formatted object."""

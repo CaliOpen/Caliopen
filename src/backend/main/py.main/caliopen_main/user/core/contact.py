@@ -255,6 +255,22 @@ class Contact(BaseUserCore, MixinCoreRelation, MixinContactNested):
         """Return detailed public keys."""
         return self._expand_relation('public_keys')
 
+    @classmethod
+    def get_pi(cls, user, contact):
+        contact = cls.get(user, contact)
+        return contact.privacy_index
+
+    @classmethod
+    def get_serialized(cls, user, contact):
+        contact = cls.get(user, contact)
+        # XXX TOFIX we should not be there, bad design
+        from ..returns.contact import ReturnContact
+        return ReturnContact.build(contact).serialize()
+
+    @classmethod
+    def search(cls, user, **filter_params):
+        return cls._model_class.search(user, **filter_params)
+
     # MixinCoreRelation methods
     def add_organization(self, organization):
         return self._add_nested('organizations', organization)

@@ -734,9 +734,9 @@
                 }
             }
         },
-        "/raws/{raw_id}": {
+        "/raws/{ext_msg_id_sum256}": {
             "get": {
-                "description": "##TO BE CONTINUED## NOT WORKING Returns a raw message",
+                "description": "Returns a raw message for the given sha256 sum derived from the external message id",
                 "tags": [
                     "messages"
                 ],
@@ -747,14 +747,14 @@
                 ],
                 "parameters": [
                     {
-                        "name": "raw_id",
+                        "name": "ext_msg_id_sum256",
                         "in": "path",
                         "required": true,
                         "type": "string"
                     }
                 ],
                 "produces": [
-                    "application/json; charset=UTF-8"
+                    "text/plain; charset=UTF-8"
                 ],
                 "responses": {
                     "200": {

@@ -10,6 +10,7 @@ from caliopen_main.message.core import (RawMessage, ReturnMessage,
                                         Message as CoreMessage)
 from caliopen_main.message.parameters import NewMessage
 from ..base import Api
+from ..base.exception import ResourceNotFound
 
 log = logging.getLogger(__name__)
 
@@ -80,9 +81,9 @@ class Message(Api):
         return idx_msg
 
 
-@resource(path='/raws/{raw_id}')
+@resource(path='/raws/{ext_msg_id_sum256}')
 class Raw(Api):
-
+    """returns a raw message from the given sum256 of the external_message_id"""
     def __init__(self, request):
         self.request = request
         self.user = request.authenticated_userid
@@ -90,6 +91,8 @@ class Raw(Api):
     @view(renderer='text_plain', permission='authenticated')
     def get(self):
         # XXX how to check privacy_index ?
-        raw_id = self.request.matchdict.get('raw_id')
+        raw_id = self.request.matchdict.get('ext_msg_id_sum256')
         raw = RawMessage.get(self.user, raw_id)
-        return raw.data
+        if raw:
+            return raw.data
+        raise ResourceNotFound('No such message')

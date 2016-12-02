@@ -29,7 +29,7 @@ class DeliveryAgent(object):
     def resolve_users(self, rpcts):
         users = []
         for rcpt in rpcts:
-            user = User.by_name(rcpt)
+            user = User.by_local_identity(rcpt)
             users.append(user)
         return users
 
