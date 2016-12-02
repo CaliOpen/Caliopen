@@ -62,7 +62,7 @@ class AuthenticationAPI(Api):
         self.request.cache.set(user.user_id, tokens)
 
         return {'user_id': user.user_id,
-                'username': user.name,
+                'usernname': user.name,
                 'tokens': tokens}
 
 

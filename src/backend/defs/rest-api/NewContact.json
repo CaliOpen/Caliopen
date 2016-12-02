@@ -1,0 +1,53 @@
+{
+  "type": "object",
+  "properties": {
+    "additional_name": {
+      "type": "string"
+    },
+    "emails": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "family_name": {
+      "type": "string"
+    },
+    "given_name": {
+      "type": "string"
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ims": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "infos": {
+      "type": "object"
+    },
+    "name_prefix": {
+      "type": "string"
+    },
+    "name_suffix": {
+      "type": "string"
+    },
+    "organizations": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

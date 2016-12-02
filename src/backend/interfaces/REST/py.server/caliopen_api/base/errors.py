@@ -43,8 +43,9 @@ from pyramid.httpexceptions import (
     HTTPNotImplemented,
     HTTPUnprocessableEntity,
     HTTPExpectationFailed,
+    HTTPException,
 )
-from pyramid_swagger.exceptions import RequestValidationError
+from pyramid_swagger.exceptions import RequestValidationError, ResponseValidationError
 
 
 log = logging.getLogger(__name__)
@@ -56,7 +57,8 @@ def format_response_detail(exc, request):
              if request.matched_route else ('Unknown'))
     return {'component': route,
             'values': exc.code,
-            'property': exc.__class__.__name__}
+            'property': exc.__class__.__name__,
+            'message': exc.message}
 
 
 def format_response(exc, request, details=None):
@@ -71,9 +73,10 @@ def format_response(exc, request, details=None):
                          "values": details['values'],
                          "property": details['property'],
                          "component": details['component'],
+                         "message": details['message'],
                          "code": exc.code}]}
     response = Response(json.dumps(error))
-    response.content_type = 'application/json'
+    response.content_type = str('application/json; charset=UTF-8')
     response.status_int = exc.code
     return response
 
@@ -96,22 +99,29 @@ def http_forbidden(exc, request):
 @view_config(context=HTTPNotImplemented)
 @view_config(context=HTTPExpectationFailed)
 def http_exception(exc, request):
+    if isinstance(request.exc_info[1], ResponseValidationError):
+        # Formatter swagger validation errors
+        exc = request.exc_info[1]
     details = format_response_detail(exc, request)
     return format_response(exc, request, details)
 
 
 @view_config(context=Exception)
 def internal_server_error(exc, request):
-    if isinstance(exc, Response):
-        return exc
+    if isinstance(exc, HTTPException):
+        if isinstance(exc, Response):
+            return exc
+    else:
+        exc = HTTPInternalServerError()
+
     details = format_response_detail(exc, request)
     response = format_response(exc, request, details)
-
     exc_type, exc_value, exc_tb = sys.exc_info()
     formatted_tb = traceback.format_exception(exc_type, exc_value, exc_tb)
-    log.error('Unexpected error ''{}'': {}'.
-              format(' '.join(formatted_tb), response))
+    log.error('Unexpected error ''{}'': {}'.format(' '.join(formatted_tb), response))
     return response
+
+
 
 
 @view_config(context=HTTPUnprocessableEntity)

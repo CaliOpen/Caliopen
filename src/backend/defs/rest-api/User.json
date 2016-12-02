@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string"
+    },
+    "main_user_id": {
+      "type": "string"
+    },
+    "family_name": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "given_name": {
+      "type": "string"
+    },
+    "privacy_features": {
+      "$ref": "Privacy_features.json"
+    },
+    "privacy_index": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "date_insert": {
+      "type": "string"
+    },
+    "contact": {
+      "$ref": "Contact.json"
+    },
+    "params": {
+      "type": "object"
+    }
+  }
+}

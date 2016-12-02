@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "properties": {
+    "bcc_recipients": {
+      "type": "array",
+      "items": {
+        "$ref": "Recipients.json"
+      }
+    },
+    "cc_recipients": {
+      "type": "array",
+      "items": {
+        "$ref": "Recipients.json"
+      }
+    },
+    "reply_to": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "text": {
+      "type": "string"
+    },
+    "to_recipients": {
+      "type": "array",
+      "items": {
+        "$ref": "Recipients.json"
+      }
+    }
+  }
+}

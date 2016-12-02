@@ -1,0 +1,70 @@
+{
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string"
+    },
+    "date_insert": {
+      "type": "string"
+    },
+    "external_message_id": {
+      "type": "string"
+    },
+    "external_parent_id": {
+      "type": "string"
+    },
+    "external_thread_id": {
+      "type": "string"
+    },
+    "from_": {
+      "type": "string"
+    },
+    "headers": {
+      "type": "object"
+    },
+    "importance_level": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "message_id": {
+      "type": "string"
+    },
+    "parts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "privacy_index": {
+      "type": "string"
+    },
+    "recipients": {
+      "type": "array",
+      "items": {
+        "$ref": "Recipients.json"
+      }
+    },
+    "size": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "state": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "text": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    }
+  }
+}

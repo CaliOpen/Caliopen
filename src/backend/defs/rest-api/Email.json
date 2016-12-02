@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "properties": {
+    "email_id": {
+      "type": "string"
+    },
+    "is_primary": {
+      "type": "boolean"
+    },
+    "label": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    }
+  }
+}
