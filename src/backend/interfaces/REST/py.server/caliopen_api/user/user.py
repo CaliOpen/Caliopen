@@ -4,7 +4,6 @@ from __future__ import absolute_import, print_function, unicode_literals
 import logging
 import datetime
 
-import colander
 from pyramid.security import NO_PERMISSION_REQUIRED
 from cornice.resource import resource, view
 
@@ -22,18 +21,9 @@ from caliopen_storage.exception import NotFound
 log = logging.getLogger(__name__)
 
 
-class UserAuthenticationParameter(colander.MappingSchema):
-
-    """Parameter for user authentication."""
-
-    username = colander.SchemaNode(colander.String(), location='body')
-    password = colander.SchemaNode(colander.String(), location='body')
-
-
 @resource(path='',
           collection_path='/authentications',
           name='Authentication',
-          schema=UserAuthenticationParameter,
           factory=DefaultContext
           )
 class AuthenticationAPI(Api):
@@ -48,7 +38,7 @@ class AuthenticationAPI(Api):
         Store generated tokens in a cache entry related to user_id
         and return a structure with this tokens for client usage.
         """
-        params = self.request.validated
+        params = self.request.swagger_data
         try:
             user = User.authenticate(params['username'], params['password'])
             log.info('Authenticate user {username}'.format(username=user.name))
@@ -76,25 +66,10 @@ class AuthenticationAPI(Api):
                 'tokens': tokens}
 
 
-class UserGetParameter(colander.MappingSchema):
-
-    """Parameter to get user informations."""
-
-    user_id = colander.SchemaNode(colander.String(), location='path')
-
-
-class UserPostPararameter(colander.MappingSchema):
-
-    """Parameter to create a new user."""
-
-    username = colander.SchemaNode(colander.String(), location='body')
-    password = colander.SchemaNode(colander.String(), location='body')
-
-
 def no_such_user(request):
     """Validator that an user does not exist."""
     try:
-        user = User.by_name(request.validated['username'])
+        user = User.by_name(request.swagger_data['username'])
         if user:
             raise AuthenticationError('User already exist')
     except NotFound:
@@ -110,11 +85,10 @@ class UserAPI(Api):
     """User API."""
 
     @view(renderer='json',
-          permission='authenticated',
-          schema=UserGetParameter)
+          permission='authenticated')
     def get(self):
         """Get information about logged user."""
-        user_id = self.request.validated['user_id']
+        user_id = self.request.swagger_data['user_id']
         if user_id != self.request.authenticated_userid.user_id:
             raise AuthenticationError()
         user = User.get(user_id)
@@ -122,13 +96,12 @@ class UserAPI(Api):
 
     @view(renderer='json',
           permission=NO_PERMISSION_REQUIRED,
-          schema=UserPostPararameter,
           validators=no_such_user)
     def collection_post(self):
         """Create a new user."""
 
-        param = NewUser({'name': self.request.validated['username'],
-                         'password': self.request.validated['password']})
+        param = NewUser({'name': self.request.swagger_data['username'],
+                         'password': self.request.swagger_data['password']})
         try:
             user = User.create(param)
         except Exception as exc:
