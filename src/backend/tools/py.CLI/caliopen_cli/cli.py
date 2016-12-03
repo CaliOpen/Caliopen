@@ -7,13 +7,15 @@ Command Line Interface (CLI) for caliopen project
 """
 import sys
 import argparse
-
+import logging
 
 from caliopen_storage.config import Configuration
 from caliopen_storage.helpers.connection import connect_storage
 from caliopen_cli.commands import (shell, import_email,
                                    setup_storage, create_user,
                                    dump_model)
+
+logging.basicConfig(level=logging.INFO)
 
 
 def main(args=sys.argv):
