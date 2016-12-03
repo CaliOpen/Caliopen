@@ -101,7 +101,7 @@ class IndexedContact(BaseIndexDocument):
     def create_mapping(cls, user_id):
         """Create elasticsearch indexed_contacts mapping object for an user."""
         m = dsl.Mapping(cls.doc_type)
-        m.meta('_all', enabled=False)
+        m.meta('_all', enabled=True)
         m.field('title', dsl.String())
         m.field('given_name', dsl.String(index='not_analyzed'))
         m.field('additional_name', dsl.String(index='not_analyzed'))
@@ -110,12 +110,5 @@ class IndexedContact(BaseIndexDocument):
         m.field('name_prefix', dsl.String(index='not_analyzed'))
         m.field('date_insert', 'date')
         m.field('privacy_index', 'short')
-        # Nested
-        m.field('organizations', dsl.Nested(include_in_all=True))
-        m.field('addresses', dsl.Nested(include_in_all=True))
-        m.field('emails', dsl.Nested(include_in_all=True))
-        m.field('ims', dsl.Nested(include_in_all=True))
-        m.field('phones', dsl.Nested(include_in_all=True))
-        m.field('social_identities', dsl.Nested(include_in_all=True))
         m.save(using=cls.client(), index=user_id)
         return m
