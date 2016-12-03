@@ -213,8 +213,10 @@ class User(BaseCore):
                hasattr(kls._model_class, 'user_id'):
                 idx_kls = kls._model_class._index_class()
                 log.debug('Init index for {}'.format(idx_kls))
-                if hasattr(idx_kls, 'init'):
-                    idx_kls.init(using=client, index=self.user_id)
+                if hasattr(idx_kls, 'create_mapping'):
+                    log.info('Create index {} mapping for doc_type {}'.
+                             format(self.user_id, idx_kls.doc_type))
+                    idx_kls.create_mapping(self.user_id)
 
     def new_message_id(self):
         """Create a new message_id from ``Counter``."""
