@@ -83,7 +83,7 @@ def build_discussion(thread, index_message):
     discussion.thread_id = index_message.thread_id
     discussion.date_insert = thread.date_insert
     discussion.date_update = index_message.date_insert
-    discussion.text = index_message.text[100:]
+    discussion.text = index_message.text[:100]
     # XXX imperfect values
     discussion.privacy_index = index_message.privacy_index
     # XXX Only last message recipient at this time
