@@ -47,9 +47,10 @@ class DiscussionIndexManager(object):
         if hasattr(result, 'aggregations'):
             # Something found
             buckets = result.aggregations.discussions.buckets
-            return dict((x['key'], x['doc_count']) for x in buckets)
+            total = result.aggregations.discussions.sum_other_doc_count
+            return dict((x['key'], x['doc_count']) for x in buckets), total
         log.debug('No result found on index {}'.format(self.index))
-        return {}
+        return {}, 0
 
     def __build_return(self, message):
         """Temporary build of output Thread return parameter."""
@@ -89,9 +90,10 @@ class DiscussionIndexManager(object):
 
     def list_discussions(self, limit=10, offset=0, min_pi=0, max_pi=0):
         """Build a list of limited number of discussions."""
-        ids = self.__search_ids(limit, offset, min_pi, max_pi)
+        ids, total = self.__search_ids(limit, offset, min_pi, max_pi)
         discussions = []
         for id, count in ids.items():
             discuss = self._build_discussion(id, count, min_pi, max_pi)
             discussions.append(discuss)
-        return discussions
+        # XXX total do not work completly, hack a bit
+        return discussions, total + len(discussions)
