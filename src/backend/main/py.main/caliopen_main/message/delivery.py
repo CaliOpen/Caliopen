@@ -2,16 +2,16 @@
 """Caliopen user message delivery logic."""
 from __future__ import absolute_import, print_function, unicode_literals
 import logging
+import hashlib
 
 from caliopen_storage.exception import NotFound
 from ..user.core import ContactLookup
 
 from ..message.core import Message, RawMessage
 
-from ..message.core import (Thread,
-                                        ThreadMessageLookup,
-                                        ThreadRecipientLookup,
-                                        ThreadExternalLookup)
+from ..message.core import (Thread, ThreadMessageLookup,
+                            ThreadRecipientLookup,
+                            ThreadExternalLookup)
 
 from ..message.parameters import Recipient
 # XXX use a message formatter registry not directly mail format
@@ -98,7 +98,12 @@ class UserMessageDelivery(object):
 
     def process(self, user, message_id):
         """Process a message for an user."""
-        msg = RawMessage.get(user, message_id)
+        key = hashlib.sha256(message_id).hexdigest()
+        msg = RawMessage.get(user, key)
+        if not msg:
+            log.error('Raw message <{}> not found for user {}'.
+                      format(message_id, user.user_id))
+            raise NotFound
         log.debug('Retrieved raw message {} for message_id {}'.
                   format(msg.raw_id, message_id))
 
