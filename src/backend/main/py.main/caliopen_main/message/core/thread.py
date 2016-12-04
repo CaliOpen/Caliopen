@@ -80,15 +80,18 @@ class MainViewReturn(object):
 
     """Build main view return structure from index messages."""
 
-    def _build_discussion(self, user_id, message):
+    def _build_discussion(self, user, message):
         """Temporary build of output Thread return parameter."""
         discussion = ThreadParam()
-        discussion.user_id = user_id
+        discussion.user_id = user.user_id
+        thread = Thread.get(user, message.thread_id)
         discussion.thread_id = message.thread_id
+        discussion.date_insert = thread.date_insert
         discussion.date_update = message.date_insert
-        discussion.text = message.text[200:]
+        discussion.text = message.text[100:]
         # XXX imperfect values
         discussion.privacy_index = message.privacy_index
+        # XXX Only last message recipient at this time
         for rec in message.recipients:
             recipient = Recipient()
             recipient.address = rec['address']
@@ -98,12 +101,14 @@ class MainViewReturn(object):
             recipient.protocol = rec['protocol']
             discussion.contacts.append(recipient)
         # XXX Missing values (at least other in parameter to fill)
-        discussion.total_count = 0
-        discussion.unread_count = 0
+        discussion.total_count = thread.total_count
+        discussion.unread_count = thread.unread_count
+        discussion.attachment_count = thread.attachment_count
         return discussion.serialize()
 
-    def build_response(self, user_id, messages, count):
-        discussions = [self._build_discussion(user_id, x) for x in messages]
+    def build_response(self, user, messages, count):
+        discussions = [self._build_discussion(user, x)
+                       for x in messages]
         return {'discussions': discussions, 'total': count}
 
 
@@ -219,7 +224,7 @@ class Thread(BaseUserCore):
         messages, total = dim.list_discussions(limit=limit, offset=offset,
                                                min_pi=min_pi, max_pi=max_pi)
         response = MainViewReturn()
-        return response.build_response(user.user_id, messages, total)
+        return response.build_response(user, messages, total)
 
 
 class ReturnThread(ReturnCoreObject):
