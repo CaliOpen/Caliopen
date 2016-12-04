@@ -76,39 +76,39 @@ class Counter(BaseUserCore):
             return None
 
 
+def build_discussion(user, index_message):
+    """Temporary build of output Thread return parameter."""
+    discussion = ThreadParam()
+    discussion.user_id = user.user_id
+    thread = Thread.get(user, index_message.thread_id)
+    discussion.thread_id = index_message.thread_id
+    discussion.date_insert = thread.date_insert
+    discussion.date_update = index_message.date_insert
+    discussion.text = index_message.text[100:]
+    # XXX imperfect values
+    discussion.privacy_index = index_message.privacy_index
+    # XXX Only last message recipient at this time
+    for rec in index_message.recipients:
+        recipient = Recipient()
+        recipient.address = rec['address']
+        recipient.label = rec['label']
+        recipient.type = rec['type']
+        recipient.contact_id = rec['contact_id']
+        recipient.protocol = rec['protocol']
+        discussion.contacts.append(recipient)
+    # XXX Missing values (at least other in parameter to fill)
+    discussion.total_count = thread.total_count
+    discussion.unread_count = thread.unread_count
+    discussion.attachment_count = thread.attachment_count
+    return discussion.serialize()
+
+
 class MainViewReturn(object):
 
     """Build main view return structure from index messages."""
 
-    def _build_discussion(self, user, message):
-        """Temporary build of output Thread return parameter."""
-        discussion = ThreadParam()
-        discussion.user_id = user.user_id
-        thread = Thread.get(user, message.thread_id)
-        discussion.thread_id = message.thread_id
-        discussion.date_insert = thread.date_insert
-        discussion.date_update = message.date_insert
-        discussion.text = message.text[100:]
-        # XXX imperfect values
-        discussion.privacy_index = message.privacy_index
-        # XXX Only last message recipient at this time
-        for rec in message.recipients:
-            recipient = Recipient()
-            recipient.address = rec['address']
-            recipient.label = rec['label']
-            recipient.type = rec['type']
-            recipient.contact_id = rec['contact_id']
-            recipient.protocol = rec['protocol']
-            discussion.contacts.append(recipient)
-        # XXX Missing values (at least other in parameter to fill)
-        discussion.total_count = thread.total_count
-        discussion.unread_count = thread.unread_count
-        discussion.attachment_count = thread.attachment_count
-        return discussion.serialize()
-
     def build_response(self, user, messages, count):
-        discussions = [self._build_discussion(user, x)
-                       for x in messages]
+        discussions = [build_discussion(user, x) for x in messages]
         return {'discussions': discussions, 'total': count}
 
 
