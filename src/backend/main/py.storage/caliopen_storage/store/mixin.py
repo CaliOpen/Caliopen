@@ -13,7 +13,7 @@ class IndexedModelMixin(object):
 
     """Mixin to transform model into indexed documents."""
 
-    def __process_udt(self, column, attr, idx):
+    def __process_udt(self, column, idx):
         """Process a cassandra UDT column to translate into nested index."""
 
         def map_udt_attributes(item):
@@ -36,29 +36,26 @@ class IndexedModelMixin(object):
         else:
             setattr(idx, column.column_name, map_udt_attributes(attr_udt))
 
-    def _process_column(self, column, attr, idx, is_list=False):
+    def _process_column(self, column, idx):
         """Process a core column and translate into index document."""
         col_name = column.column_name
+        col_value = getattr(self, col_name)
         try:
-            idx_attr = getattr(idx, col_name)
+            getattr(idx, col_name)
         except AttributeError:
+            log.debug('No such column in index mapping {}'.
+                      format(column.column_name))
             return
-        if isinstance(attr, columns.List):
+        if isinstance(column, columns.List):
             is_udt = isinstance(column.sub_types[0], columns.UserDefinedType)
             if is_udt:
-                self.__process_udt(column, attr, idx)
-            else:
-                self._process_column(column, attr, idx, is_list=True)
-        elif isinstance(column, columns.UserDefinedType):
-            self.__process_udt(column, attr, idx)
-        else:
-            col_value = getattr(self, col_name)
-            if is_list:
-                idx_attr.append(col_value)
-            elif isinstance(col_value, (datetime.datetime, datetime.date)):
-                setattr(idx, col_name, col_value.isoformat())
+                self.__process_udt(column, idx)
             else:
                 setattr(idx, col_name, col_value)
+        elif isinstance(column, columns.UserDefinedType):
+            self.__process_udt(column, idx)
+        else:
+            setattr(idx, col_name, col_value)
 
     def create_index(self, **extras):
         """Translate a model object into an indexed document."""
@@ -72,7 +69,7 @@ class IndexedModelMixin(object):
                 if name != 'user_id':
                     idx.meta.id = getattr(self, name)
             else:
-                self._process_column(desc, desc, idx)
+                self._process_column(desc, idx)
         for k, v in extras.items():
             setattr(idx, k, v)
         idx.save(using=idx.client())
