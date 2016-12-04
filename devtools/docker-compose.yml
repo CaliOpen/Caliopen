@@ -22,7 +22,7 @@ services:
   #
   # Cassandra is used as the reference storage for business data
   cassandra:
-      image: cassandra
+      image: cassandra:3.0
       ports:
           - "9042:9042"
           - "9160:9160"
@@ -46,3 +46,5 @@ services:
       links:
           - cassandra:cassandra.dev.caliopen.org
           - elasticsearch:es.dev.caliopen.org
+      environment:
+          CQLENG_ALLOW_SCHEMA_MANAGEMENT: 1
