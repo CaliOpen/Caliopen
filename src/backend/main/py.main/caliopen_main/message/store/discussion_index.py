@@ -12,7 +12,6 @@ import logging
 
 import elasticsearch_dsl as dsl
 from caliopen_storage.store.model import BaseIndexDocument
-from ..parameters import Thread, Recipient
 
 log = logging.getLogger(__name__)
 
@@ -52,31 +51,8 @@ class DiscussionIndexManager(object):
         log.debug('No result found on index {}'.format(self.index))
         return {}, 0
 
-    def __build_return(self, message):
-        """Temporary build of output Thread return parameter."""
-        discussion = Thread()
-        discussion.user_id = self.index
-        discussion.thread_id = message.thread_id
-        discussion.date_update = message.date_insert
-        discussion.text = message.text[200:]
-        # XXX imperfect values
-        discussion.privacy_index = message.privacy_index
-        for rec in message.recipients:
-            recipient = Recipient()
-            recipient.address = rec['address']
-            recipient.label = rec['label']
-            recipient.type = rec['type']
-            recipient.contact_id = rec['contact_id']
-            recipient.protocol = rec['protocol']
-            discussion.contacts.append(recipient)
-        # XXX Missing values (at least other in parameter to fill)
-        discussion.total_count = 0
-        discussion.unread_count = 0
-
-        return discussion
-
-    def _build_discussion(self, discussion_id, doc_count, min_pi, max_pi):
-        """Build a suitable representation of a discussion for output."""
+    def _get_last_message(self, discussion_id, min_pi, max_pi):
+        """Get last message of a given discussion."""
         search = self._prepare_search(min_pi, max_pi)
         search.filter('terms', **{'thread_id': discussion_id})
         search.sort('-date_insert')
@@ -85,15 +61,14 @@ class DiscussionIndexManager(object):
         if not result.hits:
             # XXX what to do better if not found ?
             return {}
-        message = result.hits[0]
-        return self.__build_return(message)
+        return result.hits[0]
 
     def list_discussions(self, limit=10, offset=0, min_pi=0, max_pi=0):
         """Build a list of limited number of discussions."""
         ids, total = self.__search_ids(limit, offset, min_pi, max_pi)
         discussions = []
         for id, count in ids.items():
-            discuss = self._build_discussion(id, count, min_pi, max_pi)
+            discuss = self._get_last_message(id, min_pi, max_pi)
             discussions.append(discuss)
         # XXX total do not work completly, hack a bit
         return discussions, total + len(discussions)

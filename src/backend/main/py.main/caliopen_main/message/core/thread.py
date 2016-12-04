@@ -19,7 +19,7 @@ from ..store import  \
      Thread as ModelThread,
      ThreadCounter as ModelCounter,
      DiscussionIndexManager as DIM)
-from ..parameters import Thread as ThreadParam
+from ..parameters import Thread as ThreadParam, Recipient
 
 
 log = logging.getLogger(__name__)
@@ -74,6 +74,37 @@ class Counter(BaseUserCore):
             return cls(obj)
         except Exception:
             return None
+
+
+class MainViewReturn(object):
+
+    """Build main view return structure from index messages."""
+
+    def _build_discussion(self, user_id, message):
+        """Temporary build of output Thread return parameter."""
+        discussion = ThreadParam()
+        discussion.user_id = user_id
+        discussion.thread_id = message.thread_id
+        discussion.date_update = message.date_insert
+        discussion.text = message.text[200:]
+        # XXX imperfect values
+        discussion.privacy_index = message.privacy_index
+        for rec in message.recipients:
+            recipient = Recipient()
+            recipient.address = rec['address']
+            recipient.label = rec['label']
+            recipient.type = rec['type']
+            recipient.contact_id = rec['contact_id']
+            recipient.protocol = rec['protocol']
+            discussion.contacts.append(recipient)
+        # XXX Missing values (at least other in parameter to fill)
+        discussion.total_count = 0
+        discussion.unread_count = 0
+        return discussion.serialize()
+
+    def build_response(self, user_id, messages, count):
+        discussions = [self._build_discussion(user_id, x) for x in messages]
+        return {'discussions': discussions, 'total': count}
 
 
 class Thread(BaseUserCore):
@@ -185,9 +216,10 @@ class Thread(BaseUserCore):
         """Build the main view results."""
         # XXX use of correct pagination and correct datasource (index)
         dim = DIM(user.user_id)
-        discussions, total = dim.list_discussions(limit=limit, offset=offset,
-                                                  min_pi=min_pi, max_pi=max_pi)
-        return {'discussions': discussions, 'total': total}
+        messages, total = dim.list_discussions(limit=limit, offset=offset,
+                                               min_pi=min_pi, max_pi=max_pi)
+        response = MainViewReturn()
+        return response.build_response(user.user_id, messages, total)
 
 
 class ReturnThread(ReturnCoreObject):
