@@ -12,6 +12,7 @@ import logging
 
 import elasticsearch_dsl as dsl
 from caliopen_storage.store.model import BaseIndexDocument
+from ..parameters import Thread
 
 log = logging.getLogger(__name__)
 
@@ -24,16 +25,23 @@ class DiscussionIndexManager(object):
         self.index = user_id
         self.proxy = BaseIndexDocument.client()
 
-    def _fetch_ids(self, limit=10, offset=0, min_pi=0, max_pi=0,):
-        """Fetch discussions id as an ``IndexedMessage`` aggregation."""
+    def _prepare_search(self, min_pi, max_pi):
+        """Prepare a dsl.Search object on current index."""
+
         search = dsl.Search(using=self.proxy,
                             index=self.index,
                             doc_type='indexed_message')
         search = search.filter('range', **{'privacy_index': {'gte': min_pi}})
         search = search.filter('range', **{'privacy_index': {'lte': max_pi}})
+        return search
+
+    def _fetch_ids(self, limit=10, offset=0, min_pi=0, max_pi=0,):
+        """Fetch discussions id as an ``IndexedMessage`` aggregation."""
+        search = self._prepare_search(min_pi, max_pi)
         # Do bucket term aggregation
         agg = dsl.A('terms', field='thread_id', size=limit)
         search.aggs.bucket('discussions', agg)
+        # XXX add sorting on message date_insert
         log.debug('Search is {}'.format(search.to_dict()))
         result = search.execute()
         if hasattr(result, 'aggregations'):
