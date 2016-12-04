@@ -3,7 +3,7 @@ import logging
 from cornice.resource import resource, view
 from pyramid.httpexceptions import HTTPExpectationFailed
 
-from caliopen_main.message.core import (Thread as UserDiscussion,
+from caliopen_main.message.core import (MainView, Thread as UserDiscussion,
                                         ReturnThread as ReturnDiscussion)
 from ..base import Api
 from caliopen_storage.exception import NotFound
@@ -23,9 +23,10 @@ class Discussion(Api):
     @view(renderer='json', permission='authenticated')
     def collection_get(self):
         pi_range = self.request.authenticated_userid.pi_range
-        result = UserDiscussion.main_view(self.user, pi_range[0], pi_range[1],
-                                          limit=self.get_limit(),
-                                          offset=self.get_offset())
+        view = MainView()
+        result = view.get(self.user, pi_range[0], pi_range[1],
+                          limit=self.get_limit(),
+                          offset=self.get_offset())
 
         # temporary hack to rename 'thread_id' key to 'discussion_id'
         for x in result['discussions']:
