@@ -72,3 +72,7 @@ class DiscussionIndexManager(object):
             discussions.append(discuss)
         # XXX total do not work completly, hack a bit
         return discussions, total + len(discussions)
+
+    def get_discussion(self, discussion_id, min_pi, max_pi):
+        """Get a specific discussion."""
+        return self._get_last_message(discussion_id, min_pi, max_pi)

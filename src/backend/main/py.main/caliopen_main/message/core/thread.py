@@ -76,11 +76,10 @@ class Counter(BaseUserCore):
             return None
 
 
-def build_discussion(user, index_message):
+def build_discussion(thread, index_message):
     """Temporary build of output Thread return parameter."""
     discussion = ThreadParam()
-    discussion.user_id = user.user_id
-    thread = Thread.get(user, index_message.thread_id)
+    discussion.user_id = thread.user_id
     discussion.thread_id = index_message.thread_id
     discussion.date_insert = thread.date_insert
     discussion.date_update = index_message.date_insert
@@ -103,13 +102,24 @@ def build_discussion(user, index_message):
     return discussion.serialize()
 
 
-class MainViewReturn(object):
+class MainView(object):
 
     """Build main view return structure from index messages."""
 
     def build_response(self, user, messages, count):
-        discussions = [build_discussion(user, x) for x in messages]
+        discussions = []
+        for message in messages:
+            thread = Thread.get(user, message.thread_id)
+            discussions.append(build_discussion(thread, message))
         return {'discussions': discussions, 'total': count}
+
+    def get(self, user, min_pi, max_pi, limit, offset):
+        """Build the main view results."""
+        # XXX use of correct pagination and correct datasource (index)
+        dim = DIM(user.user_id)
+        messages, total = dim.list_discussions(limit=limit, offset=offset,
+                                               min_pi=min_pi, max_pi=max_pi)
+        return self.build_response(user, messages, total)
 
 
 class Thread(BaseUserCore):
@@ -215,16 +225,6 @@ class Thread(BaseUserCore):
     def attachment_count(self):
         """Total number of attachments."""
         return self.counters.attachment_count
-
-    @classmethod
-    def main_view(cls, user, min_pi, max_pi, limit, offset):
-        """Build the main view results."""
-        # XXX use of correct pagination and correct datasource (index)
-        dim = DIM(user.user_id)
-        messages, total = dim.list_discussions(limit=limit, offset=offset,
-                                               min_pi=min_pi, max_pi=max_pi)
-        response = MainViewReturn()
-        return response.build_response(user, messages, total)
 
 
 class ReturnThread(ReturnCoreObject):
