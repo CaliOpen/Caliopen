@@ -23,16 +23,16 @@ class Discussion(Api):
     @view(renderer='json', permission='authenticated')
     def collection_get(self):
         pi_range = self.request.authenticated_userid.pi_range
-        discussions = UserDiscussion.main_view(self.user, pi_range[0], pi_range[1],
-                                       limit=self.get_limit(),
-                                       offset=self.get_offset())
-        results = [ReturnDiscussion.build(x).serialize()
-                   for x in discussions['discussions']]
+        result = UserDiscussion.main_view(self.user, pi_range[0], pi_range[1],
+                                          limit=self.get_limit(),
+                                          offset=self.get_offset())
+
         # temporary hack to rename 'thread_id' key to 'discussion_id'
-        for x in results:
+        for x in result['discussions']:
             x['discussion_id'] = x.pop('thread_id')
 
-        return {'discussions': results, 'total': discussions['total']}
+        return {'discussions': result['discussions'],
+                'total': result['total']}
 
     @view(renderer='json', permission='authenticated')
     def get(self):
