@@ -183,26 +183,6 @@ class Thread(BaseUserCore):
             return None
         return cls.get(user, lookup.thread_id)
 
-    @classmethod
-    def expand_contacts(self, user, contacts):
-        results = []
-        for contact in contacts:
-            results.append(Contact.get(user, contact['contact_id']))
-        return results
-
-    @classmethod
-    def expand_tags(self, user, tags):
-        if not tags:
-            return []
-        user_tags = dict((x.label, x) for x in user.tags)
-        results = []
-        for tag in tags:
-            if tag in user_tags:
-                results.append(user_tags[tag])
-            else:
-                log.warn('Unknow user tag {}'.format(tag))
-        return results
-
     @property
     def counters(self):
         """return ``Counter`` core related to threads."""
