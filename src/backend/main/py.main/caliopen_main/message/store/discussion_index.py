@@ -12,7 +12,7 @@ import logging
 
 import elasticsearch_dsl as dsl
 from caliopen_storage.store.model import BaseIndexDocument
-from ..parameters import Thread
+from ..parameters import Thread, Recipient
 
 log = logging.getLogger(__name__)
 
@@ -35,8 +35,8 @@ class DiscussionIndexManager(object):
         search = search.filter('range', **{'privacy_index': {'lte': max_pi}})
         return search
 
-    def _fetch_ids(self, limit=10, offset=0, min_pi=0, max_pi=0,):
-        """Fetch discussions id as an ``IndexedMessage`` aggregation."""
+    def __search_ids(self, limit, offset, min_pi, max_pi):
+        """Search discussions ids as a bucket aggregation."""
         search = self._prepare_search(min_pi, max_pi)
         # Do bucket term aggregation
         agg = dsl.A('terms', field='thread_id', size=limit)
@@ -50,3 +50,48 @@ class DiscussionIndexManager(object):
             return dict((x['key'], x['doc_count']) for x in buckets)
         log.debug('No result found on index {}'.format(self.index))
         return {}
+
+    def __build_return(self, message):
+        """Temporary build of output Thread return parameter."""
+        discussion = Thread()
+        discussion.user_id = self.index
+        discussion.thread_id = message.thread_id
+        discussion.date_update = message.date_insert
+        discussion.text = message.text[200:]
+        # XXX imperfect values
+        discussion.privacy_index = message.privacy_index
+        for rec in message.recipients:
+            recipient = Recipient()
+            recipient.address = rec['address']
+            recipient.label = rec['label']
+            recipient.type = rec['type']
+            recipient.contact_id = rec['contact_id']
+            recipient.protocol = rec['protocol']
+            discussion.contacts.append(recipient)
+        # XXX Missing values (at least other in parameter to fill)
+        discussion.total_count = 0
+        discussion.unread_count = 0
+
+        return discussion
+
+    def _build_discussion(self, discussion_id, doc_count, min_pi, max_pi):
+        """Build a suitable representation of a discussion for output."""
+        search = self._prepare_search(min_pi, max_pi)
+        search.filter('terms', **{'thread_id': discussion_id})
+        search.sort('-date_insert')
+        search = search[0:1]
+        result = search.execute()
+        if not result.hits:
+            # XXX what to do better if not found ?
+            return {}
+        message = result.hits[0]
+        return self.__build_return(message)
+
+    def list_discussions(self, limit=10, offset=0, min_pi=0, max_pi=0):
+        """Build a list of limited number of discussions."""
+        ids = self.__search_ids(limit, offset, min_pi, max_pi)
+        discussions = []
+        for id, count in ids.items():
+            discuss = self._build_discussion(id, count, min_pi, max_pi)
+            discussions.append(discuss)
+        return discussions
