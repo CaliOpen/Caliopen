@@ -106,12 +106,11 @@ class MainView(object):
 
     """Build main view return structure from index messages."""
 
-    def build_response(self, user, messages, count):
-        discussions = []
+    def build_responses(self, user, messages):
+        """Build list of responses using core and related index message."""
         for message in messages:
             thread = Thread.get(user, message.thread_id)
-            discussions.append(build_discussion(thread, message))
-        return {'discussions': discussions, 'total': count}
+            yield build_discussion(thread, message)
 
     def get(self, user, min_pi, max_pi, limit, offset):
         """Build the main view results."""
@@ -119,7 +118,8 @@ class MainView(object):
         dim = DIM(user.user_id)
         messages, total = dim.list_discussions(limit=limit, offset=offset,
                                                min_pi=min_pi, max_pi=max_pi)
-        return self.build_response(user, messages, total)
+        discussions = self.build_responses(user, messages)
+        return {'discussions': list(discussions), 'total': total}
 
 
 class Thread(BaseUserCore):
