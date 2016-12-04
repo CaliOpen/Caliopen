@@ -54,8 +54,8 @@ class DiscussionIndexManager(object):
     def _get_last_message(self, discussion_id, min_pi, max_pi):
         """Get last message of a given discussion."""
         search = self._prepare_search(min_pi, max_pi)
-        search.filter('terms', **{'thread_id': discussion_id})
-        search.sort('-date_insert')
+        search = search.filter('match', **{'thread_id': discussion_id})
+        search = search.sort('-date_insert')
         search = search[0:1]
         result = search.execute()
         if not result.hits:
