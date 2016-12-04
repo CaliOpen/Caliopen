@@ -17,7 +17,8 @@ from ..store import  \
      ThreadRecipientLookup as ModelRecipientLookup,
      ThreadMessageLookup as ModelMessageLookup,
      Thread as ModelThread,
-     ThreadCounter as ModelCounter)
+     ThreadCounter as ModelCounter,
+     DiscussionIndexManager as DIM)
 from ..parameters import Thread as ThreadParam
 
 
@@ -180,17 +181,13 @@ class Thread(BaseUserCore):
         return self.counters.attachment_count
 
     @classmethod
-    def main_view(cls, user, pi_min, pi_max, limit, offset):
+    def main_view(cls, user, min_pi, max_pi, limit, offset):
         """Build the main view results."""
         # XXX use of correct pagination and correct datasource (index)
-        threads = cls.find(user, None,  limit=limit, offset=offset)
-        res = []
-        for th in threads['objects']:
-            if pi_min <= th.privacy_index <= pi_max:
-                res.append(th)
-            else:
-                log.debug('Thread do not fit PI range {}'.format(th.thread_id))
-        return {'discussions': res, 'total': threads['total']}
+        dim = DIM(user.user_id)
+        discussions, total = dim.list_discussions(limit=limit, offset=offset,
+                                                  min_pi=min_pi, max_pi=max_pi)
+        return {'discussions': discussions, 'total': total}
 
 
 class ReturnThread(ReturnCoreObject):

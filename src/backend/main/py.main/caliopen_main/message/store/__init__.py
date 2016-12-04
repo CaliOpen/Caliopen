@@ -5,8 +5,10 @@ from .message import RawMessage, Message, MessageRecipient
 from .message_index import IndexedMessage
 from .thread import (Thread, ThreadCounter, ThreadRecipientLookup,
                      ThreadExternalLookup, ThreadMessageLookup)
+from .discussion_index import DiscussionIndexManager
 
 
 __all__ = ['RawMessage', 'Message', 'MessageRecipient', 'IndexedMessage',
            'Thread', 'ThreadCounter', 'ThreadMessageLookup',
-           'ThreadRecipientLookup', 'ThreadExternalLookup']
+           'ThreadRecipientLookup', 'ThreadExternalLookup',
+           'DiscussionIndexManager']
