@@ -11,7 +11,7 @@ from caliopen_storage.core import BaseUserCore
 from caliopen_storage.parameters import ReturnCoreObject
 
 from ..store import (Message as ModelMessage,
-                                         MessageRecipient, RawMessage)
+                     MessageRecipient, RawMessage)
 from ..parameters import Message as ParamMessage
 
 
