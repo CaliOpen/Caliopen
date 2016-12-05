@@ -82,7 +82,7 @@ docker-compose build
 docker-compose up redis cassandra elasticsearch api
 ```
 
-Then you can setup storage, create an user and import email using claiopen cli tool:
+Then you can setup storage, create an user and import email using caliopen cli tool:
 ```
 cd devtools
 docker-compose run cli setup
