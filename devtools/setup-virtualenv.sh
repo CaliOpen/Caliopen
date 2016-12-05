@@ -34,6 +34,15 @@ do
 
 done
 
+# Doc
+cd ${CALIOPEN_BASE_DIR}/doc/py.doc
+python setup.py develop
+
+# Extra packages for development
+pip install ipdb
+pip install docker-compose
+
+
 echo "All done, your virtual environment contain these packages :"
 pip freeze
 
