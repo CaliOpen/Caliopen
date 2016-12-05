@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { withTranslator } from '@gandi/react-translate';
 import './style.scss';
-import InputText from '../../../../../InputText';
+import { InputText } from '../../../../../form';
 import Icon from '../../../../../Icon';
 import { RawButton } from '../../../../../Button';
 

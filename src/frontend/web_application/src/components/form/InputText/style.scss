@@ -1,5 +1,5 @@
-@import '../../styles/common';
-@import '../../styles/object/o-form-element';
+@import '../../../styles/common';
+@import '../../../styles/object/o-form-element';
 
 @mixin input-text {
   @include o-form-element;

@@ -1,0 +1,38 @@
+@import '../../../../styles/common';
+@import '../../../../styles/vendor/foundation-sites';
+
+.m-contact-profile-form {
+  &__save-button {
+    line-height: $co-component__height;
+  }
+
+  @include breakpoint(medium) {
+    &,
+    // XXX: mode to remote ident form
+    &__remote-identity-form-row {
+      @include flex-grid-row($width: none);
+    }
+
+    &__save-button,
+    &__remote-identity-buttons {
+      @include flex-grid-column(12);
+    }
+
+    &__field-group--medium,
+    &__firstname,
+    &__lastname {
+      @include flex-grid-column(6);
+    }
+
+    &__field-group--small { @include flex-grid-column(3); }
+
+    &__field-group--shrink,
+    &__birthday {
+      @include flex-grid-column(shrink);
+    }
+
+    &__save-button-wrapper {
+      display: inline-block;
+    }
+  }
+}

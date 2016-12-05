@@ -1,0 +1,48 @@
+@import '../../styles/common';
+@import '../../styles/vendor/foundation-sites';
+
+.s-account {
+  @include flex-grid-row($width: none);
+  background-color: $co-color__fg__back--low;
+
+  &__col-datas-irl {
+    @include flex-grid-column(12);
+    padding: $co-margin;
+    padding-top: 0;
+    background-color: $co-color__fg__back;
+  }
+
+  &__col-datas-online {
+    @include flex-grid-column(12, 0);
+  }
+
+  &__contact-profile {
+    margin-bottom: $co-margin;
+  }
+
+  &__m-subtitle {
+    padding: 0 $co-margin;
+  }
+
+  &__remote-identity-fetching-panel {
+    @include flex-grid-row;
+  }
+
+  &__remote-identity-fetching-panel-content {
+    @include flex-grid-column;
+  }
+
+  &__openpgp {
+    margin-top: $co-margin;
+  }
+
+  @include breakpoint(medium) {
+    &__col-datas-irl { @include flex-grid-size(5); }
+    &__col-datas-online { @include flex-grid-size(7); }
+  }
+
+  @include breakpoint(large) {
+    &__col-datas-irl { @include flex-grid-size(4); }
+    &__col-datas-online { @include flex-grid-size(8); }
+  }
+}

@@ -1,0 +1,20 @@
+@import '../../../styles/common';
+@import '../../../styles/vendor/foundation-sites';
+
+$switch-height: 2rem !default;
+
+.m-switch {
+  @include switch-container;
+  display: inline-block;
+  vertical-align: middle;
+  height: $switch-height;
+  margin-bottom: 0;
+
+  &__input {
+    @include switch-input;
+  }
+
+  &__paddle {
+    @include switch-paddle;
+  }
+}

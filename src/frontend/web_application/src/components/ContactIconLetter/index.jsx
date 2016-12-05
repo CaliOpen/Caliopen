@@ -4,7 +4,7 @@ import { getContactStylesheetClass } from './services/stylesheet-helper';
 import './style.scss';
 
 const ContactIconLetter = ({ contact, className }) => (
-  <i className={classnames(className, getContactStylesheetClass(contact))} />
+  <span className={classnames(className, getContactStylesheetClass(contact))} />
 );
 
 ContactIconLetter.propTypes = {

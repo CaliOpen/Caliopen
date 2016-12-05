@@ -1,0 +1,11 @@
+@import '../../../styles/common';
+
+.m-text-field-group {
+  &__label {
+    display: block;
+  }
+
+  &__errors {
+    margin-top: map-get($co-form__spacing, 'medium');
+  }
+}

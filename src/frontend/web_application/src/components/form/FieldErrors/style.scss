@@ -1,0 +1,10 @@
+@import '../../../styles/common';
+@import '../../../styles/vendor/foundation-sites';
+
+.m-field-errors {
+  @include callout($color: $co-color__alert);
+  @include callout-size($padding: map-get($co-form__spacing, small));
+  list-style: none;
+  font-size: $co-font__size--small;
+  line-height: $co-font__size--small;
+}

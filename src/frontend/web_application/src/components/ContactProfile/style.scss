@@ -1,0 +1,43 @@
+@import '../../styles/common';
+@import '../../styles/vendor/foundation-sites';
+
+@mixin m-contact-profile--horizontal {
+  &__avatar {
+    float: left;
+    margin-right: $co-margin;
+  }
+}
+@mixin m-contact-profile--vertical {
+  &__avatar {
+    float: none;
+    margin-right: 0;
+  }
+}
+
+.m-contact-profile {
+  position: relative;
+
+  &__edit-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    line-height: $co-component__height;
+  }
+
+  &__title {
+    @include clearfix;
+    display: block;
+    color: $co-color__fg__text--high;
+  }
+
+  @include m-contact-profile--horizontal;
+
+  @include breakpoint(medium) {
+    @include m-contact-profile--vertical;
+
+    &__title,
+    &__avatar {
+      text-align: center;
+    }
+  }
+}

@@ -13,6 +13,9 @@ const typeAssoc = {
   plus: 'fa fa-plus',
   reply: 'fa fa-reply',
   paperclip: 'fa fa-paperclip',
+  at: 'fa fa-at',
+  edit: 'fa fa-edit',
+  check: 'fa fa-check',
 };
 
 
