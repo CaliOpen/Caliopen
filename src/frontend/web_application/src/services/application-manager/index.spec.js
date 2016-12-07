@@ -13,7 +13,7 @@ describe('Service ApplicationManager', () => {
     it('give infos', () => {
       expect(ApplicationManager.getInfosFromName('contacts')).toEqual({
         name: 'contacts',
-        route: 'contact-list',
+        route: 'contacts',
         icon: 'users',
       });
     });
@@ -21,9 +21,9 @@ describe('Service ApplicationManager', () => {
 
   describe('getInfosFromRoute', () => {
     it('retrieves an app', () => {
-      expect(ApplicationManager.getInfosFromRoute('contact-list')).toEqual({
+      expect(ApplicationManager.getInfosFromRoute('contacts')).toEqual({
         name: 'contacts',
-        route: 'contact-list',
+        route: 'contacts',
         icon: 'users',
       });
     });

@@ -5,6 +5,7 @@ import BaseLink from '../../../../../Link';
 import Icon from '../../../../../Icon';
 import Dropdown, { DropdownController } from '../../../../../Dropdown';
 import VerticalMenu, { VerticalMenuItem } from '../../../../../VerticalMenu';
+import { getLabels } from '../../../../../../services/application-manager';
 import './style.scss';
 
 @withTranslator()
@@ -32,11 +33,14 @@ class Presenter extends Component {
     };
 
     const { __ } = this.props;
+    const applicationLabels = getLabels(__);
 
     return (
       <div className="m-application-switcher">
         <Link to={this.props.currentApplication.route}>
-          <Icon type={this.props.currentApplication.icon} /> {__(`header.menu.${this.props.currentApplication.name}`)}
+          <Icon type={this.props.currentApplication.icon} />
+          {' '}
+          {applicationLabels[this.props.currentApplication.name]}
         </Link>
         <DropdownController
           toggle="co-application-switcher"
@@ -59,7 +63,9 @@ class Presenter extends Component {
                 .map((application, key) => (
                   <VerticalMenuItem key={key}>
                     <BaseLink to={application.route} modifiers={{ button: true, expanded: true }}>
-                      <Icon type={application.icon} /> {__(`header.menu.${application.name}`)}
+                      <Icon type={application.icon} />
+                      {' '}
+                      {applicationLabels[application.name]}
                     </BaseLink>
                   </VerticalMenuItem>
                 ))

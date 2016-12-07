@@ -38,7 +38,7 @@ class ContactProfile extends Component {
           <Button active={this.state.editMode} onClick={this.toggleEditMode}>
             <Icon type="edit" />
             <span className="show-for-sr">
-              {__('contact_card_summary.action.edit_contact')}
+              {__('contact_profile.action.edit_contact')}
             </span>
           </Button>
         </div>

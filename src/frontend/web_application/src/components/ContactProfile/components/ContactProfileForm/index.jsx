@@ -37,21 +37,21 @@ class ContactProfileForm extends Component {
         <TextFieldGroup
           className="m-contact-profile-form__firstname"
           value={this.state.contact.given_name}
-          label={__('contact_card_summary.form.firstname.label')}
+          label={__('contact_profile.form.firstname.label')}
           name="given_name"
           onChange={this.handleChanges}
         />
         <TextFieldGroup
           className="m-contact-profile-form__lastname"
           value={this.state.contact.family_name}
-          label={__('contact_card_summary.form.lastname.label')}
+          label={__('contact_profile.form.lastname.label')}
           name="family_name"
           onChange={this.handleChanges}
         />
         <TextFieldGroup
           className="m-contact-profile-form__birthday"
           value={this.state.contact.birthday}
-          label={__('contact_card_summary.form.birthday.label')}
+          label={__('contact_profile.form.birthday.label')}
           name="birthday"
           onChange={this.handleChanges}
           expanded={false}
@@ -59,7 +59,7 @@ class ContactProfileForm extends Component {
         <div className="m-contact-profile-form__save-button">
           <div className="m-contact-profile-form__save-button-wrapper">
             <Button type="submit" modifiers={{ expanded: true, plain: true }}>
-              <Icon type="check" /> {__('contact_card_summary.action.save')}
+              <Icon type="check" /> {__('contact_profile.action.save')}
             </Button>
           </div>
         </div>

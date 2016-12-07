@@ -1,22 +1,30 @@
-export const ApplicationRoutes = {
-  discussions: 'discussions',
-  contacts: 'contact-list',
+const APPLICATIONS = {
+  discussions: {
+    route: 'discussions',
+    icon: 'comments',
+    label: 'header.menu.discussions',
+  },
+  contacts: {
+    route: 'contacts',
+    icon: 'users',
+    label: 'header.menu.contacts',
+  },
 };
 
-const APPLICATION_ICONS = {
-  discussions: 'comments',
-  contacts: 'users',
-};
+export const getLabels = __ => ({
+  discussions: __('header.menu.discussions'),
+  contacts: __('header.menu.contacts'),
+});
 
 export const getInfosFromName = name => ({
   name,
-  route: ApplicationRoutes[name],
-  icon: APPLICATION_ICONS[name],
+  route: APPLICATIONS[name].route,
+  icon: APPLICATIONS[name].icon,
 });
 
 export const getInfosFromRoute = (route) => {
-  const applicationName = Object.keys(ApplicationRoutes)
-    .find(name => ApplicationRoutes[name] === route);
+  const applicationName = Object.keys(APPLICATIONS)
+    .find(name => APPLICATIONS[name].route === route);
 
   if (!applicationName) {
     return undefined;
@@ -25,4 +33,4 @@ export const getInfosFromRoute = (route) => {
   return getInfosFromName(applicationName);
 };
 
-export const getApplications = () => Object.keys(ApplicationRoutes).map(getInfosFromName);
+export const getApplications = () => Object.keys(APPLICATIONS).map(getInfosFromName);
