@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+env:
+  COMPOSE_VERSION: 1.9.0
+
+before_install:
+ - curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+ - chmod +x docker-compose
+ - sudo mv docker-compose /usr/local/bin
+
+script:
+  - docker-compose up -d cassandra elasticsearch redis
+  - docker-compose build
+  - devtools/run-tests.sh
+
+notifications:
+  irc: "chat.freenode.net#caliopdev"
+    use_notice: true
