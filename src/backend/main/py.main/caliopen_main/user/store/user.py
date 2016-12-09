@@ -79,7 +79,7 @@ class FilterRule(BaseModel):
     name = columns.Text()
     filter_expr = columns.Text()
     position = columns.Integer()
-    stop_condition = columns.Integer(default=None)
+    stop_condition = columns.Boolean()
     tags = columns.List(columns.Text)
 
 

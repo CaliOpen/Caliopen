@@ -18,13 +18,13 @@ class Organization(BaseUserType):
     _pkey = 'organization_id'
 
     organization_id = columns.UUID(default=uuid.uuid4)
-    deleted = columns.Boolean(default=0)
+    deleted = columns.Boolean(default=False)
     label = columns.Text()
     department = columns.Text()
     job_description = columns.Text()
     name = columns.Text()
     title = columns.Text()
-    is_primary = columns.Boolean(default=0)
+    is_primary = columns.Boolean(default=False)
     type = columns.Text()   # work, other
 
 
@@ -36,7 +36,7 @@ class PostalAddress(BaseUserType):
     address_id = columns.UUID(default=uuid.uuid4)
     label = columns.Text()
     type = columns.Text()
-    is_primary = columns.Integer(default=0)
+    is_primary = columns.Boolean(default=False)
     street = columns.Text()
     city = columns.Text()
     postal_code = columns.Text()
@@ -53,7 +53,7 @@ class Email(BaseUserType):
     email_id = columns.UUID(default=uuid.uuid4)
     address = columns.Text()
     label = columns.Text()
-    is_primary = columns.Integer(default=0)
+    is_primary = columns.Boolean(default=False)
     type = columns.Text()   # home, work, other
 
 
@@ -68,7 +68,7 @@ class IM(BaseUserType):
     label = columns.Text()
     type = columns.Text()
     protocol = columns.Text()
-    is_primary = columns.Integer(default=0)
+    is_primary = columns.Boolean(default=False)
 
 
 class Phone(BaseUserType):
@@ -80,7 +80,7 @@ class Phone(BaseUserType):
     phone_id = columns.UUID(default=uuid.uuid4)
     number = columns.Text()
     type = columns.Text()
-    is_primary = columns.Integer(default=0)
+    is_primary = columns.Boolean(default=False)
     uri = columns.Text()    # RFC3966
 
 
@@ -106,7 +106,7 @@ class Contact(BaseModel, IndexedModelMixin):
     date_insert = columns.DateTime(default=datetime.utcnow())
     date_update = columns.DateTime()
     # Redefine, need default
-    deleted = columns.Integer(default=0)
+    deleted = columns.Boolean(default=False)
     title = columns.Text()          # computed value, read only
     # detailed name structure
     given_name = columns.Text()

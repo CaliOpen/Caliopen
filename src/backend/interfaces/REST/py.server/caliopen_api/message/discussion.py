@@ -30,7 +30,8 @@ class Discussion(Api):
 
         # temporary hack to rename 'thread_id' key to 'discussion_id'
         for x in result['discussions']:
-            x['discussion_id'] = x.pop('thread_id')
+            if hasattr(x, 'thread_id'):
+                x['discussion_id'] = x.pop('thread_id')
 
         return {'discussions': result['discussions'],
                 'total': result['total']}
@@ -47,5 +48,6 @@ class Discussion(Api):
             raise HTTPExpectationFailed('Invalid pi range')
         resp = ReturnDiscussion.build(discussion).serialize()
         # temporary hack to rename 'thread_id' key to 'discussion_id'
-        resp['discussion_id'] = resp.pop('thread_id')
+        if hasattr(resp, 'thread_id'):
+            resp['discussion_id'] = resp.pop('thread_id')
         return {'discussion': resp}

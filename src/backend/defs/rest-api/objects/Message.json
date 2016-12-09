@@ -36,7 +36,8 @@
       }
     },
     "privacy_index": {
-      "type": "string"
+      "type": "integer",
+      "format": "int32"
     },
     "recipients": {
       "type": "array",
