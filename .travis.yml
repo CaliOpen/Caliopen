@@ -19,5 +19,7 @@ script:
   - devtools/run-tests.sh
 
 notifications:
-  irc: "chat.freenode.net#caliopdev"
+  irc: 
+    channels:
+      - "chat.freenode.net#caliopdev"
     use_notice: true
