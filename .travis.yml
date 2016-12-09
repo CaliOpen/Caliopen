@@ -11,8 +11,6 @@ before_install:
  - sudo mv docker-compose /usr/local/bin
 
 script:
-  - docker-compose up -d cassandra elasticsearch redis
-  - docker-compose build
   - devtools/run-tests.sh
 
 notifications:

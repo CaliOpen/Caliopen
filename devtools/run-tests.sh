@@ -6,6 +6,9 @@ FRONTEND_CHANGE=`git diff-tree --no-commit-id --name-only -r HEAD..master src/fr
 
 
 function do_backend_tests {
+    # Huge testing for the moment waiting for a real backend test strategy
+    docker-compose up -d cassandra elasticsearch redis
+    docker-compose build
     docker-compose run cli setup
     docker-compose run cli create_user -e dev@caliopen.local -g John -f Doe -p blablabla
     docker-compose run cli import -e dev@caliopen.local -f mbox -p /srv/caliopen/code/devtools/fixtures/mbox/dev@caliopen.local
