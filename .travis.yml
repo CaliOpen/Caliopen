@@ -10,8 +10,8 @@ language: node_js
 node_js:
  - stable
 
- git:
-  depth: 10
+git:
+ depth: 10
 
 before_install:
  - curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
