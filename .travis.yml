@@ -26,8 +26,3 @@ notifications:
     channels:
       - "chat.freenode.net#caliopdev"
     use_notice: true
-addons:
-  sauce_connect:
-    username: AllTheDey
-    access_key:
-      secure: "mK0/+2irdPqbXekoGt4yCNpyTKpv/x7WmaU/5+KKTSS46Y7ch7xwYWvVCux0zINUqCyLa+pRV3VIGKdRxX3VGwd37oUxz1oZaVfSOj2e7p3/zOe2Z8CS9LEU7/krnExpJBcQ4g0LtYbjobjiufEIgNacI5NiwF1/L+Bopbp76e8SJLKthtVSaER9cPzVZNuncreizW/eexgbDVQe5tN+xP6YdOsKrmh0hCjmlbm0PPHDbnIkkrrtbeCD8eosZEDgrFPXaupPNe85pJoWh+PLLohq0dy39fYKxf0LjpFVVyu4/ACGBOeg9jk8fyu17mwtTQiaAfOLBeviASlbiEBlBtB1CMrE7mfeLkqjSdAIedLJkWJEb9I1qTO/Bb/pmtKSA9lQSbCem6hsrzylRXqyqqYMgNZKPX9KT8tKF0CGoNCFNX0IVgZ1KKdGnp9J2VQp45iiYISb7Jwe4qwrB3/EsTFfxwi7qcoEDr7XoNIH9JRqB7Vpgn3SDZV4wzeiJBux85OyQa8jmKEpwbk652wkK+5Hz/q8c79+DO+klaIHslAN48d1R9a8NWEX2avKQAkxcIuHdaUTgH9VwThfybDdyClhoHGBm9VTRGTMRV34HrMnHQ3Bb5aHT1Aa1vR1Xio/jWMaqwjLY0d8doFl0YT9exQ8Gx7TVRLOvYm73u7prXs="
