@@ -61,7 +61,7 @@ class Contact(Api):
             raise ResourceNotFound('No such contact')
         if pi_range[0] > contact_pi < pi_range[1]:
             raise HTTPExpectationFailed('Invalid privacy index')
-        return {'contact': CoreContact.get_serialized(self.user, contact_id)}
+        return ReturnContact.build(CoreContact.get(self.user, contact_id)).serialize()
 
     @view(renderer='json', permission='authenticated')
     def collection_post(self):

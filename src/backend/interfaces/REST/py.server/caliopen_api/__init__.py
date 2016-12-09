@@ -27,8 +27,8 @@ def main(global_config, **settings):
     caliopen_config = settings['caliopen.config'].split(':')[1]
     Configuration.load(caliopen_config, 'global')
 
-    settings['pyramid_swagger.exclude_paths'] = [r'^/api-ui/?', r'^/doc/api/?']
-    settings['pyramid_swagger.enable_api_doc_views'] = True
+    settings['pyramid_swagger.exclude_paths'] = [r'^/api-ui/?', r'^/doc/api/?', r'^/defs/?']
+    settings['pyramid_swagger.enable_response_validation'] = True
     config = Configurator(settings=settings)
     services = config.registry.settings. \
         get('caliopen_api.services', []). \

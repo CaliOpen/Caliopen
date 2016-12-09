@@ -1,20 +1,26 @@
 {
   "type": "object",
   "properties": {
-    "user_id": {
-      "type": "string"
+    "contact": {
+      "$ref": "Contact.json"
     },
-    "main_user_id": {
+    "date_insert": {
       "type": "string"
     },
     "family_name": {
       "type": "string"
     },
+    "given_name": {
+      "type": "string"
+    },
+    "main_user_id": {
+      "type": "string"
+    },
     "name": {
       "type": "string"
     },
-    "given_name": {
-      "type": "string"
+    "params": {
+      "type": "object"
     },
     "privacy_features": {
       "$ref": "Privacy_features.json"
@@ -23,14 +29,9 @@
       "type": "integer",
       "format": "int32"
     },
-    "date_insert": {
+    "user_id": {
       "type": "string"
-    },
-    "contact": {
-      "$ref": "Contact.json"
-    },
-    "params": {
-      "type": "object"
     }
-  }
+  },
+  "additionalProperties": false
 }

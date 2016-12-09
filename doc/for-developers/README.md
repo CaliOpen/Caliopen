@@ -8,7 +8,7 @@ In this directory provide generic documentations for Caliopen.
 # ReST API documentation
 
 ReST API is documented using [OpenAPI specification v2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md)
-you will find the related json definition file [here](../api/swagger.json)
+you will find the related swagger definition file [here](../api/swagger.json) and the JSON Schema definitions files [here](../../src/backend/defs/rest-api/)
 
 You can interact with the API using auto generated documentation.
 Using docker containers, just run:

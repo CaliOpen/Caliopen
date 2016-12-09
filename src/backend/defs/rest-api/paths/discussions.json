@@ -1,0 +1,245 @@
+{
+  "discussions": {
+    "get": {
+      "description": "Returns discussions belonging to current user according to given parameters",
+      "tags": [
+        "discussions"
+      ],
+      "security": [
+        {
+          "basicAuth": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "X-Caliopen-PI",
+          "in": "header",
+          "required": true,
+          "description": "The PI range requested in form of `1;100`",
+          "type": "string",
+          "default": "1;100"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "number of discussions to return per page"
+        },
+        {
+          "name": "offset",
+          "in": "query",
+          "type": "integer",
+          "required": false,
+          "description": "number of pages to skip from the response"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "responses": {
+        "200": {
+          "description": "Discussions returned",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer",
+                "format": "int32",
+                "description": "number of discussions found for current user for the given parameters"
+              },
+              "discussion": {
+                "type": "array",
+                "items": {
+                  "$ref": "../objects/Discussion.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "post": {
+      "description": "Not Yet Implemented. Should start a new discussion",
+      "tags": [
+        "discussions"
+      ],
+      "security": [
+        {
+          "basicAuth": []
+        }
+      ],
+      "responses": {
+        "default": {
+          "description": "route not implemented, should raise an error"
+        }
+      }
+    }
+  },
+  "discussions_{discussion_id}": {
+    "get": {
+      "description": "Returns a discussion",
+      "tags": [
+        "discussions"
+      ],
+      "security": [
+        {
+          "basicAuth": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "discussion_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "responses": {
+        "200": {
+          "description": "Discussion found",
+          "schema": {
+            "$ref": "../objects/Discussion.json"
+          }
+        },
+        "401": {
+          "description": "Unauthorized access",
+          "schema": {
+            "$ref": "../objects/Error.json"
+          }
+        },
+        "404": {
+          "description": "Discussion not found",
+          "schema": {
+            "$ref": "../objects/Error.json"
+          }
+        }
+      }
+    }
+  },
+  "discussions_{discussion_id}_messages": {
+    "get": {
+      "description": "Returns messages belonging to a discussion according to given parameters",
+      "tags": [
+        "discussions",
+        "messages"
+      ],
+      "security": [
+        {
+          "basicAuth": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "discussion_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "X-Caliopen-PI",
+          "in": "header",
+          "required": true,
+          "description": "The PI range requested in form of `1;100`",
+          "type": "string",
+          "default": "1;100"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "number of discussions to return per page"
+        },
+        {
+          "name": "offset",
+          "in": "query",
+          "type": "integer",
+          "required": false,
+          "description": "number of pages to skip from the response"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "responses": {
+        "200": {
+          "description": "messages returned",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer",
+                "format": "int32",
+                "description": "number of messages found for the discussion for the given parameters"
+              },
+              "messages": {
+                "type": "array",
+                "items": {
+                  "$ref": "../objects/Message.json"
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Unauthorized access",
+          "schema": {
+            "$ref": "../objects/Error.json"
+          }
+        },
+        "404": {
+          "description": "Discussion not found",
+          "schema": {
+            "$ref": "../objects/Error.json"
+          }
+        }
+      }
+    },
+    "post": {
+      "description": "##TO BE COMPLETED - not working## Add a new message to the discussion",
+      "tags": [
+        "discussions",
+        "messages"
+      ],
+      "security": [
+        {
+          "basicAuth": []
+        }
+      ],
+      "consumes": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "discussion_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "message",
+          "in": "body",
+          "description": "The new message",
+          "schema": {
+            "$ref": "../objects/NewMessage.json"
+          }
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "responses": {
+        "200": {
+          "description": "Message created",
+          "schema": {
+            "$ref": "../objects/Message.json"
+          }
+        }
+      }
+    }
+  }
+}

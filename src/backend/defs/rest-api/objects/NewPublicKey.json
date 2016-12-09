@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "properties": {
+    "expire_date": {
+      "type": "string"
+    },
+    "fingerprint": {
+      "type": "string"
+    },
+    "key": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "size": {
+      "type": "integer",
+      "format": "int32"
+    }
+  },
+  "required": [
+    "key",
+    "name"
+  ],
+  "additionalProperties": false
+}

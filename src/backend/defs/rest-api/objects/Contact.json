@@ -1,0 +1,110 @@
+{
+  "type": "object",
+  "properties": {
+    "additional_name": {
+      "type": "string"
+    },
+    "addresses": {
+      "type": "array",
+      "items": {
+        "$ref": "PostalAddress.json"
+      }
+    },
+    "avatar": {
+      "type": "string"
+    },
+    "contact_id": {
+      "type": "string"
+    },
+    "date_insert": {
+      "type": "string"
+    },
+    "date_update": {
+      "type": "string"
+    },
+    "deleted": {
+      "type": "boolean"
+    },
+    "emails": {
+      "type": "array",
+      "items": {
+        "$ref": "Email.json"
+      }
+    },
+    "family_name": {
+        "type": "string"
+    },
+    "given_name": {
+      "type": "string"
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "identities": {
+      "type": "array",
+      "items": {
+        "$ref": "SocialIdentity.json"
+      }
+    },
+    "ims": {
+      "type": "array",
+      "items": {
+        "$ref": "IM.json"
+      }
+    },
+    "infos": {
+      "type": "object"
+    },
+    "name_prefix": {
+      "type": "string"
+    },
+    "name_suffix": {
+      "type": "string"
+    },
+    "organizations": {
+      "type": "array",
+      "items": {
+        "$ref": "Organization.json"
+      }
+    },
+    "phones": {
+      "type": "array",
+      "items": {
+        "$ref": "Phone.json"
+      }
+    },
+    "privacy_features": {
+      "type": "object"
+    },
+    "privacy_index": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "public_keys": {
+      "type": "array",
+      "items": {
+        "$ref": "PublicKey.json"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "title": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "contact_id",
+    "user_id"
+  ],
+  "additionalProperties": false
+}

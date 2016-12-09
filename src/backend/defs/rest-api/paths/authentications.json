@@ -1,0 +1,73 @@
+{
+  "authentications": {
+    "post": {
+      "description": "Returns an auth token to build basicAuth for the provided credentials",
+      "tags": [
+        "users"
+      ],
+      "security": [],
+      "consumes": [
+        "application/x-www-form-urlencoded"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "in": "formData",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "password",
+          "in": "formData",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "responses": {
+        "200": {
+          "description": "Successful authentication",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "string"
+              },
+              "user_id": {
+                "type": "string",
+                "description": "the user_id makes the 'username' for basicAuth"
+              },
+              "tokens": {
+                "type": "object",
+                "properties": {
+                  "access_token": {
+                    "type": "string",
+                    "description": "the access_token makes the 'password' for basicAuth"
+                  },
+                  "expires_in": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "expires_at": {
+                    "type": "string"
+                  },
+                  "refresh_token": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Authentication error",
+          "schema": {
+            "$ref": "../objects/Error.json"
+          }
+        }
+      }
+    }
+  }
+}

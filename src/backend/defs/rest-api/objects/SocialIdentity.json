@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "allOf": [
+    {"$ref": "NewSocialIdentity.json"},
+    {
+      "type": "object",
+      "properties": {
+        "identity_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "identity_id"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

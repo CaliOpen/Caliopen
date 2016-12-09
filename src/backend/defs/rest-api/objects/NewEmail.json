@@ -1,7 +1,7 @@
 {
   "type": "object",
   "properties": {
-    "email_id": {
+    "address": {
       "type": "string"
     },
     "is_primary": {
@@ -12,9 +12,10 @@
     },
     "type": {
       "type": "string"
-    },
-    "address": {
-      "type": "string"
     }
-  }
+  },
+  "required": [
+    "address"
+  ],
+  "additionalProperties": false
 }

@@ -1,773 +1,3533 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "version": "0.0.2",
-        "title": "Caliopen HTTP/REST API"
-    },
-    "host": "localhost:6543",
-    "schemes": [
-        "http"
-    ],
-    "basePath": "/api/v1",
-    "paths": {
-        "/authentications": {
-            "post": {
-                "description": "Returns an auth token to build basicAuth for the provided credentials",
-                "tags": [
-                    "users"
-                ],
-                "security": [],
-                "consumes": [
-                    "application/x-www-form-urlencoded"
-                ],
-                "parameters": [
-                    {
-                        "name": "username",
-                        "in": "formData",
-                        "type": "string",
-                        "required": true
+  "swagger": "2.0",
+  "info": {
+    "version": "0.0.2",
+    "title": "Caliopen HTTP/REST API"
+  },
+  "schemes": [
+    "http"
+  ],
+  "host": "localhost:6543",
+  "basePath": "/api/v1",
+  "paths": {
+    "/authentications": {
+      "post": {
+        "description": "Returns an auth token to build basicAuth for the provided credentials",
+        "tags": [
+          "users"
+        ],
+        "security": [],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "formData",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful authentication",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "string",
+                  "description": "the user_id makes the 'username' for basicAuth"
+                },
+                "tokens": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string",
+                      "description": "the access_token makes the 'password' for basicAuth"
                     },
-                    {
-                        "name": "password",
-                        "in": "formData",
-                        "type": "string",
-                        "required": true
+                    "expires_in": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "expires_at": {
+                      "type": "string"
+                    },
+                    "refresh_token": {
+                      "type": "string"
                     }
-                ],
-                "produces": [
-                    "application/json",
-                    "charset=UTF-8"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful authentication",
-                        "schema": {
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me": {
+      "get": {
+        "description": "Gets `user + contact` objects for current logged-in user\n",
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Caliopen-PI",
+            "in": "header",
+            "required": true,
+            "description": "The PI range requested in form of `1;100`",
+            "type": "string",
+            "default": "1;100"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with json object",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "contact": {
+                  "type": "object",
+                  "properties": {
+                    "additional_name": {
+                      "type": "string"
+                    },
+                    "addresses": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address_id": {
+                            "type": "string"
+                          },
+                          "city": {
+                            "type": "string"
+                          },
+                          "country": {
+                            "type": "string"
+                          },
+                          "is_primary": {
+                            "type": "boolean"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "postal_code": {
+                            "type": "string"
+                          },
+                          "region": {
+                            "type": "string"
+                          },
+                          "street": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "address_id",
+                          "city"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "contact_id": {
+                      "type": "string"
+                    },
+                    "date_insert": {
+                      "type": "string"
+                    },
+                    "date_update": {
+                      "type": "string"
+                    },
+                    "deleted": {
+                      "type": "boolean"
+                    },
+                    "emails": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "email_id": {
+                            "type": "string"
+                          },
+                          "address": {
+                            "type": "string"
+                          },
+                          "is_primary": {
+                            "type": "boolean"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "email_id",
+                          "address"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "family_name": {
+                      "type": "string"
+                    },
+                    "given_name": {
+                      "type": "string"
+                    },
+                    "groups": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "identities": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "allOf": [
+                          {
                             "type": "object",
                             "properties": {
-                                "username": {
+                              "infos": {
+                                "type": "object"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "name"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "identity_id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "identity_id"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "ims": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "address": {
+                                "type": "string"
+                              },
+                              "is_primary": {
+                                "type": "boolean"
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "protocol": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "address"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "im_id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "im_id"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "infos": {
+                      "type": "object"
+                    },
+                    "name_prefix": {
+                      "type": "string"
+                    },
+                    "name_suffix": {
+                      "type": "string"
+                    },
+                    "organizations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "department": {
+                                "type": "string"
+                              },
+                              "is_primary": {
+                                "type": "boolean"
+                              },
+                              "job_description": {
+                                "type": "string"
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "label",
+                              "name"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "deleted": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "organization_id"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "phones": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "is_primary": {
+                                "type": "boolean"
+                              },
+                              "number": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "uri": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "number"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "phone_id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "phone_id"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "privacy_features": {
+                      "type": "object"
+                    },
+                    "privacy_index": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "public_keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "expire_date": {
+                                "type": "string"
+                              },
+                              "fingerprint": {
+                                "type": "string"
+                              },
+                              "key": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "size": {
+                                "type": "integer",
+                                "format": "int32"
+                              }
+                            },
+                            "required": [
+                              "key",
+                              "name"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "date_insert": {
+                                "type": "string"
+                              },
+                              "date_update": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "date_insert"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "tags": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "user_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "contact_id",
+                    "user_id"
+                  ],
+                  "additionalProperties": false
+                },
+                "date_insert": {
+                  "type": "string"
+                },
+                "family_name": {
+                  "type": "string"
+                },
+                "given_name": {
+                  "type": "string"
+                },
+                "main_user_id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "params": {
+                  "type": "object"
+                },
+                "privacy_features": {
+                  "type": "object"
+                },
+                "privacy_index": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "user_id": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "description": "Create a new User with provided credentials",
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "formData",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "User creation completed",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "location": {
+                  "type": "string",
+                  "description": "url to retrieve new user's infos at /users/{user_id}"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "description": "Retrieve contact infos",
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with json object",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "contact": {
+                  "type": "object",
+                  "properties": {
+                    "additional_name": {
+                      "type": "string"
+                    },
+                    "addresses": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address_id": {
+                            "type": "string"
+                          },
+                          "city": {
+                            "type": "string"
+                          },
+                          "country": {
+                            "type": "string"
+                          },
+                          "is_primary": {
+                            "type": "boolean"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "postal_code": {
+                            "type": "string"
+                          },
+                          "region": {
+                            "type": "string"
+                          },
+                          "street": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "address_id",
+                          "city"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "contact_id": {
+                      "type": "string"
+                    },
+                    "date_insert": {
+                      "type": "string"
+                    },
+                    "date_update": {
+                      "type": "string"
+                    },
+                    "deleted": {
+                      "type": "boolean"
+                    },
+                    "emails": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "email_id": {
+                            "type": "string"
+                          },
+                          "address": {
+                            "type": "string"
+                          },
+                          "is_primary": {
+                            "type": "boolean"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "email_id",
+                          "address"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "family_name": {
+                      "type": "string"
+                    },
+                    "given_name": {
+                      "type": "string"
+                    },
+                    "groups": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "identities": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "infos": {
+                                "type": "object"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "name"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "identity_id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "identity_id"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "ims": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "address": {
+                                "type": "string"
+                              },
+                              "is_primary": {
+                                "type": "boolean"
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "protocol": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "address"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "im_id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "im_id"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "infos": {
+                      "type": "object"
+                    },
+                    "name_prefix": {
+                      "type": "string"
+                    },
+                    "name_suffix": {
+                      "type": "string"
+                    },
+                    "organizations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "department": {
+                                "type": "string"
+                              },
+                              "is_primary": {
+                                "type": "boolean"
+                              },
+                              "job_description": {
+                                "type": "string"
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "label",
+                              "name"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "deleted": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "organization_id"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "phones": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "is_primary": {
+                                "type": "boolean"
+                              },
+                              "number": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "uri": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "number"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "phone_id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "phone_id"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "privacy_features": {
+                      "type": "object"
+                    },
+                    "privacy_index": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "public_keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "expire_date": {
+                                "type": "string"
+                              },
+                              "fingerprint": {
+                                "type": "string"
+                              },
+                              "key": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "size": {
+                                "type": "integer",
+                                "format": "int32"
+                              }
+                            },
+                            "required": [
+                              "key",
+                              "name"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "date_insert": {
+                                "type": "string"
+                              },
+                              "date_update": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "date_insert"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "tags": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "user_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "contact_id",
+                    "user_id"
+                  ],
+                  "additionalProperties": false
+                },
+                "date_insert": {
+                  "type": "string"
+                },
+                "family_name": {
+                  "type": "string"
+                },
+                "given_name": {
+                  "type": "string"
+                },
+                "main_user_id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "params": {
+                  "type": "object"
+                },
+                "privacy_features": {
+                  "type": "object"
+                },
+                "privacy_index": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "user_id": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Not Yet Implemented",
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "route not implemented, should raise an error"
+          }
+        }
+      },
+      "put": {
+        "description": "Not Yet Implemented",
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "route not implemented, should raise an error"
+          }
+        }
+      },
+      "patch": {
+        "description": "Not Yet Implemented",
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "route not implemented, should raise an error"
+          }
+        }
+      }
+    },
+    "/contacts": {
+      "get": {
+        "description": "Returns contacts belonging to current user according to given parameters",
+        "tags": [
+          "contacts"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Caliopen-PI",
+            "in": "header",
+            "required": true,
+            "description": "The PI range requested in form of `1;100`",
+            "type": "string",
+            "default": "1;100"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "number of contacts to return per page"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "required": false,
+            "description": "number of pages to skip from the response"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Contacts returned",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "number of contacts found for current user for the given parameters"
+                },
+                "contacts": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "additional_name": {
+                        "type": "string"
+                      },
+                      "addresses": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "address_id": {
+                              "type": "string"
+                            },
+                            "city": {
+                              "type": "string"
+                            },
+                            "country": {
+                              "type": "string"
+                            },
+                            "is_primary": {
+                              "type": "boolean"
+                            },
+                            "label": {
+                              "type": "string"
+                            },
+                            "postal_code": {
+                              "type": "string"
+                            },
+                            "region": {
+                              "type": "string"
+                            },
+                            "street": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "address_id",
+                            "city"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "avatar": {
+                        "type": "string"
+                      },
+                      "contact_id": {
+                        "type": "string"
+                      },
+                      "date_insert": {
+                        "type": "string"
+                      },
+                      "date_update": {
+                        "type": "string"
+                      },
+                      "deleted": {
+                        "type": "boolean"
+                      },
+                      "emails": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "email_id": {
+                              "type": "string"
+                            },
+                            "address": {
+                              "type": "string"
+                            },
+                            "is_primary": {
+                              "type": "boolean"
+                            },
+                            "label": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "email_id",
+                            "address"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "family_name": {
+                        "type": "string"
+                      },
+                      "given_name": {
+                        "type": "string"
+                      },
+                      "groups": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "identities": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "infos": {
+                                  "type": "object"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "name"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "identity_id": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "identity_id"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        }
+                      },
+                      "ims": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "address": {
+                                  "type": "string"
+                                },
+                                "is_primary": {
+                                  "type": "boolean"
+                                },
+                                "label": {
+                                  "type": "string"
+                                },
+                                "protocol": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "address"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "im_id": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "im_id"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        }
+                      },
+                      "infos": {
+                        "type": "object"
+                      },
+                      "name_prefix": {
+                        "type": "string"
+                      },
+                      "name_suffix": {
+                        "type": "string"
+                      },
+                      "organizations": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "department": {
+                                  "type": "string"
+                                },
+                                "is_primary": {
+                                  "type": "boolean"
+                                },
+                                "job_description": {
+                                  "type": "string"
+                                },
+                                "label": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "title": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "label",
+                                "name"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "deleted": {
+                                  "type": "boolean"
+                                }
+                              },
+                              "required": [
+                                "organization_id"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        }
+                      },
+                      "phones": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "is_primary": {
+                                  "type": "boolean"
+                                },
+                                "number": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "type": "string"
+                                },
+                                "uri": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "number"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "phone_id": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "phone_id"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        }
+                      },
+                      "privacy_features": {
+                        "type": "object"
+                      },
+                      "privacy_index": {
+                        "type": "integer",
+                        "format": "int32"
+                      },
+                      "public_keys": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "expire_date": {
+                                  "type": "string"
+                                },
+                                "fingerprint": {
+                                  "type": "string"
+                                },
+                                "key": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "size": {
+                                  "type": "integer",
+                                  "format": "int32"
+                                }
+                              },
+                              "required": [
+                                "key",
+                                "name"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "date_insert": {
+                                  "type": "string"
+                                },
+                                "date_update": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "date_insert"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        }
+                      },
+                      "tags": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "user_id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "contact_id",
+                      "user_id"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new contact for the logged-in user",
+        "tags": [
+          "contacts"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "contact",
+            "in": "body",
+            "description": "the contact to create",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "additional_name": {
+                  "type": "string"
+                },
+                "emails": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                },
+                "family_name": {
+                  "type": "string"
+                },
+                "given_name": {
+                  "type": "string"
+                },
+                "groups": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "ims": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                },
+                "infos": {
+                  "type": "object"
+                },
+                "name_prefix": {
+                  "type": "string"
+                },
+                "name_suffix": {
+                  "type": "string"
+                },
+                "organizations": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Contact created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "location": {
+                  "type": "string",
+                  "description": "url to retrieve new contact's infos at /contacts/{contact_id}"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contacts/{contact_id}": {
+      "get": {
+        "description": "Returns a contact",
+        "tags": [
+          "contacts"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "contact_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Contact found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "additional_name": {
+                  "type": "string"
+                },
+                "addresses": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "address_id": {
+                        "type": "string"
+                      },
+                      "city": {
+                        "type": "string"
+                      },
+                      "country": {
+                        "type": "string"
+                      },
+                      "is_primary": {
+                        "type": "boolean"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "postal_code": {
+                        "type": "string"
+                      },
+                      "region": {
+                        "type": "string"
+                      },
+                      "street": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "address_id",
+                      "city"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "avatar": {
+                  "type": "string"
+                },
+                "contact_id": {
+                  "type": "string"
+                },
+                "date_insert": {
+                  "type": "string"
+                },
+                "date_update": {
+                  "type": "string"
+                },
+                "deleted": {
+                  "type": "boolean"
+                },
+                "emails": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "email_id": {
+                        "type": "string"
+                      },
+                      "address": {
+                        "type": "string"
+                      },
+                      "is_primary": {
+                        "type": "boolean"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "email_id",
+                      "address"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "family_name": {
+                  "type": "string"
+                },
+                "given_name": {
+                  "type": "string"
+                },
+                "groups": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "identities": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "infos": {
+                            "type": "object"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "name"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "identity_id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "identity_id"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "ims": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string"
+                          },
+                          "is_primary": {
+                            "type": "boolean"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "protocol": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "address"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "im_id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "im_id"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "infos": {
+                  "type": "object"
+                },
+                "name_prefix": {
+                  "type": "string"
+                },
+                "name_suffix": {
+                  "type": "string"
+                },
+                "organizations": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "department": {
+                            "type": "string"
+                          },
+                          "is_primary": {
+                            "type": "boolean"
+                          },
+                          "job_description": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "label",
+                          "name"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "deleted": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "organization_id"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "phones": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "is_primary": {
+                            "type": "boolean"
+                          },
+                          "number": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "uri": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "number"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "phone_id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "phone_id"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "privacy_features": {
+                  "type": "object"
+                },
+                "privacy_index": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "public_keys": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "expire_date": {
+                            "type": "string"
+                          },
+                          "fingerprint": {
+                            "type": "string"
+                          },
+                          "key": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "size": {
+                            "type": "integer",
+                            "format": "int32"
+                          }
+                        },
+                        "required": [
+                          "key",
+                          "name"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "date_insert": {
+                            "type": "string"
+                          },
+                          "date_update": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "date_insert"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "title": {
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "contact_id",
+                "user_id"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contact not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Not Yet Implemented",
+        "tags": [
+          "contacts"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "contact_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "route not implemented, should raise an error"
+          }
+        }
+      },
+      "put": {
+        "description": "Not Yet Implemented",
+        "tags": [
+          "contacts"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "contact_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "route not implemented, should raise an error"
+          }
+        }
+      },
+      "patch": {
+        "description": "Not Yet Implemented",
+        "tags": [
+          "contacts"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "contact_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "route not implemented, should raise an error"
+          }
+        }
+      }
+    },
+    "/discussions": {
+      "get": {
+        "description": "Returns discussions belonging to current user according to given parameters",
+        "tags": [
+          "discussions"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Caliopen-PI",
+            "in": "header",
+            "required": true,
+            "description": "The PI range requested in form of `1;100`",
+            "type": "string",
+            "default": "1;100"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "number of discussions to return per page"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "required": false,
+            "description": "number of pages to skip from the response"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Discussions returned",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "number of discussions found for current user for the given parameters"
+                },
+                "discussion": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "attachment_count": {
+                        "type": "integer",
+                        "format": "int32"
+                      },
+                      "contacts": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "additional_name": {
+                              "type": "string"
+                            },
+                            "addresses": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "address_id": {
                                     "type": "string"
+                                  },
+                                  "city": {
+                                    "type": "string"
+                                  },
+                                  "country": {
+                                    "type": "string"
+                                  },
+                                  "is_primary": {
+                                    "type": "boolean"
+                                  },
+                                  "label": {
+                                    "type": "string"
+                                  },
+                                  "postal_code": {
+                                    "type": "string"
+                                  },
+                                  "region": {
+                                    "type": "string"
+                                  },
+                                  "street": {
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "type": "string"
+                                  }
                                 },
-                                "user_id": {
-                                    "type": "string",
-                                    "description": "the user_id makes the 'username' for basicAuth"
+                                "required": [
+                                  "address_id",
+                                  "city"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "avatar": {
+                              "type": "string"
+                            },
+                            "contact_id": {
+                              "type": "string"
+                            },
+                            "date_insert": {
+                              "type": "string"
+                            },
+                            "date_update": {
+                              "type": "string"
+                            },
+                            "deleted": {
+                              "type": "boolean"
+                            },
+                            "emails": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "email_id": {
+                                    "type": "string"
+                                  },
+                                  "address": {
+                                    "type": "string"
+                                  },
+                                  "is_primary": {
+                                    "type": "boolean"
+                                  },
+                                  "label": {
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "type": "string"
+                                  }
                                 },
-                                "tokens": {
+                                "required": [
+                                  "email_id",
+                                  "address"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "family_name": {
+                              "type": "string"
+                            },
+                            "given_name": {
+                              "type": "string"
+                            },
+                            "groups": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "identities": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "allOf": [
+                                  {
                                     "type": "object",
                                     "properties": {
-                                        "access_token": {
-                                            "type": "string",
-                                            "description": "the access_token makes the 'password' for basicAuth"
-                                        },
-                                        "expires_in": {
-                                            "type": "integer",
-                                            "format": "int32"
-                                        },
-                                        "expires_at": {
-                                            "type": "string"
-                                        },
-                                        "refresh_token": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
+                                      "infos": {
+                                        "type": "object"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      },
+                                      "type": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "name"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "identity_id": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "identity_id"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                ]
+                              }
+                            },
+                            "ims": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "allOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "address": {
+                                        "type": "string"
+                                      },
+                                      "is_primary": {
+                                        "type": "boolean"
+                                      },
+                                      "label": {
+                                        "type": "string"
+                                      },
+                                      "protocol": {
+                                        "type": "string"
+                                      },
+                                      "type": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "address"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "im_id": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "im_id"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                ]
+                              }
+                            },
+                            "infos": {
+                              "type": "object"
+                            },
+                            "name_prefix": {
+                              "type": "string"
+                            },
+                            "name_suffix": {
+                              "type": "string"
+                            },
+                            "organizations": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "allOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "department": {
+                                        "type": "string"
+                                      },
+                                      "is_primary": {
+                                        "type": "boolean"
+                                      },
+                                      "job_description": {
+                                        "type": "string"
+                                      },
+                                      "label": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      },
+                                      "title": {
+                                        "type": "string"
+                                      },
+                                      "type": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "label",
+                                      "name"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "deleted": {
+                                        "type": "boolean"
+                                      }
+                                    },
+                                    "required": [
+                                      "organization_id"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                ]
+                              }
+                            },
+                            "phones": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "allOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "is_primary": {
+                                        "type": "boolean"
+                                      },
+                                      "number": {
+                                        "type": "string"
+                                      },
+                                      "type": {
+                                        "type": "string"
+                                      },
+                                      "uri": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "number"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "phone_id": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "phone_id"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                ]
+                              }
+                            },
+                            "privacy_features": {
+                              "type": "object"
+                            },
+                            "privacy_index": {
+                              "type": "integer",
+                              "format": "int32"
+                            },
+                            "public_keys": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "allOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "expire_date": {
+                                        "type": "string"
+                                      },
+                                      "fingerprint": {
+                                        "type": "string"
+                                      },
+                                      "key": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      },
+                                      "size": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                      }
+                                    },
+                                    "required": [
+                                      "key",
+                                      "name"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "date_insert": {
+                                        "type": "string"
+                                      },
+                                      "date_update": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "date_insert"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                ]
+                              }
+                            },
+                            "tags": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "user_id": {
+                              "type": "string"
                             }
+                          },
+                          "required": [
+                            "contact_id",
+                            "user_id"
+                          ],
+                          "additionalProperties": false
                         }
-                    },
-                    "401": {
-                        "description": "Authentication error",
-                        "schema": {
-                            "$ref": "../../src/backend/defs/rest-api/Error.json"
-                        }
-                    }
-                }
-            }
-        },
-        "/me": {
-            "get": {
-                "description": "Gets `user + contact` objects for current logged-in user\n",
-                "tags": [
-                    "users"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "X-Caliopen-PI",
-                        "in": "header",
-                        "required": true,
-                        "description": "The PI range requested in form of `1;100`",
-                        "type": "string",
-                        "default": "1;100"
-                    }
-                ],
-                "produces": [
-                    "application/json; charset=UTF-8"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful response with json object",
-                        "schema": {
-                            "$ref": "../../src/backend/defs/rest-api/User.json"
-                        }
-                    }
-                }
-            }
-        },
-        "/users": {
-            "post": {
-                "description": "Create a new User with provided credentials",
-                "tags": [
-                    "users"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/x-www-form-urlencoded"
-                ],
-                "parameters": [
-                    {
-                        "name": "username",
-                        "in": "formData",
-                        "type": "string",
-                        "required": true
-                    },
-                    {
-                        "name": "password",
-                        "in": "formData",
-                        "type": "string",
-                        "required": true
-                    }
-                ],
-                "produces": [
-                    "application/json; charset=UTF-8"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "User creation completed",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "location": {
-                                    "type": "string",
-                                    "description": "url to retrieve new user's infos at /users/{user_id}"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/users/{user_id}": {
-            "get": {
-                "description": "Retrieve contact infos",
-                "tags": [
-                    "users"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true,
+                      },
+                      "date_insert": {
                         "type": "string"
-                    }
-                ],
-                "produces": [
-                    "application/json; charset=UTF-8"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful response with json object",
-                        "schema": {
-                            "$ref": "../../src/backend/defs/rest-api/User.json"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized access",
-                        "schema": {
-                            "$ref": "../../src/backend/defs/rest-api/Error.json"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Not Yet Implemented",
-                "tags": [
-                    "users"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true,
+                      },
+                      "date_update": {
                         "type": "string"
-                    }
-                ],
-                "responses": {
-                    "default": {
-                        "description": "route not implemented, should raise an error"
-                    }
-                }
-            },
-            "put": {
-                "description": "Not Yet Implemented",
-                "tags": [
-                    "users"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "default": {
-                        "description": "route not implemented, should raise an error"
-                    }
-                }
-            },
-            "patch": {
-                "description": "Not Yet Implemented",
-                "tags": [
-                    "users"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "default": {
-                        "description": "route not implemented, should raise an error"
-                    }
-                }
-            }
-        },
-        "/contacts": {
-            "get": {
-                "description": "Returns contacts belonging to current user according to given parameters",
-                "tags": [
-                    "contacts"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "X-Caliopen-PI",
-                        "in": "header",
-                        "required": true,
-                        "description": "The PI range requested in form of `1;100`",
-                        "type": "string",
-                        "default": "1;100"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "required": false,
+                      },
+                      "importance_level": {
                         "type": "integer",
-                        "description": "number of contacts to return per page"
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
+                        "format": "int32"
+                      },
+                      "privacy_index": {
                         "type": "integer",
-                        "required": false,
-                        "description": "number of pages to skip from the response"
-                    }
-                ],
-                "produces": [
-                    "application/json; charset=UTF-8"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Contacts returned",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "total": {
-                                    "type": "integer",
-                                    "format": "int32",
-                                    "description": "number of contacts found for current user for the given parameters"
-                                },
-                                "contacts": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "../../src/backend/defs/rest-api/Contact.json"
-                                    }
-                                }
-                            }
+                        "format": "int32"
+                      },
+                      "tags": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
                         }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create a new contact for the logged-in user",
-                "tags": [
-                    "contacts"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json; charset=UTF-8"
-                ],
-                "parameters": [
-                    {
-                        "name": "contact",
-                        "in": "body",
-                        "description": "the contact to create",
-                        "schema": {
-                            "$ref": "../../src/backend/defs/rest-api/NewContact.json"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json; charset=UTF-8"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Contact created",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "location": {
-                                    "type": "string",
-                                    "description": "url to retrieve new contact's infos at /contacts/{contact_id}"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/contacts/{contact_id}": {
-            "get": {
-                "description": "Returns a contact",
-                "tags": [
-                    "contacts"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "contact_id",
-                        "in": "path",
-                        "required": true,
+                      },
+                      "text": {
                         "type": "string"
-                    }
-                ],
-                "produces": [
-                    "application/json; charset=UTF-8"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Contact found",
-                        "schema": {
-                            "$ref": "../../src/backend/defs/rest-api/Contact.json"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized access",
-                        "schema": {
-                            "$ref": "../../src/backend/defs/rest-api/Error.json"
-                        }
-                    },
-                    "404": {
-                        "description": "Contact not found",
-                        "schema": {
-                            "$ref": "../../src/backend/defs/rest-api/Error.json"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Not Yet Implemented",
-                "tags": [
-                    "contacts"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "contact_id",
-                        "in": "path",
-                        "required": true,
+                      },
+                      "discussion_id": {
                         "type": "string"
-                    }
-                ],
-                "responses": {
-                    "default": {
-                        "description": "route not implemented, should raise an error"
-                    }
-                }
-            },
-            "put": {
-                "description": "Not Yet Implemented",
-                "tags": [
-                    "contacts"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "contact_id",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "default": {
-                        "description": "route not implemented, should raise an error"
-                    }
-                }
-            },
-            "patch": {
-                "description": "Not Yet Implemented",
-                "tags": [
-                    "contacts"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "contact_id",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "default": {
-                        "description": "route not implemented, should raise an error"
-                    }
-                }
-            }
-        },
-        "/discussions": {
-            "get": {
-                "description": "Returns discussions belonging to current user according to given parameters",
-                "tags": [
-                    "discussions"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "X-Caliopen-PI",
-                        "in": "header",
-                        "required": true,
-                        "description": "The PI range requested in form of `1;100`",
-                        "type": "string",
-                        "default": "1;100"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "required": false,
+                      },
+                      "total_count": {
                         "type": "integer",
-                        "description": "number of discussions to return per page"
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
+                        "format": "int32"
+                      },
+                      "unread_count": {
                         "type": "integer",
-                        "required": false,
-                        "description": "number of pages to skip from the response"
+                        "format": "int32"
+                      }
                     }
-                ],
-                "produces": [
-                    "application/json; charset=UTF-8"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Discussions returned",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "total": {
-                                    "type": "integer",
-                                    "format": "int32",
-                                    "description": "number of discussions found for current user for the given parameters"
-                                },
-                                "discussion": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "../../src/backend/defs/rest-api/Discussion.json"
-                                    }
-                                }
-                            }
-                        }
-                    }
+                  }
                 }
-            },
-            "post": {
-                "description": "Not Yet Implemented. Should start a new discussion",
-                "tags": [
-                    "discussions"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "responses": {
-                    "default": {
-                        "description": "route not implemented, should raise an error"
-                    }
-                }
+              }
             }
-        },
-        "/discussions/{discussion_id}": {
-            "get": {
-                "description": "Returns a discussion",
-                "tags": [
-                    "discussions"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "discussion_id",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "produces": [
-                    "application/json; charset=UTF-8"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Discussion found",
-                        "schema": {
-                            "$ref": "../../src/backend/defs/rest-api/Discussion.json"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized access",
-                        "schema": {
-                            "$ref": "../../src/backend/defs/rest-api/Error.json"
-                        }
-                    },
-                    "404": {
-                        "description": "Discussion not found",
-                        "schema": {
-                            "$ref": "../../src/backend/defs/rest-api/Error.json"
-                        }
-                    }
-                }
-            }
-        },
-        "/discussions/{discussion_id}/messages": {
-            "get": {
-                "description": "Returns messages belonging to a discussion according to given parameters",
-                "tags": [
-                    "discussions",
-                    "messages"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "discussion_id",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "X-Caliopen-PI",
-                        "in": "header",
-                        "required": true,
-                        "description": "The PI range requested in form of `1;100`",
-                        "type": "string",
-                        "default": "1;100"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "required": false,
-                        "type": "integer",
-                        "description": "number of discussions to return per page"
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "required": false,
-                        "description": "number of pages to skip from the response"
-                    }
-                ],
-                "produces": [
-                    "application/json; charset=UTF-8"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "messages returned",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "total": {
-                                    "type": "integer",
-                                    "format": "int32",
-                                    "description": "number of messages found for the discussion for the given parameters"
-                                },
-                                "messages": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "../../src/backend/defs/rest-api/Message.json"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized access",
-                        "schema": {
-                            "$ref": "../../src/backend/defs/rest-api/Error.json"
-                        }
-                    },
-                    "404": {
-                        "description": "Discussion not found",
-                        "schema": {
-                            "$ref": "../../src/backend/defs/rest-api/Error.json"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "##TO BE COMPLETED - not working## Add a new message to the discussion",
-                "tags": [
-                    "discussions",
-                    "messages"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json; charset=UTF-8"
-                ],
-                "parameters": [
-                    {
-                        "name": "discussion_id",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "message",
-                        "in": "body",
-                        "description": "The new message",
-                        "schema": {
-                            "$ref": "../../src/backend/defs/rest-api/NewMessage.json"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json; charset=UTF-8"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Message created",
-                        "schema": {
-                            "$ref": "../../src/backend/defs/rest-api/Message.json"
-                        }
-                    }
-                }
-            }
-        },
-        "/raws/{ext_msg_id_sum256}": {
-            "get": {
-                "description": "Returns a raw message for the given sha256 sum derived from the external message id",
-                "tags": [
-                    "messages"
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "ext_msg_id_sum256",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "produces": [
-                    "text/plain; charset=UTF-8"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "the raw message"
-                    }
-                }
-            }
+          }
         }
+      },
+      "post": {
+        "description": "Not Yet Implemented. Should start a new discussion",
+        "tags": [
+          "discussions"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "route not implemented, should raise an error"
+          }
+        }
+      }
     },
-    "securityDefinitions": {
-        "basicAuth": {
-            "type": "basic",
-            "description": "HTTP Basic Authentication. `Password` is the `access_token` return by /authentications and `Username` is the `user_id` returned by /authentications"
+    "/discussions/{discussion_id}": {
+      "get": {
+        "description": "Returns a discussion",
+        "tags": [
+          "discussions"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "discussion_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Discussion found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "attachment_count": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "contacts": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "additional_name": {
+                        "type": "string"
+                      },
+                      "addresses": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "address_id": {
+                              "type": "string"
+                            },
+                            "city": {
+                              "type": "string"
+                            },
+                            "country": {
+                              "type": "string"
+                            },
+                            "is_primary": {
+                              "type": "boolean"
+                            },
+                            "label": {
+                              "type": "string"
+                            },
+                            "postal_code": {
+                              "type": "string"
+                            },
+                            "region": {
+                              "type": "string"
+                            },
+                            "street": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "address_id",
+                            "city"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "avatar": {
+                        "type": "string"
+                      },
+                      "contact_id": {
+                        "type": "string"
+                      },
+                      "date_insert": {
+                        "type": "string"
+                      },
+                      "date_update": {
+                        "type": "string"
+                      },
+                      "deleted": {
+                        "type": "boolean"
+                      },
+                      "emails": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "email_id": {
+                              "type": "string"
+                            },
+                            "address": {
+                              "type": "string"
+                            },
+                            "is_primary": {
+                              "type": "boolean"
+                            },
+                            "label": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "email_id",
+                            "address"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "family_name": {
+                        "type": "string"
+                      },
+                      "given_name": {
+                        "type": "string"
+                      },
+                      "groups": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "identities": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "infos": {
+                                  "type": "object"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "name"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "identity_id": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "identity_id"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        }
+                      },
+                      "ims": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "address": {
+                                  "type": "string"
+                                },
+                                "is_primary": {
+                                  "type": "boolean"
+                                },
+                                "label": {
+                                  "type": "string"
+                                },
+                                "protocol": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "address"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "im_id": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "im_id"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        }
+                      },
+                      "infos": {
+                        "type": "object"
+                      },
+                      "name_prefix": {
+                        "type": "string"
+                      },
+                      "name_suffix": {
+                        "type": "string"
+                      },
+                      "organizations": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "department": {
+                                  "type": "string"
+                                },
+                                "is_primary": {
+                                  "type": "boolean"
+                                },
+                                "job_description": {
+                                  "type": "string"
+                                },
+                                "label": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "title": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "label",
+                                "name"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "deleted": {
+                                  "type": "boolean"
+                                }
+                              },
+                              "required": [
+                                "organization_id"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        }
+                      },
+                      "phones": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "is_primary": {
+                                  "type": "boolean"
+                                },
+                                "number": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "type": "string"
+                                },
+                                "uri": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "number"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "phone_id": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "phone_id"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        }
+                      },
+                      "privacy_features": {
+                        "type": "object"
+                      },
+                      "privacy_index": {
+                        "type": "integer",
+                        "format": "int32"
+                      },
+                      "public_keys": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "expire_date": {
+                                  "type": "string"
+                                },
+                                "fingerprint": {
+                                  "type": "string"
+                                },
+                                "key": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "size": {
+                                  "type": "integer",
+                                  "format": "int32"
+                                }
+                              },
+                              "required": [
+                                "key",
+                                "name"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "date_insert": {
+                                  "type": "string"
+                                },
+                                "date_update": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "date_insert"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        }
+                      },
+                      "tags": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "user_id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "contact_id",
+                      "user_id"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "date_insert": {
+                  "type": "string"
+                },
+                "date_update": {
+                  "type": "string"
+                },
+                "importance_level": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "privacy_index": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "text": {
+                  "type": "string"
+                },
+                "discussion_id": {
+                  "type": "string"
+                },
+                "total_count": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "unread_count": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Discussion not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
+      }
+    },
+    "/discussions/{discussion_id}/messages": {
+      "get": {
+        "description": "Returns messages belonging to a discussion according to given parameters",
+        "tags": [
+          "discussions",
+          "messages"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "discussion_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "X-Caliopen-PI",
+            "in": "header",
+            "required": true,
+            "description": "The PI range requested in form of `1;100`",
+            "type": "string",
+            "default": "1;100"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "number of discussions to return per page"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "required": false,
+            "description": "number of pages to skip from the response"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "messages returned",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "number of messages found for the discussion for the given parameters"
+                },
+                "messages": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "date": {
+                        "type": "string"
+                      },
+                      "date_insert": {
+                        "type": "string"
+                      },
+                      "external_message_id": {
+                        "type": "string"
+                      },
+                      "external_parent_id": {
+                        "type": "string"
+                      },
+                      "external_thread_id": {
+                        "type": "string"
+                      },
+                      "from_": {
+                        "type": "string"
+                      },
+                      "headers": {
+                        "type": "object"
+                      },
+                      "importance_level": {
+                        "type": "integer",
+                        "format": "int32"
+                      },
+                      "message_id": {
+                        "type": "string"
+                      },
+                      "parts": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "privacy_index": {
+                        "type": "string"
+                      },
+                      "recipients": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "address": {
+                              "type": "string"
+                            },
+                            "contact_id": {
+                              "type": "string"
+                            },
+                            "label": {
+                              "type": "string"
+                            },
+                            "protocol": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "address",
+                            "type"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "size": {
+                        "type": "integer",
+                        "format": "int32"
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "subject": {
+                        "type": "string"
+                      },
+                      "tags": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "text": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Discussion not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "##TO BE COMPLETED - not working## Add a new message to the discussion",
+        "tags": [
+          "discussions",
+          "messages"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "discussion_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "message",
+            "in": "body",
+            "description": "The new message",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "bcc_recipients": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "type": "string"
+                      },
+                      "contact_id": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "protocol": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "address",
+                      "type"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "cc_recipients": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "type": "string"
+                      },
+                      "contact_id": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "protocol": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "address",
+                      "type"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "reply_to": {
+                  "type": "string"
+                },
+                "subject": {
+                  "type": "string"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "text": {
+                  "type": "string"
+                },
+                "to_recipients": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "type": "string"
+                      },
+                      "contact_id": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "protocol": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "address",
+                      "type"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Message created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string"
+                },
+                "date_insert": {
+                  "type": "string"
+                },
+                "external_message_id": {
+                  "type": "string"
+                },
+                "external_parent_id": {
+                  "type": "string"
+                },
+                "external_thread_id": {
+                  "type": "string"
+                },
+                "from_": {
+                  "type": "string"
+                },
+                "headers": {
+                  "type": "object"
+                },
+                "importance_level": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "message_id": {
+                  "type": "string"
+                },
+                "parts": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "privacy_index": {
+                  "type": "string"
+                },
+                "recipients": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "type": "string"
+                      },
+                      "contact_id": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "protocol": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "address",
+                      "type"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "size": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "state": {
+                  "type": "string"
+                },
+                "subject": {
+                  "type": "string"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "text": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/raws/{ext_msg_id_sum256}": {
+      "get": {
+        "description": "Returns a raw message for the given sha256 sum derived from the external message id",
+        "tags": [
+          "messages"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "ext_msg_id_sum256",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "text/plain"
+        ],
+        "responses": {
+          "200": {
+            "description": "the raw message"
+          }
+        }
+      }
     }
+  },
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic",
+      "description": "HTTP Basic Authentication. `Password` is the `access_token` return by /authentications and `Username` is the `user_id` returned by /authentications"
+    }
+  }
 }

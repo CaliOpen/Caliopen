@@ -18,13 +18,13 @@ class Organization(BaseUserType):
     _pkey = 'organization_id'
 
     organization_id = columns.UUID(default=uuid.uuid4)
-    deleted = columns.Integer(default=0)
+    deleted = columns.Boolean(default=0)
     label = columns.Text()
     department = columns.Text()
     job_description = columns.Text()
     name = columns.Text()
     title = columns.Text()
-    is_primary = columns.Integer(default=0)
+    is_primary = columns.Boolean(default=0)
     type = columns.Text()   # work, other
 
 

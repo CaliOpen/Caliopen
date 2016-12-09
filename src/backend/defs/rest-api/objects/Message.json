@@ -41,7 +41,7 @@
     "recipients": {
       "type": "array",
       "items": {
-        "$ref": "Recipients.json"
+        "$ref": "Recipient.json"
       }
     },
     "size": {

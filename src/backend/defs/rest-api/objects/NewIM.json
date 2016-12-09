@@ -4,8 +4,8 @@
     "address": {
       "type": "string"
     },
-    "contact_id": {
-      "type": "string"
+    "is_primary": {
+      "type": "boolean"
     },
     "label": {
       "type": "string"
@@ -16,5 +16,9 @@
     "type": {
       "type": "string"
     }
-  }
+  },
+  "required": [
+    "address"
+  ],
+  "additionalProperties": false
 }

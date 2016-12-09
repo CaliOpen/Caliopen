@@ -1,0 +1,30 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "0.0.2",
+    "title": "Caliopen HTTP/REST API"
+  },
+  "schemes": [
+    "http"
+  ],
+  "host": "localhost:6543",
+  "basePath": "/api/v1",
+  "paths": {
+    "/authentications": {"$ref": "paths/authentications.json#/authentications"},
+    "/me": {"$ref": "paths/me.json#/me"},
+    "/users": {"$ref": "paths/users.json#/users"},
+    "/users/{user_id}": {"$ref": "paths/users.json#/users_{user_id}"},
+    "/contacts": {"$ref": "paths/contacts.json#/contacts"},
+    "/contacts/{contact_id}": {"$ref": "paths/contacts.json#/contacts_{contact_id}"},
+    "/discussions": {"$ref": "paths/discussions.json#/discussions"},
+    "/discussions/{discussion_id}": {"$ref": "paths/discussions.json#/discussions_{discussion_id}"},
+    "/discussions/{discussion_id}/messages": {"$ref": "paths/discussions.json#/discussions_{discussion_id}_messages"},
+    "/raws/{ext_msg_id_sum256}": {"$ref": "paths/raws.json#/raws_{ext_msg_id_sum256}"}
+  },
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic",
+      "description": "HTTP Basic Authentication. `Password` is the `access_token` return by /authentications and `Username` is the `user_id` returned by /authentications"
+    }
+  }
+}

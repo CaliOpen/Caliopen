@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "$ref": "NewPostalAddress.json#/properties",
+    "address_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "address_id",
+    "city"
+  ],
+  "additionalProperties": false
+}

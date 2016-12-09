@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "allOf": [
+    {"$ref": "NewPhone.json"},
+    {
+      "type": "object",
+      "properties": {
+        "phone_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "phone_id"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

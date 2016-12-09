@@ -1,0 +1,159 @@
+{
+  "users": {
+    "post": {
+      "description": "Create a new User with provided credentials",
+      "tags": [
+        "users"
+      ],
+      "security": [
+        {
+          "basicAuth": []
+        }
+      ],
+      "consumes": [
+        "application/x-www-form-urlencoded"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "in": "formData",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "password",
+          "in": "formData",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "responses": {
+        "200": {
+          "description": "User creation completed",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "string",
+                "description": "url to retrieve new user's infos at /users/{user_id}"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "users_{user_id}": {
+    "get": {
+      "description": "Retrieve contact infos",
+      "tags": [
+        "users"
+      ],
+      "security": [
+        {
+          "basicAuth": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "user_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "responses": {
+        "200": {
+          "description": "Successful response with json object",
+          "schema": {
+            "$ref": "../objects/User.json"
+          }
+        },
+        "401": {
+          "description": "Unauthorized access",
+          "schema": {
+            "$ref": "../objects/Error.json"
+          }
+        }
+      }
+    },
+    "delete": {
+      "description": "Not Yet Implemented",
+      "tags": [
+        "users"
+      ],
+      "security": [
+        {
+          "basicAuth": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "user_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "default": {
+          "description": "route not implemented, should raise an error"
+        }
+      }
+    },
+    "put": {
+      "description": "Not Yet Implemented",
+      "tags": [
+        "users"
+      ],
+      "security": [
+        {
+          "basicAuth": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "user_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "default": {
+          "description": "route not implemented, should raise an error"
+        }
+      }
+    },
+    "patch": {
+      "description": "Not Yet Implemented",
+      "tags": [
+        "users"
+      ],
+      "security": [
+        {
+          "basicAuth": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "user_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "default": {
+          "description": "route not implemented, should raise an error"
+        }
+      }
+    }
+  }
+}

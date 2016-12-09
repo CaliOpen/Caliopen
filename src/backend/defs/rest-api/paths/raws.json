@@ -1,0 +1,31 @@
+{
+  "raws_{ext_msg_id_sum256}": {
+    "get": {
+      "description": "Returns a raw message for the given sha256 sum derived from the external message id",
+      "tags": [
+        "messages"
+      ],
+      "security": [
+        {
+          "basicAuth": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "ext_msg_id_sum256",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "produces": [
+        "text/plain"
+      ],
+      "responses": {
+        "200": {
+          "description": "the raw message"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "properties": {
+    "address": {
+      "type": "string"
+    },
+    "contact_id": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "protocol": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "address",
+    "type"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "allOf": [
+    {"$ref": "NewOrganization.json"},
+    {
+      "type": "object",
+      "properties": {
+        "deleted": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "organization_id"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

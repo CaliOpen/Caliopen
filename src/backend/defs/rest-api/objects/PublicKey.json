@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "allOf": [
+    {"$ref": "NewPublicKey.json"},
+    {
+      "type": "object",
+      "properties": {
+        "date_insert": {
+          "type": "string"
+        },
+        "date_update": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "date_insert"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "properties": {
+    "address_id": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "is_primary": {
+      "type": "boolean"
+    },
+    "label": {
+      "type": "string"
+    },
+    "postal_code": {
+      "type": "string"
+    },
+    "region": {
+      "type": "string"
+    },
+    "street": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "city"
+  ],
+  "additionalProperties": false
+}
