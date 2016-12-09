@@ -1,8 +1,8 @@
 #!/bin/bash
 set -ev
 
-BACKEND_CHANGE=`git diff ../src/backend`
-FRONTEND_CHANGE=`git diff ../src/frontend`
+BACKEND_CHANGE=`git diff-tree --no-commit-id --name-only -r HEAD..master src/backend`
+FRONTEND_CHANGE=`git diff-tree --no-commit-id --name-only -r HEAD..master src/frontend`
 
 
 function do_backend_tests {
@@ -12,8 +12,7 @@ function do_backend_tests {
 }
 
 function do_frontend_tests {
-    # XXX to define
-    exit 0
+    (cd ../src/frontend/web_application && npm i && npm test)
 }
 
 
