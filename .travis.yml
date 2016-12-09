@@ -8,7 +8,7 @@ env:
 language: node_js
 
 node_js:
- - stable
+ - "6"
 
 git:
  depth: 10
