@@ -10,8 +10,6 @@ from caliopen_storage.exception import NotFound
 from caliopen_storage.core import BaseUserCore
 from caliopen_storage.parameters import ReturnCoreObject
 
-from ...user.core import Contact
-
 from ..store import  \
     (ThreadExternalLookup as ModelExternalLookup,
      ThreadRecipientLookup as ModelRecipientLookup,
