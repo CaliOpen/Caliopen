@@ -1,7 +1,6 @@
 """Caliopen mixins related to store."""
 from __future__ import absolute_import, print_function, unicode_literals
 import logging
-import datetime
 import uuid
 
 from cassandra.cqlengine import columns
@@ -74,6 +73,33 @@ class IndexedModelMixin(object):
             setattr(idx, k, v)
         idx.save(using=idx.client())
         return True
+
+    def update_index(self, object_id, changed_columns):
+        """Update an existing index with a list of new values"""
+
+        idx = self._index_class()
+        idx.meta.index = self.user_id
+        idx.meta.id = object_id
+
+        update_doc = {}
+        for name in changed_columns:
+            column = self._columns[name]
+            self._process_column(column, idx)
+            update_doc[name] = getattr(idx, name)
+
+        # serialize index doc keeping empty or None value
+        out = {}
+        for k, v in idx._d_.iteritems():
+            try:
+                f = idx._doc_type.mapping[k]
+                if f._coerce:
+                    v = f.serialize(v)
+            except KeyError:
+                pass
+            out[k] = v
+
+        idx.update(using=idx.client(), **out)
+
 
     @classmethod
     def search(cls, user, limit=None, offset=0,

@@ -120,7 +120,7 @@ class Email(NewEmail):
     """Existing email."""
 
     contact_id = UUIDType()
-    email_id = UUIDType(required=True)
+    email_id = UUIDType()
     user_id = UUIDType()
 
     class Options:

@@ -73,7 +73,7 @@ def format_response(exc, request, details=None):
                          "values": details['values'],
                          "property": details['property'],
                          "component": details['component'],
-                         "message": details['message'],
+                         "message": "{}".format(details['message']),
                          "code": exc.code}]}
     response = Response(json.dumps(error))
     response.content_type = str('application/json; charset=UTF-8')

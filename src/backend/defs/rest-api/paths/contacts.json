@@ -169,7 +169,7 @@
       }
     },
     "put": {
-      "description": "Not Yet Implemented",
+      "description": "Not Implemented",
       "tags": [
         "contacts"
       ],
@@ -188,12 +188,12 @@
       ],
       "responses": {
         "default": {
-          "description": "route not implemented, should raise an error"
+          "description": "verb not implemented, should raise an error"
         }
       }
     },
     "patch": {
-      "description": "Not Yet Implemented",
+      "description": "update a contact with rfc5789 and rfc7396 specifications",
       "tags": [
         "contacts"
       ],
@@ -208,11 +208,50 @@
           "in": "path",
           "required": true,
           "type": "string"
+        },
+        {
+          "name": "patch",
+          "in": "body",
+          "required": true,
+          "description": "the patch to apply. See 'Caliopen Patch RFC' within /doc directory.",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "$ref": "../objects/Contact.json#/properties",
+              "current_state": {
+                "type": "object",
+                "properties": {
+                  "$ref": "../objects/Contact.json#/properties"
+                }
+              }
+            }
+          }
         }
       ],
+      "consumes": [
+        "application/json"
+      ],
       "responses": {
-        "default": {
-          "description": "route not implemented, should raise an error"
+        "204": {
+          "description": "Update successful. No body is returned."
+        },
+        "400": {
+          "description": "json payload malformed",
+          "schema": {
+            "$ref": "../objects/Error.json"
+          }
+        },
+        "404": {
+          "description": "contact not found",
+          "schema": {
+            "$ref": "../objects/Error.json"
+          }
+        },
+        "422": {
+          "description": "patch json was malformed or unprocessable",
+          "schema": {
+            "$ref": "../objects/Error.json"
+          }
         }
       }
     }

@@ -2074,7 +2074,7 @@
         }
       },
       "put": {
-        "description": "Not Yet Implemented",
+        "description": "Not Implemented",
         "tags": [
           "contacts"
         ],
@@ -2093,12 +2093,12 @@
         ],
         "responses": {
           "default": {
-            "description": "route not implemented, should raise an error"
+            "description": "verb not implemented, should raise an error"
           }
         }
       },
       "patch": {
-        "description": "Not Yet Implemented",
+        "description": "update a contact with rfc5789 and rfc7396 specifications",
         "tags": [
           "contacts"
         ],
@@ -2113,11 +2113,807 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "patch",
+            "in": "body",
+            "required": true,
+            "description": "the patch to apply. See 'Caliopen Patch RFC' within /doc directory.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "current_state": {
+                  "type": "object",
+                  "properties": {
+                    "additional_name": {
+                      "type": "string"
+                    },
+                    "addresses": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address_id": {
+                            "type": "string"
+                          },
+                          "city": {
+                            "type": "string"
+                          },
+                          "country": {
+                            "type": "string"
+                          },
+                          "is_primary": {
+                            "type": "boolean"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "postal_code": {
+                            "type": "string"
+                          },
+                          "region": {
+                            "type": "string"
+                          },
+                          "street": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "address_id",
+                          "city"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "contact_id": {
+                      "type": "string"
+                    },
+                    "date_insert": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "date_update": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "deleted": {
+                      "type": "boolean"
+                    },
+                    "emails": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "email_id": {
+                            "type": "string"
+                          },
+                          "address": {
+                            "type": "string"
+                          },
+                          "is_primary": {
+                            "type": "boolean"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "email_id",
+                          "address"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "family_name": {
+                      "type": "string"
+                    },
+                    "given_name": {
+                      "type": "string"
+                    },
+                    "groups": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "identities": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "infos": {
+                                "type": "object"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "name"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "identity_id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "identity_id"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "ims": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "address": {
+                                "type": "string"
+                              },
+                              "is_primary": {
+                                "type": "boolean"
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "protocol": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "address"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "im_id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "im_id"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "infos": {
+                      "type": "object"
+                    },
+                    "name_prefix": {
+                      "type": "string"
+                    },
+                    "name_suffix": {
+                      "type": "string"
+                    },
+                    "organizations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "department": {
+                                "type": "string"
+                              },
+                              "is_primary": {
+                                "type": "boolean"
+                              },
+                              "job_description": {
+                                "type": "string"
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "label",
+                              "name"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "deleted": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "organization_id"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "phones": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "is_primary": {
+                                "type": "boolean"
+                              },
+                              "number": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "uri": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "number"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "phone_id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "phone_id"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "privacy_features": {
+                      "type": "object"
+                    },
+                    "privacy_index": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "public_keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "expire_date": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "fingerprint": {
+                                "type": "string"
+                              },
+                              "key": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "size": {
+                                "type": "integer",
+                                "format": "int32"
+                              }
+                            },
+                            "required": [
+                              "key",
+                              "name"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "date_insert": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "date_update": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            },
+                            "required": [
+                              "date_insert"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "tags": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "user_id": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "additional_name": {
+                  "type": "string"
+                },
+                "addresses": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "address_id": {
+                        "type": "string"
+                      },
+                      "city": {
+                        "type": "string"
+                      },
+                      "country": {
+                        "type": "string"
+                      },
+                      "is_primary": {
+                        "type": "boolean"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "postal_code": {
+                        "type": "string"
+                      },
+                      "region": {
+                        "type": "string"
+                      },
+                      "street": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "address_id",
+                      "city"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "avatar": {
+                  "type": "string"
+                },
+                "contact_id": {
+                  "type": "string"
+                },
+                "date_insert": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "date_update": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "deleted": {
+                  "type": "boolean"
+                },
+                "emails": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "email_id": {
+                        "type": "string"
+                      },
+                      "address": {
+                        "type": "string"
+                      },
+                      "is_primary": {
+                        "type": "boolean"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "email_id",
+                      "address"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "family_name": {
+                  "type": "string"
+                },
+                "given_name": {
+                  "type": "string"
+                },
+                "groups": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "identities": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "infos": {
+                            "type": "object"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "name"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "identity_id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "identity_id"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "ims": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string"
+                          },
+                          "is_primary": {
+                            "type": "boolean"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "protocol": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "address"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "im_id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "im_id"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "infos": {
+                  "type": "object"
+                },
+                "name_prefix": {
+                  "type": "string"
+                },
+                "name_suffix": {
+                  "type": "string"
+                },
+                "organizations": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "department": {
+                            "type": "string"
+                          },
+                          "is_primary": {
+                            "type": "boolean"
+                          },
+                          "job_description": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "label",
+                          "name"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "deleted": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "organization_id"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "phones": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "is_primary": {
+                            "type": "boolean"
+                          },
+                          "number": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "uri": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "number"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "phone_id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "phone_id"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "privacy_features": {
+                  "type": "object"
+                },
+                "privacy_index": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "public_keys": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "expire_date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "fingerprint": {
+                            "type": "string"
+                          },
+                          "key": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "size": {
+                            "type": "integer",
+                            "format": "int32"
+                          }
+                        },
+                        "required": [
+                          "key",
+                          "name"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "date_insert": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "date_update": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        },
+                        "required": [
+                          "date_insert"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "title": {
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "string"
+                }
+              }
+            }
           }
         ],
+        "consumes": [
+          "application/json"
+        ],
         "responses": {
-          "default": {
-            "description": "route not implemented, should raise an error"
+          "204": {
+            "description": "Update successful. No body is returned."
+          },
+          "400": {
+            "description": "json payload malformed",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "contact not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "patch json was malformed or unprocessable",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

@@ -4,6 +4,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import logging
 import uuid
+
 from datetime import datetime
 
 from ..store.contact import (Contact as ModelContact,
@@ -14,6 +15,12 @@ from ..store.contact import (Contact as ModelContact,
 
 from caliopen_storage.core import BaseCore, BaseUserCore
 from caliopen_storage.core.mixin import MixinCoreRelation
+from caliopen_storage.exception import NotFound
+
+
+import caliopen_main.user.parameters.contact as params_contact
+
+import caliopen_main.errors as main_errors
 
 log = logging.getLogger(__name__)
 
@@ -177,20 +184,23 @@ class Contact(BaseUserCore, MixinCoreRelation, MixinContactNested):
                         self._create_lookup(obj['type'], lookup_value)
 
     @classmethod
+    def create_nested(cls, values, kls):
+        """Create nested objects in store format."""
+        nested = []
+        for param in values:
+            param.validate()
+            attrs = param.to_primitive()
+            # XXX default value not correctly handled
+            pkey = getattr(kls, '_pkey')
+            attrs[pkey] = uuid.uuid4()
+            nested.append(kls(**attrs))
+        return nested
+
+    @classmethod
     def create(cls, user, contact, **related):
         # XXX do sanity check about only one primary for related objects
         # XXX check no extra arguments in related than relations
-        def create_nested(values, kls):
-            """Create nested objects in store format."""
-            nested = []
-            for param in values:
-                param.validate()
-                attrs = param.to_primitive()
-                # XXX default value not correctly handled
-                pkey = getattr(kls, '_pkey')
-                attrs[pkey] = uuid.uuid4()
-                nested.append(kls(**attrs))
-            return nested
+
         contact.validate()
         for k, v in related.iteritems():
             if k in cls._relations:
@@ -212,14 +222,14 @@ class Contact(BaseUserCore, MixinCoreRelation, MixinContactNested):
                  'suffix_name': contact.name_suffix,
                  'title': title,
                  'privacy_index': contact.privacy_index,
-                 'emails': create_nested(contact.emails, Email),
-                 'ims': create_nested(contact.ims, IM),
-                 'phones': create_nested(contact.phones, Phone),
-                 'addresses': create_nested(contact.addresses,
+                 'emails': cls.create_nested(contact.emails, Email),
+                 'ims': cls.create_nested(contact.ims, IM),
+                 'phones': cls.create_nested(contact.phones, Phone),
+                 'addresses': cls.create_nested(contact.addresses,
                                             PostalAddress),
-                 'social_identities': create_nested(contact.identities,
+                 'social_identities': cls.create_nested(contact.identities,
                                                     SocialIdentity),
-                 'organizations': create_nested(contact.organizations,
+                 'organizations': cls.create_nested(contact.organizations,
                                                 Organization)}
 
         core = super(Contact, cls).create(user, **attrs)
@@ -243,6 +253,69 @@ class Contact(BaseUserCore, MixinCoreRelation, MixinContactNested):
         if lookup:
             return cls.get(user, lookup.contact_id)
         # XXX something else to do ?
+        return None
+
+    @classmethod
+    def update(cls, user=None, contact_id=None, patch=None):
+        """
+        update a contact with rfc7396 Merge patch specifications
+
+        :param user: user_id
+        :param contact: contact_id
+        :param patch: dict describing the patch to apply to contact
+                with a "current_state" key. see caliopen patch rfc for explanation
+        :return: Exception or None
+        """
+        if user is None or contact_id is None or patch is None or 'current_state' not in patch:
+            return main_errors.PatchUnprocessable()
+
+        try:
+            contact = cls.get(user, contact_id)  # returns a main.user.core.contact.Contact
+        except NotFound as exc:
+            return exc
+
+        contact_store = contact.model
+        patch_current_state = patch.pop("current_state")
+
+        # populate patch to a contactParams instance to validate fields against model
+        try:
+            contact_model = params_contact.Contact(patch)
+            contact_model.validate(partial=True)
+        except Exception:
+            return main_errors.PatchUnprocessable(message="Patch does not validate against model")
+
+        # check if patch 'current_state' is consistent with current db state
+        from ..returns import ReturnContact
+        contact_db = ReturnContact.build(contact)
+        contact_db_state = contact_db.serialize()
+        for k, v in patch.items():
+            if hasattr(contact_db, k):
+                if k not in patch_current_state or patch_current_state[k] in ([], {}):
+                    # means key is added by the patch.
+                    # db_state for this key should be None or empty object or empty list
+                    if contact_db[k] not in ([], {}, None):
+                        return main_errors.PatchConflict(message="Patch current_state not consistent with db")
+                elif patch_current_state[k] != contact_db_state[k]:
+                    return main_errors.PatchConflict(message="Patch current_state not consistent with db")
+            else:
+                return main_errors.PatchUnprocessable(message="Invalid key within current_state patch object")
+
+        for key in patch:
+            attr = getattr(contact_model, key)
+            if key in cls._nested:
+                setattr(contact_store, key, cls.create_nested(attr, cls._nested[key]))
+            else:
+                setattr(contact_store, key, attr)
+
+        changed_columns = contact_store.get_changed_columns()
+
+        try:
+            contact_store.save()
+        except Exception:
+            return main_errors.PatchError(message="Error when saving document")
+
+        contact_store.update_index(contact_id, changed_columns)
+
         return None
 
     def delete(self):

@@ -25,7 +25,10 @@ from caliopen_main.user.parameters import (NewContact as NewContactParam,
 
 from ..base import Api
 from caliopen_storage.exception import NotFound
-from ..base.exception import ResourceNotFound, ValidationError
+from ..base.exception import (ResourceNotFound,
+                              ValidationError,
+                              MethodNotAllowed,
+                              MergePatchError)
 
 log = logging.getLogger(__name__)
 
@@ -63,6 +66,7 @@ class Contact(Api):
             raise ResourceNotFound('No such contact')
         if pi_range[0] > contact.privacy_index < pi_range[1]:
             raise HTTPExpectationFailed('Invalid privacy index')
+
         return ReturnContact.build(contact).serialize()
 
     @view(renderer='json', permission='authenticated')
@@ -79,6 +83,41 @@ class Contact(Api):
         self.request.response.location = contact_url.encode('utf-8')
         # XXX return a Location to get contact not send it direct
         return {'location': contact_url}
+
+    @view(renderer='json', permission='authenticated')
+    def patch(self):
+        """Update a contact with payload.
+
+        method follows the rfc5789 PATCH and rfc7396 Merge patch specifications :
+        stored messages are modified according to the fields within the payload, ie
+        payload fields squash existing db fields, no other modification done.
+        If message doesn't existing, response is 404.
+        If payload fields are not conform to the message db schema, response is 422 (Unprocessable Entity)
+        Successful response is 204, without a body
+        """
+        contact_id = self.request.matchdict.get('contact_id')
+
+        try:
+            # basic json validation to ensure patch doc is well formed
+            patch = self.request.json
+        except Exception as exc:
+                raise ValidationError(exc)
+
+        error = CoreContact.update(self.user, contact_id, patch)
+        if error is not None:
+            raise MergePatchError(error)
+
+        return Response(None, 204)
+
+    @view(renderer='json', permission='authenticated')
+    def put(self):
+        """Squash a contact with payload
+
+        payload must be the full contact card as this method will squash the existing contact card
+        with the payload's one
+        """
+        raise MethodNotAllowed
+
 
 
 class BaseSubContactApi(Api):
