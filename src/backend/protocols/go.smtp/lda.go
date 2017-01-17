@@ -1,14 +1,22 @@
-package lda
+// Copyleft (ɔ) 2017 The Caliopen contributors.
+// Use of this source code is governed by a GNU AFFERO GENERAL PUBLIC
+// license (AGPL) that can be found in the LICENSE file.
+//
+// Local Delivery Agent :
+// store the raw email once in storage
+// and deliver messages to caliopen application via NATS topic « inboundSMTPEmail »
 
-// Local Delivery Agent
-// store the raw email and give it to email lda via NATS topic « inboundSMTPEmail »
+package caliopen_smtp
 
 import (
 	"crypto/md5"
+	"errors"
 	"fmt"
-	"github.com/CaliOpen/CaliOpen/src/backend/protocols/go.smtp/backends"
+	"github.com/CaliOpen/CaliOpen/src/backend/main/go.backends"
+	"github.com/CaliOpen/CaliOpen/src/backend/main/go.backends/store/cassandra"
 	log "github.com/Sirupsen/logrus"
 	"github.com/flashmob/go-guerrilla"
+	"github.com/gocql/gocql"
 	"github.com/hashicorp/go-multierror"
 	"github.com/nats-io/go-nats"
 	"io"
@@ -17,14 +25,8 @@ import (
 	"time"
 )
 
-type CaliopenBackend interface {
-	GetRecipients([]string) ([]string, error)
-	StoreRaw(data string) (raw_id string, err error)
-	Initialize(config map[string]interface{}) error
-}
-
 type CaliopenLDA struct {
-	Backend         *CaliopenBackend
+	Backend         *backends.LDABackend
 	config          LDAConfig
 	deliveryMsgChan chan *messageDelivery
 	natsConn        *nats.Conn
@@ -32,18 +34,60 @@ type CaliopenLDA struct {
 }
 
 type LDAConfig struct {
-	BackendName      string                 `json:"backend_name"`
-	BackendConfig    map[string]interface{} `json:"backend_config"`
-	LogReceivedMails bool                   `json:"log_received_mails"`
-	NumberOfWorkers  int                    `json:"lda_workers_size"`
+	BackendName      string        `mapstructure:"backend_name"`
+	BackendConfig    BackendConfig `mapstructure:"backend_config"`
+	NumberOfWorkers  int           `mapstructure:"lda_workers_size"`
+	LogReceivedMails bool          `mapstructure:"log_received_mails"`
+	NatsURL          string        `mapstructure:"nats_url"`
+	NatsTopic        string        `mapstructure:"nats_topic"`
 }
 
-func (lda *CaliopenLDA) Initialize(config LDAConfig) error {
+type messageDelivery struct {
+	recipient      string
+	raw_email_id   string
+	deliveryNotify chan *deliveryStatus
+}
+
+type deliveryStatus struct {
+	err  error
+	hash string
+}
+
+type BackendConfig struct {
+	Hosts       []string          `mapstructure:"hosts"`
+	Keyspace    string            `mapstructure:"keyspace"`
+	Consistency gocql.Consistency `mapstructure:"consistency_level"`
+}
+
+func (server *SMTPServer) InitializeLda(config LDAConfig) error {
+	server.lda = new(CaliopenLDA)
+	return server.lda.initialize(config)
+}
+
+func (lda *CaliopenLDA) initialize(config LDAConfig) error {
 	lda.config = config
+	lda.deliveryMsgChan = make(chan *messageDelivery)
+	if lda.config.NatsTopic == "" {
+		return errors.New("LDA init failed : NATS topic for delivery is empty")
+	}
+	if lda.config.NatsURL == "" {
+		lda.config.NatsURL = nats.DefaultURL
+	}
+
 	switch lda.config.BackendName {
 	case "cassandra":
-		b := &backends.CassandraBackend{}
-		cb := CaliopenBackend(b)
+		b := &store.CassandraBackend{}
+		cassaConfig := store.CassandraConfig{
+			Hosts:       lda.config.BackendConfig.Hosts,
+			Keyspace:    lda.config.BackendConfig.Keyspace,
+			Consistency: lda.config.BackendConfig.Consistency,
+		}
+		err := b.Initialize(cassaConfig)
+		if err != nil {
+			log.WithError(err).Fatalf("Initalization of %s backend failed", lda.config.BackendName)
+		}
+
+		cb := backends.LDABackend(b) // type conversion to LDA interface
 		lda.Backend = &cb
 	case "BOBcassandra":
 	// NotImplemented… yet ! ;-)
@@ -51,11 +95,14 @@ func (lda *CaliopenLDA) Initialize(config LDAConfig) error {
 		log.Fatalf("Unknown backend: %s", lda.config.BackendName)
 	}
 
-	err := (*lda.Backend).Initialize(config.BackendConfig)
-	if err != nil {
-		log.WithError(err).Fatalf("Initalization of %s backend failed", lda.config.BackendName)
-	}
+	return nil
+}
 
+func ShutdownLda() error {
+	return server.lda.Shutdown()
+}
+
+func (lda *CaliopenLDA) start() (err error) {
 	// start some delivery workers
 	lda.deliveryMsgChan = make(chan *messageDelivery, lda.config.NumberOfWorkers)
 	lda.wg.Add(lda.config.NumberOfWorkers)
@@ -63,20 +110,19 @@ func (lda *CaliopenLDA) Initialize(config LDAConfig) error {
 		go lda.deliverWorker()
 	}
 
-	lda.natsConn, err = nats.Connect(nats.DefaultURL)
+	lda.natsConn, err = nats.Connect(lda.config.NatsURL)
 
 	if err != nil {
 		log.WithError(err).Errorf("Connection to messages system failed")
 		return err
 	}
-
-	return nil
+	return
 }
 
 func (lda *CaliopenLDA) Shutdown() error {
 	close(lda.deliveryMsgChan) // workers will stop
 	lda.wg.Wait()
-	log.Info("Shutdown lda")
+	log.Info("Shutdowning lda")
 	return nil
 }
 
@@ -125,19 +171,23 @@ func (lda *CaliopenLDA) Process(mail *guerrilla.Envelope) guerrilla.BackendResul
 		go func(localRcpt string) {
 			defer deliveryWG.Done()
 			deliveryNotify := make(chan *deliveryStatus)
-			lda.deliveryMsgChan <- &messageDelivery{localRcpt, raw_email_id, deliveryNotify}
-
-			//wait for the delivery to complete or timeout after 30sec
 			select {
-			case status := <-deliveryNotify:
-				if status.err != nil {
-					errs = multierror.Append(errs, err)
+			case lda.deliveryMsgChan <- &messageDelivery{localRcpt, raw_email_id, deliveryNotify}:
+				//wait for the delivery to complete or timeout after 30sec
+				select {
+				case status := <-deliveryNotify:
+					if status.err != nil {
+						errs = multierror.Append(errs, err)
+						return
+					}
+					deliveries++
+					return
+				case <-time.After(time.Second * 30):
+					errs = multierror.Append(errs, errors.New("timeout waiting delivery completion"))
 					return
 				}
-				deliveries++
-				return
-			case <-time.After(time.Second * 30):
-				errs = multierror.Append(errs, err)
+			case <-time.After(time.Second * 5):
+				errs = multierror.Append(errs, errors.New("timeout trying to send delivery"))
 				return
 			}
 		}(localRcpt)
@@ -153,17 +203,6 @@ func (lda *CaliopenLDA) Process(mail *guerrilla.Envelope) guerrilla.BackendResul
 	return guerrilla.NewBackendResult(fmt.Sprintf("250 OK: %d message(s) delivered.", deliveries))
 }
 
-type messageDelivery struct {
-	recipient      string
-	raw_email_id   string
-	deliveryNotify chan *deliveryStatus
-}
-
-type deliveryStatus struct {
-	err  error
-	hash string
-}
-
 func (lda *CaliopenLDA) deliverWorker() {
 	//  receives values from the channel repeatedly until shutdown msg
 	for delivery := range lda.deliveryMsgChan {
@@ -172,7 +211,7 @@ func (lda *CaliopenLDA) deliverWorker() {
 			return
 		}
 		natsMessage := fmt.Sprintf("{\"user_id\": \"%s\", \"raw_email_id\": \"%s\"}", delivery.recipient, delivery.raw_email_id)
-		err := lda.natsConn.Publish("inboundSMTP", []byte(natsMessage))
+		err := lda.natsConn.Publish(lda.config.NatsTopic, []byte(natsMessage))
 		hash := MD5Hex(natsMessage)
 		delivery.deliveryNotify <- &deliveryStatus{err, hash}
 	}

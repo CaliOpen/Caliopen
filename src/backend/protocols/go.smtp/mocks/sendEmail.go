@@ -42,7 +42,7 @@ func sendMail(i int, wg *sync.WaitGroup) {
 
 	from := "stan@mailden.net"
 	to := "dev@caliopen.local"
-	to2 := ""
+	to2 := "dev@caliopen.lal"
 
 	if err = c.Mail(from); err != nil {
 		lastWords("Mail ", err)

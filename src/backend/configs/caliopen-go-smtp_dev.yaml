@@ -1,0 +1,31 @@
+## SMTP config ##
+AppConfig:
+  allowed_hosts:
+  - localhost
+  - caliopen.local
+  - caliopen.org
+  primary_mail_host: caliopen.org
+  servers:
+  - is_enabled: true
+    host_name: localhost
+    max_size: 20971520
+    timeout: 180
+    listen_interface: 127.0.0.1:2525
+    start_tls_on: false
+    tls_always_on: false
+    max_clients: 1000
+
+## LDA config ##
+LDAConfig:
+  lda_workers_size: 2
+  log_received_mails: true
+  # backend to save raw emails to, before delivering to nats
+  backend_name: cassandra
+  backend_config:
+    hosts:
+    - 127.0.0.1
+    keyspace: caliopen
+    consistency_level: 1
+  # nats config
+  nats_url: nats://localhost:4222
+  nats_topic: inboundSMTP

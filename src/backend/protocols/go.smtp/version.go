@@ -1,4 +1,4 @@
-package lda
+package caliopen_smtp
 
 import "time"
 

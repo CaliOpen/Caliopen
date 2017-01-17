@@ -4,7 +4,11 @@
 
 package objects
 
-type UserName struct {
-	User_id []byte
-	Name    string
+import (
+	"github.com/gocql/gocql"
+)
+
+type RawMessageModel struct {
+	Raw_msg_id gocql.UUID `cql:"raw_msg_id"`
+	Data       string     `cql:"data"`
 }

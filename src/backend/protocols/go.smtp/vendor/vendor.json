@@ -1,6 +1,6 @@
 {
 	"comment": "",
-	"ignore": "test",
+	"ignore": "test, mousetrap, go-hostpool",
 	"package": [
 		{
 			"checksumSHA1": "pvDgqcN/wA/XvIcB3pVkavZiKcI=",
