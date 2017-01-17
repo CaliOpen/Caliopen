@@ -36,7 +36,7 @@ func init() {
 	RootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false,
 		"print out more debug information")
 	RootCmd.PersistentFlags().StringVarP(&configFileName, "configfile", "c",
-		"caliopen-go-main-development", "The main configuration file name, without extension.")
+		"caliopen-go-main_dev", "Name of the configuration file, without extension. (YAML, TOML, JSON… allowed)")
 	RootCmd.PersistentFlags().StringVarP(&configPath, "configpath", "",
 		"../../../configs/", "Main config file path.")
 	RootCmd.PersistentFlags().StringVarP(&pidFile, "pid-file", "p",
@@ -79,13 +79,13 @@ func readConfig(readAll bool) error {
 	apiViper.AddConfigPath(".")
 
 	ldaViper := viper.New()
-	ldaViper.SetConfigName(cmdConfig.Lda.LDAconfigFile)
-	ldaViper.AddConfigPath(cmdConfig.Lda.LDAconfigPath)
+	ldaViper.SetConfigName(cmdConfig.Smtp.SMTPconfigFile)
+	ldaViper.AddConfigPath(cmdConfig.Smtp.SMTPconfigPath)
 	ldaViper.AddConfigPath(configPath)
 	ldaViper.AddConfigPath("$CALIOPENROOT/src/backend/configs/")
 	ldaViper.AddConfigPath(".")
-	// load APIs config
 
+	// load APIs config
 	err = apiViper.ReadInConfig()
 	if err != nil {
 		log.WithError(err).Infof("Could not read api config file <%s>.", cmdConfig.Apis.GoRESTconfigFile)
@@ -99,16 +99,16 @@ func readConfig(readAll bool) error {
 	}
 
 	// load lda config (if needed)
-	if withLda || readAll {
+	if withSmtp || readAll {
 		err = ldaViper.ReadInConfig()
 		if err != nil {
-			log.WithError(err).Infof("Could not read lda config file <%s>.", cmdConfig.Lda.LDAconfigFile)
+			log.WithError(err).Infof("Could not read lda config file <%s>.", cmdConfig.Smtp.SMTPconfigFile)
 			return err
 		}
 
-		err = apiViper.Unmarshal(&LDAConfig{})
+		err = apiViper.Unmarshal(&SMTPConfig{})
 		if err != nil {
-			log.WithError(err).Infof("Could not parse lda config file: <%s>", cmdConfig.Lda.LDAconfigFile)
+			log.WithError(err).Infof("Could not parse lda config file: <%s>", cmdConfig.Smtp.SMTPconfigFile)
 			return err
 		}
 	}
@@ -139,7 +139,7 @@ func readConfig(readAll bool) error {
 
 type CmdConfig struct {
 	Apis APIsConfig
-	Lda  LDAConfig
+	Smtp SMTPConfig
 }
 
 type APIsConfig struct {
@@ -149,9 +149,12 @@ type APIsConfig struct {
 
 	GoRESTconfigPath string `mapstructure:"go_rest_config_path"`
 	GoRESTconfigFile string `mapstructure:"go_rest_config_file"`
+
+	GoProxyConfigPath string `mapstructure:"go_proxy_config_path"`
+	GoProxyConfigFile string `mapstructure:"go_proxy_config_file"`
 }
 
-type LDAConfig struct {
-	LDAconfigPath string `mapstructure:"lda_config_path"`
-	LDAconfigFile string `mapstructure:"lda_config_file"`
+type SMTPConfig struct {
+	SMTPconfigPath string `mapstructure:"smtp_config_path"`
+	SMTPconfigFile string `mapstructure:"smtp_config_file"`
 }

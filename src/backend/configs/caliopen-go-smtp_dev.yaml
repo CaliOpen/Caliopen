@@ -21,7 +21,7 @@ LDAConfig:
   log_received_mails: true
   # backend to save raw emails to, before delivering to nats
   backend_name: cassandra
-  backend_config:
+  backend_settings:
     hosts:
     - 127.0.0.1
     keyspace: caliopen

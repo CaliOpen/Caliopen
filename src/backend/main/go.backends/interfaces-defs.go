@@ -13,7 +13,6 @@ type UserNameStorage interface {
 	IsAvailable(username string) (bool, error)
 }
 
-
 /**** LDA ****/
 type LDABackend interface {
 	GetRecipients([]string) ([]string, error)

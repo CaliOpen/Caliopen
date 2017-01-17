@@ -1,0 +1,10 @@
+AppConfig:
+  host: 127.0.0.1
+  port: 6544
+BackendConfig:
+  backend_name: cassandra
+  backend_settings:
+    hosts:
+    - 127.0.0.1
+    keyspace: caliopen
+    consistency_level: 1

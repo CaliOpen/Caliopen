@@ -35,7 +35,7 @@ type CaliopenLDA struct {
 
 type LDAConfig struct {
 	BackendName      string        `mapstructure:"backend_name"`
-	BackendConfig    BackendConfig `mapstructure:"backend_config"`
+	BackendConfig    BackendConfig `mapstructure:"backend_settings"`
 	NumberOfWorkers  int           `mapstructure:"lda_workers_size"`
 	LogReceivedMails bool          `mapstructure:"log_received_mails"`
 	NatsURL          string        `mapstructure:"nats_url"`

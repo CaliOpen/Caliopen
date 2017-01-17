@@ -2,9 +2,9 @@
 // Use of this source code is governed by a GNU AFFERO GENERAL PUBLIC
 // license (AGPL) that can be found in the LICENSE file.
 
-package objects
+package helpers
 
-type UserName struct {
-	User_id []byte
-	Name    string
+func EscapeUsername(username string) string {
+	// TODO : do we need to implement an algorithm against injections ?
+	return username
 }

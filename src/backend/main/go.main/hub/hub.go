@@ -16,12 +16,12 @@
 package hub
 
 import (
-	"reflect"
 	"fmt"
+	"reflect"
 )
 
-type HandlerFunc interface {}
-type Msg interface {}
+type HandlerFunc interface{}
+type Msg interface{}
 
 type Hub struct {
 	handlers map[string]HandlerFunc

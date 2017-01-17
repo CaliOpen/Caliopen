@@ -64,21 +64,23 @@ func (server *SMTPServer) start() error {
 	gConfig := guerrilla.AppConfig{
 		AllowedHosts: server.config.AppConfig.AllowedHosts,
 	}
+	addrs := []string{}
 	for _, server := range server.config.AppConfig.Servers {
 		gServer := guerrilla.ServerConfig{
-			IsEnabled: server.IsEnabled,
-			Hostname: server.Hostname,
-			AllowedHosts: server.AllowedHosts,
-			MaxSize: server.MaxSize,
-			PrivateKeyFile: server.PrivateKeyFile,
-			PublicKeyFile: server.PublicKeyFile,
-			Timeout: server.Timeout,
+			IsEnabled:       server.IsEnabled,
+			Hostname:        server.Hostname,
+			AllowedHosts:    server.AllowedHosts,
+			MaxSize:         server.MaxSize,
+			PrivateKeyFile:  server.PrivateKeyFile,
+			PublicKeyFile:   server.PublicKeyFile,
+			Timeout:         server.Timeout,
 			ListenInterface: server.ListenInterface,
-			StartTLSOn: server.StartTLSOn,
-			TLSAlwaysOn: server.TLSAlwaysOn,
-			MaxClients: server.MaxClients,
+			StartTLSOn:      server.StartTLSOn,
+			TLSAlwaysOn:     server.TLSAlwaysOn,
+			MaxClients:      server.MaxClients,
 		}
-		     gConfig.Servers = append(gConfig.Servers, gServer)
+		gConfig.Servers = append(gConfig.Servers, gServer)
+		addrs = append(addrs, server.ListenInterface)
 	}
 	app := guerrilla.New(&gConfig, &b)
 
@@ -86,8 +88,11 @@ func (server *SMTPServer) start() error {
 	go func() {
 		err := app.Start()
 		if len(err) != 0 {
-			log.Infof("Error(s) at startup : ", err)
+			log.Infof("Error(s) at smtp startup : ", err)
+			return
 		}
+
+		log.Infof("Caliopen smtp serving on %v", addrs)
 	}()
 	return nil
 }

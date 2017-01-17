@@ -1,8 +1,8 @@
 package filesystem
 
 import (
-	"os"
 	"github.com/spf13/afero"
+	"os"
 )
 
 func init() {

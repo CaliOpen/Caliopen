@@ -7,9 +7,9 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
-	log "github.com/Sirupsen/logrus"
 	"encoding/json"
+	log "github.com/Sirupsen/logrus"
+	"github.com/spf13/cobra"
 )
 
 var (
@@ -24,11 +24,11 @@ func init() {
 	RootCmd.AddCommand(ConfigCmd)
 }
 
-func outputConfig (cmd *cobra.Command, args []string) {
+func outputConfig(cmd *cobra.Command, args []string) {
 	err := readConfig(true)
 	if err != nil {
 		log.Fatal(err)
 	}
-	j, _ := json.MarshalIndent(cmdConfig," ", " ")
+	j, _ := json.MarshalIndent(cmdConfig, " ", " ")
 	log.Infof("%s", j)
 }

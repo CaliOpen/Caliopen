@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"github.com/CaliOpen/CaliOpen/src/backend/protocols/go.smtp/cli/cli-cmds"
+	"os"
 )
 
 func main() {

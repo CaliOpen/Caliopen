@@ -7,14 +7,14 @@
 package store
 
 import (
-	log "github.com/Sirupsen/logrus"
-	"github.com/CaliOpen/CaliOpen/src/backend/main/go.main/helpers"
-	"github.com/gocql/gocql"
-	"github.com/gocassa/gocassa"
 	obj "github.com/CaliOpen/CaliOpen/src/backend/defs/go-objects"
+	"github.com/CaliOpen/CaliOpen/src/backend/main/go.main/helpers"
+	log "github.com/Sirupsen/logrus"
+	"github.com/gocassa/gocassa"
+	"github.com/gocql/gocql"
 )
 
-func (cb *CassandraBackend) IsAvailable (username string) (resp bool, err error) {
+func (cb *CassandraBackend) IsAvailable(username string) (resp bool, err error) {
 	lookup := helpers.EscapeUsername(username)
 	found := map[string]interface{}{}
 	err = cb.Session.Query(`SELECT COUNT(*) FROM user_name WHERE name = ?`, lookup).MapScan(found)

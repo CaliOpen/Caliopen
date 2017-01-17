@@ -4,7 +4,6 @@
 //
 // UserStorage interface implementation for cassandra backend
 
-
 package store
 
 import (
@@ -14,6 +13,3 @@ import (
 func (cb *CassandraBackend) Get(*obj.User) error {
 	return nil
 }
-
-
-

@@ -1,2 +1,3 @@
 package setting
 
+var ()
