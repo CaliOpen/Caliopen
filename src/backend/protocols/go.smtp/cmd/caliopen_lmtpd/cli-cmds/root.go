@@ -5,15 +5,14 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var RootCmd = &cobra.Command{
-	Use:   "caliopen_lmtpd",
-	Short: "LMTP daemon",
-	Long:  `LMTP daemon for the purpose of bridging MTAs to our local delivery agent.`,
-	Run:   nil,
-}
-
 var (
 	verbose bool
+	RootCmd = &cobra.Command{
+		Use:   "caliopen_lmtpd",
+		Short: "LMTP daemon",
+		Long:  `LMTP daemon for the purpose of bridging MTAs to our local delivery agent.`,
+		Run:   nil,
+	}
 )
 
 func init() {
