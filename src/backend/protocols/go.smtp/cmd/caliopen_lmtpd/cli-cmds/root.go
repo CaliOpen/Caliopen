@@ -6,9 +6,9 @@ import (
 )
 
 var RootCmd = &cobra.Command{
-	Use:   "caliopen_smtpd",
-	Short: "SMTP daemon",
-	Long:  `SMTP daemon for the purpose of bridging MTAs to our local delivery agent.`,
+	Use:   "caliopen_lmtpd",
+	Short: "LMTP daemon",
+	Long:  `LMTP daemon for the purpose of bridging MTAs to our local delivery agent.`,
 	Run:   nil,
 }
 

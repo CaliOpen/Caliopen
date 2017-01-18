@@ -29,12 +29,12 @@ var (
 
 func init() {
 	serveCmd.PersistentFlags().StringVarP(&configFile, "config", "c",
-		"caliopen-go-smtp_dev", "Name of the configuration file, without extension. (YAML, TOML, JSON… allowed)")
+		"caliopen-go-lmtp_dev", "Name of the configuration file, without extension. (YAML, TOML, JSON… allowed)")
 
 	RootCmd.PersistentFlags().StringVarP(&configPath, "configpath", "",
-		"../../../configs/", "Main config file path.")
+		"../../../../configs/", "Main config file path.")
 	serveCmd.PersistentFlags().StringVarP(&pidFile, "pid-file", "p",
-		"/var/run/caliopen_smtpd.pid", "Path to the pid file")
+		"/var/run/caliopen_lmtpd.pid", "Path to the pid file")
 
 	RootCmd.AddCommand(serveCmd)
 	signalChannel = make(chan os.Signal, 1)
@@ -68,7 +68,6 @@ func sigHandler() {
 }
 
 func serve(cmd *cobra.Command, args []string) {
-	logVersion()
 
 	err := readConfig(&cmdConfig)
 	if err != nil {
@@ -90,7 +89,7 @@ func serve(cmd *cobra.Command, args []string) {
 
 	err = csmtp.InitializeServer(csmtp.SMTPConfig(cmdConfig))
 	if err != nil {
-		log.WithError(err).Fatal("Failed to init SMTP server")
+		log.WithError(err).Fatal("Failed to init LMTP server")
 	}
 	go csmtp.StartServer()
 
