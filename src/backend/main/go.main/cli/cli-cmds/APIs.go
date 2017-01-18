@@ -10,6 +10,8 @@ import (
 	"bufio"
 	"github.com/CaliOpen/CaliOpen/src/backend/interfaces/REST/go.server"
 	"github.com/CaliOpen/CaliOpen/src/backend/interfaces/TCP/go.server"
+	//need to silently import hub to run its init func
+	_ "github.com/CaliOpen/CaliOpen/src/backend/main/go.main/hub"
 	csmtp "github.com/CaliOpen/CaliOpen/src/backend/protocols/go.smtp"
 	log "github.com/Sirupsen/logrus"
 	"github.com/flashmob/go-guerrilla"
