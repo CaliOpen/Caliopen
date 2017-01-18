@@ -3,19 +3,21 @@
 This document describes valid **username** for the creation of an account within Caliopen instances.
 
 #### Preambule
-Living in the XXI century, Caliopen's users should be able to take (almost) any username they want to. The following specifications are as open as possible.
+Caliopen's users should be able to take (almost) any username they want to, as long as this username could make the local-part of an email address.  
+Despite the very open RFC 5322 specifications for the Internet Message Format, that authorizes — for years — a broad range of characters within the local-part of an email address, the sad reality is that many of Mail Transfer Agents still refuse to handle emails with "special" characters in their address. Consequently, we adopted a more restrictive specification than 5322 for the username.
 
 ##### Definition :
 An **username** is the unique identifier an user makes use of to create an account within a Caliopen instance. 
-Username is only an identifier for the user's account : it is not necessarily the user's real name, or email, or nickname… It will only be used as a credential for the purpose of identifying the user when logging in Caliopen. The username is unique within a Caliopen instance.
+Username is an identifier for the user's account : it is not necessarily the user's real name, or email, or nickname… It will be used as a credential for the purpose of identifying the user when logging in Caliopen. The username is unique within a Caliopen instance.  
+The **username** could form the _local-part_ of an email address within Caliopen's domain. (i.e. : _<username@caliopen.org>_)
 
-NB : once an user has chosen an _username_, she/he will be able to create or add some « identities », that are made of : first name, family name, email, etc.
+NB : once an user has chosen an username, she/he will be able to create or add some « identities », that are made of : first name, family name, email, etc.
 
 ##### Format :
  
 * Username are made of utf-8 "characters".  
 By "character" we mean a single Unicode grapheme, encoded as a single Unicode code point.
-* Username **is** case sensitive.
+* Username **is not** case sensitive. (means that all case variations of the username will be considered as the same username)
 * Username **must** be at least 3 characters long, and up to 42 characters. (you should know why 42 ! ;-)
 * Username **cannot** have invisible control characters and unused Unicode code points (`\p{C}` Unicode category)
 * Usernane **cannot** have character intended to be combined with another character (e.g. accents, umlauts, enclosing boxes, etc.) (`\p{M}` Unicode category)
