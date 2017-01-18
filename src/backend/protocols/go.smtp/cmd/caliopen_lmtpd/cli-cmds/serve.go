@@ -30,8 +30,7 @@ var (
 func init() {
 	serveCmd.PersistentFlags().StringVarP(&configFile, "config", "c",
 		"caliopen-go-lmtp_dev", "Name of the configuration file, without extension. (YAML, TOML, JSON… allowed)")
-
-	RootCmd.PersistentFlags().StringVarP(&configPath, "configpath", "",
+	serveCmd.PersistentFlags().StringVarP(&configPath, "configpath", "",
 		"../../../../configs/", "Main config file path.")
 	serveCmd.PersistentFlags().StringVarP(&pidFile, "pid-file", "p",
 		"/var/run/caliopen_lmtpd.pid", "Path to the pid file")
