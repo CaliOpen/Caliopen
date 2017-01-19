@@ -1,6 +1,0 @@
----
-apis:
-  go_rest_config_file: "caliopen-go-api_dev"
-  py_rest_config_file: "caliopen-api.development.ini"
-smtp:
-  smtp_config_file: "caliopen-go-smtp_dev"

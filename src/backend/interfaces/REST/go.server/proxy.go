@@ -7,27 +7,26 @@ import (
 	"net/url"
 )
 
-func StartProxy() {
+func StartProxy(config ProxyConfig) {
 
 	mux := http.NewServeMux()
 
-	goHandler := httputil.NewSingleHostReverseProxy(&url.URL{
-		Scheme: "http",
-		Host:   "127.0.0.1:6544",
-	})
+	for path, target := range config.Routes {
+		mux.Handle(path, httputil.NewSingleHostReverseProxy(&url.URL{
+			Scheme: "http",
+			Host:   target,
+		}))
+	}
 
-	pyramidHandler := httputil.NewSingleHostReverseProxy(&url.URL{
-		Scheme: "http",
-		Host:   "127.0.0.1:6543",
-	})
-
-	mux.Handle("/api/v2/", goHandler)
-
-	//everything else goes to pyramid for now
-	mux.Handle("/", pyramidHandler)
-
-	log.Println("HTTP proxy listening on 127.0.0.1:3141") // guess why this port # ?
-	log.Fatal(http.ListenAndServe("127.0.0.1:3141", mux))
+	addr := config.Host + ":" + config.Port
+	log.Printf("HTTP proxy listening on %s", addr)
+	log.Fatal(http.ListenAndServe(addr, mux))
 
 	return
+}
+
+type ProxyConfig struct {
+	Host   string            `mapstructure:"host"`
+	Port   string            `mapstructure:"port"`
+	Routes map[string]string `mapstructure:"routes"`
 }

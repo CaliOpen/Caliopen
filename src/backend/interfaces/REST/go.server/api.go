@@ -51,8 +51,8 @@ func (server *REST_API) start() error {
 	mux := http.NewServeMux()
 	mux.Handle("/", server.handler)
 
-	addr := server.config.AppConfig.Host + ":" + server.config.AppConfig.Port
-	log.Printf("GO REST API serving on %s", addr)
+	addr := server.config.Host + ":" + server.config.Port
+	log.Printf("HTTP REST API server listening on %s", addr)
 	log.Fatal(http.ListenAndServe(addr, mux))
 	return nil
 }
@@ -105,13 +105,9 @@ type apiHandler struct {
 }
 
 type APIConfig struct {
-	AppConfig     `mapstructure:"AppConfig"`
+	Host          string `mapstructure:"host"`
+	Port          string `mapstructure:"port"`
 	BackendConfig `mapstructure:"BackendConfig"`
-}
-
-type AppConfig struct {
-	Host string `mapstructure:"host"`
-	Port string `mapstructure:"port"`
 }
 
 type BackendConfig struct {

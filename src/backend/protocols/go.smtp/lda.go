@@ -181,14 +181,11 @@ func (lda *CaliopenLDA) Process(mail *guerrilla.Envelope) guerrilla.BackendResul
 						return
 					}
 					deliveries++
-					return
 				case <-time.After(time.Second * 30):
 					errs = multierror.Append(errs, errors.New("timeout waiting delivery completion"))
-					return
 				}
 			case <-time.After(time.Second * 5):
 				errs = multierror.Append(errs, errors.New("timeout trying to send delivery"))
-				return
 			}
 		}(localRcpt)
 	}
