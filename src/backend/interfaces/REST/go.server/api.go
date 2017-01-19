@@ -1,9 +1,14 @@
-package rest_api
+// Copyleft (ɔ) 2017 The Caliopen contributors.
+// Use of this source code is governed by a GNU AFFERO GENERAL PUBLIC
+// license (AGPL) that can be found in the LICENSE file.
 
+
+
+package rest_api
+/*
 import (
 	"github.com/CaliOpen/CaliOpen/src/backend/main/go.backends/store/cassandra"
         "github.com/CaliOpen/CaliOpen/src/backend/main/go.backends"
-	"github.com/CaliOpen/CaliOpen/src/backend/main/go.main/helpers"
 	log "github.com/Sirupsen/logrus"
 	"github.com/gocql/gocql"
 	"net/http"
@@ -62,6 +67,7 @@ func StopServer() {
 
 }
 
+// http.Handler interface
 func (h *apiHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	username := r.URL.Query().Get("username")
 	if username == "" {
@@ -84,19 +90,6 @@ func (h *apiHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func UsernameLookup(username string, db *store.CassandraBackend) bool {
-	lookup := helpers.EscapeUsername(username)
-	found := map[string]interface{}{}
-	err := db.Session.Query(`SELECT COUNT(*) FROM user_name WHERE name = ?`, lookup).MapScan(found)
-	if err != nil {
-		log.WithError(err).Infof("username lookup error : %v", err)
-		return true
-	}
-	if found["count"].(int64) != 0 {
-		return true
-	}
-	return false
-}
 
 type REST_API struct {
 	handler *apiHandler
@@ -124,3 +117,5 @@ type BackendSettings struct {
 	Keyspace    string            `mapstructure:"keyspace"`
 	Consistency gocql.Consistency `mapstructure:"consistency_level"`
 }
+
+*/
