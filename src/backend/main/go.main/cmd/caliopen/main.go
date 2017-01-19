@@ -1,5 +1,7 @@
 package main
 
+/***** NOT YET IMPLEMENTED ***********
+
 import (
 	"fmt"
 	"os"
@@ -15,3 +17,5 @@ func main() {
 		os.Exit(-1)
 	}
 }
+
+*/

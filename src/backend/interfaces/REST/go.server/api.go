@@ -2,6 +2,7 @@ package rest_api
 
 import (
 	"github.com/CaliOpen/CaliOpen/src/backend/main/go.backends/store/cassandra"
+        "github.com/CaliOpen/CaliOpen/src/backend/main/go.backends"
 	"github.com/CaliOpen/CaliOpen/src/backend/main/go.main/helpers"
 	log "github.com/Sirupsen/logrus"
 	"github.com/gocql/gocql"
@@ -69,14 +70,17 @@ func (h *apiHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`{"available": false}`))
 		return
 	}
-	if UsernameLookup(username, h.backend) {
-		w.Header().Set("content-type", "application/json; charset=utf-8")
-		w.Write([]byte(`{"available": false}`))
-		return
-	}
 
+        UserNameStorage := backends.UserNameStorage(h.backend)
+
+        available, err := UserNameStorage.IsAvailable(username)
+        if available && err == nil {
+                w.Header().Set("content-type", "application/json; charset=utf-8")
+                w.Write([]byte(`{"username": "` + username + `", "available": true}`))
+                return
+        }
 	w.Header().Set("content-type", "application/json; charset=utf-8")
-	w.Write([]byte(`{"available": true}`))
+        w.Write([]byte(`{"username": "` + username + `", "available": false}`))
 	return
 }
 

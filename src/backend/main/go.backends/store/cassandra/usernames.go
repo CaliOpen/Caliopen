@@ -15,6 +15,8 @@ import (
 )
 
 func (cb *CassandraBackend) IsAvailable(username string) (resp bool, err error) {
+        resp = false
+        err = nil
 	lookup := helpers.EscapeUsername(username)
 	found := map[string]interface{}{}
 	err = cb.Session.Query(`SELECT COUNT(*) FROM user_name WHERE name = ?`, lookup).MapScan(found)
