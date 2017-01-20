@@ -5,6 +5,6 @@
 package helpers
 
 func EscapeUsername(username string) string {
-	// TODO : do we need to implement an algorithm against injections ?
+	// TODO : implement an algorithm against injections
 	return username
 }

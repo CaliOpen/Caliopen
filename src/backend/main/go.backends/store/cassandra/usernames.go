@@ -2,7 +2,6 @@
 // Use of this source code is governed by a GNU AFFERO GENERAL PUBLIC
 // license (AGPL) that can be found in the LICENSE file.
 //
-// UserNameStorage interface implementation for cassandra
 
 package store
 
@@ -14,9 +13,10 @@ import (
 	"github.com/gocql/gocql"
 )
 
+// UserNameStorage interface implementation for cassandra
 func (cb *CassandraBackend) IsAvailable(username string) (resp bool, err error) {
-        resp = false
-        err = nil
+	resp = false
+	err = nil
 	lookup := helpers.EscapeUsername(username)
 	found := map[string]interface{}{}
 	err = cb.Session.Query(`SELECT COUNT(*) FROM user_name WHERE name = ?`, lookup).MapScan(found)

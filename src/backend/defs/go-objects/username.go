@@ -4,7 +4,14 @@
 
 package objects
 
-type UserName struct {
-	User_id []byte
-	Name    string
-}
+type (
+	UserName struct {
+		User_id []byte `json:"user_id"`
+		Name    string `json:"name"`
+	}
+
+	Availability struct {
+		Available bool   `json:"available" binding:"required"`
+		Username  string `json:"username" binding:"required"`
+	}
+)

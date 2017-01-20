@@ -6,18 +6,8 @@
 
 package objects
 
-type User struct {
-}
+type (
+	User struct {
 
-/* Queries */
-/////////////
-type GetUserByIdQuery struct {
-	Id     int64
-	Result *User
-}
-
-/* Procedures */
-////////////////
-type ApplyUserPatchProc struct {
-	Id int64
-}
+	}
+)

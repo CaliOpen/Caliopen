@@ -224,7 +224,10 @@
                   "$ref": "../objects/Contact.json#/properties"
                 }
               }
-            }
+            },
+            "required": [
+              "current_state"
+            ]
           }
         }
       ],

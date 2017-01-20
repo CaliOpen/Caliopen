@@ -127,5 +127,64 @@
         }
       }
     }
+  },
+  "users_isAvailable": {
+    "get": {
+      "description": "Check if an username is available for creation within Caliopen instance",
+      "tags": [
+        "users",
+        "username"
+      ],
+      "security": [],
+      "parameters": [
+        {
+          "name": "username",
+          "in": "query",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "responses": {
+        "200": {
+          "description": "availability state for requested username",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "string"
+              },
+              "available": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "username",
+              "available"
+            ]
+          }
+        },
+        "400": {
+          "description": "malform request (probably missing 'username' query param)",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "string"
+              },
+              "available": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "username",
+              "available"
+            ]
+          }
+        }
+      }
+    }
   }
 }

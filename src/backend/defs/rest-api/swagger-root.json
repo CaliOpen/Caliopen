@@ -7,21 +7,22 @@
   "schemes": [
     "http"
   ],
-  "host": "localhost:6543",
-  "basePath": "/api/v1",
+  "host": "localhost:3141",
+  "basePath": "/api",
   "paths": {
-    "/authentications": {"$ref": "paths/authentications.json#/authentications"},
-    "/me": {"$ref": "paths/me.json#/me"},
-    "/users": {"$ref": "paths/users.json#/users"},
-    "/users/{user_id}": {"$ref": "paths/users.json#/users_{user_id}"},
-    "/contacts": {"$ref": "paths/contacts.json#/contacts"},
-    "/contacts/{contact_id}": {"$ref": "paths/contacts.json#/contacts_{contact_id}"},
-    "/discussions": {"$ref": "paths/discussions.json#/discussions"},
-    "/discussions/{discussion_id}": {"$ref": "paths/discussions.json#/discussions_{discussion_id}"},
-    "/discussions/{discussion_id}/messages": {"$ref": "paths/discussions.json#/discussions_{discussion_id}_messages"},
-    "/raws/{raw_msg_id}": {"$ref": "paths/raws.json#/raws_{raw_msg_id}"},
-    "/tags": {"$ref": "paths/tags.json#/tags"},
-    "/tags/{tag_id}": {"$ref": "paths/tags.json#/tags_{tag_id}"}
+    "/v1/authentications": {"$ref": "paths/authentications.json#/authentications"},
+    "/v1/me": {"$ref": "paths/me.json#/me"},
+    "/v1/users": {"$ref": "paths/users.json#/users"},
+    "/v1/users/{user_id}": {"$ref": "paths/users.json#/users_{user_id}"},
+    "/v2/username/isAvailable":{"$ref": "paths/users.json#/users_isAvailable"},
+    "/v1/contacts": {"$ref": "paths/contacts.json#/contacts"},
+    "/v1/contacts/{contact_id}": {"$ref": "paths/contacts.json#/contacts_{contact_id}"},
+    "/v1/discussions": {"$ref": "paths/discussions.json#/discussions"},
+    "/v1/discussions/{discussion_id}": {"$ref": "paths/discussions.json#/discussions_{discussion_id}"},
+    "/v1/discussions/{discussion_id}/messages": {"$ref": "paths/discussions.json#/discussions_{discussion_id}_messages"},
+    "/v1/raws/{raw_msg_id}": {"$ref": "paths/raws.json#/raws_{raw_msg_id}"},
+    "/v1/tags": {"$ref": "paths/tags.json#/tags"},
+    "/v1/tags/{tag_id}": {"$ref": "paths/tags.json#/tags_{tag_id}"}
   },
   "securityDefinitions": {
     "basicAuth": {

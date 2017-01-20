@@ -4,17 +4,23 @@ import (
 	"github.com/CaliOpen/CaliOpen/src/backend/defs/go-objects"
 )
 
-/**** Users ****/
-type UserStorage interface {
-	Get(*objects.User) error
-}
+type (
+	/**** Users ****/
+	UserStorage interface {
+		Get(*objects.User) error
+	}
+	UserNameStorage interface {
+		IsAvailable(username string) (bool, error)
+	}
 
-type UserNameStorage interface {
-	IsAvailable(username string) (bool, error)
-}
+	/**** HTTP REST API ****/
+	APIStorage interface {
+		UserNameStorage
+	}
 
-/**** LDA ****/
-type LDABackend interface {
-	GetRecipients([]string) ([]string, error)
-	StoreRaw(data string) (raw_id string, err error)
-}
+	/**** LDA ****/
+	LDABackend interface {
+		GetRecipients([]string) ([]string, error)
+		StoreRaw(data string) (raw_id string, err error)
+	}
+)

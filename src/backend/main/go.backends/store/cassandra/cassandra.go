@@ -10,17 +10,19 @@ var (
 	cassa *CassandraBackend
 )
 
-type CassandraBackend struct {
-	CassandraConfig
-	Session   *gocql.Session
-	IKeyspace gocassa.KeySpace //gocassa keyspace interface
-}
+type (
+	CassandraBackend struct {
+		CassandraConfig
+		Session   *gocql.Session
+		IKeyspace gocassa.KeySpace //gocassa keyspace interface
+	}
 
-type CassandraConfig struct {
-	Hosts       []string          `mapstructure:"hosts"`
-	Keyspace    string            `mapstructure:"keyspace"`
-	Consistency gocql.Consistency `mapstructure:"consistency_level"`
-}
+	CassandraConfig struct {
+		Hosts       []string          `mapstructure:"hosts"`
+		Keyspace    string            `mapstructure:"keyspace"`
+		Consistency gocql.Consistency `mapstructure:"consistency_level"`
+	}
+)
 
 func Initialize(config CassandraConfig) error {
 	cassa = new(CassandraBackend)
