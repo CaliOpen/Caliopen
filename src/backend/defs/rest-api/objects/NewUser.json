@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "contact": {
+      "$ref": "NewContact.json"
+    },
+    "username": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

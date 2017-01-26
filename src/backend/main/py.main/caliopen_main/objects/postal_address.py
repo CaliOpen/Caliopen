@@ -5,7 +5,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 import types
 from caliopen_main.objects import base
 from uuid import UUID
-from caliopen_main.user.store.contact import PostalAddress
+from caliopen_main.user.store.contact import PostalAddress as ModelPostalAddress
 from caliopen_main.user.returns.contact import PostalAddressParam
 from caliopen_main.user.store.contact_index import IndexedPostalAddress
 
@@ -26,9 +26,6 @@ class PostalAddress(base.ObjectIndexable):
         "user_id":                  UUID
     }
 
-    _model_class = PostalAddress
+    _model_class = ModelPostalAddress
     _json_model = PostalAddressParam
     _index_class = IndexedPostalAddress
-
-    def __init__(self):
-        super(base.CaliopenObject, self).__init__()

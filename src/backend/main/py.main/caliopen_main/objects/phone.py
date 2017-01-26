@@ -6,7 +6,7 @@ import types
 from caliopen_main.objects import base
 from caliopen_main.user.parameters.types import PhoneNumberType
 from uuid import UUID
-from caliopen_main.user.store.contact import Phone
+from caliopen_main.user.store.contact import Phone as ModelPhone
 from caliopen_main.user.returns.contact import PhoneParam
 from caliopen_main.user.store.contact_index import IndexedPhone
 
@@ -23,9 +23,6 @@ class Phone(base.ObjectIndexable):
         "user_id":                  UUID
     }
 
-    _model_class = Phone
+    _model_class = ModelPhone
     _json_model = PhoneParam
     _index_class = IndexedPhone
-
-    def __init__(self):
-        super(base.CaliopenObject, self).__init__()

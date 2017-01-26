@@ -15,8 +15,7 @@ from ..base import Api
 from ..base.exception import AuthenticationError
 
 from caliopen_main.user.parameters import NewUser
-from caliopen_main.user.returns import ReturnUser
-from caliopen_storage.exception import NotFound
+from caliopen_main.user.returns.user import ReturnUser
 
 log = logging.getLogger(__name__)
 
@@ -62,18 +61,14 @@ class AuthenticationAPI(Api):
         self.request.cache.set(user.user_id, tokens)
 
         return {'user_id': user.user_id,
-                'usernname': user.name,
+                'username': user.name,
                 'tokens': tokens}
 
 
 def no_such_user(request):
     """Validator that an user does not exist."""
-    try:
-        user = User.by_name(request.swagger_data['username'])
-        if user:
-            raise AuthenticationError('User already exist')
-    except NotFound:
-        pass
+    if not User.is_username_available(request.swagger_data['user']['username']):
+        raise AuthenticationError('User already exist')
 
 
 @resource(path='/users/{user_id}',
@@ -100,12 +95,16 @@ class UserAPI(Api):
     def collection_post(self):
         """Create a new user."""
 
-        param = NewUser({'name': self.request.swagger_data['username'],
-                         'password': self.request.swagger_data['password']})
+        param = NewUser({'name': self.request.swagger_data['user']['username'],
+                         'password': self.request.swagger_data['user']['password'],
+                         'contact': self.request.swagger_data['user']['contact']
+                         })
+
         try:
             user = User.create(param)
         except Exception as exc:
-            raise AuthenticationError(exc.message)
+            raise AuthenticationError(exc.message)  # why this class of error ?
+
         log.info('Created user {} with name {}'.
                  format(user.user_id, user.name))
         user_url = self.request.route_path('User', user_id=user.user_id)

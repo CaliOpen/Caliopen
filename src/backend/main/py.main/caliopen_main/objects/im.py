@@ -6,7 +6,7 @@ import types
 from caliopen_main.objects import base
 from uuid import UUID
 from caliopen_main.user.parameters.types import InternetAddressType
-from caliopen_main.user.store.contact import IM
+from caliopen_main.user.store.contact import IM as ModelIM
 from caliopen_main.user.returns.contact import IMParam
 from caliopen_main.user.store.contact_index import IndexedInternetAddress
 
@@ -24,9 +24,6 @@ class IM(base.ObjectIndexable):
         "user_id":              UUID
     }
 
-    _model_class = IM
+    _model_class = ModelIM
     _json_model = IMParam
     _index_class = IndexedInternetAddress
-
-    def __init__(self):
-        super(base.CaliopenObject, self).__init__()

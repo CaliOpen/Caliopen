@@ -22,6 +22,17 @@
     },
     "params": {
       "type": "object"
+    },
+    "privacy_features": {
+      "type": "object",
+      "$ref": "Privacy_features.json"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "privacy_index": {
+      "type": "integer",
+      "format": "int32"
     }
   },
   "additionalProperties": false

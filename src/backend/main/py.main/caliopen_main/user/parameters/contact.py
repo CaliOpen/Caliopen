@@ -109,6 +109,7 @@ class NewEmail(Model):
     """Input structure for a new email."""
     address = InternetAddressType(required=True)
     is_primary = BooleanType(default=False)
+    is_backup = BooleanType(default=False)
     label = StringType()
     type = StringType(choices=EMAIL_TYPES, default='other')
 
@@ -120,9 +121,7 @@ class Email(NewEmail):
 
     """Existing email."""
 
-    contact_id = UUIDType()
     email_id = UUIDType()
-    user_id = UUIDType()
 
     class Options:
         roles = {'default': blacklist('user_id', 'contact_id')}

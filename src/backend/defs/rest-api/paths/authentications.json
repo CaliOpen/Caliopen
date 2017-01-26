@@ -54,7 +54,8 @@
                   }
                 }
               }
-            }
+            },
+            "additionalProperties": false
           }
         },
         "401": {

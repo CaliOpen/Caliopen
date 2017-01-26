@@ -50,6 +50,7 @@ class IndexedInternetAddress(dsl.InnerObjectWrapper):
     address = dsl.String()
     label = dsl.String()
     is_primary = dsl.Boolean()
+    is_backup = dsl.Boolean()
     type = dsl.String()
 
 

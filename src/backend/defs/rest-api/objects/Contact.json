@@ -79,7 +79,8 @@
       }
     },
     "privacy_features": {
-      "type": "object"
+      "type": "object",
+      "$ref": "Privacy_features.json"
     },
     "privacy_index": {
       "type": "integer",

@@ -22,17 +22,33 @@ class CaliopenObject(object):
     _attrs = {}
 
     def __init__(self, **kwargs):
-
         # TODO: type check and kwargs consistency check
         for k, v in kwargs.items():
             if k in self._attrs:
-                setattr(self, k, v)
+                if isinstance(self._attrs[k], list):
+                    setattr(self, k, [])
+                    att_list = getattr(self, k)
+                    if isinstance(v, list):
+                        for item in v:
+                            if issubclass(self._attrs[k][0], CaliopenObject):
+                                att_list.append(self._attrs[k][0](**item))
+                            else:
+                                att_list.append(item)
+                    else:
+                        if issubclass(self._attrs[k][0], CaliopenObject):
+                            att_list.append(self._attrs[k][0](**v))
+                        else:
+                            att_list.append(v)
+                elif issubclass(self._attrs[k], CaliopenObject):
+                    setattr(self, k, self._attrs[k][0](v))
+                else:
+                    setattr(self, k, v)
 
         for attr, attrtype in self._attrs.items():
             if not hasattr(self, attr):
-                if isinstance(attrtype, types.ListType):
+                if isinstance(attrtype, list):
                     setattr(self, attr, [])
-                elif isinstance(attrtype, types.DictType):
+                elif isinstance(attrtype, dict):
                     setattr(self, attr, {})
                 else:
                     setattr(self, attr, None)
@@ -82,7 +98,7 @@ class ObjectDictifiable(CaliopenObject):
 
         for attr, attrtype in self._attrs.items():
             if attr in document:
-                if isinstance(attrtype, types.ListType):
+                if isinstance(attrtype, list):
                     lst = []
                     if issubclass(attrtype[0], ObjectDictifiable):
                         for item in document[attr]:
@@ -159,13 +175,31 @@ class ObjectStorable(ObjectJsonDictifiable):
                     (self.__class__.__name__, getattr(self, self._pkey_name)))
 
     def save_db(self, **options):
-        raise NotImplementedError
+        try:
+            self._db.save()
+        except Exception as exc:
+            log.info(exc)
+            return exc
+
+        return None
 
     def create_db(self, **options):
-        raise NotImplementedError
+        try:
+            self._db.create()
+        except Exception as exc:
+            log.info(exc)
+            return exc
+
+        return None
 
     def delete_db(self, **options):
-        raise NotImplementedError
+        try:
+            self._db.delete()
+        except Exception as exc:
+            log.info(exc)
+            return exc
+
+        return None
 
     def update_db(self, **options):
         """push updated model into db"""
@@ -193,7 +227,7 @@ class ObjectStorable(ObjectJsonDictifiable):
         for att in self._db.keys():
             if not att.startswith("_") and att in self_keys:
                 # TODO : manage protected attrs (ie attributes that user should not be able to change directly)
-                if isinstance(self._attrs[att], types.ListType):
+                if isinstance(self._attrs[att], list):
                     # TODO : manage change within list to only elem changed
                     # (use builtin set() collection ?)
                     if issubclass(self._attrs[att][0], CaliopenObject):
@@ -221,9 +255,7 @@ class ObjectStorable(ObjectJsonDictifiable):
 class ObjectUser(ObjectStorable):
     """Objects that MUST belong to a user to survive in Caliopen's world..."""
 
-    user_id = None
-
-    def __init__(self, user_id, **params):
+    def __init__(self, user_id=None, **params):
         self.user_id = user_id
         super(ObjectUser, self).__init__(**params)
 
@@ -390,16 +422,17 @@ class ObjectIndexable(ObjectUser):
         update = False
         if "update" in options and options["update"] is True:
             update = True
-            # index_sibling is instanciated with self._index values to perform
-            # object comparaison
-            index_sibling = self.__class__(user_id=self.user_id)
-            index_sibling._index = self._index
-            index_sibling.unmarshall_index()
+        # index_sibling is instanciated with self._index values to perform
+        # object comparaison
+        index_sibling = self.__class__(user_id=self.user_id)
+        index_sibling._index = self._index
+        index_sibling.unmarshall_index()
 
         if not isinstance(self._index, self._index_class):
             self._index = self._index_class()
             self._index.meta.index = self.user_id
             self._index.meta.using = self._index.client()
+            self._index.meta.id = getattr(self, self._pkey_name)
 
         # update_sibling is an empty sibling that will be filled
         # with attributes from self
@@ -423,6 +456,7 @@ class ObjectIndexable(ObjectUser):
                     setattr(self._index, k, v)
             else:
                 setattr(self._index, k, v)
+
         if update:
             delattr(update_sibling, "user_id")
             return update_sibling.marshall_json_dict()

@@ -78,7 +78,8 @@
                     }
                   }
                 }
-              }
+              },
+              "additionalProperties": false
             }
           },
           "401": {
@@ -214,6 +215,9 @@
                           "is_primary": {
                             "type": "boolean"
                           },
+                          "is_backup": {
+                            "type": "boolean"
+                          },
                           "label": {
                             "type": "string"
                           },
@@ -539,6 +543,16 @@
                 },
                 "params": {
                   "type": "object"
+                },
+                "privacy_features": {
+                  "type": "object"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "privacy_index": {
+                  "type": "integer",
+                  "format": "int32"
                 }
               },
               "additionalProperties": false
@@ -575,77 +589,20 @@
                     "additional_name": {
                       "type": "string"
                     },
-                    "addresses": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "address_id": {
-                            "type": "string"
-                          },
-                          "city": {
-                            "type": "string"
-                          },
-                          "country": {
-                            "type": "string"
-                          },
-                          "is_primary": {
-                            "type": "boolean"
-                          },
-                          "label": {
-                            "type": "string"
-                          },
-                          "postal_code": {
-                            "type": "string"
-                          },
-                          "region": {
-                            "type": "string"
-                          },
-                          "street": {
-                            "type": "string"
-                          },
-                          "type": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "address_id",
-                          "city"
-                        ],
-                        "additionalProperties": false
-                      }
-                    },
-                    "avatar": {
-                      "type": "string"
-                    },
-                    "contact_id": {
-                      "type": "string"
-                    },
-                    "date_insert": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "date_update": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "deleted": {
-                      "type": "boolean"
-                    },
                     "emails": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "properties": {
-                          "email_id": {
-                            "type": "string"
-                          },
                           "address": {
                             "type": "string"
                           },
                           "is_primary": {
                             "type": "boolean"
                           },
+                          "is_backup": {
+                            "type": "boolean"
+                          },
                           "label": {
                             "type": "string"
                           },
@@ -654,7 +611,6 @@
                           }
                         },
                         "required": [
-                          "email_id",
                           "address"
                         ],
                         "additionalProperties": false
@@ -672,86 +628,10 @@
                         "type": "string"
                       }
                     },
-                    "identities": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "allOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "infos": {
-                                "type": "object"
-                              },
-                              "name": {
-                                "type": "string"
-                              },
-                              "type": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "name"
-                            ],
-                            "additionalProperties": false
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "identity_id": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "identity_id"
-                            ],
-                            "additionalProperties": false
-                          }
-                        ]
-                      }
-                    },
                     "ims": {
                       "type": "array",
                       "items": {
-                        "type": "object",
-                        "allOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "address": {
-                                "type": "string"
-                              },
-                              "is_primary": {
-                                "type": "boolean"
-                              },
-                              "label": {
-                                "type": "string"
-                              },
-                              "protocol": {
-                                "type": "string"
-                              },
-                              "type": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "address"
-                            ],
-                            "additionalProperties": false
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "im_id": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "im_id"
-                            ],
-                            "additionalProperties": false
-                          }
-                        ]
+                        "type": "object"
                       }
                     },
                     "infos": {
@@ -766,211 +646,23 @@
                     "organizations": {
                       "type": "array",
                       "items": {
-                        "type": "object",
-                        "allOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "department": {
-                                "type": "string"
-                              },
-                              "is_primary": {
-                                "type": "boolean"
-                              },
-                              "job_description": {
-                                "type": "string"
-                              },
-                              "label": {
-                                "type": "string"
-                              },
-                              "name": {
-                                "type": "string"
-                              },
-                              "title": {
-                                "type": "string"
-                              },
-                              "type": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "label",
-                              "name"
-                            ],
-                            "additionalProperties": false
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "deleted": {
-                                "type": "boolean"
-                              }
-                            },
-                            "required": [
-                              "organization_id"
-                            ],
-                            "additionalProperties": false
-                          }
-                        ]
-                      }
-                    },
-                    "phones": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "allOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "is_primary": {
-                                "type": "boolean"
-                              },
-                              "number": {
-                                "type": "string"
-                              },
-                              "type": {
-                                "type": "string"
-                              },
-                              "uri": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "number"
-                            ],
-                            "additionalProperties": false
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "phone_id": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "phone_id"
-                            ],
-                            "additionalProperties": false
-                          }
-                        ]
-                      }
-                    },
-                    "privacy_features": {
-                      "type": "object"
-                    },
-                    "privacy_index": {
-                      "type": "integer",
-                      "format": "int32"
-                    },
-                    "public_keys": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "allOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "expire_date": {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              "fingerprint": {
-                                "type": "string"
-                              },
-                              "key": {
-                                "type": "string"
-                              },
-                              "name": {
-                                "type": "string"
-                              },
-                              "size": {
-                                "type": "integer",
-                                "format": "int32"
-                              }
-                            },
-                            "required": [
-                              "key",
-                              "name"
-                            ],
-                            "additionalProperties": false
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "date_insert": {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              "date_update": {
-                                "type": "string",
-                                "format": "date-time"
-                              }
-                            },
-                            "required": [
-                              "date_insert"
-                            ],
-                            "additionalProperties": false
-                          }
-                        ]
+                        "type": "object"
                       }
                     },
                     "tags": {
                       "type": "array",
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "type": {
-                            "type": "string",
-                            "enum": [
-                              "user",
-                              "system"
-                            ]
-                          },
-                          "name": {
-                            "type": "string"
-                          },
-                          "tag_id": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "name",
-                          "type"
-                        ],
-                        "additionalProperties": false
+                        "type": "object"
                       }
-                    },
-                    "title": {
-                      "type": "string"
-                    },
-                    "user_id": {
-                      "type": "string"
                     }
                   },
-                  "required": [
-                    "contact_id",
-                    "user_id"
-                  ],
                   "additionalProperties": false
                 },
-                "date_insert": {
-                  "type": "string",
-                  "format": "date-time"
-                },
-                "family_name": {
-                  "type": "string"
-                },
-                "given_name": {
-                  "type": "string"
-                },
-                "name": {
+                "username": {
                   "type": "string"
                 },
                 "password": {
                   "type": "string"
-                },
-                "params": {
-                  "type": "object"
                 }
               },
               "additionalProperties": false
@@ -1101,6 +793,9 @@
                           "is_primary": {
                             "type": "boolean"
                           },
+                          "is_backup": {
+                            "type": "boolean"
+                          },
                           "label": {
                             "type": "string"
                           },
@@ -1426,6 +1121,16 @@
                 },
                 "params": {
                   "type": "object"
+                },
+                "privacy_features": {
+                  "type": "object"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "privacy_index": {
+                  "type": "integer",
+                  "format": "int32"
                 }
               },
               "additionalProperties": false
@@ -1540,7 +1245,8 @@
               "required": [
                 "username",
                 "available"
-              ]
+              ],
+              "additionalProperties": false
             }
           },
           "400": {
@@ -1690,6 +1396,9 @@
                               "type": "string"
                             },
                             "is_primary": {
+                              "type": "boolean"
+                            },
+                            "is_backup": {
                               "type": "boolean"
                             },
                             "label": {
@@ -2032,7 +1741,28 @@
                 "emails": {
                   "type": "array",
                   "items": {
-                    "type": "object"
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "type": "string"
+                      },
+                      "is_primary": {
+                        "type": "boolean"
+                      },
+                      "is_backup": {
+                        "type": "boolean"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "address"
+                    ],
+                    "additionalProperties": false
                   }
                 },
                 "family_name": {
@@ -2074,7 +1804,8 @@
                     "type": "object"
                   }
                 }
-              }
+              },
+              "additionalProperties": false
             }
           }
         ],
@@ -2197,6 +1928,9 @@
                         "type": "string"
                       },
                       "is_primary": {
+                        "type": "boolean"
+                      },
+                      "is_backup": {
                         "type": "boolean"
                       },
                       "label": {
@@ -2705,6 +2439,9 @@
                           "is_primary": {
                             "type": "boolean"
                           },
+                          "is_backup": {
+                            "type": "boolean"
+                          },
                           "label": {
                             "type": "string"
                           },
@@ -3079,6 +2816,9 @@
                         "type": "string"
                       },
                       "is_primary": {
+                        "type": "boolean"
+                      },
+                      "is_backup": {
                         "type": "boolean"
                       },
                       "label": {
@@ -3604,6 +3344,9 @@
                                   "is_primary": {
                                     "type": "boolean"
                                   },
+                                  "is_backup": {
+                                    "type": "boolean"
+                                  },
                                   "label": {
                                     "type": "string"
                                   },
@@ -4082,6 +3825,9 @@
                               "type": "string"
                             },
                             "is_primary": {
+                              "type": "boolean"
+                            },
+                            "is_backup": {
                               "type": "boolean"
                             },
                             "label": {

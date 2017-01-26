@@ -90,3 +90,8 @@ class Contact(base.ObjectIndexable):
     #  operations related to elasticsearch
     _index_class = IndexedContact
     _index = None
+
+    def delete(self):
+        if self.user.contact_id == self.contact_id:
+            raise Exception("Can't delete contact related to user")
+        return super(Contact, self).delete()

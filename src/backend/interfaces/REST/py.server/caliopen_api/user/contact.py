@@ -14,12 +14,12 @@ from caliopen_main.user.core import (Contact as CoreContact,
 
 from caliopen_main.objects.contact import Contact as ContactObject
 
-from caliopen_main.user.returns import (ReturnContact,
-                                        ReturnAddress, ReturnEmail,
-                                        ReturnIM, ReturnPhone,
-                                        ReturnOrganization,
-                                        ReturnSocialIdentity,
-                                        ReturnPublicKey)
+from caliopen_main.user.returns.contact import (ReturnContact,
+                                                ReturnAddress, ReturnEmail,
+                                                ReturnIM, ReturnPhone,
+                                                ReturnOrganization,
+                                                ReturnSocialIdentity,
+                                                ReturnPublicKey)
 
 from caliopen_main.user.parameters import (NewContact as NewContactParam,
                                            NewPostalAddress, NewEmail, NewIM)

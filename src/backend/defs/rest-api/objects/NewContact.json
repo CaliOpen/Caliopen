@@ -7,7 +7,7 @@
     "emails": {
       "type": "array",
       "items": {
-        "type": "object"
+        "$ref": "NewEmail.json"
       }
     },
     "family_name": {
@@ -49,5 +49,6 @@
         "type": "object"
       }
     }
-  }
+  },
+  "additionalProperties": false
 }

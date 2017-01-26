@@ -5,7 +5,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 import types
 from caliopen_main.objects import base
 from uuid import UUID
-from caliopen_main.user.store.contact import SocialIdentity
+from caliopen_main.user.store.contact import SocialIdentity as ModelSocialIdentity
 from caliopen_main.user.returns.contact import SocialIdentityParam
 from caliopen_main.user.store.contact_index import IndexedSocialIdentity
 
@@ -22,8 +22,5 @@ class SocialIdentity(base.ObjectIndexable):
     }
 
     _json_model = SocialIdentityParam
-    _model_class = SocialIdentity
+    _model_class = ModelSocialIdentity
     _index_class = IndexedSocialIdentity
-
-    def __init__(self):
-        super(base.CaliopenObject, self).__init__()

@@ -19,7 +19,7 @@
           "in": "body",
           "required": true,
           "schema": {
-            "$ref": "../objects/User.json"
+            "$ref": "../objects/NewUser.json"
           }
         }
       ],
@@ -163,7 +163,8 @@
             "required": [
               "username",
               "available"
-            ]
+            ],
+            "additionalProperties": false
           }
         },
         "400": {

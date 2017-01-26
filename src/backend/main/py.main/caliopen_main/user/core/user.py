@@ -5,8 +5,11 @@ from __future__ import absolute_import, print_function, unicode_literals
 from datetime import datetime
 import bcrypt
 import logging
+import uuid
 
 from elasticsearch import Elasticsearch
+from zxcvbn import zxcvbn
+from validate_email import validate_email
 
 from caliopen_storage.config import Configuration
 from caliopen_storage.exception import NotFound, CredentialException
@@ -16,10 +19,13 @@ from ..store import (User as ModelUser,
                      Counter as ModelCounter,
                      UserTag as ModelUserTag,
                      FilterRule as ModelFilterRule,
-                     ReservedName as ModelReservedName)
+                     ReservedName as ModelReservedName
+                     )
 
 from caliopen_storage.core import BaseCore, BaseUserCore, core_registry
-from .contact import Contact
+from .contact import Contact as CoreContact
+from caliopen_main.objects.contact import Contact, Email
+from caliopen_main.user.helpers import validators
 
 log = logging.getLogger(__name__)
 
@@ -119,39 +125,111 @@ class User(BaseCore):
     _index_class = IndexUser
 
     @classmethod
-    def create(cls, user):
-        """Create a new user."""
-        user.validate()
-        user.password = bcrypt.hashpw(user.password.encode('utf-8'),
-                                      bcrypt.gensalt())
+    def create(cls, new_user):
+        """Create a new user.
+
+        # 1.check username regex
+        # 2.check username is not in reserved_name table
+        # 3.check backup email validity (in future, will need to check if email is not within this Caliopen instance)
+        # 4.check username availability
+        # 5.add username to user cassa user_name table (to block the availability)
+        # 6.check password strength (and regex?)
+        # then
+        #      create user and linked contact
+        """
+
+        def rollback_username_storage(username):
+            UserName.get(username).delete()
+
+        # 1.
         try:
-            ReservedName.get(user.name)
+            validators.is_valid_username(new_user.name)
+        except SyntaxError:
+            raise ValueError("Malformed username")
+
+        # 2.
+        try:
+            ReservedName.get(new_user.name)
             raise ValueError('Reserved user name')
         except NotFound:
             pass
+
+        user_id = uuid.uuid4()
+        # 3.
+        if not new_user.contact:
+            raise ValueError("Missing contact info for user")
+        else:
+            contact = Contact(user_id=user_id, **new_user.contact.serialize())
+            contact.contact_id = uuid.uuid4()
+
+            if len(contact.emails) == 0:
+                raise ValueError("Missing email for user")
+            else:
+                have_backup_email = False
+                for email in contact.emails:
+                    if email.address is not None:
+                        if not validate_email(email.address):
+                            raise ValueError("Invalid backup email address")
+                        else:
+                            email.email_id = uuid.uuid4()
+                            email.is_backup = True
+                            have_backup_email = True
+                            break
+                if not have_backup_email:
+                    raise ValueError("Missing email address for user")
+
+        # 4. & 5.
+        if User.is_username_available(new_user.name.lower()):
+            # save username immediately to prevent concurrent creation
+            UserName.create(name=new_user.name.lower(), user_id=user_id)
+            # NB : need to rollback this username creation if the below User creation failed for any reason
+        else:
+            raise ValueError("Username already exist")
+
+        # 6.
         try:
-            UserName.get(user.name.lower())
-            raise Exception('User %s already exist' % user.name)
-        except NotFound:
-            pass
-        core = super(User, cls).create(name=user.name,
-                                       password=user.password,
-                                       params=user.params,
-                                       date_insert=datetime.utcnow())
+            password_strength = zxcvbn(new_user.password, user_inputs=[new_user.name])  # TODO: add contact inputs if any
+            privacy_features = {"password_strength": str(password_strength["score"])}
+            new_user.password = bcrypt.hashpw(new_user.password.encode('utf-8'), bcrypt.gensalt())
+        except Exception as exc:
+            rollback_username_storage(new_user.name)
+            raise exc
+
+        try:
+            new_user.validate()  # cql model validation
+            core = super(User, cls).create(user_id=user_id,
+                                           name=new_user.name,
+                                           password=new_user.password,
+                                           params=new_user.params,
+                                           date_insert=datetime.utcnow(),
+                                           privacy_features=privacy_features
+                                           )
+        except Exception as exc:
+            rollback_username_storage(new_user.name)
+            raise exc
+
+        # **** operations below do not raise fatal error and rollback **** #
         # Setup index
         core._setup_user_index()
-
-        # Ensure unicity
-        UserName.create(name=user.name.lower(), user_id=core.user_id)
-        if user.contact:
-            contact = Contact.create(user=core, contact=user.contact)
-            # XXX should use core proxy, not directly model attribute
-            core.model.contact_id = contact.contact_id
-            core.save()
 
         # Create counters
         Counter.create(user_id=core.user_id)
         core.setup_system_tags()
+
+        # save and index linked contact
+        contact.marshall_db()
+        try:
+            contact.save_db()
+        except Exception as exc:
+            log.info("save_db error : {}".format(exc))
+        contact.marshall_index()
+        contact.save_index()
+
+        # XXX should use core proxy, not directly model attribute
+        core.model.contact_id = contact.contact_id
+
+        core.save()
+
         return core
 
     @classmethod
@@ -159,6 +237,15 @@ class User(BaseCore):
         """Get user by name."""
         uname = UserName.get(name.lower())
         return cls.get(uname.user_id)
+
+    @classmethod
+    def is_username_available(cls, username):
+        """ returns true or false if username has been found in store's user_name table"""
+        try:
+            UserName.get(username.lower())
+            return False
+        except NotFound:
+            return True
 
     @classmethod
     def authenticate(cls, user_name, password):
@@ -231,7 +318,7 @@ class User(BaseCore):
     @property
     def contact(self):
         """User is a contact."""
-        return Contact.get(self, self.contact_id)
+        return CoreContact.get(self, self.contact_id)
 
     @property
     def tags(self):
