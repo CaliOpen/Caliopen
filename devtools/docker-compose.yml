@@ -1,7 +1,16 @@
 version: '2'
 services:
-  # Caliopen API server
+  # Caliopen APIv2
   api:
+      build: ../src/backend/interfaces/REST/go.server
+      links:
+          - apiv1:apiv1.dev.caliopen.org
+          - cassandra:cassandra.dev.caliopen.org
+      ports:
+          - "3141:3141"
+
+  # Caliopen APIv1
+  apiv1:
       build: ../src/backend/interfaces/REST/py.server
       links:
           - redis:redis.dev.caliopen.org
