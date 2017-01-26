@@ -7,6 +7,7 @@ CALIOPEN_BACKEND_DIR="${CALIOPEN_BASE_DIR}/code/src/backend"
 CALIOPEN_FRONTEND_DIR="${CALIOPEN_BASE_DIR}/code/src/frontend/web_application"
 CONF_FILE="${CALIOPEN_BACKEND_DIR}/configs/caliopen.yaml.template"
 GOPATH="/opt/go"
+GO_PKG="go1.7.4.linux-amd64.tar.gz"
 CALIOPEN_GO_DIR="${GOPATH}/src/github.com/CaliOpen"
 
 
@@ -16,11 +17,21 @@ CASSANDRA_VERSION="2.2.8"
 apt-get -y update
 apt-get -y upgrade
 apt-get install -y git libffi-dev python-pip gcc python-dev libssl-dev libev4 libev-dev redis-server elasticsearch
-apt-get install -y golang
 
 # setup nodejs and npm with correct version (node 6, npm 3)
 wget -q https://deb.nodesource.com/setup_6.x -O -|bash
 apt-get install -y nodejs
+
+# Setup a decent version of go (> 1.3)
+# Setup GO environment for build
+[[ -d ${GOPATH} ]] || mkdir ${GOPATH}
+export GOPATH
+
+cd ${GOPATH}
+wget -q https://storage.googleapis.com/golang/${GO_PKG}
+tar -C /usr/local -xzf ${GO_PKG}
+
+export PATH=${PATH}:/usr/local/go/bin:${GOPATH}/bin
 
 
 # Debian jessie setuptools is a really old version (5.1.x)
@@ -103,17 +114,6 @@ npm run start:dev > kotatsu.log 2>&1 &
 
 set +ev
 
-
-# Setup GO environment for build
-[[ -d ${GOPATH} ]] || mkdir ${GOPATH}
-export GOPATH
-export PATH=${PATH}:${GOPATH}/bin
-
-#cd ${GOPATH}
-# XXX gruikkk
-# [[ -d ${CALIOPEN_GO_DIR} ]] || mkdir -p ${CALIOPEN_GO_DIR}
-#ln -s ${CALIOPEN_BASE_DIR}/code ${CALIOPEN_GO_DIR}/CaliOpen
-# end of really gruikkk
 
 # Install dependencies
 go get -u github.com/kardianos/govendor
