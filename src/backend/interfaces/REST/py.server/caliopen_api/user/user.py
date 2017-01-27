@@ -97,6 +97,7 @@ class UserAPI(Api):
 
         param = NewUser({'name': self.request.swagger_data['user']['username'],
                          'password': self.request.swagger_data['user']['password'],
+                         'recovery_email': self.request.swagger_data['user']['recovery_email'],
                          'contact': self.request.swagger_data['user']['contact']
                          })
 

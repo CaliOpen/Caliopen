@@ -7,9 +7,6 @@
     "is_primary": {
       "type": "boolean"
     },
-    "is_backup": {
-      "type": "boolean"
-    },
     "label": {
       "type": "string"
     },

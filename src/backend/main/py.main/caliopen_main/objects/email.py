@@ -8,7 +8,6 @@ from uuid import UUID
 from caliopen_main.user.parameters.types import InternetAddressType
 from caliopen_main.user.store.contact import Email as ModelEmail
 from caliopen_main.user.returns.contact import EmailParam
-from caliopen_main.user.store.contact_index import IndexedInternetAddress
 
 
 class Email(base.ObjectStorable):

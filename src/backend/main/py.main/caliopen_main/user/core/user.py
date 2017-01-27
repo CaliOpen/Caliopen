@@ -130,7 +130,7 @@ class User(BaseCore):
 
         # 1.check username regex
         # 2.check username is not in reserved_name table
-        # 3.check backup email validity (in future, will need to check if email is not within this Caliopen instance)
+        # 3.check recovery email validity (TODO : check if email is not within the current Caliopen's instance)
         # 4.check username availability
         # 5.add username to user cassa user_name table (to block the availability)
         # 6.check password strength (and regex?)
@@ -156,27 +156,10 @@ class User(BaseCore):
 
         user_id = uuid.uuid4()
         # 3.
-        if not new_user.contact:
-            raise ValueError("Missing contact info for user")
-        else:
-            contact = Contact(user_id=user_id, **new_user.contact.serialize())
-            contact.contact_id = uuid.uuid4()
-
-            if len(contact.emails) == 0:
-                raise ValueError("Missing email for user")
-            else:
-                have_backup_email = False
-                for email in contact.emails:
-                    if email.address is not None:
-                        if not validate_email(email.address):
-                            raise ValueError("Invalid backup email address")
-                        else:
-                            email.email_id = uuid.uuid4()
-                            email.is_backup = True
-                            have_backup_email = True
-                            break
-                if not have_backup_email:
-                    raise ValueError("Missing email address for user")
+        if not new_user.recovery_email:
+            raise ValueError("Missing recovery email")
+        if not validate_email(new_user.recovery_email):
+            raise ValueError("Invalid recovery email address")
 
         # 4. & 5.
         if User.is_username_available(new_user.name.lower()):
@@ -188,23 +171,33 @@ class User(BaseCore):
 
         # 6.
         try:
-            password_strength = zxcvbn(new_user.password, user_inputs=[new_user.name])  # TODO: add contact inputs if any
+            user_inputs = [new_user.name.encode("utf-8"), new_user.recovery_email.encode("utf-8")]
+            password_strength = zxcvbn(new_user.password, user_inputs=user_inputs)  # TODO: add contact inputs if any
             privacy_features = {"password_strength": str(password_strength["score"])}
             new_user.password = bcrypt.hashpw(new_user.password.encode('utf-8'), bcrypt.gensalt())
         except Exception as exc:
+            log.info(exc)
             rollback_username_storage(new_user.name)
             raise exc
 
         try:
-            new_user.validate()  # cql model validation
+            new_user.validate()  # schematic model validation
+        except Exception as exc:
+            rollback_username_storage(new_user.name)
+            log.info("schematics validation error: {}".format(exc))
+            raise ValueError("new user malformed")
+
+        try:
             core = super(User, cls).create(user_id=user_id,
                                            name=new_user.name,
                                            password=new_user.password,
+                                           recovery_email=new_user.recovery_email,
                                            params=new_user.params,
                                            date_insert=datetime.utcnow(),
                                            privacy_features=privacy_features
                                            )
         except Exception as exc:
+            log.info(exc)
             rollback_username_storage(new_user.name)
             raise exc
 
@@ -217,16 +210,24 @@ class User(BaseCore):
         core.setup_system_tags()
 
         # save and index linked contact
-        contact.marshall_db()
-        try:
-            contact.save_db()
-        except Exception as exc:
-            log.info("save_db error : {}".format(exc))
-        contact.marshall_index()
-        contact.save_index()
+        if new_user.contact:
+            contact = Contact(user_id=user_id, **new_user.contact.serialize())
+            contact.contact_id = uuid.uuid4()
 
-        # XXX should use core proxy, not directly model attribute
-        core.model.contact_id = contact.contact_id
+            for email in contact.emails:
+                if email.address is not None and validate_email(email.address):
+                    email.email_id = uuid.uuid4()
+
+            try:
+                contact.marshall_db()
+                contact.save_db()
+            except Exception as exc:
+                log.info("save_db error : {}".format(exc))
+
+            contact.marshall_index()
+            contact.save_index()
+            # XXX should use core proxy, not directly model attribute
+            core.model.contact_id = contact.contact_id
 
         core.save()
 

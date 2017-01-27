@@ -9,7 +9,13 @@
     },
     "password": {
       "type": "string"
+    },
+    "recovery_email": {
+      "type": "string"
     }
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "required":[
+    "username", "password", "recovery_email"
+  ]
 }

@@ -3,7 +3,7 @@
 
 from schematics.models import Model
 from schematics.types import (StringType, UUIDType, IntType,
-                              DateTimeType, BooleanType)
+                              DateTimeType, BooleanType, EmailType)
 from schematics.types.compound import ModelType, DictType, ListType
 from schematics.transforms import blacklist
 
@@ -24,6 +24,7 @@ class NewUser(Model):
     name = StringType(required=True)
     params = DictType(StringType())
     password = StringType(required=True)
+    recovery_email = EmailType(required=True)
 
     class Options:
         serialize_when_none = False

@@ -33,7 +33,13 @@
     "privacy_index": {
       "type": "integer",
       "format": "int32"
+    },
+    "recovery_email": {
+      "type": "string"
     }
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "required":[
+    "username", "password", "recovery_email"
+  ]
 }

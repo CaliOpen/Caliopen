@@ -7,12 +7,27 @@ import regex
 def is_valid_username(username):
     """ conforms to doc/RFCs/username_specifications"""
 
-    rgx = ur"^[^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>[\\\]]" \
-          ur"((\.[^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>[\\\]]|" \
-          ur"[^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>[\\\]])){1,40}" \
-          ur"((\.[^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>[\\\]])|" \
-          ur"([^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>[\\\]]))$"
+    rgx = ur"^[^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>\[\\\]]" \
+          ur"((\.[^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>\[\\\]]|" \
+          ur"[^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>\[\\\]])){1,40}" \
+          ur"((\.[^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>\[\\\]])|" \
+          ur"([^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>\[\\\]]))$"
 
-    match = regex.search(rgx, username)
-    if match is None:
+    r = regex.compile(rgx, flags=regex.V1+regex.UNICODE)
+
+    if r.match(username) is None:
         raise SyntaxError
+
+
+def main():
+    try:
+        is_valid_username("0123❤xxx___the______johnΔœuf")
+    except:
+        print("username NOT valid")
+        return
+
+    print("username OK")
+
+
+if __name__ == '__main__':
+    main()

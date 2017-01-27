@@ -46,7 +46,7 @@ class User(BaseModel):
     main_user_id = columns.UUID()
     privacy_index = columns.Integer()
     privacy_features = columns.Map(columns.Text(), columns.Text())
-
+    recovery_email = columns.Text(required=True)
 
 class Counter(BaseModel):
 

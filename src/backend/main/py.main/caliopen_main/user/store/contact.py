@@ -55,7 +55,6 @@ class Email(BaseUserType):
     address = columns.Text()
     label = columns.Text()
     is_primary = columns.Boolean(default=False)
-    is_backup = columns.Boolean(default=False)
     type = columns.Text()   # home, work, other
 
 
