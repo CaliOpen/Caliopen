@@ -1,5 +1,5 @@
 ApiConfig:
-  host: 127.0.0.1
+  host: 0.0.0.0
   port: 6544
   BackendConfig:
     backend_name: cassandra
@@ -9,7 +9,7 @@ ApiConfig:
       keyspace: caliopen
       consistency_level: 1
 ProxyConfig:
-  host: 127.0.0.1
+  host: 0.0.0.0
   port: 3141
   routes:
   - /api/v2/: 127.0.0.1:6544
