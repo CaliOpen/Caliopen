@@ -17,6 +17,10 @@ if [[ "x${VIRTUAL_ENV}" == "x" ]]; then
     exit 1
 fi
 
+
+# Force installation of regex using pip
+pip install regex
+
 COMPONENTS="main/py.storage main/py.main interfaces/REST/py.server protocols/py.smtp tools/py.CLI components/py.pgp"
 
 for comp in ${COMPONENTS}:
