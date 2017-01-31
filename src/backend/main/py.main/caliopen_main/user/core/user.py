@@ -8,7 +8,7 @@ import logging
 import uuid
 
 from elasticsearch import Elasticsearch
-import zxcvbn
+from zxcvbn import zxcvbn
 from validate_email import validate_email
 
 from caliopen_storage.config import Configuration
@@ -172,7 +172,7 @@ class User(BaseCore):
         # 6.
         try:
             user_inputs = [new_user.name.encode("utf-8"), new_user.recovery_email.encode("utf-8")]
-            password_strength = zxcvbn.password_strength(new_user.password, user_inputs=user_inputs)  # TODO: add contact inputs if any
+            password_strength = zxcvbn(new_user.password, user_inputs=user_inputs)  # TODO: add contact inputs if any
             privacy_features = {"password_strength": str(password_strength["score"])}
             new_user.password = bcrypt.hashpw(new_user.password.encode('utf-8'), bcrypt.gensalt())
         except Exception as exc:
