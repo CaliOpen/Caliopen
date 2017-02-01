@@ -1,22 +1,21 @@
 package rest_api
 
 import (
+	obj "github.com/CaliOpen/CaliOpen/src/backend/defs/go-objects"
 	"github.com/CaliOpen/CaliOpen/src/backend/interfaces/REST/go.server/operations/users"
-	"github.com/CaliOpen/CaliOpen/src/backend/main/go.backends"
-	"github.com/CaliOpen/CaliOpen/src/backend/main/go.backends/store/cassandra"
+	"github.com/CaliOpen/CaliOpen/src/backend/main/go.main"
 	log "github.com/Sirupsen/logrus"
-	"github.com/gocql/gocql"
 	"gopkg.in/gin-gonic/gin.v1"
 )
 
 var (
 	server *REST_API
+	caliop *caliopen.CaliopenFacilities
 )
 
 type (
 	REST_API struct {
-		config  APIConfig
-		store *backends.APIStorage
+		config APIConfig
 	}
 
 	APIConfig struct {
@@ -31,9 +30,9 @@ type (
 	}
 
 	BackendSettings struct {
-		Hosts       []string          `mapstructure:"hosts"`
-		Keyspace    string            `mapstructure:"keyspace"`
-		Consistency gocql.Consistency `mapstructure:"consistency_level"`
+		Hosts       []string `mapstructure:"hosts"`
+		Keyspace    string   `mapstructure:"keyspace"`
+		Consistency uint16   `mapstructure:"consistency_level"`
 	}
 )
 
@@ -45,26 +44,23 @@ func InitializeServer(config APIConfig) error {
 func (server *REST_API) initialize(config APIConfig) error {
 	server.config = config
 
-	//db initialization
-	switch server.config.BackendConfig.BackendName {
-	case "cassandra":
-		backend := &store.CassandraBackend{}
-		cassaConfig := store.CassandraConfig{
-			Hosts:       server.config.BackendConfig.Settings.Hosts,
-			Keyspace:    server.config.BackendConfig.Settings.Keyspace,
-			Consistency: server.config.BackendConfig.Settings.Consistency,
-		}
-		err := backend.Initialize(cassaConfig)
-		if err != nil {
-			log.WithError(err).Fatalf("Initalization of %s backend failed", server.config.BackendName)
-		}
-		b := backends.APIStorage(backend)
-		server.store = &b
-	case "BOBcassandra":
-	// NotImplemented… yet ! ;-)
-	default:
-		log.Fatalf("Unknown backend: %s", server.config.BackendName)
+	//init Caliopen facility
+	caliopenConfig := obj.CaliopenConfig{
+		RESTstoreConfig: obj.RESTstoreConfig{
+			BackendName: config.BackendName,
+			Hosts:       config.BackendConfig.Settings.Hosts,
+			Keyspace:    config.BackendConfig.Settings.Keyspace,
+			Consistency: config.BackendConfig.Settings.Consistency,
+		},
 	}
+
+	err := caliopen.Initialize(caliopenConfig)
+
+	if err != nil {
+		log.WithError(err).Fatal("Caliopen facilities initialization failed")
+	}
+
+	caliop = caliopen.Facilities
 
 	return nil
 }
@@ -77,37 +73,35 @@ func (server *REST_API) start() error {
 	// Creates a gin router with default middleware:
 	// logger and recovery (crash-free) middleware
 	router := gin.Default()
-        // adds our middlewares
-        router.Use(SwaggerInboundValidation())
-	router.Use(BindBackend())
+	// adds our middlewares
+	router.Use(SwaggerInboundValidation())
 
-        // adds our routes and handlers
-        api := router.Group("/api/v2")
-        AddHandlers(api)
+	// adds our routes and handlers
+	api := router.Group("/api/v2")
+	AddHandlers(api)
 
-        // listens
+	// listens
 	addr := server.config.Host + ":" + server.config.Port
 	err := router.Run(addr)
-        if err != nil {
-                log.WithError(err).Info("unable to start gin server")
-        }
-	return err
-}
-
-func BindBackend() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Set("APIStore", server.store)
-		c.Next()
+	if err != nil {
+		log.WithError(err).Info("unable to start gin server")
 	}
+	return err
 }
 
 func AddHandlers(api *gin.RouterGroup) {
 
-        //users API
-        usrs := api.Group("/users")
-        usrs.POST("/", users.Create)
-        usrs.GET("/:user_id", users.Get)
+	//users API
+	u := api.Group("/users")
+	u.POST("/", func(ctx *gin.Context) {
+		users.Create(caliop, ctx)
+	})
+	u.GET("/:user_id", func(ctx *gin.Context) {
+		users.Get(caliop, ctx)
+	})
 
-        //username API
-        api.GET("/username/isAvailable", users.IsAvailable)
+	//username API
+	api.GET("/username/isAvailable", func(ctx *gin.Context) {
+		users.IsAvailable(caliop, ctx)
+	})
 }
