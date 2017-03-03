@@ -8,6 +8,7 @@ import ContactBook from './scenes/ContactBook';
 import Account from './scenes/Account';
 import Signin from './scenes/Signin';
 import Signup from './scenes/Signup';
+import Tags from './scenes/Tags';
 import Devices, { Device } from './scenes/Devices';
 import enableI18n from './services/i18n';
 
@@ -17,6 +18,7 @@ const getRoutes = () => [(
     <Route path="contacts" component={ContactBook} />
     <Route path="settings/" component={Settings}>
       <Route path="account" component={Account} />
+      <Route path="tags" component={Tags} />
       <Route path="devices" component={Devices}>
         <Route path=":deviceId" component={Device} />
       </Route>

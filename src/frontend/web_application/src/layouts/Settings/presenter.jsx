@@ -8,7 +8,8 @@ const Settings = ({ __, children }) => {
   const navLinks = [
     { title: __('settings.account'), to: '/settings/account', active: false },
     { title: __('settings.application'), href: '/settings/appplication', active: false },
-    { title: __('settings.devices'), to: '/settings/devices', active: true },
+    { title: __('settings.tags'), to: '/settings/tags', active: false },
+    { title: __('settings.devices'), to: '/settings/devices', active: false },
     { title: __('settings.signatures'), href: '/settings/signatures', active: false },
   ];
 
@@ -29,6 +30,10 @@ const Settings = ({ __, children }) => {
 Settings.propTypes = {
   children: PropTypes.node,
   __: PropTypes.func.isRequired,
+};
+
+Settings.defaultProps = {
+  children: null,
 };
 
 export default Settings;

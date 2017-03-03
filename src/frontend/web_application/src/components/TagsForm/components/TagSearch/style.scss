@@ -1,0 +1,9 @@
+@import '../../../../styles/common';
+@import '../../../../styles/vendor/bootstrap_foundation-sites';
+
+.m-tags-search {
+  @include flex-grid-row($size: expanded);
+  margin-bottom: map-get($co-form__spacing, 'large');
+
+  &__input { @include flex-grid-size; }
+}

@@ -1,13 +1,13 @@
 $co-brand-width: 10rem;
 
 $co-margin: 1.5rem;
-$co-radius: .125rem;
+$co-radius: .2rem;
 
 $co-font__size: 1rem;
 $co-font__size--small: .75rem;
 $co-font__line-height: 1.4rem;
 
-$co-component__height: 2.6rem;
+$co-component__height: 2.625rem;
 $co-component__spacing: .5rem;
 
 $co-form__width: (
@@ -41,3 +41,5 @@ $co-animation__margin-transition: margin .15s, padding .15s ease !default;
 $l-z-index__navbar-shadow: -1;
 $l-z-index__navbar: 1;
 $l-z-index__flash-message: 2;
+$l-z-index__header: 1000;
+$l-z-index__modal-overlay: 1001;

@@ -54,6 +54,10 @@
     "contact_profile.form.birthday.label": "Birthday:",
     "contact_profile.form.firstname.label": "Firstname:",
     "contact_profile.form.lastname.label": "Lastname:",
+    "contacts-filters.format-view.firstname": "Firstname, Lastname",
+    "contacts-filters.format-view.label": "Format name view",
+    "contacts-filters.format-view.name": "Lastname, Firstname",
+    "contacts-filters.order-by.label": "Order by",
     "device.action.delete": "Delete",
     "device.action.revoke": "Revoke this device",
     "device.action.save_changes": "Save modifications",
@@ -83,6 +87,7 @@
     "device.verify.descr": "You need to verify this device to allow it to access to your Caliopen account. Please note that this action can have an impact on your Privacy Index according to the device information and settings. You'll find below some informations about the device which tried to connect to your Caliopen account.",
     "device.verify.not-you": "It's not you?",
     "device.verify.title": "Verify you device",
+    "discussion-item-actions.action.more": "More",
     "general.action.load_more": "Load more",
     "header.menu.account": "Account",
     "header.menu.contacts": "Contacts",
@@ -132,6 +137,7 @@
     "settings.application": "Application",
     "settings.devices": "Devices",
     "settings.signatures": "Signatures",
+    "settings.tags": "Tags",
     "signin.action.login": "Login",
     "signin.create_an_account": "Create an account",
     "signin.feedback.invalid": "Credentials are invalid",
@@ -162,5 +168,10 @@
     "signup.form.username.label": "Username:",
     "signup.form.username.placeholder": "username",
     "signup.go_signin": "I already have an account",
-    "signup.title": "Create your account"
+    "signup.title": "Create your account",
+    "tags.action.create": "Create",
+    "tags.form.search.label": "Search",
+    "tags.form.search.placeholder": "Search a tag ...",
+    "tags.header.count": "(Total: %(count)s)",
+    "tags.header.title": "Tags"
 }

@@ -54,6 +54,10 @@
     "contact_profile.form.birthday.label": "Anniversaire :",
     "contact_profile.form.firstname.label": "Prénom :",
     "contact_profile.form.lastname.label": "Nom :",
+    "contacts-filters.format-view.firstname": "Prénom Nom",
+    "contacts-filters.format-view.label": "Format",
+    "contacts-filters.format-view.name": "Nom, Prénom",
+    "contacts-filters.order-by.label": "Tri",
     "device.action.delete": "Supprimer",
     "device.action.revoke": "Révoquer",
     "device.action.save_changes": "Enregistrer les modifications",
@@ -83,6 +87,7 @@
     "device.verify.descr": "Vous devez vérifier cet appareil afin de lui permettre de se connecter à votre compte Caliopen. Merci de noter que cette opération a un impacte sur Index de Confidentialité selon ses informations et paramétrages. Vous trouverez ci-dessous quelques informations à propos de cet appareil qui a essayé de se connecter à votre compte Caliopen.",
     "device.verify.not-you": "Ce n'est pas le votre ?",
     "device.verify.title": "Vérifier votre appareil",
+    "discussion-item-actions.action.more": "Plus",
     "general.action.load_more": "Charger plus",
     "header.menu.account": "Compte",
     "header.menu.contacts": "Contacts",
@@ -132,6 +137,7 @@
     "settings.application": "Application",
     "settings.devices": "Appareils",
     "settings.signatures": "Signatures",
+    "settings.tags": "Tags",
     "signin.action.login": "Connexion",
     "signin.create_an_account": "Créer un compte",
     "signin.feedback.invalid": "Les identifiants ne sont pas valides",
@@ -162,5 +168,10 @@
     "signup.form.username.label": "Nom d'utilisateur",
     "signup.form.username.placeholder": "nom d'utilisateur",
     "signup.go_signin": "J'ai déjà un compte",
-    "signup.title": "Créer votre compte"
+    "signup.title": "Créer votre compte",
+    "tags.action.create": "Créer",
+    "tags.form.search.label": "Rechercher",
+    "tags.form.search.placeholder": "Rechercher un tag ...",
+    "tags.header.count": "(Total : %(count)s)",
+    "tags.header.title": "Tags"
 }

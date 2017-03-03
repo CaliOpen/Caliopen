@@ -17,6 +17,8 @@
 
   - Form - Field with error: no more uppercase for the message & replace background color by a red border (inset)
   - Button - Add "inline" prop, to be used for Button placed beside inputs (dark background, 1px left margin, small font)
+  - Badge - remove no-radius, added radiusType [no|normal|rounded] "rounded" is not default anymore
+  - Config - change radius size to .2rem (previous .125rem)
 
 ### Removed
 

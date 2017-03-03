@@ -8,11 +8,9 @@ $m-badge--large__font-size: $co-font__size !default;
 .m-badge {
   display: inline-block;
   height: $m-badge__height;
-  padding: 0 ($m-badge__height / 2);
-
-  border-radius: ($m-badge__height / 2);
+  padding-right: .5rem;
+  padding-left: .5rem;
   background: $co-color__fg__back--low;
-
   color: $co-color__fg__text--low;
   font-size: ($m-badge__height / 2);
   line-height: $m-badge__height;
@@ -20,6 +18,16 @@ $m-badge--large__font-size: $co-font__size !default;
 
   &--no-radius {
     border-radius: 0;
+  }
+
+  &--normal-radius {
+    border-radius: $co-radius;
+  }
+
+  &--rounded-radius {
+    padding-right: $m-badge__height / 2;
+    padding-left: $m-badge__height / 2;
+    border-radius: ($m-badge__height / 2);
   }
 
   &--low {

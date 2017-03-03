@@ -16,6 +16,7 @@ import Fieldset from './components/Fieldset';
 import FormGrid from './components/FormGrid';
 import Icon from './components/Icon';
 import Link from './components/Link';
+import Modal from './components/Modal';
 import PiBar from './components/PiBar';
 import PasswordStrength from './components/PasswordStrength';
 import RadioFieldGroup from './components/RadioFieldGroup';
@@ -25,6 +26,7 @@ import SigninPage from './layouts/SigninPage';
 import SignupPage from './layouts/SignupPage';
 import Spinner from './components/Spinner';
 import Subtitle from './components/Subtitle';
+import TagsForm from './components/TagsForm';
 import TextFieldGroup from './components/TextFieldGroup';
 import TextList from './components/TextList';
 import Title from './components/Title';
@@ -116,8 +118,10 @@ storiesOf('Icons & Avatars', module)
 storiesOf('Layout', module)
   .add('Section', () => (
     <Section />
+  ))
+  .add('Modal', () => (
+    <Modal />
   ));
-
 storiesOf('Lists', module)
   .add('BlockList', () => (
     <BlockList />
@@ -139,6 +143,11 @@ storiesOf('Pi', module)
 //   .add('Devices', () => (
 //     <Devices />
 //   ));
+
+storiesOf('Tags', module)
+  .add('TagsForm', () => (
+    <TagsForm />
+  ));
 
 storiesOf('Titles', module)
   .add('Title', () => (

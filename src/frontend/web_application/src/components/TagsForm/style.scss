@@ -1,0 +1,15 @@
+@import '../../styles/common';
+@import '../../styles/vendor/bootstrap_foundation-sites';
+
+.m-tags-form {
+
+  &__count {
+    padding-left: map-get($co-form__spacing, 'small');
+    color: $co-color__fg__text--lower;
+    font-weight: 400;
+  }
+
+  &__section {
+    margin-bottom: map-get($co-form__spacing, 'large');
+  }
+}

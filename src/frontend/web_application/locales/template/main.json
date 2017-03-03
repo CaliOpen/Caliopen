@@ -54,6 +54,10 @@
     "contact_profile.form.birthday.label": "contact_profile.form.birthday.label",
     "contact_profile.form.firstname.label": "contact_profile.form.firstname.label",
     "contact_profile.form.lastname.label": "contact_profile.form.lastname.label",
+    "contacts-filters.format-view.firstname": "contacts-filters.format-view.firstname",
+    "contacts-filters.format-view.label": "contacts-filters.format-view.label",
+    "contacts-filters.format-view.name": "contacts-filters.format-view.name",
+    "contacts-filters.order-by.label": "contacts-filters.order-by.label",
     "device.action.delete": "device.action.delete",
     "device.action.revoke": "device.action.revoke",
     "device.action.save_changes": "device.action.save_changes",
@@ -83,6 +87,7 @@
     "device.verify.descr": "device.verify.descr",
     "device.verify.not-you": "device.verify.not-you",
     "device.verify.title": "device.verify.title",
+    "discussion-item-actions.action.more": "discussion-item-actions.action.more",
     "general.action.load_more": "general.action.load_more",
     "header.menu.account": "header.menu.account",
     "header.menu.contacts": "header.menu.contacts",
@@ -132,6 +137,7 @@
     "settings.application": "settings.application",
     "settings.devices": "settings.devices",
     "settings.signatures": "settings.signatures",
+    "settings.tags": "settings.tags",
     "signin.action.login": "signin.action.login",
     "signin.create_an_account": "signin.create_an_account",
     "signin.feedback.invalid": "signin.feedback.invalid",
@@ -162,5 +168,10 @@
     "signup.form.username.label": "signup.form.username.label",
     "signup.form.username.placeholder": "signup.form.username.placeholder",
     "signup.go_signin": "signup.go_signin",
-    "signup.title": "signup.title"
+    "signup.title": "signup.title",
+    "tags.action.create": "tags.action.create",
+    "tags.form.search.label": "tags.form.search.label",
+    "tags.form.search.placeholder": "tags.form.search.placeholder",
+    "tags.header.count": "tags.header.count",
+    "tags.header.title": "tags.header.title"
 }

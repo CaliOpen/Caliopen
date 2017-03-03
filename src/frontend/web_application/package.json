@@ -70,6 +70,7 @@
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-hot-loader": "^3.0.0-beta.5",
+    "react-modal": "^1.6.5",
     "react-redux": "^4.4.5",
     "react-redux-notify": "^1.0.8",
     "react-router": "^2.8.1",

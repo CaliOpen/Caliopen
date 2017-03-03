@@ -11,12 +11,10 @@
     padding-bottom: $co-component__spacing;
 
     &:hover {
-      background-color: $co-color__fg__back--high;
       color: $co-color__fg__text--high;
     }
 
     &:active {
-      background-color: $co-color__fg__back--low;
       color: $co-color__fg__text--low;
     }
 
