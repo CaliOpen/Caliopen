@@ -1,14 +1,14 @@
 ---
 # Javascript packages
 web-server:
-  objective: proxy api, provides html & assets (js)
+  description: proxy api, provides html & assets (js)
   release-command: src/frontend/web_application/bin/release
   dependencies:
     nodejs: "^6.10"
   packages:
   - "/dist/web-server"
 electron:
-  objective: an app packaged for linux, mac & windows
+  description: an app packaged for linux, mac & windows
   release-command: src/frontend/web_application/bin/release
   dependencies:
     nodejs: "^6.10"
@@ -17,7 +17,7 @@ electron:
   - "/dist/mac-app"
   - "/dist/windows-app"
 cordova:
-  objective: an app packaged for android, ios & windows phone
+  description: an app packaged for android, ios & windows phone
   release-command: src/frontend/web_application/bin/release
   dependencies:
     nodejs: "^6.10"
@@ -28,21 +28,21 @@ cordova:
 
 # Python packages
 caliopen_storage:
-  objective: Caliopen python storage package
+  description: Caliopen python storage package
   release-command: devtools/make_package.sh -t python -s src/backend/main/py.storage -n caliopen_storage
   dependencies:
     python: "^2.7"
   packages:
   - "/dist/python"
 caliopen_main:
-  objective: Caliopen python main package
+  description: Caliopen python main package
   release-command: devtools/make_package.sh -t python -s src/backend/main/py.main -n caliopen_main
   dependencies:
     python: "^2.7"
   packages:
   - "/dist/python"
 apiv1:
-  objective: Caliopen python ReST API package
+  description: Caliopen python ReST API package
   release-command: devtools/make_package.sh -t python -s src/backend/interfaces/REST/py.server -n caliopen_api
   dependencies:
     python: "^2.7"
@@ -51,7 +51,7 @@ apiv1:
 
 # Go packages
 apiv2:
-  objective: Caliopen ReST API package
+  description: Caliopen ReST API package
   release-command: devtools/make_binary.sh -t golang -s src/backend/interfaces/REST/go.server -n caliopen_apiv2
   dependencies:
     go: "^1.7"
