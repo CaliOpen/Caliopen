@@ -13,6 +13,10 @@ function make_python_package() {
 	cd ${BASEDIR}/${directory}
 	echo "Building python wheel ${name}"
 	python setup.py bdist_wheel --universal --dist-dir ${DISTDIR}
+	if [[ $? -ne 0 ]]; then
+		echo "Error building python wheel package ${name} : $?"
+		exit $?
+	fi
 }
 
 

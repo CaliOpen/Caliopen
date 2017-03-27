@@ -29,21 +29,21 @@ cordova:
 # Python packages
 caliopen_storage:
   description: Caliopen python storage package
-  release-command: devtools/make_package.sh -t python -s src/backend/main/py.storage -n caliopen_storage
+  release-command: devtools/make_package -t python -s src/backend/main/py.storage -n caliopen_storage
   dependencies:
     python: "^2.7"
   packages:
   - "/dist/python"
 caliopen_main:
   description: Caliopen python main package
-  release-command: devtools/make_package.sh -t python -s src/backend/main/py.main -n caliopen_main
+  release-command: devtools/make_package -t python -s src/backend/main/py.main -n caliopen_main
   dependencies:
     python: "^2.7"
   packages:
   - "/dist/python"
 apiv1:
   description: Caliopen python ReST API package
-  release-command: devtools/make_package.sh -t python -s src/backend/interfaces/REST/py.server -n caliopen_api
+  release-command: devtools/make_package -t python -s src/backend/interfaces/REST/py.server -n caliopen_api
   dependencies:
     python: "^2.7"
   packages:
@@ -52,7 +52,7 @@ apiv1:
 # Go packages
 apiv2:
   description: Caliopen ReST API package
-  release-command: devtools/make_binary.sh -t golang -s src/backend/interfaces/REST/go.server -n caliopen_apiv2
+  release-command: devtools/make_binary -t golang -s src/backend/interfaces/REST/go.server -n caliopen_apiv2
   dependencies:
     go: "^1.7"
   packages:
