@@ -1,0 +1,22 @@
+---
+type: object
+properties:
+  department:
+    type: string
+  is_primary:
+    type: boolean
+  job_description:
+    type: string
+  label:
+    type: string
+  name:
+    type: string
+  title:
+    type: string
+  type:
+    type: string
+required:
+- label
+- name
+additionalProperties: false
+

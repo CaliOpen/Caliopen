@@ -1,0 +1,248 @@
+---
+messages:
+  get:
+    description: Returns the list of messages for current user according to given
+      parameters/filter
+    tags:
+    - messages
+    security:
+    - basicAuth: []
+    parameters:
+    - name: X-Caliopen-PI
+      in: header
+      required: true
+      description: The PI range requested in form of `0;100`
+      type: string
+      default: 0;100
+    - name: discussion_id
+      in: query
+      description: filter messages belonging to a specific discussion
+      required: true
+      type: string
+    - name: limit
+      in: query
+      required: false
+      type: integer
+      description: number of messages to return per page
+    - name: offset
+      in: query
+      type: integer
+      required: false
+      description: number of pages to skip from the response
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: Messages returned
+        schema:
+          type: object
+          properties:
+            total:
+              type: integer
+              format: int32
+              description: number of messages found for user for the given parameters
+            messages:
+              type: array
+              items:
+                "$ref": "../objects/MessageV2.yaml"
+      '400':
+        description: malform request
+        schema:
+          type: object
+          "$ref": "../objects/Error.yaml"
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
+  post:
+    description: Create a new Message (draft) for an user
+    tags:
+    - messages
+    security:
+    - basicAuth: []
+    consumes:
+    - application/json
+    parameters:
+    - name: message
+      in: body
+      required: true
+      schema:
+        "$ref": "../objects/NewMessageV2.yaml"
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: Draft creation completed
+        schema:
+          type: object
+          properties:
+            location:
+              type: string
+              description: url to retrieve draft at /messages/{message_id}
+      '400':
+        description: malform request
+        schema:
+          type: object
+          "$ref": "../objects/Error.yaml"
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '422':
+        description: Unprocessable entity. Parameters were valid but the server was
+          unable to create the draft (probably because of a semantically erroneous
+          document, like an empty draft)
+        schema:
+          type: object
+          "$ref": "../objects/Error.yaml"
+messages_{message_id}:
+  get:
+    description: returns a message
+    tags:
+    - messages
+    security:
+    - basicAuth: []
+    parameters:
+    - name: message_id
+      in: path
+      type: string
+      required: true
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: Message found
+        schema:
+          "$ref": "../objects/MessageV2.yaml"
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '404':
+        description: Message not found
+        schema:
+          "$ref": "../objects/Error.yaml"
+  patch:
+    description: update a contact with rfc5789 and rfc7396 specifications
+    tags:
+    - messages
+    security:
+    - basicAuth: []
+    parameters:
+    - name: message_id
+      in: path
+      type: string
+      required: true
+    - name: patch
+      in: body
+      required: true
+      description: the patch to apply. See 'Caliopen Patch RFC' within /doc directory.
+      schema:
+        type: object
+        properties:
+          "$ref": "../objects/MessageV2.yaml#/properties"
+          current_state:
+            type: object
+            properties:
+              "$ref": "../objects/MessageV2.yaml#/properties"
+        required:
+        - current_state
+    consumes:
+    - application/json
+    responses:
+      '204':
+        description: Update successful. No body is returned.
+      '400':
+        description: json payload malformed
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '403':
+        description: Forbidden patch. Server is refusing to apply the given patch's
+          properties to this ressource
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '404':
+        description: message not found
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '422':
+        description: json is valid but patch was semantically malformed or unprocessable
+        schema:
+          "$ref": "../objects/Error.yaml"
+  delete:
+    description: Delete a message belonging to an user
+    tags:
+    - messages
+    security:
+    - basicAuth: []
+    parameters:
+    - name: message_id
+      in: path
+      required: true
+      type: string
+    responses:
+      '204':
+        description: Successful deletion. No body is returned
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '403':
+        description: Forbidden action. Server is refusing to delete this ressource
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '404':
+        description: message not found
+        schema:
+          "$ref": "../objects/Error.yaml"
+messages_{message_id}_actions:
+  post:
+    description: 'send an order to execute one (or many) action(s) for the given message
+      : send, etc. A successful execution of the action will probably modify one or
+      more message''s attribute(s)'
+    tags:
+    - messages
+    security:
+    - basicAuth: []
+    consumes:
+    - application/json
+    parameters:
+    - name: actions
+      in: body
+      required: true
+      schema:
+        "$ref": "../objects/Actions.yaml"
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: action(s) successfully executed. Message is sent back with its
+          modified attributes (if any)
+        schema:
+          "$ref": "../objects/MessageV2.yaml"
+      '400':
+        description: json payload malformed
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '403':
+        description: Forbidden action. Server is refusing to execute the given action(s)
+          to this ressource
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '404':
+        description: Message not found
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '422':
+        description: json is valid but action was semantically malformed or unprocessable
+        schema:
+          "$ref": "../objects/Error.yaml"
+

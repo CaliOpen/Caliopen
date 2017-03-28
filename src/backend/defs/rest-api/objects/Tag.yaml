@@ -1,0 +1,18 @@
+---
+type: object
+properties:
+  "$ref": NewTag.yaml#/properties
+  type:
+    type: string
+    enum:
+    - user
+    - system
+  name:
+    type: string
+  tag_id:
+    type: string
+required:
+- name
+- type
+additionalProperties: false
+

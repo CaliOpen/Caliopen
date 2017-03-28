@@ -1,0 +1,12 @@
+---
+type: object
+allOf:
+- "$ref": NewIM.yaml
+- type: object
+  properties:
+    im_id:
+      type: string
+  required:
+  - im_id
+  additionalProperties: false
+

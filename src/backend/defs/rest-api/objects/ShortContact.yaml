@@ -1,0 +1,19 @@
+---
+type: object
+properties:
+  contact_id:
+    type: string
+  family_name:
+    type: string
+  given_name:
+    type: string
+  tags:
+    type: array
+    items:
+      type: string
+  title:
+    type: string
+required:
+- contact_id
+additionalProperties: false
+

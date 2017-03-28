@@ -1,0 +1,52 @@
+---
+swagger: '2.0'
+info:
+  version: 0.1.0
+  title: Caliopen HTTP/REST API
+schemes:
+- http
+host: localhost:31415
+basePath: "/api"
+paths:
+  "/v1/authentications":
+    "$ref": paths/authentications.yaml#/authentications
+  "/v1/me":
+    "$ref": paths/me.yaml#/me
+  "/v1/users":
+    "$ref": paths/users.yaml#/users
+  "/v1/users/{user_id}":
+    "$ref": paths/users.yaml#/users_{user_id}
+  "/v2/username/isAvailable":
+    "$ref": paths/users.yaml#/users_isAvailable
+  "/v1/contacts":
+    "$ref": paths/contacts.yaml#/contacts
+  "/v1/contacts/{contact_id}":
+    "$ref": paths/contacts.yaml#/contacts_{contact_id}
+  "/v1/discussions":
+    "$ref": paths/discussions.yaml#/discussions
+  "/v1/discussions/{discussion_id}":
+    "$ref": paths/discussions.yaml#/discussions_{discussion_id}
+  "/v2/messages":
+    "$ref": paths/messages.yaml#/messages
+  "/v2/messages/{message_id}":
+    "$ref": paths/messages.yaml#/messages_{message_id}
+  "/v2/messages/{message_id}/actions":
+    "$ref": paths/messages.yaml#/messages_{message_id}_actions
+  "/v1/raws/{raw_msg_id}":
+    "$ref": paths/raws.yaml#/raws_{raw_msg_id}
+  "/v1/tags":
+    "$ref": paths/tags.yaml#/tags
+  "/v1/tags/{tag_id}":
+    "$ref": paths/tags.yaml#/tags_{tag_id}
+  "/v1/devices":
+    "$ref": paths/devices.yaml#/devices
+  "/v1/devices/{device_id}":
+    "$ref": paths/devices.yaml#/devices_{device_id}
+  "/v2/identities/locals":
+    "$ref": paths/identities.yaml#/locals
+securityDefinitions:
+  basicAuth:
+    type: basic
+    description: HTTP Basic Authentication. `Password` is the `access_token` return
+      by /authentications and `Username` is the `user_id` returned by /authentications
+

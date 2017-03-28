@@ -1,0 +1,23 @@
+---
+type: object
+properties:
+  name:
+    type: string
+  type:
+    type: string
+    default: unknow
+    enum:
+    - unknow
+    - desktop
+    - laptop
+    - smartphone
+    - tablet
+  locations:
+    type: array
+    items:
+      "$ref": DeviceLocation.yaml
+required:
+- name
+- type
+additionalProperties: false
+

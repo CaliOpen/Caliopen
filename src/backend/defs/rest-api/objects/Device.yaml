@@ -1,0 +1,26 @@
+---
+type: object
+properties:
+  "$ref": NewDevice.yaml#/properties
+  device_id:
+    type: string
+  signature_key:
+    type: string
+  status:
+    type: string
+  date_insert:
+    type: string
+    format: date-time
+  last_seen:
+    type: string
+    format: date-time
+  user_id:
+    type: string
+required:
+- device_id
+- name
+- type
+- status
+- date_insert
+additionalProperties: false
+

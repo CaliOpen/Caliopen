@@ -1,0 +1,15 @@
+---
+type: object
+properties:
+  is_primary:
+    type: boolean
+  number:
+    type: string
+  type:
+    type: string
+  uri:
+    type: string
+required:
+- number
+additionalProperties: false
+

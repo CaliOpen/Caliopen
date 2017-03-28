@@ -1,0 +1,18 @@
+---
+type: object
+properties:
+  address:
+    type: string
+  contact_id:         # may be empty if participant could not be linked to a user's contact
+    type: string
+  label:              # 'display-name' for email ; 'real name' for IRC
+    type: string
+  protocol:           # email, IRC…
+    type: string
+  type:               # to, from, cc, reply-to, bcc…
+    type: string
+required:
+- address
+- type
+- protocol
+additionalProperties: false

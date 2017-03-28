@@ -1,0 +1,17 @@
+---
+type: object
+properties:
+  address:
+    type: string
+  is_primary:
+    type: boolean
+  label:
+    type: string
+  protocol:
+    type: string
+  type:
+    type: string
+required:
+- address
+additionalProperties: false
+

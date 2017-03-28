@@ -1,0 +1,13 @@
+---
+type: object
+properties:
+  display_name:
+    type: string # the 'display-name' field in email address if available ; the 'nickname' for IRC
+  identifier: # the 'I' in URI, ie : the email address for email ; the user's real name for IRC
+    type: string
+  status: # deleted, etc.
+    type: string
+  type:
+    type: string
+  user_id:
+    type: string

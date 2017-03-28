@@ -1,0 +1,47 @@
+---
+authentications:
+  post:
+    description: Returns an auth token to build basicAuth for the provided credentials
+    tags:
+    - users
+    security: []
+    consumes:
+    - application/json
+    parameters:
+    - name: authentication
+      in: body
+      required: true
+      schema:
+        "$ref": "../objects/Authentication.yaml"
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: Successful authentication
+        schema:
+          type: object
+          properties:
+            username:
+              type: string
+            user_id:
+              type: string
+              description: the user_id makes the 'username' for basicAuth
+            tokens:
+              type: object
+              properties:
+                access_token:
+                  type: string
+                  description: the access_token makes the 'password' for basicAuth
+                expires_in:
+                  type: integer
+                  format: int32
+                expires_at:
+                  type: string
+                refresh_token:
+                  type: string
+          additionalProperties: false
+      '401':
+        description: Authentication error
+        schema:
+          "$ref": "../objects/Error.yaml"
+

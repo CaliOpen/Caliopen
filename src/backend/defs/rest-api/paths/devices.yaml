@@ -1,0 +1,149 @@
+---
+devices:
+  get:
+    description: Returns devices belonging to current user according to given parameters
+    tags:
+    - devices
+    security:
+    - basicAuth: []
+    parameters:
+    - name: X-Caliopen-PI
+      in: header
+      required: true
+      description: The PI range requested in form of `1;100`
+      type: string
+      default: 1;100
+    - name: limit
+      in: query
+      required: false
+      type: integer
+      description: number of devices to return per page
+    - name: offset
+      in: query
+      type: integer
+      required: false
+      description: number of pages to skip from the response
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: Devices returned
+        schema:
+          type: object
+          properties:
+            total:
+              type: integer
+              format: int32
+              description: number of devices found for current user for the given
+                parameters
+            devices:
+              type: array
+              items:
+                "$ref": "../objects/Device.yaml"
+  post:
+    description: Create a new device for the logged-in user
+    tags:
+    - devices
+    security:
+    - basicAuth: []
+    consumes:
+    - application/json
+    parameters:
+    - name: device
+      in: body
+      description: the device to create
+      schema:
+        "$ref": "../objects/NewDevice.yaml"
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: Device created
+        schema:
+          type: object
+          properties:
+            location:
+              type: string
+              description: url to retrieve new device's infos at /devices/{device_id}
+devices_{device_id}:
+  get:
+    description: Returns a device
+    tags:
+    - devices
+    security:
+    - basicAuth: []
+    parameters:
+    - name: device_id
+      in: path
+      required: true
+      type: string
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: Device found
+        schema:
+          "$ref": "../objects/Device.yaml"
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '404':
+        description: Device not found
+        schema:
+          "$ref": "../objects/Error.yaml"
+  delete:
+    description: Not Yet Implemented
+    tags:
+    - devices
+    security:
+    - basicAuth: []
+    parameters:
+    - name: device_id
+      in: path
+      required: true
+      type: string
+    responses:
+      default:
+        description: route not implemented, should raise an error
+  patch:
+    description: update a device with rfc5789 and rfc7396 specifications
+    tags:
+    - devices
+    security:
+    - basicAuth: []
+    parameters:
+    - name: device_id
+      in: path
+      required: true
+      type: string
+    - name: patch
+      in: body
+      required: true
+      description: the patch to apply. See 'Caliopen Patch RFC' within /doc directory.
+      schema:
+        type: object
+        properties:
+          "$ref": "../objects/Device.yaml#/properties"
+          current_state:
+            type: object
+            properties:
+              "$ref": "../objects/Device.yaml#/properties"
+    consumes:
+    - application/json
+    responses:
+      '204':
+        description: Update successful. No body is returned.
+      '400':
+        description: json payload malformed
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '404':
+        description: device not found
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '422':
+        description: patch was semantically malformed or unprocessable
+        schema:
+          "$ref": "../objects/Error.yaml"
+

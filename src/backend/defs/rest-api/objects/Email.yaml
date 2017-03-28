@@ -1,0 +1,11 @@
+---
+type: object
+properties:
+  "$ref": NewEmail.yaml#/properties
+  email_id:
+    type: string
+required:
+- email_id
+- address
+additionalProperties: false
+

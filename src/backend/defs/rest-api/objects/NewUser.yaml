@@ -1,0 +1,17 @@
+---
+type: object
+properties:
+  contact:
+    "$ref": NewContact.yaml
+  username:
+    type: string
+  password:
+    type: string
+  recovery_email:
+    type: string
+additionalProperties: false
+required:
+- username
+- password
+- recovery_email
+

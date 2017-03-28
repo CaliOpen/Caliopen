@@ -1,0 +1,9 @@
+---
+type: object
+properties:
+  message_id:
+    type: string
+  parent_id:
+    type: string
+  discussion_id:
+    type: string

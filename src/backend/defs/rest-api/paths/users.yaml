@@ -1,0 +1,119 @@
+---
+users:
+  post:
+    description: Create a new User with provided credentials
+    tags:
+    - users
+    security:
+    - basicAuth: []
+    consumes:
+    - application/json
+    parameters:
+    - name: user
+      in: body
+      required: true
+      schema:
+        "$ref": "../objects/NewUser.yaml"
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: User creation completed
+        schema:
+          type: object
+          properties:
+            location:
+              type: string
+              description: url to retrieve new user's infos at /users/{user_id}
+users_{user_id}:
+  get:
+    description: Retrieve contact infos
+    tags:
+    - users
+    security:
+    - basicAuth: []
+    parameters:
+    - name: user_id
+      in: path
+      required: true
+      type: string
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: Successful response with json object
+        schema:
+          "$ref": "../objects/User.yaml"
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
+  delete:
+    description: Not Yet Implemented
+    tags:
+    - users
+    security:
+    - basicAuth: []
+    parameters:
+    - name: user_id
+      in: path
+      required: true
+      type: string
+    responses:
+      default:
+        description: route not implemented, should raise an error
+  patch:
+    description: Not Yet Implemented
+    tags:
+    - users
+    security:
+    - basicAuth: []
+    parameters:
+    - name: user_id
+      in: path
+      required: true
+      type: string
+    responses:
+      default:
+        description: route not implemented, should raise an error
+users_isAvailable:
+  get:
+    description: Check if an username is available for creation within Caliopen instance
+    tags:
+    - users
+    - username
+    security: []
+    parameters:
+    - name: username
+      in: query
+      required: true
+      type: string
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: availability state for requested username
+        schema:
+          type: object
+          properties:
+            username:
+              type: string
+            available:
+              type: boolean
+          required:
+          - username
+          - available
+          additionalProperties: false
+      '400':
+        description: malform request (probably missing 'username' query param)
+        schema:
+          type: object
+          properties:
+            username:
+              type: string
+            available:
+              type: boolean
+          required:
+          - username
+          - available
+

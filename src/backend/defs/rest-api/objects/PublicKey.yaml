@@ -1,0 +1,16 @@
+---
+type: object
+allOf:
+- "$ref": NewPublicKey.yaml
+- type: object
+  properties:
+    date_insert:
+      type: string
+      format: date-time
+    date_update:
+      type: string
+      format: date-time
+  required:
+  - date_insert
+  additionalProperties: false
+

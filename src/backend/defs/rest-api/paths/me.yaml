@@ -1,0 +1,23 @@
+---
+me:
+  get:
+    description: "Gets `user + contact` objects for current logged-in user"
+    tags:
+    - users
+    security:
+    - basicAuth: []
+    parameters:
+    - name: X-Caliopen-PI
+      in: header
+      required: true
+      description: The PI range requested in form of `1;100`
+      type: string
+      default: 1;100
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: Successful response with json object
+        schema:
+          "$ref": "../objects/User.yaml"
+

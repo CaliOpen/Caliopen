@@ -1,0 +1,26 @@
+---
+type: object
+properties:
+  bcc_recipients:
+    type: array
+    items:
+      "$ref": Recipient.yaml
+  cc_recipients:
+    type: array
+    items:
+      "$ref": Recipient.yaml
+  reply_to:
+    type: string
+  subject:
+    type: string
+  tags:
+    type: array
+    items:
+      "$ref": Tag.yaml
+  text:
+    type: string
+  to_recipients:
+    type: array
+    items:
+      "$ref": Recipient.yaml
+

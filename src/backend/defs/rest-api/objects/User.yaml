@@ -1,0 +1,30 @@
+---
+type: object
+properties:
+  contact:
+    "$ref": Contact.yaml
+  date_insert:
+    type: string
+    format: date-time
+  family_name:
+    type: string
+  given_name:
+    type: string
+  name:
+    type: string
+  password:
+    type: string
+  params:
+    type: object
+  privacy_features:
+    type: object
+    "$ref": PrivacyFeatures.yaml
+  user_id:
+    type: string
+  privacy_index:
+    type: integer
+    format: int32
+  recovery_email:
+    type: string
+additionalProperties: false
+

@@ -1,0 +1,30 @@
+---
+locals:
+  get:
+    description: returns the list of user's local identities
+    tags:
+    - identities
+    security:
+    - basicAuth: []
+    parameters: []
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: Local identities returned
+        schema:
+          type: object
+          properties:
+            total:
+              type: integer
+              format: int32
+              description: number of local identities found for user
+            local_identities:
+              type: array
+              items:
+                "$ref": "../objects/LocalIdentity.yaml"
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
+
