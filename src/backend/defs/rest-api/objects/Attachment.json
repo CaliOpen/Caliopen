@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "content_type": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "is_inline": {
+      "type": "boolean"
+    },
+    "size": {
+      "type": "integer",
+      "format": "int64"
+    }
+  }
+}

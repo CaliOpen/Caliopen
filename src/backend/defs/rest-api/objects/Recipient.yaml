@@ -1,0 +1,17 @@
+---
+type: object
+properties:
+  address:
+    type: string
+  contact_id:
+    type: string
+  label: # 'display-name' for email ; 'real name' for IRC
+    type: string
+  protocol: # email, IRC…
+    type: string
+  type: # to, from, cc, bcc…
+    type: string
+required:
+- address
+- type
+additionalProperties: false

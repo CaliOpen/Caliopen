@@ -1,0 +1,12 @@
+---
+type: object
+properties:
+  content_type:
+    type: string
+  name: # the name of the related original file, if any, given by the MIME field 'filename='
+    type: string
+  is_inline:
+    type: boolean
+  size: # size calculated at parsing stage, for future reference
+    type: integer
+    format: int64
