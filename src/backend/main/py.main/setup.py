@@ -21,6 +21,7 @@ requires = [
     'uuid',
     'regex',
     'zope.interface',
+    'vobject',
     ]
 
 extras_require = {
