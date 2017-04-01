@@ -43,6 +43,16 @@ JS_BUILD_CMD = 'yarn release:web:{}'
 GO_BUILD_CMD = 'go build'
 
 
+def do_package_command(package, cmd):
+    log.debug(' will execute command : {}'.format(cmd))
+    errno = sp.call(cmd, shell=True)
+    if errno == 0:
+        log.info('Build python package {} OK'.format(package))
+        return True
+    log.error('Build python package {} failed: {}'.format(package, errno))
+    return False
+
+
 def make_javascript_package(package, directory, version, output_directory):
     """Build javascript distribution."""
     if not os.path.isdir(directory):
@@ -63,16 +73,6 @@ def make_javascript_package(package, directory, version, output_directory):
 
 def make_go_distribution(package, directory, version, output_directory):
     pass
-
-
-def do_package_command(package, cmd):
-    log.debug(' will execute command : {}'.format(cmd))
-    errno = sp.call(cmd, shell=True)
-    if errno == 0:
-        log.info('Build python package {} OK'.format(package))
-        return True
-    log.error('Build python package {} failed: {}'.format(package, errno))
-    return False
 
 
 def make_python_package(package, directory, version, output_directory):
