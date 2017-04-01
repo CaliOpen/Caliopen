@@ -1,59 +1,40 @@
----
-# Javascript packages
-web-server:
-  description: proxy api, provides html & assets (js)
-  release-command: src/frontend/web_application/bin/release
-  dependencies:
-    nodejs: "^6.10"
-  packages:
-  - "/dist/web-server"
-electron:
-  description: an app packaged for linux, mac & windows
-  release-command: src/frontend/web_application/bin/release
-  dependencies:
-    nodejs: "^6.10"
-  packages:
-  - "/dist/linux-app"
-  - "/dist/mac-app"
-  - "/dist/windows-app"
-cordova:
-  description: an app packaged for android, ios & windows phone
-  release-command: src/frontend/web_application/bin/release
-  dependencies:
-    nodejs: "^6.10"
-  packages:
-  - "/dist/android-app"
-  - "/dist/ios-app"
-  - "/dist/windows-phone-app"
+repository:
+  base_directory: ..
 
-# Python packages
-caliopen_storage:
-  description: Caliopen python storage package
-  release-command: devtools/make_package -t python -s src/backend/main/py.storage -n caliopen_storage
-  dependencies:
-    python: "^2.7"
-  packages:
-  - "/dist/python"
-caliopen_main:
-  description: Caliopen python main package
-  release-command: devtools/make_package -t python -s src/backend/main/py.main -n caliopen_main
-  dependencies:
-    python: "^2.7"
-  packages:
-  - "/dist/python"
-apiv1:
-  description: Caliopen python ReST API package
-  release-command: devtools/make_package -t python -s src/backend/interfaces/REST/py.server -n caliopen_api
-  dependencies:
-    python: "^2.7"
-  packages:
-  - "/dist/python"
+packages:
+  javascript:
+      -
+          name: server
+          description: proxy api, provides html & assets (js)
+          path: src/frontend/web_application
+          dependencies:
+            nodejs: "^6.10"
 
-# Go packages
-apiv2:
-  description: Caliopen ReST API package
-  release-command: devtools/make_binary -t golang -s src/backend/interfaces/REST/go.server -n caliopen_apiv2
-  dependencies:
-    go: "^1.7"
-  packages:
-  - "/dist/api"
+  python:
+      -
+          name: caliopen_storage
+          description: Caliopen python storage package
+          path: src/backend/main/py.storage
+          dependencies:
+            python: "^2.7"
+      -
+          name: caliopen_main
+          description: Caliopen python main package
+          language: python
+          path: src/backend/main/py.main
+          dependencies:
+            python: "^2.7"
+      -
+          name: apiv1
+          description: Caliopen python ReST API package
+          language: python
+          path: src/backend/interfaces/REST/py.server
+          dependencies:
+            python: "^2.7"
+  golang:
+      -
+          name: api
+          path: src/backend/interfaces/REST/go.server
+          description: Caliopen ReST API server
+          dependencies:
+            go: "^1.7"
