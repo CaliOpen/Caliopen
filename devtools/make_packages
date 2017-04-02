@@ -44,12 +44,14 @@ GO_BUILD_CMD = 'go build'
 
 
 def do_package_command(package, cmd):
+    """Execute a shell command for a package."""
     log.debug(' will execute command : {}'.format(cmd))
     errno = sp.call(cmd, shell=True)
     if errno == 0:
-        log.info('Build python package {} OK'.format(package))
+        log.info('Build python package {} OK'.format(package['name']))
         return True
-    log.error('Build python package {} failed: {}'.format(package, errno))
+    log.error('Build python package {} failed: {}'.
+              format(package['name'], errno))
     return False
 
 
@@ -57,21 +59,22 @@ def make_javascript_package(package, directory, version, output_directory):
     """Build javascript distribution."""
     if not os.path.isdir(directory):
         raise Exception('No such package directory {}'.format(directory))
-    cmd = 'cd {}; {}'.format(directory, JS_BUILD_CMD.format(package))
+    cmd = 'cd {}; {}'.format(directory, JS_BUILD_CMD.format(package['name']))
     res = do_package_command(package, cmd)
     if not res:
         return False
     # Move build distribution
-    distdir = '{}/dist/{}'.format(directory, package)
+    distdir = '{}/dist/{}'.format(directory, package['name'])
     if not os.path.isdir(distdir):
         log.error('No dist directory after build')
         sys.exit(1)
-    destdir = '{}/{}'.format(output_directory, package)
+    destdir = '{}/{}'.format(output_directory, package['name'])
     os.rename(distdir, destdir)
     return True
 
 
 def make_go_distribution(package, directory, version, output_directory):
+    """Build go binaries for a given package and version."""
     pass
 
 
@@ -111,7 +114,7 @@ def make_packages(config, version):
         for package in packages:
             log.info('Building package {}'.format(package['name']))
             package_dir = '{}/{}'.format(basepath, package['path'])
-            fn(package['name'], package_dir, version, output_directory)
+            fn(package, package_dir, version, output_directory)
 
 
 if __name__ == '__main__':
