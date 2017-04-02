@@ -31,6 +31,20 @@ packages:
           path: src/backend/interfaces/REST/py.server
           dependencies:
             python: "^2.7"
+      -
+          name: cli
+          description: Caliopen Command Line Interface (CLI) tool
+          language: python
+          path: src/backend/tools/py.CLI
+          dependencies:
+            python: "^2.7"
+      -
+          name: caliopen_nats
+          description: Caliopen nats client
+          language: python
+          path: src/backend/interfaces/NATS/py.client
+          dependencies:
+            python: "^2.7"
   golang:
       -
           name: api
