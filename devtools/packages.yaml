@@ -25,14 +25,14 @@ packages:
           dependencies:
             python: "^2.7"
       -
-          name: apiv1
+          name: caliopen_apiv1
           description: Caliopen python ReST API package
           language: python
           path: src/backend/interfaces/REST/py.server
           dependencies:
             python: "^2.7"
       -
-          name: cli
+          name: caliopen_cli
           description: Caliopen Command Line Interface (CLI) tool
           language: python
           path: src/backend/tools/py.CLI
@@ -47,7 +47,7 @@ packages:
             python: "^2.7"
   golang:
       -
-          name: api
+          name: caliopen_apiv2
           path: src/backend/interfaces/REST/go.server
           description: Caliopen ReST API server
           dependencies:
