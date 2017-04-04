@@ -50,9 +50,8 @@ def do_package_command(package, cmd):
     if errno == 0:
         log.info('Build python package {} OK'.format(package['name']))
         return True
-    log.error('Build python package {} failed: {}'.
-              format(package['name'], errno))
-    return False
+    msg = 'Build python package {} failed: {}'.format(package['name'], errno)
+    raise Exception(msg)
 
 
 def make_javascript_package(package, directory, version, output_directory):
