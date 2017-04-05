@@ -25,7 +25,7 @@ packages:
           dependencies:
             python: "^2.7"
       -
-          name: caliopen_apiv1
+          name: caliopen_api
           description: Caliopen python ReST API package
           language: python
           path: src/backend/interfaces/REST/py.server
