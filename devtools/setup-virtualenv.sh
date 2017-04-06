@@ -45,7 +45,7 @@ python setup.py develop
 # Extra packages for development
 pip install ipdb
 pip install docker-compose
-
+pip install gitpython
 
 echo "All done, your virtual environment contain these packages :"
 pip freeze
