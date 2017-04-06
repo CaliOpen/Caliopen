@@ -182,7 +182,6 @@
 		},
 		{
 			"checksumSHA1": "cdOCt0Yb+hdErz8NAQqayxPmRsY=",
-			"origin": "github.com/hashicorp/go-multierror/vendor/github.com/hashicorp/errwrap",
 			"path": "github.com/hashicorp/errwrap",
           "revision": "7554cd9344cec97297fa6649b055a8c98c2a1e55",
           "revisionTime": "2014-10-28T05:47:10Z"
