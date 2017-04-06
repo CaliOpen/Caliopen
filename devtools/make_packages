@@ -41,7 +41,9 @@ log.setLevel(logging.DEBUG)
 
 PY_BUILD_CMD = 'python setup.py bdist_wheel --universal --dist-dir {}'
 # XXX well perl from python I know, don't find simplest way than this one
-PY_VERSION_CMD = "perl -pi -e \"s/__version__ = '.*/__version__ = '{}'/\" {}"
+PY_VERSION_STR = "__version__ = "
+UPDATE_VERSION_CMD = "perl -pi -e \"s/{version_str}{old_version}/" \
+                     "{version_str}'{new_version}'/\" {file}"
 JS_BUILD_CMD = 'yarn release:web:{}'
 GO_BUILD_CMD = 'go build'
 
@@ -64,17 +66,25 @@ def update_python_version(package, package_dir, version):
         raise Exception('File {} for package version not found'.
                         format(init_file))
     """Update the __version__ value for a python package."""
+    current = None
     with open(init_file) as v_file:
         current = re.compile(r".*__version__ = '(.*?)'",
                              re.S).match(v_file.read()).group(1)
-
-        t_ver = tuple(int(x) for x in version.split('.'))
-        t_cur = tuple(int(x) for x in current.split('.'))
-        if t_ver <= t_cur:
-            raise Exception('Current version %s and expected one %s mismatch'.
-                            format(current, version))
+    if not current:
+        raise Exception('No current version found for package {}'.
+                        format(package['name']))
+    log.info('Current version found for package {} is {}'.
+             format(package['name'], current))
+    t_ver = tuple(int(x) for x in version.split('.'))
+    t_cur = tuple(int(x) for x in current.split('.'))
+    if t_ver <= t_cur:
+        raise Exception('Current version {} and new expected one {} mismatch'.
+                        format(current, version))
     # XXX rewrite init_file with new version
-    cmd = PY_VERSION_CMD.format(version, init_file)
+    cmd = UPDATE_VERSION_CMD.format(version_str=PY_VERSION_STR,
+                                    old_version="'{}'".format(current),
+                                    new_version="'{}'".format(version),
+                                    file=init_file)
     log.debug('Updating python package {} to version {}'.
               format(package['name'], version))
     return do_package_command(package, cmd)
@@ -84,6 +94,7 @@ def make_javascript_package(package, directory, version, output_directory):
     """Build javascript distribution."""
     if not os.path.isdir(directory):
         raise Exception('No such package directory {}'.format(directory))
+
     cmd = 'cd {}; {}'.format(directory, JS_BUILD_CMD.format(package['name']))
     res = do_package_command(package, cmd)
     if not res:
@@ -108,7 +119,7 @@ def make_python_package(package, directory, version, output_directory):
     if not os.path.isdir(directory):
         raise Exception('No such package directory {}'.format(directory))
     if not update_python_version(package, directory, version):
-        log.warn('Update python package failed')
+        log.warn('Update python package version failed')
         return False
 
     build_cmd = PY_BUILD_CMD.format(output_directory)
