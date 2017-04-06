@@ -1,0 +1,54 @@
+repository:
+  base_directory: ..
+
+packages:
+  javascript:
+      -
+          name: server
+          description: proxy api, provides html & assets (js)
+          path: src/frontend/web_application
+          dependencies:
+            nodejs: "^6.10"
+
+  python:
+      -
+          name: caliopen_storage
+          description: Caliopen python storage package
+          path: src/backend/main/py.storage
+          dependencies:
+            python: "^2.7"
+      -
+          name: caliopen_main
+          description: Caliopen python main package
+          language: python
+          path: src/backend/main/py.main
+          dependencies:
+            python: "^2.7"
+      -
+          name: caliopen_api
+          description: Caliopen python ReST API package
+          language: python
+          path: src/backend/interfaces/REST/py.server
+          dependencies:
+            python: "^2.7"
+      -
+          name: caliopen_cli
+          description: Caliopen Command Line Interface (CLI) tool
+          language: python
+          path: src/backend/tools/py.CLI
+          dependencies:
+            python: "^2.7"
+      -
+          name: caliopen_nats
+          description: Caliopen nats client
+          language: python
+          path: src/backend/interfaces/NATS/py.client
+          dependencies:
+            python: "^2.7"
+  golang:
+      -
+          name: caliopen_apiv2
+          path: src/backend/interfaces/REST/go.server
+          description: Caliopen ReST API server
+          dependencies:
+            go: "^1.7"
