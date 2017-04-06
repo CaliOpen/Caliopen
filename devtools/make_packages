@@ -55,6 +55,9 @@ JS_UPDATE_VERSION_CMD = 'npm version "{version}" --no-git-tag-version'
 
 GO_BUILD_CMD = 'go build'
 
+# Files updated to consider for commit or rollback
+UPDATE_FILES = []
+
 
 def do_package_command(package, cmd):
     """Execute a shell command for a package."""
@@ -93,7 +96,10 @@ def update_javascript_package(package, package_dir, version):
     check_versions(current, version)
     version_cmd = JS_UPDATE_VERSION_CMD.format(version=version)
     cmd = 'cd {};{}'.format(package_dir, version_cmd)
-    return do_package_command(package, cmd)
+    res = do_package_command(package, cmd)
+    if res:
+        UPDATE_FILES.append(pkg_file)
+    return res
 
 
 def make_javascript_package(package, directory, version, output_directory):
@@ -144,7 +150,10 @@ def update_python_version(package, package_dir, version):
                                     file=init_file)
     log.debug('Updating python package {} to version {}'.
               format(package['name'], version))
-    return do_package_command(package, cmd)
+    res = do_package_command(package, cmd)
+    if res:
+        UPDATE_FILES.append(init_file)
+    return res
 
 
 def make_python_package(package, directory, version, output_directory):
@@ -163,12 +172,12 @@ def make_python_package(package, directory, version, output_directory):
 def make_packages(config, version, languages):
     """Given a packages dict and a version, build all."""
     all_packages = config.get('packages', {})
-    basepath = get_repository_directory(config)
+    basedir = get_repository_directory(config)
 
-    output_directory = '{}/dist/{}'.format(basepath, version)
+    output_directory = '{}/dist/{}'.format(basedir, version)
     if not os.path.isdir(output_directory):
-        log.info('Creating output directory {}'.format(output_directory))
-        os.mkdir(output_directory)
+        raise Exception('No valid output directory for release {}'.
+                        format(version))
 
     for language, packages in all_packages.items():
         if 'all' not in languages and language not in languages:
@@ -182,7 +191,7 @@ def make_packages(config, version, languages):
 
         for package in packages:
             log.info('Building package {}'.format(package['name']))
-            package_dir = '{}/{}'.format(basepath, package['path'])
+            package_dir = '{}/{}'.format(basedir, package['path'])
             fn(package, package_dir, version, output_directory)
 
 
@@ -210,6 +219,11 @@ def prepare_release(config, version, languages):
 
     # XXX Check uptodate with origin
 
+    output_directory = '{}/dist/{}'.format(basedir, version)
+    if not os.path.isdir(output_directory):
+        log.info('Creating output directory {}'.format(output_directory))
+        os.mkdir(output_directory)
+
     all_packages = config.get('packages', {})
     for language, packages in all_packages.items():
         if 'all' not in languages and language not in languages:
@@ -234,6 +248,7 @@ def prepare_release(config, version, languages):
     # XXX Consider changelog
     # XXX Commit changes
     # XXX Make a release tag
+    log.info('Updated files to commit : {}'.format(UPDATE_FILES))
     log.info('Prepare of release {} done'.format(version))
     return True
 
