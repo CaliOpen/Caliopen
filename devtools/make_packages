@@ -160,8 +160,8 @@ def make_packages(config, version):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-f', dest='conffile', default='package.yaml')
-    parser.add_argument('-v', dest='version')
+    parser.add_argument('--conf', dest='conffile', default='package.yaml')
+    parser.add_argument('--version', dest='version')
     opts = parser.parse_args(sys.argv[1:])
 
     with open(opts.conffile) as f:
