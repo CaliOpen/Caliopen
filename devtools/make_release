@@ -26,6 +26,7 @@ log.setLevel(logging.DEBUG)
 UPDATE_VERSION_CMD = "perl -pi -e \"s/{version_str}{old_version}/" \
                      "{version_str}'{new_version}'/\" {file}"
 
+COMMIT_MESSAGE = 'Release {version}'
 
 PY_BUILD_CMD = 'python setup.py bdist_wheel --universal --dist-dir {}'
 PY_VERSION_STR = "__version__ = "
@@ -190,12 +191,25 @@ def get_repository(basedir):
     return repo
 
 
+def commit_release(repo, version):
+    """Commit a a release."""
+    index = repo.index
+    log.debug('Updated files to add : {}'.format(UPDATE_FILES))
+    index.add(UPDATE_FILES)
+    commit_msg = COMMIT_MESSAGE.format(version=version)
+    index.commit(commit_msg)
+    log.info('Update git index after commit: {}'.format(commit_msg))
+    return index.write_tree()
+
+
 def prepare_release(config, version, languages):
     """Prepare a new release in a given version."""
     basedir = get_repository_directory(config)
     repo = get_repository(basedir)
     # assert not repo.is_dirty(), 'Current head is dirty'
     # assert repo.active_branch.name == 'master', 'Not on master branch'
+    tag_name = 'release-{}'.format(version)
+    assert tag_name not in repo.tags, 'Tag {} exists'.format(version)
 
     # XXX Check uptodate with origin
     origin = repo.remote()
@@ -238,9 +252,11 @@ def prepare_release(config, version, languages):
             fn(package, package_dir, version)
     # XXX Update CHANGES.md
     # XXX Consider changelog
+
     # XXX Commit changes
+    commit_release(repo, version)
     # XXX Make a release tag
-    log.info('Updated files to commit : {}'.format(UPDATE_FILES))
+    repo.create_tag(tag_name)
     log.info('Prepare of release {} done'.format(version))
     return True
 
