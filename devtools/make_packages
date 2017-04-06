@@ -1,28 +1,8 @@
 #!/bin/env python
-"""Caliopen package creation logic.
+"""
+Caliopen tool for release management.
 
-Read package definition from a yaml file and build the corresponding
-package depending on language.
-
-cordova:
-  lauguage: javascript
-  description: an app packaged for android, ios & windows phone
-  dependencies:
-    nodejs: "^6.10"
-  packages:
-  - "/dist/android-app"
-  - "/dist/ios-app"
-  - "/dist/windows-phone-app"
-
-# Python packages
-caliopen_storage:
-  language: python
-  description: Caliopen python storage package
-  dependencies:
-    python: "^2.7"
-  packages:
-  - "/dist/python"
-
+Permit to prepare a release, build and submit it on github.
 """
 
 import os
@@ -218,6 +198,18 @@ def prepare_release(config, version, languages):
     # assert repo.active_branch.name == 'master', 'Not on master branch'
 
     # XXX Check uptodate with origin
+    origin = repo.remote()
+    assert origin.name == 'origin', 'Invalid remote origin'
+
+    log.debug('Fetching origin')
+    origin.fetch()
+
+    orig_commit = origin.refs.master.commit.hexsha
+    local_commit = repo.refs.master.commit.hexsha
+    if local_commit != orig_commit:
+        log.error('Out of sync with origin, local commit {}, expected {}'.
+                  format(local_commit, orig_commit))
+        sys.exit(1)
 
     output_directory = '{}/dist/{}'.format(basedir, version)
     if not os.path.isdir(output_directory):
