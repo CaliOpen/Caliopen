@@ -8,6 +8,7 @@ ADD . /go/src/github.com/CaliOpen/CaliOpen/src/backend/interfaces/REST/go.server
 WORKDIR /go/src/github.com/CaliOpen/CaliOpen/src/backend/interfaces/REST/go.server
 
 RUN govendor sync
+RUN govendor update +vendor
 RUN go build github.com/CaliOpen/CaliOpen/src/backend/interfaces/REST/go.server/cmd/caliopen_rest
 
 
