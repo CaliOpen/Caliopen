@@ -4,7 +4,6 @@ from __future__ import absolute_import, print_function, unicode_literals
 from .attachment import MessageAttachment
 from .attachment_index import IndexedMessageAttachment
 from caliopen_main.discussion.store.discussion import (Discussion,
-                                                       DiscussionCounter,
                                                        DiscussionExternalLookup,
                                                        DiscussionMessageLookup,
                                                        DiscussionRecipientLookup)
@@ -22,7 +21,7 @@ __all__ = ['MessageAttachment', 'IndexedMessageAttachment',
            'RawMessage', 'UserRawLookup',
            'Message', 'IndexedMessage',
            'DiscussionIndexManager'
-           'Discussion', 'DiscussionCounter', 'DiscussionMessageLookup',
+           'Discussion', 'DiscussionMessageLookup',
            'DiscussionRecipientLookup', 'DiscussionExternalLookup',
            'DiscussionIndexManager',
            'ExternalReferences', 'IndexedExternalReferences',

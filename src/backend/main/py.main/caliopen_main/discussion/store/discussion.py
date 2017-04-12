@@ -19,16 +19,6 @@ class Discussion(BaseModel):
     excerpt = columns.Text()
 
 
-class DiscussionCounter(BaseModel):
-
-    """Counters related to Discussion."""
-    user_id = columns.UUID(primary_key=True)
-    discussion_id = columns.UUID(primary_key=True)
-    total_count = columns.Counter()
-    unread_count = columns.Counter()
-    attachment_count = columns.Counter()
-
-
 class DiscussionRecipientLookup(BaseModel):
 
     """Lookup discussion by a recipient name."""

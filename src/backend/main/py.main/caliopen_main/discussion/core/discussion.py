@@ -10,13 +10,12 @@ from caliopen_storage.exception import NotFound
 from caliopen_storage.core import BaseUserCore
 from caliopen_storage.parameters import ReturnCoreObject
 
-from caliopen_main.discussion.store.discussion import \
+from ..store.discussion import \
     (DiscussionExternalLookup as ModelExternalLookup,
      DiscussionRecipientLookup as ModelRecipientLookup,
      DiscussionMessageLookup as ModelMessageLookup,
-     Discussion as ModelDiscussion,
-     DiscussionCounter as ModelCounter)
-from caliopen_main.discussion.store.discussion_index import \
+     Discussion as ModelDiscussion)
+from ..store.discussion_index import \
     DiscussionIndexManager as DIM
 
 from caliopen_main.discussion.parameters import Discussion as DiscussionParam
@@ -55,21 +54,6 @@ class DiscussionMessageLookup(BaseUserCore):
     _model_class = ModelMessageLookup
     _pkey_name = 'external_message_id'
 
-
-class Counter(BaseUserCore):
-    """Counters related to discussion."""
-
-    _model_class = ModelCounter
-
-    @classmethod
-    def get(cls, user_id, discussion_id):
-        """Get Counter core object related to a discussion_id."""
-        try:
-            obj = cls._model_class.get(user_id=user_id,
-                                       discussion_id=discussion_id)
-            return cls(obj)
-        except Exception:
-            return None
 
 
 def build_discussion(discussion, index_message):
@@ -129,7 +113,6 @@ class Discussion(BaseUserCore):
     _model_class = ModelDiscussion
 
     _pkey_name = 'discussion_id'
-    _counter = None
 
     @classmethod
     def create_from_message(cls, user, message):
@@ -142,30 +125,7 @@ class Discussion(BaseUserCore):
                   }
         discussion = cls.create(user, **kwargs)
         log.debug('Created discussion {}'.format(discussion.discussion_id))
-        counters = Counter.create(user, discussion_id=discussion.discussion_id)
-        counters.model.total_count = 1
-        counters.model.unread_count = 1
-        counters.model.attachment_count = count_attachment(message)
-        counters.save()
-        log.debug('Created discussion counters {}'.format(counters))
         return discussion
-
-    def update_from_message(self, message):
-        # TODO : privacy index implementation
-        # if message.privacy_index < self.privacy_index:
-        #    # XXX : use min value, is it correct ?
-        #    self.privacy_index = message.privacy_index
-        #    self.save()
-
-        # Update counters
-        counters = Counter.get(self.user_id, self.discussion_id)
-        counters.model.total_count += 1
-        counters.model.unread_count += 1
-        nb_attachments = count_attachment(message)
-        if nb_attachments:
-            counters.model.attachment_count += nb_attachments
-        counters.save()
-        return True
 
     @classmethod
     def by_external_id(cls, user, external_discussion_id):
@@ -184,27 +144,19 @@ class Discussion(BaseUserCore):
         return cls.get(user, lookup.discussion_id)
 
     @property
-    def counters(self):
-        """return ``Counter`` core related to discussions."""
-        # XXX need of a reify decorator ?
-        if not self._counter:
-            self._counter = Counter.get(self.user_id, self.discussion_id)
-        return self._counter
-
-    @property
     def total_count(self):
         """Total messages counter."""
-        return self.counters.total_count
+        return 0
 
     @property
     def unread_count(self):
         """Unread messages counter."""
-        return self.counters.unread_count
+        return 0
 
     @property
     def attachment_count(self):
         """Total number of attachments."""
-        return self.counters.attachment_count
+        return 0
 
 
 class ReturnDiscussion(ReturnCoreObject):
