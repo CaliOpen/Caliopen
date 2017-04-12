@@ -16,7 +16,6 @@ from caliopen_storage.exception import NotFound, CredentialException
 from ..store import (User as ModelUser,
                      UserName as ModelUserName,
                      IndexUser,
-                     Counter as ModelCounter,
                      UserTag as ModelUserTag,
                      FilterRule as ModelFilterRule,
                      ReservedName as ModelReservedName,
@@ -37,17 +36,6 @@ class LocalIdentity(BaseCore):
 
     _model_class = ModelLocalIdentity
     _pkey_name = 'identifier'
-
-
-class Counter(BaseCore):
-    """
-    Counter core object.
-
-    Store all counters related to an user
-    """
-
-    _model_class = ModelCounter
-    _pkey_name = 'user_id'
 
 
 class Tag(BaseUserCore):
@@ -226,8 +214,6 @@ class User(BaseCore):
         # Setup index
         core._setup_user_index()
 
-        # Create counters
-        Counter.create(user_id=core.user_id)
         core.setup_system_tags()
 
         # Add a default local identity on a default configured domain
@@ -328,33 +314,6 @@ class User(BaseCore):
             tag['type'] = 'system'
             tag['date_insert'] = datetime.utcnow()
             Tag.create(self, **tag)
-
-    def new_message_id(self):
-        """Create a new message_id from ``Counter``."""
-        counter = Counter.get(self.user_id)
-        # XXX : MUST be handled by core object correctly
-        counter.model.message_id += 1
-        counter.save()
-        return counter.message_id
-
-    def new_thread_id(self):
-        """Create a new thread_id from ``Counter``."""
-        counter = Counter.get(self.user_id)
-        # XXX : MUST be handled by core object correctly
-        counter.model.thread_id += 1
-        counter.save()
-        return counter.thread_id
-
-    def new_rule_id(self):
-        """Create a new rule_id from ``counter``."""
-        counter = Counter.get(self.user_id)
-        counter.model.rule_id += 1
-        counter.save()
-        return counter.rule_id
-
-    def get_thread_id(self, external_id):
-        """Get a new thread_id counter value."""
-        return self.new_thread_id()
 
     @property
     def contact(self):
