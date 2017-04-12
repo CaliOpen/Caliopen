@@ -40,7 +40,7 @@ class DiscussionIndexManager(object):
         agg = dsl.A('terms', field='discussion_id', size=0, shard_size=0)
         search.aggs.bucket('discussions', agg)
         # XXX add sorting on message date_insert
-        log.warn('Search is {}'.format(search.to_dict()))
+        log.debug('Search is {}'.format(search.to_dict()))
         result = search.execute()
         if hasattr(result, 'aggregations'):
             # Something found

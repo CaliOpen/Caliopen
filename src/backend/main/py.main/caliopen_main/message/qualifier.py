@@ -97,11 +97,7 @@ class UserMessageQualifier(object):
         lkp = self.lookup(user, lookup_sequence)
 
         # Create or update existing discussion
-        if lkp:
-            log.debug('Found discussion %r' % lkp.discussion_id)
-            discussion = Discussion.get(user, lkp.discussion_id)
-            discussion.update_from_message(message)
-        else:
+        if not lkp:
             log.debug('Creating new discussion')
             discussion = Discussion.create_from_message(user, message)
 
