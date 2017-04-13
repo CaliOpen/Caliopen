@@ -18,7 +18,7 @@ class LocalIdentity(BaseModel):
     identifier = columns.Text(primary_key=True)  # for now,the address of an e-mailbox
     status = columns.Text()  # active, inactive, etc.
     type =columns.Text()  # email, IM, etc.
-    user_id = columns.UUID(index=True)
+    user_id = columns.UUID()
 
 
 class Identity(BaseUserType):
