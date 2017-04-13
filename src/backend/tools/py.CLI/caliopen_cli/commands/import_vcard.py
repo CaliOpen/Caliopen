@@ -27,7 +27,8 @@ def import_vcard(username, directory, file_vcard, **kwargs):
         for f in files:
             ext = f.split('.')[-1]
             if ext == 'vcard' or ext == 'vcf':
-                vcard = vobject.readOne(open('{directory}/{file}'.format(directory=directory, file=f),'r'))
+                vcard = vobject.readOne(open(
+                                '{directory}/{file}'.format(directory=directory, file=f),'r'))
 
                 vcards.append(vcard)
     if file_vcard:
