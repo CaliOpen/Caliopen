@@ -27,7 +27,8 @@ def import_vcard(username, directory, file_vcard, **kwargs):
         for f in files:
             ext = f.split('.')[-1]
             if ext == 'vcard' or ext == 'vcf':
-                vcard = vobject.readOne(open(directory+'/'+f,'r'))
+                vcard = vobject.readOne(open('{directory}/{file}'.format(directory=directory, file=f),'r'))
+
                 vcards.append(vcard)
     if file_vcard:
         ext = file_vcard.split('.')[-1]
@@ -82,7 +83,7 @@ def import_vcard(username, directory, file_vcard, **kwargs):
                             else:
                                 prems = True
                                 new_contact.given_name = cn.value[:ind]
-                                new_contact.family_name = cn.value[ind+1:]
+                                new_contact.family_name = cn.value[ind + 1:]
 
                 elif v == 'name':
                     for name in vcard.contents['name']:
@@ -93,7 +94,7 @@ def import_vcard(username, directory, file_vcard, **kwargs):
                                 ind += 1
                             else:
                                 prems = True
-                                new_contact.given_name = name.value[ind+1:]
+                                new_contact.given_name = name.value[ind + 1:]
                                 new_contact.family_name = name.value[:ind]
 
                 elif v == 'fn':
@@ -106,7 +107,7 @@ def import_vcard(username, directory, file_vcard, **kwargs):
                             else:
                                 prems = True
                                 new_contact.given_name = fn.value[:ind]
-                                new_contact.family_name = fn.value[ind+1:]
+                                new_contact.family_name = fn.value[ind + 1:]
 
         for v in vcard.contents:
             if v == 'adr':
