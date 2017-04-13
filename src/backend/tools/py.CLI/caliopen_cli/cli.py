@@ -13,7 +13,7 @@ from caliopen_storage.config import Configuration
 from caliopen_storage.helpers.connection import connect_storage
 from caliopen_cli.commands import (shell, import_email,
                                    setup_storage, create_user,
-                                   dump_model)
+                                   import_vcard, dump_model)
 
 logging.basicConfig(level=logging.INFO)
 
@@ -30,6 +30,12 @@ def main(args=sys.argv):
                            default='mbox')
     sp_import.add_argument('-p', dest='import_path')
     sp_import.add_argument('-e', dest='email')
+
+    sp_import_vcard = subparsers.add_parser('import_vcard', help='import vcard')
+    sp_import_vcard.set_defaults(func=import_vcard)
+    sp_import_vcard.add_argument('-u', dest='username', help='username')
+    sp_import_vcard.add_argument('-d', dest='directory', help='directory')
+    sp_import_vcard.add_argument('-f', dest='file_vcard', help='file')
 
     sp_setup_storage = subparsers.add_parser('setup',
         help='initialize the storage engine')
