@@ -17,7 +17,7 @@ ApiConfig:
     password: ""      #no password set
     db: 0             #use default db
 ProxyConfig:
-  host: 127.0.0.1
+  host: 0.0.0.0
   port: 31415
   routes:
   - /api/v2/: 127.0.0.1:6544
