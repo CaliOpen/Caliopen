@@ -2,8 +2,7 @@
 """Caliopen user message qualification logic."""
 from __future__ import absolute_import, print_function, unicode_literals
 import logging
-
-from uuid import UUID
+import uuid
 from caliopen_storage.exception import NotFound
 from ..user.core import User
 
@@ -106,7 +105,7 @@ class UserMessageQualifier(object):
             discussion = Discussion.create_from_message(user, message)
 
         discussion_id = discussion.discussion_id if discussion else None
-        message.discussion_id = UUID(discussion_id)
+        message.discussion_id = uuid.UUID(discussion_id)
         # XXX missing discussion management
 
         # XXX Init lookup
@@ -124,12 +123,10 @@ class UserMessageQualifier(object):
 
         # update and index the message
         # message.model.lookup = lookup
-
         message.marshall_db()
         message.update_db()
         message.marshall_index()
         message.save_index()
-        # TODO: fix "'NoneType' object has no attribute 'to_dict'" error
-        # self.update_index()
+        # message.update_index() # TODO: use update_index
 
         return message

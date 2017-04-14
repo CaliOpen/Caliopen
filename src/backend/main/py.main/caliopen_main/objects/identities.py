@@ -15,7 +15,8 @@ from caliopen_main.user.store.contact_index import IndexedSocialIdentity
 from caliopen_main.user.store.local_identity import Identity as ModelIdentity
 from caliopen_main.user.store.local_identity_index import IndexedIdentity
 
-class LocalIdentity(base.ObjectIndexable):
+
+class LocalIdentity(base.ObjectStorable):
 
     """Local identity related to an user."""
 
@@ -24,6 +25,7 @@ class LocalIdentity(base.ObjectIndexable):
         'identifier': types.StringType,
         'status': types.StringType,
         'type': types.StringType,
+        'user_id': UUID
     }
 
     _model_class = ModelLocalIdentity
