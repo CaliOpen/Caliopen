@@ -64,7 +64,7 @@ class Message(Api):
                                                    **data)
         except Exception as exc:
             log.warn(exc)
-            raise HTTPServerError
+            raise MergePatchError(exc)
 
         message_url = self.request.route_path('message',
                                               message_id=str(
@@ -103,8 +103,7 @@ class Message(Api):
         patch = self.request.json
 
         message = ObjectMessage(self.user.user_id, message_id=message_id)
-        error = message.apply_patch(patch, db=True,
-                                    index=False)  # drafts not indexed for now
+        error = message.patch_draft(patch, db=True, index=True)
         if error is not None:
             raise MergePatchError(error)
 

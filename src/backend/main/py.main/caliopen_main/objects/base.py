@@ -246,7 +246,8 @@ class ObjectStorable(ObjectJsonDictifiable):
         self_keys = self._attrs.keys()
         for att in self._db.keys():
             if not att.startswith("_") and att in self_keys:
-                # TODO : manage protected attrs (ie attributes that user should not be able to change directly)
+                # TODO : manage protected attrs
+                # (ie attributes that user should not be able to change)
                 if isinstance(self._attrs[att], list):
                     # TODO : manage change within list to only elem changed
                     # (use builtin set() collection ?)
@@ -264,7 +265,14 @@ class ObjectStorable(ObjectJsonDictifiable):
                         setattr(self._db, att,
                                 getattr(self, att).replace(tzinfo=None))
                     else:
-                        setattr(self._db, att, getattr(self, att))
+                        if issubclass(self._attrs[att], CaliopenObject):
+                            if getattr(self, att) is not None:
+                                setattr(self._db, att,
+                                        self._attrs[att]._model_class(
+                                            **getattr(self,
+                                                      att).marshall_dict()))
+                        else:
+                            setattr(self._db, att, getattr(self, att))
 
     def unmarshall_db(self, **options):
         """squash self.attrs with db representation"""

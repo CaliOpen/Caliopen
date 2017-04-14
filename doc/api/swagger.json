@@ -3307,7 +3307,7 @@
             "in": "query",
             "type": "integer",
             "required": false,
-            "description": "number of pages to skip from the response"
+            "description": "number of discussions to skip for pagination"
           }
         ],
         "produces": [
@@ -3969,10 +3969,19 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "display_name": {
+                        "type": "string"
+                      },
                       "identifier": {
                         "type": "string"
                       },
+                      "status": {
+                        "type": "string"
+                      },
                       "type": {
+                        "type": "string"
+                      },
+                      "user_id": {
                         "type": "string"
                       }
                     }
@@ -4060,7 +4069,7 @@
                 }
               },
               "required": [
-                "participants"
+                "identities"
               ],
               "additionalProperties": false
             }
