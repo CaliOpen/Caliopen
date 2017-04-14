@@ -21,4 +21,4 @@ ProxyConfig:
   port: 31415
   routes:
   - /api/v2/: 127.0.0.1:6544
-  - /: 127.0.0.1:6543         # route "/" catch all other requests
+  - /: apiv1.dev.caliopen.org:6543         # route "/" catch all other requests
