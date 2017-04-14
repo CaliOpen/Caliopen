@@ -5,7 +5,9 @@ services:
       build: ../src/backend/interfaces/REST/go.server
       links:
           - apiv1:apiv1.dev.caliopen.org
+          - redis:redis.dev.caliopen.org
           - cassandra:cassandra.dev.caliopen.org
+          - nats:nats.dev.caliopen.org
       ports:
           - "31415:31415"
 

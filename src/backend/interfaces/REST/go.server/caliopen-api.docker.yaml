@@ -5,15 +5,15 @@ ApiConfig:
     backend_name: cassandra
     backend_settings:
       hosts:
-      - 127.0.0.1
+      - cassandra.dev.caliopen.org
       keyspace: caliopen
       consistency_level: 1
   NatsConfig:
-    url: nats://localhost:4222
+    url: nats://nats.dev.caliopen.org:4222
     outSMTP_topic: outboundSMTP # topic's name to post "send" draft order
   swaggerSpec: ../../../../../../../doc/api/swagger.json #absolute path or relative path to go.server bin
   RedisConfig:
-    host: localhost:6379
+    host: redis.dev.caliopen.org:6379
     password: ""      #no password set
     db: 0             #use default db
 ProxyConfig:
