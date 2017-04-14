@@ -77,7 +77,6 @@ services:
           
       ports:
         - "2525:2525"
-        - "9042"
   # NATS
   nats:
       image: nats:0.9.6
