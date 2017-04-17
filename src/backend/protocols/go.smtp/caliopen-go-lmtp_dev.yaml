@@ -10,7 +10,7 @@ AppConfig:
     host_name: localhost
     max_size: 20971520 # max authorized size for emails in bytes
     timeout: 180
-    listen_interface: 127.0.0.1:2525
+    listen_interface: 0.0.0.0:2525
     start_tls_on: false
     tls_always_on: false
     max_clients: 1000
@@ -29,7 +29,7 @@ LDAConfig:
   store_name: cassandra # backend to store raw emails and messages (inbound & outbound)
   store_settings:
     hosts: # many allowed
-    - cassandra
+    - cassandra.dev.caliopen.org
     keyspace: caliopen
     consistency_level: 1
   index_name: elasticsearch # backend to index messages (inbound & outbound)
