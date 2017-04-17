@@ -18,7 +18,7 @@ from caliopen_main.message.qualifier import UserMessageQualifier
 
 from ..message.parameters.message import Recipient
 # XXX use a message formatter registry not directly mail format
-from .caliopen_main.parsers import MailMessage
+from caliopen_main.parsers import MailMessage
 
 log = logging.getLogger(__name__)
 
