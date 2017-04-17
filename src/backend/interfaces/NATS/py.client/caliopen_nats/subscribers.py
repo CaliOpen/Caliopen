@@ -25,7 +25,7 @@ class InboundEmail(object):
                 self.deliver.process_message(payload[u'user_id'],
                                              payload[u'message_id'])
             except Exception as exc:
-                print("deliver process failed : {}".format(str(exc)))
+                print("deliver process failed : {}".format(exc))
                 nats_error['error'] = str(exc.message)
                 self.natsConn.publish(msg.reply, json.dumps(nats_error))
                 return exc
@@ -35,7 +35,7 @@ class InboundEmail(object):
                 self.deliver.process_email_raw(payload[u'user_id'],
                                                payload[u'raw_msg_id'])
             except Exception as exc:
-                print("deliver process failed : {}".format(str(exc)))
+                print("deliver process failed : {}".format(exc))
                 nats_error['error'] = str(exc.message)
                 self.natsConn.publish(msg.reply, json.dumps(nats_error))
                 return exc
