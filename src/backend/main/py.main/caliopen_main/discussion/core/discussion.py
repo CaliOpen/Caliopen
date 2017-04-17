@@ -15,8 +15,7 @@ from ..store.discussion import \
      DiscussionRecipientLookup as ModelRecipientLookup,
      DiscussionMessageLookup as ModelMessageLookup,
      Discussion as ModelDiscussion)
-from ..store.discussion_index import \
-    DiscussionIndexManager as DIM
+from ..store.discussion_index import DiscussionIndexManager as DIM
 
 from caliopen_main.discussion.parameters import Discussion as DiscussionParam
 from caliopen_main.message.parameters.participant import Participant
@@ -55,56 +54,57 @@ class DiscussionMessageLookup(BaseUserCore):
     _pkey_name = 'external_message_id'
 
 
-
-def build_discussion(discussion, index_message):
+def build_discussion(core, index):
     """Temporary build of output Discussion return parameter."""
     discuss = DiscussionParam()
-    discuss.user_id = discussion.user_id
-    discuss.discussion_id = index_message.discussion_id
-    discuss.date_insert = discussion.date_insert
-    discuss.date_update = index_message.date_insert
-    discuss.excerpt = index_message.body[:100]
+    discuss.user_id = core.user_id
+    discuss.discussion_id = core.discussion_id
+    discuss.date_insert = core.date_insert
+    discuss.date_update = index.last_message.date_insert
+    discuss.excerpt = index.last_message.body[:100]
+    discuss.total_count = index.total_count
+
     # TODO
     # discussion.privacy_index = index_message.privacy_index
     # XXX Only last message recipient at this time
 
-    for part in index_message.participants:
+    for part in index.last_message.participants:
         participant = Participant()
         participant.address = part['address']
         participant.label = part['label']
         participant.type = part['type']
-        if 'contact_id' in part:  # 'recipient' of type 'from' may not be Contact
+        if 'contact_id' in part:
             participant.contact_id = part['contact_id']
         participant.protocol = part['protocol']
         discuss.participants.append(participant)
+
     # XXX Missing values (at least other in parameter to fill)
-    discuss.total_count = discussion.total_count
-    discuss.unread_count = discussion.unread_count
-    discuss.attachment_count = discussion.attachment_count
+    discuss.unread_count = index.unread_count
+    discuss.attachment_count = index.attachment_count
     return discuss.serialize()
 
 
 class MainView(object):
     """Build main view return structure from index messages."""
 
-    def build_responses(self, user, messages):
+    def build_responses(self, user, discussions):
         """Build list of responses using core and related index message."""
-        for message in messages:
+        for discussion in discussions:
             try:
-                discussion = Discussion.get(user, message['discussion_id'])
+                core = Discussion.get(user, discussion.discussion_id)
             except NotFound:
                 continue
-            if discussion:
-                yield build_discussion(discussion, message)
+            if core:
+                yield build_discussion(core, discussion)
 
     def get(self, user, min_pi, max_pi, limit, offset):
         """Build the main view results."""
         # XXX use of correct pagination and correct datasource (index)
         dim = DIM(user.user_id)
-        messages, total = dim.list_discussions(limit=limit, offset=offset,
-                                               min_pi=min_pi, max_pi=max_pi)
-        discussions = self.build_responses(user, messages)
-        return {'discussions': list(discussions), 'total': total}
+        discussions, total = dim.list_discussions(limit=limit, offset=offset,
+                                                  min_pi=min_pi, max_pi=max_pi)
+        responses = self.build_responses(user, discussions)
+        return {'discussions': list(responses), 'total': total}
 
 
 class Discussion(BaseUserCore):
@@ -142,21 +142,6 @@ class Discussion(BaseUserCore):
         except NotFound:
             return None
         return cls.get(user, lookup.discussion_id)
-
-    @property
-    def total_count(self):
-        """Total messages counter."""
-        return 0
-
-    @property
-    def unread_count(self):
-        """Unread messages counter."""
-        return 0
-
-    @property
-    def attachment_count(self):
-        """Total number of attachments."""
-        return 0
 
 
 class ReturnDiscussion(ReturnCoreObject):
