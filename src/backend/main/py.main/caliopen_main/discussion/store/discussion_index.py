@@ -17,6 +17,18 @@ from caliopen_main.message.store.message_index import IndexedMessage
 log = logging.getLogger(__name__)
 
 
+class DiscussionIndex(object):
+    """Informations from index about a discussion."""
+
+    total_count = 0
+    unread_count = 0
+    attachment_count = 0
+    last_message = None
+
+    def __init__(self, id):
+        self.discussion_id = id
+
+
 class DiscussionIndexManager(object):
     """Manager for building discussions from index storage layer."""
 
@@ -70,7 +82,11 @@ class DiscussionIndexManager(object):
         discussions = []
         for id, count in ids.items():
             message = self._get_last_message(id, min_pi, max_pi)
-            discussions.append(message)
+            discussion = DiscussionIndex(id)
+            discussion.total_count = count
+            discussion.last_message = message
+            # XXX build others values from index
+            discussions.append(discussion)
         # XXX total do not work completly, hack a bit
         return discussions, total + len(discussions)
 
