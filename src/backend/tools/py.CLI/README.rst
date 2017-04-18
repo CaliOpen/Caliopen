@@ -32,3 +32,7 @@ Define a ``caliopen`` command in your shell path.
 ## Dump a model ::
 
     caliopen -f caliopen.yaml dump_model -m model_name -o output_path
+
+## Import vcard ::
+
+    Refer to `import vcard <doc/for-developers/vcard_doc.md>`_
