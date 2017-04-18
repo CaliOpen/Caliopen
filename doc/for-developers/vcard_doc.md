@@ -1,6 +1,6 @@
 # Import vcard
 
-We can import one or more vcards from a file.
+We can import one or more vcards from a file (using the caliopen cli).
 
 ## Import vcard
 
@@ -8,6 +8,11 @@ We can import one or more vcards from a file.
 cd src/backend
 caliopen import_vcard --help
 caliopen -f configs/caliopen.yaml.template import_vcard -u <username> [-d <directory> | -f <file>]
+```
+
+```
+docker-compose run cli import_vcard --help
+docker-compose run cli import_vcard -u <username> [-d <directory> | -f <file>]
 ```
 
 It's possible import vcards with a directory as a parameter.
