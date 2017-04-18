@@ -35,4 +35,4 @@ Define a ``caliopen`` command in your shell path.
 
 ## Import vcard ::
 
-    Refer to `import vcard <doc/for-developers/vcard_doc.md>`_
+    Refer to [import vcard](../doc/for-developers/vcard_doc.md)
