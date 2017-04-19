@@ -265,14 +265,14 @@ class ObjectStorable(ObjectJsonDictifiable):
                         setattr(self._db, att,
                                 getattr(self, att).replace(tzinfo=None))
                     else:
-                        if issubclass(self._attrs[att], CaliopenObject):
-                            if getattr(self, att) is not None:
-                                setattr(self._db, att,
-                                        self._attrs[att]._model_class(
-                                            **getattr(self,
-                                                      att).marshall_dict()))
+                        self_att = self._attrs[att]
+                        get_att = getattr(self, att)
+                        if issubclass(self_att, CaliopenObject):
+                            if get_att is not None:
+                                setattr(self._db, att, self_att._model_class(
+                                    **get_att.marshall_dict()))
                         else:
-                            setattr(self._db, att, getattr(self, att))
+                            setattr(self._db, att, get_att)
 
     def unmarshall_db(self, **options):
         """squash self.attrs with db representation"""

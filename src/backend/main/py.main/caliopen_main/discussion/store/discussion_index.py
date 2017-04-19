@@ -90,7 +90,7 @@ class DiscussionIndexManager(object):
         # XXX total do not work completly, hack a bit
         return discussions, total + len(discussions)
 
-    def get_a_message_id(self, discussion_id, message_id):
+    def get_message_id(self, discussion_id, message_id):
         """Search a message_id within a discussion"""
 
         search = self._prepare_search(0, 100)
@@ -99,5 +99,5 @@ class DiscussionIndexManager(object):
                                       "message_id": message_id}}}
         result = search.execute()
         if not result.hits:
-            return False
+            return None
         return result.hits[0]
