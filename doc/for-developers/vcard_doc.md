@@ -27,6 +27,6 @@ Also we can import vcards as a directory *and* a file.
 
 In vcard.py, we find functions `parse_vcard` and `parse_vcards` which read one or more vcards and return a NewContact or an array of NewContact. 
 
-* src/backend/tools/py.CLI/calioepn_cli/commands
+* src/backend/tools/py.CLI/caliopen_cli/commands
 
 In import_vcard.py, function `import_vcard` create new contact, using parser, at a user (in parameter) with the file or the directory of vcards (in parameter). 
