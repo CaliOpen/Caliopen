@@ -64,7 +64,7 @@ class DiscussionIndexManager(object):
         log.debug('No result found on index {}'.format(self.index))
         return {}, 0
 
-    def _get_last_message(self, discussion_id, min_pi, max_pi):
+    def get_last_message(self, discussion_id, min_pi, max_pi):
         """Get last message of a given discussion."""
         search = self._prepare_search(min_pi, max_pi)
         search = search.filter('match', **{'discussion_id': discussion_id})
@@ -81,7 +81,7 @@ class DiscussionIndexManager(object):
         ids, total = self.__search_ids(limit, offset, min_pi, max_pi)
         discussions = []
         for id, count in ids.items():
-            message = self._get_last_message(id, min_pi, max_pi)
+            message = self.get_last_message(id, min_pi, max_pi)
             discussion = DiscussionIndex(id)
             discussion.total_count = count
             discussion.last_message = message
@@ -90,6 +90,14 @@ class DiscussionIndexManager(object):
         # XXX total do not work completly, hack a bit
         return discussions, total + len(discussions)
 
-    def get_discussion(self, discussion_id, min_pi, max_pi):
-        """Get a specific discussion."""
-        return self._get_last_message(discussion_id, min_pi, max_pi)
+    def get_message_id(self, discussion_id, message_id):
+        """Search a message_id within a discussion"""
+
+        search = self._prepare_search(0, 100)
+        search.body = {"query": {"match_all":
+                                     {"discussion_id": discussion_id,
+                                      "message_id": message_id}}}
+        result = search.execute()
+        if not result.hits:
+            return None
+        return result.hits[0]

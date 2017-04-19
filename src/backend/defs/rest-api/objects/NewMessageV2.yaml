@@ -12,7 +12,7 @@ properties:
   identities: # to which user's local identities the message is linked to
     type: array
     items:
-      "$ref": Identity.yaml
+      "$ref": LocalIdentity.yaml
   parent_id: # The id of the Message this message is a reply to. This is primarily for drafts, but the server may support this for received messages as well by looking up the [@!RFC5322] Message-Id referenced in the In-Reply-To header and searching for this message in the user’s mail.
     type: string
   participants:
@@ -26,5 +26,5 @@ properties:
     items:
       "$ref": Tag.yaml
 required:
-  - participants
+  - identities
 additionalProperties: false

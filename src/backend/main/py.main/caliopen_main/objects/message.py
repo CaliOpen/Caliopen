@@ -12,8 +12,8 @@ import json
 
 from caliopen_main.message.store import Message as ModelMessage
 from caliopen_main.message.store import IndexedMessage
-from caliopen_main.message.parameters.message import (Message as ParamMessage,
-                                                      NewMessage)
+from caliopen_main.message.parameters.message import Message as ParamMessage
+from caliopen_main.message.parameters.draft import Draft
 from caliopen_main.message.core import RawMessage
 from .tag import ResourceTag
 from .attachment import MessageAttachment
@@ -21,7 +21,7 @@ from .external_references import ExternalReferences
 from .identities import Identity
 from .participant import Participant
 from .privacy_features import PrivacyFeatures
-
+import caliopen_main.errors as err
 
 import logging
 
@@ -86,20 +86,23 @@ class Message(base.ObjectIndexable):
 
         :params: a NewMessage dict
         """
+
         if user_id is None or user_id is "":
             raise ValueError
 
         try:
-            message_param = NewMessage(params)
-            message_param.validate()
+            draft_param = Draft(params)
+            draft_param.validate_consistency(user_id, True)
         except Exception as exc:
+            log.warn(exc)
             raise exc
+
         message = Message()
-        message.unmarshall_json_dict(params)
+        message.unmarshall_json_dict(draft_param)
         message.user_id = UUID(user_id)
         message.message_id = uuid.uuid4()
         message.is_draft = True
-        message.type = "email"  # TODO: type handling infered from participants
+        message.type = "email"  # TODO: type handling inferred from participants
         message.date_insert = datetime.datetime.utcnow()
 
         try:
@@ -115,6 +118,25 @@ class Message(base.ObjectIndexable):
             log.warn(exc)
             raise exc
         return message
+
+    def patch_draft(self, patch, **options):
+        """operations specific to draft, before applying generic patch method"""
+
+        self.get_db()
+        self.unmarshall_db()
+        if not self.is_draft:
+            return err.PatchUnprocessable(message="this message is not a draft")
+
+        try:
+            params = dict(patch)
+            params.pop("current_state")
+            draft_param = Draft(params)
+            draft_param.validate_consistency(self.user_id, False)
+        except Exception as exc:
+            log.warn(exc)
+            return err.PatchError(message=exc.message)
+
+        self.apply_patch(patch, **options)
 
     @classmethod
     def by_discussion_id(cls, user, discussion_id, min_pi, max_pi,

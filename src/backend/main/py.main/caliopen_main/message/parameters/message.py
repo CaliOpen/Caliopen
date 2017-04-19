@@ -14,7 +14,7 @@ from caliopen_main.message.parameters.external_references import \
 from caliopen_main.message.parameters.participant import Participant
 from caliopen_main.message.parameters.privacy_features import PrivacyFeatures
 
-from caliopen_main.user.parameters.identity import Identity
+from caliopen_main.user.parameters.identity import LocalIdentity
 
 RECIPIENT_TYPES = ['To', 'From', 'Cc', 'Bcc', 'Reply-To', 'Sender']
 MESSAGE_TYPES = ['email']
@@ -31,7 +31,7 @@ class NewMessage(Model):
                         tzd=u'utc')
     discussion_id = UUIDType()
     external_references = ModelType(ParamExternalReferences)
-    identities = ListType(ModelType(Identity), default=lambda: [])
+    identities = ListType(ModelType(LocalIdentity), default=lambda: [])
     importance_level = IntType()
     is_answered = BooleanType()
     is_draft = BooleanType()
