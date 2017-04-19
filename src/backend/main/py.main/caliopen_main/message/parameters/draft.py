@@ -9,6 +9,7 @@ from .message import NewMessage
 from caliopen_main.objects.identities import LocalIdentity
 from caliopen_main.user.core import User
 from caliopen_main.objects.participant import Participant
+from caliopen_main.message.store.message_index import IndexedMessage
 from caliopen_storage.exception import NotFound
 from caliopen_main.discussion.store.discussion_index import \
     DiscussionIndexManager as DIM
@@ -47,40 +48,57 @@ class Draft(NewMessage):
                     participants.pop(i)
 
         if is_new:
-            if 'identities' not in self:
-                raise err.PatchUnprocessable
+            self._add_from_participant(user_id)
 
-            if len(self['identities']) != 1:
-                raise err.PatchUnprocessable
+        # check discussion consistency and get last message from discussion
+        last_message = self._check_discussion_consistency(user_id)
 
-            provided_identity = self['identities'][0]
-            local_identity = LocalIdentity(
-                identifier=provided_identity['identifier'])
-            try:
-                local_identity.get_db()
-                local_identity.unmarshall_db()
-            except NotFound:
-                raise NotFound
-            if str(local_identity.user_id) != user_id:
-                raise err.ForbiddenAction
+        # check subject consistency
+        if 'subject' in self:
+            if self['subject'] != last_message['subject']:
+                raise err.PatchConflict(message="subject has been changed")
+        else:
+            self['subject'] = last_message['subject']
 
-            # add 'from' participant with local identity's identifier
-            user = User.get(user_id)
-            if 'participants' not in self:
-                self['participants'] = []
-            participants = self['participants']
-            from_participant = Participant()
-            from_participant.address = local_identity.identifier
-            from_participant.label = local_identity.display_name
-            from_participant.protocol = "email"
-            from_participant.type = "From"
-            from_participant.contact_ids = [user.contact.contact_id]
-            participants.append(from_participant.marshall_dict())
+            # prevent modification of protected attributes
+            # TODO: below attributes should be protected by Message class
 
-        from caliopen_main.objects.message import \
-            Message  # objects/Message and Draft reference each other
-        # discussion consistency
+    def _add_from_participant(self, user_id):
+
+        if 'identities' not in self:
+            raise err.PatchUnprocessable
+
+        if len(self['identities']) != 1:
+            raise err.PatchUnprocessable
+
+        provided_identity = self['identities'][0]
+        local_identity = LocalIdentity(
+            identifier=provided_identity['identifier'])
+        try:
+            local_identity.get_db()
+            local_identity.unmarshall_db()
+        except NotFound:
+            raise NotFound
+        if str(local_identity.user_id) != user_id:
+            raise err.ForbiddenAction
+
+        # add 'from' participant with local identity's identifier
+        user = User.get(user_id)
+        if 'participants' not in self:
+            self['participants'] = []
+        participants = self['participants']
+        from_participant = Participant()
+        from_participant.address = local_identity.identifier
+        from_participant.label = local_identity.display_name
+        from_participant.protocol = "email"
+        from_participant.type = "From"
+        from_participant.contact_ids = [user.contact.contact_id]
+        participants.append(from_participant.marshall_dict())
+
+    def _check_discussion_consistency(self, user_id):
+        from caliopen_main.objects.message import Message
         new_discussion = False
+
         if 'discussion_id' not in self or self['discussion_id'] == "" \
                 or self['discussion_id'] is None:
             # no discussion_id provided. Try to find one with draft's parent_id
@@ -99,7 +117,7 @@ class Draft(NewMessage):
                 new_discussion = True
 
         if not new_discussion:
-            dim = DIM(user.user_id)
+            dim = DIM(user_id)
             d_id = self['discussion_id']
             last_message = dim.get_last_message(d_id, 0, 100)
             if last_message == {}:
@@ -135,13 +153,7 @@ class Draft(NewMessage):
                     raise err.PatchConflict(message="provided message "
                                                     "parent_id does not belong"
                                                     "to this discussion")
+        else:
+            last_message = self
 
-            # check subject consistency
-            if 'subject' in self:
-                if self['subject'] != last_message['subject']:
-                    raise err.PatchConflict(message="subject has been changed")
-            else:
-                self['subject'] = last_message['subject']
-
-                # prevent modification of protected attributes
-                # TODO: below attributes should be protected by Message class
+        return last_message

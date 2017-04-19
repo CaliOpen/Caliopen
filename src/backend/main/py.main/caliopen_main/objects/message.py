@@ -12,8 +12,7 @@ import json
 
 from caliopen_main.message.store import Message as ModelMessage
 from caliopen_main.message.store import IndexedMessage
-from caliopen_main.message.parameters.message import (Message as ParamMessage,
-                                                      NewMessage)
+from caliopen_main.message.parameters.message import Message as ParamMessage
 from caliopen_main.message.parameters.draft import Draft
 from caliopen_main.message.core import RawMessage
 from .tag import ResourceTag
