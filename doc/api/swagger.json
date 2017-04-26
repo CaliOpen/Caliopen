@@ -3275,6 +3275,23 @@
         }
       }
     },
+    "/v1/import": {
+      "post": {
+        "consumes": [
+          "text/vcard",
+          "text/vcf",
+          "text/x-vcard"
+        ],
+        "responses": {
+          "200": {
+            "description": "Import successful"
+          },
+          "400": {
+            "description": "Syntax error"
+          }
+        }
+      }
+    },
     "/v1/discussions": {
       "get": {
         "description": "Returns the list of discussions for current user according to given filter",
@@ -3663,7 +3680,7 @@
             "in": "query",
             "type": "integer",
             "required": false,
-            "description": "number of pages to skip from the response"
+            "description": "number of discussions to skip for pagination"
           }
         ],
         "produces": [

@@ -157,4 +157,3 @@ contacts_{contact_id}:
         description: json is valid but patch was semantically malformed or unprocessable
         schema:
           "$ref": "../objects/Error.yaml"
-
