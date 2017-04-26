@@ -22,6 +22,8 @@ paths:
     "$ref": paths/contacts.yaml#/contacts
   "/v1/contacts/{contact_id}":
     "$ref": paths/contacts.yaml#/contacts_{contact_id}
+  "/v1/import":
+    "$ref": paths/import.yaml#/contacts_import
   "/v1/discussions":
     "$ref": paths/discussions.yaml#/discussions
   "/v1/discussions/{discussion_id}":
@@ -49,4 +51,3 @@ securityDefinitions:
     type: basic
     description: HTTP Basic Authentication. `Password` is the `access_token` return
       by /authentications and `Username` is the `user_id` returned by /authentications
-
