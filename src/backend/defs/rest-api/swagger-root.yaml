@@ -23,7 +23,7 @@ paths:
   "/v1/contacts/{contact_id}":
     "$ref": paths/contacts.yaml#/contacts_{contact_id}
   "/v1/import":
-    "$ref": paths/import.yaml#/contacts_import
+    "$ref": paths/imports.yaml#/contacts_import
   "/v1/discussions":
     "$ref": paths/discussions.yaml#/discussions
   "/v1/discussions/{discussion_id}":

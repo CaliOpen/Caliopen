@@ -357,7 +357,7 @@ class ContactPublicKey(BaseSubContactApi):
     namespace = 'keys'
 
 
-@resource(collection_path='/import', path='')
+@resource(collection_path='/imports', path='')
 class ContactImport(Api):
 
     def __init__(self, request):
@@ -369,9 +369,13 @@ class ContactImport(Api):
 
         data = self.request.body
         vcards = vobject.readComponents(data)
+        #try:
         new_contacts = parse_vcards(vcards)
-
+        #except:
+            
+        #try:
         for i in new_contacts:
             CoreContact.create(self.user, i)
+        #except:
 
         return Response(status=200)

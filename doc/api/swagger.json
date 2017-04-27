@@ -3275,19 +3275,70 @@
         }
       }
     },
-    "/v1/import": {
+    "/v1/imports": {
       "post": {
         "consumes": [
           "text/vcard",
           "text/vcf",
           "text/x-vcard"
         ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
         "responses": {
           "200": {
             "description": "Import successful"
           },
           "400": {
-            "description": "Syntax error"
+            "description": "Syntax error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "File valid but we can create the new contact",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -3680,7 +3731,7 @@
             "in": "query",
             "type": "integer",
             "required": false,
-            "description": "number of discussions to skip for pagination"
+            "description": "number of pages to skip from the response"
           }
         ],
         "produces": [

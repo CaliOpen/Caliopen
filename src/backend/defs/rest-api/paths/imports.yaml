@@ -1,0 +1,21 @@
+contacts_import:
+  post:
+    consumes:
+    - text/vcard
+    - text/vcf
+    - text/x-vcard
+    security:
+    - basicAuth: []
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: Import successful
+      '400':
+        description: Syntax error
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '422':
+        description: File valid but we can create the new contact
+        schema:
+          "$ref": "../objects/Error.yaml"

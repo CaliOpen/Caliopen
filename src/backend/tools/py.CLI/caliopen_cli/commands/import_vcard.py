@@ -3,23 +3,12 @@ import vobject
 
 def import_vcard(username, directory, file_vcard, **kwargs):
 
-    from caliopen_main.user.parameters.contact import (NewContact, NewEmail,
-                                            NewPostalAddress, NewPublicKey, NewPhone,
-                                            NewOrganization, NewIM, Contact, PHONE_TYPES,
-                                            ADDRESS_TYPES, EMAIL_TYPES, KEY_CHOICES, ORG_TYPES,
-                                            IM_TYPES)
-
-    from schematics.types import UUIDType
-
-    from caliopen_main.user.parameters.types import PhoneNumberType
-    from caliopen_main.user.parameters.types import InternetAddressType
+    from caliopen_main.user.parameters.contact import NewContact
 
     from caliopen_main.user.core.contact import Contact as CoreContact
     from caliopen_main.user.core.user import User as CoreUser
 
     from caliopen_main.parsers import parse_vcards
-
-    new_contact = NewContact()
 
     vcards = []
 
