@@ -87,3 +87,21 @@ class MergePatchError(HTTPClientError):
             self.explanation = "The request cannot be applied given " \
                                "the state of the resource"
             self.message = error.message
+
+
+class Unprocessable(HTTPClientError):
+    """
+    subclass of :class:`~HTTPClientError`
+
+    This indicates that the body or headers failed validity checks,
+    preventing the server from being able to continue processing.
+
+    code: 422, title: Bad Request
+    """
+
+    def __init__(self, error=None):
+            
+        self.code = 422
+        self.title = 'Unprocessable entity'
+        self.explanation = ('The server encounter when processing payload')
+        self.message = error.message
