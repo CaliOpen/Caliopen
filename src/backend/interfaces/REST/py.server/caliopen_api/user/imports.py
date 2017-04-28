@@ -25,10 +25,12 @@ class ContactImport(Api):
             new_contacts = parse_vcards(vcards)
         except Exception as exc:
             log.error('Syntax error: {}'.format(exc))
+            return Response(status=400)
         try:
             for i in new_contacts:
                 CoreContact.create(self.user, i)
         except Exception as exc:
             log.error('File valid but we can create the new contact: {}'.format(exc))
+            return Response(status=422)
 
         return Response(status=200)
