@@ -22,8 +22,8 @@ paths:
     "$ref": paths/contacts.yaml#/contacts
   "/v1/contacts/{contact_id}":
     "$ref": paths/contacts.yaml#/contacts_{contact_id}
-  "/v1/import":
-    "$ref": paths/imports.yaml#/contacts_import
+  "/v1/imports":
+    "$ref": paths/imports.yaml#/imports
   "/v1/discussions":
     "$ref": paths/discussions.yaml#/discussions
   "/v1/discussions/{discussion_id}":

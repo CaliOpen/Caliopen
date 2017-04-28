@@ -5,7 +5,6 @@ from __future__ import absolute_import, print_function, unicode_literals
 import logging
 import json
 import colander
-import vobject
 from cornice.resource import resource, view
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPBadRequest, HTTPExpectationFailed
@@ -24,8 +23,6 @@ from caliopen_main.user.returns.contact import (ReturnContact,
 
 from caliopen_main.user.parameters import (NewContact as NewContactParam,
                                            NewPostalAddress, NewEmail, NewIM)
-
-from caliopen_main.parsers.vcard import parse_vcards
 
 from ..base import Api
 from ..base.exception import (ResourceNotFound,
@@ -355,27 +352,3 @@ class ContactPublicKey(BaseSubContactApi):
     core_class = CorePublicKey
     return_class = ReturnPublicKey
     namespace = 'keys'
-
-
-@resource(collection_path='/imports', path='')
-class ContactImport(Api):
-
-    def __init__(self, request):
-        self.request = request
-        self.user = request.authenticated_userid
-
-    @view(permission='authenticated')
-    def collection_post(self):
-
-        data = self.request.body
-        vcards = vobject.readComponents(data)
-        #try:
-        new_contacts = parse_vcards(vcards)
-        #except:
-            
-        #try:
-        for i in new_contacts:
-            CoreContact.create(self.user, i)
-        #except:
-
-        return Response(status=200)

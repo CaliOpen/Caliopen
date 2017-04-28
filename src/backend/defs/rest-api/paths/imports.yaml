@@ -1,4 +1,4 @@
-contacts_import:
+imports:
   post:
     consumes:
     - text/vcard
