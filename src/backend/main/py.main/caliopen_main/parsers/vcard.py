@@ -6,11 +6,22 @@ from caliopen_main.user.parameters.contact import (NewContact, NewEmail,
 
 from schematics.types import UUIDType
 
+from cryptography import x509
+from cryptography.hazmat.backends.openssl import backend
+from cryptography.hazmat.backends import default_backend
+
+import ssl
+import base64
+
 from caliopen_main.user.parameters.types import PhoneNumberType
 from caliopen_main.user.parameters.types import InternetAddressType
 
 from caliopen_main.user.core.contact import Contact as CoreContact
 from caliopen_main.user.core.user import User as CoreUser
+
+from caliopen_pgp.keys.hkp import HKPDiscovery
+from caliopen_pgp.keys.keybase import KeybaseDiscovery
+from caliopen_pgp.keys.rfc7929 import DNSDiscovery
 
 def parse_vcard(vcard):
 
@@ -114,7 +125,29 @@ def parse_vcard(vcard):
                             if i == mail.params.get('TYPE')[0]:
                                 email_tmp.type = i
                 new_contact.emails.append(email_tmp)
-
+################################################################################################
+                
+                key1 = HKPDiscovery(email_tmp)
+                key2 = KeybaseDiscovery(email_tmp)
+                key3 = DNSDiscovery(email_tmp)
+                """
+                print("")
+                #for i in key1.find_by_mail(email_tmp.address):
+                for i in key2.find_by_type(email_tmp.address):
+                    print(i.id)
+                    print(i._pgpkey)
+                    print(i.version)
+                    print(i.created)
+                    print(i.is_expired)
+                    print(i.keyid)
+                    print(i.fingerprint)
+                    print(i.algorithm)
+                    print(i.userids)
+                #print(key2.find_by_type("Aymeric Barantal",'github'))
+                #print(key3.find_by_mail(email_tmp.address))
+                print("")
+                """
+################################################################################################
         elif v == 'impp':
             for i in vcard.contents['impp']:
                 impp = NewIM()
@@ -144,6 +177,59 @@ def parse_vcard(vcard):
                 phone.number = number
                 new_contact.phones.append(phone)
 
+        elif v == 'key':
+            test = False
+            for key in vcard.contents['key']:
+                if key.params:
+                    if key.params.get('ENCODING'):
+                        """
+                        if key.params.get('ENCODING')[0] == 'b': 
+                            key = attr.split(';', 2)[1].split(':', 3)[2]
+
+                            der = base64.decodestring(key)
+                            pem = ssl.DER_cert_to_PEM_cert(der)
+                            
+                            tmp = x509.load_der_x509_certificate(str(vcard.contents['key'][0].value), backend)
+                            print("")
+                            print("")
+                            print(dir(tmp))
+                            print("")
+                            print(tmp.__dict__)
+                            print("")
+                            print(tmp.fingerprint)
+                            print("")
+                            print(tmp.signature)
+                            print("")
+                            print("")
+                            #ke.key = tmp.getPublicKey()
+                            #ke.fingerprint = str(tmp.fingerprint)
+                            #ke.key = tmp.public_key    # Erreur au niveau du type, a revoir = pas de type
+                        """ 
+                    else:
+                        test = True
+                if test:
+                    ke = NewPublicKey()
+
+                    ke.key = vcard.contents['key'][0].value
+                    if "1024" in key.value:
+                        ke.size = 1024
+                    elif "2048" in key.value:
+                        ke.size = 2048
+                    elif "4096" in key.value:
+                        ke.size = 4096
+                    if(key.params):
+                        for j in KEY_CHOICES:
+                            if j == 'gpg':
+                                j = 'pgp'
+                            j = j.upper()
+                            if j == key.params.get('TYPE'):
+                                j = j.lower()
+                                if j == 'pgp':
+                                    j = 'gpg'
+                                ke.type = j
+                    ke.name = ('key{}{}'.format(ke.type,ke.size))
+                    #print(ke.name)
+                    new_contact.public_keys.append(ke)
     return new_contact
 
 def parse_vcards(vcards):

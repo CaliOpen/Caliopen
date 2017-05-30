@@ -1,5 +1,9 @@
 import vobject
 
+import logging
+
+import os.path
+
 from caliopen_main.user.core import Contact as CoreContact
 
 from cornice.resource import resource, view
@@ -12,6 +16,9 @@ from ..base.exception import (ValidationError,
 
 from ..base import Api
 
+log = logging.getLogger(__name__)
+
+
 @resource(collection_path='/imports', path='')
 class ContactImport(Api):
 
@@ -23,6 +30,8 @@ class ContactImport(Api):
     def collection_post(self):
 
         data = self.request.body
+        print("data = ")
+        print(os.path.isdir(data))
         vcards = vobject.readComponents(data)
         try:
             new_contacts = parse_vcards(vcards)
@@ -31,6 +40,7 @@ class ContactImport(Api):
             raise ValidationError(exc)
         try:
             for i in new_contacts:
+                print("Nouveau contact")
                 CoreContact.create(self.user, i)
         except Exception as exc:
             log.error('File valid but we can create the new contact: {}'.format(exc))
