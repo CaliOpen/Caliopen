@@ -30,8 +30,6 @@ class ContactImport(Api):
     def collection_post(self):
 
         data = self.request.body
-        print("data = ")
-        print(os.path.isdir(data))
         vcards = vobject.readComponents(data)
         try:
             new_contacts = parse_vcards(vcards)
@@ -40,7 +38,6 @@ class ContactImport(Api):
             raise ValidationError(exc)
         try:
             for i in new_contacts:
-                print("Nouveau contact")
                 CoreContact.create(self.user, i)
         except Exception as exc:
             log.error('File valid but we can create the new contact: {}'.format(exc))

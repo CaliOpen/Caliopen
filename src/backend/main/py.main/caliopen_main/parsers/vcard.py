@@ -101,7 +101,8 @@ def parse_vcard(vcard):
             for ad in vcard.contents['adr']:
                 add = NewPostalAddress()
                 add.city = ad.value.city
-                add.country = ad.value.country
+                if ad.value.country != "":
+                    add.country = ad.value.country
                 add.is_primary = False
                 add.postal_code = ad.value.code
                 add.region = ad.value.region
