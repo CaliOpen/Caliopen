@@ -94,19 +94,21 @@ def parse_vcard(vcard):
     for v in vcard.contents:
         if v == 'adr':
             for ad in vcard.contents['adr']:
-                add = NewPostalAddress()
-                add.city = ad.value.city
-                add.country = ad.value.country
-                add.is_primary = False
-                add.postal_code = ad.value.code
-                add.region = ad.value.region
-                add.street = ad.value.street
-                for i in ADDRESS_TYPES:
-                    if i == ad.type_param:
-                        add.type = ad.type_param
-                if not add.type:
-                    add.type = ADDRESS_TYPES[2]
-                new_contact.addresses.append(add)
+                if ad.value.city != "":
+                    add = NewPostalAddress()
+                    add.city = ad.value.city
+                    add.city = ad.value.city
+                    add.country = ad.value.country
+                    add.is_primary = False
+                    add.postal_code = ad.value.code
+                    add.region = ad.value.region
+                    add.street = ad.value.street
+                    for i in ADDRESS_TYPES:
+                        if i == ad.type_param:
+                            add.type = ad.type_param
+                    if not add.type:
+                        add.type = ADDRESS_TYPES[2]
+                    new_contact.addresses.append(add)
 
         elif v == 'email':
             for mail in vcard.contents['email']:
