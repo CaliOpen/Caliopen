@@ -1,0 +1,28 @@
+BEGIN:VCARD
+VERSION:4.0
+ADR;TYPE=WORK:;;100 Waters Edge;Baytown;LA;30314;United States of America
+ADR;TYPE=home:;;123 Main St.;Springfield;IL;12345;USA
+EMAIL;TYPE=PREF,INTERNET:forrestgump@example.com
+TEL:+93 77 888 9999
+TEL:+852.23.21.33.34
+TEL:+389 4 345 4456
+TEL:+52 (13) 33 22 44 55
+TEL:+235 [22/66/99/77]902876
+TEL:+58 234 454 55 67
+N:Stevenson;John;Philip,Paul;Dr.;Jr.,M.D.,A.C.P.
+IMPP:aim:johndoe@aol.com
+IMPP;TYPE=personal,text,store,pref:im:john@example.com
+NOTE:I am proficient in Tiger-Crane Style,\nand I am more than proficient in the exquisite art of the Samurai sword.
+FN:Forrest Gump
+FN:Dr. John Doe
+ORG:Bubba Gump Shrimp Co.
+ORG:ABC\, Inc.;North American Division;Marketing
+TITLE:Shrimp Man
+LABEL;TYPE=HOME:42 Plantation St.\nBaytown, LA 30314\nUnited States of America
+REV:20080424T195243Z
+KEY:data:application/x-pgp-fingerprint,5E61C8780F86295CE17D86779F0FE587374BBE81
+KEY:http://pgp.mit.edu:11371/pks/lookup?op=get&search=0x9F0FE587374BBE81
+KEY:MEDIATYPE=application/pgp-keys:http://example.com/key.pgp
+CATEGORIES:swimmer,biker
+PHOTO;VALUE=URL;TYPE=GIF:http://www.example.com/dir_photos/my_photo.gif
+END:VCARD

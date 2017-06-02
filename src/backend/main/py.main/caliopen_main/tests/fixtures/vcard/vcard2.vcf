@@ -1,0 +1,20 @@
+BEGIN:VCARD
+BDAY;VALUE=DATE:1963-09-21
+VERSION:3.0
+ADR;TYPE=WORK,POSTAL,PARCEL:;;
+EMAIL;TYPE=INTERNET:deriks@Microsoft.com
+N:Stenerson;Derik
+IMPP:aim:johndoe@aol.com
+NOTE:I am proficient in Tiger-Crane Style,\nand I am more than proficient in the exquisite art of the Samurai sword.
+TEL:+343 1 02 03 04 05
+TEL:+343 (0)1 02 03 04 05
+TEL:+355 1832 3849
+TEL:+61 777 888 999
+TEL:+43 1 765 437
+TEL:+32 33 12 34 56
+TEL:+229 90 89 77 66
+FN:Derik Stenerson
+KEY;TYPE=PGP:http://example.com/key.pgp
+ORG:Microsoft Corporation
+CATEGORIES:swimmer,biker
+END:VCARD

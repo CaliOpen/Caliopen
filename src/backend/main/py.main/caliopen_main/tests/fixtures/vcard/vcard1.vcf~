@@ -1,0 +1,17 @@
+BEGIN:VCARD
+VERSION:2.1
+ADR;TYPE=WORK:;;63-65 Boulevard Massena;Paris;;75314;France
+ADR;TYPE=WORK:;;63-65 Boulevard Massena;Paris;;75314;France
+EMAIL;TYPE=WORK:jeffrey1@osafoundation.org
+EMAIL:
+EMAIL:jeffrey3@osafoundation.org
+N:Harris;Jeffrey;;;
+IMPP:aim:johndoe@aol.com
+NOTE;ENCODING=QUOTED-PRINTABLE: This is a note associated with this
+TEL:+33 1 02 03 04 05
+TEL:+33 (0)1 02 03 04 05
+FN:Jeffrey Harris
+KEY;TYPE=PGP:http://pgp.mit.edu:11371/pks/lookup?op=get&search=0x9F0FE587374BBE81
+KEY;PGP:http://example.com/key.pgp
+CATEGORIES:swimmer,biker
+END:VCARD

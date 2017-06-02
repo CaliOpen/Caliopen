@@ -1,0 +1,9 @@
+begin:VCARD
+source:ldap://cn=bjorn%20Jensen, o=university%20of%20Michigan, c=US
+name:Bjorn Jensen
+fn:Bj=F8rn Jensen
+n:Jensen;Bj=F8rn
+email;type=internet:bjorn@umich.edu
+tel;type=work,voice,msg:+1 313 747-4454
+key;type=x509;encoding=B:dGhpcyBjb3VsZCBiZSAKbXkgY2VydGlmaWNhdGUK
+end:VCARD
