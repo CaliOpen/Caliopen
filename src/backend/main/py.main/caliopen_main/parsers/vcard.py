@@ -161,32 +161,27 @@ def parse_vcard(vcard):
         elif v == 'key':
             test = False
             for key in vcard.contents['key']:
-                if key.params:
-                    if key.params.get('ENCODING'):
-                    else:
-                        test = True
-                if test:
-                    ke = NewPublicKey()
+                ke = NewPublicKey()
 
-                    ke.key = vcard.contents['key'][0].value
-                    if "1024" in key.value:
-                        ke.size = 1024
-                    elif "2048" in key.value:
-                        ke.size = 2048
-                    elif "4096" in key.value:
-                        ke.size = 4096
-                    if(key.params):
-                        for j in KEY_CHOICES:
-                            if j == 'gpg':
-                                j = 'pgp'
-                            j = j.upper()
-                            if j == key.params.get('TYPE'):
-                                j = j.lower()
-                                if j == 'pgp':
-                                    j = 'gpg'
-                                ke.type = j
-                    ke.name = ('key{}{}'.format(ke.type,ke.size))
-                    new_contact.public_keys.append(ke)
+                ke.key = vcard.contents['key'][0].value
+                if "1024" in key.value:
+                    ke.size = 1024
+                elif "2048" in key.value:
+                    ke.size = 2048
+                elif "4096" in key.value:
+                    ke.size = 4096
+                if(key.params):
+                    for j in KEY_CHOICES:
+                        if j == 'gpg':
+                            j = 'pgp'
+                        j = j.upper()
+                        if j == key.params.get('TYPE'):
+                            j = j.lower()
+                            if j == 'pgp':
+                                j = 'gpg'
+                            ke.type = j
+                ke.name = ('key{}{}'.format(ke.type,ke.size))
+                new_contact.public_keys.append(ke)
     return new_contact
 
 def parse_vcards(vcards):
@@ -217,10 +212,9 @@ def read_directory(directory):
         ext = f.split('.')[-1]
         if ext == 'vcard' or ext == 'vcf':
             with open('{directory}/{file}'.
-                      format(directory=directory, file=f), 'r') as fh:
+                      format(directory=directory,<file=f), 'r') as fh:
                 vcards_tmp = vobject.readComponents(fh)
 
                 for v in vcards_tmp:
                     vcards.append(v)
     return vcards
-
