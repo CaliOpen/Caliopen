@@ -3372,6 +3372,15 @@
           "text/vcf",
           "text/x-vcard"
         ],
+        "parameters": [
+          {
+            "name": "vcard",
+            "in": "formData",
+            "description": "the v file to upload",
+            "type": "file",
+            "required": true
+          }
+        ],
         "security": [
           {
             "basicAuth": []
@@ -3848,18 +3857,24 @@
                         "items": {
                           "type": "object",
                           "properties": {
+                            "attachment_id": {
+                              "type": "string"
+                            },
                             "content_type": {
                               "type": "string"
                             },
                             "is_inline": {
                               "type": "boolean"
                             },
-                            "name": {
+                            "filename": {
                               "type": "string"
                             },
                             "size": {
                               "type": "integer",
                               "format": "int64"
+                            },
+                            "uri": {
+                              "type": "string"
                             }
                           }
                         }
@@ -4115,18 +4130,24 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "attachment_id": {
+                        "type": "string"
+                      },
                       "content_type": {
                         "type": "string"
                       },
                       "is_inline": {
                         "type": "boolean"
                       },
-                      "name": {
+                      "filename": {
                         "type": "string"
                       },
                       "size": {
                         "type": "integer",
                         "format": "int64"
+                      },
+                      "uri": {
+                        "type": "string"
                       }
                     }
                   }
@@ -4369,18 +4390,24 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "attachment_id": {
+                        "type": "string"
+                      },
                       "content_type": {
                         "type": "string"
                       },
                       "is_inline": {
                         "type": "boolean"
                       },
-                      "name": {
+                      "filename": {
                         "type": "string"
                       },
                       "size": {
                         "type": "integer",
                         "format": "int64"
+                      },
+                      "uri": {
+                        "type": "string"
                       }
                     }
                   }
@@ -4640,18 +4667,24 @@
                       "items": {
                         "type": "object",
                         "properties": {
+                          "attachment_id": {
+                            "type": "string"
+                          },
                           "content_type": {
                             "type": "string"
                           },
                           "is_inline": {
                             "type": "boolean"
                           },
-                          "name": {
+                          "filename": {
                             "type": "string"
                           },
                           "size": {
                             "type": "integer",
                             "format": "int64"
+                          },
+                          "uri": {
+                            "type": "string"
                           }
                         }
                       }
@@ -4833,18 +4866,24 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "attachment_id": {
+                        "type": "string"
+                      },
                       "content_type": {
                         "type": "string"
                       },
                       "is_inline": {
                         "type": "boolean"
                       },
-                      "name": {
+                      "filename": {
                         "type": "string"
                       },
                       "size": {
                         "type": "integer",
                         "format": "int64"
+                      },
+                      "uri": {
+                        "type": "string"
                       }
                     }
                   }
@@ -5305,18 +5344,24 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "attachment_id": {
+                        "type": "string"
+                      },
                       "content_type": {
                         "type": "string"
                       },
                       "is_inline": {
                         "type": "boolean"
                       },
-                      "name": {
+                      "filename": {
                         "type": "string"
                       },
                       "size": {
                         "type": "integer",
                         "format": "int64"
+                      },
+                      "uri": {
+                        "type": "string"
                       }
                     }
                   }
@@ -5505,18 +5550,24 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "attachment_id": {
+                        "type": "string"
+                      },
                       "content_type": {
                         "type": "string"
                       },
                       "is_inline": {
                         "type": "boolean"
                       },
-                      "name": {
+                      "filename": {
                         "type": "string"
                       },
                       "size": {
                         "type": "integer",
                         "format": "int64"
+                      },
+                      "uri": {
+                        "type": "string"
                       }
                     }
                   }
@@ -5812,6 +5863,238 @@
           },
           "424": {
             "description": "execution of action failed.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/messages/{message_id}/attachments": {
+      "post": {
+        "description": "(for draft only) upload a file to server and add attachment reference to the draft.",
+        "tags": [
+          "attachments",
+          "messages"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "message_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "attachment",
+            "in": "formData",
+            "description": "the attachment file to upload",
+            "type": "file",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "File uploaded sucessfully. Backend sends back attachment's url.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "location": {
+                  "type": "string",
+                  "description": "url to retrieve attachment at /messages/{message_id}/attachments/{attachment_index}"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "413": {
+            "description": "Request entity too large"
+          },
+          "415": {
+            "description": "Unsupported media type"
+          }
+        }
+      }
+    },
+    "/v2/messages/{message_id}/attachments/{attachment_index}": {
+      "get": {
+        "description": "Download file from server",
+        "tags": [
+          "messages",
+          "attachments"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "message_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "attachment_index",
+            "description": "attachment position within message",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "the raw mime part, in the 'content-transfer-encoding' format of the part.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "message or attachment not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "(for drafts only) delete temporary file and remove attachment reference from the draft.",
+        "tags": [
+          "messages",
+          "attachments"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "message_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "attachment_index",
+            "description": "attachment position within message",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful deletion. No body is returned"
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden action. Server is refusing to delete this ressource",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "message or attachment not found",
             "schema": {
               "type": "object",
               "properties": {

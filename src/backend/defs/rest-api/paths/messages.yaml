@@ -259,16 +259,23 @@ messages_{message_id}_actions:
           "$ref": "../objects/Error.yaml"
 messages_{message_id}_attachments:
   post:
-    description: (for draft only) : upload a file to server and add attachment reference to the draft.
+    description: (for draft only) upload a file to server and add attachment reference to the draft.
     tags:
     - attachments
+    - messages
     security:
     - basicAuth: []
     consumes:
     - multipart/form-data
     parameters:
-    - name: file
-      in: form
+    - name: message_id
+      in: path
+      required: true
+      type: string
+    - name: attachment
+      in: formData
+      description: the attachment file to upload
+      type: file
       required: true
     produces:
     - application/json
@@ -306,7 +313,7 @@ messages_{message_id}_attachments_{attachment_index}:
       required: true
       type: string
     - name: attachment_index
-      description: attachment's position within message (ie the mime part)
+      description: attachment position within message
       in: path
       required: true
       type: string
@@ -325,7 +332,7 @@ messages_{message_id}_attachments_{attachment_index}:
         schema:
           "$ref": "../objects/Error.yaml"
   delete:
-    description: (for drafts only) : delete temporary file and remove attachment reference from the draft.
+    description: (for drafts only) delete temporary file and remove attachment reference from the draft.
     tags:
     - messages
     - attachments
@@ -337,7 +344,7 @@ messages_{message_id}_attachments_{attachment_index}:
       required: true
       type: string
     - name: attachment_index
-      description: attachment's position within message (ie the mime part)
+      description: attachment position within message
       in: path
       required: true
       type: string
