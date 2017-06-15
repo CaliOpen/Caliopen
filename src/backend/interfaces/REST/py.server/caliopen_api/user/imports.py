@@ -27,7 +27,7 @@ class ContactImport(Api):
     @view(permission='authenticated')
     def collection_post(self):
 
-        data = self.request.body
+        data = self.request.POST['file'].file
         vcards = read_file(data, False)
         try:
             new_contacts = parse_vcards(vcards)
