@@ -138,7 +138,7 @@ def parse_vcard(vcard):
                                 if i == mail.params.get('TYPE')[0]:
                                     email_tmp.type = i
                     new_contact.emails.append(email_tmp)
-
+                    
         elif v == 'impp':
             for i in vcard.contents['impp']:
                 impp = NewIM()
