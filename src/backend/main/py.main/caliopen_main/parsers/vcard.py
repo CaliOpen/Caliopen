@@ -125,15 +125,19 @@ def parse_vcard(vcard):
         elif v == 'email':
             for mail in vcard.contents['email']:
                 email_tmp = NewEmail()
-                ad = InternetAddressType.validate_email(InternetAddressType(),mail.value)
-                email_tmp.address = ad
-                email_tmp.is_primary = False
-                if mail.params:
-                    if mail.params.get('TYPE')[0]:
-                        for i in EMAIL_TYPES:
-                            if i == mail.params.get('TYPE')[0]:
-                                email_tmp.type = i
-                new_contact.emails.append(email_tmp)
+                try:
+                    ad = InternetAddressType.validate_email(InternetAddressType(),mail.value)
+                except:
+                    ad = None
+                if ad:
+                    email_tmp.address = ad
+                    email_tmp.is_primary = False
+                    if mail.params:
+                        if mail.params.get('TYPE')[0]:
+                            for i in EMAIL_TYPES:
+                                if i == mail.params.get('TYPE')[0]:
+                                    email_tmp.type = i
+                    new_contact.emails.append(email_tmp)
 
         elif v == 'impp':
             for i in vcard.contents['impp']:
@@ -160,9 +164,14 @@ def parse_vcard(vcard):
             for tel in vcard.contents['tel']:
                 phone = NewPhone()
                 phone.is_primary = False
-                number = PhoneNumberType.validate_phone(PhoneNumberType(),tel.value)
-                phone.number = number
-                new_contact.phones.append(phone)
+                try:
+                    number = PhoneNumberType.validate_phone(PhoneNumberType(),tel.value)
+                except:
+                    number = None
+                if number:
+                    number = PhoneNumberType.validate_phone(PhoneNumberType(),tel.value)
+                    phone.number = number
+                    new_contact.phones.append(phone)
 
         elif v == 'key':
             test = False
