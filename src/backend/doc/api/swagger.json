@@ -3372,6 +3372,15 @@
           "text/vcf",
           "text/x-vcard"
         ],
+        "parameters": [
+          {
+            "name": "vcard",
+            "in": "formData",
+            "description": "the vcard file to upload",
+            "type": "file",
+            "required": true
+          }
+        ],
         "security": [
           {
             "basicAuth": []
