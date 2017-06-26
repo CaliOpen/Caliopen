@@ -3377,7 +3377,9 @@
             "name": "vcard",
             "in": "formData",
             "description": "the vcard file to upload",
-            "type": "file",
+            "schema": {
+              "type": "file"
+            },
             "required": true
           }
         ],
