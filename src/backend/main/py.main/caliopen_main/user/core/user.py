@@ -404,7 +404,4 @@ class User(BaseCore):
 
     def get_remote_identity(self, identifier):
         """Get an user remote identity."""
-        try:
-            return RemoteIdentity.get(self, identifier)
-        except NotFound:
-            return None
+        return RemoteIdentity.get(self, identifier)

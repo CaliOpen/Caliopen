@@ -52,6 +52,8 @@ paths:
     "$ref": paths/identities.yaml#/identities_locals
   "/v1/identities/remotes":
     "$ref": paths/identities.yaml#/identities_remotes
+  "/v1/identities/remotes/{identifier}":
+    "$ref": paths/identities.yaml#/identities_remotes_{identifier}
   "/v2/participants/suggest":
     "$ref": paths/participants.yaml#/participants_suggest
 

@@ -52,3 +52,27 @@ identities_remotes:
             location:
               type: string
               description: url to retrieve new remote identity's infos at /remotes/{identifier}
+
+identities_remotes_{identifier}:
+  get:
+    description: returns an user remote identity
+    tags:
+    - identities
+    security:
+    - basicAuth: []
+    parameters:
+    - name: identifier
+      in: path
+      type: string
+      required: true
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: Remote identity returned
+        schema:
+          "$ref": "../objects/RemoteIdentity.yaml"
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"

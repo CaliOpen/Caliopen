@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Caliopen user API."""
 from __future__ import absolute_import, print_function, unicode_literals
 
 import logging
@@ -16,7 +17,7 @@ from ..base.exception import AuthenticationError
 
 from caliopen_main.user.parameters import (NewUser, NewContact,
                                            NewRemoteIdentity)
-from caliopen_main.user.returns.user import ReturnUser
+from caliopen_main.user.returns.user import ReturnUser, ReturnRemoteIdentity
 
 log = logging.getLogger(__name__)
 
@@ -67,7 +68,8 @@ class AuthenticationAPI(Api):
 
 def no_such_user(request):
     """Validator that an user does not exist."""
-    if not User.is_username_available(request.swagger_data['user']['username']):
+    username = request.swagger_data['user']['username']
+    if not User.is_username_available(username):
         raise AuthenticationError('User already exist')
 
 
@@ -93,13 +95,13 @@ class UserAPI(Api):
           validators=no_such_user)
     def collection_post(self):
         """Create a new user."""
-
+        contact = self.request.swagger_data['user']['contact']
         param = NewUser({'name': self.request.swagger_data['user']['username'],
                          'password': self.request.swagger_data['user'][
                              'password'],
                          'recovery_email': self.request.swagger_data['user'][
                              'recovery_email'],
-                         'contact': self.request.swagger_data['user']['contact']
+                         'contact': contact
                          })
 
         if self.request.swagger_data['user']['contact'] is not None:
@@ -148,7 +150,6 @@ class RemoteIdentityAPI(Api):
         user_id = self.request.authenticated_userid.user_id
         user = User.get(user_id)
         data = self.request.swagger_data['identity']
-        print('######## {}'.format(data))
         param = NewRemoteIdentity({'display_name': data['display_name'],
                                    'identifier': data['identifier'],
                                    'type': data['type'],
@@ -157,4 +158,18 @@ class RemoteIdentityAPI(Api):
                                    })
         param.validate()
         identity = user.add_remote_identity(param)
-        return identity
+        identity_url = self.request.route_path('RemoteIdentities',
+                                               identifier=identity.identity_id)
+        self.request.response.location = identity_url.encode('utf-8')
+        return {'location': identity_url}
+
+    @view(renderer='json',
+          permission='authenticated')
+    def get(self):
+        """Get information about logged user."""
+        user_id = self.request.authenticated_userid.user_id
+        user = User.get(user_id)
+        identifier = self.request.swagger_data['identifier']
+        identity = user.get_remote_identity(identifier)
+        print('##################### {}'.format(identity))
+        return ReturnRemoteIdentity.build(identity).serialize()
