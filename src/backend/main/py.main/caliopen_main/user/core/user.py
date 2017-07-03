@@ -39,11 +39,11 @@ class LocalIdentity(BaseCore):
     _pkey_name = 'identifier'
 
 
-class RemoteIdentity(BaseCore):
+class RemoteIdentity(BaseUserCore):
     """User remote identity core class."""
 
     _model_class = ModelRemoteIdentity
-    _pkey_name = 'identity_id'
+    _pkey_name = 'identifier'
 
 
 class Tag(BaseUserCore):
@@ -401,3 +401,10 @@ class User(BaseCore):
                                          last_check=None,
                                          infos=remote.infos)
         return identity
+
+    def get_remote_identity(self, identifier):
+        """Get an user remote identity."""
+        try:
+            return RemoteIdentity.get(self, identifier)
+        except NotFound:
+            return None
