@@ -171,5 +171,4 @@ class RemoteIdentityAPI(Api):
         user = User.get(user_id)
         identifier = self.request.swagger_data['identifier']
         identity = user.get_remote_identity(identifier)
-        print('##################### {}'.format(identity))
         return ReturnRemoteIdentity.build(identity).serialize()
