@@ -11,28 +11,37 @@ it's better to have a specific GOPATH to develop on Caliopen.
 ```
 mkdir $HOME/caliopen
 cd $HOME/caliopen
-for i in bin pkg src src/github.com src/github.com/CaliOpen
+for i in bin pkg src/github.com/CaliOpen
 do
-	mkdir caliopen/$i
+	mkdir -p caliopen/$i
 done
-export GOPATH=$HOME/caliopen
 
 cd src/github.com/CaliOpen
 git clone https://github.com/CaliOpen/Caliopen
- ```
+
+# DO NOT FORGET TO SETUP AS a distinct GOPATH
+export GOPATH=$HOME/caliopen
+
+```
+
+NOTE: you will need to setup frequently this GOPATH, add an alias into your shell, for example for bash or zsh:
+
+```
+alias tocaliopen="export GOPATH=$HOME/caliopen; cd $GOPATH/src/github.com/CaliOpen"
+```
 
 ## Setup external dependencies
 
 Using govendor external dependencies will be fetch into your Caliopen repository
 
 ```
-cd $GOPATH/src/github.com/CaliOpen/CaliOpen
+cd $GOPATH/src/github.com/CaliOpen/Caliopen
 go get -u github.com/kardianos/govendor
 govendor sync -v
 ```
 
-Directory $GOPATH/src/github.com/CaliOpen/CaliOpen/src/backend/vendor contain
-all external golang dependencies for all Caliopen services written in this
+Directory $GOPATH/src/github.com/CaliOpen/Caliopen/src/backend/vendor contain
+all external golang dependencies for all CaliOpen services written in this
 language.
 
 ## Build
@@ -43,7 +52,7 @@ build command
 For example:
 
 ```
-go build github.com/CaliOpen/CaliOpen/src/backend/protocols/go.smtp/cmd/caliopen_lmtpd
+go build github.com/CaliOpen/Caliopen/src/backend/protocols/go.smtp/cmd/caliopen_lmtpd
 ```
 
 Will produce a caliopen_lmtp binary from where this command is launched inside the $GOPATH
