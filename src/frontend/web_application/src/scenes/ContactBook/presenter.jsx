@@ -41,7 +41,9 @@ function getFilteredContacts(contactList, activeTag) {
     return contactList;
   }
 
-  return contactList.filter(contact => contact.tags && contact.tags.includes(activeTag));
+  return contactList.filter(
+    contact => contact.tags && contact.tags.includes(activeTag)
+  );
 }
 
 
@@ -139,7 +141,11 @@ class ContactBook extends Component {
 
     const { contacts, isFetching, hasMore, __ } = this.props;
 
-    const tags = [].concat(...contacts.map(contact => contact.tags));
+    // following is a ugly hack for ContactBook not to display `user` in contactList
+    // (user is the only contact without `title`)
+    const contactWithoutUser = contacts.filter(contact => contact.title);
+
+    const tags = [].concat(...contactWithoutUser.map(contact => (contact.tags ? contact.tags : '')));
 
     return (
       <div className="l-contact-book">
@@ -159,7 +165,7 @@ class ContactBook extends Component {
               tags={tags}
               activeTag={this.state.activeTag}
               onTagClick={handleTagClick}
-              nbContactsAll={contacts.length}
+              nbContactsAll={contactWithoutUser.length}
               __={__}
             />
             <div className="l-contact-book__import">
@@ -178,7 +184,7 @@ class ContactBook extends Component {
             }
             <ContactList
               contacts={getOrderedContacts(
-                  getFilteredContacts(contacts, this.state.activeTag),
+                getFilteredContacts(contactWithoutUser, this.state.activeTag),
                   this.state.sortView,
                   this.state.sortDir
               )}

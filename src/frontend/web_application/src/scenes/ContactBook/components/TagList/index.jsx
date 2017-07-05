@@ -46,7 +46,7 @@ const TagItem = ({ title, link, onTagClick, nbContacts, active, className }) => 
 
 TagItem.propTypes = {
   title: PropTypes.string.isRequired,
-  link: PropTypes.string.isRequired,
+  link: PropTypes.string,
   nbContacts: PropTypes.number.isRequired,
   onTagClick: PropTypes.func.isRequired,
   active: PropTypes.bool,
@@ -56,6 +56,7 @@ TagItem.propTypes = {
 TagItem.defaultProps = {
   active: false,
   className: '',
+  link: null,
 };
 
 const TagList = ({ tags, onTagClick, nbContactsAll, activeTag, __ }) => {
@@ -71,7 +72,7 @@ const TagList = ({ tags, onTagClick, nbContactsAll, activeTag, __ }) => {
         onTagClick={onTagClick}
         active={activeTag === ''}
       />
-      {tagList.map(tag =>
+      {tagList.map(tag => tag !== '' &&
         <TagItem
           title={tag}
           link={tag}
