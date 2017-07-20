@@ -452,8 +452,12 @@ class ObjectIndexable(ObjectUser):
             else:
                 raise exc
 
-    def save_index(self, **options):
-        self._index.save(using=self._index_class.client())
+    def save_index(self, wait_for=False, **options):
+        if wait_for:
+            self._index.save(using=self._index_class.client(),
+                             refresh="wait_for")
+        else:
+            self._index.save(using=self._index_class.client())
 
     def create_index(self, **options):
         """Create indexed document from current self._index state"""
@@ -470,7 +474,7 @@ class ObjectIndexable(ObjectUser):
 
         return None
 
-    def update_index(self, **options):
+    def update_index(self, wait_for=False, **options):
         """get indexed doc from elastic and update it with self attrs
 
         if indexed doc doesn't exist, create it
@@ -480,10 +484,16 @@ class ObjectIndexable(ObjectUser):
         if self._index is not None:
             try:
                 update_dict = self.marshall_index(update=True)
-                self._index.update(using=self._index_class.client(),
-                                   **update_dict)
+                if wait_for:
+                    self._index.update(using=self._index_class.client(),
+                                       refresh="wait_for",
+                                       **update_dict)
+                else:
+                    self._index.update(using=self._index_class.client(),
+                                       **update_dict)
             except Exception as exc:
                 log.info("update index failed: {}".format(exc))
+
         else:
             # for some reasons, index doc not found... create one from scratch
             self.create_index()
@@ -557,7 +567,7 @@ class ObjectIndexable(ObjectUser):
         if "index" in options and options["index"] is True:
             # silently update index. Should we raise an error if it fails ?
             try:
-                self.update_index()
+                self.update_index(wait_for=True)
             except Exception as exc:
                 log.info("apply_patch update_index() exception: {}".format(exc))
                 return exc

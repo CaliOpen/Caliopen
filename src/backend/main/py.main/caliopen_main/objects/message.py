@@ -120,7 +120,7 @@ class Message(base.ObjectIndexable):
             raise exc
         try:
             message.marshall_index()
-            message.save_index()
+            message.save_index(wait_for=True)
         except Exception as exc:
             log.warn(exc)
             raise exc
