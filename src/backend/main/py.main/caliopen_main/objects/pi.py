@@ -32,6 +32,7 @@ class PIIndexModel(InnerObjectWrapper):
     technic = Integer()
     comportment = Integer()
     context = Integer()
+    version = Integer()
 
 
 class PIObject(ObjectIndexable):

@@ -155,4 +155,5 @@ class UserMessageQualifier(object):
                 for new_message {}[dump : {}]".format(
                     exc, new_message, vars(new_message)))
         return new_message
+        # TODO link raw message with current user
         # XXX create lookup

@@ -60,7 +60,7 @@ class IndexedMessage(BaseIndexDocument):
         m.field('date', 'date')
         m.field('date_delete', 'date')
         m.field('date_insert', 'date')
-        m.field('discussion_id', Keyword())
+        m.field('discussion_id', 'keyword')
         m.field('external_references',
                 Nested(doc_class=IndexedExternalReferences,
                        include_in_all=True))
@@ -70,22 +70,22 @@ class IndexedMessage(BaseIndexDocument):
         m.field('is_answered', 'boolean')
         m.field('is_draft', 'boolean')
         m.field('is_unread', 'boolean')
-        m.field('message_id', Keyword())
-        m.field('parent_id', Keyword())
+        m.field('message_id', 'keyword')
+        m.field('parent_id', 'keyword')
         participants = Nested(doc_class=IndexedParticipant, include_in_all=True,
                               properties={
-                                  "address": Keyword(),
-                                  "contact_id": Keyword(),
-                                  "label": Text(),
-                                  "protocol": Keyword(),
-                                  "type": Keyword()
+                                  "address": 'keyword',
+                                  "contact_id": 'keyword',
+                                  "label": 'text',
+                                  "protocol": 'keyword',
+                                  "type": 'keyword'
                               })
         m.field('participants', participants)
         m.field('privacy_features', Nested(include_in_all=True))
-        m.field('raw_msg_id', Keyword())
+        m.field('raw_msg_id', 'keyword')
         m.field('subject', 'text')
         m.field('tags',
                 Nested(doc_class=IndexedResourceTag, include_in_all=True))
-        m.field('type', Keyword())
+        m.field('type', 'keyword')
         m.save(using=cls.client(), index=user_id)
         return m
