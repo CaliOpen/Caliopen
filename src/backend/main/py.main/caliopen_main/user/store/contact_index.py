@@ -137,7 +137,7 @@ class IndexedContact(BaseIndexDocument):
         addresses = Nested(doc_class=IndexedPostalAddress, include_in_all=True,
                            properties={
                                "address_id": "keyword",
-                               "label": "tetx",
+                               "label": "text",
                                "type": "keyword",
                                "is_primary": "boolean",
                                "street": "text",
@@ -191,6 +191,6 @@ class IndexedContact(BaseIndexDocument):
                         "version": "integer"
                     })
         m.field("pi", pi)
-        m.field("privacy_features", Nested())
+        m.field("privacy_features", Nested(include_in_all=True))
         m.save(using=cls.client(), index=user_id)
         return m
