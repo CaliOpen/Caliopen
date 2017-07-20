@@ -13,6 +13,7 @@ import logging
 import base64
 from itertools import groupby
 from mailbox import Message
+from email.header import decode_header
 from datetime import datetime
 from email.utils import parsedate_tz, mktime_tz
 
@@ -211,7 +212,12 @@ class MailMessage(object):
     @property
     def subject(self):
         """Mail subject."""
-        return self.mail.get('Subject')
+        s = decode_header(self.mail.get('Subject'))
+        charset = s[0][1]
+        if charset is not None:
+            return s[0][0].decode(charset, "replace").encode("utf-8", "replace")
+        else:
+            return s[0][0]
 
     @property
     def preferred_body(self):
