@@ -52,6 +52,8 @@ paths:
     "$ref": paths/tags.yaml#/tags_{tag_id}
   "/v1/devices":
     "$ref": paths/devices.yaml#/devices
+  "/v1/settings":
+    "$ref": paths/settings.yaml#/settings
   "/v1/devices/{device_id}":
     "$ref": paths/devices.yaml#/devices_{device_id}
   "/v2/identities/locals":

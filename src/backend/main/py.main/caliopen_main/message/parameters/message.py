@@ -50,6 +50,7 @@ class NewMessage(Model):
 
 
 class NewInboundMessage(NewMessage):
+    """A new incoming message, having 2 bodies representation."""
     body_html = StringType()
     body_plain = StringType()
 

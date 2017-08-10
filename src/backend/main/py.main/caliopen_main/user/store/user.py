@@ -61,6 +61,22 @@ class FilterRule(BaseModel):
     stop_condition = columns.Boolean()
 
 
+class Settings(BaseModel):
+    """All settings related to an user."""
+
+    user_id = columns.UUID(primary_key=True)
+    default_language = columns.Text()
+    default_timezone = columns.Text()
+    date_format = columns.Text()
+    message_display_format = columns.Text()
+    contact_display_order = columns.Text()
+    contact_display_format = columns.Text()
+    contact_phone_format = columns.Text()
+    contact_vcard_format = columns.Text()
+    notification_style = columns.Text()
+    notification_delay = columns.Integer()
+
+
 class RemoteIdentity(BaseModel):
     """User remote identities model."""
 

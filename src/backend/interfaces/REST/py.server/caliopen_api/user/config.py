@@ -26,3 +26,6 @@ def includeme(config):
 
     log.debug('Loading imports API')
     config.scan('caliopen_api.user.imports')
+
+    log.debug('Loading settings API')
+    config.scan('caliopen_api.user.settings')

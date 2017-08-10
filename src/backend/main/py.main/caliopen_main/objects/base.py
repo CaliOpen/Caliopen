@@ -291,10 +291,12 @@ class ObjectUser(ObjectStorable):
 
     def get_db(self, **options):
         """Get an object belonging to an user and put it in self._db attrs"""
-
-        param = {
-            self._pkey_name: getattr(self, self._pkey_name)
-        }
+        if self._pkey_name:
+            param = {
+                self._pkey_name: getattr(self, self._pkey_name)
+            }
+        else:
+            param = {}
         self._db = self._model_class.get(user_id=self.user_id, **param)
         if self._db is None:
             raise NotFound('%s #%s not found for user %s' %

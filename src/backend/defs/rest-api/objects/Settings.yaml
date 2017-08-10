@@ -1,0 +1,19 @@
+---
+type: object
+properties:
+  default_language:
+    type: string
+  default_timezone:
+    type: string
+  date_format:
+    type: string
+  message_display_format:
+    type: string
+  contact_display_order:
+    type: string
+  contact_phone_format:
+    type: string
+  notification_style:
+    type: string
+  notification_delay:
+    type: integer
