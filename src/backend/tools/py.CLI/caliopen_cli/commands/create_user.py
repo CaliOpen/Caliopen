@@ -12,11 +12,11 @@ def create_user(**kwargs):
     """Create user in Caliopen instance."""
     from caliopen_main.user.core import User
     from caliopen_main.user.parameters import NewUser
-    from caliopen_main.user.parameters import NewContact
-    from caliopen_main.user.parameters import NewEmail
+    from caliopen_main.contact.parameters import NewContact
+    from caliopen_main.contact.parameters import NewEmail
 
     # Fill core registry
-    from caliopen_main.objects.message import Message
+    from caliopen_main.message.objects.message import Message
 
     param = NewUser()
     param.name = kwargs['email']

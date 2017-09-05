@@ -19,6 +19,7 @@ export const typeAssoc = {
   comment: 'fa fa-comment',
   comments: 'fa fa-comments',
   'comments-o': 'fa fa-comments-o',
+  crosshairs: 'fa fa-crosshairs',
   download: 'fa fa-download',
   'dot-circle-o': 'fa-dot-circle-o',
   edit: 'fa fa-edit',

@@ -12,7 +12,7 @@ from elasticsearch.client.indices import IndicesClient
 
 from caliopen_storage.config import Configuration
 from caliopen_storage.store.model import BaseModel
-from caliopen_main.objects.pi import PIModel
+from caliopen_main.pi.objects import PIModel
 
 log = logging.getLogger(__name__)
 
@@ -59,6 +59,22 @@ class FilterRule(BaseModel):
     filter_expr = columns.Text()
     position = columns.Integer()
     stop_condition = columns.Boolean()
+
+
+class Settings(BaseModel):
+    """All settings related to an user."""
+
+    user_id = columns.UUID(primary_key=True)
+    default_language = columns.Text()
+    default_timezone = columns.Text()
+    date_format = columns.Text()
+    message_display_format = columns.Text()
+    contact_display_order = columns.Text()
+    contact_display_format = columns.Text()
+    contact_phone_format = columns.Text()
+    contact_vcard_format = columns.Text()
+    notification_style = columns.Text()
+    notification_delay = columns.Integer()
 
 
 class RemoteIdentity(BaseModel):

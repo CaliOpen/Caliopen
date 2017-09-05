@@ -4,22 +4,21 @@
 .m-contacts-filters {
   @include flex-grid-row($size: expand)
 
-  &__select {
+  &__item {
     @include flex-grid-row;
+    align-items: center;
     margin-top: $co-component__spacing;
 
     @include breakpoint(medium) {
       margin-top: 0;
     }
+  }
 
-    label {
-      @include flex-grid-column(shrink);
-      height: $co-component__height;
-      line-height: $co-component__height;
-    }
+  &__label {
+    @include flex-grid-column(shrink);
+  }
 
-    select {
-      @include flex-grid-column;
-    }
+  &__select {
+    @include flex-grid-size;
   }
 }

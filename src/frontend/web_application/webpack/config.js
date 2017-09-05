@@ -51,7 +51,7 @@ const configureStylesheet = (config, filename = 'client_[name]', relativePath = 
     },
     {
       test: /\.scss$/,
-      loader: extractTextPlugin.extract('style-loader', 'css-loader?sourceMap!sass-loader'),
+      loader: extractTextPlugin.extract('style-loader', 'css-loader?sourceMap!postcss-loader?sourceMap!sass-loader'),
     }
   );
 
@@ -109,6 +109,7 @@ const configureVendorSplit = (config) => {
     'react-tappable',
     'redux',
     'redux-axios-middleware',
+    'redux-form',
     'reselect',
     'uuid',
     'xregexp'

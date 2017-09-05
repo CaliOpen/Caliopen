@@ -5,11 +5,11 @@ from __future__ import absolute_import, print_function, unicode_literals
 from elasticsearch_dsl import Mapping, Nested, Text, Keyword, Date, Boolean, \
     Integer
 from caliopen_storage.store.model import BaseIndexDocument
-from caliopen_main.user.store.tag_index import IndexedResourceTag
+from caliopen_main.common.store.tag import IndexedResourceTag
 
 from .attachment_index import IndexedMessageAttachment
 from .external_references_index import IndexedExternalReferences
-from caliopen_main.objects.pi import PIIndexModel
+from caliopen_main.pi.objects import PIIndexModel
 from caliopen_main.user.store.local_identity_index import IndexedIdentity
 from .participant_index import IndexedParticipant
 

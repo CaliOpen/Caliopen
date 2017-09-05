@@ -49,10 +49,8 @@ class DiscussionIndexManager(object):
         size = offset + (limit * 2)
         agg = A('terms', field='discussion_id',
                 order={'last_message': 'desc'}, size=size, shard_size=size)
-        search.aggs.bucket('discussions', agg).metric('last_message', 'max',
-                                                      field='date')
-        # XXX add sorting on message date_insert
-        log.debug('Search is {}'.format(search.to_dict()))
+        search.aggs.bucket('discussions', agg) \
+            .metric('last_message', 'max', field='date_insert')
         result = search.execute()
         if hasattr(result, 'aggregations'):
             # Something found

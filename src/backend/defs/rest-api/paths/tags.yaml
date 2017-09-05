@@ -47,6 +47,22 @@ tags:
             location:
               type: string
               description: url to retrieve new tag's infos at /tags/{name}
+      '400':
+        description: malform request
+        schema:
+          type: object
+          "$ref": "../objects/Error.yaml"
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '422':
+        description: Unprocessable entity. Parameters were valid but the server was
+          unable to create the tag (probably because of a semantically erroneous
+          document, like an empty tag)
+        schema:
+          type: object
+          "$ref": "../objects/Error.yaml"
 tags_{tag_id}:
   get:
     description: Retrieve tag infos
@@ -70,6 +86,70 @@ tags_{tag_id}:
         description: Unauthorized access
         schema:
           "$ref": "../objects/Error.yaml"
+  patch:
+    description: update a tag
+    tags:
+    - tags
+    security:
+    - basicAuth: []
+    consumes:
+    - application/json
+    parameters:
+    - name: tag_id
+      in: path
+      type: string
+      required: true
+    - name: patch
+      in: body
+      required: true
+      description: the patch to apply. See 'Caliopen Patch RFC' within /doc directory.
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+          current_state:
+            type: object
+            properties:
+              name:
+                type: string
+            additionalProperties: false
+            required :
+            - name
+        additionalProperties: false
+        required :
+        - name
+        - current_state
+    produces:
+    - application/json
+    responses:
+      '204':
+        description: Update successful. No body is returned.
+      '400':
+        description: json payload malformed
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '403':
+        description: Forbidden patch. Server is refusing to apply the given patch's
+          properties to this ressource
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '404':
+        description: tag not found
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '409':
+        description: json is valid but patch conflicts with db's current state
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '422':
+        description: json is valid but patch was semantically malformed or unprocessable
+        schema:
+          "$ref": "../objects/Error.yaml"
   delete:
     description: Delete a tag belonging to an user
     tags:
@@ -82,7 +162,7 @@ tags_{tag_id}:
       required: true
       type: string
     responses:
-      '200':
+      '204':
         description: Successful deletion
       '401':
         description: Unauthorized access

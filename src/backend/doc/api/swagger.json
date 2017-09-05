@@ -368,10 +368,6 @@
                         "additionalProperties": false
                       }
                     },
-                    "privacy_features": {
-                      "type": "object",
-                      "properties": {}
-                    },
                     "pi": {
                       "type": "object",
                       "properties": {
@@ -389,6 +385,10 @@
                         }
                       },
                       "additionalProperties": true
+                    },
+                    "privacy_features": {
+                      "type": "object",
+                      "properties": {}
                     },
                     "public_keys": {
                       "type": "array",
@@ -455,6 +455,10 @@
                       "items": {
                         "type": "object",
                         "properties": {
+                          "date_insert": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
                           "tag_id": {
                             "type": "string"
                           },
@@ -466,9 +470,6 @@
                             ]
                           },
                           "name": {
-                            "type": "string"
-                          },
-                          "label": {
                             "type": "string"
                           },
                           "importance_level": {
@@ -939,10 +940,6 @@
                         "additionalProperties": false
                       }
                     },
-                    "privacy_features": {
-                      "type": "object",
-                      "properties": {}
-                    },
                     "pi": {
                       "type": "object",
                       "properties": {
@@ -960,6 +957,10 @@
                         }
                       },
                       "additionalProperties": true
+                    },
+                    "privacy_features": {
+                      "type": "object",
+                      "properties": {}
                     },
                     "public_keys": {
                       "type": "array",
@@ -1026,6 +1027,10 @@
                       "items": {
                         "type": "object",
                         "properties": {
+                          "date_insert": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
                           "tag_id": {
                             "type": "string"
                           },
@@ -1037,9 +1042,6 @@
                             ]
                           },
                           "name": {
-                            "type": "string"
-                          },
-                          "label": {
                             "type": "string"
                           },
                           "importance_level": {
@@ -1532,10 +1534,6 @@
                           "additionalProperties": false
                         }
                       },
-                      "privacy_features": {
-                        "type": "object",
-                        "properties": {}
-                      },
                       "pi": {
                         "type": "object",
                         "properties": {
@@ -1553,6 +1551,10 @@
                           }
                         },
                         "additionalProperties": true
+                      },
+                      "privacy_features": {
+                        "type": "object",
+                        "properties": {}
                       },
                       "public_keys": {
                         "type": "array",
@@ -1619,6 +1621,10 @@
                         "items": {
                           "type": "object",
                           "properties": {
+                            "date_insert": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
                             "tag_id": {
                               "type": "string"
                             },
@@ -1630,9 +1636,6 @@
                               ]
                             },
                             "name": {
-                              "type": "string"
-                            },
-                            "label": {
                               "type": "string"
                             },
                             "importance_level": {
@@ -2031,10 +2034,6 @@
                     "additionalProperties": false
                   }
                 },
-                "privacy_features": {
-                  "type": "object",
-                  "properties": {}
-                },
                 "pi": {
                   "type": "object",
                   "properties": {
@@ -2052,6 +2051,10 @@
                     }
                   },
                   "additionalProperties": true
+                },
+                "privacy_features": {
+                  "type": "object",
+                  "properties": {}
                 },
                 "public_keys": {
                   "type": "array",
@@ -2118,6 +2121,10 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "date_insert": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "tag_id": {
                         "type": "string"
                       },
@@ -2129,9 +2136,6 @@
                         ]
                       },
                       "name": {
-                        "type": "string"
-                      },
-                      "label": {
                         "type": "string"
                       },
                       "importance_level": {
@@ -2486,10 +2490,6 @@
                         "additionalProperties": false
                       }
                     },
-                    "privacy_features": {
-                      "type": "object",
-                      "properties": {}
-                    },
                     "pi": {
                       "type": "object",
                       "properties": {
@@ -2507,6 +2507,10 @@
                         }
                       },
                       "additionalProperties": true
+                    },
+                    "privacy_features": {
+                      "type": "object",
+                      "properties": {}
                     },
                     "public_keys": {
                       "type": "array",
@@ -2573,6 +2577,10 @@
                       "items": {
                         "type": "object",
                         "properties": {
+                          "date_insert": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
                           "tag_id": {
                             "type": "string"
                           },
@@ -2584,9 +2592,6 @@
                             ]
                           },
                           "name": {
-                            "type": "string"
-                          },
-                          "label": {
                             "type": "string"
                           },
                           "importance_level": {
@@ -2835,10 +2840,6 @@
                     "additionalProperties": false
                   }
                 },
-                "privacy_features": {
-                  "type": "object",
-                  "properties": {}
-                },
                 "pi": {
                   "type": "object",
                   "properties": {
@@ -2856,6 +2857,10 @@
                     }
                   },
                   "additionalProperties": true
+                },
+                "privacy_features": {
+                  "type": "object",
+                  "properties": {}
                 },
                 "public_keys": {
                   "type": "array",
@@ -2922,6 +2927,10 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "date_insert": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "tag_id": {
                         "type": "string"
                       },
@@ -2933,9 +2942,6 @@
                         ]
                       },
                       "name": {
-                        "type": "string"
-                      },
-                      "label": {
                         "type": "string"
                       },
                       "importance_level": {
@@ -3696,6 +3702,9 @@
                     }
                   }
                 },
+                "message_id": {
+                  "type": "string"
+                },
                 "parent_id": {
                   "type": "string"
                 },
@@ -3747,6 +3756,10 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "date_insert": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "tag_id": {
                         "type": "string"
                       },
@@ -3758,9 +3771,6 @@
                         ]
                       },
                       "name": {
-                        "type": "string"
-                      },
-                      "label": {
                         "type": "string"
                       },
                       "importance_level": {
@@ -3982,7 +3992,7 @@
                       "external_references": {
                         "type": "object",
                         "properties": {
-                          "discussion_id": {
+                          "ancestors_id": {
                             "type": "string"
                           },
                           "message_id": {
@@ -4099,6 +4109,10 @@
                         "items": {
                           "type": "object",
                           "properties": {
+                            "date_insert": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
                             "tag_id": {
                               "type": "string"
                             },
@@ -4110,9 +4124,6 @@
                               ]
                             },
                             "name": {
-                              "type": "string"
-                            },
-                            "label": {
                               "type": "string"
                             },
                             "importance_level": {
@@ -4268,7 +4279,7 @@
                     "external_references": {
                       "type": "object",
                       "properties": {
-                        "discussion_id": {
+                        "ancestors_id": {
                           "type": "string"
                         },
                         "message_id": {
@@ -4385,6 +4396,10 @@
                       "items": {
                         "type": "object",
                         "properties": {
+                          "date_insert": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
                           "tag_id": {
                             "type": "string"
                           },
@@ -4396,9 +4411,6 @@
                             ]
                           },
                           "name": {
-                            "type": "string"
-                          },
-                          "label": {
                             "type": "string"
                           },
                           "importance_level": {
@@ -4471,7 +4483,7 @@
                 "external_references": {
                   "type": "object",
                   "properties": {
-                    "discussion_id": {
+                    "ancestors_id": {
                       "type": "string"
                     },
                     "message_id": {
@@ -4588,6 +4600,10 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "date_insert": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "tag_id": {
                         "type": "string"
                       },
@@ -4599,9 +4615,6 @@
                         ]
                       },
                       "name": {
-                        "type": "string"
-                      },
-                      "label": {
                         "type": "string"
                       },
                       "importance_level": {
@@ -4925,7 +4938,7 @@
                 "external_references": {
                   "type": "object",
                   "properties": {
-                    "discussion_id": {
+                    "ancestors_id": {
                       "type": "string"
                     },
                     "message_id": {
@@ -5042,6 +5055,10 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "date_insert": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "tag_id": {
                         "type": "string"
                       },
@@ -5053,9 +5070,6 @@
                         ]
                       },
                       "name": {
-                        "type": "string"
-                      },
-                      "label": {
                         "type": "string"
                       },
                       "importance_level": {
@@ -5235,7 +5249,7 @@
                 "external_references": {
                   "type": "object",
                   "properties": {
-                    "discussion_id": {
+                    "ancestors_id": {
                       "type": "string"
                     },
                     "message_id": {
@@ -5352,6 +5366,10 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "date_insert": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "tag_id": {
                         "type": "string"
                       },
@@ -5363,9 +5381,6 @@
                         ]
                       },
                       "name": {
-                        "type": "string"
-                      },
-                      "label": {
                         "type": "string"
                       },
                       "importance_level": {
@@ -5445,7 +5460,7 @@
                 "external_references": {
                   "type": "object",
                   "properties": {
-                    "discussion_id": {
+                    "ancestors_id": {
                       "type": "string"
                     },
                     "message_id": {
@@ -5562,6 +5577,10 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "date_insert": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "tag_id": {
                         "type": "string"
                       },
@@ -5573,9 +5592,6 @@
                         ]
                       },
                       "name": {
-                        "type": "string"
-                      },
-                      "label": {
                         "type": "string"
                       },
                       "importance_level": {
@@ -6004,7 +6020,7 @@
         }
       }
     },
-    "/v1/tags": {
+    "/v2/tags": {
       "get": {
         "description": "Returns tags visible to current user according to given parameters",
         "tags": [
@@ -6034,6 +6050,10 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "date_insert": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "tag_id": {
                         "type": "string"
                       },
@@ -6045,9 +6065,6 @@
                         ]
                       },
                       "name": {
-                        "type": "string"
-                      },
-                      "label": {
                         "type": "string"
                       },
                       "importance_level": {
@@ -6087,7 +6104,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "label": {
+                "name": {
                   "type": "string"
                 },
                 "importance_level": {
@@ -6096,7 +6113,7 @@
                 }
               },
               "required": [
-                "label"
+                "name"
               ],
               "additionalProperties": false
             }
@@ -6117,11 +6134,80 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "malform request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity. Parameters were valid but the server was unable to create the tag (probably because of a semantically erroneous document, like an empty tag)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
-    "/v1/tags/{tag_id}": {
+    "/v2/tags/{tag_id}": {
       "get": {
         "description": "Retrieve tag infos",
         "tags": [
@@ -6149,6 +6235,10 @@
             "schema": {
               "type": "object",
               "properties": {
+                "date_insert": {
+                  "type": "string",
+                  "format": "date-time"
+                },
                 "tag_id": {
                   "type": "string"
                 },
@@ -6160,9 +6250,6 @@
                   ]
                 },
                 "name": {
-                  "type": "string"
-                },
-                "label": {
                   "type": "string"
                 },
                 "importance_level": {
@@ -6178,6 +6265,205 @@
           },
           "401": {
             "description": "Unauthorized access",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "update a tag",
+        "tags": [
+          "tags"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "tag_id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "patch",
+            "in": "body",
+            "required": true,
+            "description": "the patch to apply. See 'Caliopen Patch RFC' within /doc directory.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "current_state": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "name"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "current_state"
+              ]
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Update successful. No body is returned."
+          },
+          "400": {
+            "description": "json payload malformed",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden patch. Server is refusing to apply the given patch's properties to this ressource",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "tag not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "json is valid but patch conflicts with db's current state",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "json is valid but patch was semantically malformed or unprocessable",
             "schema": {
               "type": "object",
               "properties": {
@@ -6220,7 +6506,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "Successful deletion"
           },
           "401": {
@@ -6908,6 +7194,190 @@
           },
           "404": {
             "description": "device not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "patch was semantically malformed or unprocessable",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/settings": {
+      "get": {
+        "description": "Returns settings belonging to current user",
+        "tags": [
+          "settings"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Settings returned",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "default_language": {
+                  "type": "string"
+                },
+                "default_timezone": {
+                  "type": "string"
+                },
+                "date_format": {
+                  "type": "string"
+                },
+                "message_display_format": {
+                  "type": "string"
+                },
+                "contact_display_order": {
+                  "type": "string"
+                },
+                "contact_phone_format": {
+                  "type": "string"
+                },
+                "notification_style": {
+                  "type": "string"
+                },
+                "notification_delay": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "Update settings with rfc5789 and rfc7396 specifications",
+        "tags": [
+          "settings"
+        ],
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "patch",
+            "in": "body",
+            "required": true,
+            "description": "the patch to apply. See 'Caliopen Patch RFC' within /doc directory.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "current_state": {
+                  "type": "object",
+                  "properties": {
+                    "default_language": {
+                      "type": "string"
+                    },
+                    "default_timezone": {
+                      "type": "string"
+                    },
+                    "date_format": {
+                      "type": "string"
+                    },
+                    "message_display_format": {
+                      "type": "string"
+                    },
+                    "contact_display_order": {
+                      "type": "string"
+                    },
+                    "contact_phone_format": {
+                      "type": "string"
+                    },
+                    "notification_style": {
+                      "type": "string"
+                    },
+                    "notification_delay": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "default_language": {
+                  "type": "string"
+                },
+                "default_timezone": {
+                  "type": "string"
+                },
+                "date_format": {
+                  "type": "string"
+                },
+                "message_display_format": {
+                  "type": "string"
+                },
+                "contact_display_order": {
+                  "type": "string"
+                },
+                "contact_phone_format": {
+                  "type": "string"
+                },
+                "notification_style": {
+                  "type": "string"
+                },
+                "notification_delay": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Update successful. No body is returned."
+          },
+          "400": {
+            "description": "json payload malformed",
             "schema": {
               "type": "object",
               "properties": {

@@ -495,6 +495,12 @@
 			"revisionTime": "2017-03-02T07:32:02Z"
 		},
 		{
+			"checksumSHA1": "0FCBLTqGOxgifAKfS0360iLTZR4=",
+			"path": "github.com/ugorji/go/codec",
+			"revision": "8c0409fcbb70099c748d71f714529204975f6c3f",
+			"revisionTime": "2017-08-26T15:59:43Z"
+		},
+		{
 			"checksumSHA1": "wKatOecJ+jWnlRM1a3I+o8LAZQM=",
 			"path": "golang.org/x/net/context",
 			"revision": "feeb485667d1fdabe727840fe00adc22431bc86e",
@@ -631,6 +637,12 @@
 			"path": "gopkg.in/gin-gonic/gin.v1",
 			"revision": "e2212d40c62a98b388a5eb48ecbdcf88534688ba",
 			"revisionTime": "2016-12-04T22:13:08Z"
+		},
+		{
+			"checksumSHA1": "Bo4BONPcezB2H8tWqfrAdmanpuM=",
+			"path": "gopkg.in/gin-gonic/gin.v1/binding",
+			"revision": "d459835d2b077e44f7c9b453505ee29881d5d12d",
+			"revisionTime": "2017-07-02T09:28:26Z"
 		},
 		{
 			"checksumSHA1": "39V1idWER42Lmcmg2Uy40wMzOlo=",

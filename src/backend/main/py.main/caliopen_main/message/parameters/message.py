@@ -11,9 +11,10 @@ from schematics.transforms import blacklist
 from .participant import Participant
 from .attachment import Attachment
 from .external_references import ExternalReferences
-from caliopen_pi.parameters import PIParameter
-from caliopen_main.user.parameters import ResourceTag
+from caliopen_main.pi.parameters import PIParameter
+from caliopen_main.common.parameters.tag import ResourceTag
 from caliopen_main.user.parameters import Identity
+import caliopen_storage.helpers.json as helpers
 
 RECIPIENT_TYPES = ['To', 'From', 'Cc', 'Bcc', 'Reply-To', 'Sender']
 MESSAGE_TYPES = ['email']
@@ -25,7 +26,7 @@ class NewMessage(Model):
     """New message parameter."""
 
     attachments = ListType(ModelType(Attachment), default=lambda: [])
-    date = DateTimeType(serialized_format="%Y-%m-%dT%H:%M:%S.%f+00:00",
+    date = DateTimeType(serialized_format=helpers.RFC3339Milli,
                         tzd=u'utc')
     discussion_id = UUIDType()
     external_references = ModelType(ExternalReferences)
@@ -36,8 +37,7 @@ class NewMessage(Model):
     is_unread = BooleanType()
     message_id = UUIDType()
     parent_id = StringType()
-    participants = ListType(ModelType(Participant), default=lambda: [],
-                            required=True)
+    participants = ListType(ModelType(Participant), default=lambda: [])
     privacy_features = DictType(StringType, default=lambda: {})
     pi = ModelType(PIParameter)
     raw_msg_id = UUIDType()
@@ -59,12 +59,12 @@ class Message(NewMessage):
 
     body = StringType()
     user_id = UUIDType()
-    message_id = UUIDType(required=True)
-    raw_msg_id = UUIDType(required=True)
-    date_insert = DateTimeType(required=True,
-                               serialized_format="%Y-%m-%dT%H:%M:%S.%f+00:00",
+    message_id = UUIDType()
+    raw_msg_id = UUIDType()
+    date_insert = DateTimeType(serialized_format=helpers.RFC3339Milli,
                                tzd=u'utc')
-    date_delete = DateTimeType()
+    date_delete = DateTimeType(serialized_format=helpers.RFC3339Milli,
+                               tzd=u'utc')
 
     class Options:
         roles = {'default': blacklist('user_id', 'date_delete')}

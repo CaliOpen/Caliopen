@@ -1,12 +1,12 @@
 ---
 type: object
 properties:
-  label:            # editable by user.
+  name:            # editable by user.
     type: string
   importance_level:
     type: integer
     format: int32
 required:
-- label
+- name
 additionalProperties: false
 

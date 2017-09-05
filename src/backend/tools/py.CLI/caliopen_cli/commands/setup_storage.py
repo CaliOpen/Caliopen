@@ -11,13 +11,9 @@ def setup_storage(settings=None):
     from caliopen_storage.core import core_registry
     # Make discovery happen
     from caliopen_main.user.core import User, Device
-    from caliopen_main.objects.contact import (Contact, ContactLookup,
-                                               PublicKey)
-    from caliopen_main.objects.device import Device, DeviceLocation
-    from caliopen_main.objects.identities import (LocalIdentity,
-                                                  SocialIdentity)
-    from caliopen_main.objects.message import Message
-    from caliopen_main.objects.tag import ResourceTag, UserTag
+    from caliopen_main.contact.objects.contact import Contact
+    from caliopen_main.message.objects.message import Message
+    from caliopen_main.common.objects.tag import ResourceTag
 
     from cassandra.cqlengine.management import sync_table, \
         create_keyspace_simple

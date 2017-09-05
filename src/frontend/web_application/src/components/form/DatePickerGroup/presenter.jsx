@@ -15,7 +15,7 @@ class DatePickerGroup extends Component {
     inputClassName: PropTypes.string,
     label: PropTypes.string,
     locale: PropTypes.string,
-    onDateChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     selected: PropTypes.string,
   };
   static defaultProps = {
@@ -39,7 +39,7 @@ class DatePickerGroup extends Component {
       inputClassName,
       label,
       locale,
-      onDateChange,
+      onChange,
       selected,
       ...props
     } = this.props;
@@ -54,7 +54,7 @@ class DatePickerGroup extends Component {
           className={classnames('m-date-picker-group__input', inputClassName)}
           calendarClassName={classnames('m-date-picker-group__calendar', calendarClassName)}
           selected={selected ? moment(selected) : null}
-          onChange={onDateChange}
+          onChange={onChange}
           locale={locale}
           {...props}
         />

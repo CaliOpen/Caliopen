@@ -19,15 +19,15 @@ packages:
           dependencies:
             python: "^2.7"
       -
-          name: caliopen_pi
-          description: Caliopen python package related to privacy index
-          path: src/backend/main/py.pi
-          dependencies:
-            python: "^2.7"
-      -
           name: caliopen_main
           description: Caliopen python main package
           path: src/backend/main/py.main
+          dependencies:
+            python: "^2.7"
+      -
+          name: caliopen_pi
+          description: Caliopen python package related to privacy index
+          path: src/backend/components/py.pi
           dependencies:
             python: "^2.7"
       -

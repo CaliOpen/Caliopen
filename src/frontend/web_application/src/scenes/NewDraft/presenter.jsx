@@ -5,56 +5,43 @@ import NewDraftForm from '../../components/NewDraftForm';
 class NewDraft extends Component {
   static propTypes = {
     draft: PropTypes.shape({}),
-    requestSimpleDraft: PropTypes.func.isRequired,
-    editSimpleDraft: PropTypes.func.isRequired,
+    message: PropTypes.shape({}),
+    internalId: PropTypes.string,
+    requestNewDraft: PropTypes.func.isRequired,
+    editDraft: PropTypes.func.isRequired,
     saveDraft: PropTypes.func.isRequired,
     sendDraft: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     draft: undefined,
+    message: undefined,
+    internalId: undefined,
   };
 
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.handleSend = this.handleSend.bind(this);
-  }
-
   componentDidMount() {
-    if (!this.props.draft) {
-      this.props.requestSimpleDraft();
+    const { internalId, draft, requestNewDraft } = this.props;
+    if (!internalId || !draft) {
+      requestNewDraft({ internalId });
     }
   }
 
-  handleChange({ draft }) {
-    const { editSimpleDraft } = this.props;
+  makeHandle = action => ({ draft }) => {
+    const { internalId, message } = this.props;
 
-    return editSimpleDraft({ draft });
-  }
-
-  handleSave({ draft }) {
-    const { saveDraft } = this.props;
-
-    return saveDraft({ draft });
-  }
-
-  handleSend({ draft }) {
-    const { sendDraft } = this.props;
-
-    return sendDraft({ draft });
-  }
+    return action({ internalId, draft, message });
+  };
 
   render() {
-    const { draft } = this.props;
+    const { draft, internalId, editDraft, saveDraft, sendDraft } = this.props;
 
     return (
       <NewDraftForm
+        internalId={internalId}
         draft={draft}
-        onChange={this.handleChange}
-        onSave={this.handleSave}
-        onSend={this.handleSend}
+        onChange={this.makeHandle(editDraft)}
+        onSave={this.makeHandle(saveDraft)}
+        onSend={this.makeHandle(sendDraft)}
       />
     );
   }

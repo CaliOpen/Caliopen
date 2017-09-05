@@ -161,6 +161,7 @@ describe('Save a draft and send', () => {
         const draftBodyElement1 = element(by.css('.m-discussion-textarea__body'));
         expect(draftBodyElement1.getText()).toEqual('');
         expect(element(by.cssContainingText('.m-message__body__content', text1)).isPresent()).toEqual(true);
-      });
+      })
+      ;
   });
 });

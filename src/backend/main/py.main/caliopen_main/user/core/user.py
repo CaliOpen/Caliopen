@@ -2,7 +2,8 @@
 """Caliopen user related core classes."""
 
 from __future__ import absolute_import, print_function, unicode_literals
-from datetime import datetime
+import datetime
+import pytz
 import bcrypt
 import logging
 import uuid
@@ -17,16 +18,18 @@ from ..store import (User as ModelUser,
                      UserName as ModelUserName,
                      IndexUser,
                      UserTag as ModelUserTag,
+                     Settings as ModelSettings,
                      FilterRule as ModelFilterRule,
                      ReservedName as ModelReservedName,
                      LocalIdentity as ModelLocalIdentity,
-                     RemoteIdentity as ModelRemoteIdentity,
-                     ContactLookup)
+                     RemoteIdentity as ModelRemoteIdentity)
+
+from caliopen_main.user.objects.settings import Settings as ObjectSettings
 
 from caliopen_storage.core import BaseCore, BaseUserCore, core_registry
-from .contact import Contact as CoreContact
-from caliopen_main.objects.contact import Contact
-from caliopen_main.objects.pi import PIModel
+from caliopen_main.contact.core import Contact as CoreContact, ContactLookup
+from caliopen_main.contact.objects.contact import Contact
+from caliopen_main.pi.objects import PIModel
 from caliopen_main.user.helpers import validators
 
 log = logging.getLogger(__name__)
@@ -66,7 +69,8 @@ class FilterRule(BaseUserCore):
         # XXX : expr value is evil
         o = super(FilterRule, cls).create(user_id=user.user_id,
                                           rule_id=user.new_rule_id(),
-                                          date_insert=datetime.utcnow(),
+                                          date_insert=datetime.datetime.now(
+                                              tz=pytz.utc),
                                           name=rule.name,
                                           filter_expr=rule.expr,
                                           position=rule.position,
@@ -114,6 +118,16 @@ class UserName(BaseCore):
 
     _model_class = ModelUserName
     _pkey_name = 'name'
+
+
+class Settings(BaseUserCore):
+    """User settings core object."""
+
+    # XXX this core object is here to fill core_registry
+    # it's not used, objects representation have to be used.
+
+    _model_class = ModelSettings
+    _pkey_name = None
 
 
 class User(BaseCore):
@@ -215,7 +229,8 @@ class User(BaseCore):
                                            password=new_user.password,
                                            recovery_email=recovery,
                                            params=new_user.params,
-                                           date_insert=datetime.utcnow(),
+                                           date_insert=datetime.datetime.now(
+                                               tz=pytz.utc),
                                            privacy_features=privacy_features,
                                            pi=pi,
                                            family_name=family_name,
@@ -230,8 +245,9 @@ class User(BaseCore):
         # Setup index
         core._setup_user_index()
 
+        # Setup others entities related to user
         core.setup_system_tags()
-
+        core.setup_settings()
         # Add a default local identity on a default configured domain
         default_domain = Configuration('global').get('default_domain')
         default_local_id = '{}@{}'.format(core.name, default_domain)
@@ -243,6 +259,7 @@ class User(BaseCore):
         if hasattr(new_user, "contact"):
             contact = Contact(user_id=user_id, **new_user.contact.serialize())
             contact.contact_id = uuid.uuid4()
+            contact.title = Contact._compute_title(contact)
 
             for email in contact.emails:
                 if email.address is not None and validate_email(email.address):
@@ -261,9 +278,10 @@ class User(BaseCore):
 
             # fill contact_lookup table
             log.info("contact id : {}".format(contact.contact_id))
-            ContactLookup.create(user_id=core.user_id,
-                                 value=default_local_id, type='email',
-                                 contact_ids=[contact.contact_id])
+            # TOFIX does not work
+            # ContactLookup.create(user_id=core.user_id,
+            #                     value=default_local_id, type='email',
+            #                     contact_ids=[contact.contact_id])
 
         core.save()
 
@@ -325,11 +343,35 @@ class User(BaseCore):
 
     def setup_system_tags(self):
         """Create system tags."""
+        # TODO: translate tags'name to user's preferred language
         default_tags = Configuration('global').get('system.default_tags')
         for tag in default_tags:
             tag['type'] = 'system'
-            tag['date_insert'] = datetime.utcnow()
+            tag['date_insert'] = datetime.datetime.now(tz=pytz.utc)
             Tag.create(self, **tag)
+
+    def setup_settings(self):
+        """Create settings related to user."""
+        # XXX set correct values
+        settings = {
+            'user_id': self.user_id,
+            'default_language': 'en',
+            'default_timezone': 'utc',
+            'date_format': 'dd/mm/yyyy',
+            'message_display_format': 'html',
+            'contact_display_order': '',
+            'contact_display_format': '',
+            'contact_phone_format': 'international',
+            'contact_vcard_format': '4.0',
+            'notification_style': 'system',
+            'notification_delay': 10,
+        }
+
+        obj = ObjectSettings(self.user_id)
+        obj.unmarshall_dict(settings)
+        obj.marshall_db()
+        obj.save_db()
+        return True
 
     @property
     def contact(self):

@@ -1,12 +1,12 @@
 def import_vcard(username, directory, file_vcard, **kwargs):
 
-    from caliopen_main.user.parameters.contact import NewContact
+    from caliopen_main.contact.parameters import NewContact
 
-    from caliopen_main.user.core.contact import Contact as CoreContact
+    from caliopen_main.contact.core import Contact as CoreContact
     from caliopen_main.user.core.user import User as CoreUser
 
-    from caliopen_main.parsers import parse_vcards
-    from caliopen_main.parsers.vcard import read_file, read_directory
+    from caliopen_main.contact.parsers import parse_vcards
+    from caliopen_main.contact.parsers import read_file, read_directory
 
     vcards = []
 

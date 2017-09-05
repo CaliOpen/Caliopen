@@ -15,7 +15,6 @@ with open(os.path.join(*([here] + name.split('.') + ['__init__.py']))) as v_file
 requires = [
     'phonenumbers',
     'caliopen_storage',
-    'caliopen_pi',
     'pytz',
     'zxcvbn_python',
     'validate_email',

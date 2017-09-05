@@ -8,6 +8,7 @@ from schematics.types.compound import ListType, ModelType
 from schematics.transforms import blacklist
 
 from caliopen_main.message.parameters.participant import Participant
+import caliopen_storage.helpers.json as helpers
 
 
 class Discussion(Model):
@@ -15,9 +16,9 @@ class Discussion(Model):
 
     user_id = UUIDType()
     discussion_id = UUIDType(required=True)
-    date_insert = DateTimeType(serialized_format="%Y-%m-%dT%H:%M:%S.%f+00:00",
+    date_insert = DateTimeType(serialized_format=helpers.RFC3339Milli,
                                tzd=u'utc')
-    date_update = DateTimeType(serialized_format="%Y-%m-%dT%H:%M:%S.%f+00:00",
+    date_update = DateTimeType(serialized_format=helpers.RFC3339Milli,
                                tzd=u'utc')
     excerpt = StringType(required=True)
     importance_level = IntType(required=True, default=0)

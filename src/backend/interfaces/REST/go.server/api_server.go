@@ -10,6 +10,7 @@ import (
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/contacts"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/messages"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/participants"
+	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/tags"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/users"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.main"
 	log "github.com/Sirupsen/logrus"
@@ -146,7 +147,7 @@ func (server *REST_API) start() error {
 		router.Use(http_middleware.SwaggerValidator())
 	}
 	// adds our routes and handlers
-	api := router.Group("/api/v2")
+	api := router.Group(http_middleware.RoutePrefix)
 	server.AddHandlers(api)
 
 	// listens
@@ -162,7 +163,7 @@ func (server *REST_API) AddHandlers(api *gin.RouterGroup) {
 
 	/** users API **/
 	//u := api.Group("/users")
-	identities := api.Group("/identities", http_middleware.BasicAuthFromCache(server.cache, "caliopen"))
+	identities := api.Group(http_middleware.IdentitiesRoute, http_middleware.BasicAuthFromCache(server.cache, "caliopen"))
 	identities.GET("/locals", users.GetLocalsIdentities)
 	identities.GET("/locals/:identity_id", users.GetLocalIdentity)
 
@@ -186,4 +187,12 @@ func (server *REST_API) AddHandlers(api *gin.RouterGroup) {
 	/** contacts API **/
 	cts := api.Group("/contacts", http_middleware.BasicAuthFromCache(server.cache, "caliopen"))
 	cts.GET("/:contact_id/identities", contacts.GetIdentities)
+
+	/** tags API **/
+	tag := api.Group(http_middleware.TagsRoute, http_middleware.BasicAuthFromCache(server.cache, "caliopen"))
+	tag.GET("", tags.RetrieveUserTags)
+	tag.POST("", tags.CreateTag)
+	tag.GET("/:tag_id", tags.RetrieveTag)
+	tag.PATCH("/:tag_id", tags.PatchTag)
+	tag.DELETE("/:tag_id", tags.DeleteTag)
 }

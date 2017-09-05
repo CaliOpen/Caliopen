@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormGrid, FormRow, FormColumn, TextFieldGroup, FieldErrors } from '../form';
 import Button from '../Button';
+import Section from '../Section';
 import Link from '../Link';
-import Title from '../Title';
 
 import './style.scss';
 
@@ -26,18 +26,12 @@ class SigninForm extends Component {
     form: {},
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      formValues: {
-        username: '',
-        password: '',
-      },
-    };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  state = {
+    formValues: {
+      username: '',
+      password: '',
+    },
+  };
 
   componentWillMount() {
     this.setState(generateStateFromProps(this.props));
@@ -47,7 +41,7 @@ class SigninForm extends Component {
     this.setState(generateStateFromProps(newProps));
   }
 
-  handleInputChange(event) {
+  handleInputChange = (event) => {
     const { name, value } = event.target;
     this.setState(prevState => ({
       formValues: {
@@ -57,7 +51,7 @@ class SigninForm extends Component {
     }));
   }
 
-  handleSubmit(ev) {
+  handleSubmit = (ev) => {
     ev.preventDefault();
     const { formValues } = this.state;
     this.props.onSubmit({ formValues });
@@ -67,62 +61,61 @@ class SigninForm extends Component {
     const { errors = {}, form, __ } = this.props;
 
     return (
-      <div className="s-signin">
-        <FormGrid method="post" className="s-signin__form" {...form}>
-          { errors.global && (
-            <FormColumn bottomSpace>
-              <FormRow>
-                <FieldErrors errors={errors.global} />
-              </FormRow>
-            </FormColumn>
-          )}
-          <FormRow>
-            <FormColumn className="s-signin__title" bottomSpace>
-              <Title>{__('signin.title')}</Title>
-            </FormColumn>
-            <FormColumn bottomSpace>
-              <TextFieldGroup
-                id="signin_username"
-                label={__('signin.form.username.label')}
-                placeholder={__('signin.form.username.placeholder')}
-                name="username"
-                value={this.state.username}
-                errors={errors.username}
-                onChange={this.handleInputChange}
-                showLabelforSr
-              />
-            </FormColumn>
-            <FormColumn bottomSpace>
-              <TextFieldGroup
-                id="signin_password"
-                label={__('signin.form.password.label')}
-                placeholder={__('signin.form.password.placeholder')}
-                name="password"
-                type="password"
-                value={this.state.password}
-                errors={errors.password}
-                onChange={this.handleInputChange}
-                showLabelforSr
-              />
-            </FormColumn>
-          </FormRow>
-          <FormRow>
-            <FormColumn className="m-im-form__action" bottomSpace>
-              <Button
-                type="submit"
-                onClick={this.handleSubmit}
-                display="expanded"
-                shape="plain"
-              >{__('signin.action.login')}</Button>
-            </FormColumn>
-          </FormRow>
-          <FormRow>
-            <FormColumn>
-              <Link to="/auth/signup">{__('signin.create_an_account')}</Link>
-            </FormColumn>
-          </FormRow>
+      <Section className="s-signin" title={__('signin.title')}>
+        <FormGrid className="s-signin__form">
+          <form method="post" {...form}>
+            { errors.global && (
+              <FormColumn bottomSpace>
+                <FormRow>
+                  <FieldErrors errors={errors.global} />
+                </FormRow>
+              </FormColumn>
+            )}
+            <FormRow>
+              <FormColumn bottomSpace>
+                <TextFieldGroup
+                  id="signin_username"
+                  label={__('signin.form.username.label')}
+                  placeholder={__('signin.form.username.placeholder')}
+                  name="username"
+                  value={this.state.username}
+                  errors={errors.username}
+                  onChange={this.handleInputChange}
+                  showLabelforSr
+                />
+              </FormColumn>
+              <FormColumn bottomSpace>
+                <TextFieldGroup
+                  id="signin_password"
+                  label={__('signin.form.password.label')}
+                  placeholder={__('signin.form.password.placeholder')}
+                  name="password"
+                  type="password"
+                  value={this.state.password}
+                  errors={errors.password}
+                  onChange={this.handleInputChange}
+                  showLabelforSr
+                />
+              </FormColumn>
+            </FormRow>
+            <FormRow>
+              <FormColumn className="s-signin__action" bottomSpace>
+                <Button
+                  type="submit"
+                  onClick={this.handleSubmit}
+                  display="expanded"
+                  shape="plain"
+                >{__('signin.action.login')}</Button>
+              </FormColumn>
+            </FormRow>
+            <FormRow>
+              <FormColumn>
+                <Link to="/auth/signup">{__('signin.create_an_account')}</Link>
+              </FormColumn>
+            </FormRow>
+          </form>
         </FormGrid>
-      </div>
+      </Section>
     );
   }
 }

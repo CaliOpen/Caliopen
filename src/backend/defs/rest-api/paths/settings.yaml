@@ -1,0 +1,50 @@
+---
+settings:
+  get:
+    description: Returns settings belonging to current user
+    tags:
+    - settings
+    security:
+    - basicAuth: []
+    consumes:
+    - application/json
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: Settings returned
+        schema:
+          "$ref": "../objects/Settings.yaml"
+
+  patch:
+    description: Update settings with rfc5789 and rfc7396 specifications
+    tags:
+    - settings
+    security:
+    - basicAuth: []
+    consumes:
+    - application/json
+    parameters:
+    - name: patch
+      in: body
+      required: true
+      description: the patch to apply. See 'Caliopen Patch RFC' within /doc directory.
+      schema:
+        type: object
+        properties:
+          "$ref": "../objects/Settings.yaml#/properties"
+          current_state:
+            type: object
+            properties:
+              "$ref": "../objects/Settings.yaml#/properties"
+    responses:
+      '204':
+        description: Update successful. No body is returned.
+      '400':
+        description: json payload malformed
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '422':
+        description: patch was semantically malformed or unprocessable
+        schema:
+          "$ref": "../objects/Error.yaml"

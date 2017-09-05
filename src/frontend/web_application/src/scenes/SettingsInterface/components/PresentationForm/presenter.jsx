@@ -82,78 +82,80 @@ class PresentationForm extends Component {
     const displayPreviewOptions = this.getOptionsFromArray(DISPLAY_PREVIEW);
 
     return (
-      <FormGrid method="post" className="m-presentation-form" name="presentation_form">
-        {errors.global && errors.global.length !== 0 && (
-        <FormRow>
-          <FormColumn bottomSpace>
-            <FieldErrors errors={errors.global} />
-          </FormColumn>
-        </FormRow>
-        )}
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace >
-            <CheckboxFieldGroup
-              name="show_avatar_inbox"
-              onChange={this.handleCheckboxChange}
-              label={__('settings.presentation.show_avatar_inbox.label')}
-              checked={this.state.settings.show_avatar_inbox}
-              showTextLabel
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace >
-            <CheckboxFieldGroup
-              name="show_unread_msg_bolder"
-              onChange={this.handleCheckboxChange}
-              label={__('settings.presentation.show_unread_msg_bolder.label')}
-              checked={this.state.settings.show_unread_msg_bolder}
-              showTextLabel
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace >
-            <CheckboxFieldGroup
-              name="show_recent_msg_on_top"
-              onChange={this.handleCheckboxChange}
-              label={__('settings.presentation.show_recent_msg_on_top.label')}
-              checked={this.state.settings.show_recent_msg_on_top}
-              showTextLabel
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace >
-            <CheckboxFieldGroup
-              name="show_msg_in_conversation"
-              onChange={this.handleCheckboxChange}
-              label={__('settings.presentation.show_msg_in_conversation.label')}
-              checked={this.state.settings.show_msg_in_conversation}
-              showTextLabel
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace >
-            <SelectFieldGroup
-              name="display_preview_inbox"
-              value={this.state.settings.display_preview_inbox}
-              onChange={this.handleCheckboxChange}
-              label={__('settings.presentation.display.label')}
-              options={displayPreviewOptions}
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" className="m-presentation-form__action" bottomSpace>
-            <Button
-              type="submit"
-              onClick={this.handleSubmit}
-              shape="plain"
-            >{__('settings.presentation.update.action')}</Button>
-          </FormColumn>
-        </FormRow>
+      <FormGrid className="m-presentation-form">
+        <form method="post" name="presentation_form">
+          {errors.global && errors.global.length !== 0 && (
+          <FormRow>
+            <FormColumn bottomSpace>
+              <FieldErrors errors={errors.global} />
+            </FormColumn>
+          </FormRow>
+          )}
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace >
+              <CheckboxFieldGroup
+                name="show_avatar_inbox"
+                onChange={this.handleCheckboxChange}
+                label={__('settings.presentation.show_avatar_inbox.label')}
+                checked={this.state.settings.show_avatar_inbox}
+                showTextLabel
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace >
+              <CheckboxFieldGroup
+                name="show_unread_msg_bolder"
+                onChange={this.handleCheckboxChange}
+                label={__('settings.presentation.show_unread_msg_bolder.label')}
+                checked={this.state.settings.show_unread_msg_bolder}
+                showTextLabel
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace >
+              <CheckboxFieldGroup
+                name="show_recent_msg_on_top"
+                onChange={this.handleCheckboxChange}
+                label={__('settings.presentation.show_recent_msg_on_top.label')}
+                checked={this.state.settings.show_recent_msg_on_top}
+                showTextLabel
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace >
+              <CheckboxFieldGroup
+                name="show_msg_in_conversation"
+                onChange={this.handleCheckboxChange}
+                label={__('settings.presentation.show_msg_in_conversation.label')}
+                checked={this.state.settings.show_msg_in_conversation}
+                showTextLabel
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace >
+              <SelectFieldGroup
+                name="display_preview_inbox"
+                value={this.state.settings.display_preview_inbox}
+                onChange={this.handleCheckboxChange}
+                label={__('settings.presentation.display.label')}
+                options={displayPreviewOptions}
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" className="m-presentation-form__action" bottomSpace>
+              <Button
+                type="submit"
+                onClick={this.handleSubmit}
+                shape="plain"
+              >{__('settings.presentation.update.action')}</Button>
+            </FormColumn>
+          </FormRow>
+        </form>
       </FormGrid>
     );
   }

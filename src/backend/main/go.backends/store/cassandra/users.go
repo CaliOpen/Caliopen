@@ -18,8 +18,10 @@ func (cb *CassandraBackend) Get(*User) error {
 
 func (cb *CassandraBackend) GetLocalsIdentities(user_id string) (identities []LocalIdentity, err error) {
 	user_identities := make(map[string]interface{})
-	cb.Session.Query(`SELECT local_identities from user where user_id = ?`, user_id).MapScan(user_identities)
-
+	err = cb.Session.Query(`SELECT local_identities from user where user_id = ?`, user_id).MapScan(user_identities)
+	if err != nil {
+		return
+	}
 	if user_identities["local_identities"] == nil {
 		err = errors.New("[cassandra] : local identities lookup returns empty")
 		return

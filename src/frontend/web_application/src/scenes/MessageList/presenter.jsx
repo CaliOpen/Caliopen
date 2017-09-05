@@ -7,8 +7,10 @@ class MessageList extends Component {
   static propTypes = {
     requestMessages: PropTypes.func.isRequired,
     requestDiscussion: PropTypes.func.isRequired,
+    invalidateDiscussion: PropTypes.func.isRequired,
     discussionId: PropTypes.string.isRequired,
     messages: PropTypes.arrayOf(PropTypes.shape({})),
+    messagesDidInvalidate: PropTypes.bool.isRequired,
     setMessageRead: PropTypes.func.isRequired,
     deleteMessage: PropTypes.func.isRequired,
     removeTab: PropTypes.func.isRequired,
@@ -27,13 +29,22 @@ class MessageList extends Component {
     this.props.requestDiscussion({ discussionId });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.messagesDidInvalidate) {
+      this.props.requestMessages({ discussionId: nextProps.discussionId });
+    }
+  }
+
   handleViewMessage = ({ message }) => {
     this.props.setMessageRead({ message, isRead: true });
   };
 
   handleDeleteMessage = ({ message }) => {
-    const { deleteMessage, requestMessages, removeTab, discussionId, currentTab } = this.props;
+    const {
+      deleteMessage, invalidateDiscussion, requestMessages, removeTab, discussionId, currentTab,
+    } = this.props;
     deleteMessage({ message })
+      .then(() => invalidateDiscussion({ discussionId }))
       .then(() => requestMessages({ discussionId }))
       .then(
         ({ payload: { data } }) => data.messages.length === 0 && removeTab(currentTab)
@@ -42,9 +53,11 @@ class MessageList extends Component {
 
   handleDelete = () => {
     const {
-      messages, deleteMessage, requestMessages, removeTab, discussionId, currentTab,
+      messages, deleteMessage, invalidateDiscussion, requestMessages, removeTab, discussionId,
+      currentTab,
     } = this.props;
     Promise.all(messages.map(message => deleteMessage({ message })))
+      .then(() => invalidateDiscussion({ discussionId }))
       .then(() => requestMessages({ discussionId }))
       .then(
         ({ payload: { data } }) => data.messages.length === 0 && removeTab(currentTab)
@@ -58,7 +71,7 @@ class MessageList extends Component {
       <MessageListBase
         messages={messages}
         onMessageView={this.handleViewMessage}
-        replyForm={<ReplyForm discussionId={discussionId} />}
+        replyForm={<ReplyForm discussionId={discussionId} internalId={discussionId} />}
         onReply={() => {}}
         onForward={() => {}}
         onDelete={this.handleDelete}

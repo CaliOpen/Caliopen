@@ -31,6 +31,12 @@ type (
 		AddAttachment(user_id, message_id, filename, content_type string, file io.Reader) (attachmentURL string, err error)
 		DeleteAttachment(user_id, message_id string, attchmtIndex int) error
 		OpenAttachment(user_id, message_id string, attchmtIndex int) (contentType string, size int, content io.Reader, err error)
+		//tags
+		RetrieveUserTags(user_id string) (tags []Tag, err error)
+		CreateTag(tag *Tag) error
+		RetrieveTag(user_id, tag_id string) (tag Tag, err error)
+		UpdateTag(tag *Tag) error
+		DeleteTag(user_id, tag_id string) error
 	}
 	RESTfacility struct {
 		store              backends.APIStorage

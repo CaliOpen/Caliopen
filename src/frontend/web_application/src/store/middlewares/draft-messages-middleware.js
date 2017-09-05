@@ -1,11 +1,11 @@
 import throttle from 'lodash.throttle';
 import isEqual from 'lodash.isequal';
-import { push } from 'react-router-redux';
+import { push, replace } from 'react-router-redux';
 import { createNotification, NOTIFICATION_TYPE_ERROR } from 'react-redux-notify';
-import { EDIT_DRAFT, EDIT_SIMPLE_DRAFT, REQUEST_DRAFT, REQUEST_SIMPLE_DRAFT, SAVE_DRAFT, SEND_DRAFT, requestDraftSuccess, requestSimpleDraftSuccess, draftCreated, clearDraft, clearSimpleDraft } from '../modules/draft-message';
-import { CREATE_MESSAGE_SUCCESS, UPDATE_MESSAGE_SUCCESS, UPDATE_MESSAGE_FAIL, POST_ACTIONS_SUCCESS, requestMessages, requestMessage, createMessage, updateMessage, syncMessage, postActions } from '../modules/message';
+import { REQUEST_NEW_DRAFT, REQUEST_NEW_DRAFT_SUCCESS, REQUEST_DRAFT, EDIT_DRAFT, SAVE_DRAFT, SEND_DRAFT, requestNewDraftSuccess, requestDraftSuccess, syncDraft, clearDraft } from '../modules/draft-message';
+import { CREATE_MESSAGE_SUCCESS, UPDATE_MESSAGE_SUCCESS, UPDATE_MESSAGE_FAIL, POST_ACTIONS_SUCCESS, requestMessages, requestMessage, createMessage, updateMessage, postActions } from '../modules/message';
 import { requestLocalIdentities } from '../modules/local-identity';
-import { removeTab } from '../modules/tab';
+import { removeTab, updateTab } from '../modules/tab';
 import fetchLocation from '../../services/api-location';
 import { getTranslator } from '../../services/i18n';
 
@@ -36,31 +36,21 @@ const normalizeDiscussionDraft = ({ draft, user, discussion }) => {
   };
 };
 
-const createDraft = async ({ draft, discussionId, store }) => {
-  let normalizedDraft = draft;
+const getMessageUpToDate = async ({ store, messageId }) => {
+  await store.dispatch(requestMessage({ messageId }));
 
-  if (discussionId) {
-    const {
-      user: { user },
-      discussion: {
-        discussionsById: {
-          [discussionId]: discussion,
-        },
-      },
-    } = store.getState();
+  return store.getState().message.messagesById[messageId];
+};
 
-    normalizedDraft = normalizeDiscussionDraft({ draft, user, discussion });
-  }
-
-  const resultAction = await store.dispatch(createMessage({ message: normalizedDraft }));
+const createDraft = async ({ internalId, draft, store }) => {
+  const resultAction = await store.dispatch(createMessage({ message: draft }));
 
   if (resultAction.type === CREATE_MESSAGE_SUCCESS) {
     const { location } = resultAction.payload.data;
     const { data: message } = await fetchLocation(location);
-    await store.dispatch(draftCreated({ draft: message }));
-    await store.dispatch(syncMessage({ message }));
+    await store.dispatch(syncDraft({ internalId, draft: message }));
 
-    return message;
+    return getMessageUpToDate({ store, messageId: message.message_id });
   }
 
   throw new Error(`Unexpected type ${resultAction.type} in createDraft`);
@@ -72,7 +62,7 @@ const updateDraft = async ({ draft, original, store }) => {
   }));
 
   if (resultAction.type === UPDATE_MESSAGE_SUCCESS) {
-    return store.dispatch(requestMessage({ messageId: draft.message_id }));
+    return getMessageUpToDate({ store, messageId: draft.message_id });
   }
 
   if (resultAction.type === UPDATE_MESSAGE_FAIL) {
@@ -89,24 +79,24 @@ const updateDraft = async ({ draft, original, store }) => {
   throw new Error(`Uknkown type ${resultAction.type} in updateDraft`);
 };
 
-const createOrUpdateDraft = async ({ draft, discussionId, store, original }) => {
+const createOrUpdateDraft = async ({ internalId, draft, store, original }) => {
   if (draft.message_id) {
     return updateDraft({ draft, original, store });
   }
 
-  return createDraft({ draft, discussionId, store });
+  return createDraft({ internalId, draft, store });
 };
 
 let throttled;
 const createThrottle = ({ store, action, callback = message => message }) => throttle(() => {
   throttled = undefined;
-  const { draft, original, discussionId } = action.payload;
+  const { draft, original, internalId } = action.payload;
 
-  createOrUpdateDraft({ draft, discussionId, store, original })
+  createOrUpdateDraft({ internalId, draft, store, original })
     .then(message => callback(message));
 }, UPDATE_WAIT_TIME, { leading: false });
 
-function getDefaultIdentities({ protocols, identities }) {
+function getDefaultIdentities({ protocols, identities = [] }) {
   return identities.reduce((acc, identity) => {
     if (
       protocols.indexOf(identity.type) !== -1 &&
@@ -125,18 +115,35 @@ async function getNewDraft({ discussionId, store, messageToAnswer }) {
   await store.dispatch(requestLocalIdentities());
   const { localIdentities } = store.getState().localIdentity;
 
-  return {
-    discussion_id: discussionId,
+  let draft = {
+    ...(messageToAnswer && messageToAnswer.subject ? { subject: messageToAnswer.subject } : {}),
     body: '',
-    participants: [],
     identities: getDefaultIdentities({ protocols: ['email'], identities: localIdentities })
       .map(localIdentityToIdentity),
-    subject: messageToAnswer && messageToAnswer.subject,
   };
+
+  if (discussionId) {
+    const {
+      user: { user },
+      discussion: {
+        discussionsById: {
+          [discussionId]: discussion,
+        },
+      },
+    } = store.getState();
+
+    draft = normalizeDiscussionDraft({ draft, user, discussion });
+  }
+
+  return draft;
 }
 
-async function manageRequestDraft({ store, action }) {
-  const { discussionId } = action.payload;
+async function requestDraftHandler({ store, action }) {
+  if (action.type !== REQUEST_DRAFT) {
+    return;
+  }
+
+  const { internalId, discussionId } = action.payload;
   await store.dispatch(requestMessages({ discussionId }));
 
   const {
@@ -150,18 +157,91 @@ async function manageRequestDraft({ store, action }) {
   const message = messages.find(item => item.is_draft)
     || await getNewDraft({ discussionId, store, messageToAnswer: messages[0] });
 
-  return store.dispatch(requestDraftSuccess({ draft: message }));
+  store.dispatch(requestDraftSuccess({ internalId, draft: message }));
 }
 
-const getSaveSimpleDraftPostActions = ({ store }) => (message) => {
-  store.dispatch(push(`/discussions/${message.discussion_id}`));
-  store.dispatch(clearSimpleDraft());
-  const tab = store.getState().tab.tabs.find(currentTab => currentTab.pathname === '/compose');
-  store.dispatch(removeTab(tab));
+async function requestNewDraftHandler({ store, action }) {
+  if (action.type !== REQUEST_NEW_DRAFT) {
+    return;
+  }
+
+  const { internalId } = action.payload;
+  const draft = await getNewDraft({ store });
+
+  store.dispatch(requestNewDraftSuccess({ internalId, draft }));
+}
+
+const requestNewDraftSuccessHandler = ({ store, action }) => {
+  if (action.type !== REQUEST_NEW_DRAFT_SUCCESS) {
+    return;
+  }
+  const { router: { location: { pathname } }, tab: { tabs } } = store.getState();
+
+  if (pathname !== '/compose') {
+    return;
+  }
+
+  const original = tabs.find(tab => tab.pathname === pathname);
+  const { internalId } = action.payload;
+  const newPathname = `/compose/${internalId}`;
+  const tab = { ...original, pathname: newPathname };
+  store.dispatch(updateTab({ tab, original }));
+  store.dispatch(replace(newPathname));
+};
+
+const saveDraftHandler = ({ store, action }) => {
+  if (action.type !== SAVE_DRAFT) {
+    return;
+  }
+
+  const { internalId, draft, original } = action.payload;
+  createOrUpdateDraft({ internalId, draft, store, original });
+};
+
+const editDraftHandler = ({ store, action }) => {
+  if (action.type !== EDIT_DRAFT) {
+    return;
+  }
+  throttled = createThrottle({ store, action });
+  throttled();
+};
+
+const sendDraftHandler = async ({ store, action }) => {
+  if (action.type !== SEND_DRAFT) {
+    return;
+  }
+
+  const { internalId, draft, original } = action.payload;
+  const getMessage = async () => {
+    if (isEqual(draft, original)) {
+      return draft;
+    }
+
+    return createOrUpdateDraft({ internalId, draft, store, original });
+  };
+
+  const message = await getMessage();
+  const postActionsAction = await store.dispatch(postActions({ message, actions: ['send'] }));
+  if (postActionsAction.type !== POST_ACTIONS_SUCCESS) {
+    throw new Error('Fail to send');
+  }
+
+  if (store.getState().router.location.pathname === `/compose/${internalId}`) {
+    store.dispatch(push(`/discussions/${message.discussion_id}`));
+  }
+
+  const tab = store.getState().tab.tabs
+    .find(currentTab => currentTab.pathname === `/compose/${internalId}`);
+
+  if (tab) {
+    store.dispatch(removeTab(tab));
+  }
+
+  store.dispatch(clearDraft({ internalId }));
 };
 
 export default store => next => (action) => {
-  if ([EDIT_DRAFT, EDIT_SIMPLE_DRAFT].indexOf(action.type) !== -1) {
+  if ([EDIT_DRAFT].indexOf(action.type) !== -1) {
     if (throttled) {
       throttled.cancel();
     }
@@ -174,62 +254,12 @@ export default store => next => (action) => {
 
   const result = next(action);
 
-  if (action.type === EDIT_DRAFT) {
-    throttled = createThrottle({ store, action });
-    throttled();
-  }
-
-  if (action.type === EDIT_SIMPLE_DRAFT) {
-    throttled = createThrottle({
-      store,
-      action,
-      callback: getSaveSimpleDraftPostActions({ store }),
-    });
-    throttled();
-  }
-
-  if (action.type === SAVE_DRAFT) {
-    const { draft, discussionId, original } = action.payload;
-
-    createOrUpdateDraft({ draft, discussionId, store, original }).then((message) => {
-      if (store.getState().router.location.pathname === '/compose') {
-        return getSaveSimpleDraftPostActions({ store })(message);
-      }
-
-      return undefined;
-    });
-  }
-
-  if (action.type === REQUEST_DRAFT) {
-    manageRequestDraft({ store, action });
-  }
-
-  if (action.type === REQUEST_SIMPLE_DRAFT) {
-    getNewDraft({ store }).then(draft => store.dispatch(requestSimpleDraftSuccess({ draft })));
-  }
-
-  if (action.type === SEND_DRAFT) {
-    const { draft, discussionId, original } = action.payload;
-    const getMessage = async () => {
-      if (isEqual(draft, original)) {
-        return draft;
-      }
-
-      return createOrUpdateDraft({ draft, discussionId, store, original });
-    };
-
-    getMessage()
-      .then(message => store.dispatch(postActions({ message, actions: ['send'] })))
-      .then((postActionsAction) => {
-        if (postActionsAction.type === POST_ACTIONS_SUCCESS) {
-          const { payload: { data: message } } = postActionsAction;
-
-          return store.dispatch(clearDraft({ discussionId: message.discussion_id }));
-        }
-
-        throw new Error('Fail to send');
-      });
-  }
+  editDraftHandler({ store, action });
+  requestDraftHandler({ store, action });
+  saveDraftHandler({ store, action });
+  sendDraftHandler({ store, action });
+  requestNewDraftHandler({ store, action });
+  requestNewDraftSuccessHandler({ store, action });
 
   return result;
 };

@@ -16,8 +16,8 @@ else:
 
 Configuration.load(conf_file, 'global')
 
-from caliopen_main.interfaces import IMessageParser
-from caliopen_main.parsers import MailMessage
+from caliopen_main.common.interfaces import IMessageParser
+from caliopen_main.message.parsers.mail import MailMessage
 
 
 def load_mail(filename):

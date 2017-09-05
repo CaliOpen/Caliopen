@@ -7,8 +7,8 @@ from cassandra.cqlengine import columns
 
 from caliopen_storage.store.model import BaseModel
 from caliopen_storage.store.mixin import IndexedModelMixin
-from caliopen_main.objects.pi import PIModel
-from caliopen_main.user.store.tag import ResourceTag
+from caliopen_main.pi.objects import PIModel
+from caliopen_main.common.store.tag import ResourceTag
 from caliopen_main.user.store.local_identity import Identity
 
 from .attachment import MessageAttachment

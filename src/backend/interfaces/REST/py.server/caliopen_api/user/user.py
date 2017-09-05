@@ -11,13 +11,13 @@ from cornice.resource import resource, view
 from ..base.context import DefaultContext
 from .util import create_token
 
-from caliopen_main.user.core import User
 from ..base import Api
 from ..base.exception import AuthenticationError
 
-from caliopen_main.user.parameters import (NewUser, NewContact,
-                                           NewRemoteIdentity)
+from caliopen_main.user.core import User
+from caliopen_main.user.parameters import NewUser, NewRemoteIdentity
 from caliopen_main.user.returns.user import ReturnUser, ReturnRemoteIdentity
+from caliopen_main.contact.parameters import NewContact
 
 log = logging.getLogger(__name__)
 

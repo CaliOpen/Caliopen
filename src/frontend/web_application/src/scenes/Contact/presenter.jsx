@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { v1 as uuidV1 } from 'uuid';
 import ManageTags from './ManageTags';
+import ContactProfileForm from './components/ContactProfileForm';
 import Spinner from '../../components/Spinner';
 import ContactDetails from '../../components/ContactDetails';
 import ContactProfile from '../../components/ContactProfile';
@@ -11,6 +12,17 @@ import Button from '../../components/Button';
 import TextBlock from '../../components/TextBlock';
 import DropdownMenu, { withDropdownControl } from '../../components/DropdownMenu';
 import VerticalMenu, { VerticalMenuItem } from '../../components/VerticalMenu';
+import FormCollection from './components/FormCollection';
+import EmailForm from './components/EmailForm';
+import PhoneForm from './components/PhoneForm';
+import ImForm from './components/ImForm';
+import AddressForm from './components/AddressForm';
+// FIXME: birthday deactivated due to redux-form bug cf. AddFormFieldForm
+// import BirthdayForm from './components/BirthdayForm';
+import OrgaForm from './components/OrgaForm';
+import IdentityForm from './components/IdentityForm';
+import AddFormFieldForm from './components/AddFormFieldForm';
+
 import { UPDATE_CONTACT_SUCCESS } from '../../store/modules/contact';
 import './style.scss';
 
@@ -23,18 +35,23 @@ class Contact extends Component {
   static propTypes = {
     __: PropTypes.func.isRequired,
     requestContact: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
     updateContact: PropTypes.func.isRequired,
     notifyError: PropTypes.func.isRequired,
     removeContact: PropTypes.func,
     contactId: PropTypes.string.isRequired,
     contact: PropTypes.shape({}),
     isFetching: PropTypes.bool,
+    form: PropTypes.string.isRequired,
+    // birthday: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
 
   static defaultProps = {
     isFetching: false,
     removeContact: noop,
     contact: undefined,
+    birthday: undefined,
   };
 
   constructor(props) {
@@ -88,7 +105,19 @@ class Contact extends Component {
     this.setState(prevState => ({
       ...prevState,
       editMode: !prevState.editMode,
-    }));
+    }), () => {
+      if (!this.state.editMode) {
+        this.props.reset();
+      }
+    });
+  }
+
+  handleSubmit = (ev) => {
+    const { handleSubmit, contactId, requestContact } = this.props;
+
+    handleSubmit(ev)
+      .then(() => this.toggleEditMode())
+      .then(() => requestContact({ contactId }));
   }
 
   renderTagsModal = () => {
@@ -128,7 +157,7 @@ class Contact extends Component {
           {__('contact.edit_contact.title')}
         </TextBlock>
         <Button
-          onClick={this.toggleEditMode} // FIXME: this should validate contact change
+          type="submit"
           responsive="icon-only"
           icon="check"
           className="s-contact__action"
@@ -193,11 +222,27 @@ class Contact extends Component {
     );
   }
 
+  renderDetailForms() {
+    const { form } = this.props;
+    // const hasBirthday = this.props.birthday !== undefined;
+
+    return (
+      <div>
+        <FormCollection component={(<EmailForm />)} propertyName="emails" showAdd={false} />
+        <FormCollection component={(<PhoneForm />)} propertyName="phones" showAdd={false} />
+        <FormCollection component={(<ImForm />)} propertyName="ims" showAdd={false} />
+        <FormCollection component={(<AddressForm />)} propertyName="addresses" showAdd={false} />
+        {/* {hasBirthday && (<BirthdayForm form={form} />)} */}
+        <AddFormFieldForm form={form} />
+      </div>
+    );
+  }
+
   render() {
     const { __, isFetching, contact } = this.props;
 
     return (
-      <div>
+      <form onSubmit={this.handleSubmit} method="post">
         {contact && (
           <MenuBar className="s-contact__menu-bar">
             {
@@ -215,21 +260,23 @@ class Contact extends Component {
             <div className="s-contact__col-datas-irl">
               <ContactProfile
                 contact={contact}
-                onChange={this.handleContactChange}
                 editMode={this.state.editMode}
+                form={(<ContactProfileForm />)}
               />
             </div>
             <div className="s-contact__col-datas-online">
               <ContactDetails
                 contact={contact}
-                onUpdateContact={this.handleContactChange} // FIXME: this should update state
                 editMode={this.state.editMode}
+                detailForms={this.renderDetailForms()}
+                orgaForms={(<FormCollection component={(<OrgaForm />)} propertyName="organizations" />)}
+                identityForms={(<FormCollection component={(<IdentityForm />)} propertyName="identities" />)}
                 __={__}
               />
             </div>
           </div>
           )}
-      </div>
+      </form>
     );
   }
 }

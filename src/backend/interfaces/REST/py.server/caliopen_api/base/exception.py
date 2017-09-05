@@ -3,10 +3,11 @@
 from __future__ import absolute_import, print_function, unicode_literals
 from pyramid.httpexceptions import HTTPClientError
 from caliopen_storage.exception import NotFound
-from caliopen_main.errors import (PatchUnprocessable, PatchError,
-                                  PatchConflict)
+from caliopen_main.common.errors import (PatchUnprocessable, PatchError,
+                                         PatchConflict)
 
 import logging
+
 log = logging.getLogger(__name__)
 
 
@@ -65,28 +66,25 @@ class MethodNotAllowed(HTTPClientError):
 
 class MergePatchError(HTTPClientError):
     def __init__(self, error=None):
+        self.message = error.message
         if isinstance(error, NotFound):
             self.code = 404
             self.title = "Not Found"
             self.explanation = "The resource could not be found to apply PATCH"
-            self.message = error.message
-        if isinstance(error, PatchUnprocessable):
+        elif isinstance(error, PatchUnprocessable):
             self.code = 422
             self.title = "Patch Unprocessable"
             self.explanation = "PATCH payload was malformed or unprocessable"
-            self.message = error.message
-        if isinstance(error, PatchError):
+        elif isinstance(error, PatchError):
             self.code = 422
             self.title = "Patch Error"
             self.explanation = "Application encountered an error when " \
                                "applying patch"
-            self.message = error.message
-        if isinstance(error, PatchConflict):
+        elif isinstance(error, PatchConflict):
             self.code = 409
             self.title = "Patch Conflict"
             self.explanation = "The request cannot be applied given " \
                                "the state of the resource"
-            self.message = error.message
 
 
 class Unprocessable(HTTPClientError):
@@ -100,7 +98,6 @@ class Unprocessable(HTTPClientError):
     """
 
     def __init__(self, error=None):
-            
         self.code = 422
         self.title = 'Unprocessable entity'
         self.explanation = ('The server encounter when processing payload')

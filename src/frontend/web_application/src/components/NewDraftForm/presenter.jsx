@@ -7,7 +7,7 @@ import ContactAvatarLetter from '../ContactAvatarLetter';
 import Dropdown, { withDropdownControl } from '../Dropdown';
 import DiscussionDraft, { TopRow, BodyRow, BottomRow } from '../DiscussionDraft';
 import DiscussionTextarea from '../DiscussionTextarea';
-import RecipientsList from '../RecipientsList';
+import RecipientList from '../RecipientList';
 import { TextFieldGroup } from '../form';
 import './style.scss';
 
@@ -25,6 +25,7 @@ const hasMailSupport = recipients =>
 class NewDraftForm extends Component {
   static propTypes = {
     draft: PropTypes.shape({}),
+    internalId: PropTypes.string,
     onSave: PropTypes.func.isRequired,
     onSend: PropTypes.func.isRequired,
     onChange: PropTypes.func,
@@ -33,6 +34,7 @@ class NewDraftForm extends Component {
   };
   static defaultProps = {
     draft: {},
+    internalId: undefined,
     onChange: () => {},
     user: { contact: {} },
   };
@@ -101,7 +103,7 @@ class NewDraftForm extends Component {
   }
 
   render() {
-    const { user, __ } = this.props;
+    const { user, internalId, __ } = this.props;
     const dropdownId = uuidV1();
     const recipients = this.state.draft.participants && this.state.draft.participants
       .filter(participant => participant.type.toLowerCase() !== 'from');
@@ -132,8 +134,8 @@ class NewDraftForm extends Component {
             />
           </TopRow>
           <BodyRow className="m-new-draft__body">
-            <RecipientsList
-              discussionId={this.state.draft.discussionId || 'simpleDraft'}
+            <RecipientList
+              internalId={internalId}
               recipients={recipients}
               onRecipientsChange={this.handleRecipientsChange}
             />

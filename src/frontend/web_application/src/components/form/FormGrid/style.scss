@@ -20,6 +20,7 @@
 
     &--fluid {
       @include flex-grid-size;
+      padding-right: map_get($co-form__spacing, 'xsmall');
     }
 
     &--bottom-space {

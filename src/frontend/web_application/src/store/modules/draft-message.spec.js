@@ -2,32 +2,18 @@ import reducer, * as module from './draft-message';
 
 describe('ducks module draft-message', () => {
   describe('reducer', () => {
-    describe('reduces CREATE_DRAFT_SUCCESS', () => {
-      it('updates message_id', () => {
-        const initialState = reducer(undefined, { type: '@@INIT' });
-        const body = 'old content';
-        const draft = { message_id: '111', discussion_id: 'a111', participants: [] };
-        expect(reducer(undefined, module.draftCreated({ draft: { ...draft, body } }))).toEqual({
-          ...initialState,
-          draftsByDiscussionId: {
-            a111: { ...draft, body },
-          },
-        });
-      });
-    });
-
     it('reduces EDIT_DRAFT', () => {
       const draft = { message_id: '111', participants: [], body: 'bar' };
       const initialState = {
         ...reducer(undefined, { type: '@@INIT' }),
-        draftsByDiscussionId: {
+        draftsByInternalId: {
           a111: draft,
         },
       };
       const body = 'foo';
-      expect(reducer(undefined, module.editDraft({ discussionId: 'a111', draft: { ...draft, body } }))).toEqual({
+      expect(reducer(undefined, module.editDraft({ internalId: 'a111', draft: { ...draft, body } }))).toEqual({
         ...initialState,
-        draftsByDiscussionId: {
+        draftsByInternalId: {
           a111: {
             ...draft,
             body,
@@ -35,8 +21,31 @@ describe('ducks module draft-message', () => {
         },
       });
     });
-    it('reduces REQUEST_DRAFT_SUCCESS', () => {
 
+    it('reduces SYNC_DRAFT', () => {
+      const draft = { participants: [], body: 'new body' };
+      const initialState = {
+        ...reducer(undefined, { type: '@@INIT' }),
+        draftsByInternalId: {
+          a111: draft,
+        },
+      };
+      const message = {
+        body: 'old body',
+        message_id: '111',
+        discussion_id: '112',
+      };
+      expect(reducer(initialState, module.syncDraft({ internalId: 'a111', draft: message }))).toEqual({
+        ...initialState,
+        draftsByInternalId: {
+          a111: {
+            participants: [],
+            body: 'new body',
+            message_id: '111',
+            discussion_id: '112',
+          },
+        },
+      });
     });
   });
 });

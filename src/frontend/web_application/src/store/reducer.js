@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import notifyReducer from 'react-redux-notify';
 import { routerReducer } from 'react-router-redux';
+import { reducer as formReducer } from 'redux-form';
 import applicationReducer from './modules/application';
 import contactReducer from './modules/contact';
 import deviceReducer from './modules/device';
@@ -33,6 +34,7 @@ const reducer = combineReducers({
   tag: tagReducer,
   user: userReducer,
   router: routerReducer,
+  form: formReducer,
 });
 
 export default reducer;

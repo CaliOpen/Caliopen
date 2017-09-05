@@ -9,5 +9,6 @@ properties:
     type: string
 required:
 - name
+- type
 additionalProperties: false
 

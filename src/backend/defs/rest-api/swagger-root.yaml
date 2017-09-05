@@ -46,14 +46,16 @@ paths:
     "$ref": paths/messagesV2.yaml#/messages_{message_id}_attachments_{attachment_index}
   "/v1/raws/{raw_msg_id}":
     "$ref": paths/raws.yaml#/raws_{raw_msg_id}
-  "/v1/tags":
+  "/v2/tags":
     "$ref": paths/tags.yaml#/tags
-  "/v1/tags/{tag_id}":
+  "/v2/tags/{tag_id}":
     "$ref": paths/tags.yaml#/tags_{tag_id}
   "/v1/devices":
     "$ref": paths/devices.yaml#/devices
   "/v1/devices/{device_id}":
     "$ref": paths/devices.yaml#/devices_{device_id}
+  "/v1/settings":
+     "$ref": paths/settings.yaml#/settings
   "/v2/identities/locals":
     "$ref": paths/identities.yaml#/identities_locals
   "/v1/identities/remotes":

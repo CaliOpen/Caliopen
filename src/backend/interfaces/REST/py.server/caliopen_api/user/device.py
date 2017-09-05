@@ -5,7 +5,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 import logging
 
 from pyramid.response import Response
-from caliopen_main.objects.device import Device as ObjectDevice
+from caliopen_main.user.objects.device import Device as ObjectDevice
 from caliopen_main.user.core import Device as CoreDevice
 from caliopen_main.user.parameters import NewDevice
 from cornice.resource import resource, view

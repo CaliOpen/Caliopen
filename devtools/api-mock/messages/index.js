@@ -28,6 +28,18 @@ const selectors = {
   ),
 };
 
+const filterAuthor = participants => participants.filter(participant => participant.type !== 'From');
+const reduceParticipants = message => [
+  ...(message.participants ? filterAuthor(message.participants) : []),
+  {
+    address: 'john@caliopen.local',
+    contact_ids: ['1039cdcc-1f6f-4b5d-9c8a-5d7c711f357f'],
+    label: 'Jaune john',
+    protocol: 'email',
+    type: 'From'
+  },
+];
+
 const reducer = {
   [actions.get]: state => state,
   [actions.post]: (state, { body, req: { discussionId } }) => ([
@@ -41,6 +53,7 @@ const reducer = {
       date: Date.now(),
       date_insert: Date.now(),
       pi: { technic: 50, context: 45, comportment: 25, version: 1 },
+      participants: reduceParticipants(body),
     },
   ]),
   [actions.patch]: (state, { params, body }) => {
@@ -54,6 +67,7 @@ const reducer = {
     nextState[index] = {
       ...original,
       ...props,
+      participants: state[index].is_draft ? reduceParticipants(props) : nextState[index].participants,
     };
 
     return nextState;

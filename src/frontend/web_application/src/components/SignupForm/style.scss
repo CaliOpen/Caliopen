@@ -5,41 +5,33 @@
 
 
 .s-signup {
-  @include flex-grid-size(12);
+  @include flex-grid-size;
   max-width: map-get($co-form__width, 'xlarge');
+
+  &__action { line-height: $co-component__height; }
 
   &__modal {
     max-width: 100%;
-    @include breakpoint(medium) {
-      max-width: 2 * map-get($co-form__width, 'xlarge');
-    }
-  }
-
-  &__form {
-    padding: map-get($co-form__spacing, 'large') map-get($co-form__spacing, 'medium');
-    background-color: $co-color__fg__back;
-
-    @include breakpoint(medium) {
-      padding-right: 0;
-    }
-  }
-
-  &__title {
-    text-align: center;
+    max-height: 100%;
+    overflow: auto;
   }
 
   &__privacy {
     @include o-callout-base;
     @include o-callout--color($co-color__info);
+  }
 
-    &__checkbox {
-      margin-top: $co-margin;
-    }
+  &__privacy-checkbox { margin-top: $co-margin; }
 
-    &__link {
-      margin-top: $co-margin / 2;
-      color: $co-color__fg__text--high;
-      font-weight: 600;
+  &__privacy-link {
+    margin-top: $co-margin / 2;
+    color: $co-color__fg__text--high;
+    font-weight: 600;
+  }
+
+  @include breakpoint(medium) {
+    &__modal {
+      max-width: map-get($co-form__width, 'xlarge');
     }
   }
 }

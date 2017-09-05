@@ -17,6 +17,7 @@ func (es *ElasticSearchBackend) UpdateMessage(msg *objects.Message, fields map[s
 
 	update, err := es.Client.Update().Index(msg.User_id.String()).Type("indexed_message").Id(msg.Message_id.String()).
 		Doc(fields).
+		Refresh("wait_for").
 		Do(context.TODO())
 	if err != nil {
 		log.WithError(err).Warn("backend Index: updateMessage operation failed")
@@ -35,7 +36,7 @@ func (es *ElasticSearchBackend) IndexMessage(msg *objects.Message) error {
 
 	resp, err := es.Client.Index().Index(msg.User_id.String()).Type("indexed_message").Id(msg.Message_id.String()).
 		BodyString(string(es_msg)).
-		Refresh("true").
+		Refresh("wait_for").
 		Do(context.TODO())
 	if err != nil {
 		log.WithError(err).Warn("backend Index: IndexMessage operation failed")

@@ -19,4 +19,5 @@ const (
 
 	TimeISO8601  string = "2006-01-02T15:04:05-07:00"
 	TimeUTCmicro string = "2006-01-02T15:04:05.999999"
+	RFC3339Milli        = "2006-01-02T15:04:05.000Z07:00"
 )

@@ -2,6 +2,9 @@
 type: object
 properties:
   "$ref": NewTag.yaml#/properties
+  date_insert:
+    type: string
+    format: date-time
   tag_id:
     type: string
   type:
@@ -9,8 +12,6 @@ properties:
     enum:
     - user
     - system
-  name:             # the authoritative name given by the system, for system tags. Not editable by user (may not even be visible by user).
-    type: string
 required:
 - label
 additionalProperties: false

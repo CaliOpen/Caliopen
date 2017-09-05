@@ -127,67 +127,69 @@ class DeviceForm extends Component {
     };
 
     return (
-      <FormGrid className="m-device-form" onSubmit={this.handleSubmit}>
-        <Fieldset className="m-device-form__fieldset">
-          <Legend>{__('device.manage_form.name.label')}</Legend>
-          <FormRow reverse>
-            <FormColumn bottomSpace size="medium">
-              <label htmlFor="device-name">{__('device.manage_form.name.infotext')}</label>
-            </FormColumn>
-            <FormColumn bottomSpace size="medium">
-              <TextFieldGroup
-                label={__('device.manage_form.name.label')}
-                name="name"
-                id="device-name"
-                showLabelforSr
-                value={this.state.device.name}
-                onChange={this.handleFieldChange}
-              />
-            </FormColumn>
-          </FormRow>
-        </Fieldset>
-        <Fieldset className="m-device-form__fieldset">
-          <Legend>{__('device.manage_form.type.label')}</Legend>
-          <FormRow reverse>
-            <FormColumn bottomSpace size="medium">
-              <label htmlFor="device-type">{__('device.manage_form.type.infotext')}</label>
-            </FormColumn>
+      <FormGrid className="m-device-form">
+        <form method="post" onSubmit={this.handleSubmit}>
+          <Fieldset className="m-device-form__fieldset">
+            <Legend>{__('device.manage_form.name.label')}</Legend>
+            <FormRow reverse>
+              <FormColumn bottomSpace size="medium">
+                <label htmlFor="device-name">{__('device.manage_form.name.infotext')}</label>
+              </FormColumn>
+              <FormColumn bottomSpace size="medium">
+                <TextFieldGroup
+                  label={__('device.manage_form.name.label')}
+                  name="name"
+                  id="device-name"
+                  showLabelforSr
+                  value={this.state.device.name}
+                  onChange={this.handleFieldChange}
+                />
+              </FormColumn>
+            </FormRow>
+          </Fieldset>
+          <Fieldset className="m-device-form__fieldset">
+            <Legend>{__('device.manage_form.type.label')}</Legend>
+            <FormRow reverse>
+              <FormColumn bottomSpace size="medium">
+                <label htmlFor="device-type">{__('device.manage_form.type.infotext')}</label>
+              </FormColumn>
+              <FormColumn size="medium">
+                <SelectFieldGroup
+                  className="m-device-form__type"
+                  label={__('device.manage_form.type.label')}
+                  name="type"
+                  id="device-type"
+                  showLabelforSr
+                  value={this.state.device.type}
+                  options={deviceTypes}
+                  onChange={this.handleFieldChange}
+                />
+              </FormColumn>
+            </FormRow>
+          </Fieldset>
+          <Fieldset className="m-device-form__fieldset">
+            <Legend>{__('device.manage_form.ips.label')}</Legend>
+            <FormRow reverse>
+              <FormColumn bottomSpace size="medium">
+                <label htmlFor="device-ips">{__('device.manage_form.ips.infotext')}</label>
+              </FormColumn>
+              <FormColumn bottomSpace size="medium">
+                <CollectionFieldGroup
+                  defaultValue={defaultLocation}
+                  collection={this.state.device.locations}
+                  addTemplate={locationTemplate}
+                  editTemplate={locationTemplate}
+                  onChange={this.handleLocationsChange}
+                />
+              </FormColumn>
+            </FormRow>
+          </Fieldset>
+          <FormRow>
             <FormColumn size="medium">
-              <SelectFieldGroup
-                className="m-device-form__type"
-                label={__('device.manage_form.type.label')}
-                name="type"
-                id="device-type"
-                showLabelforSr
-                value={this.state.device.type}
-                options={deviceTypes}
-                onChange={this.handleFieldChange}
-              />
+              <Button plain type="submit">{__('device.action.save_changes')}</Button>
             </FormColumn>
           </FormRow>
-        </Fieldset>
-        <Fieldset className="m-device-form__fieldset">
-          <Legend>{__('device.manage_form.ips.label')}</Legend>
-          <FormRow reverse>
-            <FormColumn bottomSpace size="medium">
-              <label htmlFor="device-ips">{__('device.manage_form.ips.infotext')}</label>
-            </FormColumn>
-            <FormColumn bottomSpace size="medium">
-              <CollectionFieldGroup
-                defaultValue={defaultLocation}
-                collection={this.state.device.locations}
-                addTemplate={locationTemplate}
-                editTemplate={locationTemplate}
-                onChange={this.handleLocationsChange}
-              />
-            </FormColumn>
-          </FormRow>
-        </Fieldset>
-        <FormRow>
-          <FormColumn size="medium">
-            <Button plain type="submit">{__('device.action.save_changes')}</Button>
-          </FormColumn>
-        </FormRow>
+        </form>
       </FormGrid>
     );
   }

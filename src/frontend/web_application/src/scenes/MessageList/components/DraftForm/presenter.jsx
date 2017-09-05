@@ -23,50 +23,31 @@ class DraftForm extends Component {
     user: undefined,
   };
 
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.handleSend = this.handleSend.bind(this);
-  }
-
   componentDidMount() {
     const { discussionId, draft } = this.props;
     if (!draft && discussionId) {
-      this.props.requestDraft({ discussionId });
+      this.props.requestDraft({ internalId: discussionId, discussionId });
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.draft) {
       const { discussionId } = this.props;
-      this.props.requestDraft({ discussionId });
+      this.props.requestDraft({ internalId: discussionId, discussionId });
     }
   }
 
-  handleChange({ draft }) {
-    const { editDraft, discussionId, message } = this.props;
-    const params = { draft, discussionId, message };
+  makeHandle = action => ({ draft }) => {
+    const { discussionId, message } = this.props;
+    const params = { draft, message, internalId: discussionId };
 
-    return editDraft(params);
-  }
-
-  handleSave({ draft }) {
-    const { saveDraft, discussionId, message } = this.props;
-    const params = { draft, discussionId, message };
-
-    return saveDraft(params);
-  }
-
-  handleSend({ draft }) {
-    const { sendDraft, discussionId, message } = this.props;
-    const params = { draft, message, discussionId };
-
-    return sendDraft(params);
-  }
+    return action(params);
+  };
 
   render() {
-    const { draft, allowEditRecipients, user } = this.props;
+    const {
+       draft, discussionId, allowEditRecipients, user, editDraft, saveDraft, sendDraft,
+    } = this.props;
 
     if (!draft) {
       return (<div />);
@@ -75,9 +56,10 @@ class DraftForm extends Component {
     if (allowEditRecipients) {
       return (<NewDraftForm
         draft={draft}
-        onChange={this.handleChange}
-        onSave={this.handleSave}
-        onSend={this.handleSend}
+        internalId={discussionId}
+        onChange={this.makeHandle(editDraft)}
+        onSave={this.makeHandle(saveDraft)}
+        onSend={this.makeHandle(sendDraft)}
         user={user}
       />);
     }
@@ -85,9 +67,9 @@ class DraftForm extends Component {
     return (
       <ReplyFormBase
         draft={draft}
-        onChange={this.handleChange}
-        onSave={this.handleSave}
-        onSend={this.handleSend}
+        onChange={this.makeHandle(editDraft)}
+        onSave={this.makeHandle(saveDraft)}
+        onSend={this.makeHandle(sendDraft)}
         user={user}
       />
     );

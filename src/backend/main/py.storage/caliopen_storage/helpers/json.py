@@ -13,7 +13,6 @@ from decimal import Decimal
 
 
 class JSONEncoder(json.JSONEncoder):
-
     """Specific json encoder to deal with some specific types."""
 
     _datetypes = (datetime.date, datetime.datetime)
@@ -23,7 +22,7 @@ class JSONEncoder(json.JSONEncoder):
         if isinstance(obj, Decimal):
             return float(obj)
         if isinstance(obj, self._datetypes):
-            return obj.isoformat()
+            return RFC3339Milli(obj)
         if isinstance(obj, UUID):
             return str(obj)
         return super(JSONEncoder, self).default(obj)
@@ -32,3 +31,8 @@ class JSONEncoder(json.JSONEncoder):
 def to_json(data):
     """Helper to dump using correct encoder."""
     return json.dumps(data, cls=JSONEncoder)
+
+
+def RFC3339Milli(value):
+    return u"%s.%sZ" % (
+        value.strftime("%Y-%m-%dT%H:%M:%S"), value.microsecond / 1000)

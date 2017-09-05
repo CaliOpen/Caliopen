@@ -1,138 +1,124 @@
+import { v1 as uuidv1 } from 'uuid';
+
 export const REQUEST_DRAFT = 'co/draft-message/REQUEST_DRAFT';
 export const REQUEST_DRAFT_SUCCESS = 'co/draft-message/REQUEST_DRAFT_SUCCESS';
-export const REQUEST_SIMPLE_DRAFT = 'co/draft-message/REQUEST_SIMPLE_DRAFT';
-export const REQUEST_SIMPLE_DRAFT_SUCCESS = 'co/draft-message/REQUEST_SIMPLE_DRAFT_SUCCESS';
-export const EDIT_SIMPLE_DRAFT = 'co/draft-message/EDIT_SIMPLE_DRAFT';
-export const CLEAR_SIMPLE_DRAFT = 'co/draft-message/CLEAR_SIMPLE_DRAFT';
-export const CREATE_DRAFT_SUCCESS = 'co/draft-message/CREATE_DRAFT_SUCCESS';
+export const REQUEST_NEW_DRAFT = 'co/draft-message/REQUEST_NEW_DRAFT';
+export const REQUEST_NEW_DRAFT_SUCCESS = 'co/draft-message/REQUEST_NEW_DRAFT_SUCCESS';
+export const SYNC_DRAFT = 'co/draft-message/SYNC_DRAFT';
 export const EDIT_DRAFT = 'co/draft-message/EDIT_DRAFT';
 export const SAVE_DRAFT = 'co/draft-message/SAVE_DRAFT';
 export const SEND_DRAFT = 'co/draft-message/SEND_DRAFT';
-export const SEND_DRAFT_SUCCESS = 'co/draft-message/SEND_DRAFT_SUCCESS';
 export const CLEAR_DRAFT = 'co/draft-message/CLEAR_DRAFT';
 export const SET_RECIPIENT_SEARCH_TERMS = 'co/draft-message/SET_RECIPIENT_SEARCH_TERMS';
 
-export function editDraft({ discussionId, draft, message }) {
+export function editDraft({ internalId, draft, message }) {
   return {
     type: EDIT_DRAFT,
-    payload: { discussionId, draft, original: message },
+    payload: { internalId, draft, original: message },
   };
 }
 
-export function saveDraft({ discussionId, draft, message }) {
+export function saveDraft({ internalId, draft, message }) {
   return {
     type: SAVE_DRAFT,
-    payload: { discussionId, draft, original: message },
+    payload: { internalId, draft, original: message },
   };
 }
 
-export function draftCreated({ draft }) {
+export function requestNewDraft({ internalId = uuidv1() }) {
   return {
-    type: CREATE_DRAFT_SUCCESS,
-    payload: { draft },
+    type: REQUEST_NEW_DRAFT,
+    payload: { internalId },
   };
 }
 
-export function requestDraft({ discussionId }) {
+export function requestNewDraftSuccess({ internalId, draft }) {
+  return {
+    type: REQUEST_NEW_DRAFT_SUCCESS,
+    payload: { internalId, draft },
+  };
+}
+
+export function requestDraft({ internalId = uuidv1(), discussionId }) {
   return {
     type: REQUEST_DRAFT,
-    payload: { discussionId },
+    payload: { internalId, discussionId },
   };
 }
 
-export function requestDraftSuccess({ draft }) {
+export function requestDraftSuccess({ internalId, draft }) {
   return {
     type: REQUEST_DRAFT_SUCCESS,
-    payload: { draft },
+    payload: { internalId, draft },
   };
 }
 
-export function requestSimpleDraft() {
+export function syncDraft({ internalId, draft }) {
   return {
-    type: REQUEST_SIMPLE_DRAFT,
-    payload: { },
+    type: SYNC_DRAFT,
+    payload: { internalId, draft },
   };
 }
 
-export function requestSimpleDraftSuccess({ draft }) {
-  return {
-    type: REQUEST_SIMPLE_DRAFT_SUCCESS,
-    payload: { draft },
-  };
-}
-
-export function editSimpleDraft({ draft }) {
-  return {
-    type: EDIT_SIMPLE_DRAFT,
-    payload: { draft },
-  };
-}
-
-export function clearSimpleDraft() {
-  return {
-    type: CLEAR_SIMPLE_DRAFT,
-    payload: {},
-  };
-}
-
-export function sendDraft({ discussionId, draft, message }) {
+export function sendDraft({ internalId, draft, message }) {
   return {
     type: SEND_DRAFT,
-    payload: { discussionId, draft, original: message },
+    payload: { internalId, draft, original: message },
   };
 }
 
-export function clearDraft({ discussionId }) {
+export function clearDraft({ internalId }) {
   return {
     type: CLEAR_DRAFT,
-    payload: { discussionId },
+    payload: { internalId },
   };
 }
 
-export function setRecipientSearchTerms({ discussionId, searchTerms }) {
+export function setRecipientSearchTerms({ internalId, searchTerms }) {
   return {
     type: SET_RECIPIENT_SEARCH_TERMS,
-    payload: { discussionId, searchTerms },
+    payload: { internalId, searchTerms },
   };
 }
 
 function draftReducer(state = { participants: [] }, action) {
   switch (action.type) {
-    case REQUEST_SIMPLE_DRAFT_SUCCESS:
     case REQUEST_DRAFT_SUCCESS:
+    case REQUEST_NEW_DRAFT_SUCCESS:
     case EDIT_DRAFT:
-    case EDIT_SIMPLE_DRAFT:
-    case CREATE_DRAFT_SUCCESS:
       return {
         ...state,
         ...action.payload.draft,
       };
-    case SEND_DRAFT_SUCCESS:
-      throw new Error('TODO reducer SEND_DRAFT_SUCCESS');
+    case SYNC_DRAFT:
+      return {
+        ...action.payload.draft,
+        ...state,
+      };
     default:
       return state;
   }
 }
 
-function dratfsByDiscussionIdReducer(state, action) {
+function dratfsByInternalIdReducer(state, action) {
   switch (action.type) {
-    case CREATE_DRAFT_SUCCESS:
     case REQUEST_DRAFT_SUCCESS:
-    case SEND_DRAFT_SUCCESS:
+    case REQUEST_NEW_DRAFT_SUCCESS:
+    case SYNC_DRAFT:
       return {
         ...state,
-        [action.payload.draft.discussion_id]:
-          draftReducer(state[action.payload.draft.discussion_id], action),
+        [action.payload.internalId]:
+          draftReducer(state[action.payload.internalId], action),
       };
     case EDIT_DRAFT:
       return {
         ...state,
-        [action.payload.discussionId]: draftReducer(state[action.payload.discussionId], action),
+        [action.payload.internalId]: draftReducer(state[action.payload.internalId], action),
       };
     case CLEAR_DRAFT:
       return {
         ...state,
-        [action.payload.discussionId]: undefined,
+        [action.payload.internalId]: undefined,
       };
     default:
       return state;
@@ -142,39 +128,27 @@ function dratfsByDiscussionIdReducer(state, action) {
 const initialState = {
   isFetching: false,
   didInvalidate: false,
-  draftsByDiscussionId: {},
-  simpleDraft: undefined,
-  recipientSearchTermsById: {},
+  draftsByInternalId: {},
+  recipientSearchTermsByInternalId: {},
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case CREATE_DRAFT_SUCCESS:
     case EDIT_DRAFT:
     case REQUEST_DRAFT_SUCCESS:
-    case SEND_DRAFT_SUCCESS:
+    case REQUEST_NEW_DRAFT_SUCCESS:
     case CLEAR_DRAFT:
+    case SYNC_DRAFT:
       return {
         ...state,
-        draftsByDiscussionId: dratfsByDiscussionIdReducer(state.draftsByDiscussionId, action),
-      };
-    case EDIT_SIMPLE_DRAFT:
-    case REQUEST_SIMPLE_DRAFT_SUCCESS:
-      return {
-        ...state,
-        simpleDraft: draftReducer(state.simpleDraft, action),
-      };
-    case CLEAR_SIMPLE_DRAFT:
-      return {
-        ...state,
-        simpleDraft: undefined,
+        draftsByInternalId: dratfsByInternalIdReducer(state.draftsByInternalId, action),
       };
     case SET_RECIPIENT_SEARCH_TERMS: {
       return {
         ...state,
-        recipientSearchTermsById: {
-          ...state.recipientSearchTermsById,
-          [action.payload.discussionId]: action.payload.searchTerms,
+        recipientSearchTermsByInternalId: {
+          ...state.recipientSearchTermsByInternalId,
+          [action.payload.internalId]: action.payload.searchTerms,
         },
       };
     }

@@ -7,20 +7,31 @@
     margin-bottom: map-get($co-form__spacing, 'small');
   }
 
+  &__select-wrapper {
+    @include o-form-element-select-wrapper;
+  }
+
   &__select {
     @include o-form-element;
+    @include o-form-element-select;
   }
 
   &,
   &--dark {
-    &__select { @include o-form-element--dark; }
+    &__select-wrapper,
+    &__select {
+      @include o-form-element--dark;
+    }
   }
 
   &--light {
-    &__select { @include o-form-element--light; }
+    &__select-wrapper,
+    &__select {
+      @include o-form-element--light;
+    }
   }
 
   &--expanded {
-    &__select { width: 100%; }
+    &__select-wrapper { width: 100%; }
   }
 }

@@ -89,100 +89,102 @@ class ContactsForm extends Component {
 
 
     return (
-      <FormGrid method="post" className="m-contacts-form" name="contacts_form">
-        {errors.global && errors.global.length !== 0 && (
-        <FormRow>
-          <FormColumn bottomSpace>
-            <FieldErrors errors={errors.global} />
-          </FormColumn>
-        </FormRow>
-        )}
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace >
-            <SelectFieldGroup
-              name="display"
-              value={this.state.settings.display}
-              onChange={this.handleInputChange}
-              label={__('settings.contacts.display.label')}
-              options={displayOptions}
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace >
-            <SelectFieldGroup
-              name="order"
-              value={this.state.settings.order}
-              onChange={this.handleInputChange}
-              label={__('settings.contacts.order.label')}
-              options={orderOptions}
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace>
-            <SelectFieldGroup
-              name="contact_format"
-              value={this.state.settings.contact_format}
-              onChange={this.handleInputChange}
-              label={__('settings.contacts.contact_format.label')}
-              options={contactFormatOptions}
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace >
-            <SelectFieldGroup
-              name="adress_format"
-              value={this.state.settings.adress_format}
-              onChange={this.handleInputChange}
-              label={__('settings.contacts.adress_format.label')}
-              options={adressFormatOptions}
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace >
-            <SelectFieldGroup
-              name="phone_format"
-              value={this.state.settings.phone_format}
-              onChange={this.handleInputChange}
-              label={__('settings.contacts.phone_format.label')}
-              options={phoneFormatOptions}
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace >
-            <SelectFieldGroup
-              name="vcard_format"
-              value={this.state.settings.vcard_format}
-              onChange={this.handleInputChange}
-              label={__('settings.contacts.vcard_format.label')}
-              options={vcardFormatOptions}
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace >
-            <SelectFieldGroup
-              name="vcard_encoding"
-              value={this.state.settings.vcard_encoding}
-              onChange={this.handleInputChange}
-              label={__('settings.contacts.vcard_encoding.label')}
-              options={vcardEncodingOptions}
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" className="m-contacts-form__action" bottomSpace>
-            <Button
-              type="submit"
-              onClick={this.handleSubmit}
-              shape="plain"
-            >{__('settings.contacts.update.action')}</Button>
-          </FormColumn>
-        </FormRow>
+      <FormGrid className="m-contacts-form">
+        <form method="post" name="contacts_form">
+          {errors.global && errors.global.length !== 0 && (
+          <FormRow>
+            <FormColumn bottomSpace>
+              <FieldErrors errors={errors.global} />
+            </FormColumn>
+          </FormRow>
+          )}
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace >
+              <SelectFieldGroup
+                name="display"
+                value={this.state.settings.display}
+                onChange={this.handleInputChange}
+                label={__('settings.contacts.display.label')}
+                options={displayOptions}
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace >
+              <SelectFieldGroup
+                name="order"
+                value={this.state.settings.order}
+                onChange={this.handleInputChange}
+                label={__('settings.contacts.order.label')}
+                options={orderOptions}
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace>
+              <SelectFieldGroup
+                name="contact_format"
+                value={this.state.settings.contact_format}
+                onChange={this.handleInputChange}
+                label={__('settings.contacts.contact_format.label')}
+                options={contactFormatOptions}
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace >
+              <SelectFieldGroup
+                name="adress_format"
+                value={this.state.settings.adress_format}
+                onChange={this.handleInputChange}
+                label={__('settings.contacts.adress_format.label')}
+                options={adressFormatOptions}
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace >
+              <SelectFieldGroup
+                name="phone_format"
+                value={this.state.settings.phone_format}
+                onChange={this.handleInputChange}
+                label={__('settings.contacts.phone_format.label')}
+                options={phoneFormatOptions}
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace >
+              <SelectFieldGroup
+                name="vcard_format"
+                value={this.state.settings.vcard_format}
+                onChange={this.handleInputChange}
+                label={__('settings.contacts.vcard_format.label')}
+                options={vcardFormatOptions}
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace >
+              <SelectFieldGroup
+                name="vcard_encoding"
+                value={this.state.settings.vcard_encoding}
+                onChange={this.handleInputChange}
+                label={__('settings.contacts.vcard_encoding.label')}
+                options={vcardEncodingOptions}
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" className="m-contacts-form__action" bottomSpace>
+              <Button
+                type="submit"
+                onClick={this.handleSubmit}
+                shape="plain"
+              >{__('settings.contacts.update.action')}</Button>
+            </FormColumn>
+          </FormRow>
+        </form>
       </FormGrid>
     );
   }

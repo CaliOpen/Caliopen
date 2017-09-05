@@ -20,10 +20,10 @@ log = logging.getLogger(__name__)
 def import_email(email, import_path, format, **kwargs):
     """Import emails for an user."""
     from caliopen_main.user.core import User
-    from caliopen_main.user.core import Contact, ContactLookup
-    from caliopen_main.parsers import MailMessage
-    from caliopen_main.user.parameters import NewContact, NewEmail
-    from caliopen_main.message.delivery import UserMessageDelivery
+    from caliopen_main.contact.core import Contact, ContactLookup
+    from caliopen_main.message.parsers.mail import MailMessage
+    from caliopen_main.contact.parameters import NewContact, NewEmail
+    from caliopen_nats.delivery import UserMessageDelivery
     from caliopen_main.message.core import RawMessage
     from caliopen_storage.config import Configuration
 

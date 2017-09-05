@@ -19,16 +19,13 @@ export const POST_ACTIONS = 'co/message/POST_ACTIONS';
 export const POST_ACTIONS_SUCCESS = 'co/message/POST_ACTIONS_SUCCESS';
 
 
-export function requestMessages(parameters = {}) {
-  const { offset = 0, limit = 20, discussionId } = parameters;
-  const params = { offset, limit };
-  if (discussionId) {
-    params.discussion_id = discussionId;
-  }
+export function requestMessages({ offset = 0, limit = 20, discussionId }) {
+  const params = { offset, limit, discussion_id: discussionId };
 
   return {
     type: REQUEST_MESSAGES,
     payload: {
+      discussionId,
       request: {
         url: '/v2/messages',
         params,
@@ -44,10 +41,12 @@ export function loadMoreMessages() {
   };
 }
 
-export function invalidate() {
+export function invalidateDiscussion({ discussionId }) {
   return {
     type: INVALIDATE_MESSAGES,
-    payload: {},
+    payload: {
+      discussionId,
+    },
   };
 }
 
@@ -94,6 +93,7 @@ export function deleteMessage({ message }) {
   return {
     type: DELETE_MESSAGE,
     payload: {
+      discussionId: message.discussion_id,
       request: {
         method: 'delete',
         url: `/v1/messages/${message.message_id}`,
@@ -155,37 +155,66 @@ function messagesByIdReducer(state = {}, action = {}) {
   }
 }
 
-function messageIdsByDiscussionIdReducer(state = {}, action = {}) {
-  if (action.type !== REQUEST_MESSAGES_SUCCESS) {
-    return state;
+function discussionInvalidateReducer(state, action) {
+  switch (action.type) {
+    case REQUEST_MESSAGES_SUCCESS:
+      // we assume this results gives only messages from a discussion, cf. requestMessages
+      return Object.keys(state).reduce((acc, discussionId) => {
+        if (discussionId !== action.meta.previousAction.payload.discussionId) {
+          return {
+            ...acc,
+            [discussionId]: state[discussionId],
+          };
+        }
+
+        return acc;
+      }, {});
+    case INVALIDATE_MESSAGES:
+      return {
+        ...state,
+        [action.payload.discussionId]: true,
+      };
+    default:
+      return state;
   }
+}
 
-  const applyMessageId = (messagesState = [], message) => {
-    if (messagesState.indexOf(message.message_id) !== -1) {
-      return messagesState;
+const removeDiscussionFromMessagesById = (messagesById, discussionId) => Object.keys(messagesById)
+  .reduce((acc, messageId) => {
+    if (messagesById[messageId].discussion_id === discussionId) {
+      return acc;
     }
-
-    const nextState = [...messagesState];
-    nextState.push(message.message_id);
-
-    return nextState;
-  };
-
-  return action.payload.data.messages.reduce((acc, message) => {
-    const { discussion_id: discussionId } = message;
 
     return {
       ...acc,
-      [discussionId]: applyMessageId(acc[discussionId], message),
+      [messageId]: messagesById[messageId],
     };
-  }, state);
-}
+  }, {});
+
+const manageRequestMessagesSuccessReducer = (state, action) => {
+  const { discussionId } = action.meta.previousAction.payload;
+  const isInvalidated = state.didDiscussionInvalidate[discussionId] || false;
+
+  const cleanedState = {
+    ...state,
+    messagesById: (isInvalidated ?
+      removeDiscussionFromMessagesById(state.messagesById, discussionId) :
+      state.messagesById),
+  };
+
+  return {
+    ...cleanedState,
+    isFetching: false,
+    didDiscussionInvalidate: discussionInvalidateReducer(state.didDiscussionInvalidate, action),
+    messagesById: messagesByIdReducer(cleanedState.messagesById, action),
+    total: action.payload.data.total,
+  };
+};
 
 const initialState = {
   isFetching: false,
-  didInvalidate: false,
+  didDiscussionInvalidate: {},
   messagesById: {},
-  messagesByDiscussionId: {},
   total: 0,
 };
 
@@ -206,22 +235,12 @@ export default function reducer(state = initialState, action) {
         ),
       };
     case REQUEST_MESSAGES_SUCCESS:
+      return manageRequestMessagesSuccessReducer(state, action);
+    case INVALIDATE_MESSAGES:
       return {
         ...state,
-        isFetching: false,
-        didInvalidate: false,
-        messagesByDiscussionId: messageIdsByDiscussionIdReducer(
-          state.didInvalidate === true ? [] : state.messages,
-          action
-        ),
-        messagesById: messagesByIdReducer(
-          state.didInvalidate === true ? {} : state.messagesById,
-          action
-        ),
-        total: action.payload.data.total,
+        didDiscussionInvalidate: discussionInvalidateReducer(state.didDiscussionInvalidate, action),
       };
-    case INVALIDATE_MESSAGES:
-      return { ...state, didInvalidate: true };
     case SYNC_MESSAGE:
       return {
         ...state,

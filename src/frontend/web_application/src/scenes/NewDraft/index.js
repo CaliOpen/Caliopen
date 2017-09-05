@@ -2,18 +2,28 @@ import { createSelector } from 'reselect';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { withTranslator } from '@gandi/react-translate';
-import { editSimpleDraft, requestSimpleDraft, saveDraft, sendDraft } from '../../store/modules/draft-message';
+import { editDraft, requestNewDraft, saveDraft, sendDraft } from '../../store/modules/draft-message';
 import Presenter from './presenter';
 
-const messageDraftSelector = state => state.draftMessage.simpleDraft;
+const messageDraftSelector = state => state.draftMessage.draftsByInternalId;
+const messageSelector = state => state.message.messagesById;
+const internalIdSelector = (state, ownProps) => ownProps.match.params.internalId;
+const draftSelector = createSelector(
+  [messageDraftSelector, internalIdSelector],
+  (draftsByInternalId, internalId) => draftsByInternalId[internalId],
+);
 
 const mapStateToProps = createSelector(
-  [messageDraftSelector],
-  draft => ({ draft })
+  [draftSelector, messageSelector, internalIdSelector],
+  (draft, messagesById, internalId) => ({
+    draft,
+    message: draft && messagesById[draft.message_id],
+    internalId,
+  })
 );
 const mapDispatchToProps = dispatch => bindActionCreators({
-  requestSimpleDraft,
-  editSimpleDraft,
+  requestNewDraft,
+  editDraft,
   saveDraft,
   sendDraft,
 }, dispatch);

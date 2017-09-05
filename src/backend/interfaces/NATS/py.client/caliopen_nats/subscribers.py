@@ -5,7 +5,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 import logging
 import json
 
-from caliopen_main.message.delivery import UserMessageDelivery
+from caliopen_nats.delivery import UserMessageDelivery
 from caliopen_main.user.core import User
 
 log = logging.getLogger(__name__)

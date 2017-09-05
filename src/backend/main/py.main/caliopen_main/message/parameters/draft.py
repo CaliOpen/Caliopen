@@ -2,16 +2,18 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import re
+import uuid
 from schematics.types import StringType
 from .message import NewMessage
-from caliopen_main.objects.identities import LocalIdentity
+from caliopen_main.user.objects.identities import LocalIdentity
 from caliopen_main.user.core import User
 from caliopen_main.message.parameters.participant import Participant
 from caliopen_storage.exception import NotFound
 from caliopen_main.discussion.store.discussion_index import \
     DiscussionIndexManager as DIM
+from caliopen_main.message.store import Message as ModelMessage
 from caliopen_main.discussion.core import Discussion
-import caliopen_main.errors as err
+from caliopen_main.common import errors as err
 
 import logging
 
@@ -22,6 +24,17 @@ class Draft(NewMessage):
     body_plain = ""
     body_html = ""
     body = StringType()
+
+    def validate_uuid(self, user_id):
+        if not self.message_id or not isinstance(self.message_id, uuid.UUID):
+            raise err.PatchUnprocessable(
+                message="missing or invalid message_id")
+        try:
+            ModelMessage.get(user_id=user_id,
+                                        message_id=self.message_id)
+            raise err.PatchUnprocessable(message="message_id not unique")
+        except NotFound:
+            pass
 
     def validate_consistency(self, user_id, is_new):
         """
@@ -84,7 +97,7 @@ class Draft(NewMessage):
         except NotFound:
             raise NotFound
         if str(local_identity.user_id) != user_id:
-            raise err.ForbiddenAction
+            raise err.ForbiddenAction(message="Action forbidden for this user")
 
         # add 'from' participant with local identity's identifier
         user = User.get(user_id)
@@ -106,7 +119,7 @@ class Draft(NewMessage):
         return from_participant
 
     def _check_discussion_consistency(self, user_id):
-        from caliopen_main.objects.message import Message
+        from caliopen_main.message.objects.message import Message
         new_discussion = False
 
         if not hasattr(self, 'discussion_id') or self.discussion_id == "" \

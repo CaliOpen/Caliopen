@@ -17,8 +17,8 @@ else:
 Configuration.load(conf_file, 'global')
 
 #from caliopen_main.interfaces import IMessageParser
-from caliopen_main.user.parameters import NewContact
-from caliopen_main.parsers.vcard import parse_vcard
+from caliopen_main.contact.parameters import NewContact
+from caliopen_main.contact.parsers import parse_vcard
 
 def load_vcard(filename):
 

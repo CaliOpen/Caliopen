@@ -163,10 +163,7 @@ func newRoutableUntypedAPI(spec *loads.Document, api *untyped.API, context *midd
 // ServeError the error handler interface implementation
 // returns an error json as defined within swagger.json, if any
 func ServeError(rw gin.ResponseWriter, r *http.Request, err error) {
-	header := rw.Header()
-	if val := header["Content-Type"]; len(val) == 0 {
-		header["Content-Type"] = []string{"application/json"}
-	}
+	rw.Header().Set("Content-Type", "application/json")
 	switch e := err.(type) {
 	case *swgErr.CompositeError:
 		er := flattenComposite(e)

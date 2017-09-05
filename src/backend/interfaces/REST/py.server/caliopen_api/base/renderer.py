@@ -4,6 +4,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import logging
 import datetime
+import pytz
 from uuid import UUID
 from decimal import Decimal
 
@@ -28,13 +29,15 @@ class TextPlainRenderer(object):
 
 
 class JSONEncoder(json.JSONEncoder):
-    _datetypes = (datetime.date, datetime.datetime)
 
     def default(self, obj):
         '''Convert object to JSON encodable type.'''
         if isinstance(obj, Decimal):
             return float(obj)
-        if isinstance(obj, self._datetypes):
+        if isinstance(obj, datetime.datetime):
+            if obj.tzinfo is None:
+                return str(obj.replace(tzinfo=pytz.utc))
+        if isinstance(obj, datetime.date):
             return obj.isoformat()
         if isinstance(obj, UUID):
             return str(obj)

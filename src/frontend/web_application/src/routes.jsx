@@ -49,6 +49,13 @@ export const getRouteConfig = ({ __ }) => [
         path: '/compose',
         component: NewDraft,
         app: 'discussion',
+        exact: true,
+        strict: true,
+      },
+      {
+        path: '/compose/:internalId',
+        component: NewDraft,
+        app: 'discussion',
       },
       {
         path: '/contacts',

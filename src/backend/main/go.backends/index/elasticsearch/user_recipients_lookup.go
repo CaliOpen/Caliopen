@@ -20,6 +20,13 @@ type (
 		Title string `json:"title"`
 	}
 
+	returnedParticipant struct {
+		Address     string   `json:"address"`
+		Contact_ids []string `json:"contact_ids"`
+		Label       string   `json:"label"`
+		Protocol    string   `json:"protocol"`
+		Type        string   `json:"type"`
+	}
 	returnedMessage struct {
 		Date string `json:"date"`
 		Type string `json:"type"`
@@ -108,7 +115,7 @@ func extractContactInfos(contact_hit *elastic.SearchHit) (suggest RecipientSugge
 
 func extractParticipantInfos(message_hit *elastic.SearchHit) (suggest RecipientSuggestion, err error) {
 	inner_hit := message_hit.InnerHits["participants"].Hits.Hits[0]
-	var participant Participant
+	var participant returnedParticipant
 	if e := json.Unmarshal(*inner_hit.Source, &participant); e != nil {
 		err = errors.New("[ES RecipientSuggest] failed unmarshaling hit's source : " + e.Error())
 		return

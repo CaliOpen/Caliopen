@@ -55,3 +55,9 @@ func (id UUID) String() string {
 func (id UUID) MarshalJSON() ([]byte, error) {
 	return []byte("\"" + id.String() + "\""), nil
 }
+
+// Bytes returns the raw byte slice for this UUID. A UUID is always 128 bits
+// (16 bytes) long.
+func (id UUID) Bytes() []byte {
+	return id[:]
+}

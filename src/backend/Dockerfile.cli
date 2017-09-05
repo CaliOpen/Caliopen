@@ -32,9 +32,11 @@ WORKDIR /srv/caliopen/src/backend
 # Install Caliopen base packages
 WORKDIR /srv/caliopen/src/backend/main/py.storage
 RUN python setup.py develop
-WORKDIR /srv/caliopen/src/backend/main/py.pi
-RUN python setup.py develop
 WORKDIR /srv/caliopen/src/backend/main/py.main
+RUN python setup.py develop
+WORKDIR /srv/caliopen/src/backend/components/py.pi
+RUN python setup.py develop
+WORKDIR /srv/caliopen/src/backend/interfaces/NATS/py.client
 RUN python setup.py develop
 
 ## Container specific installation part

@@ -18,7 +18,7 @@ from caliopen_storage.config import Configuration
 
 from ..store import (RawMessage as ModelRaw,
                      UserRawLookup as ModelUserRawLookup)
-from caliopen_main.parsers import MailMessage
+from caliopen_main.message.parsers.mail import MailMessage
 
 log = logging.getLogger(__name__)
 

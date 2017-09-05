@@ -7,35 +7,35 @@ import json
 import colander
 from cornice.resource import resource, view
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPBadRequest, HTTPExpectationFailed
+from pyramid.httpexceptions import HTTPBadRequest
 
-from caliopen_main.user.core import (Contact as CoreContact,
-                                     PublicKey as CorePublicKey)
+from caliopen_main.contact.core import (Contact as CoreContact,
+                                        PublicKey as CorePublicKey)
 
-from caliopen_main.objects.contact import Contact as ContactObject
+from caliopen_main.contact.objects.contact import Contact as ContactObject
 
-from caliopen_main.user.returns.contact import (ReturnContact,
-                                                ReturnAddress, ReturnEmail,
-                                                ReturnIM, ReturnPhone,
-                                                ReturnOrganization,
-                                                ReturnSocialIdentity,
-                                                ReturnPublicKey)
+from caliopen_main.contact.returns import (ReturnContact,
+                                           ReturnAddress, ReturnEmail,
+                                           ReturnIM, ReturnPhone,
+                                           ReturnOrganization,
+                                           ReturnSocialIdentity,
+                                           ReturnPublicKey)
 
-from caliopen_main.user.parameters import (NewContact as NewContactParam,
-                                           NewPostalAddress, NewEmail, NewIM)
+from caliopen_main.contact.parameters import (NewContact as NewContactParam,
+                                              NewPostalAddress, NewEmail,
+                                              NewIM)
 
 from ..base import Api
 from ..base.exception import (ResourceNotFound,
                               ValidationError,
-                              MethodNotAllowed,
                               MergePatchError)
 
 log = logging.getLogger(__name__)
 
+
 @resource(collection_path='/contacts',
           path='/contacts/{contact_id}')
 class Contact(Api):
-
     """Contact API."""
 
     def __init__(self, request):
@@ -96,9 +96,10 @@ class Contact(Api):
         patch = self.request.json
 
         contact = ContactObject(self.user.user_id, contact_id=contact_id)
-        error = contact.apply_patch(patch, db=True, index=True)
-        if error is not None:
-            raise MergePatchError(error)
+        try:
+            contact.apply_patch(patch, db=True, index=True)
+        except Exception as exc:
+            raise MergePatchError(error=exc)
 
         return Response(None, 204)
 

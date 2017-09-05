@@ -85,76 +85,78 @@ class InterfaceForm extends Component {
 
 
     return (
-      <FormGrid method="post" className="m-interface-form" name="interface_form">
-        {errors.global && errors.global.length !== 0 && (
-        <FormRow>
-          <FormColumn bottomSpace>
-            <FieldErrors errors={errors.global} />
-          </FormColumn>
-        </FormRow>
-        )}
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace >
-            <SelectFieldGroup
-              name="language"
-              value={settings.language}
-              onChange={this.handleInputChange}
-              label={__('settings.interface.language.label')}
-              options={languageOptions}
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace >
-            <SelectFieldGroup
-              name="time_zone"
-              value={settings.time_zone}
-              onChange={this.handleInputChange}
-              label={__('settings.interface.time_zone.label')}
-              options={timeZoneOptions}
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace>
-            <SelectFieldGroup
-              name="date_format"
-              value={settings.date_format}
-              onChange={this.handleInputChange}
-              label={__('settings.interface.date_format.label')}
-              options={dateFormatOptions}
-            />
-          </FormColumn>
-          <FormColumn size="shrink" bottomSpace>
-            <SelectFieldGroup
-              name="time_format"
-              value={settings.time_format}
-              onChange={this.handleInputChange}
-              label={__('settings.interface.time_format.label')}
-              options={timeFormatOptions}
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" bottomSpace >
-            <SelectFieldGroup
-              name="refresh"
-              value={settings.refresh}
-              onChange={this.handleInputChange}
-              label={__('settings.interface.refresh.label')}
-              options={refreshOptions}
-            />
-          </FormColumn>
-        </FormRow>
-        <FormRow>
-          <FormColumn size="shrink" className="m-interface-form__action" bottomSpace>
-            <Button
-              type="submit"
-              onClick={this.handleSubmit}
-              shape="plain"
-            >{__('settings.interface.update.action')}</Button>
-          </FormColumn>
-        </FormRow>
+      <FormGrid className="m-interface-form">
+        <form method="post" name="interface_form">
+          {errors.global && errors.global.length !== 0 && (
+          <FormRow>
+            <FormColumn bottomSpace>
+              <FieldErrors errors={errors.global} />
+            </FormColumn>
+          </FormRow>
+          )}
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace >
+              <SelectFieldGroup
+                name="language"
+                value={settings.language}
+                onChange={this.handleInputChange}
+                label={__('settings.interface.language.label')}
+                options={languageOptions}
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace >
+              <SelectFieldGroup
+                name="time_zone"
+                value={settings.time_zone}
+                onChange={this.handleInputChange}
+                label={__('settings.interface.time_zone.label')}
+                options={timeZoneOptions}
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace>
+              <SelectFieldGroup
+                name="date_format"
+                value={settings.date_format}
+                onChange={this.handleInputChange}
+                label={__('settings.interface.date_format.label')}
+                options={dateFormatOptions}
+              />
+            </FormColumn>
+            <FormColumn size="shrink" bottomSpace>
+              <SelectFieldGroup
+                name="time_format"
+                value={settings.time_format}
+                onChange={this.handleInputChange}
+                label={__('settings.interface.time_format.label')}
+                options={timeFormatOptions}
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" bottomSpace >
+              <SelectFieldGroup
+                name="refresh"
+                value={settings.refresh}
+                onChange={this.handleInputChange}
+                label={__('settings.interface.refresh.label')}
+                options={refreshOptions}
+              />
+            </FormColumn>
+          </FormRow>
+          <FormRow>
+            <FormColumn size="shrink" className="m-interface-form__action" bottomSpace>
+              <Button
+                type="submit"
+                onClick={this.handleSubmit}
+                shape="plain"
+              >{__('settings.interface.update.action')}</Button>
+            </FormColumn>
+          </FormRow>
+        </form>
       </FormGrid>
     );
   }

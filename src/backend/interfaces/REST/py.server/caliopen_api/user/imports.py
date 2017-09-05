@@ -1,13 +1,15 @@
-import logging
-import os.path
+# -*- coding: utf-8 -*-
+"""Caliopen file import REST API."""
+from __future__ import absolute_import, print_function, unicode_literals
 
-from caliopen_main.user.core import Contact as CoreContact
+import logging
+
+from caliopen_main.contact.core import Contact as CoreContact
 
 from cornice.resource import resource, view
 from pyramid.response import Response
 
-from caliopen_main.parsers.vcard import parse_vcards
-from caliopen_main.parsers.vcard import read_file
+from caliopen_main.contact.parsers import parse_vcards, read_file
 
 from ..base.exception import (ValidationError,
                               Unprocessable)

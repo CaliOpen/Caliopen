@@ -4,7 +4,8 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import logging
 import uuid
-from datetime import datetime
+import datetime
+import pytz
 
 from caliopen_storage.exception import NotFound
 from caliopen_storage.core import BaseUserCore
@@ -123,7 +124,7 @@ class Discussion(BaseUserCore):
         new_id = uuid.uuid4()
         # TODO excerpt from plain or html body
         kwargs = {'discussion_id': new_id,
-                  'date_insert': datetime.utcnow(),
+                  'date_insert': datetime.datetime.now(tz=pytz.utc),
                   # 'privacy_index': message.privacy_index,
                   # 'importance_level': message.importance_level,
                   'excerpt': message.body_plain[:200],
