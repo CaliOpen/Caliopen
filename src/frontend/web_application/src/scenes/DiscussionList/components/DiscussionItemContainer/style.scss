@@ -1,0 +1,34 @@
+@import '../../../../styles/common';
+@import '../../../../styles/vendor/bootstrap_foundation-sites';
+
+.m-discussion-item-container {
+  display: block;
+  position: relative;
+  transition: background-color .2s linear;
+
+  &__actions {
+    @include flex-grid-row($size: expand);
+    position: absolute;
+    top: 0;
+    right: -100%;
+    align-items: stretch;
+    height: 100%;
+    transition: right .2s ease-in;
+    text-align: right;
+  }
+
+  &__action {
+    @include flex-grid-size(shrink);
+    border-left: 1px solid $co-color__primary--lower;
+  }
+
+
+  &--active {
+    background-color: $co-color__primary--lower;
+
+    &__actions {
+      right: 0;
+      transition: right .2s ease-out;
+    }
+  }
+}
