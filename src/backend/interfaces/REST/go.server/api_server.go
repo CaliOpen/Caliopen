@@ -7,6 +7,7 @@ package rest_api
 import (
 	obj "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/middlewares"
+	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/contacts"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/messages"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/participants"
@@ -195,4 +196,9 @@ func (server *REST_API) AddHandlers(api *gin.RouterGroup) {
 	tag.GET("/:tag_id", tags.RetrieveTag)
 	tag.PATCH("/:tag_id", tags.PatchTag)
 	tag.DELETE("/:tag_id", tags.DeleteTag)
+
+	/** search API **/
+	search := api.Group("/search", http_middleware.BasicAuthFromCache(server.cache, "caliopen"))
+	search.GET("", operations.SimpleSearch)
+	search.POST("", operations.AdvancedSearch)
 }

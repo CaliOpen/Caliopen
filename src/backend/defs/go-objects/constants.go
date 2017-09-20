@@ -8,16 +8,20 @@ package objects
 
 const (
 	// protocols' strings
-	EmailProtocol     string = "email"
-	IrcProtocol       string = "irc"
-	SmsProtocol       string = "sms"
-	XmppProtocol      string = "xmpp"
-	FacebookProtocl   string = "facebook"
-	TwitterProtocol   string = "twitter"
-	GnuSocialProtocol string = "GNUsocial"
-	MastodonProtocol  string = "mastodon"
+	EmailProtocol     = "email"
+	IrcProtocol       = "irc"
+	SmsProtocol       = "sms"
+	XmppProtocol      = "xmpp"
+	FacebookProtocl   = "facebook"
+	TwitterProtocol   = "twitter"
+	GnuSocialProtocol = "GNUsocial"
+	MastodonProtocol  = "mastodon"
 
-	TimeISO8601  string = "2006-01-02T15:04:05-07:00"
-	TimeUTCmicro string = "2006-01-02T15:04:05.999999"
-	RFC3339Milli        = "2006-01-02T15:04:05.000Z07:00"
+	TimeISO8601      = "2006-01-02T15:04:05-07:00"
+	TimeUTCmicro     = "2006-01-02T15:04:05.999999"
+	RFC3339Milli     = "2006-01-02T15:04:05.000Z07:00"
+	MessageType      = "message"
+	ContactType      = "contact"
+	MessageIndexType = "indexed_message"
+	ContactIndexType = "indexed_contact"
 )

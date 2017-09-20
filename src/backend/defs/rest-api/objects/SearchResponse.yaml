@@ -1,0 +1,22 @@
+---
+type: object
+properties:
+  type:
+    type: string
+    description: type of document returned
+    enum:
+    - contact
+    - message
+  id:
+    type: string
+    description: id of document (to fetch it from db if needed).
+  score:
+    type: number
+    format: float
+    description: how confident is our index for this document to match the request. Higher is better. Documents are sorted on this field by default.
+  highlights:
+    type: object
+    description: Field names where terms of request where found. Each key maps to an array of excerpts.
+  document:
+    type: object
+    description: full document returned from index.

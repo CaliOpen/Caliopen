@@ -30,10 +30,10 @@ func (rest *RESTfacility) GetRawMessage(raw_message_id string) (raw_message []by
 
 //return a list of messages given filter parameters
 //messages are sanitized, ie : ready for display in front interface, and an excerpt of body is generated
-func (rest *RESTfacility) GetMessagesList(filter MessagesListFilter) (messages []*Message, err error) {
-	messages, err = rest.index.FilterMessages(filter)
+func (rest *RESTfacility) GetMessagesList(filter IndexSearch) (messages []*Message, totalFound int64, err error) {
+	messages, totalFound, err = rest.index.FilterMessages(filter)
 	if err != nil {
-		return []*Message{}, err
+		return []*Message{}, 0, err
 	}
 	for _, msg := range messages {
 		helpers.SanitizeMessageBodies(msg)

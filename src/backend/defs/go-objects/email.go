@@ -2,6 +2,7 @@ package objects
 
 import (
 	"bytes"
+	"github.com/satori/go.uuid"
 	"net/mail"
 )
 
@@ -128,4 +129,17 @@ func (parts Parts) Walk() (partChan chan Part) {
 		close(partChan)
 	}()
 	return
+}
+
+func (ec *EmailContact) UnmarshalMap(input map[string]interface{}) error {
+	ec.Address, _ = input["address"].(string)
+	if email_id, ok := input["email_id"].(string); ok {
+		if id, err := uuid.FromString(email_id); err == nil {
+			ec.EmailId.UnmarshalBinary(id.Bytes())
+		}
+	}
+	ec.IsPrimary, _ = input["is_primary"].(bool)
+	ec.Label, _ = input["label"].(string)
+	ec.Type, _ = input["type"].(string)
+	return nil //TODO: errors handling
 }

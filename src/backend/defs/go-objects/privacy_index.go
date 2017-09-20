@@ -13,3 +13,16 @@ type PrivacyIndex struct {
 	Technic     int       `cql:"technic"        json:"technic"`
 	Version     int       `cql:"version"        json:"version"`
 }
+
+func (pi *PrivacyIndex) UnmarshalMap(input map[string]interface{}) error {
+
+	pi.Comportment, _ = input["comportment"].(int)
+	pi.Context, _ = input["context"].(int)
+	if date, ok := input["date_update"]; ok {
+		pi.DateUpdate, _ = time.Parse(time.RFC3339Nano, date.(string))
+	}
+	pi.Technic, _ = input["technic"].(int)
+	pi.Version, _ = input["version"].(int)
+
+	return nil //TODO: errors handling
+}

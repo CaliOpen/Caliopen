@@ -4,6 +4,8 @@
 
 package objects
 
+import "github.com/satori/go.uuid"
+
 type (
 	//object stored in db
 	LocalIdentity struct {
@@ -45,3 +47,21 @@ type (
 		Source     string `json:"source,omitempty"`     // "participant" or "contact", ie from where this suggestion came from
 	}
 )
+
+func (si *SocialIdentity) UnmarshalMap(input map[string]interface{}) error {
+	si.Infos, _ = input["infos"].(map[string]string)
+	si.Name, _ = input["name"].(string)
+	if soc_id, ok := input["social_id"].(string); ok {
+		if id, err := uuid.FromString(soc_id); err == nil {
+			si.SocialId.UnmarshalBinary(id.Bytes())
+		}
+	}
+	si.Type, _ = input["type"].(string)
+	return nil //TODO: errors handling
+}
+
+func (i *Identity) UnmarshalMap(input map[string]interface{}) error {
+	i.Identifier, _ = input["identifier"].(string)
+	i.Type, _ = input["type"].(string)
+	return nil //TODO: errors handling
+}

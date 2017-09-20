@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"encoding/json"
 	log "github.com/Sirupsen/logrus"
+	"github.com/satori/go.uuid"
 	"gopkg.in/oleiade/reflections.v1"
 	"time"
 )
@@ -72,4 +73,26 @@ func (tag Tag) MarshalJSON() ([]byte, error) {
 	}
 	jsonBuf.WriteByte('}')
 	return jsonBuf.Bytes(), nil
+}
+
+func (tag *Tag) UnmarshalMap(input map[string]interface{}) error {
+	if date, ok := input["date_insert"]; ok {
+		tag.Date_insert, _ = time.Parse(time.RFC3339Nano, date.(string))
+	}
+	il, _ := input["importance_level"].(int)
+	tag.Importance_level = int32(il)
+	tag.Name, _ = input["name"].(string)
+	if id, ok := input["tag_id"].(string); ok {
+		if id, err := uuid.FromString(id); err == nil {
+			tag.Tag_id.UnmarshalBinary(id.Bytes())
+		}
+	}
+	tt, _ := input["type"].(string)
+	tag.Type = TagType(tt)
+	if id, ok := input["user_id"].(string); ok {
+		if id, err := uuid.FromString(id); err == nil {
+			tag.User_id.UnmarshalBinary(id.Bytes())
+		}
+	}
+	return nil //TODO: errors handling
 }

@@ -1,0 +1,68 @@
+---
+search:
+  get:
+    description: Simple API to execute full-text searches within user's indexes. A more complexe API will be available with a POST verb.
+    tags:
+    - messages
+    - contacts
+    - search
+    security:
+    - basicAuth: []
+    parameters:
+    - name: context
+      in: query
+      description: current user's context (to optimize search relevance). Required but not used by API for now.
+      required: true
+      type: string
+    - name: _all
+      in: query
+      description: a string (3 chars at least) from which to perform the search (all fields will be search with param _all)
+      required: false
+      type: string
+    - name: limit
+      in: query
+      required: false
+      type: integer
+      description: number of objects to return per page
+    - name: offset
+      in: query
+      type: integer
+      required: false
+      description: number of pages to skip from the response
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: an object holding an array of documents found. Docs could be of any type.
+        schema:
+          type: object
+          properties:
+            total:
+              type: integer
+              format: int32
+              description: total number of documents found
+            hits:
+              type: object
+              "$ref": "../objects/SearchResponse.yaml"
+      '400':
+        description: malform request
+        schema:
+          type: object
+          "$ref": "../objects/Error.yaml"
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
+  post:
+    description: Not yet implemented. Future route for more complexe searches.
+    tags:
+    - contacts
+    - messages
+    - search
+    security:
+    - basicAuth: []
+    responses:
+      '501':
+        description: route not implemented.
+        schema:
+          "$ref": "../objects/Error.yaml"

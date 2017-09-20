@@ -36,5 +36,6 @@ type APIIndex interface {
 	SetMessageUnread(user_id, message_id string, status bool) error
 	UpdateMessage(msg *Message, fields map[string]interface{}) error
 	RecipientsSuggest(user_id, query_string string) (suggests []RecipientSuggestion, err error)
-	FilterMessages(MessagesListFilter) ([]*Message, error)
+	FilterMessages(search IndexSearch) (messages []*Message, totalFound int64, err error)
+	Search(search IndexSearch) (result *IndexResult, err error)
 }

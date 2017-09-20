@@ -19,6 +19,16 @@ func (cb *CassandraBackend) GetContact(user_id, contact_id string) (contact *Con
 		return nil, err
 	}
 	contact.UnmarshalCQLMap(m)
+	// retrieve public keys for this contact and
+	// add keys to contact object.
+	var keys []map[string]interface{}
+	keys, err = cb.Session.Query(`SELECT * FROM public_key WHERE user_id = ? AND contact_id = ?`, user_id, contact_id).Iter().SliceMap()
+	for _, key := range keys {
+		pk := &PublicKey{}
+		pk.UnmarshalCQLMap(key)
+		contact.PublicKeys = append(contact.PublicKeys, *pk)
+	}
+
 	return contact, err
 }
 

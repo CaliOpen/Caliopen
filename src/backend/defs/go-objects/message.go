@@ -41,14 +41,6 @@ type Message struct {
 	User_id             UUID               `cql:"user_id"                  json:"user_id"                  elastic:"omit"      formatter:"rfc4122"`
 }
 
-// params to pass to API to get a messages list
-type MessagesListFilter struct {
-	Limit   int
-	Offset  int
-	Terms   map[string][]string
-	User_id UUID
-}
-
 // bespoke implementation of the json.Marshaller interface
 // outputs a JSON representation of an object
 // this marshaler takes account of custom tags for given 'context'
@@ -161,16 +153,10 @@ func (msg *Message) UnmarshalJSON(b []byte) error {
 	}
 	if _, ok := input["attachments"]; ok {
 		for _, attachment := range input["attachments"].([]interface{}) {
-			a := attachment.(map[string]interface{})
-			A := Attachment{}
-			A.Content_type, _ = a["content_type"].(string)
-			A.File_name, _ = a["file_name"].(string)
-			A.Is_inline, _ = a["is_inline"].(bool)
-			size, _ := a["size"].(float64)
-			A.Size = int(size)
-			A.URL, _ = a["url"].(string)
-			A.MimeBoundary, _ = a["mime_boundary"].(string)
-			msg.Attachments = append(msg.Attachments, A)
+			A := new(Attachment)
+			if err := A.UnmarshalMap(attachment.(map[string]interface{})); err == nil {
+				msg.Attachments = append(msg.Attachments, *A)
+			}
 		}
 	}
 	msg.Body_html, _ = input["body_html"].(string)
@@ -190,19 +176,18 @@ func (msg *Message) UnmarshalJSON(b []byte) error {
 		}
 	}
 	if ex_ref, ok := input["external_references"].(map[string]interface{}); ok {
-		msg.External_references = ExternalReferences{}
-		msg.External_references.Ancestors_ids, _ = ex_ref["ancestors_ids"].([]string)
-		msg.External_references.Message_id, _ = ex_ref["message_id"].(string)
-		msg.External_references.Parent_id, _ = ex_ref["parent_id"].(string)
+		er := new(ExternalReferences)
+		if err := er.UnmarshalMap(ex_ref); err == nil {
+			msg.External_references = *er
+		}
+
 	}
 	if _, ok := input["identities"]; ok {
 		for _, identity := range input["identities"].([]interface{}) {
-			i := identity.(map[string]interface{})
-			I := Identity{}
-			I.Identifier, _ = i["identifier"].(string)
-			I.Type, _ = i["type"].(string)
-
-			msg.Identities = append(msg.Identities, I)
+			I := new(Identity)
+			if err := I.UnmarshalMap(identity.(map[string]interface{})); err == nil {
+				msg.Identities = append(msg.Identities, *I)
+			}
 		}
 	}
 	importance_level, _ := input["importance_level"].(float64)
@@ -219,43 +204,32 @@ func (msg *Message) UnmarshalJSON(b []byte) error {
 	msg.Participants = []Participant{}
 	if _, ok := input["participants"]; ok {
 		for _, participant := range input["participants"].([]interface{}) {
-			p := participant.(map[string]interface{})
-			P := Participant{}
-			P.Address, _ = p["address"].(string)
-			P.Label, _ = p["labebl"].(string)
-			P.Protocol, _ = p["protocol"].(string)
-			P.Type, _ = p["type"].(string)
-			if _, ok := p["contact_ids"]; ok {
-				P.Contact_ids = []UUID{}
-				for _, contact_id := range p["contact_ids"].([]interface{}) {
-					c_id := contact_id.(string)
-					var contact_uuid UUID
-					if id, err := uuid.FromString(c_id); err == nil {
-						contact_uuid.UnmarshalBinary(id.Bytes())
-					}
-					P.Contact_ids = append(P.Contact_ids, contact_uuid)
-				}
+			P := new(Participant)
+			if err := P.UnmarshalMap(participant.(map[string]interface{})); err == nil {
+				msg.Participants = append(msg.Participants, *P)
 			}
-			msg.Participants = append(msg.Participants, P)
 		}
 	}
-	i_pi, _ := input["pi"].(map[string]interface{})
-	pi := PrivacyIndex{}
-	pi.Comportment, _ = i_pi["comportment"].(int)
-	pi.Context, _ = i_pi["context"].(int)
-	pi.DateUpdate, _ = i_pi["date_update"].(time.Time)
-	pi.Technic, _ = i_pi["technic"].(int)
-	pi.Version, _ = i_pi["version"].(int)
-	msg.PrivacyIndex = &pi
-
-	//TODO: privacy_features
+	msg.Privacy_features, _ = input["privacy_features"].(map[string]string)
+	if i_pi, ok := input["pi"]; ok {
+		pi := new(PrivacyIndex)
+		pi.UnmarshalMap(i_pi.(map[string]interface{}))
+		msg.PrivacyIndex = pi
+	}
 	if raw_msg_id, ok := input["raw_msg_id"].(string); ok {
 		if id, err := uuid.FromString(raw_msg_id); err == nil {
 			msg.Raw_msg_id.UnmarshalBinary(id.Bytes())
 		}
 	}
 	msg.Subject, _ = input["subject"].(string)
-	//TODO: tags
+	if tags, ok := input["tags"]; ok {
+		for _, tag := range tags.([]interface{}) {
+			T := new(Tag)
+			if err := T.UnmarshalMap(tag.(map[string]interface{})); err == nil {
+				msg.Tags = append(msg.Tags, *T)
+			}
+		}
+	}
 	msg.Type, _ = input["type"].(string)
 	if user_id, ok := input["user_id"].(string); ok {
 		if id, err := uuid.FromString(user_id); err == nil {
@@ -267,7 +241,7 @@ func (msg *Message) UnmarshalJSON(b []byte) error {
 }
 
 // unmarshal a map[string]interface{} coming from gocql
-func (msg *Message) UnmarshalCQLMap(input map[string]interface{}) {
+func (msg *Message) UnmarshalCQLMap(input map[string]interface{}) error {
 	if _, ok := input["attachments"]; ok {
 		for _, attachment := range input["attachments"].([]map[string]interface{}) {
 			a := Attachment{}
@@ -348,4 +322,6 @@ func (msg *Message) UnmarshalCQLMap(input map[string]interface{}) {
 	if user_id, ok := input["user_id"].(gocql.UUID); ok {
 		msg.User_id.UnmarshalBinary(user_id.Bytes())
 	}
+
+	return nil //TODO: error handling
 }

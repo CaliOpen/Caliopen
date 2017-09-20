@@ -64,6 +64,8 @@ paths:
     "$ref": paths/identities.yaml#/identities_remotes_{identifier}
   "/v2/participants/suggest":
     "$ref": paths/participants.yaml#/participants_suggest
+  "/v2/search":
+    "$ref": paths/search.yaml#/search
 
 securityDefinitions:
   basicAuth:

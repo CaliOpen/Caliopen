@@ -4,6 +4,8 @@
 
 package objects
 
+import "github.com/satori/go.uuid"
+
 // contact's instant messaging address model
 type IM struct {
 	Address   string `cql:"address"     json:"address"`
@@ -12,4 +14,19 @@ type IM struct {
 	Label     string `cql:"label"       json:"label"`
 	Protocol  string `cql:"protocol"    json:"protocol"`
 	Type      string `cql:"type"        json:"type"`
+}
+
+func (i *IM) UnmarshalMap(input map[string]interface{}) error {
+	i.Address, _ = input["address"].(string)
+	if im_id, ok := input["im_id"].(string); ok {
+		if id, err := uuid.FromString(im_id); err == nil {
+			i.IMId.UnmarshalBinary(id.Bytes())
+		}
+	}
+	i.IsPrimary, _ = input["is_primary"].(bool)
+	i.Label, _ = input["label"].(string)
+	i.Protocol, _ = input["protocol"].(string)
+	i.Type, _ = input["type"].(string)
+
+	return nil //TODO: errors handling
 }

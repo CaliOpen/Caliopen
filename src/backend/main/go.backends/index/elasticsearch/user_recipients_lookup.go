@@ -74,7 +74,7 @@ func (es *ElasticSearchBackend) RecipientsSuggest(user_id, query_string string) 
 	participants_suggests := make(map[string]RecipientSuggestion)
 	for _, hit := range result.Hits.Hits {
 		switch hit.Type {
-		case "indexed_message":
+		case MessageIndexType:
 			suggest, e := extractParticipantInfos(hit)
 			if e != nil {
 				log.WithError(e).Warnf("failed to extract message participants")
@@ -84,7 +84,7 @@ func (es *ElasticSearchBackend) RecipientsSuggest(user_id, query_string string) 
 				participants_suggests[suggest.Address] = suggest
 				suggests = append(suggests, suggest)
 			}
-		case "indexed_contact":
+		case ContactIndexType:
 			suggest, e := extractContactInfos(hit)
 			if e != nil {
 				log.WithError(e).Warnf("failed to extract contact info")
