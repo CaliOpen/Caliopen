@@ -22,6 +22,10 @@
     border-left: 1px solid $co-color__primary--lower;
   }
 
+  &__action-button {
+    line-height: $co-component__height;
+  }
+
 
   &--active {
     background-color: $co-color__primary--lower;

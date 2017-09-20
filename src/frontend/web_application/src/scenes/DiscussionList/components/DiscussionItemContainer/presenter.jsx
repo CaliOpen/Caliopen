@@ -42,6 +42,7 @@ class DiscussionItemContainer extends Component {
       ...prevState,
       isTagModalOpen: false,
     }));
+    this.handleBlur();
   }
 
   handleHover = () => {
@@ -68,25 +69,25 @@ class DiscussionItemContainer extends Component {
         closeOnClick
         hasTriangle
       >
-        <VerticalMenu className="m-discussion-item-container__action-menu">
+        <VerticalMenu>
           <VerticalMenuItem>
             <Button
               className="m-discussion-item-container__action-button"
               display="expanded"
-            >{__('discussion-item-actions.archives')}</Button>
+            >{__('discussion-item.action.archives')}</Button>
           </VerticalMenuItem>
           <VerticalMenuItem>
             <Button
               className="m-discussion-item-container__action-button"
               display="expanded"
-            >{__('discussion-item-actions.enable_tracking')}</Button>
+            >{__('discussion-item.action.enable_tracking')}</Button>
           </VerticalMenuItem>
           <VerticalMenuItem>
             <Button
               className="m-discussion-item-container__action-button"
               display="expanded"
               onClick={this.handleOpenTags}
-            >{__('discussion-item-actions.manage_tags')}</Button>
+            >{__('discussion-item.action.manage_tags')}</Button>
           </VerticalMenuItem>
         </VerticalMenu>
       </DropdownMenu>
@@ -98,20 +99,19 @@ class DiscussionItemContainer extends Component {
     const actionsClassName = classnames(
       'm-discussion-item-container__actions',
       { 'm-discussion-item-container--active__actions': this.state.isActive },
-      { 'm-discussion-item-container--hover__actions': this.state.isHoverActive },
     );
 
     return (
       <div className={actionsClassName}>
-        <Button shape="plain" className="m-discussion-item-container__action">{__('discussion-item-actions.action.delete')}</Button>
-        <Button shape="plain" className="m-discussion-item-container__action">{__('discussion-item-actions.action.reply')}</Button>
-        <Button shape="plain" className="m-discussion-item-container__action">{__('discussion-item-actions.action.forward')}</Button>
+        <Button shape="plain" className="m-discussion-item-container__action">{__('discussion-item.action.delete')}</Button>
+        <Button shape="plain" className="m-discussion-item-container__action">{__('discussion-item.action.reply')}</Button>
+        <Button shape="plain" className="m-discussion-item-container__action">{__('discussion-item.action.forward')}</Button>
         <DropdownControl
           toggle={this.dropdownId}
           className="m-discussion-item-container__action float-right"
           shape="plain"
         >
-          {__('discussion-item-actions.action.more')}
+          {__('discussion-item.action.more')}
         </DropdownControl>
         {this.renderMenuDropdown()}
         {this.renderTagsModal()}
