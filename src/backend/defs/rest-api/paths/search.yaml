@@ -9,6 +9,12 @@ search:
     security:
     - basicAuth: []
     parameters:
+    - name: X-Caliopen-IL
+      in: header
+      required: true
+      description: The Importance Level range requested in form of `-10;10`
+      type: string
+      default: -10;10
     - name: term
       in: query
       description: the search string

@@ -13,6 +13,15 @@ import (
 )
 
 func SimpleSearch(ctx *gin.Context) {
+	// temporary hack to check if X-Caliopen-IL header is in request, because go-openapi pkg fails to do it.
+	// (NB : CanonicalHeaderKey func normalize http headers with uppercase at beginning of words)
+	if _, ok := ctx.Request.Header["X-Caliopen-Il"]; !ok {
+		e := swgErr.New(http.StatusFailedDependency, "Missing mandatory header 'X-Caliopen-Il'.")
+		http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+		ctx.Abort()
+		return
+	}
+
 	user_uuid, _ := uuid.FromString(ctx.MustGet("user_id").(string))
 	var user_UUID UUID
 	var limit, offset int
@@ -62,6 +71,7 @@ func SimpleSearch(ctx *gin.Context) {
 		User_id: user_UUID,
 		Limit:   limit,
 		Offset:  offset,
+		ILrange: GetImportanceLevel(ctx),
 	}
 
 	if field, ok := query["field"]; ok {

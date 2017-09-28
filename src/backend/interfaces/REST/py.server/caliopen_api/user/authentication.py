@@ -8,7 +8,6 @@ from zope.interface import implements, implementer
 from pyramid.interfaces import IAuthenticationPolicy, IAuthorizationPolicy
 from pyramid.security import Everyone, NO_PERMISSION_REQUIRED
 
-
 from caliopen_main.user.core import User
 from ..base.exception import AuthenticationError
 
@@ -16,7 +15,6 @@ log = logging.getLogger(__name__)
 
 
 class AuthenticatedUser(object):
-
     """Represent an authenticated user."""
 
     def __init__(self, request):
@@ -63,6 +61,21 @@ class AuthenticatedUser(object):
             log.error('Invalid range for PI {}: {}'.format(pi_range, exc))
         return (-1, -1)
 
+    def _get_il_range(self):
+        il_range = self.request.headers.get('X-Caliopen-IL', None)
+        if not il_range:
+            log.warn('No X-Caliopen-IL header')
+            raise ValueError
+        min_il, max_il = il_range.split(';', 1)
+        try:
+            return (int(min_il), int(max_il))
+        except ValueError:
+            log.error('Invalid value for IL {}'.format(il_range))
+            raise ValueError
+        except Exception as exc:
+            log.error('Invalid range for IL {}: {}'.format(il_range, exc))
+            raise exc
+
     def _load_user(self):
         if self._user:
             return
@@ -80,7 +93,6 @@ class AuthenticatedUser(object):
 
 
 class AuthenticationPolicy(object):
-
     """Global authentication policy."""
 
     implements(IAuthenticationPolicy)
@@ -118,7 +130,6 @@ class AuthenticationPolicy(object):
 
 @implementer(IAuthorizationPolicy)
 class AuthorizationPolicy(object):
-
     """Basic authorization policy."""
 
     def permits(self, context, principals, permission):

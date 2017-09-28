@@ -5,6 +5,9 @@
 #####REQUEST:
 For now, search API is triggered by a simple `GET` with few query params :
 
+- ##### Mandatory header : `X-Caliopen-IL`
+    - the header is always required, *but* only taken into account if `doctype=message`.
+    - default values : -10;10
 - ##### Mandatory param : `term`
     - Example : `http://localhost:31415/api/v2/search?term=caliopdev`
     - This is the simplier request. It will trigger a fulltext search across all document types on all fields for the word « **caliopdev** ».

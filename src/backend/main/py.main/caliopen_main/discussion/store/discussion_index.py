@@ -36,15 +36,16 @@ class DiscussionIndexManager(object):
         self.index = user_id
         self.proxy = BaseIndexDocument.client()
 
-    def _prepare_search(self, min_pi, max_pi):
+    def _prepare_search(self):
         """Prepare a dsl.Search object on current index."""
         search = IndexedMessage.search(using=self.proxy,
                                        index=self.index)
         return search
 
-    def __search_ids(self, limit, offset, min_pi, max_pi):
+    def __search_ids(self, limit, offset, min_pi, max_pi, min_il, max_il):
         """Search discussions ids as a bucket aggregation."""
-        search = self._prepare_search(min_pi, max_pi)
+        search = self._prepare_search(). \
+            filter("range", importance_level={'gte': min_il, 'lte': max_il})
         # Do bucket term aggregation, sorted by last_message date
         size = offset + (limit * 2)
         agg = A('terms', field='discussion_id',
@@ -65,11 +66,12 @@ class DiscussionIndexManager(object):
         log.debug('No result found on index {}'.format(self.index))
         return {}, 0
 
-    def get_last_message(self, discussion_id, min_pi, max_pi, include_draft):
+    def get_last_message(self, discussion_id, min_il, max_il, include_draft):
         """Get last message of a given discussion."""
 
-        search = self._prepare_search(min_pi, max_pi) \
-            .filter("match", discussion_id=discussion_id)
+        search = self._prepare_search() \
+            .filter("match", discussion_id=discussion_id) \
+            .filter("range", importance_level={'gte': min_il, 'lte': max_il})
 
         if not include_draft:
             search = search.filter("match", is_draft=False)
@@ -80,12 +82,14 @@ class DiscussionIndexManager(object):
             return {}
         return result.hits[0]
 
-    def list_discussions(self, limit=10, offset=0, min_pi=0, max_pi=0):
+    def list_discussions(self, limit=10, offset=0, min_pi=0, max_pi=0,
+                         min_il=-10, max_il=10):
         """Build a list of limited number of discussions."""
-        list, total = self.__search_ids(limit, offset, min_pi, max_pi)
+        list, total = self.__search_ids(limit, offset, min_pi, max_pi, min_il,
+                                        max_il)
         discussions = []
         for discus in list:
-            message = self.get_last_message(discus['key'], min_pi, max_pi, True)
+            message = self.get_last_message(discus['key'], min_il, max_il, True)
             discussion = DiscussionIndex(discus['key'])
             discussion.total_count = discus['doc_count']
             discussion.last_message = message

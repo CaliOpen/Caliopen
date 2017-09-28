@@ -102,12 +102,13 @@ class MainView(object):
             if core:
                 yield build_discussion(core, discussion)
 
-    def get(self, user, min_pi, max_pi, limit, offset):
+    def get(self, user, min_pi, max_pi, min_il, max_il, limit, offset):
         """Build the main view results."""
         # XXX use of correct pagination and correct datasource (index)
         dim = DIM(user.user_id)
         discussions, total = dim.list_discussions(limit=limit, offset=offset,
-                                                  min_pi=min_pi, max_pi=max_pi)
+                                                  min_pi=min_pi, max_pi=max_pi,
+                                                  min_il=min_il, max_il=max_il)
         responses = self.build_responses(user, discussions)
         return {'discussions': list(responses), 'total': total}
 

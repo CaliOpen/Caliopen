@@ -1311,6 +1311,14 @@
             "default": "1;100"
           },
           {
+            "name": "X-Caliopen-IL",
+            "in": "header",
+            "required": true,
+            "description": "The Importance Level range requested in form of `-10;10`",
+            "type": "string",
+            "default": "-10;10"
+          },
+          {
             "name": "limit",
             "in": "query",
             "required": false,
@@ -3347,6 +3355,14 @@
             "default": "0;100"
           },
           {
+            "name": "X-Caliopen-IL",
+            "in": "header",
+            "required": true,
+            "description": "The Importance Level range requested in form of `-10;10`",
+            "type": "string",
+            "default": "-10;10"
+          },
+          {
             "name": "limit",
             "in": "query",
             "required": false,
@@ -3528,6 +3544,22 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "X-Caliopen-PI",
+            "in": "header",
+            "required": false,
+            "description": "The PI range requested in form of `0;100`",
+            "type": "string",
+            "default": "0;100"
+          },
+          {
+            "name": "X-Caliopen-IL",
+            "in": "header",
+            "required": false,
+            "description": "The Importance Level range requested in form of `-10;10`",
+            "type": "string",
+            "default": "-10;10"
           }
         ],
         "produces": [
@@ -3936,6 +3968,14 @@
             "description": "The PI range requested in form of `0;100`",
             "type": "string",
             "default": "0;100"
+          },
+          {
+            "name": "X-Caliopen-IL",
+            "in": "header",
+            "required": true,
+            "description": "The Importance Level range requested in form of `-10;10`",
+            "type": "string",
+            "default": "-10;10"
           },
           {
             "name": "discussion_id",
@@ -7859,6 +7899,14 @@
           }
         ],
         "parameters": [
+          {
+            "name": "X-Caliopen-IL",
+            "in": "header",
+            "required": true,
+            "description": "The Importance Level range requested in form of `-10;10`",
+            "type": "string",
+            "default": "-10;10"
+          },
           {
             "name": "term",
             "in": "query",

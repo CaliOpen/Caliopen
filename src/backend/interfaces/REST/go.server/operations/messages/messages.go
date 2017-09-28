@@ -8,6 +8,7 @@ import (
 	"bytes"
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/middlewares"
+	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.main"
 	swgErr "github.com/go-openapi/errors"
 	"github.com/satori/go.uuid"
@@ -18,11 +19,22 @@ import (
 
 // GET …/messages
 func GetMessagesList(ctx *gin.Context) {
+	// temporary hack to check if X-Caliopen-IL header is in request, because go-openapi pkg fails to do it.
+	// (NB : CanonicalHeaderKey func normalize http headers with uppercase at beginning of words)
+	if _, ok := ctx.Request.Header["X-Caliopen-Il"]; !ok {
+		e := swgErr.New(http.StatusFailedDependency, "Missing mandatory header 'X-Caliopen-Il'.")
+		http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+		ctx.Abort()
+		return
+	}
+
+	var limit, offset int
+	var user_UUID UUID
+
 	user_uuid_str := ctx.MustGet("user_id").(string)
 	user_uuid, _ := uuid.FromString(user_uuid_str)
-	var user_UUID UUID
-	var limit, offset int
 	user_UUID.UnmarshalBinary(user_uuid.Bytes())
+
 	query_values := ctx.Request.URL.Query()
 	if l, ok := query_values["limit"]; ok {
 		limit, _ = strconv.Atoi(l[0])
@@ -38,18 +50,21 @@ func GetMessagesList(ctx *gin.Context) {
 		Terms:   map[string][]string(query_values),
 		Limit:   limit,
 		Offset:  offset,
+		ILrange: operations.GetImportanceLevel(ctx),
 	}
 	list, totalFound, err := caliopen.Facilities.RESTfacility.GetMessagesList(filter)
 	if err != nil {
 		e := swgErr.New(http.StatusFailedDependency, err.Error())
 		http_middleware.ServeError(ctx.Writer, ctx.Request, e)
 		ctx.Abort()
+		return
 	}
 	settings, err := caliopen.Facilities.RESTfacility.GetSettings(user_uuid_str)
 	if err != nil {
 		e := swgErr.New(http.StatusFailedDependency, err.Error())
 		http_middleware.ServeError(ctx.Writer, ctx.Request, e)
 		ctx.Abort()
+		return
 	}
 	var respBuf bytes.Buffer
 	respBuf.WriteString("{\"total\": " + strconv.FormatInt(totalFound, 10) + ",")

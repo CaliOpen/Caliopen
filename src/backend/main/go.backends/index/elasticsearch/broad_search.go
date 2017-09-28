@@ -28,14 +28,25 @@ func (es *ElasticSearchBackend) Search(search IndexSearch) (result *IndexResult,
 	// get only the 5 most relevant doc for each type if search.DocType is empty
 	// otherwise get docs according to limit & offset params.
 	var s *elastic.SearchService
-	if search.DocType == "" {
+	switch search.DocType {
+	case "":
 		// no doctype provided. Trigger search on all document types within index and build an aggregation
 		h := elastic.NewHighlight().Fields(elastic.NewHighlighterField("*").RequireFieldMatch(false))
 		top_hits := elastic.NewTopHitsAggregation().Size(5).FetchSource(true).Highlight(h)
 		by_type := elastic.NewTermsAggregation().Field("_type").SubAggregation(sub_agg_key, top_hits)
-		s = es.Client.Search().Index(search.User_id.String()).Query(q).FetchSource(false).Aggregation(agg_key, by_type)
-	} else {
-		// The search focuses on a specified document type, no aggregation needed.
+		//TODO/WIP
+		/*iq := elastic.NewIndicesQuery(elastic.NewRangeQuery("importance_level").Gte(search.ILrange[0]).Lte(search.ILrange[1]), MessageIndexType)
+		msg_hits := elastic.NewFilterAggregation().Filter(iq)
+		*/
+		s = es.Client.Search().Index(search.User_id.String()).Query(q).FetchSource(false).Aggregation(agg_key, by_type).Highlight(h)
+	case MessageIndexType:
+		// The search focuses on message document type, no aggregation needed, but importance level apply
+		h := elastic.NewHighlight().Fields(elastic.NewHighlighterField("*").RequireFieldMatch(false))
+		rq := elastic.NewRangeQuery("importance_level").Gte(search.ILrange[0]).Lte(search.ILrange[1])
+		q = q.Filter(rq)
+		s = es.Client.Search().Index(search.User_id.String()).Query(q).FetchSource(true).Highlight(h)
+	case ContactIndexType:
+		// The search focuses on message document type, no aggregation needed and importance level not taken into account
 		h := elastic.NewHighlight().Fields(elastic.NewHighlighterField("*").RequireFieldMatch(false))
 		s = es.Client.Search().Index(search.User_id.String()).Query(q).FetchSource(true).Highlight(h)
 	}
@@ -108,7 +119,6 @@ func (es *ElasticSearchBackend) Search(search IndexSearch) (result *IndexResult,
 
 	} else {
 		// elastic returns buckets aggregation as a raw []byte, need to unmarshal
-
 		by_types, _ := response.Aggregations[agg_key] // by_types is a *json.RawMessage
 		var agg map[string]interface{}
 		err = json.Unmarshal(*by_types, &agg)

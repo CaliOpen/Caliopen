@@ -15,6 +15,7 @@ type IndexSearch struct {
 	Terms   map[string][]string `json:"terms"`
 	User_id UUID                `json:"user_id"`
 	DocType string              `json:"doc_type"`
+	ILrange [2]int8             `json:"il_range"`
 }
 
 type IndexResult struct {
@@ -42,17 +43,14 @@ type IndexHit struct {
 
 func (is *IndexSearch) FilterQuery(service *elastic.SearchService) *elastic.SearchService {
 
-	if len(is.Terms) == 0 {
-		return service
-	}
-
 	q := elastic.NewBoolQuery()
 	for name, values := range is.Terms {
 		for _, value := range values {
 			q = q.Filter(elastic.NewTermQuery(name, value))
 		}
 	}
-
+	rq := elastic.NewRangeQuery("importance_level").Gte(is.ILrange[0]).Lte(is.ILrange[1])
+	q = q.Filter(rq)
 	service = service.Query(q)
 
 	return service

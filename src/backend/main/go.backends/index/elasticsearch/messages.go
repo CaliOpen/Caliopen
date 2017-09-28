@@ -68,6 +68,7 @@ func (es *ElasticSearchBackend) FilterMessages(filter objects.IndexSearch) (mess
 	if filter.Limit > 0 {
 		search = search.Size(filter.Limit)
 	}
+
 	result, err := search.Do(context.TODO())
 
 	if err != nil {

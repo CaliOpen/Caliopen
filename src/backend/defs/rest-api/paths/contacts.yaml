@@ -13,6 +13,12 @@ contacts:
       description: The PI range requested in form of `1;100`
       type: string
       default: 1;100
+    - name: X-Caliopen-IL
+      in: header
+      required: true
+      description: The Importance Level range requested in form of `-10;10`
+      type: string
+      default: -10;10
     - name: limit
       in: query
       required: false
