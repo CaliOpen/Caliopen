@@ -1,6 +1,6 @@
 const express = require('express');
-const applyAPI = require('./api');
 const path = require('path');
+const applyAPI = require('./api');
 const applySecurity = require('./security');
 const applyAssets = require('./assets');
 const applyAuth = require('./auth');

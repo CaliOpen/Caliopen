@@ -2,13 +2,10 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const { CommonsChunkPlugin } = require('webpack').optimize;
-
-
-const DASHBOARD = process.env.DASHBOARD ? JSON.parse(process.env.DASHBOARD) : true;
+// const StyleLintPlugin = require('stylelint-webpack-plugin');
 
 const initialConfig = {
   entry: {
@@ -18,66 +15,78 @@ const initialConfig = {
   output: {},
   plugins: [],
   module: {
-    preLoaders: [],
-    loaders: [],
+    rules: [],
   },
 };
 
 const configureStylesheet = (config, filename = 'client_[name]', relativePath = '') => {
-  const extractTextPlugin = new ExtractTextPlugin(relativePath + filename, { allChunks: true });
-  const cfg = Object.assign({}, config, {
-    sassLoader: {
-      includePaths: [
-        path.resolve(__dirname, '../src'),
-        path.resolve(__dirname, '../node_modules/foundation-sites/scss'),
-        path.resolve(__dirname, '../node_modules/font-awesome/scss'),
-        path.resolve(__dirname, '../node_modules/react-redux-notify/src'),
-      ],
-    },
-    sasslint: {
-      configFile: path.resolve(__dirname, '../.sass-lint.yml'),
-    },
+  const extractTextPlugin = new ExtractTextPlugin({
+    filename: relativePath + filename,
+    allChunks: true,
   });
+  const cfg = Object.assign({}, config);
   cfg.plugins.push(
     extractTextPlugin,
     new OptimizeCssAssetsPlugin({
       canPrint: false,
     })
+    // new StyleLintPlugin()
   );
-  cfg.module.loaders.push(
+  cfg.module.rules.push(
     {
       test: /\.css$/,
-      loader: extractTextPlugin.extract('style-loader', 'css-loader?sourceMap'),
+      loader: extractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: [{ loader: 'css-loader', options: { sourceMap: true } }],
+      }),
     },
     {
       test: /\.scss$/,
-      loader: extractTextPlugin.extract('style-loader', 'css-loader?sourceMap!postcss-loader?sourceMap!sass-loader'),
+      loader: extractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: [
+          { loader: 'css-loader', options: { sourceMap: true } },
+          { loader: 'postcss-loader', options: { sourceMap: true } },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: false,
+              includePaths: [
+                path.resolve(__dirname, '../src'),
+                path.resolve(__dirname, '../node_modules/foundation-sites/scss'),
+                path.resolve(__dirname, '../node_modules/font-awesome/scss'),
+                path.resolve(__dirname, '../node_modules/react-redux-notify/src'),
+              ],
+            },
+          },
+        ],
+      }),
     }
   );
-
-  cfg.module.preLoaders.push({
-    test: /\.scss$/,
-    include: path.join(__dirname, '../src/'),
-    loader: 'sasslint',
-  });
 
   return cfg;
 };
 
 const configureAssets = (config, outputPath = 'assets/') => {
-  config.module.loaders.push(
+  config.module.rules.push(
     {
       test: /\.(jpe?g|png|gif)$/i,
-      loaders: [
-        `file-loader?hash=sha512&digest=hex&name=[name].[ext]&outputPath=${outputPath}`,
-        'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false',
+      use: [
+        {
+          loader: 'file-loader',
+          options: { hash: 'sha512', digest: 'hex', name: '[name].[ext]', outputPath },
+        },
+        {
+          loader: 'image-webpack-loader',
+          options: { bypassOnDebug: true, optimizationLevel: 7, interlaced: false },
+        },
       ],
     },
-    { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: `file-loader?mimetype=image/svg+xml&name=[name].[ext]&outputPath=${outputPath}` },
-    { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: `file-loader?mimetype=application/font-woff&name=[name].[ext]&outputPath=${outputPath}` },
-    { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: `file-loader?mimetype=application/font-woff&name=[name].[ext]&outputPath=${outputPath}` },
-    { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: `file-loader?mimetype=application/octet-stream&name=[name].[ext]&outputPath=${outputPath}` },
-    { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: `file-loader?name=[name].[ext]&outputPath=${outputPath}` }
+    { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader', options: { mimetype: 'image/svg+xml', name: '[name].[ext]', outputPath } },
+    { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader', options: { mimetype: 'application/font-woff', name: '[name].[ext]', outputPath } },
+    { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader', options: { mimetype: 'application/font-woff', name: '[name].[ext]', outputPath } },
+    { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader', options: { mimetype: 'application/octet-stream', name: '[name].[ext]', outputPath } },
+    { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader', options: { name: '[name].[ext]', outputPath } }
   );
 
   return config;
@@ -143,30 +152,26 @@ module.exports = {
     const plugins = [
       new webpack.DefinePlugin({
         BUILD_TARGET: JSON.stringify(buildTarget),
-        HAS_HMR: process.env.HAS_HMR || true,
         HAS_SSR: process.env.HAS_SSR || true,
         CALIOPEN_ENV: JSON.stringify(process.env.NODE_ENV),
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       }),
     ];
-    if (DASHBOARD) {
-      plugins.push(new DashboardPlugin());
-    }
 
     return Object.assign(initialConfig, {
       plugins,
       module: Object.assign(initialConfig.module, {
-        loaders: [
+        rules: [
           {
             test: /\.jsx?$/,
             include: path.join(__dirname, '../src/'),
             exclude: /node_modules/,
-            loaders: ['babel-loader', 'eslint-loader'],
+            use: ['babel-loader', 'eslint-loader'],
           },
         ],
       }),
       resolve: {
-        extensions: ['', '.js', '.jsx'],
+        extensions: ['.js', '.jsx'],
       },
     });
   },

@@ -1,0 +1,20 @@
+{
+  "name": "@Caliopen/storybook",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "start-storybook -p 6006 --dont-track",
+    "build": "build-storybook -o dist/storybook"
+  },
+  "dependencies": {
+    "@caliopen/frontend": "../../src/frontend/web_application",
+    "@kadira/react-storybook-addon-info": "^3.4.0",
+    "@kadira/storybook": "^2.21.0",
+    "@kadira/storybook-addon-knobs": "^1.7.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-storybook-addon-backgrounds": "^0.0.7",
+    "storybook-host": "^4.1.4"
+  }
+}

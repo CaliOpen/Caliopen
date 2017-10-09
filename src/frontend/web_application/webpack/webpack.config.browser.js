@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const baseConfig = require('./config.js');
 
 const PUBLIC_PATH = '/assets/';
@@ -30,12 +31,17 @@ if (isDev) {
   config = Object.assign(config, {
     devServer: {
       contentBase: false,
-      hot: true,
+      hot: false,
+      inline: false,
       port: '8080',
       proxy: {
         '/': {
           target: 'http://localhost:4001',
         },
+      },
+      watchOptions: {
+        aggregateTimeout: 300,
+        poll: 1000,
       },
     },
   });
@@ -45,33 +51,5 @@ config = baseConfig.configureStylesheet(config, 'client.css');
 config = baseConfig.configureAssets(config);
 config = baseConfig.configureVendorSplit(config);
 config = baseConfig.configureHTMLTemplate(config);
-
-// FIXME: fail to build with code-splitting
-// if (isDev) {
-//   config.entry.app.unshift(
-//     'react-hot-loader/patch',
-//     'webpack-hot-middleware/client',
-//     'webpack/hot/only-dev-server'
-//   );
-//
-//   config.plugins.unshift(
-//     new webpack.HotModuleReplacementPlugin()
-//   );
-// }
-
-let uglifyJSOptions = {};
-
-if (!isProd) {
-  uglifyJSOptions = {
-    beautify: true,
-    mangle: false,
-    compress: {
-      warnings: false,
-    },
-  };
-}
-
-config.module.loaders.push({ test: /\.json$/, loader: 'json-loader' });
-config.plugins.push(new webpack.optimize.UglifyJsPlugin(uglifyJSOptions));
 
 module.exports = config;
