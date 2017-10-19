@@ -75,8 +75,11 @@ class NewDraftForm extends Component {
     this.setState(prevState => ({
       draft: {
         ...prevState.draft,
-        // no need to merge author, backend does it
-        participants: recipients,
+        participants: [
+          ...prevState.draft.participants
+            .filter(participant => participant.type.toLowerCase() === 'from'),
+          ...recipients,
+        ],
       },
     }), () => {
       this.props.onChange({ draft: this.state.draft });
