@@ -83,7 +83,7 @@
     "react-moment": "^0.6.5",
     "react-redux": "^5.0.6",
     "react-redux-notify": "^2.0.0",
-    "react-redux-scroll": "^0.0.10",
+    "react-redux-scroll": "^0.0.12",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "next",
     "react-swipeable": "^4.1.0",

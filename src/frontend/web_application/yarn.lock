@@ -8825,9 +8825,9 @@ react-redux-notify@^2.0.0:
     classnames "^2.2.5"
     react-transition-group "^1.2.1"
 
-react-redux-scroll@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/react-redux-scroll/-/react-redux-scroll-0.0.10.tgz#6272d8e70db20ba003d6f7c2a7121e9485e6be6f"
+react-redux-scroll@0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/react-redux-scroll/-/react-redux-scroll-0.0.12.tgz#fca13f490ffb1d24131b34df1e282c2730cb8938"
 
 react-redux@^5.0.6:
   version "5.0.6"

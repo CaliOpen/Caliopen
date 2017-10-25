@@ -1,4 +1,5 @@
 import { createStore, applyMiddleware } from 'redux';
+import { createScrollMiddleware } from 'react-redux-scroll';
 import rootReducer from './reducer';
 import applicationMiddleware from './middlewares/application-middleware';
 import axiosMiddleware from './middlewares/axios-middleware';
@@ -32,6 +33,7 @@ const middlewares = [
   tabsMiddleware,
   tagsMiddleware,
   thunkMiddleware,
+  createScrollMiddleware(),
 ];
 
 if (CALIOPEN_ENV === 'development' || CALIOPEN_ENV === 'staging') {
@@ -40,7 +42,6 @@ if (CALIOPEN_ENV === 'development' || CALIOPEN_ENV === 'staging') {
 }
 
 if (BUILD_TARGET === 'browser') {
-  middlewares.push(require('react-redux-scroll').createScrollMiddleware()); // eslint-disable-line
   middlewares.push(require('./middlewares/openpgp-middleware').default); // eslint-disable-line
 }
 
