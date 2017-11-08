@@ -5,6 +5,8 @@ import Routes from './routes';
 import I18nProvider from './components/I18nProvider';
 import { initConfig } from './services/config';
 
+// FIME PLZ
+
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends Component {
   static propTypes = {
