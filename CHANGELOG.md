@@ -6,9 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Delete a contact
+
 ### Fixed
 
-- unmarshal nested empty structures in go objects.
+- Unmarshal nested empty structures in go objects.
 
 ## [0.5.3] 2017-11-02
 

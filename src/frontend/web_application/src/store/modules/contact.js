@@ -13,7 +13,7 @@ export const UPDATE_CONTACT_FAIL = 'co/contact/UPDATE_CONTACT_FAIL';
 export const CREATE_CONTACT = 'co/contact/CREATE_CONTACT';
 export const CREATE_CONTACT_SUCCESS = 'co/contact/CREATE_CONTACT_SUCCESS';
 export const CREATE_CONTACT_FAIL = 'co/contact/CREATE_CONTACT_FAIL';
-export const REMOVE_CONTACT = 'co/contact/REMOVE_CONTACT';
+export const DELETE_CONTACT = 'co/contact/DELETE_CONTACT';
 
 export function requestContacts(params = {}) {
   const { offset = 0, limit = 1000 } = params;
@@ -41,6 +41,18 @@ export function requestContact({ contactId }) {
     type: REQUEST_CONTACT,
     payload: {
       request: {
+        url: `/v1/contacts/${contactId}`,
+      },
+    },
+  };
+}
+
+export function deleteContact({ contactId }) {
+  return {
+    type: DELETE_CONTACT,
+    payload: {
+      request: {
+        method: 'delete',
         url: `/v1/contacts/${contactId}`,
       },
     },

@@ -28,8 +28,6 @@ import './style.scss';
 // const FAKE_TAGS = ['Caliopen', 'Gandi', 'Macarons'];
 const DropdownControl = withDropdownControl(Button);
 
-const noop = str => str;
-
 class Contact extends Component {
   static propTypes = {
     __: PropTypes.func.isRequired,
@@ -37,7 +35,7 @@ class Contact extends Component {
     handleSubmit: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
     updateContact: PropTypes.func.isRequired,
-    removeContact: PropTypes.func,
+    deleteContact: PropTypes.func.isRequired,
     contactId: PropTypes.string,
     contact: PropTypes.shape({}),
     isFetching: PropTypes.bool,
@@ -51,7 +49,6 @@ class Contact extends Component {
 
   static defaultProps = {
     isFetching: false,
-    removeContact: noop,
     contact: undefined,
     currentTab: undefined,
     contactId: undefined,
@@ -83,21 +80,26 @@ class Contact extends Component {
     }
   }
 
-  handleContactDelete = ({ contact }) => {
-    this.props.removeContact({ contact });
-  }
+  closeTab = () => {
+    const { currentTab } = this.props;
+    if (currentTab) {
+      return this.props.removeTab(currentTab);
+    }
 
-  openTagsModal = () => {
-    this.setState(prevState => ({
-      ...prevState,
-      isTagsModalOpen: true,
-    }));
+    return this.props.push('/contacts');
   }
 
   closeTagsModal = () => {
     this.setState(prevState => ({
       ...prevState,
       isTagsModalOpen: false,
+    }));
+  }
+
+  openTagsModal = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      isTagsModalOpen: true,
     }));
   }
 
@@ -112,21 +114,22 @@ class Contact extends Component {
     });
   }
 
-  handleSubmit = (ev) => {
-    this.props.handleSubmit(ev).then(() => this.props.contactId && this.toggleEditMode());
-  }
-
   handleCancel = () => {
-    const { currentTab, contactId } = this.props;
+    const { contactId } = this.props;
     if (!contactId) {
-      if (currentTab) {
-        return this.props.removeTab(currentTab);
-      }
-
-      return this.props.push('/contacts');
+      this.closeTab();
     }
 
     return this.toggleEditMode();
+  }
+
+  handleDelete = () => {
+    const { contactId } = this.props;
+    this.props.deleteContact({ contactId }).then(() => this.closeTab());
+  }
+
+  handleSubmit = (ev) => {
+    this.props.handleSubmit(ev).then(() => this.props.contactId && this.toggleEditMode());
   }
 
   renderTagsModal = () => {
@@ -211,16 +214,18 @@ class Contact extends Component {
               >{__('contact.action.edit_tags')}</Button>
               { this.renderTagsModal() }
             </VerticalMenuItem>
+            {/* TODO: this.handleShare() function
+              <VerticalMenuItem>
+                <Button
+                  onClick={this.handleShare}
+                  className="s-contact__action"
+                  display="expanded"
+                >{__('contact.action.share_contact')}</Button>
+              </VerticalMenuItem>
+            */}
             <VerticalMenuItem>
               <Button
-                onClick={this.openTagsModal}
-                className="s-contact__action"
-                display="expanded"
-              >{__('contact.action.share_contact')}</Button>
-            </VerticalMenuItem>
-            <VerticalMenuItem>
-              <Button
-                onClick={this.handleContactDelete}
+                onClick={this.handleDelete}
                 className="s-contact__action"
                 display="expanded"
               >{__('contact.action.delete_contact')}</Button>
