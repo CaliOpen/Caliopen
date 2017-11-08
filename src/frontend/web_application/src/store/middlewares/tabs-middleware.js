@@ -1,5 +1,6 @@
 import { matchPath } from 'react-router-dom';
 import { push } from 'react-router-redux';
+import { URLSearchParams } from 'universal-url';
 import { getInfosFromName } from '../../services/application-manager';
 import { getTranslator } from '../../services/i18n';
 import { SELECT_OR_ADD_TAB, REMOVE_TAB, addTab, selectOrAdd, updateTab } from '../modules/tab';
@@ -15,23 +16,24 @@ const registeredRoutes = [
   '/new-contact',
   '/settings/:setting',
   '/user/:setting',
+  '/search-results',
 ];
 
 const routeActionHandler = ({ store, action }) => {
   if (action.type !== '@@router/LOCATION_CHANGE') {
     return;
   }
-  const { pathname } = action.payload;
+  const { pathname, search, hash } = action.payload;
 
   if (registeredRoutes.find(route => matchPath(pathname, { path: route }))) {
-    store.dispatch(selectOrAdd({ pathname }));
+    store.dispatch(selectOrAdd({ pathname, search, hash }));
   }
 };
 
 const selectTabByPathname = ({ store, pathname }) =>
   store.getState().tab.tabs.find(tab => pathname === tab.pathname);
 
-const createDiscussionTab = async ({ pathname, discussionId, store }) => {
+const createDiscussionTab = async (store, discussionId, { pathname, search, hash }) => {
   await store.dispatch(requestMessages('discussion', discussionId, { discussion_id: discussionId }));
   const state = store.getState().message;
   const messages = getMessagesFromCollection('discussion', discussionId, { state });
@@ -42,6 +44,8 @@ const createDiscussionTab = async ({ pathname, discussionId, store }) => {
 
     return {
       pathname,
+      search,
+      hash,
       label,
       icon: 'comments-o',
     };
@@ -50,82 +54,101 @@ const createDiscussionTab = async ({ pathname, discussionId, store }) => {
   return Promise.reject('no messages');
 };
 
-const createContactTab = async ({ pathname, contactId, store }) =>
+const createContactTab = async (store, contactId, { pathname, search, hash }) =>
   store.dispatch(requestContact({ contactId }))
     .then(({ payload: { data: { title: label } } }) => ({
       pathname,
+      search,
+      hash,
       label,
       icon: 'user',
     }));
 
-const createNewContactTab = ({ pathname }) => {
+const createNewContactTab = ({ pathname, search, hash }) => {
   const { translate: __ } = getTranslator();
 
   return {
     pathname,
+    search,
+    hash,
     label: __('new-contact.route.label'),
     icon: 'user',
   };
 };
 
-const createComposeTab = ({ pathname }) => {
+const createComposeTab = ({ pathname, search, hash }) => {
   const { translate: __ } = getTranslator();
 
   return {
     pathname,
+    search,
+    hash,
     label: __('compose.route.label'),
     icon: 'pencil',
   };
 };
 
-const selectOrAddTabDiscussion = async ({ store, pathname }) => {
+const createSearchResultTab = ({ pathname, search, hash }) => {
+  const { translate: __ } = getTranslator();
+  const term = new URLSearchParams(search).get('term');
+
+  return {
+    pathname,
+    search,
+    hash,
+    label: __('search-results.route.label', { term }),
+    icon: 'search',
+  };
+};
+
+const selectOrAddTabDiscussion = async (store, { pathname, search, hash }) => {
   const match = matchPath(pathname, { path: '/discussions/:discussionId' });
   if (!match) {
     return null;
   }
-  const foundTab = selectTabByPathname({ store, pathname });
-  if (foundTab) {
-    return foundTab;
+  const original = selectTabByPathname({ store, pathname });
+  if (original) {
+    return store.dispatch(updateTab({ original, tab: { ...original, pathname, search, hash } }));
   }
 
   const { params: { discussionId } } = match;
 
-  return createDiscussionTab({ pathname, discussionId, store })
+  return createDiscussionTab(store, discussionId, { pathname, search, hash })
     .then(tab => store.dispatch(addTab(tab)));
 };
 
-const selectOrAddTabContact = async ({ store, pathname }) => {
+const selectOrAddTabContact = async (store, { pathname, search, hash }) => {
   const match = matchPath(pathname, { path: '/contacts/:contactId' });
   if (!match) {
     return null;
   }
-  const foundTab = selectTabByPathname({ store, pathname });
-  if (foundTab) {
-    return foundTab;
+  const original = selectTabByPathname({ store, pathname });
+  if (original) {
+    return store.dispatch(updateTab({ original, tab: { ...original, pathname, search, hash } }));
   }
 
   const { params: { contactId } } = match;
 
-  return createContactTab({ pathname, contactId, store })
+  return createContactTab(store, contactId, { pathname, search, hash })
     .then(tab => store.dispatch(addTab(tab)));
 };
 
-const selectOrAddTabNewContact = ({ store, pathname }) => {
+const selectOrAddTabNewContact = (store, { pathname, search, hash }) => {
   const match = matchPath(pathname, { path: '/new-contact' });
   if (!match) {
     return null;
   }
-  const foundTab = selectTabByPathname({ store, pathname });
-  if (foundTab) {
-    return foundTab;
+  const original = selectTabByPathname({ store, pathname });
+  if (original) {
+    return store.dispatch(updateTab({ original, tab: { ...original, pathname, search, hash } }));
   }
 
-  const tab = createNewContactTab({ pathname });
+  const tab = createNewContactTab({ pathname, search, hash });
 
   return store.dispatch(addTab(tab));
 };
 
-const getSettingTab = ({ pathname }) => {
+const getSettingTab = ({ pathname, search, hash }) => {
   const { translate: __ } = getTranslator();
 
   const routeConfig = flattenRouteConfig(getRouteConfig({ __ }))
@@ -134,12 +157,14 @@ const getSettingTab = ({ pathname }) => {
 
   return {
     pathname,
+    search,
+    hash,
     label: (routeConfig && routeConfig.label) || __('settings.route.label.default'),
     icon: 'cog',
   };
 };
 
-const selectOrAddTabSetting = ({ store, pathname }) => {
+const selectOrAddTabSetting = (store, { pathname, search, hash }) => {
   if (!matchPath(pathname, { path: '/settings/:subpath' })) {
     return null;
   }
@@ -147,7 +172,7 @@ const selectOrAddTabSetting = ({ store, pathname }) => {
   const original = store.getState().tab.tabs
     .find(tab => matchPath(tab.pathname, { path: '/settings' }));
 
-  const tab = getSettingTab({ pathname });
+  const tab = getSettingTab({ pathname, search, hash });
   if (original) {
     return store.dispatch(updateTab({ original, tab }));
   }
@@ -155,7 +180,7 @@ const selectOrAddTabSetting = ({ store, pathname }) => {
   return store.dispatch(addTab(tab));
 };
 
-const getUserTab = ({ pathname }) => {
+const getUserTab = ({ pathname, search, hash }) => {
   const { translate: __ } = getTranslator();
 
   const routeConfig = flattenRouteConfig(getRouteConfig({ __ }))
@@ -164,12 +189,14 @@ const getUserTab = ({ pathname }) => {
 
   return {
     pathname,
+    search,
+    hash,
     label: (routeConfig && routeConfig.label) || __('user.route.label.default'),
     icon: 'user',
   };
 };
 
-const selectOrAddTabUser = ({ store, pathname }) => {
+const selectOrAddTabUser = (store, { pathname, search, hash }) => {
   if (!matchPath(pathname, { path: '/user/:subpath' })) {
     return null;
   }
@@ -177,26 +204,48 @@ const selectOrAddTabUser = ({ store, pathname }) => {
   const original = store.getState().tab.tabs
     .find(tab => matchPath(tab.pathname, { path: '/user' }));
 
-  const tab = getUserTab({ pathname });
+  const tab = getUserTab({ pathname, search, hash });
   if (original) {
-    return store.dispatch(updateTab({ original, tab }));
+    return store.dispatch(updateTab({ original, tab, search, hash }));
   }
 
   return store.dispatch(addTab(tab));
 };
 
 
-const selectOrAddTabCompose = ({ store, pathname }) => {
+const selectOrAddTabCompose = (store, { pathname, search, hash }) => {
   const match = matchPath(pathname, { path: '/compose' });
   if (!match) {
     return null;
   }
-  const foundTab = selectTabByPathname({ store, pathname });
-  if (foundTab) {
-    return foundTab;
+  const original = selectTabByPathname({ store, pathname });
+  if (original) {
+    return store.dispatch(updateTab({ original, tab: { ...original, pathname, search, hash } }));
   }
 
-  const tab = createComposeTab({ pathname, store });
+  const tab = createComposeTab({ pathname, search, hash });
+
+  return store.dispatch(addTab(tab));
+};
+
+const selectOrAddTabSearch = (store, { pathname, search, hash }) => {
+  const match = matchPath(pathname, { path: '/search-results' });
+  if (!match) {
+    return null;
+  }
+
+  const term = new URLSearchParams(search).get('term');
+
+  const original = store.getState().tab.tabs
+    .find(tab =>
+      matchPath(tab.pathname, { path: '/search-results' }) &&
+      RegExp(`term=${term}(&.*)?$`, 'i').test(tab.search)
+    );
+
+  const tab = createSearchResultTab({ pathname, search, hash });
+  if (original) {
+    return store.dispatch(updateTab({ original, tab }));
+  }
 
   return store.dispatch(addTab(tab));
 };
@@ -207,12 +256,12 @@ export default store => next => (action) => {
   const result = next(action);
 
   if (action.type === SELECT_OR_ADD_TAB) {
-    const { payload: { pathname } } = action;
+    const { payload: { pathname, search, hash } } = action;
     [
       selectOrAddTabDiscussion, selectOrAddTabContact, selectOrAddTabNewContact,
-      selectOrAddTabSetting, selectOrAddTabUser, selectOrAddTabCompose,
+      selectOrAddTabSetting, selectOrAddTabUser, selectOrAddTabCompose, selectOrAddTabSearch,
     ]
-      .forEach(fn => fn({ store, pathname }));
+      .forEach(fn => fn(store, { pathname, search, hash }));
   }
 
   if (action.type === REMOVE_TAB) {

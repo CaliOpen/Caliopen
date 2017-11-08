@@ -1,17 +1,17 @@
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
+import isEqual from 'lodash.isequal';
+import { locationSelector } from '../../../../../../../../store/selectors/router';
 import Presenter from './presenter';
 
+const getRouteConfig = ({ pathname, search, hash }) => ({ pathname, search, hash });
 const tabsSelector = (state, props) => props.tab;
-const routePathnameSelector = state => state.router.location && state.router.location.pathname;
 
 const mapStateToProps = createSelector(
-  [tabsSelector, routePathnameSelector],
-  (tab, pathname) => {
-    const isActive = pathname === tab.pathname;
-
-    return { isActive };
-  }
+  [tabsSelector, locationSelector],
+  (tab, location) => ({
+    isActive: location === undefined || isEqual(getRouteConfig(tab), getRouteConfig(location)),
+  })
 );
 
 export default connect(mapStateToProps)(Presenter);

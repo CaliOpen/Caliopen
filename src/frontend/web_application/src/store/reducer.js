@@ -13,6 +13,7 @@ import localIdentityReducer from './modules/local-identity';
 import messageReducer from './modules/message';
 import openPGPKeychainReducer from './modules/openpgp-keychain';
 import participantSuggestionsReducer from './modules/participant-suggestions';
+import searchReducer from './modules/search';
 import settingsReducer from './modules/settings';
 import tabReducer from './modules/tab';
 import tagReducer from './modules/tag';
@@ -31,6 +32,7 @@ const reducer = combineReducers({
   message: messageReducer,
   openPGPKeychain: openPGPKeychainReducer,
   participantSuggestions: participantSuggestionsReducer,
+  search: searchReducer,
   settings: settingsReducer,
   tab: tabReducer,
   tag: tagReducer,

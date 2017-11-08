@@ -18,10 +18,10 @@ export function addTab(tab) {
   };
 }
 
-export function selectOrAdd({ pathname }) {
+export function selectOrAdd({ pathname, search, hash }) {
   return {
     type: SELECT_OR_ADD_TAB,
-    payload: { pathname },
+    payload: { pathname, search, hash },
   };
 }
 

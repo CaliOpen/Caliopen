@@ -94,6 +94,7 @@
     "redux-form": "^7.1.1",
     "reselect": "^3.0.1",
     "serve-favicon": "^2.4.5",
+    "universal-url": "^1.0.0",
     "uuid": "^3.1.0",
     "xregexp": "^3.2.0",
     "zxcvbn": "^4.4.1"

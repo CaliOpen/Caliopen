@@ -13,6 +13,7 @@ import messageMiddleware from './middlewares/messages-middleware';
 import participantSuggestions from './middlewares/participant-suggestions-middleware';
 import promiseMiddleware from './middlewares/promise-middleware';
 import reactRouterMiddleware from './middlewares/react-router-redux-middleware';
+import searchMiddleware from './middlewares/search-middleware';
 import tabsMiddleware from './middlewares/tabs-middleware';
 import tagsMiddleware from './middlewares/tags-middleware';
 import thunkMiddleware from './middlewares/thunk-middleware';
@@ -31,6 +32,7 @@ const middlewares = [
   participantSuggestions,
   promiseMiddleware,
   reactRouterMiddleware,
+  searchMiddleware,
   tabsMiddleware,
   tagsMiddleware,
   thunkMiddleware,

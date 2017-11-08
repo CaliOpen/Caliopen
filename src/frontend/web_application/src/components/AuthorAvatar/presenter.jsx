@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import ParticipantIconLetter from '../../../../components/ParticipantIconLetter';
+import ParticipantIconLetter from '../ParticipantIconLetter';
 import './style.scss';
 
 const getAuthor = message => message.participants.find(participant => participant.type === 'From');
@@ -16,8 +16,8 @@ class AuthorAvatar extends PureComponent {
     const participant = getAuthor(this.props.message);
 
     return (
-      <div className="s-author-avatar">
-        <ParticipantIconLetter className="s-author-avatar__letter" participant={participant} />
+      <div className="m-author-avatar">
+        <ParticipantIconLetter className="m-author-avatar__letter" participant={participant} />
       </div>
     );
   }

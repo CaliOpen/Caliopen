@@ -30,6 +30,8 @@ class TabList extends Component {
     }
   }
 
+  getTabIdentifier = ({ pathname, search, hash }) => `${pathname}${search}${hash}`;
+
   handleTabsChange(cb) {
     this.horizontalScrollCallback = cb;
   }
@@ -41,7 +43,7 @@ class TabList extends Component {
     return (
       <ul className={className}>
         {tabs.map(tab => (
-          <li key={tab.pathname} data-toggle="left_off_canvas"><Tab tab={tab} onRemove={removeTab} last={isLast(tab)} /></li>
+          <li key={this.getTabIdentifier(tab)} data-toggle="left_off_canvas"><Tab tab={tab} onRemove={removeTab} last={isLast(tab)} /></li>
         ))}
       </ul>
     );

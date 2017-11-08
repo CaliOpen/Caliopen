@@ -1,0 +1,117 @@
+{
+  "total": 2,
+  "messages_hits": {
+    "total": 2,
+    "messages": [
+      {
+        "highlights": { "???": ["I like cooking foobar. You, minion. Lift my arm."]},
+        "document": {
+          "attachments": [],
+          "body": "<p>It's okay, Bender. I like cooking too. You, minion. Lift my arm. AFTER H=\r\nIM! I don't know what you did, Fry, but once again, you screwed up! Now all\r\nthe planets are gonna start cracking wise abo",
+          "excerpt": "It's okay, Bender. I like cooking too. You, minion. Lift my arm. AFTER HIM! I don't ...",
+          "date": "2017-03-21T10:55:00.153000+00:00",
+          "date_insert": "2017-03-21T10:55:00.153000+00:00",
+          "discussion_id": "cd53e13a-267d-4d9c-97ee-d0fc59c64200",
+          "identities": [{
+            "display_name": "Jaune",
+            "identifier": "john@caliopen.local"
+          }],
+          "importance_level": 0,
+          "is_answered": false,
+          "is_draft": false,
+          "message_id": "11111111-267d-4d9c-97ee-d0fc59c64201",
+          "participants": [{
+            "address": "test@caliopen.local",
+            "contact_ids": ["1039cdcc-1f6f-4b5d-9c8a-5d7c711f357f"],
+            "label": "foo",
+            "protocol": "email",
+            "type": "To"
+          }, {
+            "address": "john@caliopen.local",
+            "contact_ids": ["1039cdcc-1f6f-4b5d-9c8a-5d7c711f357f"],
+            "label": "Jaune john",
+            "protocol": "email",
+            "type": "Cc"
+          }, {
+            "address": "zoidberg@planet-express.tld",
+            "contact_ids": ["0ba2e346-e4f8-4c45-9adc-eeb1d42f07e0"],
+            "label": "zoidberg",
+            "protocol": "email",
+            "type": "From"
+          }],
+          "privacy_features": {},
+          "raw_msg_id": "aaaaaaaa-267d-4d9c-97ee-d0fc59c64201",
+          "subject": "It's okay, Bender. I like cooking too",
+          "tags": [{
+            "tag_id": "foo-bar-1",
+            "name": "robot",
+            "type": "user"
+          }, {
+            "tag_id": "foo-bar-2",
+            "name": "work",
+            "type": "system"
+          }],
+          "type": "email",
+          "pi": { "technic": 50, "context": 45, "comportment": 25, "version": 1 },
+          "user_id": ""
+        }
+      },
+      {
+        "highlights": { "???": ["He's Foobar too powerful! Can I use the gun? "]},
+        "document": {
+          "attachments": [],
+          "body": "Fry! Stay back! He's too powerful! Can I use the gun? I barely knew Philip, but as a clergyman I have no problem telling his most intimate friends all about him. What are you hacking off? Is it my torso?! 'It is!' My precious torso!",
+          "excerpt": "Fry! Stay back! He's too powerful! Can I use the gun? I barely knew Philip, but as a ...",
+          "date": "2017-03-21T12:55:00.153000+00:00",
+          "date_insert": "2017-03-21T12:55:00.153000+00:00",
+          "discussion_id": "cd53e13a-267d-4d9c-97ee-d0fc59c64200",
+          "identities": [{
+            "display_name": "Jaune",
+            "identifier": "john@caliopen.local"
+          }],
+          "importance_level": 0,
+          "is_answered": false,
+          "is_draft": false,
+          "message_id": "11111111-267d-4d9c-97ee-d0fc59c64202",
+          "participants": [{
+            "address": "test@caliopen.local",
+            "contact_ids": ["1039cdcc-1f6f-4b5d-9c8a-5d7c711f357f"],
+            "label": "foo",
+            "protocol": "email",
+            "type": "Cc"
+          }, {
+            "address": "john@caliopen.local",
+            "contact_ids": ["1039cdcc-1f6f-4b5d-9c8a-5d7c711f357f"],
+            "label": "Jaune john",
+            "protocol": "email",
+            "type": "From"
+          }, {
+            "address": "zoidberg@planet-express.tld",
+            "contact_ids": ["0ba2e346-e4f8-4c45-9adc-eeb1d42f07e0"],
+            "label": "zoidberg",
+            "protocol": "email",
+            "type": "To"
+          }],
+          "privacy_features": {},
+          "raw_msg_id": "aaaaaaaa-267d-4d9c-97ee-d0fc59c64202",
+          "tags": [{
+            "tag_id": "foo-bar-1",
+            "name": "robot",
+            "type": "user"
+          }, {
+            "tag_id": "foo-bar-2",
+            "name": "work",
+            "type": "system"
+          }],
+          "type": "email",
+          "pi": { "technic": 30, "context": 25, "comportment": 25, "version": 1 },
+          "user_id": ""
+        }
+      }
+    ]
+  },
+  "contact_hits": {
+    "total": 0,
+    "contacts": []
+  }
+}

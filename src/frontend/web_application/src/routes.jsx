@@ -7,6 +7,7 @@ import Auth from './scenes/Auth';
 import Timeline from './scenes/Timeline';
 import AppRoute from './scenes/AppRoute';
 import NewDraft from './scenes/NewDraft';
+import SearchResults from './scenes/SearchResults';
 import UserRoute from './scenes/UserRoute';
 import UserProfile from './scenes/UserProfile';
 import UserSecurity from './scenes/UserSecurity';
@@ -70,6 +71,11 @@ export const getRouteConfig = ({ __ }) => [
         path: '/new-contact',
         component: Contact,
         app: 'contact',
+      },
+      {
+        path: '/search-results',
+        component: SearchResults,
+        app: 'discussion',
       },
       {
         path: '/user',
