@@ -33,15 +33,16 @@ const descriptor = {
     { type: 'string', required: true, message: ERR_REQUIRED_USERNAME },
 
   ],
-  tos: [
-    (rule, value, callback) => {
-      if (value !== true) {
-        return callback({ message: ERR_REQUIRED_TOS });
-      }
-
-      return callback();
-    },
-  ],
+  // Alpha: hide TOS checkbox
+  // tos: [
+  //   (rule, value, callback) => {
+  //     if (value !== true) {
+  //       return callback({ message: ERR_REQUIRED_TOS });
+  //     }
+  //
+  //     return callback();
+  //   },
+  // ],
   privacy: [
     (rule, value, callback) => {
       if (value !== true) {

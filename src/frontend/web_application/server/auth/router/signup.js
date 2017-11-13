@@ -79,10 +79,11 @@ const createSignupRouting = (router) => {
       errors.password = [ERR_REQUIRED];
     }
 
-    if (!req.body.tos) {
-      hasError = true;
-      errors.tos = [ERR_REQUIRED];
-    }
+    // Alpha: hide TOS checkbox
+    // if (!req.body.tos) {
+    //   hasError = true;
+    //   errors.tos = [ERR_REQUIRED];
+    // }
 
     if (hasError) {
       res.status(400).send({ errors });
