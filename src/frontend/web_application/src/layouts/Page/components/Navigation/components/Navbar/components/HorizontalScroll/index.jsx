@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import throttle from 'lodash.throttle';
 import Button from '../../../../../../../../components/Button';
 import Icon from '../../../../../../../../components/Icon';
+import { addEventListener } from '../../../../../../../../services/event-manager';
 import NavbarItem from '../NavbarItem';
 import './style.scss';
 
@@ -48,7 +49,7 @@ class HorizontalScroll extends Component {
       }
     }, 1000, { leading: true, trailing: true });
 
-    window.addEventListener('resize', this.handleZoneSizesChange);
+    this.unsubscribeResizeEvent = addEventListener('resize', this.handleZoneSizesChange);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -61,7 +62,7 @@ class HorizontalScroll extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleZoneSizesChange);
+    this.unsubscribeResizeEvent();
   }
 
   setRef(name) {

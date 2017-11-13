@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'moment';
-import TextBlock from '../../../../components/TextBlock';
+import TextBlock from '../TextBlock';
 
 class MessageDate extends PureComponent {
   static propTypes = {

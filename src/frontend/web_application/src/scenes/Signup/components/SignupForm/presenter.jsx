@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from '../Button';
-import Link from '../Link';
-import Section from '../Section';
-import Modal from '../Modal';
+import Button from '../../../../components/Button';
+import Link from '../../../../components/Link';
+import Section from '../../../../components/Section';
+import Modal from '../../../../components/Modal';
+import TextBlock from '../../../../components/TextBlock';
 
-import { TextFieldGroup, FormGrid, FormRow, FormColumn, PasswordStrength, CheckboxFieldGroup, FieldErrors } from '../form';
+import { TextFieldGroup, FormGrid, FormRow, FormColumn, PasswordStrength, CheckboxFieldGroup, FieldErrors } from '../../../../components/form';
 import './style.scss';
 
 function generateStateFromProps(props) {
@@ -181,6 +182,9 @@ class SignupForm extends Component {
                   onBlur={this.props.onUsernameBlur}
                   showLabelforSr
                 />
+                <TextBlock className="s-signup__user">
+                  <span className="s-signup__username">{this.state.formValues.username}</span>@alpha.caliopen.org
+                </TextBlock>
               </FormColumn>
             </FormRow>
             <FormRow>
@@ -208,28 +212,34 @@ class SignupForm extends Component {
                 <TextFieldGroup
                   id="signup_recovery_email"
                   name="recovery_email"
-                  label={__('signup.form.recovery_email.label')}
-                  placeholder={__('signup.form.recovery_email.placeholder')}
+                  // Alpha: label "recovery email" replaced by "invitation email"
+                  // label={__('signup.form.recovery_email.label')}
+                  // placeholder={__('signup.form.recovery_email.placeholder')}
+                  label={__('signup.form.invitation_email.label')}
+                  placeholder={__('signup.form.invitation_email.placeholder')}
                   value={this.state.formValues.recovery_email}
                   errors={errors.recovery_email}
                   onChange={this.handleInputChange}
                   showLabelforSr
                 />
+                <span>{__('signup.form.invitation_email.label')}</span>
               </FormColumn>
             </FormRow>
-            <FormRow>
-              <FormColumn rightSpace={false} bottomSpace>
-                <CheckboxFieldGroup
-                  id="signup_tos"
-                  className="s-signup__tos-checkbox"
-                  label={__('signup.form.tos.label')}
-                  name="tos"
-                  checked={this.state.formValues.tos}
-                  errors={errors.tos}
-                  onChange={this.handleCheckboxChange}
-                />
-              </FormColumn>
-            </FormRow>
+            {/* Alpha: hide TOS checkbox
+              <FormRow>
+                <FormColumn rightSpace={false} bottomSpace>
+                  <CheckboxFieldGroup
+                    id="signup_tos"
+                    className="s-signup__tos-checkbox"
+                    label={__('signup.form.tos.label')}
+                    name="tos"
+                    checked={this.state.formValues.tos}
+                    errors={errors.tos}
+                    onChange={this.handleCheckboxChange}
+                  />
+                </FormColumn>
+              </FormRow>
+              */}
             <FormRow>
               <FormColumn rightSpace={false} className="s-signup__privacy" bottomSpace>
                 <h4>{__('signup.form.privacy.title')}</h4>

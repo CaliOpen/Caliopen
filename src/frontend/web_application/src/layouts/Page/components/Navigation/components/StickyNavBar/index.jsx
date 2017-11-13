@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import throttle from 'lodash.throttle';
+import { addEventListener } from '../../../../../../services/event-manager';
 
 class StickyNavbarClass extends Component {
   static propTypes = {
@@ -22,19 +23,18 @@ class StickyNavbarClass extends Component {
   }
 
   componentDidMount() {
-    this.handleScroll = throttle(() => {
+    this.unsubscribeScrollEvent = addEventListener('scroll', throttle(() => {
       const scrollSize = window.scrollY || document.documentElement.scrollTop;
       const isSticky = scrollSize > 10;
 
       if (this.state.isSticky !== isSticky) {
         this.setState({ isSticky });
       }
-    }, 100, { leading: true, trailing: true });
-    window.addEventListener('scroll', this.handleScroll);
+    }, 100, { leading: true, trailing: true }));
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    this.unsubscribeScrollEvent();
   }
 
   render() {

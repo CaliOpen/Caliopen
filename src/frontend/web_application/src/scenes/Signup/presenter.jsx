@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import SignupForm from '../../components/SignupForm';
+import SignupForm from './components/SignupForm';
 import formValidator, { getLocalizedErrors, ERR_INVALID_GLOBAL } from './form-validator';
 
 const INVALID_FORM_REJECTION = 'INVALID_FORM_REJECTION';

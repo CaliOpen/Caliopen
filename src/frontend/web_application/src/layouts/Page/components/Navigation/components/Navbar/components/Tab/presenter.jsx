@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import NavbarItem from '../NavbarItem';
 import Icon from '../../../../../../../../components/Icon';
+import { getTabUrl } from '../../../../../../../../services/tab';
 import ItemButton from '../ItemButton';
 import ItemLink from '../ItemLink';
 
@@ -37,7 +38,7 @@ class Tab extends Component {
         className={className}
         active={isActive}
         contentChildren={(
-          <ItemLink to={tab.pathname} title={tab.label}>
+          <ItemLink to={getTabUrl(tab)} title={tab.label}>
             <Icon className="m-tab__icon" type={tab.icon || 'dot-circle-o'} />
             {tab.label}
           </ItemLink>

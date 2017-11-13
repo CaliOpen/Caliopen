@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormGrid, FormRow, FormColumn, TextFieldGroup, FieldErrors } from '../form';
-import Button from '../Button';
-import Section from '../Section';
-// import Link from '../Link';
+import { FormGrid, FormRow, FormColumn, TextFieldGroup, FieldErrors } from '../../../../components/form';
+import Button from '../../../../components/Button';
+import Section from '../../../../components/Section';
+// import Link from '../../../../components/Link';
 
 import './style.scss';
 

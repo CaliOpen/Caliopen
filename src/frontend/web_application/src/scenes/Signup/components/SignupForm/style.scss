@@ -1,7 +1,7 @@
-@import '../../styles/common';
-@import '../../styles/vendor/bootstrap_foundation-sites';
-@import '../../styles/object/o-callout';
-@import '../../styles/object/o-clickable';
+@import '../../../../styles/common';
+@import '../../../../styles/vendor/bootstrap_foundation-sites';
+@import '../../../../styles/object/o-callout';
+@import '../../../../styles/object/o-clickable';
 
 
 .s-signup {
@@ -12,6 +12,9 @@
       color: white;
     }
   }
+
+  &__user { text-align: right; }
+  &__username { color: $co-color__fg__text--high;  }
 
   &__action { line-height: $co-component__height; }
 

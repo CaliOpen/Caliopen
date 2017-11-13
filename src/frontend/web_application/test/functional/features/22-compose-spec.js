@@ -176,9 +176,10 @@ describe('Compose new message', () => {
       ;
     });
 
-    it('shows and hide rcpt search results', () => {
+    it('adds a recipient when clicking outside', () => {
       const writeButtonSelector = by.cssContainingText('.m-call-to-action__btn', __('Compose'));
       const dropdownSelector = by.css('.m-recipient-list__search .m-dropdown');
+      const searchTerm = 'ben';
 
       browser.get('/')
       // XXX: click .btn--principal to force :hover callback actions
@@ -189,7 +190,7 @@ describe('Compose new message', () => {
           console.log('search recipient');
           const searchInputElement = element(by.css('.m-recipient-list__search-input'));
 
-          return searchInputElement.sendKeys('ben');
+          return searchInputElement.sendKeys(searchTerm);
         })
         .then(() => browser.wait(EC.presenceOf($('.m-recipient-list__search-result')), 3 * 1000))
         .then(() => expect(element(dropdownSelector).isDisplayed()).toEqual(true))
@@ -197,22 +198,7 @@ describe('Compose new message', () => {
         .then(() => expect(element(dropdownSelector).isDisplayed()).toEqual(true))
         .then(() => element(by.cssContainingText('.l-navigation__tab-list .m-navbar-item__content', __('Compose'))).click())
         .then(() => expect(element(dropdownSelector).isDisplayed()).toEqual(false))
-        .then(() => element(by.css('.m-recipient-list__search-input')).click())
-        .then(() => expect(element(dropdownSelector).isDisplayed()).toEqual(true))
-        .then(() => element(by.cssContainingText('.m-recipient-list__search-result', 'bender@caliopen.local')).click())
-        .then(() => element(by.css('.m-recipient-list__search-input')).click())
-        .then(() => expect(element(dropdownSelector).isDisplayed()).toEqual(false))
-        .then(
-          () => element.all(by.css('.m-recipient-list__recipient'))
-            .then((items) => {
-              expect(items.length).toEqual(1);
-
-              return items;
-            }, (err) => {
-              throw err;
-            })
-            .then(items => expect(items[0].getText()).toContain('bender@caliopen.local'))
-        )
+        .then(() => expect(element(by.cssContainingText('.m-recipient-list__recipient', searchTerm)).isDisplayed()).toEqual(true))
       ;
     });
 

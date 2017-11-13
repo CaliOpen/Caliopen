@@ -18,8 +18,8 @@ class User extends PureComponent {
     const { __, children, pathname } = this.props;
 
     const navLinks = [
-      { title: __('user.profile'), to: '/user/profile' },
-      { title: __('user.privacy'), to: '/user/privacy' },
+      // { title: __('user.profile'), to: '/user/profile' },
+      // { title: __('user.privacy'), to: '/user/privacy' },
       { title: __('user.security'), to: '/user/security' },
     ].map(link => ({
       ...link,

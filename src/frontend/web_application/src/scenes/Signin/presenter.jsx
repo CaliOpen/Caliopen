@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import SigninForm from '../../components/SigninForm';
+import SigninForm from './components/SigninForm';
 
 function getRedirect(queryString) {
   const paramRedirect = queryString.split(/[?|&]/).find(str => /^redirect/.test(str));

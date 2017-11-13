@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import throttle from 'lodash.throttle';
 import { getOffset } from './services/getOffset';
+import { addEventListener } from '../../services/event-manager';
 import './style.scss';
 
 export const CONTROL_PREFIX = 'toggle';
@@ -82,23 +83,9 @@ class Dropdown extends Component {
 
   componentDidMount() {
     this.dropdownControl = document.getElementById(`${CONTROL_PREFIX}-${this.props.id}`);
+    this.toggle(this.props.show);
 
-    this.handleScroll = throttle(() => {
-      const scrollSize = window.scrollY;
-      const closeDropdown = scrollSize > 10;
-
-      if (closeDropdown) {
-        this.toggle(false);
-      }
-    }, 100, { leading: true, trailing: true });
-
-    this.handleResize = () => {
-      // this prevent dropdown to be misplaced on window resize
-      // TODO: get new offset instead of closing dropdown
-      this.toggle(false);
-    };
-
-    this.handleDocumentClick = (ev) => {
+    this.unsubscribeClickEvent = addEventListener('click', (ev) => {
       const target = ev.target;
       const exceptRefs = this.props.closeOnClickExceptRefs;
 
@@ -120,14 +107,22 @@ class Dropdown extends Component {
       if (exeptRefsClick) { return; }
 
       this.toggle(false);
-    };
+    });
 
-    this.toggle(this.props.show);
-    document.addEventListener('click', this.handleDocumentClick);
-    window.addEventListener('resize', this.handleResize);
-    if (this.props.closeOnScroll) {
-      window.addEventListener('scroll', this.handleScroll);
-    }
+    this.unsubscribeResizeEvent = addEventListener('resize', () => {
+      // this prevent dropdown to be misplaced on window resize
+      // TODO: get new offset instead of closing dropdown
+      this.toggle(false);
+    });
+
+    this.unsubscribeScrollEvent = this.props.closeOnScroll ? addEventListener('scroll', throttle(() => {
+      const scrollSize = window.scrollY;
+      const closeDropdown = scrollSize > 10;
+
+      if (closeDropdown) {
+        this.toggle(false);
+      }
+    }, 100, { leading: true, trailing: true })) : () => {};
   }
 
   componentWillReceiveProps(nextProps) {
@@ -137,15 +132,9 @@ class Dropdown extends Component {
   }
 
   componentWillUnmount() {
-    if (this.handleDocumentClick) {
-      document.removeEventListener('click', this.handleDocumentClick);
-    }
-    if (this.handleResize) {
-      window.removeEventListener('resize', this.handleResize);
-    }
-    if (this.handleScroll) {
-      window.removeEventListener('scroll', this.handleScroll);
-    }
+    this.unsubscribeClickEvent();
+    this.unsubscribeResizeEvent();
+    this.unsubscribeScrollEvent();
   }
 
   toggle = (isVisible) => {

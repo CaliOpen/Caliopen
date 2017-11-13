@@ -1,0 +1,27 @@
+@import '../../styles/common';
+
+$m-author-avatar__size: 40px;
+$m-author-avatar__padding: 0;
+
+.m-author-avatar {
+  display: inline-block;
+  vertical-align: middle;
+
+  width: $m-author-avatar__size;
+  height: $m-author-avatar__size;
+
+  border-radius: 50%;
+  background-color: $co-color__primary--low;
+  overflow: hidden;
+
+  &__letter {
+    &::before {
+      display: block;
+      float: left;
+      width: $m-author-avatar__size;
+      height: $m-author-avatar__size;
+      line-height: $m-author-avatar__size;
+      text-align: center;
+    }
+  }
+}

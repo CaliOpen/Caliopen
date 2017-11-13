@@ -54,9 +54,9 @@ class Presenter extends Component {
               <UserInfo className="m-user-menu__user-info" />
             </VerticalMenuItem>
             <Separator />
-            {/* <VerticalMenuItem>
-              <Link to="/user/profile" expanded button>{__('header.menu.account')}</Link>
-            </VerticalMenuItem> */}
+            <VerticalMenuItem>
+              <Link to="/user/security" expanded button>{__('header.menu.account')}</Link>
+            </VerticalMenuItem>
             <VerticalMenuItem>
               <Link to="/settings/application" expanded button>{__('header.menu.settings')}</Link>
             </VerticalMenuItem>

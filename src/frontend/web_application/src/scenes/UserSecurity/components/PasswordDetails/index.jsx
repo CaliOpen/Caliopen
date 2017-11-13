@@ -6,19 +6,34 @@ import PasswordForm from '../PasswordForm';
 import TextBlock from '../../../../components/TextBlock';
 import './style.scss';
 
+function generateStateFromProps(props, prevState) {
+  return {
+    ...prevState,
+    editMode: prevState.editMode && !props.updated,
+  };
+}
+
 class PasswordDetails extends Component {
   static propTypes = {
     __: PropTypes.func.isRequired,
     user: PropTypes.shape({}).isRequired,
-    // updateContact: PropTypes.func,
+    onSubmit: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    onUpdateContact: str => str,
+    errors: [],
   }
 
   state = {
     editMode: false,
+  }
+
+  componentWillMount() {
+    this.setState(prevState => generateStateFromProps(this.props, prevState));
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState(prevState => generateStateFromProps(newProps, prevState));
   }
 
   toggleEditMode = () => {
@@ -26,18 +41,25 @@ class PasswordDetails extends Component {
   }
 
   render() {
-    const { __, user } = this.props;
+    const { __, onSubmit, user } = this.props;
     // privacy_features.password_strength is a string
     const passwordStrengthNumber = parseInt(user.privacy_features.password_strength, 1);
 
     return (
       <div className="m-password-details">
         {!this.state.editMode &&
-          <TextBlock className="m-password-details__title">{__('password.details.password_strength.title')}</TextBlock>
+          <TextBlock className="m-password-details__title">
+            {__('password.details.password_strength.title')}
+          </TextBlock>
         }
         {this.state.editMode ?
           <div className="m-password-details__form">
-            <PasswordForm __={__} user={user} onCancel={this.toggleEditMode} />
+            <PasswordForm
+              __={__}
+              user={user}
+              onSubmit={onSubmit}
+              onCancel={this.toggleEditMode}
+            />
           </div>
         :
           <PasswordStrength

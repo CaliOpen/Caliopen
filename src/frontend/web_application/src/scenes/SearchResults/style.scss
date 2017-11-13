@@ -1,0 +1,21 @@
+@import '../../styles/common';
+
+.s-search-results {
+  &__label {
+    padding: map-get($co-form__spacing, 'small') map-get($co-form__spacing, 'medium');
+    color: $co-color__fg__text--high;
+  }
+
+  &__link {
+    margin-left: $co-margin;
+    color: $co-color__primary--high;
+
+    &:hover {
+      color: $co-color__primary--high;
+    }
+  }
+
+  &__item {
+    background: $co-color__fg__back;
+  }
+}

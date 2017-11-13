@@ -1,0 +1,63 @@
+@import '../../../../styles/common';
+@import '../../../../styles/vendor/bootstrap_foundation-sites';
+
+.s-message-result-item {
+  @include flex-grid-row($size: expand);
+  align-items: center;
+  height: 2 * $co-component__height;
+  border-bottom: 1px solid $co-color__bg__back;
+
+  &:hover {
+    color: $co-color__fg__text--high;
+    background-color: $co-color__fg__back--high;
+  }
+
+  &:active {
+    color: $co-color__fg__text--low;
+  }
+
+  &--draft,
+  &--unread {
+    position: relative;
+    background-color: $co-color__fg__back--higher;
+    color: $co-color__fg__text--higher;
+
+    &::before {
+      display: block;
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: $co-color__primary;
+    }
+  }
+
+  &__col-avatars {
+    @include flex-grid-column(shrink);
+  }
+
+  &__col-title {
+    @include flex-grid-column;
+    min-width: 0; // https://github.com/zurb/foundation-sites/pull/8511
+  }
+
+  &__col-file {
+    @include flex-grid-column(1);
+  }
+
+  &__col-dates {
+    @include flex-grid-column(2);
+    display: none;
+    font-weight: 600;
+  }
+
+  &__subject {
+    color: $co-color__fg__text--low;
+    margin-right: $co-component__spacing * 2;
+  }
+
+  @include breakpoint(medium) {
+    &__col-dates { display: block; }
+  }
+}

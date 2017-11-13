@@ -8,12 +8,15 @@ import Button from '../Button';
 import Icon from '../Icon';
 import VerticalMenu, { VerticalMenuItem } from '../VerticalMenu';
 import protocolsConfig, { ASSOC_PROTOCOL_ICON } from '../../services/protocols-config';
+import { addEventListener } from '../../services/event-manager';
 import Recipient from './components/Recipient';
 import './style.scss';
 
 export const KEY = {
   BACKSPACE: 8,
   TAB: 9,
+  COMMA: ',',
+  SEMICOLON: ';',
   ENTER: 13,
   ESC: 27,
   UP: 38,
@@ -113,14 +116,27 @@ class RecipientList extends Component {
 
   handleSearchInputFocus = () => {
     this.setState({ searchOpened: true });
-  };
+    this.unsubscribeInputBlur = addEventListener('click', (ev) => {
+      if (ev.target === this.searchInputRef) {
+        return;
+      }
+
+      if (this.state.searchTerms.length > 0) {
+        this.addUnknownParticipant(this.state.searchTerms);
+        this.resetSearch();
+        this.setState({ searchOpened: false });
+      }
+
+      this.unsubscribeInputBlur();
+    });
+  }
 
   handleToggleDropdown = (searchOpened) => {
     this.setState({ searchOpened });
   };
 
   handleSearchKeydown = (ev) => {
-    const { which: keyCode } = ev;
+    const { which: keyCode, key } = ev;
 
     if ([KEY.ENTER, KEY.UP, KEY.DOWN].indexOf(keyCode) !== -1) {
       ev.preventDefault();
@@ -144,6 +160,9 @@ class RecipientList extends Component {
     }
 
     if (keyCode === KEY.BACKSPACE) {
+      if (this.state.searchTerms.length === 0) {
+        ev.preventDefault();
+      }
       this.eventuallyEditRecipient();
     }
 
@@ -152,12 +171,21 @@ class RecipientList extends Component {
         this.props.searchResults[this.state.activeSearchResultIndex]
       )();
       this.resetSearch();
-    } else if ([KEY.ENTER, KEY.TAB].indexOf(keyCode) !== -1 && this.state.searchTerms.length > 0) {
+    } else if (
+      (
+        [KEY.ENTER, KEY.TAB].indexOf(keyCode) !== -1 ||
+        [KEY.COMMA, KEY.SEMICOLON].indexOf(key) !== -1
+      ) && this.state.searchTerms.length > 0
+    ) {
       this.addUnknownParticipant(this.state.searchTerms);
       this.resetSearch();
       this.setState({ searchOpened: false });
     }
-  };
+
+    if ([KEY.COMMA, KEY.SEMICOLON].indexOf(key) !== -1) {
+      ev.preventDefault();
+    }
+  }
 
   addParticipant(participant) {
     const compareParticipants = (a, b) => a.address === b.address && a.protocol === b.protocol;
@@ -317,6 +345,7 @@ class RecipientList extends Component {
             value={this.state.searchTerms}
             onKeyDown={this.handleSearchKeydown}
             onFocus={this.handleSearchInputFocus}
+            onBlur={this.handleSearchInputBlur}
           />
           <Dropdown
             id={dropdownId}

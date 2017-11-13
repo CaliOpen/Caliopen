@@ -32,6 +32,7 @@ class ContactItem extends PureComponent {
           <span className="m-contact-list__contact-title">{this.renderTitle()}</span>
           {contact.name_suffix && (<span className="m-contact-list__contact-suffix">, {contact.name_suffix}</span>)}
         </TextBlock>
+        {/*  TODO: add tags */}
       </Link>
     );
   }
