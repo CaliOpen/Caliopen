@@ -46,6 +46,21 @@ type (
 		Protocol   string `json:"protocol,omitempty"`   // email, IRC…
 		Source     string `json:"source,omitempty"`     // "participant" or "contact", ie from where this suggestion came from
 	}
+
+        RemoteIdentity struct {
+		Display_name string `cql:"display_name"            json:"display_name"`
+		Identifier   string `cql:"identifier"              json:"identifier"`
+		Type         string `cql:"type"                    json:"type"`
+		Status       string `cql:"status"                  json:"status"`
+		Infos        Info   `cql:"infos"                   json:"infos"`
+		User_id      UUID   `cql:"user_id"                 json:"user_id"           formatter:"rfc4122"`
+        }
+
+        Info struct {
+                Server   string `cql:"server"            json:"server"`
+                Port     string `cql:"port"              json:"port"`
+                Password string `cql:"password"          json:"password"`
+        }
 )
 
 func (si *SocialIdentity) UnmarshalMap(input map[string]interface{}) error {

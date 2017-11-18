@@ -1,0 +1,57 @@
+## IMAP config ##
+AppConfig:
+  allowed_hosts:
+  - localhost
+  - caliopen.local
+  - caliopen.org
+  primary_mail_host: caliopen.org
+  inbound_servers: # only one allowed for now
+  - is_enabled: true
+    host_name: localhost
+    max_size: 20971520                                   # max authorized size for emails in bytes
+    timeout: 180
+    listen_interface: 0.0.0.0:2525
+    start_tls_on: false
+    tls_always_on: false
+    max_clients: 1000
+  #submit is the MTA to connect to for final delivery (postfix for example)
+  submit_address: smtp.dev.caliopen.org			 # imap.dev.caliopen.org?
+  submit_port: 10025
+  submit_user:
+  submit_password:
+  submit_workers: 2                                      # number of concurrent connexions to submit MTA
+
+## LDA (Email broker) config ##
+LDAConfig:
+  broker_type: imap                                      # types are : smtp, imap, mailboxe, etc.
+  nats_url: nats://nats.dev.caliopen.org:4222
+  nats_queue: IMAPqueue                                  # NATS group queue for nats subscribers to share jobs
+  store_name: cassandra                                  # backend to store raw emails and messages (inbound & outbound)
+  store_settings:
+    hosts: # many allowed
+    - cassandra.dev.caliopen.org
+    keyspace: caliopen
+    consistency_level: 1
+    raw_size_limit: 1048576                              # max size in bytes for objects in db. Use S3 interface if larger.
+    object_store: s3
+    object_store_settings:
+      endpoint: minio.dev.caliopen.org:9090
+      access_key: CALIOPEN_ACCESS_KEY_                     # Access key of 5 to 20 characters in length
+      secret_key: CALIOPEN_SECRET_KEY_BE_GOOD_AND_LIVE_OLD # Secret key of 8 to 40 characters in length
+      location: eu-fr-localhost                            # S3 region.
+      buckets:
+        raw_messages: caliopen-raw-messages                # bucket name to put raw messages to
+        temporary_attachments: caliopen-tmp-attachments    # bucket name to store draft attachments
+  index_name: elasticsearch                              # backend to index messages (inbound & outbound)
+  index_settings:
+    urls: # many allowed
+    - http://es.dev.caliopen.org:9200
+
+  #inbound
+  in_topic: inboundIMAP # NATS topic to listen to
+  lda_workers_size: 2                                    # number of concurrent workers
+  log_received_mails: true
+
+  # outbound
+  out_topic: outboundIMAP                                # NATS topic to listen to
+  nats_listeners: 2                                      # number of concurrent nats listeners

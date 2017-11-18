@@ -16,6 +16,11 @@ class RawMessage(BaseModel):
     raw_data = columns.Bytes()  # may be empty if data is too large to fit into cassandra
     raw_size = columns.Integer()  # number of bytes in 'data' column
     uri = columns.Text()  # where object is stored if it was too large to fit into raw_data column
+    internal_date = columns.DateTime()
+    server = columns.Text()
+    protocol = columns.Text()
+    version_tls = columns.Text()
+    cipher_suite = columns.Text()
 
 
 class UserRawLookup(BaseModel):

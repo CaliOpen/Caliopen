@@ -68,3 +68,24 @@ func (cb *CassandraBackend) GetLocalsIdentities(user_id string) (identities []Lo
 
 	return
 }
+
+func (cb *CassandraBackend) GetRemoteIdentities(user_id string) (identities []RemoteIdentity, err error) {
+        user_identities := make(map[string]interface{})
+        cb.Session.Query(`SELECT remote_identities from user where user_id = ?`, user_id).MapScan(user_identities)
+
+	for _, identifier := range user_identities["remote_identities"].([]string) {
+		i := make(map[string]interface{})
+		cb.Session.Query(`SELECT * FROM remote_identity where identifier = ?`, identifier).MapScan(i)
+		identity := RemoteIdentity{
+			Display_name: i["display_name"].(string),
+			Identifier:   i["identifier"].(string),
+			Type:         i["type"].(string),
+			Status:       i["status"].(string),
+			Infos:        i["infos"].(Info),
+		}
+		identity.User_id.UnmarshalBinary(i["user_id"].(gocql.UUID).Bytes())
+		identities = append(identities, identity)
+	}
+
+        return 
+}

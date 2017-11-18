@@ -113,6 +113,7 @@ services:
       image: nats:0.9.6
       ports:
           - "4222:4222"
+          - "8222:8222"
 
   # NATS Message Handler
   message_handler:

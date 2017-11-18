@@ -15,6 +15,8 @@ from caliopen_storage.helpers.connection import connect_storage
 
 log = logging.getLogger(__name__)
 
+logging.basicConfig(level=logging.DEBUG)
+
 
 @tornado.gen.coroutine
 def inbound_handler(config):
@@ -29,6 +31,8 @@ def inbound_handler(config):
     # create and register subscriber(s)
     inbound_email_sub = subscribers.InboundEmail(client)
     future = client.subscribe("inboundSMTP", "SMTPqueue",
+                              inbound_email_sub.handler)
+    future = client.subscribe("inboundIMAP", "IMAPqueue",
                               inbound_email_sub.handler)
     log.info("nats subscription started")
     future.result()
