@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { v1 as uuidV1 } from 'uuid';
 import Button from '../Button';
 import Link from '../Link';
+import Spinner from '../Spinner';
 import Icon from '../Icon';
 import ContactAvatarLetter from '../ContactAvatarLetter';
 import Dropdown, { withDropdownControl } from '../Dropdown';
@@ -28,6 +29,7 @@ class ReplyForm extends Component {
     user: PropTypes.shape({}),
     renderDraftMessageActionsContainer: PropTypes.func.isRequired,
     __: PropTypes.func.isRequired,
+    isSending: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     draft: {
@@ -41,6 +43,7 @@ class ReplyForm extends Component {
   state = {
     isActive: true,
     protocol: 'email',
+    hasChanged: false,
   };
 
   componentWillMount() {
@@ -67,7 +70,7 @@ class ReplyForm extends Component {
     this.setState((prevState) => {
       const draft = { ...prevState.draft, [name]: value };
 
-      return { draft };
+      return { draft, hasChanged: true };
     }, () => {
       this.props.onChange({ draft: this.state.draft });
     });
@@ -99,7 +102,7 @@ class ReplyForm extends Component {
   }
 
   render() {
-    const { user, parentMessage, renderDraftMessageActionsContainer, __ } = this.props;
+    const { user, parentMessage, renderDraftMessageActionsContainer, isSending, __ } = this.props;
     const dropdownId = uuidV1();
 
     return (
@@ -143,10 +146,23 @@ class ReplyForm extends Component {
             />
           </BodyRow>
           <BottomRow className="m-reply__bottom-bar">
-            <Button className="m-reply__bottom-action" shape="plain" onClick={this.handleSend} icon="send" responsive="icon-only">
+            <Button
+              className="m-reply__bottom-action"
+              shape="plain"
+              onClick={this.handleSend}
+              icon={isSending ? (<Spinner isLoading display="inline" />) : 'send'}
+              responsive="icon-only"
+              disabled={isSending || !this.state.draft.body.length}
+            >
               {__('messages.compose.action.send')}
             </Button>
-            <Button className="m-reply__bottom-action" onClick={this.handleSave} icon="save" responsive="icon-only">
+            <Button
+              className="m-reply__bottom-action"
+              onClick={this.handleSave}
+              icon="save"
+              responsive="icon-only"
+              disabled={!this.state.hasChanged}
+            >
               {__('messages.compose.action.save')}
             </Button>
             <Button className="m-reply__bottom-action" onClick={this.handleSave} icon="share-alt" responsive="icon-only">

@@ -176,9 +176,9 @@ const editDraftHandler = ({ store, action }) => {
   throttled();
 };
 
-const sendDraftHandler = async ({ store, action }) => {
+const sendDraftMiddleware = store => next => (action) => {
   if (action.type !== SEND_DRAFT) {
-    return;
+    return next(action);
   }
 
   const { internalId, draft, original } = action.payload;
@@ -190,24 +190,25 @@ const sendDraftHandler = async ({ store, action }) => {
     return createOrUpdateDraft({ internalId, draft, store, original });
   };
 
-  const message = await getMessage();
-  const postActionsAction = await store.dispatch(postActions({ message, actions: ['send'] }));
-  if (postActionsAction.type !== POST_ACTIONS_SUCCESS) {
-    throw new Error('Fail to send');
-  }
+  return getMessage().then(async (message) => {
+    const postActionsAction = await store.dispatch(postActions({ message, actions: ['send'] }));
+    if (postActionsAction.type !== POST_ACTIONS_SUCCESS) {
+      throw new Error('Fail to send');
+    }
 
-  if (store.getState().router.location.pathname === `/compose/${internalId}`) {
-    store.dispatch(push(`/discussions/${message.discussion_id}`));
-  }
+    if (store.getState().router.location.pathname === `/compose/${internalId}`) {
+      store.dispatch(push(`/discussions/${message.discussion_id}`));
+    }
 
-  const tab = store.getState().tab.tabs
-    .find(currentTab => currentTab.pathname === `/compose/${internalId}`);
+    const tab = store.getState().tab.tabs
+      .find(currentTab => currentTab.pathname === `/compose/${internalId}`);
 
-  if (tab) {
-    store.dispatch(removeTab(tab));
-  }
+    if (tab) {
+      store.dispatch(removeTab(tab));
+    }
 
-  store.dispatch(clearDraft({ internalId }));
+    store.dispatch(clearDraft({ internalId }));
+  });
 };
 
 const draftSelector = (state, { internalId }) => state.draftMessage.draftsByInternalId[internalId];
@@ -255,7 +256,6 @@ export default store => next => (action) => {
 
   editDraftHandler({ store, action });
   requestDraftHandler({ store, action });
-  sendDraftHandler({ store, action });
   requestNewDraftHandler({ store, action });
   requestNewDraftSuccessHandler({ store, action });
   replyToMessageHandler({ store, action });
@@ -265,4 +265,5 @@ export default store => next => (action) => {
 
 export const middlewares = [
   saveDraftMiddleware,
+  sendDraftMiddleware,
 ];

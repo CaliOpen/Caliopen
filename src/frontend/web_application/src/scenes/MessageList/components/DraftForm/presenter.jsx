@@ -27,6 +27,10 @@ class DraftForm extends Component {
     user: undefined,
   };
 
+  state = {
+    isSending: false,
+  };
+
   componentDidMount() {
     const { discussionId, draft } = this.props;
     if (!draft && discussionId) {
@@ -48,6 +52,15 @@ class DraftForm extends Component {
     return action(params);
   };
 
+  handleSend = () => {
+    const { sendDraft, discussionId, message, draft } = this.props;
+    const params = { draft, message, internalId: discussionId };
+
+    this.setState({ isSending: true });
+
+    return sendDraft(params).then(() => this.setState({ isSending: false }));
+  }
+
   handleDelete = () => {
     const { message, discussionId, onDeleteMessage, allowEditRecipients } = this.props;
 
@@ -66,7 +79,7 @@ class DraftForm extends Component {
 
   render() {
     const {
-       draft, discussionId, allowEditRecipients, user, editDraft, saveDraft, sendDraft,
+       draft, discussionId, allowEditRecipients, user, editDraft, saveDraft,
        parentMessage,
     } = this.props;
 
@@ -76,9 +89,10 @@ class DraftForm extends Component {
         internalId={discussionId}
         onChange={this.makeHandle(editDraft)}
         onSave={this.makeHandle(saveDraft)}
-        onSend={this.makeHandle(sendDraft)}
+        onSend={this.handleSend}
         renderDraftMessageActionsContainer={this.renderDraftMessageActionsContainer}
         user={user}
+        isSending={this.state.isSending}
       />);
     }
 
@@ -88,9 +102,10 @@ class DraftForm extends Component {
         draft={draft}
         onChange={this.makeHandle(editDraft)}
         onSave={this.makeHandle(saveDraft)}
-        onSend={this.makeHandle(sendDraft)}
+        onSend={this.handleSend}
         renderDraftMessageActionsContainer={this.renderDraftMessageActionsContainer}
         user={user}
+        isSending={this.state.isSending}
       />
     );
   }
