@@ -9,9 +9,9 @@ properties:
     type: string
   type:
     type: string
-    default: other
+    default: unknown
     enum:
-    - other
+    - unknown
     - home
     - work
     - public

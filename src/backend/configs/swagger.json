@@ -3428,7 +3428,7 @@
             "required": true
           },
           {
-            "name": "instance",
+            "name": "identifier",
             "in": "query",
             "type": "string",
             "required": false
@@ -11081,9 +11081,9 @@
                             },
                             "type": {
                               "type": "string",
-                              "default": "other",
+                              "default": "unknown",
                               "enum": [
-                                "other",
+                                "unknown",
                                 "home",
                                 "work",
                                 "public"
@@ -11295,9 +11295,9 @@
                       },
                       "type": {
                         "type": "string",
-                        "default": "other",
+                        "default": "unknown",
                         "enum": [
-                          "other",
+                          "unknown",
                           "home",
                           "work",
                           "public"
@@ -11624,9 +11624,9 @@
                           },
                           "type": {
                             "type": "string",
-                            "default": "other",
+                            "default": "unknown",
                             "enum": [
-                              "other",
+                              "unknown",
                               "home",
                               "work",
                               "public"
@@ -11794,9 +11794,9 @@
                       },
                       "type": {
                         "type": "string",
-                        "default": "other",
+                        "default": "unknown",
                         "enum": [
-                          "other",
+                          "unknown",
                           "home",
                           "work",
                           "public"
