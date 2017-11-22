@@ -73,9 +73,9 @@ class CaliopenObject(object):
         pass
 
 
+@zope.interface.implementer(IO.DictIO)
 class ObjectDictifiable(CaliopenObject):
     """Object that can marshall/unmarshall to/from python dict"""
-    zope.interface.implements(IO.DictIO)
 
     def marshall_dict(self, **options):
         """output a dict representation of self 'public' attributes"""
@@ -125,6 +125,7 @@ class ObjectDictifiable(CaliopenObject):
                     setattr(self, attr, None)
 
 
+@zope.interface.implementer(IO.JsonDictIO)
 class ObjectJsonDictifiable(ObjectDictifiable):
     """Object can marshall/unmarshall to/from python json compatible dict
 
@@ -135,8 +136,6 @@ class ObjectJsonDictifiable(ObjectDictifiable):
                                                                 None
     We rely on schematics to do the job from our object's 'public' attributes
     """
-
-    zope.interface.implements(IO.JsonDictIO)
 
     _json_model = None
 
@@ -158,9 +157,9 @@ class ObjectJsonDictifiable(ObjectDictifiable):
         self.unmarshall_dict(document, **options)
 
 
+@zope.interface.implementer(storage.DbIO)
 @add_metaclass(CoreMetaClass)
 class ObjectStorable(ObjectJsonDictifiable):
-    zope.interface.implements(storage.DbIO)
 
     _model_class = None  # cql model for object
     _db = None  # cql model instance
@@ -477,8 +476,8 @@ class ObjectUser(ObjectStorable):
                         message=msg.format(5, key))
 
 
+@zope.interface.implementer(storage.IndexIO)
 class ObjectIndexable(ObjectUser):
-    zope.interface.implements(storage.IndexIO)
 
     _index_class = None  # dsl model for object
     _index = None  # dsl model instance
