@@ -7,12 +7,11 @@ import regex
 def is_valid_username(username):
     """ conforms to doc/RFCs/username_specifications"""
 
-    if len(username) < 3:
-        raise SyntaxError
-
-    rgx = ur"^(([^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>\[\\\]]|" \
-          ur"[^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>\[\\\]]\.)){1,40}" \
-          ur"[^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>\[\\\]]$"
+    rgx = r"^[^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>\[\\\]]" \
+          r"((\.[^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>\[\\\]]|" \
+          r"[^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>\[\\\]])){1,40}" \
+          r"((\.[^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>\[\\\]])|" \
+          r"([^\p{C}\p{M}\p{Lm}\p{Sk}\p{Z}.\u0022,@\u0060:;<>\[\\\]]))$"
 
     r = regex.compile(rgx, flags=regex.V1+regex.UNICODE)
 
