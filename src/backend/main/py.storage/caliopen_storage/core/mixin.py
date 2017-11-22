@@ -39,7 +39,7 @@ class MixinCoreRelation(object):
 
         # Transform param into core object
         # XXX find a better method ?
-        attrs = {k: v for k, v in param.to_primitive().iteritems()
+        attrs = {k: v for k, v in param.to_primitive().items()
                  if v is not None}
         new_obj = self._relations[reltype].create(self.user,
                                                   self,

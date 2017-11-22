@@ -13,7 +13,7 @@ def merge_patch(target, patch):
     if type(patch) is dict:
         if type(target) is not dict:
             target = {}  # Ignore the contents and set it to an empty Object
-        for key, value in patch.iteritems():
+        for key, value in patch.items():
             if value is None:
                 if key in target:
                     del target[key]
