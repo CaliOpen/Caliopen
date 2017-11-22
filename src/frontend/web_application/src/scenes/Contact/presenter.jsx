@@ -40,6 +40,7 @@ class Contact extends Component {
     deleteContact: PropTypes.func.isRequired,
     contactId: PropTypes.string,
     contact: PropTypes.shape({}),
+    user: PropTypes.shape({}),
     isFetching: PropTypes.bool,
     form: PropTypes.string.isRequired,
     contact_display_format: PropTypes.string.isRequired,
@@ -57,6 +58,7 @@ class Contact extends Component {
     currentTab: undefined,
     contactId: undefined,
     birthday: undefined,
+    user: undefined,
   };
 
   constructor(props) {
@@ -87,7 +89,7 @@ class Contact extends Component {
   closeTab = () => {
     const { currentTab } = this.props;
     if (currentTab) {
-      return this.props.removeTab(currentTab);
+      this.props.removeTab(currentTab);
     }
 
     return this.props.push('/contacts');
@@ -129,11 +131,12 @@ class Contact extends Component {
 
   handleDelete = () => {
     const { contactId } = this.props;
-    this.props.deleteContact({ contactId }).then(() => this.closeTab());
+    this.props.deleteContact({ contactId });
   }
 
   handleSubmit = (ev) => {
-    this.props.handleSubmit(ev).then(() => this.props.contactId && this.toggleEditMode());
+    this.props.handleSubmit(ev);
+    if (this.props.contactId) this.toggleEditMode();
   }
 
   renderTagsModal = () => {
@@ -159,7 +162,7 @@ class Contact extends Component {
   }
 
   renderEditBar = () => {
-    const { __, pristine, submitting } = this.props;
+    const { __, isFetching, pristine, submitting } = this.props;
 
     return (
       <div className="s-contact__edit-bar">
@@ -175,27 +178,30 @@ class Contact extends Component {
         <Button
           type="submit"
           responsive="icon-only"
-          icon="check"
+          icon={isFetching ? (<Spinner isLoading display="inline" />) : 'check'}
           className="s-contact__action"
-          disabled={pristine || submitting}
+          disabled={isFetching || pristine || submitting}
         >{__('contact.action.validate_edit')}</Button>
       </div>
     );
   }
 
   renderActionBar = () => {
-    const { __, contact, contact_display_format: format } = this.props;
+    const { __, isFetching, contact, contact_display_format: format, user, contactId } = this.props;
     const contactDisplayName = formatName({ contact, format });
+    const contactIsUser = contactId && user && user.contact.contact_id === contactId;
 
     return (
       <div className="s-contact__action-bar">
         <TextBlock className="s-contact__bar-title">
           {contactDisplayName}
         </TextBlock>
+
         <DropdownControl
           toggleId={this.dropdownId}
           className="s-contact__actions-switcher"
-          icon="ellipsis-v"
+          icon={isFetching ? (<Spinner isLoading display="inline" />) : 'ellipsis-v'}
+          disabled={isFetching}
         />
 
         <Dropdown
@@ -229,13 +235,15 @@ class Contact extends Component {
                 >{__('contact.action.share_contact')}</Button>
               </VerticalMenuItem>
             */}
-            <VerticalMenuItem>
-              <Button
-                onClick={this.handleDelete}
-                className="s-contact__action"
-                display="expanded"
-              >{__('contact.action.delete_contact')}</Button>
-            </VerticalMenuItem>
+            { !contactIsUser && // to prevents deleting user's contact
+              <VerticalMenuItem>
+                <Button
+                  onClick={this.handleDelete}
+                  className="s-contact__action"
+                  display="expanded"
+                >{__('contact.action.delete_contact')}</Button>
+              </VerticalMenuItem>
+            }
           </VerticalMenu>
         </Dropdown>
       </div>
@@ -259,7 +267,7 @@ class Contact extends Component {
   }
 
   render() {
-    const { __, isFetching, contact, contactId, form, contact_display_format: format } = this.props;
+    const { __, contact, contactId, form, contact_display_format: format } = this.props;
 
     return (
       <ScrollToWhenHash forceTop>
@@ -273,8 +281,6 @@ class Contact extends Component {
               {this.state.editMode ? this.renderEditBar() : this.renderActionBar()}
             </MenuBar>
           )}
-
-          <Spinner isLoading={isFetching} />
 
           {(contact || !contactId) && (
             <div className="s-contact">
