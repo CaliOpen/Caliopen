@@ -85,7 +85,7 @@ class Contact(Api):
         contact = CoreContact.create(self.user, contact_param)
         contact_url = self.request.route_path('contact',
                                               contact_id=contact.contact_id)
-        self.request.response.location = contact_url.encode('utf-8')
+        self.request.response.location = contact_url
         # XXX return a Location to get contact not send it direct
         return {'location': contact_url}
 
