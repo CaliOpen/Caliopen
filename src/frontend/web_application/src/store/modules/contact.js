@@ -1,4 +1,5 @@
 import calcObjectForPatch from '../../services/api-patch';
+// import getConf from '../../services/api-client';
 
 export const REQUEST_CONTACTS = 'co/contact/REQUEST_CONTACTS';
 export const REQUEST_CONTACTS_SUCCESS = 'co/contact/REQUEST_CONTACTS_SUCCESS';
@@ -7,6 +8,7 @@ export const INVALIDATE_CONTACTS = 'co/contact/INVALIDATE_CONTACTS';
 export const LOAD_MORE_CONTACTS = 'co/contact/LOAD_MORE_CONTACTS';
 export const REQUEST_CONTACT = 'co/contact/REQUEST_CONTACT';
 export const REQUEST_CONTACT_SUCCESS = 'co/contact/REQUEST_CONTACT_SUCCESS';
+export const REQUEST_CONTACT_FAIL = 'co/contact/REQUEST_CONTACT_FAIL';
 export const UPDATE_CONTACT = 'co/contact/UPDATE_CONTACT';
 export const UPDATE_CONTACT_SUCCESS = 'co/contact/UPDATE_CONTACT_SUCCESS';
 export const UPDATE_CONTACT_FAIL = 'co/contact/UPDATE_CONTACT_FAIL';
@@ -14,6 +16,7 @@ export const CREATE_CONTACT = 'co/contact/CREATE_CONTACT';
 export const CREATE_CONTACT_SUCCESS = 'co/contact/CREATE_CONTACT_SUCCESS';
 export const CREATE_CONTACT_FAIL = 'co/contact/CREATE_CONTACT_FAIL';
 export const DELETE_CONTACT = 'co/contact/DELETE_CONTACT';
+export const DELETE_CONTACT_SUCCESS = 'co/contact/DELETE_CONTACT_SUCCESS';
 
 export function requestContacts(params = {}) {
   const { offset = 0, limit = 1000 } = params;
@@ -51,6 +54,7 @@ export function deleteContact({ contactId }) {
   return {
     type: DELETE_CONTACT,
     payload: {
+      contactId,
       request: {
         method: 'delete',
         url: `/v1/contacts/${contactId}`,
@@ -68,13 +72,15 @@ export function invalidate() {
 
 export function updateContact({ contact, original }) {
   const data = calcObjectForPatch(contact, original);
+  const contactId = contact.contact_id;
 
   return {
     type: UPDATE_CONTACT,
     payload: {
+      contactId,
       request: {
         method: 'patch',
-        url: `/v1/contacts/${contact.contact_id}`,
+        url: `/v1/contacts/${contactId}`,
         data,
       },
     },
@@ -163,7 +169,10 @@ export default function reducer(state = initialState, action) {
         total: action.payload.data.total,
       };
     case INVALIDATE_CONTACTS:
-      return { ...state, didInvalidate: true };
+      return {
+        ...state,
+        didInvalidate: true,
+      };
     case REQUEST_CONTACT:
       return {
         ...state,
@@ -177,6 +186,19 @@ export default function reducer(state = initialState, action) {
           state.contactsById,
           action
         ),
+      };
+    case CREATE_CONTACT_SUCCESS:
+      return {
+        ...state,
+        contactsById: contactsByIdReducer(
+          state.contactsById,
+          action
+        ),
+      };
+    case DELETE_CONTACT_SUCCESS:
+      return {
+        ...state,
+        didInvalidate: true,
       };
     default:
       return state;
