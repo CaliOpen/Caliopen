@@ -34,5 +34,4 @@ def to_json(data):
 
 
 def RFC3339Milli(value):
-    return u"%s.%sZ" % (
-        value.strftime("%Y-%m-%dT%H:%M:%S"), value.microsecond / 1000)
+    return u"%sZ" % (value.strftime("%Y-%m-%dT%H:%M:%S"))
