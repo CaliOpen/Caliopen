@@ -3,12 +3,11 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import logging
-import types
-from uuid import UUID
+import uuid
 import phonenumbers
 
 from caliopen_main.common.objects.base import ObjectIndexable
-from caliopen_main.common.parameters.types import PhoneNumberType
+
 from ..store.contact import Phone as ModelPhone
 from ..store.contact_index import IndexedPhone
 from ..returns import PhoneParam
@@ -18,16 +17,17 @@ log = logging.getLogger(__name__)
 
 
 class Phone(ObjectIndexable):
+    """Phone number related to contact."""
 
     _attrs = {
-        "contact_id": UUID,
-        "is_primary": types.BooleanType,
-        "number": types.StringType,
-        "normalized_number": types.StringType,
-        "phone_id": UUID,
-        "type": types.StringType,
-        "uri": types.StringType,
-        "user_id": UUID
+        "contact_id": uuid.UUID,
+        "is_primary": bool,
+        "number": str,
+        "normalized_number": str,
+        "phone_id": uuid.UUID,
+        "type": str,
+        "uri": str,
+        "user_id": uuid.UUID
     }
 
     _model_class = ModelPhone
@@ -35,6 +35,7 @@ class Phone(ObjectIndexable):
     _index_class = IndexedPhone
 
     def normalize_number(self, number):
+        """Try to normalize a phone number."""
         try:
             normalized = phonenumbers.parse(number, None)
             phone_format = phonenumbers.PhoneNumberFormat.INTERNATIONAL
@@ -44,7 +45,7 @@ class Phone(ObjectIndexable):
                      format(number, exc))
 
     def unmarshall_dict(self, document, **options):
-        """try to extract a normalize phone number from document"""
+        """Try to extract a normalized phone number from document"""
         super(Phone, self).unmarshall_dict(document, **options)
         normalized = self.normalize_number(self.number)
         if normalized:

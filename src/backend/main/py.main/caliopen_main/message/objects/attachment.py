@@ -10,8 +10,7 @@ from ..store.attachment_index import IndexedMessageAttachment
 
 
 class MessageAttachment(ObjectJsonDictifiable):
-
-    """attachment's attributes, nested within message object"""
+    """Attachment's attributes, nested within message object."""
 
     _attrs = {
         'content_type': types.StringType,

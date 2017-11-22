@@ -2,9 +2,8 @@
 """Caliopen message object classes."""
 from __future__ import absolute_import, print_function, unicode_literals
 
-import types
+import uuid
 
-from uuid import UUID
 from caliopen_main.common.objects.base import ObjectJsonDictifiable
 from caliopen_main.participant.store.participant import \
     Participant as ModelParticipant

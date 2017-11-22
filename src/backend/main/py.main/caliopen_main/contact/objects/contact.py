@@ -2,8 +2,7 @@
 """Caliopen contact parameters classes."""
 from __future__ import absolute_import, print_function, unicode_literals
 
-import types
-from uuid import UUID
+import uuid
 import datetime
 
 from caliopen_main.common.objects.base import ObjectStorable, ObjectIndexable

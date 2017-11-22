@@ -3,7 +3,6 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import logging
-import types
 import uuid
 
 from caliopen_main.user.parameters.settings import Settings as SettingsParam
@@ -19,14 +18,14 @@ class Settings(ObjectUser):
 
     _attrs = {
         'user_id': uuid.UUID,
-        'default_locale': types.StringType,
-        'message_display_format': types.StringType,
-        'contact_display_order': types.StringType,
-        'contact_display_format': types.StringType,
-        'notification_enabled': types.BooleanType,
-        'notification_message_preview': types.StringType,
-        'notification_sound_enabled': types.BooleanType,
-        'notification_delay_disappear': types.IntType,
+        'default_locale': str,
+        'message_display_format': str,
+        'contact_display_order': str,
+        'contact_display_format': str,
+        'notification_enabled': bool,
+        'notification_message_preview': str,
+        'notification_sound_enabled': bool,
+        'notification_delay_disappear': int,
     }
 
     _model_class = ModelSettings

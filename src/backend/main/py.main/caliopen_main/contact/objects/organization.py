@@ -2,9 +2,9 @@
 """Caliopen contact parameters classes."""
 from __future__ import absolute_import, print_function, unicode_literals
 
-import types
+import uuid
+
 from caliopen_main.common.objects.base import ObjectIndexable
-from uuid import UUID
 from ..store.contact import Organization as ModelOrganization
 from ..store.contact_index import IndexedOrganization
 from ..returns import OrganizationParam
@@ -13,17 +13,17 @@ from ..returns import OrganizationParam
 class Organization(ObjectIndexable):
 
     _attrs = {
-        "department":               types.StringType,
-        "is_primary":               types.BooleanType,
-        "job_description":          types.StringType,
-        "label":                    types.StringType,
-        "name":                     types.StringType,
-        "title":                    types.StringType,
-        "type":                     types.StringType,
-        "contact_id":               UUID,
-        "deleted":                  types.BooleanType,
-        "organization_id":          UUID,
-        "user_id":                  UUID
+        "department":               str,
+        "is_primary":               bool,
+        "job_description":          str,
+        "label":                    str,
+        "name":                     str,
+        "title":                    str,
+        "type":                     str,
+        "contact_id":               uuid.UUID,
+        "deleted":                  bool,
+        "organization_id":          uuid.UUID,
+        "user_id":                  uuid.UUID
     }
 
     _model_class = ModelOrganization

@@ -2,11 +2,9 @@
 """Caliopen message object classes."""
 from __future__ import absolute_import, print_function, unicode_literals
 
-import types
 from caliopen_main.common.objects.base import ObjectIndexable
 
 import uuid
-from uuid import UUID
 import datetime
 import pytz
 import json
@@ -39,8 +37,8 @@ class Message(ObjectIndexable):
     # TODO : manage attrs that should not be editable directly by users
     _attrs = {
         'attachments': [MessageAttachment],
-        'body_html': types.StringType,
-        'body_plain': types.StringType,
+        'body_html': str,
+        'body_plain': str,
         'date': datetime.datetime,
         'date_delete': datetime.datetime,
         'date_insert': datetime.datetime,
@@ -55,7 +53,7 @@ class Message(ObjectIndexable):
         'message_id': UUID,
         'parent_id': UUID,
         'participants': [Participant],
-        'privacy_features': types.DictType,
+        'privacy_features': dict,
         'pi': PIObject,
         'raw_msg_id': UUID,
         'subject': types.StringType,
@@ -153,6 +151,7 @@ class Message(ObjectIndexable):
 
         message.date = message.date_sort = message.date_insert = \
             datetime.datetime.now(tz=pytz.utc)
+        message.date_insert = datetime.datetime.now(tz=pytz.utc)
 
         try:
             message.marshall_db()
