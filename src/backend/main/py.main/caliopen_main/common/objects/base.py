@@ -83,7 +83,7 @@ class ObjectDictifiable(CaliopenObject):
         self_dict = {}
         for att, val in vars(self).items():
             if not att.startswith("_") and val is not None:
-                if isinstance(self._attrs[att], list, tuple):
+                if isinstance(self._attrs[att], (list, tuple)):
                     lst = []
                     if len(att) > 0:
                         if issubclass(self._attrs[att][0], ObjectDictifiable):
@@ -111,7 +111,7 @@ class ObjectDictifiable(CaliopenObject):
                 unmarshall_item(document, attr, self, attrtype,
                                 is_creation=False)
             else:
-                if isinstance(attrtype, list, tuple):
+                if isinstance(attrtype, (list, tuple)):
                     setattr(self, attr, [])
                 elif issubclass(attrtype, dict):
                     setattr(self, attr, {})
@@ -227,7 +227,7 @@ class ObjectStorable(ObjectJsonDictifiable):
             if not att.startswith("_") and att in self_keys:
                 # TODO : manage protected attrs
                 # (ie attributes that user should not be able to change)
-                if isinstance(self._attrs[att], list, tuple):
+                if isinstance(self._attrs[att], (list, tuple)):
                     # TODO : manage change within list to only elem changed
                     # (use builtin set() collection ?)
                     if issubclass(self._attrs[att][0], CaliopenObject):
@@ -430,9 +430,15 @@ class ObjectUser(ObjectStorable):
         cur_val = getattr(self, key)
         msg = "Patch current_state not consistent with db, step {} key {}"
 
+<<<<<<< HEAD
         if isinstance(current_attr, types.ListType):
             if not isinstance(cur_val, types.ListType):
                 raise PatchConflict(
+=======
+        if isinstance(current_attr, (list, tuple)):
+            if not isinstance(cur_val, (list, tuple)):
+                raise main_errors.PatchConflict(
+>>>>>>> c2aaab68c (Fix list of types)
                     messag=msg.format(0, key))
 
         if key not in patch_current.keys():
@@ -442,7 +448,7 @@ class ObjectUser(ObjectStorable):
                 raise PatchConflict(
                     message=msg.format(0.5, key))
         else:
-            if isinstance(current_attr, list, tuple):
+            if isinstance(current_attr, (list, tuple)):
                 if old_val == [] and cur_val != []:
                     raise PatchConflict(
                         message=msg.format(1, key))
@@ -587,7 +593,8 @@ class ObjectIndexable(ObjectUser):
                     setattr(update_sibling, att, getattr(self, att))
 
         update_dict = update_sibling.marshall_dict()
-        for k, v in update_dict.iteritems():
+
+        for k, v in update_dict.items():
             if k in self._index_class.__dict__:
                 # do not try to set a property directly
                 if not isinstance(getattr(self._index_class, k), property):
