@@ -5,6 +5,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 import logging
 import datetime
 import pytz
+from rfc3339 import rfc3339
 from uuid import UUID
 from decimal import Decimal
 
@@ -36,9 +37,9 @@ class JSONEncoder(json.JSONEncoder):
             return float(obj)
         if isinstance(obj, datetime.datetime):
             if obj.tzinfo is None:
-                return str(obj.replace(tzinfo=pytz.utc))
+                return rfc3339(obj.replace(tzinfo=pytz.utc))
         if isinstance(obj, datetime.date):
-            return obj.isoformat()
+            return rfc3339(obj)
         if isinstance(obj, UUID):
             return str(obj)
         return super(JSONEncoder, self).default(obj)
