@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Button from '../../../Button';
+import withScrollToHash from '../../../../hoc/scrollToHash';
 
 import './style.scss';
 
@@ -11,6 +12,7 @@ function generateStateFromProps(props) {
   return { isRead: !message.is_unread };
 }
 
+@withScrollToHash()
 class MessageActionsContainer extends Component {
   static propTypes = {
     message: PropTypes.shape({}).isRequired,
@@ -22,6 +24,7 @@ class MessageActionsContainer extends Component {
     onEditTags: PropTypes.func.isRequired,
     className: PropTypes.string,
     __: PropTypes.func.isRequired,
+    scrollToHash: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -46,8 +49,9 @@ class MessageActionsContainer extends Component {
   };
 
   handleReply = () => {
-    const { onReply, message } = this.props;
+    const { onReply, message, scrollToHash } = this.props;
     onReply({ message });
+    scrollToHash('reply');
   }
 
   handleToggle = () => {
