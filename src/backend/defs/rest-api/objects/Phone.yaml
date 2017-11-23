@@ -4,6 +4,8 @@ properties:
   "$ref": NewPhone.yaml#/properties
   phone_id:
       type: string
+  normalized_number:
+    type: string
 required:
 - number
 additionalProperties: false

@@ -82,6 +82,7 @@ class Phone(BaseUserType):
 
     is_primary = columns.Boolean(default=False)
     number = columns.Text()
+    normalized_number = columns.Text()
     phone_id = columns.UUID(default=uuid.uuid4)
     type = columns.Text()
     uri = columns.Text()    # RFC3966

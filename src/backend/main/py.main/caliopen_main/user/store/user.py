@@ -24,6 +24,12 @@ class UserName(BaseModel):
     user_id = columns.UUID(required=True)
 
 
+class UserRecoveryEmail(BaseModel):
+    """Permit user lookup by recovery_email."""
+
+    recovery_email = columns.Text(primary_key=True)
+    user_id = columns.UUID(required=True)
+
 class ReservedName(BaseModel):
     """List of reserved user names."""
 

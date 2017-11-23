@@ -18,6 +18,7 @@ from caliopen_storage.config import Configuration
 from caliopen_storage.exception import NotFound, CredentialException
 from ..store import (User as ModelUser,
                      UserName as ModelUserName,
+                     UserRecoveryEmail as ModelUserRecoveryEmail,
                      IndexUser,
                      UserTag as ModelUserTag,
                      Settings as ModelSettings,
@@ -121,6 +122,12 @@ class UserName(BaseCore):
     _model_class = ModelUserName
     _pkey_name = 'name'
 
+
+class UserRecoveryEmail(BaseCore):
+    """User Recovery Email object to retrieve user by recovery_email"""
+
+    _model_class = ModelUserRecoveryEmail
+    _pkey_name = 'recovery_email'
 
 class Settings(BaseUserCore):
     """User settings core object."""
@@ -276,6 +283,7 @@ class User(BaseCore):
         # Setup others entities related to user
         core.setup_system_tags()
         core.setup_settings(new_user.settings)
+        UserRecoveryEmail.create(recovery_email=recovery, user_id=user_id)
         # Add a default local identity on a default configured domain
         default_domain = Configuration('global').get('default_domain')
         default_local_id = '{}@{}'.format(core.name, default_domain)

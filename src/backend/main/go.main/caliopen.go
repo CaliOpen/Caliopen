@@ -21,6 +21,9 @@ type (
 	CaliopenFacilities struct {
 		config       CaliopenConfig
 		RESTfacility REST.RESTservices
+
+		Cache backends.APICache
+
 		// NATS facility
 		nats *nats.Conn
 		// LDA facility
@@ -49,7 +52,10 @@ func (facilities *CaliopenFacilities) initialize(config CaliopenConfig) (err err
 	}
 
 	// REST facility initialization
-	facilities.RESTfacility = REST.NewRESTfacility(config, facilities.nats)
+	rest := REST.NewRESTfacility(config, facilities.nats)
+	facilities.RESTfacility = rest
+	// copy cache facility from REST facility
+	facilities.Cache = rest.Cache
 
 	// Notifications facility initialization
 	facilities.Notifiers = Notifications.NewNotificationsFacility(config, facilities.nats)

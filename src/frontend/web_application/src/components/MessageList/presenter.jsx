@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button';
 import MenuBar from '../MenuBar';
@@ -9,7 +9,7 @@ import groupMessages from './services/groupMessages';
 
 import './style.scss';
 
-class MessageList extends PureComponent {
+class MessageList extends Component {
   static propTypes = {
     isFetching: PropTypes.bool,
     loadMore: PropTypes.node,
@@ -31,6 +31,10 @@ class MessageList extends PureComponent {
     loadMore: null,
     onMessageView: null,
   };
+
+  state = {
+    anchor: '',
+  }
 
   handleReplyToLastMessage = () => {
     const { messages, onMessageReply } = this.props;

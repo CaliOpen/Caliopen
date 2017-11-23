@@ -29,6 +29,10 @@ paths:
     "$ref": paths/identities.yaml#/identities_remotes
   "/v1/identities/remotes/{identifier}":
     "$ref": paths/identities.yaml#/identities_remotes_{identifier}
+  "/v2/passwords/reset":
+    "$ref": paths/passwords.yaml#/passwords_reset
+  "/v2/passwords/reset/{token}":
+    "$ref": paths/passwords.yaml#/passwords_reset_{token}
 ## contacts ##
   "/v1/contacts":
     "$ref": paths/contacts.yaml#/contacts

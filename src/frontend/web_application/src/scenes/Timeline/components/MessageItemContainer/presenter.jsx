@@ -82,7 +82,7 @@ class MessageItemContainer extends Component {
   }
 
   renderActions= () => {
-    const { __ } = this.props;
+    const { __, message } = this.props;
     const actionsClassName = classnames(
       'm-message-item-container__actions',
       { 'm-message-item-container__actions--swiped': this.state.isSwiped },
@@ -94,9 +94,9 @@ class MessageItemContainer extends Component {
         <Button shape="plain" className="m-message-item-container__action" onClick={this.handleDelete}>
           {__('message-item.action.delete')}
         </Button>
-        <Button shape="plain" className="m-message-item-container__action" onClick={this.handleReply}>
+        {!message.is_draft && (<Button shape="plain" className="m-message-item-container__action" onClick={this.handleReply}>
           {__('message-item.action.reply')}
-        </Button>
+        </Button>)}
         <Button shape="plain" className="m-message-item-container__action" onClick={this.handleOpenTags}>
           {__('message-item.action.manage_tags')}
         </Button>

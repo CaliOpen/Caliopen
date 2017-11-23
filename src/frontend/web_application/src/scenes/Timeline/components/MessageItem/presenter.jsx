@@ -42,11 +42,12 @@ class MessageItem extends PureComponent {
 
   render() {
     const { message, settings: { default_locale: locale }, __ } = this.props;
+    const hash = message.is_draft ? 'reply' : message.message_id;
 
     return (
       <MessageItemContainer message={message} __={__}>
         <Link
-          to={`/discussions/${message.discussion_id}`}
+          to={`/discussions/${message.discussion_id}#${hash}`}
           className={classnames('s-message-item', { 's-message-item--unread': message.is_unread, 's-message-item--draft': message.is_draft })}
           noDecoration
         >

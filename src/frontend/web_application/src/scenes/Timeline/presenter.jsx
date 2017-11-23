@@ -7,6 +7,7 @@ import BlockList from '../../components/BlockList';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import MenuBar from '../../components/MenuBar';
 import MessageItem from './components/MessageItem';
+import ScrollToWhenHash from '../../components/ScrollToWhenHash';
 import './style.scss';
 
 const LOAD_MORE_THROTTLE = 1000;
@@ -58,7 +59,7 @@ class Timeline extends Component {
     const { user, messages, isFetching, hasMore, __ } = this.props;
 
     return (
-      <div className="s-timeline">
+      <ScrollToWhenHash forceTop className="s-timeline">
         <MenuBar className="s-timeline__menu-bar">
           <Spinner isLoading={isFetching} className="s-timeline__spinner" />
         </MenuBar>
@@ -74,7 +75,7 @@ class Timeline extends Component {
             <Button shape="hollow" onClick={this.loadMore}>{__('general.action.load_more')}</Button>
           </div>
         )}
-      </div>
+      </ScrollToWhenHash>
     );
   }
 }

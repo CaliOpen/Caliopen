@@ -19,21 +19,24 @@ type (
 		EmailNotifiers
 	}
 
-	Facility struct {
+	Notifier struct {
 		index              backends.NotificationsIndex
 		nats_outSMTP_topic string
 		queue              *nats.Conn
 		store              backends.NotificationsStore
-		admin              *User //Admin user on whose behalf actions could be done
+		admin              *User          //Admin user on whose behalf actions could be done
+		adminLocalID       *LocalIdentity // admin's local identity used to send emails
+		config             *NotifierConfig
 	}
 )
 
 // NewNotificationsFacility initialises the notifiers
 // it takes the same store & index configurations than the REST API for now
-func NewNotificationsFacility(config CaliopenConfig, queue *nats.Conn) (notif_facility *Facility) {
-	notif_facility = new(Facility)
-	notif_facility.queue = queue
-	notif_facility.nats_outSMTP_topic = config.NatsConfig.OutSMTP_topic
+func NewNotificationsFacility(config CaliopenConfig, queue *nats.Conn) (notifier *Notifier) {
+	notifier = new(Notifier)
+	notifier.queue = queue
+	notifier.config = &config.NotifierConfig
+	notifier.nats_outSMTP_topic = config.NatsConfig.OutSMTP_topic
 	switch config.RESTstoreConfig.BackendName {
 	case "cassandra":
 		cassaConfig := store.CassandraConfig{
@@ -54,7 +57,7 @@ func NewNotificationsFacility(config CaliopenConfig, queue *nats.Conn) (notif_fa
 		if err != nil {
 			log.WithError(err).Fatalf("Initalization of %s backend failed", config.RESTstoreConfig.BackendName)
 		}
-		notif_facility.store = backends.NotificationsStore(backend) // type conversion
+		notifier.store = backends.NotificationsStore(backend) // type conversion
 	default:
 		log.Fatalf("Unknown backend: %s", config.RESTstoreConfig.BackendName)
 	}
@@ -68,15 +71,24 @@ func NewNotificationsFacility(config CaliopenConfig, queue *nats.Conn) (notif_fa
 		if err != nil {
 			log.WithError(err).Fatalf("Initalization of %s index failed", config.RESTindexConfig.IndexName)
 		}
-		notif_facility.index = backends.NotificationsIndex(index) // type conversion
+		notifier.index = backends.NotificationsIndex(index) // type conversion
 	default:
 		log.Fatalf("Unknown index: %s", config.RESTindexConfig.IndexName)
 	}
 
-	user, err := notif_facility.store.UserByUsername(config.AdminUsername)
+	user, err := notifier.store.UserByUsername(config.NotifierConfig.AdminUsername)
 	if err != nil {
-		log.WithError(err).Warnf("Failed to retrieve admin user <%s>", config.AdminUsername)
+		log.WithError(err).Warnf("Failed to retrieve admin user <%s>", config.NotifierConfig.AdminUsername)
+	} else if user != nil {
+		notifier.admin = user
+		ids, err := notifier.store.GetLocalsIdentities(user.UserId.String())
+		if err != nil {
+			log.WithError(err).Warnf("Failed to retrieve local identities for admin user <%s>", config.NotifierConfig.AdminUsername)
+		} else {
+			// get first local identity found for now
+			notifier.adminLocalID = &(ids[0])
+		}
 	}
-	notif_facility.admin = user
-	return notif_facility
+
+	return notifier
 }

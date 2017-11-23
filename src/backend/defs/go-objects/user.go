@@ -29,6 +29,28 @@ type User struct {
 	UserId           UUID   `cql:"user_id"                  json:"user_id"              elastic:"omit"      formatter:"rfc4122"`
 }
 
+// payload for triggering a password reset procedure for an end-user.
+type PasswordResetRequest struct {
+	RecoveryMail string `json:"recovery_email"`
+	Username     string `json:"username"`
+}
+
+// data stored into cache for authenticated user
+type Auth_cache struct {
+	Access_token  string    `json:"access_token"`
+	Expires_in    int       `json:"expires_in"`
+	Expires_at    time.Time `json:"expires_at"`
+	Refresh_token string    `json:"refresh_token"`
+}
+
+// data stored into cache as long as a reset password request is pending for an user
+type Pass_reset_session struct {
+	Reset_token string    `json:"reset_token"`
+	Expires_in  int       `json:"expires_in"`
+	Expires_at  time.Time `json:"expires_at"`
+	User_id     string    `json:"user_id"`
+}
+
 // unmarshal a map[string]interface{} that must owns all Contact's fields
 // typical usage is for unmarshaling response from Cassandra backend
 func (user *User) UnmarshalCQLMap(input map[string]interface{}) {
@@ -159,4 +181,26 @@ func (user *User) NewEmpty() interface{} {
 	u := new(User)
 	u.Params = make(map[string]string)
 	return u
+}
+
+//bespoke unmarshaller to workaround the expires_at field that is not RFC in cache (tz is missing, thanks python)
+func (ac *Auth_cache) UnmarshalJSON(b []byte) error {
+	var temp struct {
+		Access_token  string `json:"access_token"`
+		Expires_in    int    `json:"expires_in"`
+		Expires_at    string `json:"expires_at"`
+		Refresh_token string `json:"refresh_token"`
+	}
+	if err := json.Unmarshal(b, &temp); err != nil {
+		return err
+	}
+	ac.Access_token = temp.Access_token
+	ac.Expires_in = temp.Expires_in
+	expire, err := time.Parse(time.RFC3339Nano, temp.Expires_at+"Z")
+	if err != nil {
+		return err
+	}
+	ac.Expires_at = expire
+	ac.Refresh_token = temp.Refresh_token
+	return nil
 }

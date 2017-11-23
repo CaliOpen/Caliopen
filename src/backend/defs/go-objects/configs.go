@@ -5,8 +5,8 @@ type (
 		RESTstoreConfig RESTstoreConfig
 		RESTindexConfig RESTIndexConfig
 		NatsConfig      NatsConfig
-		//LDAstoreConfig  LDAstoreConfig
-		AdminUsername string
+		CacheConfig     CacheConfig
+		NotifierConfig  NotifierConfig
 	}
 
 	// REST API
@@ -25,6 +25,13 @@ type (
 		Hosts     []string `mapstructure:"hosts"`
 	}
 
+	// redis
+	CacheConfig struct {
+		Host     string `mapstructure:"host"`
+		Password string `mapstructure:"password"`
+		Db       int    `mapstructure:"db"`
+	}
+
 	// NATS
 	NatsConfig struct {
 		Url           string `mapstructure:"url"`
@@ -37,5 +44,12 @@ type (
 		SecretKey string            `mapstructure:"secret_key"`
 		Location  string            `mapstructure:"location"`
 		Buckets   map[string]string `mapstructure:"buckets"`
+	}
+
+	// Notifications facility
+	NotifierConfig struct {
+		AdminUsername string `mapstructure:"admin_username"`
+		BaseUrl       string `mapstructure:"base_url"`       // url upon which to build custom links sent to users. No trailing slash please.
+		TemplatesPath string `mapstructure:"templates_path"` // path to templates Notifiers may need to access to
 	}
 )

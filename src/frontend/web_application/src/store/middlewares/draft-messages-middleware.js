@@ -2,7 +2,6 @@ import throttle from 'lodash.throttle';
 import isEqual from 'lodash.isequal';
 import { push, replace } from 'react-router-redux';
 import { createNotification, NOTIFICATION_TYPE_ERROR } from 'react-redux-notify';
-import { matchPath } from 'react-router-dom';
 import { REQUEST_NEW_DRAFT, REQUEST_NEW_DRAFT_SUCCESS, REQUEST_DRAFT, EDIT_DRAFT, SAVE_DRAFT, SEND_DRAFT, requestNewDraftSuccess, requestDraftSuccess, syncDraft, clearDraft, editDraft } from '../modules/draft-message';
 import { CREATE_MESSAGE_SUCCESS, UPDATE_MESSAGE_SUCCESS, POST_ACTIONS_SUCCESS, REPLY_TO_MESSAGE, requestMessages, requestMessage, createMessage, updateMessage, postActions } from '../modules/message';
 import { requestLocalIdentities } from '../modules/local-identity';
@@ -176,9 +175,9 @@ const editDraftHandler = ({ store, action }) => {
   throttled();
 };
 
-const sendDraftHandler = async ({ store, action }) => {
+const sendDraftMiddleware = store => next => (action) => {
   if (action.type !== SEND_DRAFT) {
-    return;
+    return next(action);
   }
 
   const { internalId, draft, original } = action.payload;
@@ -190,28 +189,30 @@ const sendDraftHandler = async ({ store, action }) => {
     return createOrUpdateDraft({ internalId, draft, store, original });
   };
 
-  const message = await getMessage();
-  const postActionsAction = await store.dispatch(postActions({ message, actions: ['send'] }));
-  if (postActionsAction.type !== POST_ACTIONS_SUCCESS) {
-    throw new Error('Fail to send');
-  }
+  return getMessage().then(async (message) => {
+    const postActionsAction = await store.dispatch(postActions({ message, actions: ['send'] }));
+    if (postActionsAction.type !== POST_ACTIONS_SUCCESS) {
+      throw new Error('Fail to send');
+    }
 
-  if (store.getState().router.location.pathname === `/compose/${internalId}`) {
-    store.dispatch(push(`/discussions/${message.discussion_id}`));
-  }
+    if (store.getState().router.location.pathname === `/compose/${internalId}`) {
+      store.dispatch(push(`/discussions/${message.discussion_id}`));
+    }
 
-  const tab = store.getState().tab.tabs
-    .find(currentTab => currentTab.pathname === `/compose/${internalId}`);
+    const tab = store.getState().tab.tabs
+      .find(currentTab => currentTab.pathname === `/compose/${internalId}`);
 
-  if (tab) {
-    store.dispatch(removeTab(tab));
-  }
+    if (tab) {
+      store.dispatch(removeTab(tab));
+    }
 
-  store.dispatch(clearDraft({ internalId }));
+    store.dispatch(clearDraft({ internalId }));
+  });
 };
 
 const draftSelector = (state, { internalId }) => state.draftMessage.draftsByInternalId[internalId];
-const locationSelector = state => state.router.location;
+
+const REPLY_HASH = 'reply';
 
 const replyToMessageHandler = async ({ store, action }) => {
   if (action.type !== REPLY_TO_MESSAGE) {
@@ -229,14 +230,10 @@ const replyToMessageHandler = async ({ store, action }) => {
     parent_id: messageInReply.message_id,
   };
   const message = draft.message_id ? state.message.messagesById[draft.message_id] : undefined;
-  const discussionPath = `/discussions/${messageInReply.discussion_id}`;
-  const location = locationSelector(state);
-  const isCurrentDiscussionLocation = location && matchPath(location.pathname, {
-    path: discussionPath,
-  });
+  const discussionPath = `/discussions/${messageInReply.discussion_id}#${REPLY_HASH}`;
 
   return Promise.all([
-    ...(!isCurrentDiscussionLocation ? [store.dispatch(push(discussionPath))] : []),
+    store.dispatch(push(discussionPath)),
     store.dispatch(editDraft({ internalId, draft, message })),
   ]);
 };
@@ -255,7 +252,6 @@ export default store => next => (action) => {
 
   editDraftHandler({ store, action });
   requestDraftHandler({ store, action });
-  sendDraftHandler({ store, action });
   requestNewDraftHandler({ store, action });
   requestNewDraftSuccessHandler({ store, action });
   replyToMessageHandler({ store, action });
@@ -265,4 +261,5 @@ export default store => next => (action) => {
 
 export const middlewares = [
   saveDraftMiddleware,
+  sendDraftMiddleware,
 ];

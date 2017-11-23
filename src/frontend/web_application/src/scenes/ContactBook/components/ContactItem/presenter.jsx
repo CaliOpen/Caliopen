@@ -13,23 +13,23 @@ class ContactItem extends PureComponent {
   static defaultProps = {
   };
 
-  renderTitle() {
-    const { contact, contact_display_format: format } = this.props;
-
-    return formatName({ contact, format });
-  }
-
   render() {
-    const { contact } = this.props;
+    const { contact, contact_display_format: format } = this.props;
+    const contactTitle = formatName({ contact, format });
 
     return (
       <Link noDecoration className="m-contact-list__contact" to={`/contacts/${contact.contact_id}`}>
         <div className="m-contact-list__contact-avatar">
-          <ContactAvatarLetter isRound contact={contact} size={SIZE_SMALL} />
+          <ContactAvatarLetter
+            isRound
+            contact={contact}
+            size={SIZE_SMALL}
+            contactDisplayFormat={format}
+          />
         </div>
         <TextBlock className="m-contact-list__contact-info">
           {contact.name_prefix && (<span className="m-contact-list__contact-prefix">{contact.name_prefix}</span>)}
-          <span className="m-contact-list__contact-title">{this.renderTitle()}</span>
+          <span className="m-contact-list__contact-title">{contactTitle}</span>
           {contact.name_suffix && (<span className="m-contact-list__contact-suffix">, {contact.name_suffix}</span>)}
         </TextBlock>
         {/*  TODO: add tags */}

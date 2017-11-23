@@ -17,7 +17,6 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/go-openapi/loads"
 	"gopkg.in/gin-gonic/gin.v1"
-	"gopkg.in/redis.v5"
 	"os"
 )
 
@@ -28,19 +27,18 @@ var (
 type (
 	REST_API struct {
 		config   APIConfig
-		cache    *redis.Client
 		swagSpec *loads.Document
 	}
 
 	APIConfig struct {
-		Host          string `mapstructure:"host"`
-		Port          string `mapstructure:"port"`
-		SwaggerFile   string `mapstructure:"swaggerSpec"`
-		BackendConfig `mapstructure:"BackendConfig"`
-		IndexConfig   `mapstructure:"IndexConfig"`
-		CacheSettings `mapstructure:"RedisConfig"`
-		NatsConfig    `mapstructure:"NatsConfig"`
-		AdminUsername string `mapstructure:"adminUsername"`
+		Host           string `mapstructure:"host"`
+		Port           string `mapstructure:"port"`
+		SwaggerFile    string `mapstructure:"swaggerSpec"`
+		BackendConfig  `mapstructure:"BackendConfig"`
+		IndexConfig    `mapstructure:"IndexConfig"`
+		CacheSettings  `mapstructure:"RedisConfig"`
+		NatsConfig     `mapstructure:"NatsConfig"`
+		NotifierConfig `mapstructure:"NotifierConfig"`
 	}
 
 	BackendConfig struct {
@@ -71,9 +69,16 @@ type (
 		Password string `mapstructure:"password"`
 		Db       int    `mapstructure:"db"`
 	}
+
 	NatsConfig struct {
 		Url           string `mapstructure:"url"`
 		OutSMTP_topic string `mapstructure:"outSMTP_topic"`
+	}
+
+	NotifierConfig struct {
+		AdminUsername string `mapstructure:"admin_username"`
+		BaseUrl       string `mapstructure:"base_url"`
+		TemplatesPath string `mapstructure:"templates_path"`
 	}
 )
 
@@ -100,11 +105,20 @@ func (server *REST_API) initialize(config APIConfig) error {
 			IndexName: config.IndexConfig.IndexName,
 			Hosts:     config.IndexConfig.Settings.Hosts,
 		},
+		CacheConfig: obj.CacheConfig{
+			Host:     config.CacheSettings.Host,
+			Password: config.CacheSettings.Password,
+			Db:       config.CacheSettings.Db,
+		},
 		NatsConfig: obj.NatsConfig{
 			Url:           config.NatsConfig.Url,
 			OutSMTP_topic: config.NatsConfig.OutSMTP_topic,
 		},
-		AdminUsername: config.AdminUsername,
+		NotifierConfig: obj.NotifierConfig{
+			AdminUsername: config.NotifierConfig.AdminUsername,
+			BaseUrl:       config.NotifierConfig.BaseUrl,
+			TemplatesPath: config.NotifierConfig.TemplatesPath,
+		},
 	}
 
 	err := caliopen.Initialize(caliopenConfig)
@@ -112,17 +126,6 @@ func (server *REST_API) initialize(config APIConfig) error {
 	if err != nil {
 		log.WithError(err).Fatal("Caliopen facilities initialization failed")
 	}
-
-	client := redis.NewClient(&redis.Options{
-		Addr:     config.CacheSettings.Host,
-		Password: config.CacheSettings.Password,
-		DB:       config.CacheSettings.Db,
-	})
-	_, err = client.Ping().Result()
-	if err != nil {
-		return err
-	}
-	server.cache = client
 
 	//checks that with could open the swagger specs file
 	_, err = os.Stat(server.config.SwaggerFile)
@@ -165,18 +168,25 @@ func (server *REST_API) start() error {
 func (server *REST_API) AddHandlers(api *gin.RouterGroup) {
 
 	/** users API **/
-	usrs := api.Group("/users", http_middleware.BasicAuthFromCache(server.cache, "caliopen"))
+	usrs := api.Group("/users", http_middleware.BasicAuthFromCache(caliopen.Facilities.Cache, "caliopen"))
 	usrs.PATCH("/:user_id", users.PatchUser)
 
-	identities := api.Group(http_middleware.IdentitiesRoute, http_middleware.BasicAuthFromCache(server.cache, "caliopen"))
+	identities := api.Group(http_middleware.IdentitiesRoute, http_middleware.BasicAuthFromCache(caliopen.Facilities.Cache, "caliopen"))
 	identities.GET("/locals", users.GetLocalsIdentities)
 	identities.GET("/locals/:identity_id", users.GetLocalIdentity)
+
+	/** passwords API **/
+	passwords := api.Group("/passwords")
+	passwords.GET("/reset", notImplemented)
+	passwords.POST("/reset", users.RequestPasswordReset)
+	passwords.GET("/reset/:reset_token", users.ValidatePassResetToken)
+	passwords.POST("/reset/:reset_token", users.ResetPassword)
 
 	/** username API **/
 	api.GET("/username/isAvailable", users.IsAvailable)
 
 	/** messages API **/
-	msg := api.Group("/messages", http_middleware.BasicAuthFromCache(server.cache, "caliopen"))
+	msg := api.Group("/messages", http_middleware.BasicAuthFromCache(caliopen.Facilities.Cache, "caliopen"))
 	msg.GET("", messages.GetMessagesList)
 	msg.GET("/:message_id", messages.GetMessage)
 	msg.POST("/:message_id/actions", messages.Actions)
@@ -186,15 +196,15 @@ func (server *REST_API) AddHandlers(api *gin.RouterGroup) {
 	msg.GET("/:message_id/attachments/:attachment_id", messages.DownloadAttachment)
 
 	/** participants API **/
-	parts := api.Group("/participants", http_middleware.BasicAuthFromCache(server.cache, "caliopen"))
+	parts := api.Group("/participants", http_middleware.BasicAuthFromCache(caliopen.Facilities.Cache, "caliopen"))
 	parts.GET("/suggest", participants.Suggest)
 
 	/** contacts API **/
-	cts := api.Group("/contacts", http_middleware.BasicAuthFromCache(server.cache, "caliopen"))
+	cts := api.Group("/contacts", http_middleware.BasicAuthFromCache(caliopen.Facilities.Cache, "caliopen"))
 	cts.GET("/:contact_id/identities", contacts.GetIdentities)
 
 	/** tags API **/
-	tag := api.Group(http_middleware.TagsRoute, http_middleware.BasicAuthFromCache(server.cache, "caliopen"))
+	tag := api.Group(http_middleware.TagsRoute, http_middleware.BasicAuthFromCache(caliopen.Facilities.Cache, "caliopen"))
 	tag.GET("", tags.RetrieveUserTags)
 	tag.POST("", tags.CreateTag)
 	tag.GET("/:tag_id", tags.RetrieveTag)
@@ -202,7 +212,7 @@ func (server *REST_API) AddHandlers(api *gin.RouterGroup) {
 	tag.DELETE("/:tag_id", tags.DeleteTag)
 
 	/** search API **/
-	search := api.Group("/search", http_middleware.BasicAuthFromCache(server.cache, "caliopen"))
+	search := api.Group("/search", http_middleware.BasicAuthFromCache(caliopen.Facilities.Cache, "caliopen"))
 	search.GET("", operations.SimpleSearch)
 	search.POST("", operations.AdvancedSearch)
 }

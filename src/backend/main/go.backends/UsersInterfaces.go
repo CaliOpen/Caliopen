@@ -12,10 +12,12 @@ type (
 	UserStorage interface {
 		GetSettings(user_id string) (settings *Settings, err error)
 		RetrieveUser(user_id string) (user *User, err error)
-		UpdateUserPassword(user *User) error
+		UpdateUserPasswordHash(user *User) error
 		UpdateUser(user *User, fields map[string]interface{}) error
+		UserByRecoveryEmail(email string) (user *User, err error)
 	}
 	UserNameStorage interface {
 		UsernameIsAvailable(username string) (bool, error)
+		UserByUsername(username string) (user *User, err error)
 	}
 )

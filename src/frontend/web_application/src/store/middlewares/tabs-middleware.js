@@ -1,6 +1,7 @@
 import { matchPath } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import { URLSearchParams } from '../../services/url';
+import { formatName } from '../../services/contact';
 import { getInfosFromName } from '../../services/application-manager';
 import { getTranslator } from '../../services/i18n';
 import { SELECT_OR_ADD_TAB, REMOVE_TAB, addTab, selectOrAdd, updateTab } from '../modules/tab';
@@ -56,13 +57,20 @@ const createDiscussionTab = async (store, discussionId, { pathname, search, hash
 
 const createContactTab = async (store, contactId, { pathname, search, hash }) =>
   store.dispatch(requestContact({ contactId }))
-    .then(({ payload: { data: { title: label } } }) => ({
-      pathname,
-      search,
-      hash,
-      label,
-      icon: 'user',
-    }));
+    .then(({ payload: { data: contact } }) => {
+      const { translate: __ } = getTranslator();
+      const settings = store.getState().settings.settings;
+      const format = settings.contact_display_format;
+      const label = formatName({ contact, format }) || __('contact.profile.name_not_set');
+
+      return {
+        pathname,
+        search,
+        hash,
+        label,
+        icon: 'user',
+      };
+    });
 
 const createNewContactTab = ({ pathname, search, hash }) => {
   const { translate: __ } = getTranslator();

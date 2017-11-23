@@ -28,9 +28,7 @@ class PageContainer extends Component {
           <Header />
           <Navigation />
           <section role="main">
-            <div className="l-body__content">
-              {children}
-            </div>
+            <div className="l-body__content">{children}</div>
           </section>
           <section>
             <div className="l-body__footer-alpha" dangerouslySetInnerHTML={__('alpha.footer.feedback', { withHTML: true })} />

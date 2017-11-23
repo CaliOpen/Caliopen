@@ -57,6 +57,7 @@ class IndexedPhone(InnerObjectWrapper):
 
     is_primary = Boolean()
     number = Text()
+    normalized_number = Text()
     phone_id = Keyword()
     type = Keyword()
     uri = Keyword()
@@ -171,6 +172,7 @@ class IndexedContact(BaseIndexDocument):
                         properties={
                             "is_primary": "boolean",
                             "number": "text",
+                            "normalized_number": "text",
                             "phone_id": "keyword",
                             "type": "keyword",
                             "uri": "keyword"

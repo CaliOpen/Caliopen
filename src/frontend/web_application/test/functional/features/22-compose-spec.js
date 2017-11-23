@@ -83,7 +83,7 @@ describe('Compose new message', () => {
           const draftBodyElement1 = element(by.css('.m-discussion-textarea__body'));
           expect(draftBodyElement1.getText()).toEqual(text1);
         })
-        .then(() => element(by.cssContainingText('.m-navbar-item__content', 'Discussions')).click())
+        .then(() => element(by.cssContainingText('.m-navbar-item__content', 'Messages')).click())
         .then(() => browser.wait(EC.presenceOf($('.s-timeline .s-message-item')), 3 * 1000))
         .then(() => expect(
           element.all(by.cssContainingText('.s-message-item__col-title', text1)).count()

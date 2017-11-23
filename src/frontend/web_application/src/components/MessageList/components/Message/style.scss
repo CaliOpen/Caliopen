@@ -103,6 +103,8 @@
   }
 
   &__footer {
+    min-height: $co-component__height;
+    background: $co-color__fg__back--high;
     border-top: 1px solid $co-color__fg__back--lower;
     color: $co-color__fg__text--lower;
     line-height: $co-component__height;

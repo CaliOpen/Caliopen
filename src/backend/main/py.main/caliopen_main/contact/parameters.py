@@ -162,7 +162,8 @@ class NewPhone(Model):
     """Input structure for a new phone."""
 
     is_primary = BooleanType(default=False)
-    number = PhoneNumberType()
+    number = StringType(required=True)
+    normalized_number = PhoneNumberType()
     type = StringType(choices=PHONE_TYPES, default='other')
     uri = StringType()
 
@@ -249,6 +250,7 @@ class NewContact(Model):
     emails = ListType(ModelType(NewEmail), default=lambda: [])
     family_name = StringType()
     given_name = StringType()
+    title = StringType()
     groups = ListType(StringType)
     identities = ListType(ModelType(NewSocialIdentity), default=lambda: [])
     ims = ListType(ModelType(NewIM), default=lambda: [], )
@@ -283,9 +285,7 @@ class Contact(NewContact):
     organizations = ListType(ModelType(Organization), default=lambda: [])
     phones = ListType(ModelType(Phone), default=lambda: [])
     public_keys = ListType(ModelType(PublicKey), default=lambda: [])
-    pi = ModelType(PIParameter)
-    # XXX not such default here
-    title = StringType()
+    pi = ModelType(PIParameter)    
     user_id = UUIDType()
 
     class Options:

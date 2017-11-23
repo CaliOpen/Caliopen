@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import calcObjectForPatch from '../../../../services/api-patch';
 import { PasswordStrength, TextFieldGroup, FormGrid, FormColumn, FormRow } from '../../../../components/form';
 import Button from '../../../../components/Button';
 import './style.scss';
@@ -80,7 +79,13 @@ class PasswordForm extends Component {
     const { formValues } = this.state;
     const user = { password: formValues.newPassword };
     const original = { password: formValues.password };
-    const data = calcObjectForPatch(user, original);
+
+    const data = {
+      ...user,
+      current_state: {
+        ...original,
+      },
+    };
 
     this.props.onSubmit(data);
   }

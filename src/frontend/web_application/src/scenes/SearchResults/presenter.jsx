@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import SearchResultsLayout from '../../layouts/SearchResults';
+import ScrollToWhenHash from '../../components/ScrollToWhenHash';
 import Link from '../../components/Link';
 import Button from '../../components/Button';
 import InfiniteScroll from '../../components/InfiniteScroll';
@@ -190,13 +191,14 @@ class SearchResults extends Component {
     const { term, doctype, searchResultsPreview } = this.props;
 
     return (
-      <SearchResultsLayout
-        className="s-search-results"
-        term={term}
-        searchResultsPreview={searchResultsPreview}
-      >
-        {doctype ? this.renderResults() : this.renderPreview()}
-      </SearchResultsLayout>
+      <ScrollToWhenHash forceTop className="s-search-results">
+        <SearchResultsLayout
+          term={term}
+          searchResultsPreview={searchResultsPreview}
+        >
+          {doctype ? this.renderResults() : this.renderPreview()}
+        </SearchResultsLayout>
+      </ScrollToWhenHash>
     );
   }
 }

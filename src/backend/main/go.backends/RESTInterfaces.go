@@ -28,3 +28,13 @@ type APIIndex interface {
 	FilterMessages(search IndexSearch) (messages []*Message, totalFound int64, err error)
 	Search(search IndexSearch) (result *IndexResult, err error)
 }
+
+type APICache interface {
+	// authentication
+	GetAuthToken(token string) (value *Auth_cache, err error)
+	// password reset process
+	GetResetPasswordToken(token string) (*Pass_reset_session, error)
+	GetResetPasswordSession(user_id string) (*Pass_reset_session, error)
+	SetResetPasswordSession(user_id, reset_token string) (*Pass_reset_session, error)
+	DeleteResetPasswordSession(user_id string) error
+}

@@ -112,9 +112,10 @@ def parse_vcard(vcard):
                 add.postal_code = ad.value.code
                 add.region = ad.value.region
                 add.street = ad.value.street
+                adr_type = ad.params.get('TYPE', [None])[0]
                 for i in ADDRESS_TYPES:
-                    if i == ad.type_param:
-                        add.type = ad.type_param
+                    if i == adr_type:
+                        add.type = adr_type
                 if not add.type:
                     add.type = ADDRESS_TYPES[2]
                 new_contact.addresses.append(add)
@@ -193,13 +194,14 @@ def parse_vcard(vcard):
             for tel in vcard.contents['tel']:
                 phone = NewPhone()
                 phone.is_primary = False
+                phone.number = tel.value
                 try:
                     func = PhoneNumberType.validate_phone
-                    phone.number = func(PhoneNumberType(), tel.value)
-                    new_contact.phones.append(phone)
+                    phone.normalized_number = func(PhoneNumberType(),
+                                                   tel.value)
                 except:
                     pass
-
+                new_contact.phones.append(phone)
     return new_contact
 
 

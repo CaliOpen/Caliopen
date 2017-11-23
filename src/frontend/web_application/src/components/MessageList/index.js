@@ -1,5 +1,7 @@
+import { compose } from 'redux';
 import { withTranslator } from '@gandi/react-translate';
-
 import Presenter from './presenter';
 
-export default withTranslator()(Presenter);
+export default compose(
+  withTranslator()
+)(Presenter);

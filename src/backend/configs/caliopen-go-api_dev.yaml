@@ -31,10 +31,14 @@ ApiConfig:
     host: redis.dev.caliopen.org:6379
     password: ""        #no password set
     db: 0               #use default db
-  adminUsername: admin  # username on whose behalf notifiers will act. This admin user must have been created before by other means.
+  NotifierConfig:
+    base_url: http://localhost:4000                         # url upon which to build custom links sent to users. NO trailing slash please.
+    admin_username: admin                                   # username on whose behalf notifiers will act. This admin user must have been created before by other means.
+    templates_path: "../defs/notifiers/templates/"          # path to yaml/j2 templates directory, WITH trailing slash please.
 ProxyConfig:
   host: 0.0.0.0
   port: 31415
   routes:
   - /api/v2/: 127.0.0.1:6544
   - /: apiv1.dev.caliopen.org:6543         # route "/" catch all other requests
+

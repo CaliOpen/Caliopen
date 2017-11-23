@@ -27,7 +27,7 @@ class LoginDetails extends Component {
         <TextBlock className="m-login-details__title">{__('login.details.title')}</TextBlock>
         <TextFieldGroup
           className="m-login-details__input"
-          value={user.name}
+          value={user && user.name}
           label={__('login.details.label')}
           showLabelforSr
           disabled

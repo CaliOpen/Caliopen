@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { v1 as uuidV1 } from 'uuid';
+import { formatName } from '../../services/contact';
 import ManageTags from './ManageTags';
 import ContactProfileForm from './components/ContactProfileForm';
 import Spinner from '../../components/Spinner';
@@ -22,6 +23,7 @@ import AddressForm from './components/AddressForm';
 import OrgaForm from './components/OrgaForm';
 import IdentityForm from './components/IdentityForm';
 import AddFormFieldForm from './components/AddFormFieldForm';
+import ScrollToWhenHash from '../../components/ScrollToWhenHash';
 
 import './style.scss';
 
@@ -44,6 +46,8 @@ class Contact extends Component {
     currentTab: PropTypes.shape({}),
     removeTab: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired,
     // birthday: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
 
@@ -155,7 +159,7 @@ class Contact extends Component {
   }
 
   renderEditBar = () => {
-    const { __ } = this.props;
+    const { __, pristine, submitting } = this.props;
 
     return (
       <div className="s-contact__edit-bar">
@@ -173,18 +177,20 @@ class Contact extends Component {
           responsive="icon-only"
           icon="check"
           className="s-contact__action"
+          disabled={pristine || submitting}
         >{__('contact.action.validate_edit')}</Button>
       </div>
     );
   }
 
   renderActionBar = () => {
-    const { __, contact } = this.props;
+    const { __, contact, contact_display_format: format } = this.props;
+    const contactDisplayName = formatName({ contact, format });
 
     return (
       <div className="s-contact__action-bar">
         <TextBlock className="s-contact__bar-title">
-          {contact.title}
+          {contactDisplayName}
         </TextBlock>
         <DropdownControl
           toggleId={this.dropdownId}
@@ -256,42 +262,44 @@ class Contact extends Component {
     const { __, isFetching, contact, contactId, form, contact_display_format: format } = this.props;
 
     return (
-      <form onSubmit={this.handleSubmit} method="post">
-        {(contact || !contactId) && (
-          <MenuBar className="s-contact__menu-bar">
-            {
-              // FIXME: edit and action bars be displayed in fixed Header,
-              // not in MenuBar
-            }
-            {this.state.editMode ? this.renderEditBar() : this.renderActionBar()}
-          </MenuBar>
-        )}
-
-        <Spinner isLoading={isFetching} />
-
-        {(contact || !contactId) && (
-          <div className="s-contact">
-            <div className="s-contact__col-datas-irl">
-              <ContactProfile
-                contact={contact}
-                contactDisplayFormat={format}
-                editMode={this.state.editMode}
-                form={(<ContactProfileForm form={form} isNew={!contact} />)}
-              />
-            </div>
-            <div className="s-contact__col-datas-online">
-              <ContactDetails
-                contact={contact}
-                editMode={this.state.editMode}
-                detailForms={this.renderDetailForms()}
-                orgaForms={(<FormCollection component={(<OrgaForm />)} propertyName="organizations" />)}
-                identityForms={(<FormCollection component={(<IdentityForm />)} propertyName="identities" />)}
-                __={__}
-              />
-            </div>
-          </div>
+      <ScrollToWhenHash forceTop>
+        <form onSubmit={this.handleSubmit} method="post">
+          {(contact || !contactId) && (
+            <MenuBar className="s-contact__menu-bar">
+              {
+                // FIXME: edit and action bars be displayed in fixed Header,
+                // not in MenuBar
+              }
+              {this.state.editMode ? this.renderEditBar() : this.renderActionBar()}
+            </MenuBar>
           )}
-      </form>
+
+          <Spinner isLoading={isFetching} />
+
+          {(contact || !contactId) && (
+            <div className="s-contact">
+              <div className="s-contact__col-datas-irl">
+                <ContactProfile
+                  contact={contact}
+                  contactDisplayFormat={format}
+                  editMode={this.state.editMode}
+                  form={(<ContactProfileForm form={form} isNew={!contact} />)}
+                />
+              </div>
+              <div className="s-contact__col-datas-online">
+                <ContactDetails
+                  contact={contact}
+                  editMode={this.state.editMode}
+                  detailForms={this.renderDetailForms()}
+                  orgaForms={(<FormCollection component={(<OrgaForm />)} propertyName="organizations" />)}
+                  identityForms={(<FormCollection component={(<IdentityForm />)} propertyName="identities" />)}
+                  __={__}
+                />
+              </div>
+            </div>
+            )}
+        </form>
+      </ScrollToWhenHash>
     );
   }
 }

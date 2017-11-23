@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { v1 as uuidV1 } from 'uuid';
 import Button from '../Button';
 import Icon from '../Icon';
+import Spinner from '../Spinner';
 import ContactAvatarLetter from '../ContactAvatarLetter';
 import Dropdown, { withDropdownControl } from '../Dropdown';
 import DiscussionDraft, { TopRow, BodyRow, BottomRow } from '../DiscussionDraft';
@@ -32,6 +33,7 @@ class NewDraftForm extends Component {
     user: PropTypes.shape({}),
     renderDraftMessageActionsContainer: PropTypes.func.isRequired,
     __: PropTypes.func.isRequired,
+    isSending: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     draft: {},
@@ -114,10 +116,11 @@ class NewDraftForm extends Component {
   }
 
   render() {
-    const { user, internalId, renderDraftMessageActionsContainer, __ } = this.props;
+    const { user, internalId, renderDraftMessageActionsContainer, __, isSending } = this.props;
     const dropdownId = uuidV1();
     const recipients = this.state.draft.participants && this.state.draft.participants
       .filter(participant => participant.type.toLowerCase() !== 'from');
+    const isMessageValid = (recipients && recipients.length !== 0);
 
     return (
       <DiscussionDraft className="m-new-draft">
@@ -172,9 +175,9 @@ class NewDraftForm extends Component {
               className="m-new-draft__bottom-action"
               shape="plain"
               onClick={this.handleSend}
-              icon="send"
+              icon={isSending ? (<Spinner isLoading display="inline" />) : 'send'}
               responsive="icon-only"
-              disabled={!recipients || recipients.length === 0}
+              disabled={!isMessageValid || isSending}
             >
               {__('messages.compose.action.send')}
             </Button>

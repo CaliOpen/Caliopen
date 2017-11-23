@@ -42,13 +42,25 @@ class ContactMessageQualifier(object):
             current_pi = contact.pi.marshall_dict()
         new_pi = pi.serialize()
         new_pi.pop('date_update')
-        current = {'privacy_features': contact.privacy_features,
-                   'pi': current_pi}
-        patch = {'privacy_features': features,
-                 'pi': new_pi,
-                 'current_state': current}
-        log.info('Will patch with {0}'.format(patch))
-        contact.apply_patch(patch, db=True)
+        current = {}
+        patch = {}
+        if pi.technic or pi.context or pi.comportment:
+            current.update({'pi': current_pi})
+            patch.update({'pi': new_pi})
+        if contact.privacy_features:
+            current_features = contact.privacy_features
+        else:
+            current_features = {}
+        if current_features != features:
+            current.update({'privacy_features': contact.privacy_features})
+            patch.update({'privacy_features': features})
+        if current and patch:
+            patch.update({'current_state': current})
+            log.info('Will patch with {0}'.format(patch))
+            contact.apply_patch(patch, db=True)
+            return True
+        log.debug('No confidentiality update for contact')
+        return False
 
 
 class ContactEmailQualifier(object):

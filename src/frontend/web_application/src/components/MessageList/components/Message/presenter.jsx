@@ -10,8 +10,8 @@ import Icon from '../../../Icon';
 import TextBlock from '../../../TextBlock';
 import MultidimensionalPi from '../../../MultidimensionalPi';
 import Dropdown, { withDropdownControl } from '../../../../components/Dropdown';
+import ScrollToWhenHash from '../../../../components/ScrollToWhenHash';
 import MessageActionsContainer from '../MessageActionsContainer';
-
 import './style.scss';
 
 const DropdownControl = withDropdownControl(Button);
@@ -29,22 +29,23 @@ class Message extends Component {
     onEditTags: PropTypes.func.isRequired,
     settings: PropTypes.shape({}).isRequired,
     __: PropTypes.func.isRequired,
-  };
+  }
 
   static defaultProps = {
-  };
+  }
 
   state = {
     isFold: true,
     isTooLong: false,
-  };
+    isOnTop: undefined,
+  }
 
   componentWillMount() {
     this.dropdownId = uuidV1();
   }
 
   componentDidMount() {
-    setTimeout(this.setContentHeight, 1);
+    setTimeout(this.setContentHeight(), 1);
   }
 
   onChange = (isVisible) => {
@@ -54,7 +55,7 @@ class Message extends Component {
 
   setContentHeight = () => {
     const { message } = this.props;
-    const isTooLong = this.divElement.clientHeight > FOLD_HEIGHT;
+    const isTooLong = this.bodyEl.clientHeight > FOLD_HEIGHT;
 
     this.setState(prevState => ({
       ...prevState,
@@ -88,7 +89,7 @@ class Message extends Component {
         'm-message__body',
         { 'm-message__body--rich-text': !message.body_is_plain },
       ),
-      ref: (divElement) => { this.divElement = divElement; },
+      ref: (el) => { this.bodyEl = el; },
     };
 
     return (
@@ -124,7 +125,7 @@ class Message extends Component {
     );
 
     return (
-      <div className="m-message" onChange={this.onChange}>
+      <ScrollToWhenHash id={message.message_id} className="m-message">
         <div className="m-message__avatar-col">
           <ContactAvatarLetter
             contact={author}
@@ -194,7 +195,7 @@ class Message extends Component {
             }
           </div>
         </div>
-      </div>
+      </ScrollToWhenHash>
     );
   }
 }

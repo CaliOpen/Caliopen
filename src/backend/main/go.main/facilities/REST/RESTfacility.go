@@ -7,6 +7,7 @@ package REST
 import (
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.backends"
+	"github.com/CaliOpen/Caliopen/src/backend/main/go.backends/cache/redis"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.backends/index/elasticsearch"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.backends/store/cassandra"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.main/facilities/Notifications"
@@ -44,10 +45,14 @@ type (
 		Search(IndexSearch) (result *IndexResult, err error)
 		//users
 		PatchUser(user_id string, patch *gjson.Result, notifier Notifications.Notifiers) error
+		RequestPasswordReset(payload PasswordResetRequest, notifier Notifications.EmailNotifiers) error
+		ValidatePasswordResetToken(token string) (session *Pass_reset_session, err error)
+		ResetUserPassword(token, new_password string, notifier Notifications.EmailNotifiers) error
 	}
 	RESTfacility struct {
 		store              backends.APIStorage
 		index              backends.APIIndex
+		Cache              backends.APICache
 		nats_conn          *nats.Conn
 		nats_outSMTP_topic string
 	}
@@ -87,14 +92,21 @@ func NewRESTfacility(config CaliopenConfig, nats_conn *nats.Conn) (rest_facility
 		esConfig := index.ElasticSearchConfig{
 			Urls: config.RESTindexConfig.Hosts,
 		}
-		index, err := index.InitializeElasticSearchIndex(esConfig)
+		indx, err := index.InitializeElasticSearchIndex(esConfig)
 		if err != nil {
 			log.WithError(err).Fatalf("Initalization of %s index failed", config.RESTindexConfig.IndexName)
 		}
-		rest_facility.index = backends.APIIndex(index) // type conversion
+		rest_facility.index = backends.APIIndex(indx) // type conversion
 	default:
 		log.Fatalf("Unknown index: %s", config.RESTindexConfig.IndexName)
 	}
+
+	cach, err := cache.InitializeRedisBackend(config.CacheConfig)
+	if err != nil {
+		log.WithError(err).Fatal("Initialization of Redis cache failed")
+	}
+
+	rest_facility.Cache = backends.APICache(cach) // type conversion
 
 	return rest_facility
 }

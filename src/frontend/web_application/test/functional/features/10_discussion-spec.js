@@ -11,7 +11,7 @@ describe('Discussions', () => {
     browser.get('/')
       .then(() => {
         const appSwitcher = element(by.css('.m-application-switcher'));
-        expect(appSwitcher.element(by.cssContainingText('.m-navbar-item__content', 'Discussions')).isPresent())
+        expect(appSwitcher.element(by.cssContainingText('.m-navbar-item__content', 'Messages')).isPresent())
         .toBe(true);
       })
       .then(() => browser.wait(EC.presenceOf($('.s-timeline .s-message-item')), 5 * 1000))

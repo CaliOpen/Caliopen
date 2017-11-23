@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ScrollToWhenHash from '../../components/ScrollToWhenHash';
 import NewDraftForm from '../../components/NewDraftForm';
 import DraftMessageActionsContainer from '../../components/DraftMessageActionsContainer';
 
@@ -21,6 +22,10 @@ class NewDraft extends Component {
     internalId: undefined,
   };
 
+  state = {
+    isSending: false,
+  };
+
   componentDidMount() {
     const { internalId, draft, requestNewDraft } = this.props;
     if (!internalId || !draft) {
@@ -33,6 +38,15 @@ class NewDraft extends Component {
 
     return action({ internalId, draft, message });
   };
+
+  handleSend = ({ draft }) => {
+    const { sendDraft, internalId, message } = this.props;
+    const params = { draft, message, internalId };
+
+    this.setState({ isSending: true });
+
+    return sendDraft(params).then(() => this.setState({ isSending: false }));
+  }
 
   handleDelete = () => {
     const { message, onDeleteMessage } = this.props;
@@ -52,17 +66,20 @@ class NewDraft extends Component {
   }
 
   render() {
-    const { draft, internalId, editDraft, onSaveDraft, sendDraft } = this.props;
+    const { draft, internalId, editDraft, onSaveDraft } = this.props;
 
     return (
-      <NewDraftForm
-        internalId={internalId}
-        draft={draft}
-        onChange={this.makeHandle(editDraft)}
-        onSave={this.makeHandle(onSaveDraft)}
-        onSend={this.makeHandle(sendDraft)}
-        renderDraftMessageActionsContainer={this.renderDraftMessageActionsContainer}
-      />
+      <ScrollToWhenHash forceTop>
+        <NewDraftForm
+          internalId={internalId}
+          draft={draft}
+          onChange={this.makeHandle(editDraft)}
+          onSave={this.makeHandle(onSaveDraft)}
+          onSend={this.handleSend}
+          isSending={this.state.isSending}
+          renderDraftMessageActionsContainer={this.renderDraftMessageActionsContainer}
+        />
+      </ScrollToWhenHash>
     );
   }
 }

@@ -1,12 +1,11 @@
 import { createSelector } from 'reselect';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { scrollToWhen } from 'react-redux-scroll';
 import { push } from 'react-router-redux';
 import { withTranslator } from '@gandi/react-translate';
 import { withNotification } from '../../../../hoc/notification';
 import { editDraft, requestDraft, saveDraft, sendDraft, clearDraft } from '../../../../store/modules/draft-message';
-import { REPLY_TO_MESSAGE, deleteMessage } from '../../../../store/modules/message';
+import { deleteMessage } from '../../../../store/modules/message';
 import { getLastMessage } from '../../../../services/message';
 import Presenter from './presenter';
 
@@ -68,5 +67,4 @@ export default compose(...[
   withTranslator(),
   withNotification(),
   connect(mapStateToProps, mapDispatchToProps),
-  scrollToWhen(REPLY_TO_MESSAGE),
 ])(Presenter);

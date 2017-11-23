@@ -6,7 +6,7 @@ import { matchPath } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import { createNotification, NOTIFICATION_TYPE_INFO } from 'react-redux-notify';
 import { requestMessages, postActions, deleteMessage, loadMore, hasMore as getHasMore, replyToMessage } from '../../store/modules/message';
-import { removeTab } from '../../store/modules/tab';
+import { removeTab, updateTab } from '../../store/modules/tab';
 import Presenter from './presenter';
 
 const getDiscussionIdFromProps = props => props.match.params.discussionId;
@@ -73,6 +73,7 @@ const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
     return postActions({ message, actions: [action] });
   },
   removeTab,
+  updateTab,
   replyToMessage,
   copyMessageTo: () => notif,
   editMessageTags: () => notif,

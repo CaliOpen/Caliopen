@@ -3,6 +3,10 @@ import { URLSearchParams } from '../../services/url';
 
 export const locationSelector = state => state.router.location;
 export const pathnameSelector = state => state.router.location && state.router.location.pathname;
+export const hashSelector = createSelector(
+  [locationSelector],
+  location => location && location.hash
+);
 export const paramsSelector = createSelector(
   [locationSelector],
   (location) => {

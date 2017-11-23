@@ -10,7 +10,10 @@ import (
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.main/facilities/Notifications"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.main/users"
+	"github.com/Sirupsen/logrus"
+	"github.com/renstrom/shortuuid"
 	"github.com/tidwall/gjson"
+	"time"
 )
 
 const (
@@ -88,4 +91,107 @@ func validatePasswordPatch(patch *gjson.Result) error {
 	}
 
 	return err
+}
+
+// RequestPasswordReset checks if an user could be found with provided payload request,
+// if found, it will trigger the password reset procedure that ends by notifying the user via the provided notifiers interface
+func (rest *RESTfacility) RequestPasswordReset(payload PasswordResetRequest, notifier Notifications.EmailNotifiers) error {
+	var user *User
+	var err error
+	// 1. check if user exist
+	if payload.Username != "" {
+		user, err = rest.store.UserByUsername(payload.Username)
+		if err != nil || user == nil {
+			logrus.Info(err)
+			return errors.New("[RESTfacility] user not found")
+		}
+		if payload.RecoveryMail != "" {
+			// check if provided email is consistent for this user
+			if payload.RecoveryMail != user.RecoveryEmail {
+				return errors.New("[RESTfacility] username and recovery email mismatch")
+			}
+		}
+	} else if payload.RecoveryMail != "" {
+		user, err = rest.store.UserByRecoveryEmail(payload.RecoveryMail)
+		if err != nil || user == nil {
+			logrus.Info(err)
+			return errors.New("[RESTfacility] user not found")
+		}
+		if payload.Username != "" {
+			// check if provided username is consistent for this user
+			if payload.Username != user.Name {
+				return errors.New("[RESTfacility] username and recovery email mismatch")
+			}
+		}
+	} else {
+		return errors.New("[RESTfacility] neither username, nor recovery email provided, at least one required")
+	}
+
+	// 2. check if a password reset has already been ignited for that user
+	reset_session, err := rest.Cache.GetResetPasswordSession(user.UserId.String())
+	if reset_session != nil {
+		rest.Cache.DeleteResetPasswordSession(user.UserId.String())
+		logrus.Infof("[RESTFacility] reset password session deleted for user <%s> [%s]", user.Name, user.UserId.String())
+	}
+
+	// 3. generate a reset token and cache it
+	token := shortuuid.New()
+	reset_session, err = rest.Cache.SetResetPasswordSession(user.UserId.String(), token)
+	if err != nil {
+		return err
+	}
+
+	// 4. send reset link to user's recovery email address.
+	go notifier.SendPasswordResetEmail(user, reset_session)
+	logrus.Infof("[RESTFacility] reset password session ignited for user <%s> [%s]", user.Name, user.UserId.String())
+
+	return nil
+}
+
+func (rest *RESTfacility) ValidatePasswordResetToken(token string) (session *Pass_reset_session, err error) {
+	session, err = rest.Cache.GetResetPasswordToken(token)
+	if err != nil || session == nil {
+		return nil, errors.New("[RESTfacility] token not found")
+	}
+	if time.Now().After(session.Expires_at) {
+		return nil, errors.New("[RESTfacility] token expired")
+	}
+	return session, nil
+}
+
+func (rest *RESTfacility) ResetUserPassword(token, new_password string, notifier Notifications.EmailNotifiers) error {
+	session, err := rest.ValidatePasswordResetToken(token)
+	if err != nil {
+		return err
+	}
+	user, err := rest.store.RetrieveUser(session.User_id)
+	if err != nil {
+		return err
+	}
+
+	// reset password
+	err = users.ResetUserPassword(user, new_password, rest.store)
+	if err != nil {
+		return err
+	}
+
+	logrus.Infof("[RESTFacility] password reset for user <%s> [%s]", user.Name, user.UserId.String())
+
+	// delete reset session cache
+	err = rest.Cache.DeleteResetPasswordSession(user.UserId.String())
+	if err != nil {
+		logrus.WithError(err).Warnf("[RESTfacility] failed to delete reset session cache for user %s", user.UserId.String())
+	} else {
+		logrus.Infof("[RESTFacility] reset password session deleted for user <%s> [%s]", user.Name, user.UserId.String())
+	}
+
+	// send email notification to user's recovery email address
+	notif := &Message{
+		Body_plain: changePasswordBodyPlain,
+		Body_html:  changePasswordBodyRich,
+		Subject:    changePasswordSubject,
+	}
+	go notifier.SendEmailAdminToUser(user, notif)
+
+	return nil
 }

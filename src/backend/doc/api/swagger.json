@@ -349,6 +349,9 @@
                           "phone_id": {
                             "type": "string"
                           },
+                          "normalized_number": {
+                            "type": "string"
+                          },
                           "is_primary": {
                             "type": "boolean"
                           },
@@ -650,6 +653,9 @@
                     "given_name": {
                       "type": "string"
                     },
+                    "title": {
+                      "type": "string"
+                    },
                     "groups": {
                       "type": "array",
                       "items": {
@@ -707,6 +713,9 @@
                         "type": "object",
                         "properties": {
                           "phone_id": {
+                            "type": "string"
+                          },
+                          "normalized_number": {
                             "type": "string"
                           },
                           "is_primary": {
@@ -2365,6 +2374,276 @@
         }
       }
     },
+    "/v2/passwords/reset": {
+      "post": {
+        "description": "Route to receive a \"reset password\" request from an anonymous user.",
+        "tags": [
+          "passwords"
+        ],
+        "security": [],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "reset_request",
+            "in": "body",
+            "required": true,
+            "description": "data the user has typed into the reset form",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "recovery_email": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Request successfully handled. No body is returned."
+          },
+          "400": {
+            "description": "malform request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "user not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Parameters were valid but the server was unable to handle the request.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/passwords/reset/{token}": {
+      "get": {
+        "description": "Returns an auth token to build basicAuth, if the token in path is valid",
+        "tags": [
+          "passwords"
+        ],
+        "security": [],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Route is valid. No body is returned."
+          },
+          "404": {
+            "description": "Token not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "User posts a new password",
+        "tags": [
+          "passwords"
+        ],
+        "security": [],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "new_password",
+            "in": "body",
+            "required": true,
+            "description": "A simple json with the new password as a string",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "password"
+              ]
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Password update successful. No body is returned."
+          },
+          "400": {
+            "description": "malform request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Parameters were valid but the server was unable to change the password.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/contacts": {
       "get": {
         "description": "Returns contacts belonging to current user according to given parameters",
@@ -2635,6 +2914,9 @@
                             "phone_id": {
                               "type": "string"
                             },
+                            "normalized_number": {
+                              "type": "string"
+                            },
                             "is_primary": {
                               "type": "boolean"
                             },
@@ -2884,6 +3166,9 @@
                 "given_name": {
                   "type": "string"
                 },
+                "title": {
+                  "type": "string"
+                },
                 "groups": {
                   "type": "array",
                   "items": {
@@ -2941,6 +3226,9 @@
                     "type": "object",
                     "properties": {
                       "phone_id": {
+                        "type": "string"
+                      },
+                      "normalized_number": {
                         "type": "string"
                       },
                       "is_primary": {
@@ -3286,6 +3574,9 @@
                     "type": "object",
                     "properties": {
                       "phone_id": {
+                        "type": "string"
+                      },
+                      "normalized_number": {
                         "type": "string"
                       },
                       "is_primary": {
@@ -3790,6 +4081,9 @@
                           "phone_id": {
                             "type": "string"
                           },
+                          "normalized_number": {
+                            "type": "string"
+                          },
                           "is_primary": {
                             "type": "boolean"
                           },
@@ -4138,6 +4432,9 @@
                     "type": "object",
                     "properties": {
                       "phone_id": {
+                        "type": "string"
+                      },
+                      "normalized_number": {
                         "type": "string"
                       },
                       "is_primary": {

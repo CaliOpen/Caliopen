@@ -41,9 +41,9 @@ class PasswordDetails extends Component {
   }
 
   render() {
-    const { __, onSubmit, user } = this.props;
+    const { __, user, onSubmit } = this.props;
     // privacy_features.password_strength is a string
-    const passwordStrengthNumber = parseInt(user.privacy_features.password_strength, 1);
+    const passwordStrengthNumber = user ? Number(user.privacy_features.password_strength) : 0;
 
     return (
       <div className="m-password-details">
@@ -56,7 +56,6 @@ class PasswordDetails extends Component {
           <div className="m-password-details__form">
             <PasswordForm
               __={__}
-              user={user}
               onSubmit={onSubmit}
               onCancel={this.toggleEditMode}
             />
