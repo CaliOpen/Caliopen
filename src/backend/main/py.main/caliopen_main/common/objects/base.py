@@ -430,15 +430,9 @@ class ObjectUser(ObjectStorable):
         cur_val = getattr(self, key)
         msg = "Patch current_state not consistent with db, step {} key {}"
 
-<<<<<<< HEAD
         if isinstance(current_attr, types.ListType):
             if not isinstance(cur_val, types.ListType):
                 raise PatchConflict(
-=======
-        if isinstance(current_attr, (list, tuple)):
-            if not isinstance(cur_val, (list, tuple)):
-                raise main_errors.PatchConflict(
->>>>>>> c2aaab68c (Fix list of types)
                     messag=msg.format(0, key))
 
         if key not in patch_current.keys():
