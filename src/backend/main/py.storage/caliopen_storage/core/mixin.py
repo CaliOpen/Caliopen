@@ -10,7 +10,6 @@ log = logging.getLogger(__name__)
 
 
 class MixinCoreRelation(object):
-
     """Mixin to manage relations on core object."""
 
     def _expand_relation(self, reltype):
@@ -116,7 +115,6 @@ class MixinCoreRelation(object):
 
 
 class MixinCoreNested(object):
-
     """Mixin class for core nested objects management."""
 
     def _add_nested(self, column, nested):
@@ -147,7 +145,7 @@ class MixinCoreNested(object):
         attr = getattr(self, column)
         log.debug('Will delete {} with id {}'.format(column, nested_id))
         found = -1
-        for pos in xrange(0, len(attr)):
+        for pos in range(0, len(attr)):
             nested = attr[pos]
             current_id = str(getattr(nested, nested._pkey))
             if current_id == nested_id:
