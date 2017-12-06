@@ -16,13 +16,10 @@ with open(os.path.join(*([here] + name.split('.') + ['__init__.py']))) as v_file
     version = re.compile(r".*__version__ = '(.*?)'", re.S).match(v_file.read()).group(1)
 
 requires = [
-    'nats-client>=0.8.4',
-    'tornado==4.2',]
-
-if (os.path.isfile('./requirements.deps')):
-    with open('./requirements.deps') as f_deps:
-        requires.extend(f_deps.read().split('\n'))
-
+    'asyncio-nats-client',
+    'caliopen_storage',
+    'caliopen_main'
+    ]
 
 tests_require = []
 if sys.version_info < (3, 3):
