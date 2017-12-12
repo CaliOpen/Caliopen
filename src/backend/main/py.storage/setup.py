@@ -14,8 +14,7 @@ with open(os.path.join(*([here] + name.split('.') + ['__init__.py']))) as v_file
 
 requires = [
     'setuptools',
-    'cryptography==2.4',
-    'six == 1.10.0',  # https://github.com/SecurityInnovation/PGPy/issues/217
+    'six',  # https://github.com/SecurityInnovation/PGPy/issues/217
     'bcrypt',
     'PyYAML',
     'elasticsearch-dsl>=5.0.0,<6.0.0',
