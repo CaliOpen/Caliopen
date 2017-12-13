@@ -27,16 +27,10 @@ requires = [
     'colander',
     'pyramid-swagger',
     'rfc3987',
-    'webcolors',
-    'strict-rfc3339',
-    'nats-client',
-    'tornado==4.2',
+    'rfc3339',
     'gunicorn',
-    'ecdsa']
-
-if (os.path.isfile('./requirements.deps')):
-    with open('./requirements.deps') as f_deps:
-        requires.extend(f_deps.read().split('\n'))
+    'pyramid-asyncio',
+    ]
 
 tests_require = ['nose', 'coverage']
 if sys.version_info < (3, 3):
