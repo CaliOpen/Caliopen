@@ -148,6 +148,9 @@ export function hasMore(state) {
   return state.total > state.messages.length;
 }
 
+/**
+ * @deprecated use createMessageCollectionStateSelector() instead (cf. selectors)
+ */
 export function getMessagesFromCollection(type, key, { state }) {
   if (!state.messagesCollections[type] || !state.messagesCollections[type][key]) {
     return [];

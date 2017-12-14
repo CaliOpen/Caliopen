@@ -6,6 +6,7 @@ import Spinner from '../Spinner';
 import DayMessageList from './components/DayMessageList';
 import Message from './components/Message';
 import groupMessages from './services/groupMessages';
+import { isMessageFromUser } from '../../services/message';
 
 import './style.scss';
 
@@ -23,6 +24,7 @@ class MessageList extends Component {
     onDelete: PropTypes.func.isRequired,
     messages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     replyForm: PropTypes.node.isRequired,
+    user: PropTypes.shape({}),
     __: PropTypes.func.isRequired,
   };
 
@@ -30,6 +32,7 @@ class MessageList extends Component {
     isFetching: false,
     loadMore: null,
     onMessageView: null,
+    user: undefined,
   };
 
   state = {
@@ -46,9 +49,10 @@ class MessageList extends Component {
   renderDayGroups() {
     const {
       messages, onMessageRead, onMessageUnread, onMessageDelete, onMessageReply, onMessageCopyTo,
-      onMessageEditTags, __,
+      onMessageEditTags, __, user,
     } = this.props;
-    const messagesGroupedByday = groupMessages(messages);
+
+    const messagesGroupedByday = groupMessages(messages, user);
 
     return Object.keys(messagesGroupedByday)
       .map(date => (
@@ -57,6 +61,7 @@ class MessageList extends Component {
             <Message
               key={message.message_id}
               message={message}
+              isMessageFromUser={(user && isMessageFromUser(message, user)) || false}
               className="m-message-list__message"
               onMessageRead={onMessageRead}
               onMessageUnread={onMessageUnread}
@@ -72,13 +77,16 @@ class MessageList extends Component {
   }
 
   render() {
-    const { isFetching, loadMore, onForward, onDelete, replyForm, __ } = this.props;
+    const { isFetching, loadMore, onDelete, replyForm, __ } = this.props;
 
     return (
       <div className="m-message-list">
         <MenuBar>
           <Button className="m-message-list__action" onClick={this.handleReplyToLastMessage} icon="reply" responsive="icon-only" >{__('message-list.action.reply')}</Button>
-          <Button className="m-message-list__action" onClick={onForward} icon="share" responsive="icon-only" >{__('message-list.action.copy-to')}</Button>
+          {/*
+            <Button className="m-message-list__action" onClick={onForward} icon="share"
+            responsive="icon-only" >{__('message-list.action.copy-to')}</Button>
+          */}
           <Button className="m-message-list__action" onClick={onDelete} icon="trash" responsive="icon-only" >{__('message-list.action.delete')}</Button>
           <Spinner isLoading={isFetching} className="m-message-list__spinner" />
         </MenuBar>

@@ -6,11 +6,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Add german translations
+- Add take a tour for current features
+
+### Changed
+
+- Do not save the draft until body or participants is filled
+- Move activity spinner to the top right of contact page
+- Prevent double click on contact save
+
+### Fixed
+
+- Sort message by date sent for user's messages
+- Settings can be saved when display delay is changed
+- A draft still appears after been deleted
+- Show correctly the message in reply on the current draft
+- Notify when saving contact failed
+- Refresh contacts after a deletion
+- Get browsers' autofills on SigninForm
+
 ## [0.6.0] 2017-11-24
 
 ### Added
 
-- Reset password API
+- Reset password
 - do not force phone nnumber normalization, accept everything and try to normalize
 - permit to set contact title on user input, do not compute it strictly
 

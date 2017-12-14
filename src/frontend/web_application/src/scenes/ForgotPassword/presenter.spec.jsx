@@ -7,7 +7,7 @@ describe('scene - ForgotPassword', () => {
 
   it('render', () => {
     const comp = shallow(
-      <Presenter __={translator} location={{ search: '' }} />
+      <Presenter __={translator} />
     );
 
     expect(comp.text()).toContain('ForgotPasswordForm');

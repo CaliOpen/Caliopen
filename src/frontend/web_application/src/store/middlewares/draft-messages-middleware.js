@@ -171,6 +171,12 @@ const editDraftHandler = ({ store, action }) => {
   if (action.type !== EDIT_DRAFT) {
     return;
   }
+
+  const { draft: { body, participants } } = action.payload;
+  if (body.length === 0 && (!participants || participants.length === 0)) {
+    return;
+  }
+
   throttled = createThrottle({ store, action });
   throttled();
 };

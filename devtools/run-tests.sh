@@ -2,6 +2,7 @@
 set -ev
 
 CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+TARGET_BRANCH=${TRAVIS_BRANCH:="master"}
 PROJECT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
 if [[ "${CURRENT_BRANCH}" == "master" ]]; then
@@ -9,8 +10,8 @@ if [[ "${CURRENT_BRANCH}" == "master" ]]; then
     BACKEND_CHANGE="yes"
     FRONTEND_CHANGE="yes"
 else
-    BACKEND_CHANGE=`(cd $PROJECT_DIRECTORY && git diff-tree --no-commit-id --name-only -r HEAD..master src/backend)`
-    FRONTEND_CHANGE=`(cd $PROJECT_DIRECTORY && git diff-tree --no-commit-id --name-only -r HEAD..master src/frontend)`
+    BACKEND_CHANGE=`(cd $PROJECT_DIRECTORY && git diff-tree --no-commit-id --name-only -r HEAD..$TARGET_BRANCH -- src/backend)`
+    FRONTEND_CHANGE=`(cd $PROJECT_DIRECTORY && git diff-tree --no-commit-id --name-only -r HEAD..$TARGET_BRANCH -- src/frontend)`
 fi
 
 function do_backend_tests {

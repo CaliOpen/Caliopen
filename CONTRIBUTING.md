@@ -47,3 +47,4 @@ _(People involved in the project)_
 * [@goofy-bz](https://github.com/goofy-bz)
 * [@josepot](https://github.com/josepot)
 * [@lisonferez](https://github.com/lisonferez)
+* [@didimoo](https://github.com/didimoo)

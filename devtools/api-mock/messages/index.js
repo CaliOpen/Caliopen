@@ -40,7 +40,7 @@ const reduceParticipants = message => [
   ...(message.participants ? filterAuthor(message.participants) : []),
   {
     address: 'john@caliopen.local',
-    contact_ids: ['1039cdcc-1f6f-4b5d-9c8a-5d7c711f357f'],
+    contact_ids: ['c-john-01'],
     label: 'Jaune john',
     protocol: 'email',
     type: 'From'

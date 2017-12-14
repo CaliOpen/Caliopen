@@ -1,0 +1,35 @@
+@import '../../../../../../styles/common';
+
+.m-tour-portal {
+  display: flex;
+  flex-flow: row wrap;
+  color: $co-color__fg__text--lower;
+  background: $co-color__fg__back;
+
+  &__badge,
+  &__close {
+    border-bottom: 1px solid $co-color__bg__back;
+  }
+  &__badge {
+    padding-left: map-get($co-form__spacing, 'medium');
+    line-height: $co-component__height;
+    flex: 1 0;
+  }
+
+  &__close {
+    flex: 0 1;
+  }
+
+  &__content {
+    flex: 1 0 100%;
+    padding-left: map-get($co-form__spacing, 'medium');
+    padding-right: map-get($co-form__spacing, 'medium');
+  }
+
+  &__controls {
+    flex: 1 0 100%;
+    padding-right: map-get($co-form__spacing, 'medium');
+    padding-bottom: map-get($co-form__spacing, 'small');
+    padding-left: map-get($co-form__spacing, 'medium');
+  }
+}

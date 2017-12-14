@@ -39,7 +39,7 @@ const store = configureStore({
 }, devTools);
 
 const rootEl = document.getElementById('root');
-ReactDOM.render(
+ReactDOM.hydrate(
   (
     <ConnectedRouter store={store} history={getHistory()}>
       <App store={store} />

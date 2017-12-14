@@ -8,6 +8,8 @@ import MenuBar from '../../components/MenuBar';
 import TagList from './components/TagList';
 import Spinner from '../../components/Spinner';
 import Button from '../../components/Button';
+import PageTitle from '../../components/PageTitle';
+
 
 import './style.scss';
 
@@ -115,6 +117,7 @@ class ContactBook extends Component {
 
     return (
       <div className="l-contact-book">
+        <PageTitle title={__('header.menu.contacts')} />
         <MenuBar>
           <ContactFilters
             onSortDirChange={this.handleSortDirChange}

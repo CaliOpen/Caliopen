@@ -17,6 +17,8 @@ before_install:
 - sudo mv docker-compose /usr/local/bin
 - curl -o- -L https://yarnpkg.com/install.sh | bash
 - export PATH="$HOME/.yarn/bin:$PATH"
+before_script:
+  - git fetch origin $TRAVIS_BRANCH:$TRAVIS_BRANCH
 script:
 - devtools/run-tests.sh
 addons:
@@ -27,5 +29,5 @@ addons:
 notifications:
   irc:
     channels:
-    - chat.freenode.net#caliopdev
-    use_notice: true
+    - "chat.freenode.net#caliopdev"
+    use_notice: false

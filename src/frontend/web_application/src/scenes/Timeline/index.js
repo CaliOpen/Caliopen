@@ -2,11 +2,13 @@ import { createSelector } from 'reselect';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { withTranslator } from '@gandi/react-translate';
+import { withUser } from '../../hoc/user';
 import Presenter from './presenter';
 import { requestMessages, loadMore, hasMore } from '../../store/modules/message';
 
 const timelineSelector = state => state.message.messagesCollections.timeline && state.message.messagesCollections.timeline['0'];
 const messagesSelector = state => state.message.messagesById;
+
 const mapStateToProps = createSelector(
   [timelineSelector, messagesSelector],
   (timeline, messagesById) => ({
@@ -24,5 +26,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withUser(),
   withTranslator()
 )(Presenter);

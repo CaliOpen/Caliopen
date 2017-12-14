@@ -11,7 +11,7 @@ describe('parseHighlight', () => {
     );
 
     expect(comp.text()).toEqual(highlights);
-    expect(comp.html()).toEqual('<span><span>azertyuiop, </span><span><b>bar</b></span><span> qsdfgh jklm.</span><span><b>Foo</b></span><span> wxcvbn</span></span>');
+    expect(comp.html()).toEqual('<span><span>azertyuiop, </span><span><b class="s-search-results-highlights__term">bar</b></span><span> qsdfgh jklm.</span><span><b class="s-search-results-highlights__term">Foo</b></span><span> wxcvbn</span></span>');
   });
 
   it('render an highlighted string w/ terms at begining and end', () => {
@@ -22,7 +22,7 @@ describe('parseHighlight', () => {
     );
 
     expect(comp.text()).toEqual(highlights);
-    expect(comp.html()).toEqual('<span><span></span><span><b>foo</b></span><span>azertyuiop, </span><span><b>bar</b></span><span> qsdfgh jklm.</span><span><b>Foo</b></span><span> wxcvbn </span><span><b>bar</b></span></span>');
+    expect(comp.html()).toEqual('<span><span></span><span><b class="s-search-results-highlights__term">foo</b></span><span>azertyuiop, </span><span><b class="s-search-results-highlights__term">bar</b></span><span> qsdfgh jklm.</span><span><b class="s-search-results-highlights__term">Foo</b></span><span> wxcvbn </span><span><b class="s-search-results-highlights__term">bar</b></span></span>');
   });
 
   it('render with no terms', () => {

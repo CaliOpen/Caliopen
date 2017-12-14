@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { withTranslator } from '@gandi/react-translate';
 import { withNotification } from '../../../../hoc/notification';
+import { createMessageCollectionStateSelector } from '../../../../store/selectors/message';
 import { editDraft, requestDraft, saveDraft, sendDraft, clearDraft } from '../../../../store/modules/draft-message';
 import { deleteMessage } from '../../../../store/modules/message';
 import { getLastMessage } from '../../../../services/message';
@@ -12,24 +13,21 @@ import Presenter from './presenter';
 const messageDraftSelector = state => state.draftMessage.draftsByInternalId;
 const discussionIdSelector = (state, ownProps) => ownProps.discussionId;
 const internalIdSelector = (state, ownProps) => ownProps.internalId;
-const messagesStateSelector = state => state.message.messagesById;
 const userSelector = state => state.user.user;
-const messagesSelector = createSelector(
-  [messagesStateSelector, discussionIdSelector],
-  (messages, discussionId) => Object.keys(messages)
-    .map(messageId => messages[messageId])
-    .filter(item => item.discussion_id === discussionId)
-);
+const messageCollectionStateSelector = createMessageCollectionStateSelector(() => 'discussion', discussionIdSelector);
 
 const mapStateToProps = createSelector(
-  [messageDraftSelector, discussionIdSelector, internalIdSelector, messagesSelector, userSelector],
-  (drafts, discussionId, internalId, messages, user) => {
+  [
+    messageDraftSelector, discussionIdSelector, internalIdSelector, messageCollectionStateSelector,
+    userSelector,
+  ],
+  (drafts, discussionId, internalId, { messages }, user) => {
     const message = messages && messages.find(item => item.is_draft === true);
     const sentMessages = messages.filter(item => item.is_draft !== true);
     const lastMessage = getLastMessage(sentMessages);
-    const parentMessage = message && sentMessages
-      .find(item => item.message_id === message.parent_id && item !== lastMessage);
     const draft = drafts[internalId] || message;
+    const parentMessage = draft && sentMessages
+      .find(item => item.message_id === draft.parent_id && item !== lastMessage);
 
     return {
       allowEditRecipients: messages.length === 1 && message && true,

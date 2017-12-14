@@ -6,6 +6,7 @@ import Button from '../../../../components/Button';
 import Brand from '../../../../components/Brand';
 import SearchField from './components/SearchField';
 import UserMenu from './components/UserMenu';
+import TakeATour from '../TakeATour';
 import './style.scss';
 
 class Header extends Component {
@@ -62,6 +63,7 @@ class Header extends Component {
               <SearchField />
             </div>
           </div>
+          <div className="l-header__take-a-tour"><TakeATour /></div>
           <div className="l-header__user"><UserMenu /></div>
         </div>
       </div>

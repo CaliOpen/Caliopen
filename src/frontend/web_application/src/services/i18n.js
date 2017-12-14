@@ -2,6 +2,7 @@ import { provideTranslate, createTranslator } from '@gandi/react-translate';
 
 const availableTranslations = {
   /* eslint-disable global-require */
+  de: require('../../locales/de/main.json'),
   en: require('../../locales/en/main.json'),
   fr: require('../../locales/fr/main.json'),
   /* eslint-enable global-require */

@@ -265,42 +265,34 @@ class RecipientList extends Component {
     );
   }
 
-  renderSearchResultLabel = (identity, isContact, hasLabel) => {
-    if (!hasLabel) {
-      return null;
-    }
-
-    if (isContact) {
-      return (
-        <span className="m-recipient-list__search-result-title m-recipient-list__search-result-title--contact">
-          <Icon type="user" rightSpaced />
-          {identity.label}
-        </span>
-      );
-    }
-
-    return (
-      <span className="m-recipient-list__search-result-title">
-        {identity.label}
-      </span>
-    );
-  }
-
   renderSearchResult(identity, index, results) {
     const isContact = identity.source === 'contact';
     // results are sorted by contact
     const hasLabel = isContact &&
       index === results.findIndex(result => result.contact_id === identity.contact_id);
 
+    const infoClassName = classnames(
+      {
+        'm-recipient-list__search-result-info': hasLabel,
+        'm-recipient-list__search-result-title': !hasLabel,
+      },
+    );
+
     return (
       <Button
         display="expanded"
         onClick={this.makeAddKnownParticipant(identity)}
-        className={classnames('m-recipient-list__search-result')}
+        className="m-recipient-list__search-result"
         color={index === this.state.activeSearchResultIndex ? 'active' : null}
       >
-        {this.renderSearchResultLabel(identity, isContact, hasLabel)}
-        <span className="m-recipient-list__search-result-info">
+        {hasLabel && (
+          <span className="m-recipient-list__search-result-title">
+            {isContact && <Icon type="user" rightSpaced />}
+            {identity.label}
+          </span>
+        )}
+
+        <span className={infoClassName}>
           <Icon
             type={ASSOC_PROTOCOL_ICON[identity.protocol]}
             aria-label={identity.protocol}

@@ -6,7 +6,10 @@ const securityMiddleware = (req, res, next) => {
         security: false,
       },
       auth: {
-        paths: ['/auth/signin', '/auth/signup', '/api/v2/username/isAvailable'],
+        paths: [
+          /^\/auth\/.*/,
+          '/api/v2/username/isAvailable', /^\/api\/v2\/passwords\/reset(\/.*)?/,
+        ],
         security: false,
       },
       default: {

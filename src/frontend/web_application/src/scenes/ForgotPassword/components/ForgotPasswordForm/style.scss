@@ -1,6 +1,6 @@
-@import '../../styles/common';
-@import '../../styles/object/o-clickable';
-@import '../../styles/object/o-callout';
+@import '../../../../styles/common';
+@import '../../../../styles/object/o-clickable';
+@import '../../../../styles/object/o-callout';
 
 .m-forgot-password-form {
   max-width: map-get($co-form__width, 'xlarge');

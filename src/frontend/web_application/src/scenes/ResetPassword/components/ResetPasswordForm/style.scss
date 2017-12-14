@@ -1,6 +1,6 @@
-@import '../../styles/common';
-@import '../../styles/object/o-clickable';
-@import '../../styles/object/o-callout';
+@import '../../../../styles/common';
+@import '../../../../styles/object/o-clickable';
+@import '../../../../styles/object/o-callout';
 
 .m-reset-password-form {
   max-width: map-get($co-form__width, 'xlarge');
@@ -10,6 +10,7 @@
     text-align: center;
   }
 
+  &__error,
   &__success {
     @include o-callout-base;
     @include o-callout--color($co-color__success);

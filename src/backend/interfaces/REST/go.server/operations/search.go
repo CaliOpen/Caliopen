@@ -31,19 +31,19 @@ func SimpleSearch(ctx *gin.Context) {
 	// check request consistency. (see search API readme in doc folder)
 	invalid := false
 	reasons := []error{}
-	if len(query) == 0 {
+	if len(query) < 1 || len(query) > 4242 { // why 4242 ? why not ?
 		invalid = true
-		reasons = append(reasons, errors.New("Empty query."))
+		reasons = append(reasons, errors.New("invalid query length"))
 	}
 	term, term_ok := query["term"]
 	if !term_ok {
 		invalid = true
-		reasons = append(reasons, errors.New("'term' param is missing."))
+		reasons = append(reasons, errors.New("'term' param is missing"))
 	}
 	for _, t := range term {
 		if len(t) < 3 {
 			invalid = true
-			reasons = append(reasons, errors.New("'term' param must length 3 chars at least."))
+			reasons = append(reasons, errors.New("'term' param must length 3 chars at least"))
 		}
 	}
 
@@ -52,7 +52,7 @@ func SimpleSearch(ctx *gin.Context) {
 	if l, ok := query["limit"]; ok {
 		if !has_doc_type {
 			invalid = true
-			reasons = append(reasons, errors.New("'limit' param only allowed if 'doctype' param also provided."))
+			reasons = append(reasons, errors.New("'limit' param only allowed if 'doctype' param also provided"))
 		} else {
 			limit, _ = strconv.Atoi(l[0])
 		}
@@ -60,7 +60,7 @@ func SimpleSearch(ctx *gin.Context) {
 	if o, ok := query["offset"]; ok {
 		if !has_doc_type {
 			invalid = true
-			reasons = append(reasons, errors.New("'offset' param only allowed if 'doctype' param also provided."))
+			reasons = append(reasons, errors.New("'offset' param only allowed if 'doctype' param also provided"))
 		} else {
 			offset, _ = strconv.Atoi(o[0])
 		}
@@ -77,7 +77,7 @@ func SimpleSearch(ctx *gin.Context) {
 	if field, ok := query["field"]; ok {
 		if len(field) > 1 {
 			invalid = true
-			reasons = append(reasons, errors.New("At most one 'field' param allowed."))
+			reasons = append(reasons, errors.New("at most one 'field' param allowed"))
 		} else {
 			search.Terms = map[string][]string{field[0]: query["term"]} // take only first field provided for now
 		}
@@ -88,7 +88,7 @@ func SimpleSearch(ctx *gin.Context) {
 	if has_doc_type {
 		if len(doc_type) > 1 {
 			invalid = true
-			reasons = append(reasons, errors.New("At most one 'doctype' param allowed."))
+			reasons = append(reasons, errors.New("at most one 'doctype' param allowed"))
 		} else {
 			switch doc_type[0] { // take only first doctype provided for now
 			case "message":
@@ -97,7 +97,7 @@ func SimpleSearch(ctx *gin.Context) {
 				search.DocType = ContactIndexType
 			default:
 				invalid = true
-				reasons = append(reasons, errors.New("'doctype' unknown."))
+				reasons = append(reasons, errors.New("'doctype' unknown"))
 			}
 		}
 	}

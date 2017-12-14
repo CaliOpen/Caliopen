@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Section from '../../components/Section';
+import PageTitle from '../../components/PageTitle';
 import SignatureForm from './components/SignatureForm';
 import NavList, { ItemContent } from '../../components/NavList';
 import Link from '../../components/Link';
@@ -18,6 +19,7 @@ const navLinks = [
 
 const SettingsSignatures = ({ __ }) => (
   <div className="s-settings-signatures">
+    <PageTitle />
     {navLinks &&
       <NavList dir="vertical" className="s-settings-signatures__menu">
         {navLinks.map(link => (

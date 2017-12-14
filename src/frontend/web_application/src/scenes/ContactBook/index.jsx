@@ -23,5 +23,5 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withTranslator()
+  withTranslator(),
 )(Presenter);

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Section from '../../components/Section';
 import Button from '../../components/Button';
+import PageTitle from '../../components/PageTitle';
 import { FieldErrors } from '../../components/form';
 import InterfaceSettings from './components/InterfaceSettings';
 import MessageSettings from './components/MessageSettings';
@@ -31,6 +32,7 @@ class ApplicationSettings extends PureComponent {
 
     return (
       <form method="post" name="settings_application_form" onSubmit={this.handleSubmit}>
+        <PageTitle />
         {errors.global && errors.global.length !== 0 && (
           <FieldErrors errors={errors.global} />
         )}

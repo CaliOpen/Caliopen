@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslator } from '@gandi/react-translate';
+import PageTitle from '../../components/PageTitle';
 
 @withTranslator()
 class PageNotFound extends PureComponent {
@@ -14,7 +15,10 @@ class PageNotFound extends PureComponent {
     const { __ } = this.props;
 
     return (
-      <div>{__('page not found')}</div>
+      <div>
+        <PageTitle title={__('page not found')} />
+        {__('page not found')}
+      </div>
     );
   }
 }

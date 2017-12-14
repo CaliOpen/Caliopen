@@ -21,7 +21,7 @@
 		"type": "To"
 	}, {
 		"address": "john@caliopen.local",
-		"contact_ids": ["1039cdcc-1f6f-4b5d-9c8a-5d7c711f357f"],
+		"contact_ids": ["c-john-01"],
 		"label": "Jaune john",
 		"protocol": "email",
 		"type": "Cc"
@@ -51,7 +51,7 @@
 	"attachments": [],
 	"body": "Fry! Stay back! He's too powerful! Can I use the gun? I barely knew Philip, but as a clergyman I have no problem telling his most intimate friends all about him. What are you hacking off? Is it my torso?! 'It is!' My precious torso!",
 	"excerpt": "Fry! Stay back! He's too powerful! Can I use the gun? I barely knew Philip, but as a ...",
-	"date": "2017-03-21T12:55:00.153000+00:00",
+	"date": "2017-03-22T12:55:00.153000+00:00",
 	"date_insert": "2017-03-21T12:55:00.153000+00:00",
 	"discussion_id": "cd53e13a-267d-4d9c-97ee-d0fc59c64200",
 	"identities": [{
@@ -70,7 +70,7 @@
 		"type": "Cc"
 	}, {
 		"address": "john@caliopen.local",
-		"contact_ids": ["1039cdcc-1f6f-4b5d-9c8a-5d7c711f357f"],
+		"contact_ids": ["c-john-01"],
 		"label": "Jaune john",
 		"protocol": "email",
 		"type": "From"
@@ -113,7 +113,7 @@
 	"message_id": "2222222-267d-4d9c-97ee-d0fc59c64201",
 	"participants": [{
 		"address": "john@caliopen.local",
-		"contact_ids": ["1039cdcc-1f6f-4b5d-9c8a-5d7c711f357f"],
+		"contact_ids": ["c-john-01"],
 		"label": "foo",
 		"protocol": "email",
 		"type": "To"
@@ -162,7 +162,7 @@
 	"message_id": "3333-267d-4d9c-97ee-d0fc59c64201",
 	"participants": [{
 		"address": "john@caliopen.local",
-		"contact_ids": ["1039cdcc-1f6f-4b5d-9c8a-5d7c711f357f"],
+		"contact_ids": ["c-john-01"],
 		"label": "foo",
 		"protocol": "email",
 		"type": "To"
@@ -196,7 +196,7 @@
 	"message_id": "4444-267d-4d9c-97ee-d0fc59c64201",
 	"participants": [{
 		"address": "john@caliopen.local",
-		"contact_ids": ["1039cdcc-1f6f-4b5d-9c8a-5d7c711f357f"],
+		"contact_ids": ["c-john-01"],
 		"label": "foo",
 		"protocol": "email",
 		"type": "From"
@@ -230,7 +230,7 @@
 	"message_id": "5555-267d-4d9c-97ee-d0fc59c64201",
 	"participants": [{
 		"address": "john@caliopen.local",
-		"contact_ids": ["1039cdcc-1f6f-4b5d-9c8a-5d7c711f357f"],
+		"contact_ids": ["c-john-01"],
 		"label": "foo",
 		"protocol": "email",
 		"type": "To"
@@ -264,7 +264,7 @@
 	"message_id": "6666-267d-4d9c-97ee-d0fc59c64201",
 	"participants": [{
 		"address": "john@caliopen.local",
-		"contact_ids": ["1039cdcc-1f6f-4b5d-9c8a-5d7c711f357f"],
+		"contact_ids": ["c-john-01"],
 		"label": "foo",
 		"protocol": "email",
 		"type": "From"

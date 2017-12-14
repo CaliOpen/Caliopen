@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import Spinner from '../../components/Spinner';
+import PageTitle from '../../components/PageTitle';
 import Button from '../../components/Button';
 import BlockList from '../../components/BlockList';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import MenuBar from '../../components/MenuBar';
 import MessageItem from './components/MessageItem';
+import { isMessageFromUser } from '../../services/message';
+
 import './style.scss';
 
 const LOAD_MORE_THROTTLE = 1000;
@@ -24,8 +27,8 @@ class Timeline extends Component {
   };
 
   static defaultProps = {
-    user: null,
     messages: [],
+    user: undefined,
     isFetching: false,
     didInvalidate: false,
     hasMore: false,
@@ -59,13 +62,18 @@ class Timeline extends Component {
 
     return (
       <div className="s-timeline">
+        <PageTitle title={__('header.menu.discussions')} />
         <MenuBar className="s-timeline__menu-bar">
           <Spinner isLoading={isFetching} className="s-timeline__spinner" />
         </MenuBar>
         <InfiniteScroll onReachBottom={this.loadMore}>
           <BlockList className="s-timeline__list">
-            {messages.map(item => (
-              <MessageItem key={item.message_id} user={user} message={item} />
+            {messages.map(message => (
+              <MessageItem
+                key={message.message_id}
+                isMessageFromUser={(user && isMessageFromUser(message, user)) || false}
+                message={message}
+              />
             ))}
           </BlockList>
         </InfiniteScroll>

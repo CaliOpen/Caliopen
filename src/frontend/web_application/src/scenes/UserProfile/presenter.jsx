@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../components/Button';
+import PageTitle from '../../components/PageTitle';
 import Section from '../../components/Section';
 import ProfileForm from './components/ProfileForm';
 import ProfileInfo from './components/ProfileInfo';
@@ -39,6 +40,7 @@ class UserProfile extends Component {
 
     return (
       <div className="s-user-profile">
+        <PageTitle />
         <div className="s-user-profile__actions">
           {this.state.editMode === true ? (
             <Button onClick={this.toggleEditMode}>{__('user.action.cancel_edit')}</Button>

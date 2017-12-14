@@ -1,0 +1,9 @@
+@import '../../../../styles/common';
+
+.s-search-results-highlights {
+  &__term {
+    display: inline-block;
+    background: $co-color__warning--high;
+    color: $co-color__contrast__text;
+  }
+}

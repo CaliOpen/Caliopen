@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormGrid, FormRow, FormColumn, TextFieldGroup, FieldErrors } from '../../../../components/form';
 import Button from '../../../../components/Button';
 import Section from '../../../../components/Section';
-// import Link from '../../../../components/Link';
+import Link from '../../../../components/Link';
 
 import './style.scss';
 
@@ -37,8 +37,23 @@ class SigninForm extends Component {
     this.setState(generateStateFromProps(this.props));
   }
 
+  componentDidMount() {
+    setTimeout(this.setValues(), 1);
+  }
+
   componentWillReceiveProps(newProps) {
     this.setState(generateStateFromProps(newProps));
+  }
+
+  setValues = () => {
+    const password = this.passwordInputRef.value;
+    const username = this.usernameInputRef.value;
+    this.setState({
+      formValues: {
+        password,
+        username,
+      },
+    });
   }
 
   handleInputChange = (event) => {
@@ -87,6 +102,7 @@ class SigninForm extends Component {
                   errors={errors.username}
                   onChange={this.handleInputChange}
                   showLabelforSr
+                  inputRef={(input) => { this.usernameInputRef = input; }}
                 />
               </FormColumn>
               <FormColumn rightSpace={false} bottomSpace>
@@ -100,6 +116,7 @@ class SigninForm extends Component {
                   errors={errors.password}
                   onChange={this.handleInputChange}
                   showLabelforSr
+                  inputRef={(input) => { this.passwordInputRef = input; }}
                 />
               </FormColumn>
             </FormRow>
@@ -114,9 +131,9 @@ class SigninForm extends Component {
               </FormColumn>
             </FormRow>
             <FormRow>
-              {/* <FormColumn rightSpace={false}>
+              <FormColumn rightSpace={false}>
                 <Link to="/auth/forgot-password">{__('signin.action.forgot_password')}</Link>
-              </FormColumn> */}
+              </FormColumn>
               {/* <FormColumn rightSpace={false}>
                 <Link to="/auth/signup">{__('signin.create_an_account')}</Link>
               </FormColumn> */}

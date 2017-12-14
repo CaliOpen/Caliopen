@@ -13,10 +13,15 @@ const mapStateToProps = createSelector(
     initialValues: settings,
   })
 );
+
+const normalizeValues = values => ({
+  ...values,
+  notification_delay_disappear: Number.parseInt(values.notification_delay_disappear, 10),
+});
 const mapDispatchToProps = dispatch => bindActionCreators({
   requestSettings,
   onSubmit: (values, disp, props) => updateSettings({
-    settings: values, original: props.initialValues,
+    settings: normalizeValues(values), original: props.initialValues,
   }),
 }, dispatch);
 

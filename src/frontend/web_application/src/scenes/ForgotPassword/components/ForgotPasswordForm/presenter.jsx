@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Fieldset, Legend, FormGrid, FormRow, FormColumn, FieldErrors, TextFieldGroup } from '../form';
-import Section from '../Section';
-import Button from '../Button';
-import Icon from '../Icon';
-import Link from '../Link';
+import { Fieldset, Legend, FormGrid, FormRow, FormColumn, FieldErrors, TextFieldGroup } from '../../../../components/form';
+import Section from '../../../../components/Section';
+import Button from '../../../../components/Button';
+import Icon from '../../../../components/Icon';
+import Link from '../../../../components/Link';
 
 import './style.scss';
 
@@ -87,7 +87,17 @@ class ForgotPasswordForm extends Component {
                       value={this.state.formValues.username}
                       errors={errors.username}
                       onChange={this.handleInputChange}
-                      required
+                      showLabelforSr
+                    />
+                  </FormColumn>
+                  <FormColumn rightSpace={false} bottomSpace>
+                    <TextFieldGroup
+                      label={__('password.forgot-form.recovery_email.label')}
+                      placeholder={__('password.forgot-form.recovery_email.placeholder')}
+                      name="recovery_email"
+                      value={this.state.formValues.recovery_email}
+                      errors={errors.recovery_email}
+                      onChange={this.handleInputChange}
                       showLabelforSr
                     />
                   </FormColumn>

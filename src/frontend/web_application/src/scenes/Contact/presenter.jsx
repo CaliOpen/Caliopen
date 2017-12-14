@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { v1 as uuidV1 } from 'uuid';
+import fetchLocation from '../../services/api-location';
 import { formatName } from '../../services/contact';
 import ManageTags from './ManageTags';
 import ContactProfileForm from './components/ContactProfileForm';
@@ -11,6 +12,7 @@ import Modal from '../../components/Modal';
 import MenuBar from '../../components/MenuBar';
 import Button from '../../components/Button';
 import TextBlock from '../../components/TextBlock';
+import PageTitle from '../../components/PageTitle';
 import Dropdown, { withDropdownControl } from '../../components/Dropdown';
 import VerticalMenu, { VerticalMenuItem } from '../../components/VerticalMenu';
 import FormCollection from './components/FormCollection';
@@ -24,6 +26,7 @@ import OrgaForm from './components/OrgaForm';
 import IdentityForm from './components/IdentityForm';
 import AddFormFieldForm from './components/AddFormFieldForm';
 
+
 import './style.scss';
 
 // const FAKE_TAGS = ['Caliopen', 'Gandi', 'Macarons'];
@@ -32,11 +35,13 @@ const DropdownControl = withDropdownControl(Button);
 class Contact extends Component {
   static propTypes = {
     __: PropTypes.func.isRequired,
+    notifyError: PropTypes.func.isRequired,
     requestContact: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
     updateContact: PropTypes.func.isRequired,
     deleteContact: PropTypes.func.isRequired,
+    invalidateContacts: PropTypes.func.isRequired,
     contactId: PropTypes.string,
     contact: PropTypes.shape({}),
     user: PropTypes.shape({}),
@@ -68,6 +73,8 @@ class Contact extends Component {
   state = {
     isTagsModalOpen: false,
     editMode: false,
+    isFetching: false,
+    isSaving: false,
   };
 
   componentWillMount() {
@@ -75,13 +82,15 @@ class Contact extends Component {
       this.setState({
         editMode: true,
       });
+    } else {
+      this.setState({ isFetching: true });
     }
   }
 
   componentDidMount() {
     const { contactId, requestContact } = this.props;
     if (contactId) {
-      requestContact({ contactId });
+      requestContact({ contactId }).then(() => this.setState({ isFetching: false }));
     }
   }
 
@@ -129,12 +138,53 @@ class Contact extends Component {
   }
 
   handleDelete = () => {
-    const { contactId } = this.props;
-    this.props.deleteContact({ contactId }).then(() => this.closeTab());
+    const { contactId, currentTab, push, removeTab, invalidateContacts } = this.props;
+    this.setState({ isFetching: true });
+    this.props.deleteContact({ contactId })
+      .then(() => invalidateContacts())
+      .then(() => this.setState({ isFetching: false }))
+      .then(() => push('/contacts'))
+      .then(() => removeTab(currentTab));
   }
 
+  createOrUpdateAction = async ({ contact, original }) => {
+    const {
+      updateContact, requestContact, settings, createContact, currentTab, updateTab,
+      __, push, removeTab,
+    } = this.props;
+    if (contact.contact_id) {
+      await updateContact({ contact, original });
+
+      const contactUpToDate = await requestContact({ contactId: contact.contact_id });
+      const format = settings.contact_display_format;
+      const tab = {
+        ...currentTab,
+        label: formatName({ contact, format }) || __('contact.profile.name_not_set'),
+      };
+      updateTab({ tab, original: currentTab });
+
+      return contactUpToDate;
+    }
+
+    const resultAction = await createContact({ contact });
+    const { location } = resultAction.payload.data;
+    const { data: contactCreated } = await fetchLocation(location);
+
+    push(`/contacts/${contactCreated.contact_id}`);
+    removeTab(currentTab);
+
+    return contactCreated;
+  };
+
   handleSubmit = (ev) => {
-    this.props.handleSubmit(ev).then(() => this.props.contactId && this.toggleEditMode());
+    const { __, handleSubmit, contactId, notifyError, contact: original } = this.props;
+    this.setState({ isSaving: true });
+    handleSubmit(ev)
+      .then(contact => this.createOrUpdateAction({ contact, original }))
+      .then(() => contactId && this.toggleEditMode(), () => {
+        notifyError({ message: __('contact.feedback.unable_to_save') });
+      })
+      .then(() => this.setState({ isSaving: false }));
   }
 
   renderTagsModal = () => {
@@ -161,6 +211,7 @@ class Contact extends Component {
 
   renderEditBar = () => {
     const { __, pristine, submitting } = this.props;
+    const hasActivity = submitting || this.state.isSaving;
 
     return (
       <div className="s-contact__edit-bar">
@@ -176,18 +227,19 @@ class Contact extends Component {
         <Button
           type="submit"
           responsive="icon-only"
-          icon="check"
+          icon={hasActivity ? (<Spinner isLoading display="inline" />) : 'check'}
           className="s-contact__action"
-          disabled={pristine || submitting}
+          disabled={pristine || hasActivity}
         >{__('contact.action.validate_edit')}</Button>
       </div>
     );
   }
 
   renderActionBar = () => {
-    const { __, contact, contact_display_format: format, user, contactId } = this.props;
+    const { __, submitting, contact, contact_display_format: format, user, contactId } = this.props;
     const contactDisplayName = formatName({ contact, format });
     const contactIsUser = contactId && user && user.contact.contact_id === contactId;
+    const hasActivity = submitting || this.state.isFetching || this.state.isSaving;
 
     return (
       <div className="s-contact__action-bar">
@@ -197,7 +249,7 @@ class Contact extends Component {
         <DropdownControl
           toggleId={this.dropdownId}
           className="s-contact__actions-switcher"
-          icon="ellipsis-v"
+          icon={hasActivity ? (<Spinner isLoading display="inline" />) : 'ellipsis-v'}
         />
 
         <Dropdown
@@ -263,10 +315,13 @@ class Contact extends Component {
   }
 
   render() {
-    const { __, isFetching, contact, contactId, form, contact_display_format: format } = this.props;
+    const {
+      __, contact, contactId, form, contact_display_format: format,
+    } = this.props;
 
     return (
       <form onSubmit={this.handleSubmit} method="post">
+        <PageTitle />
         {(contact || !contactId) && (
           <MenuBar className="s-contact__menu-bar">
             {
@@ -276,8 +331,6 @@ class Contact extends Component {
             {this.state.editMode ? this.renderEditBar() : this.renderActionBar()}
           </MenuBar>
         )}
-
-        <Spinner isLoading={isFetching} />
 
         {(contact || !contactId) && (
           <div className="s-contact">

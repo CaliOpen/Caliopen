@@ -43,24 +43,21 @@
   }
 
   &__search-result {
+    @include flex-grid-row;
     min-height: $co-component__height;
+    padding-top: $co-component__spacing;
     padding-bottom: $co-component__spacing;
     line-height: $co-font__line-height;
     text-align: left; // within a button : force align left
   }
 
   &__search-result-title {
-    display: block;
-
-    &--contact {
-      margin-top: $co-component__spacing;
-      font-weight: 600;
-    }
+    @include flex-grid-size(12);
+    font-weight: 600;
   }
 
   &__search-result-info {
-    display: block;
-    margin-left: $co-component__spacing;
+    @include flex-grid-column(12);
     font-size: $co-font__size--small;
     font-style: italic;
   }

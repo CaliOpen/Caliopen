@@ -4,6 +4,8 @@ import classnames from 'classnames';
 import Link from '../../components/Link';
 import Icon from '../../components/Icon';
 import NavList, { ItemContent } from '../../components/NavList';
+import PageTitle from '../../components/PageTitle';
+
 import './style.scss';
 
 class Devices extends Component {
@@ -52,6 +54,7 @@ class Devices extends Component {
 
     return (
       <div className="s-devices">
+        <PageTitle />
         <NavList className="s-devices__nav" dir="vertical">
           {devices.map(device => this.renderDevice(device))}
         </NavList>

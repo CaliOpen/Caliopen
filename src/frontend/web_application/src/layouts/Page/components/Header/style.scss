@@ -38,6 +38,7 @@ $l-header__margin: ($co-margin / 2) !default;
     height: $l-header__brand-icon-height;
   }
 
+  &__take-a-tour,
   &__search,
   &__user {
     display: none;
@@ -64,14 +65,22 @@ $l-header__margin: ($co-margin / 2) !default;
 
   @include breakpoint(medium) {
     &__wrapper { box-shadow: none; }
-    &__brand { @include flex-grid-column(shrink); }
-    &__search { @include flex-grid-column; }
-    &__user { @include flex-grid-column(shrink); }
+    &__brand { @include flex-grid-size(shrink); }
+    &__search { @include flex-grid-size; }
+    &__take-a-tour,
+    &__user { @include flex-grid-size(shrink); }
 
     &__search,
+    &__take-a-tour,
     &__user {
       display: block;
-      padding: 0 $co-margin;
+    }
+    &__search {
+      padding-left: $co-margin;
+      padding-right: $co-margin;
+    }
+    &__user {
+      padding-right: $co-margin;
     }
   }
 }

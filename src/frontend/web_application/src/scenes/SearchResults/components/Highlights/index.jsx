@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './style.scss';
+
+const DEFAULT_HIGHLIGHT_TAG = 'em';
+
+function removeTagInString(string) {
+  return string
+    .replace(`<${DEFAULT_HIGHLIGHT_TAG}>`, '')
+    .replace(`</${DEFAULT_HIGHLIGHT_TAG}>`, '');
+}
 
 class Highlights extends Component {
   static propTypes = {
@@ -38,12 +47,12 @@ class Highlights extends Component {
       const prefix = highlight.substr(prevIndex, results.index - prevIndex);
       prevIndex = termRegExp.lastIndex;
       endIndex = results.index + results[0].length;
-      parts.push(prefix);
-      parts.push(<b>{results[0]}</b>);
+      parts.push(removeTagInString(prefix));
+      parts.push(<b className="s-search-results-highlights__term">{results[0]}</b>);
     }
 
     if (endIndex < highlight.length) {
-      parts.push(highlight.substr(endIndex));
+      parts.push(removeTagInString(highlight.substr(endIndex)));
     }
 
     return parts;

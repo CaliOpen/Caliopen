@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
+import PageTitle from './components/PageTitle';
 import Routes from './routes';
 import I18nProvider from './components/I18nProvider';
 import { initConfig } from './services/config';
@@ -28,6 +29,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <I18nProvider>
+          <PageTitle />
           <Routes />
         </I18nProvider>
       </Provider>

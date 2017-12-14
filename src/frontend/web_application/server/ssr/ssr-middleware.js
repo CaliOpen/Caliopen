@@ -1,5 +1,6 @@
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
+const DocumentTitle = require('react-document-title');
 const Bootstrap = require('./components/Bootstrap').default;
 const configureStore = require('../../src/store/configure-store').default;
 const { getUserLocales } = require('../../src/services/i18n');
@@ -18,10 +19,12 @@ function getMarkup({ store, context, location }) {
       React.createElement(Bootstrap, {
         context, location, store, config,
       }));
+    const documentTitle = DocumentTitle.rewind();
 
     const initialState = store.getState();
 
     return [
+      { key: '</title>', value: `${documentTitle}</title>` },
       { key: '</head>', value: `<script>window.__STORE__ = ${JSON.stringify(initialState)};</script></head>` },
       { key: '%MARKUP%', value: markup },
     ].reduce((str, current) => str.replace(current.key, current.value), template);

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 // import OpenPGPKeysDetails from './components/OpenPGPKeysDetails';
 // import TFAForm from './components/TFAForm';
+import PageTitle from '../../components/PageTitle';
 import PasswordDetails from './components/PasswordDetails';
 import LoginDetails from './components/LoginDetails';
 import Section from '../../components/Section';
@@ -12,9 +13,12 @@ class UserSecurity extends Component {
   static propTypes = {
     __: PropTypes.func.isRequired,
     requestUser: PropTypes.func.isRequired,
-    user: PropTypes.shape({}).isRequired,
+    user: PropTypes.shape({}),
     notifySuccess: PropTypes.func.isRequired,
     notifyError: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    user: undefined,
   };
 
   state = {
@@ -57,6 +61,7 @@ class UserSecurity extends Component {
 
     return (
       <div className="s-user-account-security">
+        <PageTitle />
         <form method="post" name="user_security_form">
           <Section title={__('user.security.section_password.title')}>
             <div className="s-user-account-security__credentials">

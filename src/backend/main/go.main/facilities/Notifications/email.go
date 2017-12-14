@@ -22,7 +22,7 @@ type EmailNotifiers interface {
 
 const (
 	resetPasswordTemplate = "email-reset-password-link.yaml"
-	resetLinkFmt          = "%s/passwords/reset/%s"
+	resetLinkFmt          = "%s/auth/passwords/reset/%s"
 )
 
 // SendEmailAdminToUser sends an administrative email to user, ie :

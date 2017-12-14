@@ -15,8 +15,8 @@ class Auth extends PureComponent {
           <Route exact path="/auth/"><Redirect to="signin" /></Route>
           <Route path="/auth/signin" component={Signin} />
           <Route path="/auth/signup" component={Signup} />
-          <Route path="/auth/reset-password" component={ResetPassword} />
           <Route path="/auth/forgot-password" component={ForgotPassword} />
+          <Route path="/auth/passwords/reset/:key" component={ResetPassword} />
           <Route path="/auth/signout"><Redirect to="signin" /></Route>
         </Switch>
       </AuthPage>

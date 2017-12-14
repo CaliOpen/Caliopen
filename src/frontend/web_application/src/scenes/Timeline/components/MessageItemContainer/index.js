@@ -2,11 +2,22 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { withTranslator } from '@gandi/react-translate';
 import { replyToMessage, deleteMessage } from '../../../../store/modules/message';
+import { clearDraft } from '../../../../store/modules/draft-message';
 import Presenter from './presenter';
+
+const onDeleteMessage = ({ message }) => dispatch =>
+  dispatch(deleteMessage({ message }))
+    .then(() => {
+      if (!message.is_draft) {
+        return undefined;
+      }
+
+      return dispatch(clearDraft({ internalId: message.discussion_id }));
+    });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   replyToMessage,
-  deleteMessage,
+  deleteMessage: onDeleteMessage,
 }, dispatch);
 
 export default compose(

@@ -339,9 +339,9 @@
 			"revisionTime": "2016-12-02T14:38:24Z"
 		},
 		{
-			"checksumSHA1": "q8VfSvQ6fZY+QwtlMPtQsJrNews=",
+			"checksumSHA1": "Ws2pqY93XGkFXIFmyH0W6ItaI/k=",
 			"path": "github.com/minio/go-homedir",
-			"revision": "21304a94172ae3a09dee2cd86a12fb6f842138c7",
+			"revision": "4d76aabb80b22bad8695d3904e943f1fb5e6199f",
 			"revisionTime": "2016-02-15T11:55:11Z"
 		},
 		{

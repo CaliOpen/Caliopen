@@ -6,7 +6,7 @@ import renderReduxField from '../../../../services/renderReduxField';
 
 const SelectFieldGroup = renderReduxField(SelectFieldGroupBase);
 
-const LANGUAGES = ['fr_FR', 'en_EN'];
+const LANGUAGES = ['fr_FR', 'en_EN', 'de_DE'];
 
 class InterfaceSettings extends PureComponent {
   static propTypes = {
@@ -27,6 +27,7 @@ class InterfaceSettings extends PureComponent {
     this.i18n = {
       fr_FR: __('settings.interface.language.options.fr'),
       en_EN: __('settings.interface.language.options.en'),
+      de_DE: __('settings.interface.language.options.de'),
     };
   }
 

@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import { reduxForm, formValues } from 'redux-form';
 import { withTranslator } from '@gandi/react-translate';
 import { push } from 'react-router-redux';
-import { requestContact, updateContact, createContact, deleteContact } from '../../store/modules/contact';
-import { removeTab } from '../../store/modules/tab';
-import fetchLocation from '../../services/api-location';
+import { requestContact, updateContact, createContact, deleteContact, invalidate as invalidateContacts } from '../../store/modules/contact';
+import { withSettings } from '../../hoc/settings';
+import { withNotification } from '../../hoc/notification';
+import { removeTab, updateTab } from '../../store/modules/tab';
 import { getNewContact } from '../../services/contact';
-import { currentTabSelector } from '../../store/selectors/tab';
+import { withCurrentTab } from '../../hoc/tab';
 import { settingsSelector } from '../../store/selectors/settings';
 import Presenter from './presenter';
 
@@ -17,8 +18,8 @@ const contactSelector = state => state.contact;
 const userSelector = state => state.user;
 
 const mapStateToProps = createSelector(
-  [userSelector, contactIdSelector, contactSelector, settingsSelector, currentTabSelector],
-  (userState, contactId, contactState, { contact_display_format }, currentTab) => ({
+  [userSelector, contactIdSelector, contactSelector, settingsSelector],
+  (userState, contactId, contactState, { contact_display_format }) => ({
     user: userState.user,
     contactId,
     contact: contactState.contactsById[contactId],
@@ -28,10 +29,8 @@ const mapStateToProps = createSelector(
     initialValues: contactState.contactsById[contactId] || getNewContact(),
     isFetching: contactState.isFetching,
     contact_display_format,
-    currentTab,
   })
 );
-
 
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({
@@ -39,26 +38,12 @@ const mapDispatchToProps = dispatch => ({
     updateContact,
     createContact,
     deleteContact,
+    invalidateContacts,
     removeTab,
+    updateTab,
     push,
   }, dispatch),
-  onSubmit: async (values, disp, props) => {
-    // XXX: refactor me in middleware ?
-    if (props.contactId) {
-      await dispatch(updateContact({ contact: values, original: props.contact }));
-
-      return dispatch(requestContact({ contactId: props.contact.contact_id }));
-    }
-
-    const resultAction = await dispatch(createContact({ contact: values }));
-    const { location } = resultAction.payload.data;
-    const { data: contact } = await fetchLocation(location);
-
-    return Promise.all([
-      dispatch(push(`/contacts/${contact.contact_id}`)),
-      dispatch(removeTab(props.currentTab)),
-    ]);
-  },
+  onSubmit: values => Promise.resolve(values),
 });
 
 export default compose(
@@ -68,5 +53,8 @@ export default compose(
     enableReinitialize: true,
   }),
   formValues({ birthday: 'info.birthday' }),
-  withTranslator()
+  withTranslator(),
+  withCurrentTab(),
+  withSettings(),
+  withNotification(),
 )(Presenter);
