@@ -20,8 +20,8 @@ from caliopen_pi.features import marshal_features
 log = logging.getLogger(__name__)
 
 
-@resource(collection_path='/messages',
-          path='/messages/{message_id}')
+@resource(collection_path='/api/v1/messages',
+          path='/api/v1/messages/{message_id}')
 class Message(Api):
     def __init__(self, request):
         self.request = request
