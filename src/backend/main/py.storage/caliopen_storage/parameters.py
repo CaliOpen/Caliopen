@@ -57,7 +57,7 @@ class ReturnCoreObject(BaseReturnObject):
         """Main method to build a return object from a core."""
         kls = cls._return_class
         obj = kls()
-        for k, v in obj._data.iteritems():
+        for k, v in obj._data.items():
             if cls._aliases.get(k):
                 core_key = cls._aliases[k]
             else:
@@ -110,7 +110,7 @@ class ReturnIndexObject(BaseReturnObject):
         """Main method to build a return object from an index entry."""
         kls = cls._return_class
         obj = kls()
-        for k, v in obj._data.iteritems():
+        for k, v in obj._data.items():
             if cls._aliases.get(k):
                 idx_key = cls._aliases[k]
             else:

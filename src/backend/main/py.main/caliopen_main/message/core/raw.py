@@ -2,12 +2,17 @@
 """Caliopen core raw message class."""
 from __future__ import absolute_import, print_function, unicode_literals
 
+import six
 import uuid
 import logging
 
 from minio import Minio
 from minio.error import ResponseError
-import urlparse
+
+if six.PY3:
+    from urllib.parse import urlparse
+else:
+    import urlparse
 
 from minio import Minio
 from minio.error import ResponseError

@@ -55,7 +55,7 @@ def import_email(email, import_path, format, contact_probability,
 
     log.info("Processing mode %s" % mode)
 
-    for key, data in emails.iteritems():
+    for key, data in emails.items():
         # Prevent creating message too large to fit in db.
         # (should use inject cmd for large messages)
         size = len(data.as_string())

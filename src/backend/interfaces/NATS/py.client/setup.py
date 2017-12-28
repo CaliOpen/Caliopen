@@ -16,8 +16,7 @@ with open(os.path.join(*([here] + name.split('.') + ['__init__.py']))) as v_file
     version = re.compile(r".*__version__ = '(.*?)'", re.S).match(v_file.read()).group(1)
 
 requires = [
-    'nats-client',
-    'tornado==4.2',
+    'asyncio-nats-client',
     'caliopen_storage',
     'caliopen_main'
     ]

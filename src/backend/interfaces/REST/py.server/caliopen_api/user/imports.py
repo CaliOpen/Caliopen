@@ -19,7 +19,7 @@ from ..base import Api
 log = logging.getLogger(__name__)
 
 
-@resource(collection_path='/imports', path='')
+@resource(collection_path='/api/v1/imports', path='')
 class ContactImport(Api):
     def __init__(self, request):
         self.request = request

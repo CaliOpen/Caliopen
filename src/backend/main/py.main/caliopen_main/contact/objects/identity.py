@@ -2,9 +2,7 @@
 """Caliopen message object classes."""
 from __future__ import absolute_import, print_function, unicode_literals
 
-import types
-from uuid import UUID
-
+import uuid
 from caliopen_main.common.objects.base import ObjectIndexable, \
     ObjectJsonDictifiable
 from caliopen_main.pi.objects import PIObject
@@ -18,12 +16,12 @@ class SocialIdentity(ObjectIndexable):
     """Social identity related to a contact."""
 
     _attrs = {
-        "contact_id": UUID,
-        "social_id": UUID,
-        "infos": types.DictType,
-        "name": types.StringType,
-        "type": types.StringType,
-        "user_id": UUID
+        "contact_id": uuid.UUID,
+        "social_id": uuid.UUID,
+        "infos": dict,
+        "name": str,
+        "type": str,
+        "user_id": uuid.UUID
     }
 
     _json_model = SocialIdentityParam
@@ -41,8 +39,8 @@ class ContactIdentity(ObjectJsonDictifiable):
     """
 
     _attrs = {
-        "identifier": types.StringType,
-        "label": types.StringType,
+        "identifier": str,
+        "label": str,
         "privacy_index": PIObject,
-        "protocol": types.StringType,
+        "protocol": str,
     }

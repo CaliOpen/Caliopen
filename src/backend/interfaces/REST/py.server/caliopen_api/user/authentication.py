@@ -31,7 +31,8 @@ class AuthenticatedUser(object):
             raise AuthenticationError
 
         log.debug('Authentication via Access Token')
-        auth = base64.decodestring(authorization[1])
+        auth = base64.decodebytes(authorization[1].encode('utf-8')). \
+            decode('utf-8')
         # authentication values is user_id:token
         if ':' not in auth:
             raise AuthenticationError
@@ -92,10 +93,9 @@ class AuthenticatedUser(object):
         return self._user.name
 
 
+@implementer(IAuthenticationPolicy)
 class AuthenticationPolicy(object):
     """Global authentication policy."""
-
-    implements(IAuthenticationPolicy)
 
     def authenticated_userid(self, request):
         if hasattr(request, '_CaliopenUser'):

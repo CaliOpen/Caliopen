@@ -4,7 +4,6 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import datetime
 import logging
-import types
 import uuid
 
 from caliopen_main.common.objects.base import ObjectStorable, ObjectUser
@@ -22,8 +21,8 @@ class DeviceLocation(ObjectStorable):
     """A known location related to a device."""
 
     _attrs = {
-        'address': types.StringType,
-        'type': types.StringType,
+        'address': str,
+        'type': str,
     }
 
     _model_class = ModelDeviceLocation
@@ -36,12 +35,12 @@ class Device(ObjectUser):
     _attrs = {
         'user_id': uuid.UUID,
         'device_id': uuid.UUID,
-        'name': types.StringType,
-        'type': types.StringType,
-        'status': types.StringType,
+        'name': str,
+        'type': str,
+        'status': str,
         'last_seen': datetime.datetime,
         'date_insert': datetime.datetime,
-        'privacy_features': types.DictType,
+        'privacy_features': dict,
         'pi': PIObject,
         'locations': [DeviceLocation]
     }

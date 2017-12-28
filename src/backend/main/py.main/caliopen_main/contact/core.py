@@ -154,7 +154,7 @@ class Contact(BaseUserCore, MixinCoreRelation, MixinCoreNested):
         # XXX check no extra arguments in related than relations
 
         contact.validate()
-        for k, v in related.iteritems():
+        for k, v in related.items():
             if k in cls._relations:
                 [x.validate() for x in v]
             else:
@@ -209,7 +209,7 @@ class Contact(BaseUserCore, MixinCoreRelation, MixinCoreNested):
         core._create_lookups()
         # Create relations
         related_cores = {}
-        for k, v in related.iteritems():
+        for k, v in related.items():
             if k in cls._relations:
                 for obj in v:
                     log.debug('Processing object %r' % obj)

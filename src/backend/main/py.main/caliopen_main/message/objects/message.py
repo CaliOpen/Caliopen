@@ -2,11 +2,9 @@
 """Caliopen message object classes."""
 from __future__ import absolute_import, print_function, unicode_literals
 
-import types
 from caliopen_main.common.objects.base import ObjectIndexable
 
 import uuid
-from uuid import UUID
 import datetime
 import pytz
 import json
@@ -41,29 +39,29 @@ class Message(ObjectIndexable):
     # TODO : manage attrs that should not be editable directly by users
     _attrs = {
         'attachments': [MessageAttachment],
-        'body_html': types.StringType,
-        'body_plain': types.StringType,
+        'body_html': str,
+        'body_plain': str,
         'date': datetime.datetime,
         'date_delete': datetime.datetime,
         'date_insert': datetime.datetime,
-        'discussion_id': UUID,
+        'discussion_id': uuid.UUID,
         'external_references': ExternalReferences,
         'identities': [Identity],
-        'importance_level': types.IntType,
-        'is_answered': types.BooleanType,
-        'is_draft': types.BooleanType,
-        'is_unread': types.BooleanType,
-        'is_received': types.BooleanType,
-        'message_id': UUID,
-        'parent_id': UUID,
+        'importance_level': int,
+        'is_answered': bool,
+        'is_draft': bool,
+        'is_unread': bool,
+        'is_received': bool,
+        'message_id': uuid.UUID,
+        'parent_id': uuid.UUID,
         'participants': [Participant],
-        'privacy_features': types.DictType,
+        'privacy_features': dict,
         'pi': PIObject,
-        'raw_msg_id': UUID,
-        'subject': types.StringType,
+        'raw_msg_id': uuid.UUID,
+        'subject': str,
         'tags': [ResourceTag],
-        'type': types.StringType,
-        'user_id': UUID,
+        'type': str,
+        'user_id': uuid.UUID,
     }
 
     _json_model = ParamMessage
@@ -113,10 +111,10 @@ class Message(ObjectIndexable):
 
         message = Message()
         message.unmarshall_json_dict(draft_param.to_primitive())
-        message.user_id = UUID(user_id)
+        message.user_id = uuid.UUID(user_id)
         message.is_draft = True
         message.is_received = False
-        message.type = "email"  # TODO: type handling inferred from participants
+        message.type = "email"
         message.date_insert = datetime.datetime.now(tz=pytz.utc)
 
         try:
@@ -159,7 +157,8 @@ class Message(ObjectIndexable):
             draft_param.message_id = UUIDType().to_native(self.message_id)
 
         if "discussion_id" not in params and self.discussion_id:
-            draft_param.discussion_id = UUIDType().to_native(self.discussion_id)
+            draft_param.discussion_id = UUIDType(). \
+                to_native(self.discussion_id)
 
         if "parent_id" not in params and self.parent_id:
             draft_param.parent_id = UUIDType().to_native(self.parent_id)
@@ -169,7 +168,8 @@ class Message(ObjectIndexable):
 
         if "participants" not in params and self.participants:
             for participant in self_dict['participants']:
-                draft_param.participants.append(IndexedParticipant(participant))
+                ps = draft_param.participants
+                ps.append(IndexedParticipant(participant))
 
         if "identities" not in params and self.identities:
             draft_param.identities = self_dict["identities"]

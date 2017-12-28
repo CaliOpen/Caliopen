@@ -25,7 +25,8 @@ requires = [
     'cornice==1.2.1',
     'colander',
     'pyramid-swagger',
-    'rfc3987'
+    'rfc3987',
+    'rfc3339',
     ]
 
 tests_require = ['nose', 'coverage']

@@ -16,5 +16,3 @@ def includeme(config):
     # Activate cornice in any case and scan
     log.debug('Loading message API')
     config.scan('caliopen_api.message.message')
-    log.debug('Loading discussion API')
-    config.scan('caliopen_api.message.discussion')

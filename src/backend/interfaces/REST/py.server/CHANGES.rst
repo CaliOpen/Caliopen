@@ -5,4 +5,5 @@
 
 0.0.2
 -----
-- routes « threads » renamed to « discussions »
+
+- routes "threads" renamed to "discussions"

@@ -358,8 +358,9 @@ class User(BaseCore):
         except NotFound:
             raise CredentialException('Invalid user')
         # XXX : decode unicode not this way
-        if bcrypt.hashpw(str(password.encode('utf-8')),
-                         str(user.password)) == user.password:
+        user_pass = user.password.encode('utf-8')
+        crypt = bcrypt.hashpw(password.encode('utf-8'), user_pass)
+        if crypt == user_pass:
             return user
         raise CredentialException('Invalid credentials')
 

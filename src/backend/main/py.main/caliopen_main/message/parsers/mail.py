@@ -27,10 +27,9 @@ from caliopen_main.common.interfaces import (IAttachmentParser, IMessageParser,
 log = logging.getLogger(__name__)
 
 
+@zope.interface.implementer(IAttachmentParser)
 class MailAttachment(object):
     """Mail part structure."""
-
-    zope.interface.implements(IAttachmentParser)
 
     def __init__(self, part):
         """
@@ -95,10 +94,9 @@ class MailAttachment(object):
         return False
 
 
+@zope.interface.implementer(IParticipantParser)
 class MailParticipant(object):
     """Mail participant parser."""
-
-    zope.interface.implements(IParticipantParser)
 
     def __init__(self, type, addr):
         """Parse an email address and create a participant."""
@@ -108,6 +106,7 @@ class MailParticipant(object):
         self.label = parts[1]
 
 
+@zope.interface.implementer(IMessageParser)
 class MailMessage(object):
     """
     Mail message structure.
@@ -115,8 +114,6 @@ class MailMessage(object):
     Got a mail in raw rfc2822 format, parse it to
     resolve all recipients emails, parts and group headers
     """
-
-    zope.interface.implements(IMessageParser)
 
     recipient_headers = ['From', 'To', 'Cc', 'Bcc']
     message_type = 'email'

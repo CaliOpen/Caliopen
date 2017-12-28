@@ -18,8 +18,8 @@ from ..base.exception import MergePatchError, ValidationError
 log = logging.getLogger(__name__)
 
 
-@resource(collection_path='/devices',
-          path='/devices/{device_id}',
+@resource(collection_path='/api/v1/devices',
+          path='/api/v1/devices/{device_id}',
           name='Device',
           factory=DefaultContext
           )
@@ -40,7 +40,7 @@ class DeviceAPI(Api):
         device = CoreDevice.create(self.user, device_param)
         device_url = self.request.route_path('Device',
                                              device_id=device.device_id)
-        self.request.response.location = device_url.encode('utf-8')
+        self.request.response.location = device_url
         # XXX return a Location to get device not send it direct
         return {'location': device_url}
 

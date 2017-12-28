@@ -6,8 +6,7 @@ This structure is common to many entities (user, contact, message)
 """
 from __future__ import absolute_import, print_function, unicode_literals
 
-import types
-from uuid import UUID
+import uuid
 
 from cassandra.cqlengine import columns
 from elasticsearch_dsl import InnerObjectWrapper, Integer, Date
@@ -40,11 +39,11 @@ class PIObject(ObjectIndexable):
     """The caliopen object definition of privacy indexes."""
 
     _attrs = {
-        "technic": types.IntType,
-        "comportment": types.IntType,
-        "context": types.IntType,
-        "version": types.IntType,
-        "user_id": UUID
+        "technic": int,
+        "comportment": int,
+        "context": int,
+        "version": int,
+        "user_id": uuid.UUID
     }
 
     _model_class = PIModel

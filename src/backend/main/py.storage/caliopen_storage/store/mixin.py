@@ -89,7 +89,7 @@ class IndexedModelMixin(object):
 
         # serialize index doc keeping empty or None value
         out = {}
-        for k, v in idx._d_.iteritems():
+        for k, v in idx._d_.items():
             try:
                 f = idx._doc_type.mapping[k]
                 if f._coerce:

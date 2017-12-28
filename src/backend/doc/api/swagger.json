@@ -8367,9 +8367,9 @@
                       },
                       "type": {
                         "type": "string",
-                        "default": "unknow",
+                        "default": "unknown",
                         "enum": [
-                          "unknow",
+                          "unknown",
                           "desktop",
                           "laptop",
                           "smartphone",
@@ -8386,9 +8386,9 @@
                             },
                             "type": {
                               "type": "string",
-                              "default": "unknow",
+                              "default": "unknown",
                               "enum": [
-                                "unknow",
+                                "unknown",
                                 "home",
                                 "work",
                                 "public"
@@ -8443,9 +8443,9 @@
                 },
                 "type": {
                   "type": "string",
-                  "default": "unknow",
+                  "default": "unknown",
                   "enum": [
-                    "unknow",
+                    "unknown",
                     "desktop",
                     "laptop",
                     "smartphone",
@@ -8462,9 +8462,9 @@
                       },
                       "type": {
                         "type": "string",
-                        "default": "unknow",
+                        "default": "unknown",
                         "enum": [
-                          "unknow",
+                          "unknown",
                           "home",
                           "work",
                           "public"
@@ -8580,9 +8580,9 @@
                 },
                 "type": {
                   "type": "string",
-                  "default": "unknow",
+                  "default": "unknown",
                   "enum": [
-                    "unknow",
+                    "unknown",
                     "desktop",
                     "laptop",
                     "smartphone",
@@ -8599,9 +8599,9 @@
                       },
                       "type": {
                         "type": "string",
-                        "default": "unknow",
+                        "default": "unknown",
                         "enum": [
-                          "unknow",
+                          "unknown",
                           "home",
                           "work",
                           "public"
@@ -8772,9 +8772,9 @@
                     },
                     "type": {
                       "type": "string",
-                      "default": "unknow",
+                      "default": "unknown",
                       "enum": [
-                        "unknow",
+                        "unknown",
                         "desktop",
                         "laptop",
                         "smartphone",
@@ -8791,9 +8791,9 @@
                           },
                           "type": {
                             "type": "string",
-                            "default": "unknow",
+                            "default": "unknown",
                             "enum": [
-                              "unknow",
+                              "unknown",
                               "home",
                               "work",
                               "public"
@@ -8855,9 +8855,9 @@
                 },
                 "type": {
                   "type": "string",
-                  "default": "unknow",
+                  "default": "unknown",
                   "enum": [
-                    "unknow",
+                    "unknown",
                     "desktop",
                     "laptop",
                     "smartphone",
@@ -8874,9 +8874,9 @@
                       },
                       "type": {
                         "type": "string",
-                        "default": "unknow",
+                        "default": "unknown",
                         "enum": [
-                          "unknow",
+                          "unknown",
                           "home",
                           "work",
                           "public"

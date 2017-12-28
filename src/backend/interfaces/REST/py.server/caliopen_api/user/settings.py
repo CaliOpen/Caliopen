@@ -16,7 +16,7 @@ from ..base.exception import MergePatchError
 log = logging.getLogger(__name__)
 
 
-@resource(path='/settings',
+@resource(path='/api/v1/settings',
           name='Settings',
           factory=DefaultContext
           )

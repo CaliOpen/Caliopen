@@ -5,9 +5,9 @@ properties:
     type: string
   type:
     type: string
-    default: unknow
+    default: unknown
     enum:
-    - unknow
+    - unknown
     - desktop
     - laptop
     - smartphone

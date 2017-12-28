@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Caliopen User tag parameters classes."""
 from __future__ import absolute_import, print_function, unicode_literals
-import types
 import uuid
 import datetime
 
@@ -18,10 +17,10 @@ class ResourceTag(ObjectJsonDictifiable):
 
     _attrs = {
         'date_insert': datetime.datetime,
-        'importance_level': types.IntType,
-        'name': types.StringType,
+        'importance_level': int,
+        'name': str,
         'tag_id': uuid.UUID,
-        'type': types.StringType,
+        'type': str,
     }
 
     _model_class = ModelResourceTag

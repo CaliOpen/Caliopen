@@ -7,23 +7,23 @@ FROM debian:jessie
 MAINTAINER Caliopen
 
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y wget git python python-pip python-dev libffi-dev libssl-dev libev-dev libev4
+RUN apt-get install -y wget git python3 python3-pip python3-dev libffi-dev libssl-dev libev-dev libev4
 
 # Debian jessie setuptools is a really old version (5.1.x)
 # Install a really fresh version of setuptools
 WORKDIR /tmp
 RUN wget -q https://bootstrap.pypa.io/ez_setup.py
-RUN python ez_setup.py
+RUN python3 ez_setup.py
 
 # Some package must be installed using pip and upgraded to latest
-RUN pip install --upgrade pip
-RUN pip install --upgrade pyasn1
+RUN pip3 install --upgrade pip
+RUN pip3 install --upgrade pyasn1
 
 # Install some packages using pip to get benefit from docker layer cache
-RUN pip install cassandra-driver==3.4.1
+RUN pip3 install cassandra-driver==3.4.1
 
 # Install regex using pip as it fail using setup.py mechanisms
-RUN pip install regex
+RUN pip3 install regex
 
 # Add local backend source directory in container filesystem
 ADD . /srv/caliopen/src/backend
@@ -31,21 +31,21 @@ WORKDIR /srv/caliopen/src/backend
 
 # Install Caliopen base packages
 WORKDIR /srv/caliopen/src/backend/main/py.storage
-RUN python setup.py develop
+RUN python3 setup.py develop
 WORKDIR /srv/caliopen/src/backend/components/py.pgp
-RUN python setup.py develop
+RUN python3 setup.py develop
 WORKDIR /srv/caliopen/src/backend/main/py.main
-RUN python setup.py develop
+RUN python3 setup.py develop
 WORKDIR /srv/caliopen/src/backend/components/py.pi
-RUN python setup.py develop
+RUN python3 setup.py develop
 WORKDIR /srv/caliopen/src/backend/interfaces/NATS/py.client
-RUN python setup.py develop
+RUN python3 setup.py develop
 
 ## Container specific installation part
 WORKDIR /srv/caliopen/src/backend/tools/py.CLI
-RUN python setup.py develop
+RUN python3 setup.py develop
 
-RUN pip install ipython
+RUN pip3 install ipython
 
 WORKDIR /srv/caliopen/src/backend
 ENTRYPOINT ["caliopen", "-f", "configs/caliopen-docker.yaml"]

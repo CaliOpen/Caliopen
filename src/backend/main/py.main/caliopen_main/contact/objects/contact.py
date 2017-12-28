@@ -2,8 +2,7 @@
 """Caliopen contact parameters classes."""
 from __future__ import absolute_import, print_function, unicode_literals
 
-import types
-from uuid import UUID
+import uuid
 import datetime
 
 from caliopen_main.common.objects.base import ObjectStorable, ObjectIndexable
@@ -48,30 +47,30 @@ class Contact(ObjectIndexable):
 
     # TODO : manage attrs that should not be modifiable directly by users
     _attrs = {
-        'additional_name':     types.StringType,
+        'additional_name':     str,
         'addresses':           [PostalAddress],
-        'avatar':              types.StringType,
-        'contact_id':          UUID,
+        'avatar':              str,
+        'contact_id':          uuid.UUID,
         'date_insert':         datetime.datetime,
         'date_update':         datetime.datetime,
-        'deleted':             types.BooleanType,
+        'deleted':             bool,
         'emails':              [Email],
-        'family_name':         types.StringType,
-        'given_name':          types.StringType,
-        'groups':              [types.StringType],
+        'family_name':         str,
+        'given_name':          str,
+        'groups':              [str],
         'identities':          [SocialIdentity],
         'ims':                 [IM],
-        'infos':               types.DictType,
-        'name_prefix':         types.StringType,
-        'name_suffix':         types.StringType,
+        'infos':               dict,
+        'name_prefix':         str,
+        'name_suffix':         str,
         'organizations':       [Organization],
         'phones':              [Phone],
         'pi':                  PIObject,
-        'privacy_features': types.DictType,
+        'privacy_features': dict,
         'public_keys':         [PublicKey],
         'tags':                [ResourceTag],
-        'title':               types.StringType,
-        'user_id':             UUID
+        'title':               str,
+        'user_id':             uuid.UUID
     }
 
     _json_model = ParamContact

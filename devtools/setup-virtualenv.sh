@@ -4,13 +4,13 @@ CALIOPEN_BACKEND_DIR=${CALIOPEN_BASE_DIR}/src/backend
 
 
 cd ${CALIOPEN_BASE_DIR}
-if [[ -d ".venv" ]]; then
+if [[ -d ".venv3" ]]; then
     echo "Virtual environment exist, drop it first"
-    exit 1
+    # exit 1
 fi
 
-virtualenv --python=python2.7 .venv
-. .venv/bin/activate
+virtualenv --python=python3 .venv3
+. .venv3/bin/activate
 
 if [[ "x${VIRTUAL_ENV}" == "x" ]]; then
     echo 'Virtual environment did not activate'

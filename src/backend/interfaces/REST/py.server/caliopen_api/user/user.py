@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 
 
 @resource(path='',
-          collection_path='/authentications',
+          collection_path='/api/v1/authentications',
           name='Authentication',
           factory=DefaultContext
           )
@@ -73,8 +73,8 @@ def no_such_user(request):
         raise NotAcceptable(detail='User already exist')
 
 
-@resource(path='/users/{user_id}',
-          collection_path='/users',
+@resource(path='/api/v1/users/{user_id}',
+          collection_path='/api/v1/users',
           name='User',
           factory=DefaultContext)
 class UserAPI(Api):
@@ -123,7 +123,7 @@ class UserAPI(Api):
         return {'location': user_url}
 
 
-@resource(path='/me',
+@resource(path='/api/v1/me',
           name='MeUser',
           factory=DefaultContext)
 class MeUserAPI(Api):
@@ -138,8 +138,8 @@ class MeUserAPI(Api):
         return ReturnUser.build(user).serialize()
 
 
-@resource(path='/identities/remotes/{identifier}',
-          collection_path='/identities/remotes',
+@resource(path='/api/v1/identities/remotes/{identifier}',
+          collection_path='/api/v1/identities/remotes',
           name='RemoteIdentities',
           factory=DefaultContext)
 class RemoteIdentityAPI(Api):
