@@ -28,8 +28,6 @@ requires = [
     'pyramid-swagger',
     'rfc3987',
     'rfc3339',
-    'gunicorn',
-    'pyramid-asyncio',
     ]
 
 tests_require = ['nose', 'coverage']
