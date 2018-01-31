@@ -84,6 +84,7 @@ $s-message-item__pi-width: 7px;
     @include flex-grid-size(12);
 
     &--unread { font-weight: 600; }
+    &--draft { font-style: italic; }
   }
 
   &__subject { color: $co-color__fg__text--lower; }

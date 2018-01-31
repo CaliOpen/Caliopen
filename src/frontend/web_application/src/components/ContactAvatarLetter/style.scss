@@ -11,8 +11,7 @@
   &__letter {
     &::before {
       display: block;
-
-      color: $co-color__contrast__text;
+      color: $co-color__contrast__text--high;
       text-align: center;
     }
   }
@@ -23,7 +22,6 @@
   &--medium { @include m-avatar--size(medium); }
   &--large  { @include m-avatar--size(large);  }
   &--xlarge { @include m-avatar--size(xlarge); }
-  &--xxlarge { @include m-avatar--size(xxlarge); }
 
   &--round  { border-radius: 50%}
 

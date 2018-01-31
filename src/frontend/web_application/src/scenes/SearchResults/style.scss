@@ -1,21 +1,32 @@
 @import '../../styles/common';
+@import '../../styles/vendor/bootstrap_foundation-sites';
 
 .s-search-results {
+  background: $co-color__fg__back;
+
+  &__preview { @include flex-grid-row; }
+
   &__label {
-    padding: map-get($co-form__spacing, 'small') map-get($co-form__spacing, 'medium');
-    color: $co-color__fg__text--high;
+    @include flex-grid-column(12);
+    padding-top: $co-component__spacing;
+    padding-bottom: $co-component__spacing;
+    color: $co-color__fg__text--low;
+    background: $co-color__bg__back--high;
+    font-weight: 600;
+  }
+
+  &__list { @include flex-grid-size(12); }
+
+  &__load-more {
+    padding: $co-component__spacing;
+    text-align: center;
   }
 
   &__link {
-    margin-left: $co-margin;
-    color: $co-color__primary--high;
+    color: $co-color__primary--lower;
 
     &:hover {
-      color: $co-color__primary--high;
+      color: $co-color__primary--low;
     }
-  }
-
-  &__item {
-    background: $co-color__fg__back;
   }
 }

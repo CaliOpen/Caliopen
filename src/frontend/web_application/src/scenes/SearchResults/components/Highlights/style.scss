@@ -3,7 +3,7 @@
 .s-search-results-highlights {
   &__term {
     display: inline-block;
-    background: $co-color__warning--high;
-    color: $co-color__contrast__text;
+    background: $co-color__bg__back--high;
+    color: $co-color__fg__text--low;
   }
 }
