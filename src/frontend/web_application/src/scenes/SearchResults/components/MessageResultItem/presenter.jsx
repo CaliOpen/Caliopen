@@ -63,35 +63,51 @@ class MessageResultItem extends PureComponent {
 
   render() {
     const { message, locale } = this.props;
+    const resultItemClassNames = classnames(
+      's-message-result-item', {
+        's-message-result-item--unread': message.is_unread,
+        's-message-result-item--draft': message.is_draft,
+      }
+  );
+    const topicClassNames = classnames(
+      's-message-result-item__topic', {
+        's-message-result-item__topic--unread': message.is_unread,
+        's-message-result-item__topic--draft': message.is_draft,
+      });
 
     return (
       <Link
         to={`/discussions/${message.discussion_id}`}
-        className={classnames('s-message-result-item', { 's-message-result-item--unread': message.is_unread, 's-message-result-item--draft': message.is_draft })}
+        className={resultItemClassNames}
         noDecoration
       >
-        <div className="s-message-result-item__col-avatars">
-          <AuthorAvatar message={message} />
+        <div className="s-message-result-item__col-avatar">
+          <AuthorAvatar message={message} size="small" />
         </div>
-        <div className="s-message-result-item__col-title">
-          <TextBlock>
+
+        <TextBlock className="s-message-result-item__col-title">
+          <span className="s-message-result-item__author">
             {this.renderAuthor()}
-            {this.renderTags()}
-          </TextBlock>
-          <TextBlock>
-            {message.is_draft && (<span className="s-message-result-item__draft-prefix"><Trans id="timeline.draft-prefix">Draft in progress:</Trans></span>)}
-            {message.subject && (<span className="s-message-result-item__subject">{message.subject}</span>)}
-            {this.renderHighlights()}
-          </TextBlock>
-        </div>
-        <div className="s-message-result-item__col-file">
-          { message.attachments && <Icon type="paperclip" /> }
-        </div>
-        <div className="s-message-result-item__col-dates">
-          <Moment className="m-message__date" locale={locale} element={MessageDate}>
+          </span>
+          <span className={topicClassNames}>
+            {message.attachments && message.attachments.length > 0 && <Icon type="paperclip" spaced />}
+            {message.is_draft && (<span className="s-message-result-item__draft-prefix"><Trans id="timeline.draft-prefix">Draft in progress:</Trans>{' '}</span>)}
+            {message.subject && (<span className="s-message-result-item__info-subject">{message.subject}</span>)}
+          </span>
+          <span className="s-message-result-item__tags">
+            {' '}{this.renderTags()}
+          </span>
+        </TextBlock>
+
+        <div className="s-message-result-item__col-date">
+          <Moment locale={locale} element={MessageDate}>
             {message.date_insert}
           </Moment>
         </div>
+
+        <TextBlock className="s-message-result-item__highlights">
+          {this.renderHighlights()}
+        </TextBlock>
       </Link>
     );
   }

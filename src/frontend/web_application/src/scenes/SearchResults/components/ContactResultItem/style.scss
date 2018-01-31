@@ -1,19 +1,17 @@
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
 
-$m-contact-list__contact-spacing: 1.25rem;
-
 .m-contact-result-item {
   @include flex-grid-row($size: expanded);
-  align-items: baseline;
-  margin-bottom: 1px;
-  padding-top: $m-contact-list__contact-spacing;
-  padding-bottom: $m-contact-list__contact-spacing;
-  padding-left: map_get($co-form__spacing, 'small');
+  align-items: center;
+  min-height: $co-component__height;
+  padding-top: $co-component__spacing;
+  padding-bottom: $co-component__spacing;
   background-color: $co-color__fg__back;
+  font-size: $co-font__size--small;
 
   &:hover {
     background-color: $co-color__fg__back;
-    color: $co-color__fg__text--high;
+    color: $co-color__fg__text--lower;
   }
 
   &:active {
@@ -25,8 +23,19 @@ $m-contact-list__contact-spacing: 1.25rem;
     @include flex-grid-column(shrink);
   }
 
-  &__contact-info {
-    @include flex-grid-size;
+  &__col-title {
+    @include flex-grid-size(shrink);
+    color: $co-color__primary--lower;
+    font-size: $co-font__size;
+    font-weight: 600;
+  }
+
+  &__col-highlights {
+    @include flex-grid-column(shrink);
+  }
+
+  &__col-tags {
+    @include flex-grid-column(shrink);
   }
 
   &__contact-title {
@@ -36,10 +45,6 @@ $m-contact-list__contact-spacing: 1.25rem;
   &__contact-prefix,
   &__contact-suffix {
     margin-right: $co-component__spacing;
-    color: $co-color__fg__text--lower;
-  }
-
-  @include breakpoint(medium) {
-    &__contact-info { @include flex-grid-size(5); }
+    color: $co-color__fg__text--high;
   }
 }

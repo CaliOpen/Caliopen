@@ -12,21 +12,24 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  visibility: hidden;
 
   &:focus,
   &:hover {
-    visibility: visible;
+
+    .m-call-to-action__btn {
+      display: block;
+    }
   }
 
   &__btn {
     margin-bottom: 1rem;
     box-shadow: $co-shadow;
+    display: none;
 
     &--principal {
       margin-bottom: 0;
       font-size: 1em;
-      visibility: visible;
+      display: block;
     }
   }
 }

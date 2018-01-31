@@ -1,9 +1,8 @@
 $m-avatar__size: (
-  small:  2rem,
-  medium: 3rem,
+  small:  1.75rem,
+  medium: 2.5rem,
   large:  4rem,
-  xlarge: 6rem,
-  xxlarge: 8rem
+  xlarge: 8rem,
 );
 
 @mixin m-avatar--size($size) {
@@ -13,7 +12,8 @@ $m-avatar__size: (
 
   width: $size;
   height: $size;
-  font-size: .75 * $size;
+  font-size: .5 * $size;
+  font-weight: 600;
   line-height: $size;
 
   &__letter {

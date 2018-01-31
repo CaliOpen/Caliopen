@@ -5,6 +5,11 @@
   }
 }
 
+button, input, optgroup, select, textarea {
+  // force custom font-family on form elements
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Roboto', Arial, sans-serif;
+}
+
 fieldset {
   margin: 0;
   padding: 0;

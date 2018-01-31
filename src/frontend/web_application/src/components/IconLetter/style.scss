@@ -10,6 +10,7 @@
 .m-letter--checked {
   &::before {
     content: '✓';
+    background-color: SteelBlue;
   }
 }
 
