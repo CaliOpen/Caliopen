@@ -40,8 +40,9 @@ func BasicAuthFromCache(cache backends.APICache, realm string) gin.HandlerFunc {
 			return
 		}
 
-		//save user_id in context for future retreival
+		//save user_id and shard_id related to an user session in context for future retrieval
 		c.Set("user_id", user_id)
+		c.Set("shard_id", auth.Shard_id)
 	}
 }
 

@@ -67,17 +67,18 @@ class BaseIndexDocument(DocType):
         return Elasticsearch(cls.__url__)
 
     @classmethod
-    def create_mapping(cls, user_id):
+    def create_mapping(cls, index_name):
         """Create and save elasticsearch mapping for the cls.doc_type."""
 
         if hasattr(cls, 'build_mapping'):
             log.info('Create index {} mapping for doc_type {}'.
-                     format(user_id, cls.doc_type))
+                     format(index_name, cls.doc_type))
             try:
-                cls.build_mapping().save(using=cls.client(), index=user_id)
+                cls.build_mapping().save(using=cls.client(), index=index_name)
             except Exception as exc:
-                log.error(
-                    "failed to put mapping for {} : {}".format(user_id, exc))
+                log.error("failed to put mapping for {} : {}".
+                          format(index_name, exc))
+                raise exc
 
 
 class BaseUserType(UserType):

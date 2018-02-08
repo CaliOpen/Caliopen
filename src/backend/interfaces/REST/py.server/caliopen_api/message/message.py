@@ -52,8 +52,7 @@ class Message(Api):
         data = self.request.json
         # ^ json payload should have been validated by swagger module
         try:
-            message = ObjectMessage().create_draft(user_id=self.user.user_id,
-                                                   **data)
+            message = ObjectMessage().create_draft(user=self.user, **data)
         except Exception as exc:
             log.warn(exc)
             raise MergePatchError(error=exc)
@@ -101,7 +100,7 @@ class Message(Api):
         message_id = self.request.swagger_data["message_id"]
         patch = self.request.json
 
-        message = ObjectMessage(self.user.user_id, message_id=message_id)
+        message = ObjectMessage(user=self.user, message_id=message_id)
         try:
             message.patch_draft(patch, db=True, index=True,
                                 with_validation=True)
@@ -113,7 +112,7 @@ class Message(Api):
     @view(renderer='json', permission='authenticated')
     def delete(self):
         message_id = self.request.swagger_data["message_id"]
-        message = ObjectMessage(self.user.user_id, message_id=message_id)
+        message = ObjectMessage(user=self.user, message_id=message_id)
 
         try:
             message.get_db()
@@ -128,6 +127,7 @@ class Message(Api):
             raise HTTPServerError(exc)
 
         return Response(None, 204)
+
 
 @resource(path='/raws/{raw_msg_id}')
 class Raw(Api):

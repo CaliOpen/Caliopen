@@ -64,7 +64,8 @@ func (notif *Notifier) SendEmailAdminToUser(user *User, email *Message) error {
 		log.WithError(err).Warn("[EmailNotifiers]: SendEmailAdminToUser failed to store draft")
 		return err
 	}
-	err = notif.index.CreateMessage(email)
+	user_info := &UserInfo{User_id: user.UserId.String(), Shard_id: user.ShardId}
+	err = notif.index.CreateMessage(user_info, email)
 	if err != nil {
 		log.WithError(err).Warn("[EmailNotifiers]: SendEmailAdminToUser failed to index draft")
 		return err

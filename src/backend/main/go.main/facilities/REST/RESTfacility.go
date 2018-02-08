@@ -34,13 +34,13 @@ type (
 		ContactIdentities(user_id, contact_id string) (identities []ContactIdentity, err error)
 		//messages
 		GetMessagesList(filter IndexSearch) (messages []*Message, totalFound int64, err error)
-		GetMessage(user_id, message_id string) (message *Message, err error)
+		GetMessage(user *UserInfo, message_id string) (message *Message, err error)
 		SendDraft(user_id, msg_id string) (msg *Message, err error)
-		SetMessageUnread(user_id, message_id string, status bool) error
+		SetMessageUnread(user *UserInfo, message_id string, status bool) error
 		GetRawMessage(raw_message_id string) (message []byte, err error)
 		//attachments
-		AddAttachment(user_id, message_id, filename, content_type string, file io.Reader) (attachmentURL string, err error)
-		DeleteAttachment(user_id, message_id string, attchmtIndex int) error
+		AddAttachment(user *UserInfo, message_id, filename, content_type string, file io.Reader) (attachmentURL string, err error)
+		DeleteAttachment(user *UserInfo, message_id string, attchmtIndex int) error
 		OpenAttachment(user_id, message_id string, attchmtIndex int) (contentType string, size int, content io.Reader, err error)
 		//tags
 		RetrieveUserTags(user_id string) (tags []Tag, err CaliopenError)
@@ -49,7 +49,7 @@ type (
 		UpdateTag(tag *Tag) CaliopenError
 		PatchTag(patch []byte, user_id, tag_name string) CaliopenError
 		DeleteTag(user_id, tag_name string) CaliopenError
-		UpdateResourceTags(userID, resourceID, resourceType string, patch []byte) CaliopenError
+		UpdateResourceTags(user *UserInfo, resourceID, resourceType string, patch []byte) CaliopenError
 		//search
 		Search(IndexSearch) (result *IndexResult, err error)
 		//users

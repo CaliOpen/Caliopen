@@ -33,7 +33,7 @@ func (es *ElasticSearchBackend) CreateContact(contact *Contact) error {
 	return nil
 }
 
-func (es *ElasticSearchBackend) UpdateContact(contact *Contact, fields map[string]interface{}) error {
+func (es *ElasticSearchBackend) UpdateContact(user *UserInfo, contact *Contact, fields map[string]interface{}) error {
 
 	//get json field name for each field to modify
 	jsonFields := map[string]interface{}{}
@@ -45,9 +45,8 @@ func (es *ElasticSearchBackend) UpdateContact(contact *Contact, fields map[strin
 		split := strings.Split(jsonField, ",")
 		jsonFields[split[0]] = value
 	}
-
-	update, err := es.Client.Update().Index(contact.UserId.String()).Type(ContactIndexType).Id(contact.ContactId.String()).
-		Doc(jsonFields).
+	update, err := es.Client.Update().Index(user.Shard_id).Type(ContactIndexType).Id(contact.ContactId.String()).
+		Doc(fields).
 		Refresh("wait_for").
 		Do(context.TODO())
 	if err != nil {

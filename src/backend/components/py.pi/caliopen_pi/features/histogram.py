@@ -11,10 +11,10 @@ from caliopen_storage.helpers.connection import get_index_connection
 class ParticipantHistogram(object):
     """Date histogram for a participant in user messages index."""
 
-    def __init__(self, user_id, resolution='day'):
+    def __init__(self, user, resolution='day'):
         """Instanciate a date histrogram for an user."""
         self.esclient = get_index_connection()
-        self.user_id = user_id
+        self.user = user
         self.resolution = resolution
 
     def _format_results(self, results):
@@ -23,8 +23,9 @@ class ParticipantHistogram(object):
                  x['doc_count']) for x in results]
 
     def _do_query(self, value, term):
-        search = dsl.Search(using=self.esclient, index=self.user_id,
+        search = dsl.Search(using=self.esclient, index=self.user.shard_id,
                             doc_type='indexed_message')
+        search.filter(user_id=self.user.user_id)
         term_query = dsl.Q('term', **{term: value})
         search = search.query('nested', path='participants',
                               score_mode='avg',

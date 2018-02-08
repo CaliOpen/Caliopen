@@ -20,17 +20,22 @@ def setup_index(user):
     url = Configuration('global').get('elasticsearch.url')
     client = Elasticsearch(url)
 
+    shard_id = user.shard_id
     # Creates a versioned index with our custom analyzers, tokenizers, etc.
-    log.debug('Creating index for user {}'.format(user.user_id))
     m_version = Configuration('global').get('elasticsearch.mappings_version')
     if m_version == "":
-        log.warn('Empty mappings_version for {}'.format(user.user_id))
+        raise Exception('Invalid mapping version for shard {0}'.
+                        format(shard_id))
+
+    alias_name = shard_id
+    index_name = "{0}_{1}".format(shard_id, m_version)
+
+    if client.indices.exists(index_name):
+        log.debug("Index for shard {0} already exists".format(shard_id))
         return
-
-    index_name = user.user_id + "_" + m_version
-    alias_name = user.user_id
-
     try:
+        log.info('Creating index {0} for shard {1}'.
+                 format(index_name, shard_id))
         client.indices.create(
             index=index_name,
             body={
@@ -76,8 +81,8 @@ def setup_index(user):
     try:
         client.indices.put_alias(index=index_name, name=alias_name)
     except Exception as exc:
-        log.warn("failed to create alias {} : {}".format(alias_name, exc))
-        return
+        raise Exception("failed to create alias {0} : {1}".
+                        format(alias_name, exc))
 
     # PUT mappings for each type, if any
     for name, kls in core_registry.items():
@@ -85,8 +90,8 @@ def setup_index(user):
                 hasattr(kls._model_class, 'user_id'):
             idx_kls = kls._index_class()
             if hasattr(idx_kls, "build_mapping"):
-                log.debug('Init index for {}'.format(idx_kls))
-                idx_kls.create_mapping(user.user_id)
+                log.debug('Init index mapping for {}'.format(idx_kls))
+                idx_kls.create_mapping(index_name)
 
 
 def setup_system_tags(user):
@@ -120,7 +125,7 @@ def setup_settings(user, settings):
             settings.notification_delay_disappear,
     }
 
-    obj = ObjectSettings(user.user_id)
+    obj = ObjectSettings(user)
     obj.unmarshall_dict(settings)
     obj.marshall_db()
     obj.save_db()

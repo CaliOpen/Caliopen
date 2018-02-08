@@ -286,17 +286,42 @@ class ObjectStorable(ObjectJsonDictifiable):
 class ObjectUser(ObjectStorable):
     """Objects that MUST belong to a user to survive in Caliopen's world..."""
 
-    def __init__(self, user_id=None, **params):
-        self.user_id = user_id
+    def __init__(self, user=None, **params):
+        self.user = user
+        self.user_id = user.user_id
         super(ObjectUser, self).__init__(**params)
 
+    def marshall_dict(self, **options):
+        """output a dict representation of self 'public' attributes"""
+
+        self_dict = {}
+        for att, val in vars(self).items():
+            if not att.startswith("_") and val is not None and att != 'user':
+                if isinstance(self._attrs[att], types.ListType):
+                    lst = []
+                    if len(att) > 0:
+                        if issubclass(self._attrs[att][0], ObjectDictifiable):
+                            for item in val:
+                                lst.append(item.marshall_dict())
+                        else:
+                            lst = val
+                        self_dict[att] = lst
+                    else:
+                        self_dict[att] = lst
+                elif issubclass(self._attrs[att], ObjectDictifiable):
+                    self_dict[att] = val.marshall_dict()
+                else:
+                    self_dict[att] = val
+
+        return self_dict
+
     @classmethod
-    def list_db(cls, user_id):
+    def list_db(cls, user):
         """List all objects that belong to an user."""
-        models = cls._model_class.filter(user_id=user_id)
+        models = cls._model_class.filter(user_id=user.user_id)
         objects = []
         for model in models:
-            obj = cls(user_id)
+            obj = cls(user)
             obj._db = model
             obj.unmarshall_db()
             objects.append(obj)
@@ -477,7 +502,7 @@ class ObjectIndexable(ObjectUser):
 
         obj_id = getattr(self, self._pkey_name)
         try:
-            self._index = self._index_class.get(index=self.user_id,
+            self._index = self._index_class.get(index=self.user.shard_id,
                                                 id=obj_id,
                                                 using=self._index_class.client())
         except Exception as exc:
@@ -552,19 +577,19 @@ class ObjectIndexable(ObjectUser):
             update = True
         # index_sibling is instanciated with self._index values to perform
         # object comparaison
-        index_sibling = self.__class__(user_id=self.user_id)
+        index_sibling = self.__class__(user=self.user)
         index_sibling._index = self._index
 
         index_sibling.unmarshall_index()
         if not isinstance(self._index, self._index_class):
             self._index = self._index_class()
-            self._index.meta.index = self.user_id
+            self._index.meta.index = self.user.shard_id
             self._index.meta.using = self._index.client()
             self._index.meta.id = getattr(self, self._pkey_name)
 
         # update_sibling is an empty sibling that will be filled
         # with attributes from self
-        update_sibling = self.__class__(user_id=self.user_id)
+        update_sibling = self.__class__(user=self.user)
 
         m = self._index._doc_type.mapping.to_dict()
         for att in m[self._index._doc_type.name]["properties"]:
@@ -607,7 +632,8 @@ class ObjectIndexable(ObjectUser):
             try:
                 self.update_index(wait_for=True)
             except Exception as exc:
-                log.info("apply_patch update_index() exception: {}".format(exc))
+                log.info("apply_patch update_index() exception: {}".
+                         format(exc))
                 raise exc
 
 
@@ -643,7 +669,11 @@ def unmarshall_item(document, key, target_object, target_attr_type,
         setattr(target_object, key, lst)
 
     elif issubclass(target_attr_type, ObjectDictifiable):
-        sub_obj = target_attr_type()
+        if hasattr(target_object, 'user'):
+            opts = {'user': target_object.user}
+        else:
+            opts = {}
+        sub_obj = target_attr_type(**opts)
         sub_obj.unmarshall_dict(document[key])
         setattr(target_object, key, sub_obj)
 

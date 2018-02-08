@@ -15,14 +15,14 @@ import (
 	"strings"
 )
 
-func (es *ElasticSearchBackend) CreateMessage(msg *objects.Message) error {
+func (es *ElasticSearchBackend) CreateMessage(user *objects.UserInfo, msg *objects.Message) error {
 
 	es_msg, err := msg.MarshalES()
 	if err != nil {
 		return err
 	}
 
-	resp, err := es.Client.Index().Index(msg.User_id.String()).Type(objects.MessageIndexType).Id(msg.Message_id.String()).
+	resp, err := es.Client.Index().Index(user.Shard_id).Type(objects.MessageIndexType).Id(msg.Message_id.String()).
 		BodyString(string(es_msg)).
 		Refresh("wait_for").
 		Do(context.TODO())
@@ -35,7 +35,7 @@ func (es *ElasticSearchBackend) CreateMessage(msg *objects.Message) error {
 
 }
 
-func (es *ElasticSearchBackend) UpdateMessage(msg *objects.Message, fields map[string]interface{}) error {
+func (es *ElasticSearchBackend) UpdateMessage(user *objects.UserInfo, msg *objects.Message, fields map[string]interface{}) error {
 
 	//get json field name for each field to modify
 	jsonFields := map[string]interface{}{}
@@ -48,8 +48,8 @@ func (es *ElasticSearchBackend) UpdateMessage(msg *objects.Message, fields map[s
 		jsonFields[split[0]] = value
 	}
 
-	update, err := es.Client.Update().Index(msg.User_id.String()).Type(objects.MessageIndexType).Id(msg.Message_id.String()).
-		Doc(jsonFields).
+	update, err := es.Client.Update().Index(user.Shard_id).Type(objects.MessageIndexType).Id(msg.Message_id.String()).
+		Doc(fields).
 		Refresh("wait_for").
 		Do(context.TODO())
 	if err != nil {
@@ -60,12 +60,12 @@ func (es *ElasticSearchBackend) UpdateMessage(msg *objects.Message, fields map[s
 	return nil
 }
 
-func (es *ElasticSearchBackend) SetMessageUnread(user_id, message_id string, status bool) (err error) {
+func (es *ElasticSearchBackend) SetMessageUnread(user *objects.UserInfo, message_id string, status bool) (err error) {
 	payload := struct {
 		Is_unread bool `json:"is_unread"`
 	}{status}
 
-	update := es.Client.Update().Index(user_id).Type(objects.MessageIndexType).Id(message_id)
+	update := es.Client.Update().Index(user.Shard_id).Type(objects.MessageIndexType).Id(message_id)
 	_, err = update.Doc(payload).Refresh("true").Do(context.TODO())
 
 	return
@@ -73,7 +73,7 @@ func (es *ElasticSearchBackend) SetMessageUnread(user_id, message_id string, sta
 
 func (es *ElasticSearchBackend) FilterMessages(filter objects.IndexSearch) (messages []*objects.Message, totalFound int64, err error) {
 
-	search := es.Client.Search().Index(filter.User_id.String()).Type(objects.MessageIndexType)
+	search := es.Client.Search().Index(filter.Shard_id).Type(objects.MessageIndexType)
 	search = filter.FilterQuery(search, true).Sort("date_insert", false)
 
 	if filter.Offset > 0 {
@@ -82,7 +82,6 @@ func (es *ElasticSearchBackend) FilterMessages(filter objects.IndexSearch) (mess
 	if filter.Limit > 0 {
 		search = search.Size(filter.Limit)
 	}
-
 	result, err := search.Do(context.TODO())
 
 	if err != nil {

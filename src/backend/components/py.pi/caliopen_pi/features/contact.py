@@ -39,7 +39,7 @@ class ContactFeature(object):
 
     def _compute_histogram(self, email):
         """Get an histogram for a contact email and compute basic infos."""
-        histo = ParticipantHistogram(self.user.user_id, 'day')
+        histo = ParticipantHistogram(self.user, 'day')
         data = histo.find_by_address(email)
         log.info('Got email {0} histogram result {1}'.format(email, data))
         if data:

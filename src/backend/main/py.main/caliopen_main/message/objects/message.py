@@ -223,7 +223,7 @@ class Message(ObjectIndexable):
         if res.hits:
             for x in res.hits:
                 try:
-                    obj = cls(user.user_id, message_id=x.meta.id)
+                    obj = cls(user, message_id=x.meta.id)
                     obj.get_db()
                     obj.unmarshall_db()
                     messages.append(obj)

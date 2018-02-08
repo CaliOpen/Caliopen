@@ -142,10 +142,10 @@ func (rest *RESTfacility) DeleteTag(user_id, tag_name string) CaliopenError {
 // - calls generic UpdateWithPatch func to patch the resource,
 // - saves and indexes updated resource.
 // It is caller responsibility to call this func with a well-formed patch that has only "tags" properties
-func (rest *RESTfacility) UpdateResourceTags(userID, resourceID, resourceType string, patch []byte) CaliopenError {
+func (rest *RESTfacility) UpdateResourceTags(user *UserInfo, resourceID, resourceType string, patch []byte) CaliopenError {
 	var err error
 	// 1. check that tag_names within patch belong to user and are unique
-	tags, err := rest.RetrieveUserTags(userID)
+	tags, err := rest.RetrieveUserTags(user.User_id)
 	if err != nil {
 		return WrapCaliopenErr(err, DbCaliopenErr, "[RESTfacility] UpdateResourceTags error")
 	}
@@ -163,7 +163,7 @@ func (rest *RESTfacility) UpdateResourceTags(userID, resourceID, resourceType st
 	for _, tag := range p.Get("tags").MustStringArray() {
 		// is tag belonging to user ?
 		if _, ok := userTagsMap[tag]; !ok {
-			err = fmt.Errorf("[RESTfacility] UpdateResourceTags : tag with name <%s> does not belong to user <%s>", tag, userID)
+			err = fmt.Errorf("[RESTfacility] UpdateResourceTags : tag with name <%s> does not belong to user <%s>", tag, user.User_id)
 			break
 		}
 		// is tag unique ?
@@ -186,13 +186,13 @@ func (rest *RESTfacility) UpdateResourceTags(userID, resourceID, resourceType st
 
 	switch resourceType {
 	case MessageType:
-		m, err := rest.store.RetrieveMessage(userID, resourceID)
+		m, err := rest.store.RetrieveMessage(user.User_id, resourceID)
 		if err != nil {
 			return WrapCaliopenErr(err, DbCaliopenErr, "[RESTfacility] UpdateResourceTags")
 		}
 		obj = ObjectPatchable(m)
 	case ContactType:
-		c, err := rest.store.RetrieveContact(userID, resourceID)
+		c, err := rest.store.RetrieveContact(user.User_id, resourceID)
 		if err != nil {
 			return WrapCaliopenErr(err, DbCaliopenErr, "[RESTfacility] UpdateResourceTags")
 		}
@@ -217,7 +217,7 @@ func (rest *RESTfacility) UpdateResourceTags(userID, resourceID, resourceType st
 			return WrapCaliopenErr(err, DbCaliopenErr, "[RESTfacility] UpdateResourceTags")
 		}
 
-		err = rest.index.UpdateMessage(newObj.(*Message), update)
+		err = rest.index.UpdateMessage(user, obj.(*Message), update)
 		if err != nil {
 			return WrapCaliopenErr(err, IndexCaliopenErr, "[RESTfacility] UpdateResourceTags")
 		}
@@ -230,7 +230,7 @@ func (rest *RESTfacility) UpdateResourceTags(userID, resourceID, resourceType st
 			return WrapCaliopenErr(err, DbCaliopenErr, "[RESTfacility] UpdateResourceTags")
 		}
 
-		err = rest.index.UpdateContact(newObj.(*Contact), update)
+		err = rest.index.UpdateContact(user, newObj.(*Contact), update)
 		if err != nil {
 			return WrapCaliopenErr(err, IndexCaliopenErr, "[RESTfacility] UpdateResourceTags")
 		}

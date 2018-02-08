@@ -14,8 +14,8 @@ type MessageStorage interface {
 }
 
 type MessageIndex interface {
-	SetMessageUnread(user_id, message_id string, status bool) error
-	CreateMessage(msg *Message) error
-	UpdateMessage(msg *Message, fields map[string]interface{}) error // 'fields' are the struct fields names that have been modified
+	SetMessageUnread(user *UserInfo, message_id string, status bool) error
+	CreateMessage(user *UserInfo, msg *Message) error
+	UpdateMessage(user *UserInfo, msg *Message, fields map[string]interface{}) error
 	FilterMessages(search IndexSearch) (messages []*Message, totalFound int64, err error)
 }

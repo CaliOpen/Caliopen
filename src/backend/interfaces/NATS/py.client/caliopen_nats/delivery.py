@@ -33,7 +33,7 @@ class UserMessageDelivery(object):
         message = qualifier.process_inbound(raw)
 
         # store and index message
-        obj = Message(self.user)
+        obj = Message(user=self.user)
         obj.unmarshall_dict(message.to_native())
         obj.user_id = uuid.UUID(self.user.user_id)
         obj.message_id = uuid.uuid4()

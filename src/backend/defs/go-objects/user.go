@@ -13,6 +13,12 @@ import (
 	"time"
 )
 
+// Struct to operate on user objects
+type UserInfo struct {
+    User_id           string
+    Shard_id          string
+}
+
 type User struct {
 	ContactId        UUID              `cql:"contact_id"               json:"contact_id"`
 	DateInsert       time.Time         `cql:"date_insert"              json:"date_insert"                              formatter:"RFC3339Milli"`
@@ -27,6 +33,7 @@ type User struct {
 	*PrivacyFeatures `cql:"privacy_features"         json:"privacy_features"`
 	RecoveryEmail    string `cql:"recovery_email"            json:"recovery_email"`
 	UserId           UUID   `cql:"user_id"                  json:"user_id"              elastic:"omit"      formatter:"rfc4122"`
+	ShardId 		 string   `cql:"shard_id"          json:"shard_id"`
 }
 
 // payload for triggering a password reset procedure for an end-user.
@@ -41,6 +48,7 @@ type Auth_cache struct {
 	Expires_in    int       `json:"expires_in"`
 	Expires_at    time.Time `json:"expires_at"`
 	Refresh_token string    `json:"refresh_token"`
+	Shard_id      string    `json:"shard_id"`
 }
 
 // data stored into cache as long as a reset password request is pending for an user
@@ -190,6 +198,7 @@ func (ac *Auth_cache) UnmarshalJSON(b []byte) error {
 		Expires_in    int    `json:"expires_in"`
 		Expires_at    string `json:"expires_at"`
 		Refresh_token string `json:"refresh_token"`
+		Shard_id      string `json:"shard_id"`
 	}
 	if err := json.Unmarshal(b, &temp); err != nil {
 		return err
@@ -202,5 +211,6 @@ func (ac *Auth_cache) UnmarshalJSON(b []byte) error {
 	}
 	ac.Expires_at = expire
 	ac.Refresh_token = temp.Refresh_token
+	ac.Shard_id = temp.Shard_id
 	return nil
 }

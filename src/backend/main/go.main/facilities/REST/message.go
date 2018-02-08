@@ -9,14 +9,14 @@ import (
 	m "github.com/CaliOpen/Caliopen/src/backend/main/go.main/messages"
 )
 
-func (rest *RESTfacility) SetMessageUnread(user_id, message_id string, status bool) (err error) {
+func (rest *RESTfacility) SetMessageUnread(user *UserInfo, message_id string, status bool) (err error) {
 
-	err = rest.store.SetMessageUnread(user_id, message_id, status)
+	err = rest.store.SetMessageUnread(user.User_id, message_id, status)
 	if err != nil {
 		return err
 	}
 
-	err = rest.index.SetMessageUnread(user_id, message_id, status)
+	err = rest.index.SetMessageUnread(user, message_id, status)
 	return err
 }
 
@@ -43,8 +43,8 @@ func (rest *RESTfacility) GetMessagesList(filter IndexSearch) (messages []*Messa
 }
 
 //return a sanitized message, ready for display in front interface
-func (rest *RESTfacility) GetMessage(user_id, msg_id string) (msg *Message, err error) {
-	msg, err = rest.store.RetrieveMessage(user_id, msg_id)
+func (rest *RESTfacility) GetMessage(user *UserInfo, msg_id string) (msg *Message, err error) {
+	msg, err = rest.store.RetrieveMessage(user.User_id, msg_id)
 	if err != nil {
 		return nil, err
 	}

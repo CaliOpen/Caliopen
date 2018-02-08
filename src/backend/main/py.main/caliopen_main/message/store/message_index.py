@@ -18,6 +18,9 @@ class IndexedMessage(BaseIndexDocument):
 
     doc_type = 'indexed_message'
 
+    user_id = Keyword()
+    message_id = Keyword()
+
     attachments = Nested(doc_class=IndexedMessageAttachment)
     body_html = Text()
     body_plain = Text()
@@ -32,7 +35,6 @@ class IndexedMessage(BaseIndexDocument):
     is_draft = Boolean()
     is_unread = Boolean()
     is_received = Boolean()
-    message_id = Keyword()
     parent_id = Keyword()
     participants = Nested(doc_class=IndexedParticipant)
     privacy_features = Nested()
@@ -52,6 +54,7 @@ class IndexedMessage(BaseIndexDocument):
         """Generate the mapping definition for indexed messages"""
         m = Mapping(cls.doc_type)
         m.meta('_all', enabled=True)
+        m.field('user_id', 'keyword')
         # attachments
         m.field('attachments', Nested(doc_class=IndexedMessageAttachment,
                                       include_in_all=True,

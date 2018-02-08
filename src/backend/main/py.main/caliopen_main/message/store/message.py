@@ -22,6 +22,9 @@ class Message(BaseModel, IndexedModelMixin):
 
     _index_class = IndexedMessage
 
+    user_id = columns.UUID(primary_key=True)
+    message_id = columns.UUID(primary_key=True, default=uuid.uuid4)
+
     attachments = columns.List(columns.UserDefinedType(MessageAttachment))
     body_html = columns.Text()
     body_plain = columns.Text()
@@ -36,7 +39,6 @@ class Message(BaseModel, IndexedModelMixin):
     is_draft = columns.Boolean()
     is_unread = columns.Boolean()
     is_received = columns.Boolean(default=False)
-    message_id = columns.UUID(primary_key=True, default=uuid.uuid4)
     parent_id = columns.UUID()
     participants = columns.List(columns.UserDefinedType(Participant))
     privacy_features = columns.Map(columns.Text(), columns.Text())
@@ -45,4 +47,3 @@ class Message(BaseModel, IndexedModelMixin):
     subject = columns.Text()  # Subject of email, the message for short
     tags = columns.List(columns.Text(), db_field="tagnames")
     type = columns.Text()
-    user_id = columns.UUID(primary_key=True)

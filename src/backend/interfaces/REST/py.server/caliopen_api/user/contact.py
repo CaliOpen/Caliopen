@@ -75,7 +75,7 @@ class Contact(Api):
             log.error("unable to extract contact_id: {}".format(exc))
             raise ValidationError(exc)
 
-        contact = ContactObject(self.user.user_id, contact_id=contact_id)
+        contact = ContactObject(user=self.user, contact_id=contact_id)
         try:
             contact.get_db()
             contact.unmarshall_db()
@@ -119,7 +119,7 @@ class Contact(Api):
         contact_id = self.request.swagger_data["contact_id"]
         patch = self.request.json
 
-        contact = ContactObject(self.user.user_id, contact_id=contact_id)
+        contact = ContactObject(user=self.user, contact_id=contact_id)
         try:
             contact.apply_patch(patch, db=True, index=True,
                                 with_validation=True)
@@ -131,7 +131,7 @@ class Contact(Api):
     @view(renderer='json', permission='authenticated')
     def delete(self):
         contact_id = self.request.swagger_data["contact_id"]
-        contact = ContactObject(self.user.user_id, contact_id=contact_id)
+        contact = ContactObject(user=self.user, contact_id=contact_id)
 
         try:
             contact.delete()

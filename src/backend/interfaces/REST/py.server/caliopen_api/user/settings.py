@@ -31,7 +31,7 @@ class SettingsAPI(Api):
     @view(renderer='json', permission='authenticated')
     def get(self):
         """Return user settings."""
-        objects = ObjectSettings.list_db(self.user.user_id)
+        objects = ObjectSettings.list_db(self.user)
         settings = [x.marshall_dict() for x in objects]
         return settings[0]
 
@@ -49,7 +49,7 @@ class SettingsAPI(Api):
         """
         patch = self.request.json
 
-        settings = ObjectSettings(self.user.user_id)
+        settings = ObjectSettings(self.user)
         error = settings.apply_patch(patch, db=True)
         if error is not None:
             raise MergePatchError(error)

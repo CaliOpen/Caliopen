@@ -26,10 +26,12 @@ type LDAStore interface {
 	GetAttachment(uri string) (file io.Reader, err error)
 	DeleteAttachment(uri string) error
 	AttachmentExists(uri string) bool
+
+	RetrieveUser(user_id string) (user *User, err error)
 }
 
 type LDAIndex interface {
 	Close()
-	CreateMessage(msg *Message) error
-	UpdateMessage(msg *Message, fields map[string]interface{}) error // 'fields' are the struct fields names that have been modified
+	CreateMessage(user *UserInfo, msg *Message) error
+	UpdateMessage(user *UserInfo, msg *Message, fields map[string]interface{}) error
 }

@@ -32,6 +32,7 @@ func GetMessagesList(ctx *gin.Context) {
 	var user_UUID UUID
 
 	user_uuid_str := ctx.MustGet("user_id").(string)
+	shard_id := ctx.MustGet("shard_id").(string)
 	user_uuid, _ := uuid.FromString(user_uuid_str)
 	user_UUID.UnmarshalBinary(user_uuid.Bytes())
 
@@ -46,6 +47,7 @@ func GetMessagesList(ctx *gin.Context) {
 	}
 
 	filter := IndexSearch{
+		Shard_id: shard_id,
 		User_id: user_UUID,
 		Terms:   map[string][]string(query_values),
 		Limit:   limit,
@@ -88,6 +90,8 @@ func GetMessagesList(ctx *gin.Context) {
 // GET …/messages/:message_id
 func GetMessage(ctx *gin.Context) {
 	user_id := ctx.MustGet("user_id").(string)
+	shard_id := ctx.MustGet("shard_id").(string)
+	user_info := &UserInfo{User_id: user_id, Shard_id: shard_id}
 	msg_id, err := operations.NormalizeUUIDstring(ctx.Param("message_id"))
 	if err != nil {
 		e := swgErr.New(http.StatusUnprocessableEntity, err.Error())
@@ -95,7 +99,7 @@ func GetMessage(ctx *gin.Context) {
 		ctx.Abort()
 		return
 	}
-	msg, err := caliopen.Facilities.RESTfacility.GetMessage(user_id, msg_id)
+	msg, err := caliopen.Facilities.RESTfacility.GetMessage(user_info, msg_id)
 	if err != nil {
 		e := swgErr.New(http.StatusFailedDependency, err.Error())
 		http_middleware.ServeError(ctx.Writer, ctx.Request, e)

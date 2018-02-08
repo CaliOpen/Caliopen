@@ -30,6 +30,7 @@ class UserRecoveryEmail(BaseModel):
     recovery_email = columns.Text(primary_key=True)
     user_id = columns.UUID(required=True)
 
+
 class ReservedName(BaseModel):
     """List of reserved user names."""
 
@@ -50,6 +51,7 @@ class User(BaseModel):
     main_user_id = columns.UUID()
     recovery_email = columns.Text(required=True)
     local_identities = columns.List(columns.Text())
+    shard_id = columns.Text()
 
     privacy_features = columns.Map(columns.Text(), columns.Text())
     pi = columns.UserDefinedType(PIModel)

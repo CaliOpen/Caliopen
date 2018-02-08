@@ -5,6 +5,7 @@
 package messages
 
 import (
+	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/middlewares"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.main"
@@ -22,6 +23,8 @@ type REST_order struct {
 // POST …/:message_id/actions
 func Actions(ctx *gin.Context) {
 	user_id := ctx.MustGet("user_id").(string)
+	shard_id := ctx.MustGet("shard_id").(string)
+	user_info := &UserInfo{User_id: user_id, Shard_id: shard_id}
 	msg_id, err := operations.NormalizeUUIDstring(ctx.Param("message_id"))
 	if err != nil {
 		e := swgErr.New(http.StatusUnprocessableEntity, err.Error())
@@ -50,7 +53,7 @@ func Actions(ctx *gin.Context) {
 				}
 			}
 		case "set_read":
-			err := caliopen.Facilities.RESTfacility.SetMessageUnread(user_id, msg_id, false)
+			err := caliopen.Facilities.RESTfacility.SetMessageUnread(user_info, msg_id, false)
 			if err != nil {
 				e := swgErr.New(http.StatusFailedDependency, err.Error())
 				http_middleware.ServeError(ctx.Writer, ctx.Request, e)
@@ -59,7 +62,7 @@ func Actions(ctx *gin.Context) {
 				ctx.Status(http.StatusNoContent)
 			}
 		case "set_unread":
-			err := caliopen.Facilities.RESTfacility.SetMessageUnread(user_id, msg_id, true)
+			err := caliopen.Facilities.RESTfacility.SetMessageUnread(user_info, msg_id, true)
 			if err != nil {
 				e := swgErr.New(http.StatusFailedDependency, err.Error())
 				http_middleware.ServeError(ctx.Writer, ctx.Request, e)
