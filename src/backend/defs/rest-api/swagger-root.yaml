@@ -86,6 +86,9 @@ paths:
     "$ref": paths/participants.yaml#/participants_suggest
   "/v2/search":
     "$ref": paths/search.yaml#/search
+## notifications
+  "/v2/notifications":
+    "$ref": paths/notifications.yaml#/notifications
 
 securityDefinitions:
   basicAuth:
