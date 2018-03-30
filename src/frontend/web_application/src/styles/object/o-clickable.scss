@@ -1,7 +1,8 @@
 @mixin o-clickable {
   transition: $co-animation__clickable-transition;
   border-color: $co-color__primary;
-  color: $co-color__fg__text;
+  color: $co-color__primary;
+  font-weight: 700;
   text-decoration: none;
   cursor: pointer;
 

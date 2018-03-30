@@ -12,8 +12,6 @@
     @include flex-grid-size(shrink);
     margin-top: $co-component__spacing;
     margin-left: auto;
-    color: $co-color__primary;
-    font-weight: 700;
   }
 
   &__item {
