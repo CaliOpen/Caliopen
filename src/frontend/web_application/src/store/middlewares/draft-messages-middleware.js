@@ -21,7 +21,9 @@ function getDefaultIdentities({ protocols, identities = [] }) {
 
 const localIdentityToIdentity = ({ identifier, type }) => ({ identifier, type });
 
-async function getNewDraft({ discussionId, store, messageToAnswer, messageId = uuidv4() }) {
+async function getNewDraft({
+  discussionId, store, messageToAnswer, messageId = uuidv4(),
+}) {
   await store.dispatch(requestLocalIdentities());
   const { localIdentities } = store.getState().localIdentity;
 

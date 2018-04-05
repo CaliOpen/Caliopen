@@ -337,7 +337,8 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         messagesCollections: makeMessagesCollectionTypeReducer(action)(
-          state.messagesCollections, action
+          state.messagesCollections,
+          action
         ),
       };
     case REQUEST_MESSAGES_SUCCESS:
@@ -345,7 +346,8 @@ export default function reducer(state = initialState, action) {
         ...state,
         messagesById: messagesByIdReducer(state.messagesById, action),
         messagesCollections: makeMessagesCollectionTypeReducer(action)(
-          state.messagesCollections, action
+          state.messagesCollections,
+          action
         ),
       };
     case SET_TIMELINE_FILTER:
@@ -357,7 +359,8 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         messagesCollections: makeMessagesCollectionTypeReducer(action)(
-          state.messagesCollections, action
+          state.messagesCollections,
+          action
         ),
       };
     case INVALIDATE_ALL_MESSAGES:

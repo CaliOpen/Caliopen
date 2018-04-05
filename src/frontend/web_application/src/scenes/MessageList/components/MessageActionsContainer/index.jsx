@@ -128,7 +128,9 @@ class MessageActionsContainer extends Component {
               onClick={confirm}
               icon="trash"
               responsive="icon-only"
-            ><Trans id="message-list.message.action.delete">Delete</Trans></Button>
+            >
+              <Trans id="message-list.message.action.delete">Delete</Trans>
+            </Button>
           )}
         />
         <Button

@@ -65,16 +65,20 @@ class MessageResultItem extends PureComponent {
   render() {
     const { message, locale } = this.props;
     const resultItemClassNames = classnames(
-      's-message-result-item', {
+      's-message-result-item',
+      {
         's-message-result-item--unread': message.is_unread,
         's-message-result-item--draft': message.is_draft,
       }
-  );
+    );
+
     const topicClassNames = classnames(
-      's-message-result-item__topic', {
+      's-message-result-item__topic',
+      {
         's-message-result-item__topic--unread': message.is_unread,
         's-message-result-item__topic--draft': message.is_draft,
-      });
+      }
+    );
 
     return (
       <Link

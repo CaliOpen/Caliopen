@@ -31,7 +31,6 @@ class MessageList extends Component {
 
   static defaultProps = {
     messages: [],
-    discussion: {},
     currentTab: undefined,
   };
 
@@ -68,7 +67,9 @@ class MessageList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { didInvalidate, isFetching, messages, currentTab } = nextProps;
+    const {
+      didInvalidate, isFetching, messages, currentTab,
+    } = nextProps;
     if (didInvalidate && !isFetching) {
       this.props.requestMessages({ discussion_id: nextProps.discussionId });
     }

@@ -19,10 +19,19 @@ class ReplyExcerpt extends PureComponent {
   };
 
   render() {
-    const { draft, draftExcerptRef, onFocus, className } = this.props;
+    const {
+      draft, draftExcerptRef, onFocus, className,
+    } = this.props;
 
     return (
-      <div className={classnames('m-reply-excerpt', className)} ref={draftExcerptRef} onClick={onFocus} role="button" tabIndex={draftExcerptIndex}>
+      <div
+        className={classnames('m-reply-excerpt', className)}
+        ref={draftExcerptRef}
+        onClick={onFocus}
+        onKeyPress={onFocus}
+        role="button"
+        tabIndex={draftExcerptIndex}
+      >
         <Icon type="pencil" spaced />
         {draft && draft.body}
       </div>

@@ -46,13 +46,17 @@ class NewDraft extends Component {
   };
 
   handleTagsChange = ({ tags }) => {
-    const { internalId, draft, onUpdateEntityTags, i18n, message } = this.props;
+    const {
+      internalId, draft, onUpdateEntityTags, i18n, message,
+    } = this.props;
 
     return onUpdateEntityTags(internalId, i18n, message, { type: 'message', entity: draft, tags });
   }
 
   handleSaveDraft = async ({ draft }) => {
-    const { i18n, onSaveDraft, notifySuccess, notifyError, internalId, message } = this.props;
+    const {
+      i18n, onSaveDraft, notifySuccess, notifyError, internalId, message,
+    } = this.props;
 
     try {
       await onSaveDraft({ internalId, draft, message });
@@ -66,7 +70,9 @@ class NewDraft extends Component {
   }
 
   handleSend = async ({ draft }) => {
-    const { onSendDraft, internalId, message, currentTab, notifyError, i18n } = this.props;
+    const {
+      onSendDraft, internalId, message, currentTab, notifyError, i18n,
+    } = this.props;
     this.setState({ isSending: true });
 
     try {
@@ -85,13 +91,17 @@ class NewDraft extends Component {
   };
 
   handleFilesChange = ({ attachments }) => {
-    const { onUploadAttachments, i18n, message, draft, internalId } = this.props;
+    const {
+      onUploadAttachments, i18n, message, draft, internalId,
+    } = this.props;
 
     return onUploadAttachments(internalId, i18n, message, { draft, attachments });
   }
 
   handleDeleteAttachement = (attachment) => {
-    const { onDeleteAttachement, i18n, message, draft, internalId } = this.props;
+    const {
+      onDeleteAttachement, i18n, message, draft, internalId,
+    } = this.props;
 
     return onDeleteAttachement(internalId, i18n, message, { draft, attachment });
   }

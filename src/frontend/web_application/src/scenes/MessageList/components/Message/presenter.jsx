@@ -129,9 +129,8 @@ class Message extends Component {
 
     const messageType = typeTranslations[message.type];
 
-    const participants = message.participants.filter(
-      participant => participant.address !== author.address
-    );
+    const participants = message.participants
+      .filter(participant => participant.address !== author.address);
 
     return (
       <article id={message.message_id} className="m-message">
@@ -156,8 +155,8 @@ class Message extends Component {
               {message.is_unread &&
                 <span className="m-message__new"><Trans id="message-list.message.new">new</Trans></span>
               }
-              {message.type &&
-                (<div className="m-message__type">
+              {message.type && (
+                <div className="m-message__type">
                   <span className="m-message__type-label">
                     <Trans id="message-list.message.by">by {messageType}</Trans>
                   </span>

@@ -78,11 +78,12 @@ class DraftMessageActionsContainer extends Component {
     if (!message || !message.message_id) {
       return (
         <Button
-          onClick={confirm}
           icon="trash"
           responsive="icon-only"
           disabled
-        ><Trans id="message-list.message.action.delete">Delete</Trans></Button>
+        >
+          <Trans id="message-list.message.action.delete">Delete</Trans>
+        </Button>
       );
     }
 
@@ -97,7 +98,9 @@ class DraftMessageActionsContainer extends Component {
             onClick={confirm}
             icon="trash"
             responsive="icon-only"
-          ><Trans id="message-list.message.action.delete">Delete</Trans></Button>
+          >
+            <Trans id="message-list.message.action.delete">Delete</Trans>
+          </Button>
         )}
       />
     );
@@ -117,7 +120,9 @@ class DraftMessageActionsContainer extends Component {
           className="m-message-actions-container__action"
           icon="tags"
           responsive="icon-only"
-        ><Trans id="message-list.message.action.tags">Tags</Trans></Button>
+        >
+          <Trans id="message-list.message.action.tags">Tags</Trans>
+        </Button>
         {this.renderDeleteButton()}
         {this.renderTagsModal()}
       </div>

@@ -10,8 +10,8 @@ const formValuesSelector = (state, ownProps) => getFormValues(ownProps.form)(sta
 
 const mapStateToProps = createSelector(
   [settingsSelector, formValuesSelector],
-  ({ contact_display_format }, formValues) => ({
-    contact_display_format,
+  ({ contact_display_format: contactDisplayFormat }, formValues) => ({
+    contactDisplayFormat,
     contact: formValues,
   })
 );

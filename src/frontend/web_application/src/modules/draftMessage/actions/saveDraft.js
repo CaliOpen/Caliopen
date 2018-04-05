@@ -50,7 +50,8 @@ const createThrottle = (resolve, reject, dispatch, { internalId, draft, message 
   }, UPDATE_WAIT_TIME, { leading: false });
 
 export const saveDraft = (
-  { internalId, draft, message }, { withThrottle = false, force = false } = {}
+  { internalId, draft, message },
+  { withThrottle = false, force = false } = {}
 ) => dispatch => new Promise(async (resolve, reject) => {
   if (isEqual(message, draft)) {
     resolve(message);

@@ -53,7 +53,7 @@ class Contact extends Component {
     contact: undefined,
     currentTab: undefined,
     contactId: undefined,
-    birthday: undefined,
+    // birthday: undefined,
     user: undefined,
   };
 
@@ -130,7 +130,9 @@ class Contact extends Component {
   }
 
   handleDelete = () => {
-    const { contactId, currentTab, push, removeTab, invalidateContacts } = this.props;
+    const {
+      contactId, currentTab, push, removeTab, invalidateContacts,
+    } = this.props;
     this.setState({ isFetching: true });
     this.props.deleteContact({ contactId })
       .then(() => invalidateContacts())
@@ -169,7 +171,9 @@ class Contact extends Component {
   };
 
   handleSubmit = (ev) => {
-    const { i18n, handleSubmit, contactId, notifyError, contact: original } = this.props;
+    const {
+      i18n, handleSubmit, contactId, notifyError, contact: original,
+    } = this.props;
     this.setState({ isSaving: true });
     handleSubmit(ev)
       .then(contact => this.createOrUpdateAction({ contact, original }))
@@ -222,7 +226,9 @@ class Contact extends Component {
           responsive="icon-only"
           icon="remove"
           className="s-contact__action"
-        ><Trans id="contact.action.cancel_edit">Cancel</Trans></Button>
+        >
+          <Trans id="contact.action.cancel_edit">Cancel</Trans>
+        </Button>
         <TextBlock className="s-contact__bar-title">
           <Trans id="contact.edit_contact.title">Edit contact</Trans>
         </TextBlock>
@@ -232,13 +238,17 @@ class Contact extends Component {
           icon={hasActivity ? (<Spinner isLoading display="inline" />) : 'check'}
           className="s-contact__action"
           disabled={pristine || hasActivity}
-        ><Trans id="contact.action.validate_edit">Validate</Trans></Button>
+        >
+          <Trans id="contact.action.validate_edit">Validate</Trans>
+        </Button>
       </div>
     );
   }
 
   renderActionBar = (contactDisplayFormat) => {
-    const { submitting, contact, user, contactId } = this.props;
+    const {
+      submitting, contact, user, contactId,
+    } = this.props;
     const contactDisplayName = formatName({ contact, format: contactDisplayFormat });
     const contactIsUser = contactId && user && user.contact.contact_id === contactId;
     const hasActivity = submitting || this.state.isFetching || this.state.isSaving;
@@ -266,14 +276,18 @@ class Contact extends Component {
                 onClick={this.toggleEditMode}
                 className="s-contact__action"
                 display="expanded"
-              ><Trans id="contact.action.edit_contact">Edit contact</Trans></Button>
+              >
+                <Trans id="contact.action.edit_contact">Edit contact</Trans>
+              </Button>
             </VerticalMenuItem>
             <VerticalMenuItem>
               <Button
                 onClick={this.handleOpenTags}
                 className="s-contact__action"
                 display="expanded"
-              ><Trans id="contact.action.edit_tags">Edit tags</Trans></Button>
+              >
+                <Trans id="contact.action.edit_tags">Edit tags</Trans>
+              </Button>
               { this.renderTagsModal() }
             </VerticalMenuItem>
             {/* TODO: this.handleShare() function
@@ -298,7 +312,9 @@ class Contact extends Component {
                     <Button
                       onClick={confirm}
                       display="expanded"
-                    ><Trans id="contact.action.delete_contact">Delete</Trans></Button>
+                    >
+                      <Trans id="contact.action.delete_contact">Delete</Trans>
+                    </Button>
                   )}
                 />
               </VerticalMenuItem>

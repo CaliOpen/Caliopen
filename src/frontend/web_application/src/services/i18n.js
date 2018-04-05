@@ -31,11 +31,12 @@ export const getUserLocales = () => {
     return [global.USER_LOCALE];
   }
 
-  if (BUILD_TARGET === 'electron') {
-    const { ipcRenderer } = require('electron'); // eslint-disable-line
-
-    return [ipcRenderer.sendSync('getLocale')];
-  }
+  // if (BUILD_TARGET === 'electron') {
+  //   // eslint-disable-next-line
+  //   const { ipcRenderer } = require('electron');
+  //
+  //   return [ipcRenderer.sendSync('getLocale')];
+  // }
 
   return [];
 };

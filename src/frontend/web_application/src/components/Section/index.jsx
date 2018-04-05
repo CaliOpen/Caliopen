@@ -5,7 +5,6 @@ import Title from '../Title';
 import './style.scss';
 
 class Section extends PureComponent {
-
   static propTypes = {
     className: PropTypes.string,
     title: PropTypes.string,
@@ -23,7 +22,9 @@ class Section extends PureComponent {
   };
 
   render() {
-    const { title, descr, children, hasSeparator, className } = this.props;
+    const {
+      title, descr, children, hasSeparator, className,
+    } = this.props;
 
     return (
       <section className={classnames('m-section', { 'm-section--separator': hasSeparator }, className)}>

@@ -31,14 +31,16 @@ class Checkbox extends Component {
   }
 
   render() {
-    const { id, label, showLabelforSr, indeterminate, ...inputProps } = this.props;
+    const {
+      id, label, showLabelforSr, indeterminate, ...inputProps
+    } = this.props;
 
     return (
       <div className="m-checkbox">
         <input
           type="checkbox"
           className="m-checkbox__input"
-          ref={el => (this.selector = el)}
+          ref={(el) => { this.selector = el; }}
           id={id}
           {...inputProps}
         />
@@ -47,7 +49,9 @@ class Checkbox extends Component {
             'show-for-sr': showLabelforSr,
           })}
           htmlFor={id}
-        >{label}</Label>
+        >
+          {label}
+        </Label>
       </div>
     );
   }

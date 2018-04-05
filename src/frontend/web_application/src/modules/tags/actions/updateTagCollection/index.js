@@ -53,7 +53,9 @@ const getRequestEntityAct = (type) => {
   }
 };
 
-export const updateTagCollection = (i18n, { type, entity, tags: tagCollection, lazy = false }) =>
+export const updateTagCollection = (i18n, {
+  type, entity, tags: tagCollection, lazy = false,
+}) =>
   async (dispatch) => {
     const upToDateTags = await dispatch(createMissingTags(i18n, tagCollection));
     const normalizedTags = tagCollection.reduce((acc, tag) => [

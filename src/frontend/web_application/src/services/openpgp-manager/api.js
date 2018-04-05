@@ -31,7 +31,7 @@ export function generateKey(name, email, passphrase, options = {}) {
 }
 
 export function getKeyFromASCII(armored) {
-  const keys = module.key.readArmored(armored).keys;
+  const { keys } = module.key.readArmored(armored);
 
   if (keys && keys.length) {
     return keys[0];

@@ -34,13 +34,8 @@ class MessageList extends Component {
     isFetching: false,
     isDraftFocus: false,
     loadMore: null,
-    onMessageView: null,
     user: undefined,
   };
-
-  state = {
-    anchor: '',
-  }
 
   handleReplyToLastMessage = () => {
     const { messages, onMessageReply } = this.props;

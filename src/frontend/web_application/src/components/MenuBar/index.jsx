@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import NavList, { NavItem } from '../NavList';
 import Link from '../Link';
 import './style.scss';
 
-class MenuBar extends Component {
+class MenuBar extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,

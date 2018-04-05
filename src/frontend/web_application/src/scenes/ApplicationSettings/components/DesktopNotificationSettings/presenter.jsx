@@ -10,14 +10,8 @@ class DesktopNotificationSettings extends Component {
     i18n: PropTypes.shape({}).isRequired,
   };
 
-  state = {
-    hasBrowserNotificationSupport: false,
-    hasBrowserNotificationEnabled: false,
-  };
-
   componentWillMount() {
     this.setState({
-      hasBrowserNotificationSupport: isSupported,
       hasBrowserNotificationPermission: isSupported && Notification.permission,
     });
   }

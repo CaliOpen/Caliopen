@@ -1,11 +1,11 @@
 export const getOffset = (alignRight, position, control, dropdown) => {
   const controlRect = control.length
-  ? control[0].getBoundingClientRect()
-  : control.getBoundingClientRect();
+    ? control[0].getBoundingClientRect()
+    : control.getBoundingClientRect();
 
   const dropdownRect = dropdown.length
-  ? dropdown[0].getBoundingClientRect()
-  : dropdown.getBoundingClientRect();
+    ? dropdown[0].getBoundingClientRect()
+    : dropdown.getBoundingClientRect();
 
   const winY = window.pageYOffset;
   const winX = window.pageXOffset;

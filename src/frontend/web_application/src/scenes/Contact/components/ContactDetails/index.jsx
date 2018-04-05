@@ -102,8 +102,8 @@ class ContactDetails extends Component {
       ...(contact && contact.ims ? contact.ims.map(detail => this.renderIm(detail)) : []),
       ...(
         contact && contact.addresses ?
-        contact.addresses.map(detail => this.renderAddress(detail)) :
-        []
+          contact.addresses.map(detail => this.renderAddress(detail)) :
+          []
       ),
       ...(infos ? [this.renderBirthday(infos.birthday ? infos.birthday : '')] : []),
     ];

@@ -17,11 +17,12 @@ class WithSettings extends Component {
     synced: false,
     isInvalidated: false,
     isFetching: false,
-    fetch: true,
   };
 
   componentDidMount() {
-    const { settings, requestSettings, isInvalidated, isFetching } = this.props;
+    const {
+      settings, requestSettings, isInvalidated, isFetching,
+    } = this.props;
 
     if ((!settings || isInvalidated) && !isFetching && isAuthenticated()) {
       requestSettings();
@@ -29,7 +30,9 @@ class WithSettings extends Component {
   }
 
   render() {
-    const { synced, render, settings, isFetching } = this.props;
+    const {
+      synced, render, settings, isFetching,
+    } = this.props;
 
     if (synced && !settings) {
       return null;

@@ -12,6 +12,4 @@ const mapStateToProps = createSelector(
 );
 const mapDispatchToProps = dispatch => bindActionCreators({ setImportanceLevel }, dispatch);
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-)(Presenter);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(Presenter);

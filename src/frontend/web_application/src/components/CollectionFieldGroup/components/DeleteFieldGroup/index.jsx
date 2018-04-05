@@ -5,7 +5,9 @@ import Icon from '../../../Icon';
 import Button from '../../../Button';
 import './style.scss';
 
-const DeleteFieldGroup = ({ template, item, position, onDelete, onChange, className }) => {
+const DeleteFieldGroup = ({
+  template, item, position, onDelete, onChange, className,
+}) => {
   const handleDelete = () => {
     onDelete({ item });
   };
@@ -21,7 +23,9 @@ const DeleteFieldGroup = ({ template, item, position, onDelete, onChange, classN
         onClick={handleDelete}
         shape="plain"
         className="m-delete-field-group__button"
-      ><Icon type="remove" /></Button>
+      >
+        <Icon type="remove" />
+      </Button>
     </div>
   );
 };

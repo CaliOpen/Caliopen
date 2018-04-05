@@ -41,9 +41,7 @@ class I18nLoader extends Component {
   getLanguageFromProps = props => getLanguage([props.locale])
 
   loadCatalog = async (language) => {
-    const catalog = await import(
-      /* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */
-      `../../../../../locale/${language}/messages.js`);
+    const catalog = await import(/* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */ `../../../../../locale/${language}/messages.js`);
 
     this.setState(state => ({
       catalogs: {

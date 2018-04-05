@@ -8,6 +8,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   setDeviceGenerated,
 }, dispatch);
 
-export default compose(
-  connect(null, mapDispatchToProps),
-)(Presenter);
+export default compose(connect(null, mapDispatchToProps))(Presenter);

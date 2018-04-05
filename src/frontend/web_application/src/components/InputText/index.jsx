@@ -25,7 +25,9 @@ class InputText extends PureComponent {
   state = {}
 
   render() {
-    const { expanded, theme, bottomSpace, className, hasError, inputRef, ...props } = this.props;
+    const {
+      expanded, theme, bottomSpace, className, hasError, inputRef, ...props
+    } = this.props;
     const inputTextClassName = classnames(
       'm-input-text',
       {

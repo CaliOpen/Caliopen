@@ -36,7 +36,9 @@ class UserPrivacy extends Component {
               <TextItem
                 className="s-user-privacy__tip"
                 key={tip.name}
-              >{tip.content}</TextItem>
+              >
+                {tip.content}
+              </TextItem>
             ))}
           </TextList>
         </Section>

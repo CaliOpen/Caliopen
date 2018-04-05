@@ -16,7 +16,9 @@ const renderDate = (date, locale) => {
     (<Moment className={dateClassName} format="LL" locale={locale}>{date}</Moment>);
 };
 
-const DayMessageList = ({ date, locale, className, children }) => (
+const DayMessageList = ({
+  date, locale, className, children,
+}) => (
   <div className="m-day-message-list">
     {renderDate(date, locale)}
     <div className={classnames('m-day-message-list__messages', className)}>{children}</div>

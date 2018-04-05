@@ -23,7 +23,6 @@ class Signin extends Component {
 
   static defaultProps = {
     clientDevice: undefined,
-    isNewDevice: false,
   };
 
   state = {

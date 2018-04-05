@@ -12,13 +12,13 @@ class LoginDetails extends Component {
     user: PropTypes.shape({}).isRequired,
   };
 
-  state = {
-    editMode: false,
-  }
-
-  toggleEditMode = () => {
-    this.setState(prevState => ({ editMode: !prevState.editMode }));
-  }
+  // state = {
+  //   editMode: false,
+  // }
+  //
+  // toggleEditMode = () => {
+  //   this.setState(prevState => ({ editMode: !prevState.editMode }));
+  // }
 
   render() {
     const { i18n, user } = this.props;

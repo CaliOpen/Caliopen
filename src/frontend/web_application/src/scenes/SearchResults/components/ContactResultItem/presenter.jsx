@@ -15,15 +15,14 @@ class ContactResultItem extends PureComponent {
     term: PropTypes.string.isRequired,
     highlights: PropTypes.shape({}),
     contact: PropTypes.shape({}).isRequired,
-    contact_display_format: PropTypes.string.isRequired,
+    contactDisplayFormat: PropTypes.string.isRequired,
   };
   static defaultProps = {
-    term: '',
     highlights: null,
   };
 
   renderTitle() {
-    const { term, contact, contact_display_format: format } = this.props;
+    const { term, contact, contactDisplayFormat: format } = this.props;
 
     return (<Highlights term={term} highlights={formatName({ contact, format })} />);
   }

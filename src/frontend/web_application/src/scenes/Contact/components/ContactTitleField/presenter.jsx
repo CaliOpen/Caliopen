@@ -8,7 +8,7 @@ class ContactTitleField extends PureComponent {
   static propTypes = {
     i18n: PropTypes.shape({}).isRequired,
     contact: PropTypes.shape({}).isRequired,
-    contact_display_format: PropTypes.string.isRequired,
+    contactDisplayFormat: PropTypes.string.isRequired,
     className: PropTypes.string,
   };
   static defaultProps = {
@@ -16,7 +16,9 @@ class ContactTitleField extends PureComponent {
   };
 
   render() {
-    const { i18n, contact, contact_display_format: format, className } = this.props;
+    const {
+      i18n, contact, contactDisplayFormat: format, className,
+    } = this.props;
 
     return (
       <TextFieldGroup

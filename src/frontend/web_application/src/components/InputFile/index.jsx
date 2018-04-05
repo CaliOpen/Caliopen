@@ -10,7 +10,9 @@ import Icon from '../Icon';
 
 import './style.scss';
 
-const InputFile = ({ onChange, className, accept, errors, multiple }) => {
+const InputFile = ({
+  onChange, className, accept, errors, multiple,
+}) => {
   const id = uuidV1();
 
   return (

@@ -27,7 +27,9 @@ class VerifyDevice extends Component {
           shape="plain"
           className="m-device-verify__button"
           onClick={this.handleVerify}
-        ><Trans id="device.action.verify">Verify this device</Trans></Button>
+        >
+          <Trans id="device.action.verify">Verify this device</Trans>
+        </Button>
         <br />
         <Trans id="device.verify.not-you">It&apos;s not you?</Trans>
         {' '}

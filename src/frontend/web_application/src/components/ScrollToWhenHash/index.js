@@ -5,6 +5,4 @@ import Presenter from './presenter';
 
 const mapStateToProps = state => ({ hash: hashSelector(state) });
 
-export default compose(
-  connect(mapStateToProps),
-)(Presenter);
+export default compose(connect(mapStateToProps))(Presenter);

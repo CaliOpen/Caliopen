@@ -61,7 +61,8 @@ class SearchResults extends Component {
       {
         leading: true,
         trailing: false,
-      });
+      }
+    );
   }
 
   renderMessages(messages) {
@@ -107,10 +108,13 @@ class SearchResults extends Component {
       return null;
     }
 
-    const { term, searchResultsPreview: {
-      messages_hits: { total: nbMessages, messages },
-      contact_hits: { total: nbContacts, contacts },
-    } } = this.props;
+    const {
+      term,
+      searchResultsPreview: {
+        messages_hits: { total: nbMessages, messages },
+        contact_hits: { total: nbContacts, contacts },
+      },
+    } = this.props;
 
     return (
       <div className="s-search-results__preview">

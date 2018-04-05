@@ -15,7 +15,6 @@ class NotificationForm extends Component {
     i18n: PropTypes.shape({}).isRequired,
   };
   static defaultProps = {
-    errors: {},
   };
 
   componentWillMount() {

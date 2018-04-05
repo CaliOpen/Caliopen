@@ -10,8 +10,8 @@ import './style.scss';
 class ContactList extends PureComponent {
   static propTypes = {
     contacts: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    contact_display_order: PropTypes.string.isRequired,
-    contact_display_format: PropTypes.string.isRequired,
+    contactDisplayOrder: PropTypes.string.isRequired,
+    contactDisplayFormat: PropTypes.string.isRequired,
     sortDir: PropTypes.string,
   };
   static defaultProps = {
@@ -19,15 +19,15 @@ class ContactList extends PureComponent {
   };
 
   render() {
-    const { contacts, sortDir, contact_display_order, contact_display_format: format } = this.props;
+    const {
+      contacts, sortDir, contactDisplayOrder, contactDisplayFormat: format,
+    } = this.props;
     const contactsGroupedByLetter = contacts
-      .sort((a, b) => (
-        a[contact_display_order] || a.title).localeCompare(b[contact_display_order] || b.title
-      ))
+      .sort((a, b) =>
+        (a[contactDisplayOrder] || a.title).localeCompare(b[contactDisplayOrder] || b.title))
       .reduce((acc, contact) => {
-        const firstLetter = getFirstLetter(
-          contact[contact_display_order] || formatName({ contact, format })
-        );
+        const firstLetter =
+          getFirstLetter(contact[contactDisplayOrder] || formatName({ contact, format }));
 
         return {
           ...acc,

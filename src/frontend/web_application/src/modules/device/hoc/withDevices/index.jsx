@@ -34,14 +34,18 @@ export const withDevices = () => (WrappedComponent) => {
     state = {};
 
     componentWillMount() {
-      const { isFetching, devices, didInvalidate, requestDevices } = this.props;
+      const {
+        isFetching, devices, didInvalidate, requestDevices,
+      } = this.props;
       if (!isFetching && (devices.length === 0 || didInvalidate)) {
         requestDevices();
       }
     }
 
     componentWillReceiveProps(nextProps) {
-      const { isFetching, devices, didInvalidate, requestDevices } = nextProps;
+      const {
+        isFetching, devices, didInvalidate, requestDevices,
+      } = nextProps;
       if (!isFetching && (devices.length === 0 || didInvalidate)) {
         requestDevices();
       }

@@ -65,7 +65,9 @@ export const typeAssoc = {
 };
 
 
-const Icon = ({ className, type, spaced, rightSpaced, ...props }) => {
+const Icon = ({
+  className, type, spaced, rightSpaced, ...props
+}) => {
   // eslint-disable-next-line no-console
   const typeClassName = typeAssoc[type] || console.error(`The type "${type}" is not a valid Icon component type`);
   const iconProps = {

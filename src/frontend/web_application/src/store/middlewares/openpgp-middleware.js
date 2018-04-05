@@ -6,22 +6,20 @@ export default store => next => (action) => {
   const result = next(action);
 
   if (action.type === module.FETCH_ALL) {
-    store.dispatch(
-      module.receiveAll({
-        keychainByFingerprint: openPGPKeychainRepository.getPrimaryKeysByFingerprint(),
-      })
-    );
+    store.dispatch(module.receiveAll({
+      keychainByFingerprint: openPGPKeychainRepository.getPrimaryKeysByFingerprint(),
+    }));
   }
 
   if (action.type === module.GENERATE) {
     const { name, email, passphrase } = action.payload;
     getPGPManager().then(({ generateKey }) => generateKey(name, email, passphrase))
       .then((generated) => {
-        const fingerprint = generated.key.primaryKey.fingerprint;
+        const { fingerprint } = generated.key.primaryKey;
         const { publicKeyArmored, privateKeyArmored } = generated;
-        store.dispatch(
-          module.generationSucceed({ fingerprint, publicKeyArmored, privateKeyArmored })
-        );
+        store.dispatch(module.generationSucceed({
+          fingerprint, publicKeyArmored, privateKeyArmored,
+        }));
       });
   }
 

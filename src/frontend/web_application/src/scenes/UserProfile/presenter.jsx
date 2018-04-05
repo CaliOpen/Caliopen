@@ -30,10 +30,10 @@ class UserProfile extends Component {
     this.props.requestUser();
   }
 
-  handleSubmit = async (ev) => {
+  handleSubmit = (ev) => {
     const { handleSubmit } = this.props;
-    await handleSubmit(ev)
-    .then(this.handleSuccess, this.handleError);
+    handleSubmit(ev)
+      .then(this.handleSuccess, this.handleError);
   }
 
   handleSuccess = async () => {

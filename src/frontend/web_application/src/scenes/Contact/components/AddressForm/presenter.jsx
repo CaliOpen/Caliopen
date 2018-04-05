@@ -40,7 +40,9 @@ class AddressForm extends PureComponent {
   }
 
   render() {
-    const { i18n, errors = [], onDelete, country } = this.props;
+    const {
+      i18n, errors = [], onDelete, country,
+    } = this.props;
     const addressTypeOptions = ADDRESS_TYPES.map(value => ({
       value,
       label: this.addressTypes[value] || '',

@@ -19,15 +19,12 @@ class TagsSettings extends Component {
   };
 
   static defaultProps = {
-    tags: [],
-    isFetching: false,
   };
 
   state = {
     createErrors: [],
     tagErrors: {},
     searchTerms: '',
-    foundTags: [],
   };
 
   handleSearchChange = searchTerms => this.setState({ searchTerms, createErrors: [] });

@@ -58,7 +58,9 @@ class TagFieldGroup extends Component {
   }
 
   render() {
-    const { i18n, isFetching, errors, input } = this.props;
+    const {
+      i18n, isFetching, errors, input,
+    } = this.props;
 
     const inputProps = {
       ...input,

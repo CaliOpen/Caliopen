@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import './style.scss';
 
-export const FormColumn = ({ className, bottomSpace, size, fluid, rightSpace, ...props }) => {
+export const FormColumn = ({
+  className, bottomSpace, size, fluid, rightSpace, ...props
+}) => {
   const colClassName = classnames('m-form-grid__column', {
     'm-form-grid__column--fluid': fluid,
     'm-form-grid__column--bottom-space': bottomSpace,

@@ -83,10 +83,12 @@ class MessageItem extends Component {
           <span className="s-message-item__tags">{this.renderTags()}</span>
         </TextBlock>
         <TextBlock className={classnames(
-          's-message-item__topic', {
+          's-message-item__topic',
+          {
             's-message-item__topic--unread': message.is_unread,
             's-message-item__topic--draft': message.is_draft,
-          })}
+          }
+        )}
         >
           <Link to={`/discussions/${message.discussion_id}#${hash}`} noDecoration >
             {message.is_draft && (<span className="s-message-item__draft-prefix"><Trans id="timeline.draft-prefix">Draft in progress:</Trans></span>)}
@@ -119,23 +121,26 @@ class MessageItem extends Component {
   }
 
   render() {
-    const { i18n, message, isMessageSelected, isDeleting } = this.props;
+    const {
+      i18n, message, isMessageSelected, isDeleting,
+    } = this.props;
     const { /* pi, */attachments } = message;
 
     return (
       <div
-        className={
-          classnames('s-message-item',
-            {
-              's-message-item--unread': message.is_unread,
-              's-message-item--draft': message.is_draft,
-              's-message-item--is-selected': isMessageSelected,
-              // TODO: define how to compute PIs for rendering
-              // 's-message-item--pi-super': pi.context >= 90,
-              // 's-message-item--pi-good': pi.context >= 50 && pi.context < 90,
-              // 's-message-item--pi-bad': pi.context >= 25 && pi.context < 50,
-              // 's-message-item--pi-ugly': pi.context >= 0 && pi.context < 25,
-            })}
+        className={classnames(
+          's-message-item',
+          {
+            's-message-item--unread': message.is_unread,
+            's-message-item--draft': message.is_draft,
+            's-message-item--is-selected': isMessageSelected,
+            // TODO: define how to compute PIs for rendering
+            // 's-message-item--pi-super': pi.context >= 90,
+            // 's-message-item--pi-good': pi.context >= 50 && pi.context < 90,
+            // 's-message-item--pi-bad': pi.context >= 25 && pi.context < 50,
+            // 's-message-item--pi-ugly': pi.context >= 0 && pi.context < 25,
+          }
+        )}
       >
         <div className="s-message-item__col-avatar">
           <label htmlFor={message.message_id}>

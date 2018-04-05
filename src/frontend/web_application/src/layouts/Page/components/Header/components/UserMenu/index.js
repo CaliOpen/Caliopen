@@ -9,6 +9,4 @@ const mapStateToProps = createSelector(
   user => ({ user })
 );
 
-export default compose(
-  connect(mapStateToProps),
-)(Presenter);
+export default compose(connect(mapStateToProps))(Presenter);

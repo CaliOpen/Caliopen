@@ -19,7 +19,6 @@ class PasswordDetails extends Component {
   };
 
   static defaultProps = {
-    errors: [],
     user: undefined,
   }
 

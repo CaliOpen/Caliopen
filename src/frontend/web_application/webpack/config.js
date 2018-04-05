@@ -1,57 +1,55 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
-const { CommonsChunkPlugin } = require('webpack').optimize;
-// const StyleLintPlugin = require('stylelint-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 const clientOptions = require('../config/client.default.js');
 
 const configureStylesheet = (filename = 'client_[name]', relativePath = '') => {
-  const extractTextPlugin = new ExtractTextPlugin({
-    filename: relativePath + filename,
-    allChunks: true,
-  });
-
   return {
     plugins: [
-      extractTextPlugin,
+      new StyleLintPlugin({
+        syntax: 'scss',
+        emitErrors: false,
+      }),
       new OptimizeCssAssetsPlugin({
         canPrint: false,
       }),
-      // new StyleLintPlugin()
+      new MiniCssExtractPlugin({
+        filename: `${filename}.css`,
+        chunkFilename: '[id].css',
+      }),
     ],
     module: {
       rules: [
         {
           test: /\.css$/,
-          loader: extractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [{ loader: 'css-loader', options: { sourceMap: true } }],
-          }),
+          use: [
+            MiniCssExtractPlugin.loader,
+            { loader: 'css-loader', options: { sourceMap: true } },
+          ],
         },
         {
           test: /\.scss$/,
-          loader: extractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [
-              { loader: 'css-loader', options: { sourceMap: true } },
-              { loader: 'postcss-loader', options: { sourceMap: true } },
-              {
-                loader: 'sass-loader',
-                options: {
-                  sourceMap: false,
-                  includePaths: [
-                    path.resolve(__dirname, '../src'),
-                    path.resolve(__dirname, '../node_modules/foundation-sites/scss'),
-                    path.resolve(__dirname, '../node_modules/font-awesome/scss'),
-                    path.resolve(__dirname, '../node_modules/react-redux-notify/src'),
-                  ],
-                },
+          use: [
+            MiniCssExtractPlugin.loader,
+            { loader: 'css-loader', options: { sourceMap: true } },
+            { loader: 'postcss-loader', options: { sourceMap: true } },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: false,
+                includePaths: [
+                  path.resolve(__dirname, '../src'),
+                  path.resolve(__dirname, '../node_modules/foundation-sites/scss'),
+                  path.resolve(__dirname, '../node_modules/font-awesome/scss'),
+                  path.resolve(__dirname, '../node_modules/react-redux-notify/src'),
+                ],
               },
-            ],
-          }),
+            },
+          ],
         },
       ],
     },
@@ -118,9 +116,6 @@ const configureVendorSplit = () => ({
       'xregexp',
     ],
   },
-  plugins: [
-    new CommonsChunkPlugin({ names: ['vendor', 'manifest'] }),
-  ],
 });
 
 const configureHTMLTemplate = () => ({
@@ -134,16 +129,12 @@ const configureHTMLTemplate = () => ({
   ],
 });
 
-const configureEnv = (buildTarget, isNode = false) => {
+const configureEnv = (buildTarget) => {
   const defined = Object.assign({
     BUILD_TARGET: JSON.stringify(buildTarget),
     HAS_SSR: process.env.HAS_SSR || true,
     CALIOPEN_ENV: JSON.stringify(process.env.NODE_ENV),
     CALIOPEN_OPTIONS: JSON.stringify(clientOptions),
-  }, isNode ? {} : {
-    'process.env': {
-      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-    },
   });
 
   return {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker'; // https://github.com/Hacker0x01/react-datepicker
 import 'react-datepicker/dist/react-datepicker.css';
@@ -7,7 +7,7 @@ import classnames from 'classnames';
 
 import './style.scss';
 
-class DatePickerGroup extends Component {
+class DatePickerGroup extends PureComponent {
   static propTypes = {
     calendarClassName: PropTypes.string,
     className: PropTypes.string,
@@ -27,10 +27,6 @@ class DatePickerGroup extends Component {
     selected: null,
   };
 
-  state = {
-    startDate: null,
-  };
-
   render() {
     const {
       calendarClassName,
@@ -47,7 +43,9 @@ class DatePickerGroup extends Component {
     return (
       <div className={classnames('m-date-picker-group', className)}>
 
-        {label && <label htmlFor={id}>{label}</label> }
+        {label && (
+          <label htmlFor={id}>{label}</label>
+        )}
 
         <DatePicker
           id={id}

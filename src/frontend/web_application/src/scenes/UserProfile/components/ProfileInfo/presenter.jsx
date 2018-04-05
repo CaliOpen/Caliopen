@@ -56,7 +56,9 @@ class ProfileInfo extends Component {
                       className="m-user-profile-details__subscribed-date"
                       format="ll"
                       locale={locale}
-                    >{user.date_insert}</Moment>
+                    >
+                      {user.date_insert}
+                    </Moment>
                   )}
                 </p>
               </div>

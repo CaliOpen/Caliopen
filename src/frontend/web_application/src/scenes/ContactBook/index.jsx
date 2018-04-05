@@ -9,9 +9,7 @@ const contactSelector = state => state.contact;
 const mapStateToProps = createSelector(
   [contactSelector],
   contactState => ({
-    contacts: contactState.contacts.map(
-      contactId => contactState.contactsById[contactId]
-    ),
+    contacts: contactState.contacts.map(contactId => contactState.contactsById[contactId]),
     isFetching: contactState.isFetching,
     hasMore: hasMore(contactState),
   })

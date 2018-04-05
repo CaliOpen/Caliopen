@@ -7,8 +7,8 @@ import { settingsSelector } from '../../../../store/selectors/settings';
 
 const mapStateToProps = createSelector(
   [settingsSelector],
-  ({ contact_display_format }) => ({
-    contact_display_format,
+  ({ contact_display_format: contactDisplayFormat }) => ({
+    contactDisplayFormat,
   })
 );
 

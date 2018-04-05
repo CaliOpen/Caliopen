@@ -19,7 +19,9 @@ class RevokeDevice extends Component {
   };
 
   handleRevoke = async () => {
-    const { device, revokeDevice, notifySuccess, notifyError, clientDevice } = this.props;
+    const {
+      device, revokeDevice, notifySuccess, notifyError, clientDevice,
+    } = this.props;
 
     try {
       await revokeDevice({ device });
@@ -45,7 +47,9 @@ class RevokeDevice extends Component {
           shape="plain"
           color="alert"
           onClick={this.handleRevoke}
-        ><Icon type="remove" rightSpaced /><Trans id="device.action.revoke">Revoke this device</Trans></Button>
+        >
+          <Icon type="remove" rightSpaced /><Trans id="device.action.revoke">Revoke this device</Trans>
+        </Button>
       </div>
     );
   }

@@ -14,7 +14,6 @@ class ImportContact extends Component {
 
   static defaultProps = {
     onCancel: null,
-    onUploadError: (err) => { throw err; },
     onUploadSuccess: () => {},
   }
 

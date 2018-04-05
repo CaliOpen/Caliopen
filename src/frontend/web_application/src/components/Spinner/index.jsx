@@ -19,7 +19,9 @@ class Spinner extends PureComponent {
   };
 
   render() {
-    const { isLoading, height, width, className, display } = this.props;
+    const {
+      isLoading, height, width, className, display,
+    } = this.props;
 
     const spinnerProps = {
       className: classnames(className, 'm-spinner', {

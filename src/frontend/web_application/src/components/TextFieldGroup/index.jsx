@@ -10,7 +10,6 @@ import './style.scss';
 
 
 class TextFieldGroup extends PureComponent {
-
   static propTypes = {
     id: PropTypes.string,
     label: PropTypes.string.isRequired,

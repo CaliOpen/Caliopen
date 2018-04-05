@@ -23,14 +23,6 @@ class EmailForm extends PureComponent {
     onDelete: () => {},
   };
 
-  state = {
-    contactDetail: {
-      address: '',
-      type: EMAIL_TYPES[0],
-      is_primary: false,
-    },
-  };
-
   componentWillMount() {
     this.initTranslations();
   }

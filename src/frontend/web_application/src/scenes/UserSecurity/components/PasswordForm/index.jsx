@@ -64,7 +64,7 @@ class PasswordForm extends Component {
     const { value } = event.target;
 
     this.setState((prevState) => {
-      const newPassword = prevState.formValues.newPassword;
+      const { newPassword } = prevState.formValues;
       const error = i18n._('password.form.new_password_confirmation.error', { defaults: 'Passwords don\'t match' });
       const passwordError = newPassword === value ? [] : [error];
 

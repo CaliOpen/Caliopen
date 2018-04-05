@@ -10,10 +10,10 @@ import Presenter from './presenter';
 const userSelector = state => state.user;
 
 const mapStateToProps = createSelector(
- [userSelector],
- userState => ({
-   isFetching: userState.isFetching,
- })
+  [userSelector],
+  userState => ({
+    isFetching: userState.isFetching,
+  })
 );
 
 const mapDispatchToProps = dispatch => bindActionCreators({

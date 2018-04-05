@@ -32,6 +32,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   loadMore,
 }, dispatch);
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps)
-)(Presenter);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(Presenter);

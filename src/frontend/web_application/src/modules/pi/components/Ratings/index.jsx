@@ -4,7 +4,9 @@ import classnames from 'classnames';
 import { getAveragePI, PI_PROPERTIES } from '../../services/pi';
 import './style.scss';
 
-const Rating = ({ name, level, piMax, className, mini }) => {
+const Rating = ({
+  name, level, piMax, className, mini,
+}) => {
   const width = (level / piMax) * 100;
   const style = { width: `${width}%` };
 
@@ -34,7 +36,9 @@ Rating.defaultProps = {
   mini: false,
 };
 
-const Ratings = ({ pi, piMax, displayAveragePi, mini }) => {
+const Ratings = ({
+  pi, piMax, displayAveragePi, mini,
+}) => {
   const ratingsClassName = classnames(
     'm-pi-ratings',
     { 'm-pi-ratings--mini': mini },

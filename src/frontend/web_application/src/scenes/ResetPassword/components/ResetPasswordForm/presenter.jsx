@@ -52,7 +52,7 @@ class ResetPasswordForm extends Component {
   }
 
   handlePasswordChange = (event) => {
-    const value = event.target.value;
+    const { value } = event.target;
     this.setState(prevState => ({
       ...prevState,
       formValues: {
@@ -64,10 +64,10 @@ class ResetPasswordForm extends Component {
 
   handleConfirmPasswordChange = (event) => {
     const { i18n } = this.props;
-    const value = event.target.value;
+    const { value } = event.target;
 
     this.setState((prevState) => {
-      const password = prevState.formValues.password;
+      const { password } = prevState.formValues;
       const error = i18n._('password.form.new_password_confirmation.error', { defaults: 'Passwords don\'t match' });
       const passwordError = password === value ? [] : [error];
 

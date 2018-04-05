@@ -8,7 +8,7 @@ import { getTagLabel } from '../../';
 import TagItem from '../TagItem';
 import TagFieldGroup from '../TagFieldGroup';
 import { searchTags } from '../../services/searchTags';
-
+import { addEventListener } from '../../../../services/event-manager';
 import './style.scss';
 
 const generateStateFromProps = ({ tags }) => ({
@@ -24,7 +24,6 @@ class TagsForm extends Component {
   };
 
   static defaultProps = {
-    tagSection: undefined,
     userTags: [],
     tags: [],
   };
@@ -43,7 +42,7 @@ class TagsForm extends Component {
 
   componentDidMount() {
     this.unsubscribeClickEvent = addEventListener('click', (ev) => {
-      const target = ev.target;
+      const { target } = ev;
       if (target !== this.dropdownElement && target !== this.inpputSearchElement) {
         this.setState({ foundTags: [] });
       }
@@ -102,24 +101,34 @@ class TagsForm extends Component {
 
   handleAddNewTag = async (terms) => {
     if (terms.length > 0) {
-      this.setState(prevState => ({ tags: [
-        ...prevState.tags,
-        { label: terms },
-      ] }), async () => {
-        await this.updateTags();
-        this.handleSearchChange('');
-      });
+      this.setState(
+        prevState => ({
+          tags: [
+            ...prevState.tags,
+            { label: terms },
+          ],
+        }),
+        async () => {
+          await this.updateTags();
+          this.handleSearchChange('');
+        }
+      );
     }
   }
 
   createHandleAddTag = tag => async () => {
-    this.setState(prevState => ({ tags: [
-      ...prevState.tags,
-      tag,
-    ] }), async () => {
-      await this.updateTags();
-      this.handleSearchChange('');
-    });
+    this.setState(
+      prevState => ({
+        tags: [
+          ...prevState.tags,
+          tag,
+        ],
+      }),
+      async () => {
+        await this.updateTags();
+        this.handleSearchChange('');
+      }
+    );
   }
 
   handleDeleteTag = ({ tag }) => {
@@ -137,8 +146,7 @@ class TagsForm extends Component {
       <div className="m-tags-form">
         <div className="m-tags-form__section">
           {this.state.tags.length > 0 && this.state.tags.map(tag =>
-            <TagItem tag={tag} key={tag.name} onDelete={this.handleDeleteTag} />
-          )}
+            <TagItem tag={tag} key={tag.name} onDelete={this.handleDeleteTag} />)}
         </div>
 
         <div className="m-tags-form__section">

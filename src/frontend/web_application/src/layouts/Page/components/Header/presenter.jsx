@@ -30,10 +30,11 @@ class Header extends Component {
   render() {
     const { i18n } = this.props;
 
+    // eslint-disable-next-line
     const searchClassName = classnames(
       'l-header__search',
       // { 'l-header__search--as-dropdown': this.state.searchAsDropdown }
-    );
+    ); // eslint-disable-line
 
     return (
       <div className="l-header">

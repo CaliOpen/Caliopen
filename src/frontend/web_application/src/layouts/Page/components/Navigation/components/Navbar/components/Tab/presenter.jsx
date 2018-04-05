@@ -31,7 +31,9 @@ class Tab extends Component {
   }
 
   render() {
-    const { className, tab, isActive, last } = this.props;
+    const {
+      className, tab, isActive, last,
+    } = this.props;
 
     return (
       <NavbarItem

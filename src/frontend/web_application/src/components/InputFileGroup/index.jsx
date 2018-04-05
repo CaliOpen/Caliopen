@@ -24,7 +24,6 @@ class InputFileGroup extends Component {
   };
 
   static defaultProps = {
-    onChange: null,
     errors: {},
     fileTypes: undefined,
     maxSize: undefined,
@@ -80,13 +79,13 @@ class InputFileGroup extends Component {
     }
 
     if (maxSize && file.size > maxSize) {
-      errors.push(
-        (
-          <Trans
-            id="input-file-group.error.max_size"
-          >The file size must be under <FileSize size={maxSize} /></Trans>
-        )
-      );
+      errors.push((
+        <Trans
+          id="input-file-group.error.max_size"
+        >
+          The file size must be under <FileSize size={maxSize} />
+        </Trans>
+      ));
     }
 
     if (errors.length) {
@@ -97,7 +96,9 @@ class InputFileGroup extends Component {
   }
 
   render() {
-    const { errors, descr, className, fileTypes, multiple } = this.props;
+    const {
+      errors, descr, className, fileTypes, multiple,
+    } = this.props;
     const allErrors = errors ? Object.keys(errors).map(key => errors[key]) : null;
     const acceptProp = fileTypes ? { accept: fileTypes } : {};
 

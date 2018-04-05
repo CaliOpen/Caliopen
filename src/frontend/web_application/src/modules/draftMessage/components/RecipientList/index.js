@@ -5,9 +5,8 @@ import Presenter from './presenter';
 import { setRecipientSearchTerms } from '../../../../store/modules/draft-message';
 import { search, getKey } from '../../../../store/modules/participant-suggestions';
 
-const findRecipient = (recipients, { address, protocol }) => recipients.find(recipient =>
-  recipient.address === address && recipient.protocol === protocol
-);
+const findRecipient = (recipients, { address, protocol }) =>
+  recipients.find(recipient => recipient.address === address && recipient.protocol === protocol);
 
 const searchTermsSelector = (state, ownProps) =>
   state.draftMessage.recipientSearchTermsByInternalId[ownProps.internalId];
@@ -43,6 +42,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   search,
 }, dispatch);
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-)(Presenter);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(Presenter);

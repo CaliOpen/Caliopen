@@ -14,7 +14,9 @@ export function search({ term, doctype }, options = {}) {
       doctype,
       request: {
         url: '/api/v2/search',
-        params: { term, doctype, limit, ...options },
+        params: {
+          term, doctype, limit, ...options,
+        },
       },
     },
   };
@@ -113,10 +115,12 @@ export default function reducer(state = initialState, action) {
         resultsByKey: {
           ...state.resultsByKey,
           [getKey(
-            action.meta.previousAction.payload.term, action.meta.previousAction.payload.doctype
+            action.meta.previousAction.payload.term,
+            action.meta.previousAction.payload.doctype
           )]: (action.meta.previousAction.payload.request.params.offset) ?
             hitsUpdater(state.resultsByKey[getKey(
-              action.meta.previousAction.payload.term, action.meta.previousAction.payload.doctype
+              action.meta.previousAction.payload.term,
+              action.meta.previousAction.payload.doctype
             )], action.payload.data) :
             action.payload.data,
         },

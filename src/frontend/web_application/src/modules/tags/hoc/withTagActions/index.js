@@ -12,6 +12,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   deleteTag,
 }, dispatch);
 
-export default () => compose(
-  connect(null, mapDispatchToProps)
-);
+export default () => compose(connect(null, mapDispatchToProps));

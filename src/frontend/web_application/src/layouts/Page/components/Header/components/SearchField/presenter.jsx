@@ -66,7 +66,9 @@ class SearchField extends Component {
             type="submit"
             aria-label={i18n._('header.menu.search', { defaults: 'Search' })}
             disabled={this.state.term.length < MIN_TERM_LENGTH}
-          ><Icon type="search" /></RawButton>
+          >
+            <Icon type="search" />
+          </RawButton>
         </form>
       </div>
     );

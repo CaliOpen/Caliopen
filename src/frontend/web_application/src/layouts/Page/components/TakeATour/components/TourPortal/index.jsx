@@ -41,19 +41,17 @@ class TourPortal extends TourPortalBase {
     showNavigationNumber: PropTypes.bool,
     showNumber: PropTypes.bool,
     startAt: PropTypes.number,
-    steps: PropTypes.arrayOf(
-      PropTypes.shape({
-        selector: PropTypes.string.isRequired,
-        content: PropTypes.oneOfType([
-          PropTypes.node,
-          PropTypes.element,
-          PropTypes.func,
-        ]).isRequired,
-        position: PropTypes.oneOf(['top', 'right', 'bottom', 'left', 'center']),
-        action: PropTypes.func,
-        style: PropTypes.object,
-      })
-    ),
+    steps: PropTypes.arrayOf(PropTypes.shape({
+      selector: PropTypes.string.isRequired,
+      content: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.element,
+        PropTypes.func,
+      ]).isRequired,
+      position: PropTypes.oneOf(['top', 'right', 'bottom', 'left', 'center']),
+      action: PropTypes.func,
+      style: PropTypes.object,
+    })),
     update: PropTypes.string,
     updateDelay: PropTypes.number,
     disableInteraction: PropTypes.bool,
@@ -103,8 +101,9 @@ class TourPortal extends TourPortalBase {
           <div
             role="button"
             tabIndex={-1}
-            ref={c => (this.mask = c)}
+            ref={(c) => { this.mask = c; }}
             onClick={this.maskClickHandler}
+            onKeyPress={this.maskClickHandler}
             className={cn(CN.mask.base, {
               [CN.mask.isOpen]: isOpen,
             })}
@@ -149,7 +148,7 @@ class TourPortal extends TourPortalBase {
             />
           )}
           <Guide
-            innerRef={c => (this.helper = c)}
+            innerRef={(c) => { this.helper = c; }}
             targetHeight={targetHeight}
             targetWidth={targetWidth}
             targetTop={targetTop}
@@ -196,7 +195,9 @@ class TourPortal extends TourPortalBase {
                 <Button
                   onClick={this.prevStep}
                   disabled={current === 0}
-                >{prevButton}</Button>
+                >
+                  {prevButton}
+                </Button>
               )}
               {showButtons && current === 0 && (
                 <Button onClick={onRequestClose}>{skipButton}</Button>

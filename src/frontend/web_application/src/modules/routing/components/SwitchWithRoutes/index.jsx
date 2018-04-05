@@ -24,7 +24,9 @@ class SwitchWithRoutes extends Component {
   }
 
   renderRoute = (i, routeConfig) => {
-    const { path, exact, strict, redirect } = routeConfig;
+    const {
+      path, exact, strict, redirect,
+    } = routeConfig;
 
     const config = {
       path,

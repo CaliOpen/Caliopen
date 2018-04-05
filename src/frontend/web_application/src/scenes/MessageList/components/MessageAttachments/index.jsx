@@ -11,7 +11,6 @@ class MessageAttachments extends Component {
   };
 
   static defaultProps = {
-    className: null,
   };
 
   render() {

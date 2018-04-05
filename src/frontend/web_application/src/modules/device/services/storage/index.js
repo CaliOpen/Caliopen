@@ -12,7 +12,9 @@ const getStorage = () => {
   return ls;
 };
 
-export const saveConfig = ({ id, priv, hash, curve }) => {
+export const saveConfig = ({
+  id, priv, hash, curve,
+}) => {
   const storage = getStorage();
   storage.save(DEVICE_NAMESPACE, 'id', id);
   storage.save(DEVICE_NAMESPACE, 'priv', priv);

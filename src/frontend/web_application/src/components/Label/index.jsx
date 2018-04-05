@@ -28,7 +28,9 @@ class Label extends PureComponent {
       <label
         htmlFor={htmlFor}
         className={labelClassName}
-      >{ children }</label>
+      >
+        { children }
+      </label>
     );
   }
 }

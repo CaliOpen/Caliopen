@@ -19,8 +19,7 @@ export function formatName({ contact, format }) {
     .map(field => field.trim())
     .map(field => contact[field])
     .join(' ')
-    .trim()
-  ;
+    .trim();
 
   return title || contact.title;
 }

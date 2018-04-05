@@ -25,7 +25,9 @@ class ContactProfile extends Component {
   };
 
   render() {
-    const { contact, contactDisplayFormat: format, className, editMode, form, i18n } = this.props;
+    const {
+      contact, contactDisplayFormat: format, className, editMode, form, i18n,
+    } = this.props;
 
     return (
       <div className={classnames('m-contact-profile', className)}>
@@ -52,10 +54,9 @@ class ContactProfile extends Component {
         {contact && contact.tags &&
           <div className="m-contact-profile__tags">
             <WithTags render={userTags =>
-              contact.tags && getCleanedTagCollection(userTags, contact.tags).map(
-                tag => (
-                  <Badge className="m-contact-profile__tag" key={tag.name}>{getTagLabel(i18n, tag)}</Badge>
-                ))}
+              contact.tags && getCleanedTagCollection(userTags, contact.tags).map(tag => (
+                <Badge className="m-contact-profile__tag" key={tag.name}>{getTagLabel(i18n, tag)}</Badge>
+              ))}
             />
           </div>
         }

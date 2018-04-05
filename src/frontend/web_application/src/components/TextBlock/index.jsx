@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import './style.scss';
 
-const TextBlock = ({ inline, size, weight, className, ...props }) => {
+const TextBlock = ({
+  inline, size, weight, className, ...props
+}) => {
   const textBlockClassName = classnames(
     'm-text-block',
     {

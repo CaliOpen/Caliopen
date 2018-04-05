@@ -38,16 +38,14 @@ class Signup extends Component {
     if (username.length >= 3) {
       this.resetErrorsState('username');
       const { i18n } = this.props;
-      formValidator.validate({ username }, i18n, 'username').catch(
-        (errors) => {
-          this.setState(prevState => ({
-            errors: {
-              ...prevState.errors,
-              ...errors,
-            },
-          }));
-        }
-      );
+      formValidator.validate({ username }, i18n, 'username').catch((errors) => {
+        this.setState(prevState => ({
+          errors: {
+            ...prevState.errors,
+            ...errors,
+          },
+        }));
+      });
     }
   }
 

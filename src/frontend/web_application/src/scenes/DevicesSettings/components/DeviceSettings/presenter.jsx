@@ -28,7 +28,9 @@ class DeviceSettings extends Component {
   };
 
   renderRevokeButton() {
-    const { device, isCurrentDevice, isLastVerifiedDevice, isCurrentDeviceVerified } = this.props;
+    const {
+      device, isCurrentDevice, isLastVerifiedDevice, isCurrentDeviceVerified,
+    } = this.props;
 
     if (isLastVerifiedDevice === undefined) {
       return null;

@@ -55,7 +55,9 @@ class Timeline extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { requestMessages, timelineFilter, didInvalidate, isFetching } = nextProps;
+    const {
+      requestMessages, timelineFilter, didInvalidate, isFetching,
+    } = nextProps;
     if (didInvalidate && !isFetching) {
       requestMessages(timelineFilter);
     }
@@ -113,18 +115,14 @@ class Timeline extends Component {
 
     return Promise.all(messages
       .filter(message => selectedMessageIds.has(message.message_id))
-      .map(message =>
-        deleteMessage({ message }))
-      )
+      .map(message => deleteMessage({ message })))
       .then(() => {
         this.setState(prevState => ({
           ...prevState,
           selectedMessages: [],
           isDeleting: false,
         }));
-      }
-
-      );
+      });
   }
 
   loadMore = () => {
@@ -163,8 +161,7 @@ class Timeline extends Component {
     const { messages, tags: userTags, i18n } = this.props;
     const selectedMessageIds = new Set(this.state.selectedMessages);
     const selectedMessages = messages
-      .filter(message => selectedMessageIds.has(message.message_id))
-    ;
+      .filter(message => selectedMessageIds.has(message.message_id));
 
     const tagNamesInCommon = getTagNamesInCommon(selectedMessages);
     const tagsInCommon = getCleanedTagCollection(userTags, tagNamesInCommon);
@@ -200,7 +197,9 @@ class Timeline extends Component {
   }
 
   render() {
-    const { messages, isFetching, hasMore, i18n } = this.props;
+    const {
+      messages, isFetching, hasMore, i18n,
+    } = this.props;
 
     return (
       <div className="s-timeline">

@@ -10,6 +10,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   replaceLocation: replace,
 }, dispatch);
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-)(Presenter);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(Presenter);

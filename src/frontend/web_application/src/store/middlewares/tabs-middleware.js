@@ -59,7 +59,7 @@ const createContactTab = async (store, contactId, { pathname, search, hash }) =>
   store.dispatch(requestContact(contactId))
     .then(({ payload: { data: contact } }) => {
       const { translate: __ } = getTranslator();
-      const settings = store.getState().settings.settings;
+      const { settings } = store.getState().settings;
       const format = settings.contact_display_format;
       const label = formatName({ contact, format }) || __('contact.profile.name_not_set');
 
@@ -116,7 +116,12 @@ const selectOrAddTabDiscussion = async (store, { pathname, search, hash }) => {
   }
   const original = selectTabByPathname({ store, pathname });
   if (original) {
-    return store.dispatch(updateTab({ original, tab: { ...original, pathname, search, hash } }));
+    return store.dispatch(updateTab({
+      original,
+      tab: {
+        ...original, pathname, search, hash,
+      },
+    }));
   }
 
   const { params: { discussionId } } = match;
@@ -132,7 +137,12 @@ const selectOrAddTabContact = async (store, { pathname, search, hash }) => {
   }
   const original = selectTabByPathname({ store, pathname });
   if (original) {
-    return store.dispatch(updateTab({ original, tab: { ...original, pathname, search, hash } }));
+    return store.dispatch(updateTab({
+      original,
+      tab: {
+        ...original, pathname, search, hash,
+      },
+    }));
   }
 
   const { params: { contactId } } = match;
@@ -148,7 +158,12 @@ const selectOrAddTabNewContact = (store, { pathname, search, hash }) => {
   }
   const original = selectTabByPathname({ store, pathname });
   if (original) {
-    return store.dispatch(updateTab({ original, tab: { ...original, pathname, search, hash } }));
+    return store.dispatch(updateTab({
+      original,
+      tab: {
+        ...original, pathname, search, hash,
+      },
+    }));
   }
 
   const tab = createNewContactTab({ pathname, search, hash });
@@ -214,7 +229,9 @@ const selectOrAddTabUser = (store, { pathname, search, hash }) => {
 
   const tab = getUserTab({ pathname, search, hash });
   if (original) {
-    return store.dispatch(updateTab({ original, tab, search, hash }));
+    return store.dispatch(updateTab({
+      original, tab, search, hash,
+    }));
   }
 
   return store.dispatch(addTab(tab));
@@ -228,7 +245,12 @@ const selectOrAddTabCompose = (store, { pathname, search, hash }) => {
   }
   const original = selectTabByPathname({ store, pathname });
   if (original) {
-    return store.dispatch(updateTab({ original, tab: { ...original, pathname, search, hash } }));
+    return store.dispatch(updateTab({
+      original,
+      tab: {
+        ...original, pathname, search, hash,
+      },
+    }));
   }
 
   const tab = createComposeTab({ pathname, search, hash });
@@ -247,8 +269,7 @@ const selectOrAddTabSearch = (store, { pathname, search, hash }) => {
   const original = store.getState().tab.tabs
     .find(tab =>
       matchPath(tab.pathname, { path: '/search-results' }) &&
-      RegExp(`term=${term}(&.*)?$`, 'i').test(tab.search)
-    );
+      RegExp(`term=${term}(&.*)?$`, 'i').test(tab.search));
 
   const tab = createSearchResultTab({ pathname, search, hash });
   if (original) {
@@ -276,7 +297,7 @@ export default store => next => (action) => {
     const { pathname } = action.payload.tab;
     const state = store.getState();
     if (matchPath(state.router.location.pathname, { path: pathname, exact: true })) {
-      const applicationName = store.getState().application.applicationName;
+      const { applicationName } = store.getState().application;
       store.dispatch(push(getInfosFromName(applicationName).route));
     }
   }

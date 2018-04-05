@@ -7,12 +7,11 @@ const routePathnameSelector = state => state.router.location && state.router.loc
 const routeSearchSelector = state => state.router.location && state.router.location.search;
 
 const mapStateToProps = createSelector(
-  [routePathnameSelector, routeSearchSelector], (pathname, search) => ({
+  [routePathnameSelector, routeSearchSelector],
+  (pathname, search) => ({
     pathname,
     search,
   })
 );
 
-export default compose(
-  connect(mapStateToProps),
-)(Presenter);
+export default compose(connect(mapStateToProps))(Presenter);

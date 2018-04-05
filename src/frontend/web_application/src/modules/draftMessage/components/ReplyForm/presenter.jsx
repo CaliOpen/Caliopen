@@ -135,7 +135,9 @@ class ReplyForm extends Component {
               alignRight
               isMenu
               closeOnClick="all"
-            >{renderDraftMessageActionsContainer()}</Dropdown>
+            >
+              {renderDraftMessageActionsContainer()}
+            </Dropdown>
           </TopRow>
           {parentMessage && (
             <div className="m-reply__parent">

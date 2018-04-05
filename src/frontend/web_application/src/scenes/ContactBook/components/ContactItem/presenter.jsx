@@ -7,13 +7,13 @@ import { formatName } from '../../../../services/contact';
 class ContactItem extends PureComponent {
   static propTypes = {
     contact: PropTypes.shape({}).isRequired,
-    contact_display_format: PropTypes.string.isRequired,
+    contactDisplayFormat: PropTypes.string.isRequired,
   };
   static defaultProps = {
   };
 
   render() {
-    const { contact, contact_display_format: format } = this.props;
+    const { contact, contactDisplayFormat: format } = this.props;
     const contactTitle = formatName({ contact, format });
 
     return (

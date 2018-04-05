@@ -72,7 +72,9 @@ class ImportanceSliderContainer extends Component {
           vertical={vertical}
           // visibility is hardcoded in tracks, it breaks toggle dropdown
           trackStyle={[{ visibility: undefined }, { visibility: undefined }]}
-        >{this.renderTicks()}</Range>
+        >
+          {this.renderTicks()}
+        </Range>
       </div>
     );
   }

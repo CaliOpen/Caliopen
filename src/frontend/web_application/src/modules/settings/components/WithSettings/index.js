@@ -13,6 +13,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   requestSettings,
 }, dispatch);
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-)(Presenter);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(Presenter);

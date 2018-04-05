@@ -53,9 +53,8 @@ class AttachmentManager extends Component {
     const { onDeleteAttachement, notifyError } = this.props;
 
     try {
-      await onDeleteAttachement(
-        this.state.attachments.find(attachement => attachement.temp_id === tempId)
-      );
+      await onDeleteAttachement(this.state.attachments
+        .find(attachement => attachement.temp_id === tempId));
     } catch ({ message }) {
       notifyError({ message });
     }

@@ -24,7 +24,9 @@ class TextareaFieldGroup extends PureComponent {
   };
 
   render() {
-    const { label, expanded, errors, onChange, className, ...props } = this.props;
+    const {
+      label, expanded, errors, onChange, className, ...props
+    } = this.props;
     const id = uuidV1();
     const textareaClassName = classnames(
       'm-textarea-field-group__textarea',

@@ -1,8 +1,6 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  TIMELINE_FILTER_ALL, TIMELINE_FILTER_RECEIVED, TIMELINE_FILTER_SENT, TIMELINE_FILTER_DRAFT,
-} from '../../../../store/modules/message';
+import { TIMELINE_FILTER_ALL, TIMELINE_FILTER_RECEIVED, TIMELINE_FILTER_SENT, TIMELINE_FILTER_DRAFT } from '../../../../store/modules/message';
 
 class TimelineFilter extends Component {
   static propTypes = {

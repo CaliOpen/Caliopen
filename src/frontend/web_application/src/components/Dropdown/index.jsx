@@ -43,7 +43,6 @@ export const withDropdownControl = (WrappedComponent) => {
 
 
 class Dropdown extends Component {
-
   static propTypes = {
     // XXX: refactor id to ref
     id: PropTypes.string.isRequired,
@@ -86,7 +85,7 @@ class Dropdown extends Component {
 
     if (this.props.closeOnClick) {
       this.unsubscribeClickEvent = addEventListener('click', (ev) => {
-        const target = ev.target;
+        const { target } = ev;
 
         const dropdownClick = this.dropdown === target || this.dropdown.contains(target);
         const controlClick = this.dropdownControl &&
@@ -152,7 +151,7 @@ class Dropdown extends Component {
   updateOffset = () => {
     const { alignRight, position } = this.props;
     const control = this.dropdownControl;
-    const dropdown = this.dropdown;
+    const { dropdown } = this;
 
     // if no dropdownControl declared, return empty offset
     // otherwise, return new offset
@@ -160,7 +159,9 @@ class Dropdown extends Component {
   }
 
   render() {
-    const { id, className, children, isMenu, dropdownRef } = this.props;
+    const {
+      id, className, children, isMenu, dropdownRef,
+    } = this.props;
 
     const dropdownOffset = {
       top: this.dropdownControl ? this.state.offset.top || 0 : null,

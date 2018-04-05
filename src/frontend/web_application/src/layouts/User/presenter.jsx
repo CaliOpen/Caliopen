@@ -19,8 +19,8 @@ class User extends PureComponent {
 
     const navLinks = [
       { key: 'user.profile', label: i18n._('user.profile', { defaults: 'Profile' }), to: '/user/profile' },
-// { key: 'user.privacy', label: i18n._('user.privacy', { defaults: 'Privacy' }), to:
-// '/user/privacy' },
+      // { key: 'user.privacy', label: i18n._('user.privacy', { defaults: 'Privacy' }), to:
+      // '/user/privacy' },
       { key: 'user.security', label: i18n._('user.security', { defaults: 'Security' }), to: '/user/security' },
     ].map(link => ({
       ...link,

@@ -13,11 +13,11 @@ const userSelector = state => state.user;
 const contactIdSelector = (state, ownProps) => ownProps.match.params.contactId;
 
 const mapStateToProps = createSelector(
- [userSelector, contactIdSelector],
- userState => ({
-   isFetching: userState.isFetching,
-   initialValues: userState.user,
- })
+  [userSelector, contactIdSelector],
+  userState => ({
+    isFetching: userState.isFetching,
+    initialValues: userState.user,
+  })
 );
 
 const mapDispatchToProps = dispatch => bindActionCreators({

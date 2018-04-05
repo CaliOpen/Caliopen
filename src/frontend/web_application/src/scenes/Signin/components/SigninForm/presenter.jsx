@@ -142,7 +142,9 @@ class SigninForm extends Component {
                   display="expanded"
                   shape="plain"
                   className="s-signin__login-safe"
-                ><Trans id="signin.action.login_safe">I&apos;m in a safe place</Trans></Button>
+                >
+                  <Trans id="signin.action.login_safe">I&apos;m in a safe place</Trans>
+                </Button>
               </FormColumn>
             </FormRow>
             <FormRow>
@@ -153,7 +155,9 @@ class SigninForm extends Component {
                   display="expanded"
                   shape="plain"
                   className="s-signin__login-public"
-                ><Trans id="signin.action.login_public">I&apos;m in a public place</Trans></Button>
+                >
+                  <Trans id="signin.action.login_public">I&apos;m in a public place</Trans>
+                </Button>
               </FormColumn>
             </FormRow>
             <FormRow>
@@ -164,7 +168,9 @@ class SigninForm extends Component {
                   display="expanded"
                   shape="plain"
                   className="s-signin__login-unsecure"
-                ><Trans id="signin.action.login_unsecure">I&apos;m in a non private place</Trans></Button>
+                >
+                  <Trans id="signin.action.login_unsecure">I&apos;m in a non private place</Trans>
+                </Button>
               </FormColumn>
             </FormRow>
             <FormRow>

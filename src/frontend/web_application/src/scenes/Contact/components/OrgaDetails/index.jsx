@@ -24,7 +24,9 @@ class OrgaDetails extends Component {
             orgaName,
             department,
           }}
-        >{jobDesc} at {orgaName} {department}</Trans>
+        >
+          {jobDesc} at {orgaName} {department}
+        </Trans>
       );
     }
 

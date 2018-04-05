@@ -25,13 +25,13 @@ const makeParticipant = ({
   address,
   protocol = 'email',
   label,
-  contact_ids,
+  contact_ids: contactIds,
   type = 'To',
 }) => ({
   address,
   protocol,
   label,
-  contact_ids,
+  contact_ids: contactIds,
   type,
 });
 
@@ -50,7 +50,6 @@ class RecipientList extends Component {
   };
   static defaultProps = {
     internalId: undefined,
-    contacts: [],
     recipients: [],
     searchResults: [],
     onRecipientsChange: () => {},
@@ -160,9 +159,7 @@ class RecipientList extends Component {
     }
 
     if (keyCode === KEY.ENTER && this.props.searchResults.length > 0) {
-      this.makeAddKnownParticipant(
-        this.props.searchResults[this.state.activeSearchResultIndex]
-      )();
+      this.makeAddKnownParticipant(this.props.searchResults[this.state.activeSearchResultIndex])();
       this.resetSearch();
     } else if (
       (
@@ -230,9 +227,7 @@ class RecipientList extends Component {
 
   eventuallyEditRecipient() {
     if (this.state.searchTerms.length === 0 && this.state.recipients.length) {
-      this.editRecipient(
-        this.state.recipients[this.state.recipients.length - 1]
-      );
+      this.editRecipient(this.state.recipients[this.state.recipients.length - 1]);
     }
   }
 
@@ -268,12 +263,10 @@ class RecipientList extends Component {
     const hasLabel = isContact &&
       index === results.findIndex(result => result.contact_id === identity.contact_id);
 
-    const infoClassName = classnames(
-      {
-        'm-recipient-list__search-result-info': hasLabel,
-        'm-recipient-list__search-result-title': !hasLabel,
-      },
-    );
+    const infoClassName = classnames({
+      'm-recipient-list__search-result-info': hasLabel,
+      'm-recipient-list__search-result-title': !hasLabel,
+    });
 
     return (
       <Button

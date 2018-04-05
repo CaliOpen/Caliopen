@@ -69,7 +69,9 @@ class ForgotPasswordForm extends Component {
                       plain
                       expanded
                       to="/auth/signin"
-                    ><Trans id="password.forgot-form.action.login">Ok</Trans></Link>
+                    >
+                      <Trans id="password.forgot-form.action.login">Ok</Trans>
+                    </Link>
                   </FormColumn>
                 </FormRow>
               ) : (
@@ -109,7 +111,9 @@ class ForgotPasswordForm extends Component {
                       type="submit"
                       display="expanded"
                       shape="plain"
-                    ><Trans id="password.forgot-form.action.send">Send</Trans></Button>
+                    >
+                      <Trans id="password.forgot-form.action.send">Send</Trans>
+                    </Button>
                   </FormColumn>
                   <FormColumn rightSpace={false} className="m-forgot-password-form__link">
                     <Link to="/auth/signin"><Trans id="password.forgot-form.cancel">Cancel</Trans></Link>

@@ -38,7 +38,7 @@ class UserSecurity extends Component {
   }
 
   handleSubmitSuccess = () => {
-    this.setState({ updated: true, errors: {} }, () => {
+    this.setState({ updated: true }, () => {
       const { requestUser, notifySuccess, i18n } = this.props;
       notifySuccess({ message: i18n._('password.form.feedback.successfull', { defaults: 'Password updated!' }), duration: 0 });
       requestUser();

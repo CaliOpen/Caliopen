@@ -20,7 +20,9 @@ const messageCollectionStateSelector = createMessageCollectionStateSelector(() =
 
 const mapStateToProps = createSelector(
   [messageByIdSelector, discussionIdSelector, messageCollectionStateSelector],
-  (messagesById, discussionId, { didInvalidate, messageIds, hasMore, isFetching }) => {
+  (messagesById, discussionId, {
+    didInvalidate, messageIds, hasMore, isFetching,
+  }) => {
     const messages = messageIds.map(messageId => messagesById[messageId]);
 
     return {

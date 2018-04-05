@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import './style.scss';
 
-const Badge = ({ low, large, className, radiusType, ...props }) => {
+const Badge = ({
+  low, large, className, radiusType, ...props
+}) => {
   const badgeClassName = classnames('m-badge', {
     'm-badge--low': low,
     'm-badge--large': large,

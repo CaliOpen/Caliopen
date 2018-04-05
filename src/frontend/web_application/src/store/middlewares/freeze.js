@@ -24,7 +24,7 @@ export default function freezeState(store) {
     try {
       return next(action);
     } catch (err) {
-      console.error('State may has mutated', err.stack);    // eslint-disable-line no-console
+      console.error('State may has mutated', err.stack); // eslint-disable-line no-console
     }
 
     freezeStoreState(store);

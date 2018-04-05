@@ -14,19 +14,20 @@ const sortResults = ({ contactSuggestions, rawSuggestions }) => contactSuggestio
     ];
   }, rawSuggestions)
   .filter(suggestion => suggestion.address)
-  .filter((suggestion, idx, arr) => idx === arr.findIndex(
-    sugg => sugg.address === suggestion.address && sugg.protocol === suggestion.protocol
-  ));
+  .filter((suggestion, idx, arr) =>
+    idx === arr.findIndex(sugg =>
+      sugg.address === suggestion.address && sugg.protocol === suggestion.protocol));
 const filterSuggestionsWithContact = results => results.filter(result => result.source === 'contact');
 const extractContactFromAxios = axiosResult =>
   axiosResult.type === REQUEST_CONTACT_SUCCESS && axiosResult.payload.data;
-const getContacts = ({ store, contactIds }) => Promise.all(
-  contactIds.map(contactId => store.dispatch(requestContact(contactId)))
-).then(allContactAxiosResults => allContactAxiosResults
-  .map(extractContactFromAxios)
-  .filter(contact => contact)
-);
-const getSuggestion = ({ label, address, protocol, ...opts }) => ({
+const getContacts = ({ store, contactIds }) =>
+  Promise.all(contactIds.map(contactId => store.dispatch(requestContact(contactId))))
+    .then(allContactAxiosResults => allContactAxiosResults
+      .map(extractContactFromAxios)
+      .filter(contact => contact));
+const getSuggestion = ({
+  label, address, protocol, ...opts
+}) => ({
   label, address, protocol, ...opts,
 });
 const createGetContactSuggestions = format => (contact) => {
@@ -55,8 +56,8 @@ export const handleSearchAction = async ({ store, action }) => {
   }
 
   const state = store.getState();
-  const { contact_display_format } = settingsSelector(state);
-  const getContactSuggestions = createGetContactSuggestions(contact_display_format);
+  const { contact_display_format: contactDisplayFormat } = settingsSelector(state);
+  const getContactSuggestions = createGetContactSuggestions(contactDisplayFormat);
   const extractSuggsFromContacts = createExtractSuggestionsFromContacts(getContactSuggestions);
 
   const { terms, context } = action.payload;

@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-const NavItem = ({ className, active, large, ...props }) => {
+const NavItem = ({
+  className, active, large, ...props
+}) => {
   const itemClassName = classnames(
     'm-nav-list__item',
     {

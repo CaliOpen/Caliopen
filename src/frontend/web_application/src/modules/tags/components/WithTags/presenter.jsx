@@ -20,7 +20,9 @@ class WithTags extends Component {
   }
 
   componentDidMount() {
-    const { requestTags, tags, isInvalidated, isFetching } = this.props;
+    const {
+      requestTags, tags, isInvalidated, isFetching,
+    } = this.props;
     if (!isFetching && (!tags.length || isInvalidated)) {
       requestTags().then(() => this.setState({ initialized: true }));
     }

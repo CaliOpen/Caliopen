@@ -12,10 +12,6 @@ class IdentityDetails extends PureComponent {
     identity: null,
   };
 
-  state = {
-    isActive: false,
-  };
-
   render() {
     const { identity } = this.props;
 

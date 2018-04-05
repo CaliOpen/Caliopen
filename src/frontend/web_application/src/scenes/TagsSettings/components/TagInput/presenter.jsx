@@ -24,13 +24,13 @@ class TagInput extends Component {
     errors: PropTypes.arrayOf(PropTypes.node),
   };
   static defaultProps = {
+    errors: [],
   };
 
   state = {
     tag: {},
     edit: false,
     isFetching: false,
-    errors: [],
   };
 
   componentWillMount() {

@@ -13,7 +13,6 @@ class ContactsForm extends Component {
     i18n: PropTypes.shape({}).isRequired,
   };
   static defaultProps = {
-    errors: {},
   };
 
   componentWillMount() {

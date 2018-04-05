@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import { getTop, scrollTop, getViewPortTop } from '../../services/scroll';
+import { addEventListener } from '../../services/event-manager';
 
 class ScrollSpy extends Component {
   static propTypes = {
@@ -14,7 +15,6 @@ class ScrollSpy extends Component {
     location: undefined,
     className: undefined,
     children: null,
-    currentTab: undefined,
   };
 
   static childContextTypes = {

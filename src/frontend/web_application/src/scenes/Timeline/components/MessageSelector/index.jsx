@@ -49,7 +49,6 @@ class MessageSelector extends Component {
       return (
         <Button
           icon={isDeleting ? (<Spinner isLoading display="inline" />) : 'trash'}
-          onClick={confirm}
           disabled
           aria-label={i18n._('timeline.action.delete', { defaults: 'Delete selected' })}
         />
@@ -73,7 +72,9 @@ class MessageSelector extends Component {
   }
 
   render() {
-    const { i18n, count, totalCount, checked, isDeleting } = this.props;
+    const {
+      i18n, count, totalCount, checked, isDeleting,
+    } = this.props;
 
     return (
       <div className="m-message-selector">

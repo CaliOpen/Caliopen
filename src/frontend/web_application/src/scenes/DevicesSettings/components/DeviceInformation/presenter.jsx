@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 // import Moment from 'react-moment';
 import { Trans } from 'lingui-react';
 import { Icon, TextBlock } from '../../../../components';
 import './style.scss';
 
-class DeviceInformation extends Component {
+class DeviceInformation extends PureComponent {
   static propTypes = {
     device: PropTypes.shape({}).isRequired,
     // locale: PropTypes.string,
     isCurrentDevice: PropTypes.bool,
   };
   static defaultProps = {
-    locale: undefined,
+    // locale: undefined,
     isCurrentDevice: false,
   };
 

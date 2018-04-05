@@ -62,7 +62,9 @@ class SelectFieldGroup extends PureComponent {
               <option
                 key={selectOption.label}
                 value={selectOption.value}
-              >{selectOption.label}</option>
+              >
+                {selectOption.label}
+              </option>
             ))}
           </select>
         </div>

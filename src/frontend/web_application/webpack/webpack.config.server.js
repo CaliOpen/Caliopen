@@ -42,11 +42,14 @@ const base = {
       { test: /\.html$/, loader: 'raw-loader' },
     ],
   },
+  optimization: {
+    minimize: false,
+  },
 };
 
 const config = webpackMerge(
   common,
-  configs.configureEnv('server', 'node'),
+  configs.configureEnv('server'),
   base
 );
 

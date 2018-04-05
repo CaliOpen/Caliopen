@@ -101,7 +101,9 @@ class ContactBook extends Component {
   }
 
   render() {
-    const { contacts, isFetching, hasMore, i18n } = this.props;
+    const {
+      contacts, isFetching, hasMore, i18n,
+    } = this.props;
 
     return (
       <div className="l-contact-book">
@@ -127,7 +129,9 @@ class ContactBook extends Component {
                   shape="hollow"
                   display="expanded"
                   onClick={this.handleOpenImportModal}
-                ><Trans id="import-contact.action.import_contacts">Import contacts</Trans></Button>
+                >
+                  <Trans id="import-contact.action.import_contacts">Import contacts</Trans>
+                </Button>
               </div>
               {this.renderImportModal()}
             </div>

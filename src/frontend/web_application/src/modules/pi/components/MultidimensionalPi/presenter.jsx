@@ -11,7 +11,9 @@ import './style.scss';
 const PI_MAX = 100; // max value for PI levels
 const DropdownControl = withDropdownControl(Button);
 
-const MultidimensionalPi = ({ pi, displayAveragePi, className, mini }) => {
+const MultidimensionalPi = ({
+  pi, displayAveragePi, className, mini,
+}) => {
   const gridWidth = PI_MAX * 2;
   const id = uuidV1();
 

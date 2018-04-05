@@ -62,9 +62,8 @@ export const availableActionsSelector = createSelector(
     defaultActionsSelector,
     (state, props) => props.location,
   ],
-  (actions, location) => actions.filter(
-    action => matchPath(location.pathname, { path: action.route })
-  )
+  (actions, location) => actions
+    .filter(action => matchPath(location.pathname, { path: action.route }))
 );
 
 const mapStateToProps = (state, props) => ({

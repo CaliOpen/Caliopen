@@ -30,7 +30,6 @@ class ReplyForm extends Component {
     draft: undefined,
     isFetching: false,
     user: undefined,
-    isAttachmentsLoading: false,
     draftFormRef: () => {},
   };
 
@@ -54,7 +53,9 @@ class ReplyForm extends Component {
   }
 
   handleSave = async ({ draft }) => {
-    const { discussionId, message, notifySuccess, notifyError, i18n, onSaveDraft } = this.props;
+    const {
+      discussionId, message, notifySuccess, notifyError, i18n, onSaveDraft,
+    } = this.props;
 
     try {
       await onSaveDraft({ draft, message, internalId: discussionId });
@@ -74,7 +75,9 @@ class ReplyForm extends Component {
   };
 
   handleSend = async () => {
-    const { onSendDraft, discussionId, message, draft, notifyError, i18n } = this.props;
+    const {
+      onSendDraft, discussionId, message, draft, notifyError, i18n,
+    } = this.props;
 
     this.setState({ isSending: true });
 
@@ -89,25 +92,33 @@ class ReplyForm extends Component {
   }
 
   handleDelete = () => {
-    const { message, discussionId, onDeleteMessage, allowEditRecipients } = this.props;
+    const {
+      message, discussionId, onDeleteMessage, allowEditRecipients,
+    } = this.props;
 
     onDeleteMessage({ message, internalId: discussionId, isNewDiscussion: allowEditRecipients });
   }
 
   handleTagsChange = async ({ tags }) => {
-    const { onUpdateEntityTags, i18n, message, draft, discussionId } = this.props;
+    const {
+      onUpdateEntityTags, i18n, message, draft, discussionId,
+    } = this.props;
 
     return onUpdateEntityTags(discussionId, i18n, message, { type: 'message', entity: draft, tags });
   }
 
   handleFilesChange = async ({ attachments }) => {
-    const { onUploadAttachments, i18n, message, draft, discussionId } = this.props;
+    const {
+      onUploadAttachments, i18n, message, draft, discussionId,
+    } = this.props;
 
     return onUploadAttachments(discussionId, i18n, message, { draft, attachments });
   }
 
   handleDeleteAttachement = (attachment) => {
-    const { onDeleteAttachement, i18n, message, draft, discussionId } = this.props;
+    const {
+      onDeleteAttachement, i18n, message, draft, discussionId,
+    } = this.props;
 
     return onDeleteAttachement(discussionId, i18n, message, { draft, attachment });
   }
@@ -143,7 +154,7 @@ class ReplyForm extends Component {
 
   render() {
     const {
-       draft, discussionId, allowEditRecipients, user, parentMessage, draftFormRef,
+      draft, discussionId, allowEditRecipients, user, parentMessage, draftFormRef,
     } = this.props;
 
     if (allowEditRecipients) {

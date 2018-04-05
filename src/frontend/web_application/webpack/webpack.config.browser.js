@@ -7,12 +7,13 @@ const PUBLIC_PATH = '/assets/';
 const isDev = process.env.NODE_ENV === 'development';
 
 const base = {
+  target: 'web',
   entry: {
     app: [
+      'babel-polyfill',
       path.join(__dirname, '../src/index.jsx'),
     ],
     vendor: [
-      'babel-polyfill',
       'script-loader!jquery',
       'script-loader!foundation-sites',
     ],

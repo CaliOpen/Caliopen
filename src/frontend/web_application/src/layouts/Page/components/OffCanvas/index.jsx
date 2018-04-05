@@ -22,7 +22,9 @@ class OffCanvas extends Component {
             className="off-canvas position-left"
             id="left_off_canvas"
             data-off-canvas
-          >{leftChildren}</div>
+          >
+            {leftChildren}
+          </div>
           <div className="off-canvas-content" data-off-canvas-content>
             {children}
           </div>

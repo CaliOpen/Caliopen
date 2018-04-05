@@ -88,7 +88,9 @@ class SignupForm extends Component {
   }
 
   handleInputChange = (event) => {
-    const { name, value: inputValue, type, checked } = event.target;
+    const {
+      name, value: inputValue, type, checked,
+    } = event.target;
     const value = type === 'checkbox' ? checked : inputValue;
     const { onFieldChange } = this.props;
 
@@ -126,25 +128,35 @@ class SignupForm extends Component {
         title={i18n._('signup.privacy.modal.label', { defaults: 'About Piwik' })}
         onClose={this.handleCloseModal}
       >
-        <p><Trans id="signup.privacy.modal.title">
-          Caliopen is under development !
-        </Trans></p>
-        <p><Trans id="signup.privacy.modal.text.alpha_tester">
-          As an alpha-tester your contribution is precious and will allow us to finalize Caliopen.
-        </Trans></p>
-        <p><Trans id="signup.privacy.modal.text.get_data">
-          For this purpose, you grant us the right to collect data related to your usage (displayed
-          pages, timings, clics, scrolls ...almost everything that can be collected!).
-        </Trans></p>
-        <p><Trans id="signup.privacy.modal.text.desactivate_dnt">
-          You need to deactivate the DoNotTrack setting from your browser preferences (more
-          informations at http://donottrack.us), as well as allowing cookies.
-        </Trans></p>
-        <p><Trans id="signup.privacy.modal.text.piwik">
-          We use https://piwik.org/ the open-source analytics plateform. The collected data will not
-          be disclosed to any third party, and will stay scoped to Caliopen&apos;s alpha testing
-          purpose.
-        </Trans></p>
+        <p>
+          <Trans id="signup.privacy.modal.title">
+            Caliopen is under development !
+          </Trans>
+        </p>
+        <p>
+          <Trans id="signup.privacy.modal.text.alpha_tester">
+            As an alpha-tester your contribution is precious and will allow us to finalize Caliopen.
+          </Trans>
+        </p>
+        <p>
+          <Trans id="signup.privacy.modal.text.get_data">
+            For this purpose, you grant us the right to collect data related to your usage
+            (displayed pages, timings, clics, scrolls ...almost everything that can be collected!).
+          </Trans>
+        </p>
+        <p>
+          <Trans id="signup.privacy.modal.text.desactivate_dnt">
+            You need to deactivate the DoNotTrack setting from your browser preferences (more
+            informations at http://donottrack.us), as well as allowing cookies.
+          </Trans>
+        </p>
+        <p>
+          <Trans id="signup.privacy.modal.text.piwik">
+            We use https://piwik.org/ the open-source analytics plateform. The collected data will not
+            be disclosed to any third party, and will stay scoped to Caliopen&apos;s alpha testing
+            purpose.
+          </Trans>
+        </p>
         <Button
           shape="plain"
           onClick={this.handleCloseModal}
@@ -156,7 +168,9 @@ class SignupForm extends Component {
   }
 
   render() {
-    const { form, errors = {}, i18n, isValidating } = this.props;
+    const {
+      form, errors = {}, i18n, isValidating,
+    } = this.props;
 
     return (
       <div className="s-signup">
@@ -259,7 +273,9 @@ class SignupForm extends Component {
                     className="s-signup__privacy-link"
                     onClick={this.handleOpenModal}
                     display="inline"
-                  ><Trans id="signup.form.privacy.more_info">More info</Trans></Button>
+                  >
+                    <Trans id="signup.form.privacy.more_info">More info</Trans>
+                  </Button>
                 </p>
                 {this.renderModal()}
                 <CheckboxFieldGroup
@@ -282,7 +298,9 @@ class SignupForm extends Component {
                   shape="plain"
                   disabled={isValidating}
                   icon={isValidating ? (<Spinner isLoading display="inline" />) : null}
-                ><Trans id="signup.action.create">Create</Trans></Button>
+                >
+                  <Trans id="signup.action.create">Create</Trans>
+                </Button>
               </FormColumn>
             </FormRow>
             <FormRow>

@@ -1,0 +1,44 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true,
+    "protractor": true
+  },
+  "rules": {
+    "comma-dangle": ["error", "always-multiline"],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.spec.js", "**/*.spec.jsx"]}],
+    "import/prefer-default-export": 1,
+    "jsx-a11y/label-has-for": [ "error", {
+      "components": [ "Label" ],
+      "required": {
+        "oneOf": [ "nesting", "id" ]
+      },
+      "allowChildren": false
+    }],
+    "jsx-a11y/anchor-is-valid": [ "warning", {
+      "components": [ "Link" ],
+      "specialLink": [ "to" ],
+      "aspects": [ "noHref", "invalidHref", "preferButton" ]
+    }],
+    "newline-before-return": "error",
+    "react/no-array-index-key": 0,
+    "react/no-unused-prop-types": 1,
+    "react/no-unused-state": 1,
+    "react/prefer-stateless-function": 1,
+    "react/require-default-props": 1,
+    "prefer-promise-reject-errors": 1
+  },
+  "globals": {
+    "inject": true,
+    "Foundation": true,
+    "jQuery": true,
+    "BUILD_TARGET": true,
+    "SERVER_API": true,
+    "CALIOPEN_ENV": true,
+    "CALIOPEN_OPTIONS": true
+  }
+}

@@ -5,9 +5,11 @@ import { settingsSelector } from '../../../../store/selectors/settings';
 
 const mapStateToProps = createSelector(
   [settingsSelector],
-  ({ contact_display_order, contact_display_format }) => ({
-    contact_display_order,
-    contact_display_format,
+  ({
+    contact_display_order: contactDisplayOrder, contact_display_format: contactDisplayFormat,
+  }) => ({
+    contactDisplayOrder,
+    contactDisplayFormat,
   })
 );
 

@@ -40,7 +40,9 @@ class TimelineFilterContainer extends Component {
                     onClick={option.select}
                     display="expanded"
                     className="m-timeline-filter-container__dropdown-button"
-                  >{option.label}</Button>
+                  >
+                    {option.label}
+                  </Button>
                 </VerticalMenuItem>
               ))}
             </VerticalMenu>

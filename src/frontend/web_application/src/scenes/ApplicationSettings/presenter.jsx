@@ -22,11 +22,11 @@ class ApplicationSettings extends PureComponent {
     errors: {},
   };
 
-  handleSubmit = async (ev) => {
+  handleSubmit = (ev) => {
     /* TODO: autosave settings */
     const { handleSubmit } = this.props;
-    await handleSubmit(ev)
-    .then(this.handleSuccess, this.handleError);
+    handleSubmit(ev)
+      .then(this.handleSuccess, this.handleError);
   }
 
   handleSuccess = async () => {

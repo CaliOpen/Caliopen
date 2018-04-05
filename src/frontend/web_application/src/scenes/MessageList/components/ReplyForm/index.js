@@ -72,7 +72,8 @@ const onUpdateEntityTags = (internalId, i18n, message, { type, entity, tags }) =
       force: true,
     }));
     const messageUpTodate = await dispatch(updateTagCollection(
-      i18n, { type, entity: savedDraft, tags }
+      i18n,
+      { type, entity: savedDraft, tags }
     ));
 
     dispatch(invalidate('discussion', internalId));

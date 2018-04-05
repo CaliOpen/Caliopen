@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import './style.scss';
 
-const Title = ({ children, actions, hr, className, ...props }) => {
+const Title = ({
+  children, actions, hr, className, ...props
+}) => {
   const titleClassName = classnames('m-title', {
     'm-title--hr': hr,
   }, className);
