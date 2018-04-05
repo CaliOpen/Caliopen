@@ -20,9 +20,11 @@ class ContactList extends PureComponent {
 
   render() {
     const { contacts, sortDir, contact_display_order, contact_display_format: format } = this.props;
+    const contactTitle = contact => contact.title || '';
     const contactsGroupedByLetter = contacts
       .sort((a, b) => (
-        a[contact_display_order] || a.title).localeCompare(b[contact_display_order] || b.title
+        a[contact_display_order] || contactTitle(a))
+        .localeCompare(b[contact_display_order] || contactTitle(b)
       ))
       .reduce((acc, contact) => {
         const firstLetter = getFirstLetter(
