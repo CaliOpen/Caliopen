@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withI18n, Trans, Plural } from 'lingui-react';
-import { Checkbox, Button, Spinner } from '../../../../components/';
+import { Checkbox, Button, Spinner, Confirm } from '../../../../components/';
 
 import './style.scss';
 
@@ -42,6 +42,36 @@ class MessageSelector extends Component {
     this.props.onDeleteMessages();
   }
 
+  renderDeleteButton() {
+    const { i18n, count, isDeleting } = this.props;
+
+    if (count === 0) {
+      return (
+        <Button
+          icon={isDeleting ? (<Spinner isLoading display="inline" />) : 'trash'}
+          onClick={confirm}
+          disabled
+          aria-label={i18n._('timeline.action.delete', { defaults: 'Delete selected' })}
+        />
+      );
+    }
+
+    return (
+      <Confirm
+        onConfirm={this.handleDelete}
+        title={(<Trans id="timeline.confirm-delete.title">Delete message(s)</Trans>)}
+        content={(<Trans id="timeline.confirm-delete.content">The deletion is permanent, are you sure you want to delete these messages ?</Trans>)}
+        render={confirm => (
+          <Button
+            icon={isDeleting ? (<Spinner isLoading display="inline" />) : 'trash'}
+            onClick={confirm}
+            aria-label={i18n._('timeline.action.delete', { defaults: 'Delete selected' })}
+          />
+        )}
+      />
+    );
+  }
+
   render() {
     const { i18n, count, totalCount, checked, isDeleting } = this.props;
 
@@ -64,12 +94,7 @@ class MessageSelector extends Component {
             disabled={count === 0}
             aria-label={i18n._('timeline.action.manage-tags', { defaults: 'Manage tags' })}
           />
-          <Button
-            icon={isDeleting ? (<Spinner isLoading display="inline" />) : 'trash'}
-            onClick={this.handleDelete}
-            disabled={count === 0}
-            aria-label={i18n._('timeline.action.delete', { defaults: 'Delete selected' })}
-          />
+          {this.renderDeleteButton()}
         </span>
         <span className="m-message-selector__checkbox">
           <Checkbox

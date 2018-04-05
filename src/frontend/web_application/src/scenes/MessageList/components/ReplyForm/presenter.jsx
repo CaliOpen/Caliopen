@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ReplyForm as ReplyFormBase, NewDraftForm, DraftMessageActionsContainer, AttachmentManager } from '../../../../modules/draftMessage';
 
-class DraftForm extends Component {
+class ReplyForm extends Component {
   static propTypes = {
     i18n: PropTypes.shape({}).isRequired,
     discussionId: PropTypes.string.isRequired,
@@ -10,6 +10,7 @@ class DraftForm extends Component {
     message: PropTypes.shape({ }),
     parentMessage: PropTypes.shape({ }),
     draft: PropTypes.shape({ }),
+    isFetching: PropTypes.bool,
     requestDraft: PropTypes.func.isRequired,
     onEditDraft: PropTypes.func.isRequired,
     onSaveDraft: PropTypes.func.isRequired,
@@ -19,6 +20,7 @@ class DraftForm extends Component {
     onUpdateEntityTags: PropTypes.func.isRequired,
     onUploadAttachments: PropTypes.func.isRequired,
     onDeleteAttachement: PropTypes.func.isRequired,
+    draftFormRef: PropTypes.func,
   };
 
   static defaultProps = {
@@ -26,8 +28,10 @@ class DraftForm extends Component {
     message: undefined,
     parentMessage: undefined,
     draft: undefined,
+    isFetching: false,
     user: undefined,
     isAttachmentsLoading: false,
+    draftFormRef: () => {},
   };
 
   state = {
@@ -35,16 +39,17 @@ class DraftForm extends Component {
   };
 
   componentDidMount() {
-    const { discussionId, draft } = this.props;
-    if (!draft && discussionId) {
+    const { discussionId, draft, isFetching } = this.props;
+    if (!draft && !isFetching) {
       this.props.requestDraft({ internalId: discussionId, discussionId });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.draft) {
-      const { discussionId } = this.props;
-      this.props.requestDraft({ internalId: discussionId, discussionId });
+    if (!nextProps.draft && !nextProps.isFetching) {
+      this.props.requestDraft({
+        internalId: nextProps.discussionId, discussionId: nextProps.discussionId,
+      });
     }
   }
 
@@ -138,7 +143,7 @@ class DraftForm extends Component {
 
   render() {
     const {
-       draft, discussionId, allowEditRecipients, user, parentMessage,
+       draft, discussionId, allowEditRecipients, user, parentMessage, draftFormRef,
     } = this.props;
 
     if (allowEditRecipients) {
@@ -152,6 +157,7 @@ class DraftForm extends Component {
         renderAttachments={this.renderAttachments}
         user={user}
         isSending={this.state.isSending}
+        draftFormRef={draftFormRef}
       />);
     }
 
@@ -167,10 +173,11 @@ class DraftForm extends Component {
           renderDraftMessageActionsContainer={this.renderDraftMessageActionsContainer}
           renderAttachments={this.renderAttachments}
           user={user}
+          draftFormRef={draftFormRef}
         />
       </div>
     );
   }
 }
 
-export default DraftForm;
+export default ReplyForm;

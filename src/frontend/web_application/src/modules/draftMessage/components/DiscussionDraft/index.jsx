@@ -38,16 +38,18 @@ BodyRow.defaultProps = {
   className: null,
 };
 
-const DiscussionDraft = ({ className, ...props }) => (
-  <div className={classnames('m-discussion-draft', className)} {...props} />
+const DiscussionDraft = ({ className, draftFormRef, ...props }) => (
+  <div className={classnames('m-discussion-draft', className)} ref={draftFormRef} {...props} />
 );
 
 DiscussionDraft.propTypes = {
   className: PropTypes.string,
+  draftFormRef: PropTypes.func,
 };
 
 DiscussionDraft.defaultProps = {
   className: null,
+  draftFormRef: () => {},
 };
 
 export default DiscussionDraft;

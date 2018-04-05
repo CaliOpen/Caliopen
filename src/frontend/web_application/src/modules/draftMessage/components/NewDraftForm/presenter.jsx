@@ -32,12 +32,14 @@ class NewDraftForm extends Component {
     renderAttachments: PropTypes.func.isRequired,
     i18n: PropTypes.shape({}).isRequired,
     isSending: PropTypes.bool.isRequired,
+    draftFormRef: PropTypes.func,
   };
   static defaultProps = {
     draft: {},
     internalId: undefined,
     onChange: () => {},
     user: { contact: {} },
+    draftFormRef: () => {},
   };
 
   state = {
@@ -117,6 +119,7 @@ class NewDraftForm extends Component {
   render() {
     const {
       user, internalId, renderDraftMessageActionsContainer, i18n, isSending, renderAttachments,
+      draftFormRef,
     } = this.props;
     const dropdownId = uuidV1();
     const recipients = this.state.draft.participants && this.state.draft.participants
@@ -124,7 +127,7 @@ class NewDraftForm extends Component {
     const isMessageValid = (recipients && recipients.length !== 0);
 
     return (
-      <DiscussionDraft className="m-new-draft">
+      <DiscussionDraft className="m-new-draft" draftFormRef={draftFormRef}>
         <div className="m-new-draft__avatar-col">
           <ContactAvatarLetter
             contact={user.contact}

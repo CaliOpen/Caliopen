@@ -150,9 +150,20 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case EDIT_DRAFT:
+    case REQUEST_DRAFT:
+    case REQUEST_NEW_DRAFT:
+      return {
+        ...state,
+        isFetching: true,
+      };
     case REQUEST_DRAFT_SUCCESS:
     case REQUEST_NEW_DRAFT_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        draftsByInternalId: dratfsByInternalIdReducer(state.draftsByInternalId, action),
+      };
+    case EDIT_DRAFT:
     case CLEAR_DRAFT:
     case SYNC_DRAFT:
       return {

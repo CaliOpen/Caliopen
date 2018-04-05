@@ -4,7 +4,12 @@
   @include flex-grid-row;
   justify-content: flex-end;
 
+  &__action-delete,
   &__action {
     @include flex-grid-size(shrink);
+  }
+  &__action-delete {
+    // force expanded like other buttons
+    display: block;
   }
 }

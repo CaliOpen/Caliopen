@@ -10,6 +10,7 @@
     text-align: center;
   }
 
+  &__reply-excerpt,
   &__reply {
     @include breakpoint(small) {
       position: fixed;
@@ -18,11 +19,30 @@
       left: 0;
       box-shadow: $co-shadow--higher;
     }
+  }
 
+  &__reply {
+    @include breakpoint(small) {
+      display: none;
+    }
     @include breakpoint(medium) {
+      display: block;
       position: static;
       box-shadow: none;
     }
+
+    &--open {
+      display: block;
+    }
   }
 
+  &__reply-excerpt {
+    @include breakpoint(medium) {
+      display: none;
+    }
+
+    &--close {
+      display: none;
+    }
+  }
 }

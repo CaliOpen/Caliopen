@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Trans, withI18n } from 'lingui-react';
-import { Button, Modal } from '../../../../components';
+import { Button, Modal, Confirm } from '../../../../components';
 import { ManageEntityTags } from '../../../../modules/tags';
 
 import './style.scss';
@@ -118,7 +118,19 @@ class MessageActionsContainer extends Component {
         <Button onClick={this.handleReply} className="m-message-actions-container__action" icon="reply" responsive="icon-only"><Trans id="message-list.message.action.reply">Reply</Trans></Button>
         <Button onClick={this.makeHandle(onCopyTo)} className="m-message-actions-container__action" icon="share" responsive="icon-only"><Trans id="message-list.message.action.copy-to">Copy to</Trans></Button>
         <Button onClick={this.handleOpenTags} className="m-message-actions-container__action" icon="tags" responsive="icon-only"><Trans id="message-list.message.action.tags">Tags</Trans></Button>
-        <Button onClick={this.makeHandle(onDelete)} className="m-message-actions-container__action" icon="trash" responsive="icon-only"><Trans id="message-list.message.action.delete">Delete</Trans></Button>
+        <Confirm
+          className="m-message-actions-container__action"
+          onConfirm={this.makeHandle(onDelete)}
+          title={(<Trans id="message-list.message.confirm-delete.title">Delete a message</Trans>)}
+          content={(<Trans id="message-list.message.confirm-delete.content">The deletion is permanent, are you sure you want to delete this message ?</Trans>)}
+          render={confirm => (
+            <Button
+              onClick={confirm}
+              icon="trash"
+              responsive="icon-only"
+            ><Trans id="message-list.message.action.delete">Delete</Trans></Button>
+          )}
+        />
         <Button
           className="m-message-actions-container__action"
           onClick={this.handleToggle}

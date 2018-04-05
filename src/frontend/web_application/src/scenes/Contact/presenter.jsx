@@ -9,7 +9,7 @@ import { formatName } from '../../services/contact';
 import ContactProfileForm from './components/ContactProfileForm';
 import ContactDetails from './components/ContactDetails';
 import ContactProfile from './components/ContactProfile';
-import { PageTitle, Modal, MenuBar, Button, TextBlock, Dropdown, withDropdownControl, Spinner, VerticalMenu, VerticalMenuItem } from '../../components';
+import { PageTitle, Modal, MenuBar, Button, TextBlock, Dropdown, withDropdownControl, Spinner, VerticalMenu, VerticalMenuItem, Confirm } from '../../components';
 import FormCollection from './components/FormCollection';
 import EmailForm from './components/EmailForm';
 import PhoneForm from './components/PhoneForm';
@@ -289,11 +289,18 @@ class Contact extends Component {
             */}
             { !contactIsUser && // to prevents deleting user's contact
               <VerticalMenuItem>
-                <Button
-                  onClick={this.handleDelete}
-                  className="s-contact__action"
-                  display="expanded"
-                ><Trans id="contact.action.delete_contact">Delete</Trans></Button>
+                <Confirm
+                  className="s-contact__action-delete"
+                  onConfirm={this.handleDelete}
+                  title={(<Trans id="contact.confirm-delete.title">Delete the contact</Trans>)}
+                  content={(<Trans id="contact.confirm-delete.content">The deletion is permanent, are you sure you want to delete this contact ?</Trans>)}
+                  render={confirm => (
+                    <Button
+                      onClick={confirm}
+                      display="expanded"
+                    ><Trans id="contact.action.delete_contact">Delete</Trans></Button>
+                  )}
+                />
               </VerticalMenuItem>
             }
           </VerticalMenu>

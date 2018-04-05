@@ -23,8 +23,14 @@
     @include flex-grid-column(shrink);
   }
 
+  &__action-delete,
   &__action {
     line-height: $co-component__height;
+  }
+  &__action-delete {
+    @include flex-grid-size(shrink);
+    // force expanded like other action buttons
+    display: block;
   }
 
   &__bar-title {

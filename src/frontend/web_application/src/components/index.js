@@ -2,6 +2,7 @@ export { default as Badge } from './Badge';
 export { default as Button } from './Button';
 export { default as BlockList } from './BlockList';
 export { default as Brand } from './Brand';
+export { default as Confirm } from './Confirm';
 export { default as DefList } from './DefList';
 export { default as Dropdown, withDropdownControl } from './Dropdown';
 export { default as DropdownMenu } from './DropdownMenu';

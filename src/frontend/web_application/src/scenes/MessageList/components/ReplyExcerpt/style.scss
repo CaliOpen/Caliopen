@@ -1,0 +1,13 @@
+@import '../../../../styles/common';
+@import '../../../../styles/object/o-form-element';
+
+.m-reply-excerpt {
+  padding: $co-component__spacing;
+  width: 100%;
+  height: $co-component__height;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: $co-color__fg__back;
+  color: $co-color__fg__text;
+}

@@ -28,8 +28,7 @@ const mapStateToProps = createSelector(
       didInvalidate,
       isFetching,
       hasMore,
-      messages: messages.filter(message => message.is_draft !== true),
-      hasDraft: messages.some(message => message.is_draft),
+      messages,
     };
   }
 );

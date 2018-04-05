@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Trans } from 'lingui-react';
-import { Button, Modal } from '../../../../components';
+import { Button, Modal, Confirm } from '../../../../components';
 import { ManageEntityTags } from '../../../../modules/tags';
 
 import './style.scss';
@@ -72,8 +72,39 @@ class DraftMessageActionsContainer extends Component {
     );
   }
 
+  renderDeleteButton() {
+    const { message, onDelete } = this.props;
+
+    if (!message || !message.message_id) {
+      return (
+        <Button
+          onClick={confirm}
+          icon="trash"
+          responsive="icon-only"
+          disabled
+        ><Trans id="message-list.message.action.delete">Delete</Trans></Button>
+      );
+    }
+
+    return (
+      <Confirm
+        className="m-message-actions-container__action"
+        onConfirm={this.makeHandle(onDelete)}
+        title={(<Trans id="message-list.message.confirm-delete.title">Delete a message</Trans>)}
+        content={(<Trans id="message-list.message.confirm-delete.content">The deletion is permanent, are you sure you want to delete this message ?</Trans>)}
+        render={confirm => (
+          <Button
+            onClick={confirm}
+            icon="trash"
+            responsive="icon-only"
+          ><Trans id="message-list.message.action.delete">Delete</Trans></Button>
+        )}
+      />
+    );
+  }
+
   render() {
-    const { message, onDelete, className } = this.props;
+    const { className } = this.props;
     const messageActionsContainerClassName = classnames(
       'm-message-actions-container',
       className,
@@ -87,13 +118,7 @@ class DraftMessageActionsContainer extends Component {
           icon="tags"
           responsive="icon-only"
         ><Trans id="message-list.message.action.tags">Tags</Trans></Button>
-        <Button
-          onClick={this.makeHandle(onDelete)}
-          className="m-message-actions-container__action"
-          icon="trash"
-          responsive="icon-only"
-          disabled={!message || !message.message_id}
-        ><Trans id="message-list.message.action.delete">Delete</Trans></Button>
+        {this.renderDeleteButton()}
         {this.renderTagsModal()}
       </div>
     );

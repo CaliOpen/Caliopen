@@ -13,8 +13,6 @@ $navigation-after__height: $co-component__spacing;
 
 .l-body {
   &__content {
-    // XXX: need a better fix for call-to-action override on mobile
-    margin-bottom: 280px;
     max-width: $co-site-width;
     margin-right: auto;
     margin-left: auto;

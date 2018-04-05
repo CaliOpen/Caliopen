@@ -14,6 +14,10 @@ export const getNewContact = () => ({
   addresses: [],
 });
 
+export function getContactTitle(contact) {
+  return contact.title || '';
+}
+
 export function formatName({ contact, format }) {
   const title = format.split(',')
     .map(field => field.trim())
@@ -22,7 +26,7 @@ export function formatName({ contact, format }) {
     .trim()
   ;
 
-  return title || contact.title;
+  return title || getContactTitle(contact);
 }
 
 export function getFirstLetter(string, defaultLetter = '?') {

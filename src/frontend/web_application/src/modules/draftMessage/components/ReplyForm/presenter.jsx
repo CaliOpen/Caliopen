@@ -28,6 +28,7 @@ class ReplyForm extends Component {
     renderAttachments: PropTypes.func.isRequired,
     i18n: PropTypes.shape({}).isRequired,
     isSending: PropTypes.bool,
+    draftFormRef: PropTypes.func,
   };
   static defaultProps = {
     draft: {
@@ -37,6 +38,7 @@ class ReplyForm extends Component {
     onChange: () => {},
     user: { contact: {} },
     isSending: false,
+    draftFormRef: () => {},
   };
 
   state = {
@@ -104,12 +106,13 @@ class ReplyForm extends Component {
   render() {
     const {
       user, parentMessage, renderDraftMessageActionsContainer, isSending, renderAttachments,
+      draftFormRef,
     } = this.props;
     const dropdownId = uuidV1();
     const excerpt = parentMessage && parentMessage.excerpt;
 
     return (
-      <DiscussionDraft className="m-reply">
+      <DiscussionDraft className="m-reply" draftFormRef={draftFormRef}>
         <div className="m-reply__avatar-col">
           <ContactAvatarLetter
             contact={user.contact}

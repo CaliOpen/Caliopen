@@ -3,19 +3,12 @@ const { home } = require('../utils/navigation');
 
 describe('Delete message', () => {
   const EC = protractor.ExpectedConditions;
-  const locale = 'en';
-  const __ = key => ({
-    fr: {
-      delete: 'Supprimer',
-    },
-    en: {
-      delete: 'Delete',
-    },
-  }[locale][key]);
 
   beforeEach(() => {
     userUtil.signin();
   });
+
+  const clickBtnInModal = btnText => element(by.cssContainingText('.m-modal button', btnText)).click();
 
   it('delete message one by one', () => {
     const discussion1Selector = by.cssContainingText(
@@ -27,7 +20,8 @@ describe('Delete message', () => {
     const deleteAMessage = (messageText) => {
       const messageElem = element(by.cssContainingText('.m-message', messageText));
 
-      return messageElem.element(by.cssContainingText('.m-message-actions-container__action', __('delete'))).click();
+      return messageElem.element(by.cssContainingText('.m-message-actions-container__action button', 'Delete')).click()
+        .then(() => clickBtnInModal('Yes I\'m sure'));
     };
 
     home()
@@ -53,7 +47,8 @@ describe('Delete message', () => {
       .then(() => element(discussionSelector).click())
       .then(() => browser.wait(EC.presenceOf($('.m-message-list__action')), 5 * 1000))
       .then(() => browser.executeScript('window.scrollTo(0,0);'))
-      .then(() => element(by.cssContainingText('.m-message-list__action', __('delete'))).click())
+      .then(() => element(by.cssContainingText('.m-message-list__action', 'Delete')).click())
+      .then(() => clickBtnInModal('Yes I\'m sure'))
       .then(() => browser.wait(EC.presenceOf($('.s-timeline')), 5 * 1000))
       ;
   });

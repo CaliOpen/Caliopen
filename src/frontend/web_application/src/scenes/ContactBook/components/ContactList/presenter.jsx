@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Title } from '../../../../components/';
 import ContactItem from '../../components/ContactItem';
 import { DEFAULT_SORT_DIR } from '../../presenter';
-import { getFirstLetter, formatName } from '../../../../services/contact';
+import { getFirstLetter, formatName, getContactTitle } from '../../../../services/contact';
 
 import './style.scss';
 
@@ -22,7 +22,8 @@ class ContactList extends PureComponent {
     const { contacts, sortDir, contact_display_order, contact_display_format: format } = this.props;
     const contactsGroupedByLetter = contacts
       .sort((a, b) => (
-        a[contact_display_order] || a.title).localeCompare(b[contact_display_order] || b.title
+        a[contact_display_order] || getContactTitle(a))
+        .localeCompare(b[contact_display_order] || getContactTitle(b)
       ))
       .reduce((acc, contact) => {
         const firstLetter = getFirstLetter(

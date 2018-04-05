@@ -1,0 +1,9 @@
+@import '../../styles/common';
+
+.m-confirm {
+  display: inline-block;
+
+  &__actions {
+    padding-top: $co-component__spacing;
+  }
+}
