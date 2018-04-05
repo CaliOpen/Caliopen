@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - The draft delete button was always disabled even when draft was saved
+- check if contact.title is null or undefined when displaying ContactBook
+
 
 ## [0.9.0] 2018-03-29
 
