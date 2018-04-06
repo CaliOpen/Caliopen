@@ -76,7 +76,6 @@
   &__bottom-action {
     @include flex-grid-size(shrink);
     margin-right: $co-component__spacing;
-    background-color: $co-color__fg__back;
 
     &--editor {
       margin-right: 0;

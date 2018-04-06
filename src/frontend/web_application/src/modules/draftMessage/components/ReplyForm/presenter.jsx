@@ -153,7 +153,6 @@ class ReplyForm extends Component {
           <BottomRow className="m-reply__bottom-bar">
             <Button
               className="m-reply__bottom-action"
-              shape="plain"
               onClick={this.handleSend}
               icon={isSending ? (<Spinner isLoading display="inline" />) : 'send'}
               responsive="icon-only"
@@ -173,7 +172,13 @@ class ReplyForm extends Component {
             <Button className="m-reply__bottom-action" onClick={this.handleSave} icon="share-alt" responsive="icon-only">
               <Trans id="messages.compose.action.copy">Copy to</Trans>
             </Button>
-            <Button className="m-new-reply__bottom-action m-reply__bottom-action--editor" icon="editor" responsive="icon-only" />
+            {/* TODO: enable rich text editor
+              <Button
+              className="m-new-reply__bottom-action m-reply__bottom-action--editor"
+              icon="editor"
+              responsive="icon-only"
+            />
+            */}
           </BottomRow>
         </form>
       </DiscussionDraft>
