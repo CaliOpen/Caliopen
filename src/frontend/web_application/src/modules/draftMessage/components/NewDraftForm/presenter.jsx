@@ -179,7 +179,6 @@ class NewDraftForm extends Component {
           <BottomRow className="m-new-draft__bottom-bar">
             <Button
               className="m-new-draft__bottom-action"
-              shape="plain"
               onClick={this.handleSend}
               icon={isSending ? (<Spinner isLoading display="inline" />) : 'send'}
               responsive="icon-only"
@@ -196,7 +195,13 @@ class NewDraftForm extends Component {
             >
               <Trans id="messages.compose.action.save">Save</Trans>
             </Button>
-            <Button className="m-new-draft__bottom-action m-new-draft__bottom-action--editor" icon="editor" responsive="icon-only" />
+            {/* TODO: enable rich text editor
+              <Button
+              className="m-new-draft__bottom-action m-new-draft__bottom-action--editor"
+              icon="editor"
+              responsive="icon-only"
+            />
+            */}
           </BottomRow>
         </form>
       </DiscussionDraft>
