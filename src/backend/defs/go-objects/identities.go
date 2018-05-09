@@ -57,7 +57,7 @@ type (
 		DisplayName string            `cql:"display_name"       json:"display_name"`
 		Identifier  string            `cql:"identifier"         json:"identifier"`
 		Infos       map[string]string `cql:"infos"              json:"infos"`
-		LastCheck   time.Time         `cql:"last_check"         json:"last_check"`
+		LastCheck   time.Time         `cql:"last_check"         json:"last_check"           formatter:"RFC3339Milli"`
 		Status      string            `cql:"status"             json:"status"` // for example : active, inactive, deleted
 		Type        string            `cql:"type"               json:"type"`   // for example : imap, twitter…
 		UserId      UUID              `cql:"user_id"            json:"user_id"              frontend:"omit"`
@@ -107,6 +107,13 @@ func (i *Identity) MarshallNew(...interface{}) {
 	//nothing to enforce
 }
 
+/** remote identity **/
+func (ri *RemoteIdentity) NewEmpty() interface{} {
+	nri := new(RemoteIdentity)
+	nri.Infos = map[string]string{}
+	return nri
+}
+
 // SetDefaultInfos fill Infos properties map with default keys and values
 func (ri *RemoteIdentity) SetDefaultInfos() {
 	(*ri).Infos = map[string]string{
@@ -146,6 +153,10 @@ func (ri *RemoteIdentity) UnmarshalCQLMap(input map[string]interface{}) error {
 		ri.UserId.UnmarshalBinary(userid.Bytes())
 	}
 	return nil
+}
+
+func (ri *RemoteIdentity) MarshalFrontEnd() ([]byte, error) {
+	return JSONMarshaller("frontend", ri)
 }
 
 // Sort interface implementations

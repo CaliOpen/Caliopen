@@ -93,6 +93,24 @@ func (cb *CassandraBackend) UpdateRemoteIdentity(rId *RemoteIdentity, fields map
 		Update(cassaFields).Run()
 }
 
+func (cb *CassandraBackend) RetrieveRemoteIdentities(userId string) (rIds []*RemoteIdentity, err error) {
+	err = errors.New("[cassandra backend] RetrieveRemoteIdentities not implemented")
+	all_ids, err := cb.Session.Query(`SELECT * FROM remote_identity WHERE user_id = ?`, userId).Iter().SliceMap()
+	if err != nil {
+		return
+	}
+	if len(all_ids) == 0 {
+		err = errors.New("ids not found")
+	}
+	for _, identity := range all_ids {
+		id := new(RemoteIdentity).NewEmpty().(*RemoteIdentity)
+		id.UnmarshalCQLMap(identity)
+		rIds = append(rIds, id)
+	}
+	return
+}
+
+// RetrieveAllRemotes returns a chan to range over all remote identities found in db
 func (cb *CassandraBackend) RetrieveAllRemotes() (<-chan *RemoteIdentity, error) {
 
 	ch := make(chan *RemoteIdentity)

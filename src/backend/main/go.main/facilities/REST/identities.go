@@ -10,6 +10,7 @@ import (
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	pi "github.com/CaliOpen/Caliopen/src/backend/main/go.main/pi"
 	"github.com/satori/go.uuid"
+	"net/http"
 )
 
 func (rest *RESTfacility) RetrieveLocalsIdentities(user_id string) ([]LocalIdentity, error) {
@@ -74,4 +75,29 @@ func (rest *RESTfacility) RetrieveContactIdentities(user_id, contact_id string) 
 		return
 	}
 	return
+}
+
+func (rest *RESTfacility) RetrieveRemoteIdentities(userId string) (ids []*RemoteIdentity, err CaliopenError) {
+	var e error
+	ids, e = rest.store.RetrieveRemoteIdentities(userId)
+	if e != nil {
+		err = WrapCaliopenErr(e, http.StatusFailedDependency, "store failed to retrieve remote ids")
+	}
+	return
+}
+
+func (rest *RESTfacility) RetrieveRemoteIdentity(userId, identifier string) (id *RemoteIdentity, err CaliopenError) {
+	return
+}
+
+func (rest *RESTfacility) UpdateRemoteIdentity(identity, oldIdentity *RemoteIdentity, update map[string]interface{}) CaliopenError {
+	return nil
+}
+
+func (rest *RESTfacility) PatchRemoteIdentity(patch []byte, userId, identifier string) CaliopenError {
+	return nil
+}
+
+func (rest *RESTfacility) DeleteRemoteIdentity(userId, identifier string) CaliopenError {
+	return nil
 }

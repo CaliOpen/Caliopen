@@ -33,6 +33,11 @@ type (
 		//identities
 		RetrieveContactIdentities(user_id, contact_id string) (identities []ContactIdentity, err error)
 		RetrieveLocalsIdentities(user_id string) (identities []LocalIdentity, err error)
+		RetrieveRemoteIdentities(userId string) (ids []*RemoteIdentity, err CaliopenError)
+		RetrieveRemoteIdentity(userId, identifier string) (id *RemoteIdentity, err CaliopenError)
+		UpdateRemoteIdentity(identity, oldIdentity *RemoteIdentity, update map[string]interface{}) CaliopenError
+		PatchRemoteIdentity(patch []byte, userId, identifier string) CaliopenError
+		DeleteRemoteIdentity(userId, identifier string) CaliopenError
 		//messages
 		GetMessagesList(filter IndexSearch) (messages []*Message, totalFound int64, err error)
 		GetMessage(user_id, message_id string) (message *Message, err error)

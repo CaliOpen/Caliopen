@@ -12,10 +12,11 @@ import (
 
 type (
 	IdentityStorage interface {
+		RetrieveLocalsIdentities(user_id string) ([]LocalIdentity, error)
 		CreateRemoteIdentity(rId *RemoteIdentity) error
 		RetrieveRemoteIdentity(userId, identifier string) (*RemoteIdentity, error)
 		UpdateRemoteIdentity(rId *RemoteIdentity, fields map[string]interface{}) error
-		RetrieveLocalsIdentities(user_id string) (identities []LocalIdentity, err error)
+		RetrieveRemoteIdentities(userId string) ([]*RemoteIdentity, error)
 		RetrieveAllRemotes() (<-chan *RemoteIdentity, error)
 		Close()
 	}
