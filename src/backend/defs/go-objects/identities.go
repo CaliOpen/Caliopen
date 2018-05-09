@@ -60,7 +60,7 @@ type (
 		LastCheck   time.Time         `cql:"last_check"         json:"last_check"`
 		Status      string            `cql:"status"             json:"status"` // for example : active, inactive, deleted
 		Type        string            `cql:"type"               json:"type"`   // for example : imap, twitter…
-		UserId      UUID              `cql:"user_id"            json:"user_id"`
+		UserId      UUID              `cql:"user_id"            json:"user_id"              frontend:"omit"`
 	}
 )
 

@@ -13,7 +13,7 @@ import (
 	"net/http"
 )
 
-//GET …/identities/{identity_id}
+//GET …/identities/locals/{identity_id}
 func GetLocalIdentity(ctx *gin.Context) {
 	e := swgErr.New(http.StatusNotImplemented, "not implemented")
 	http_middleware.ServeError(ctx.Writer, ctx.Request, e)
@@ -35,4 +35,34 @@ func GetLocalsIdentities(ctx *gin.Context) {
 		LocalsIdentities []objects.LocalIdentity `json:"local_identities"`
 	}{len(identities), identities}
 	ctx.JSON(http.StatusOK, ret)
+}
+
+func GetRemoteIdentities(ctx *gin.Context) {
+	e := swgErr.New(http.StatusNotImplemented, "not implemented")
+	http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+	ctx.Abort()
+}
+
+func GetRemoteIdentity(ctx *gin.Context) {
+	e := swgErr.New(http.StatusNotImplemented, "not implemented")
+	http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+	ctx.Abort()
+}
+
+func NewRemoteIdentity(ctx *gin.Context) {
+	e := swgErr.New(http.StatusNotImplemented, "not implemented")
+	http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+	ctx.Abort()
+}
+
+func PatchRemoteIdentity(ctx *gin.Context) {
+	e := swgErr.New(http.StatusNotImplemented, "not implemented")
+	http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+	ctx.Abort()
+}
+
+func DeleteRemoteIdentity(ctx *gin.Context) {
+	e := swgErr.New(http.StatusNotImplemented, "not implemented")
+	http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+	ctx.Abort()
 }
