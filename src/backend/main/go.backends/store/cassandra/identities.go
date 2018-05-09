@@ -17,7 +17,7 @@ import (
 	"time"
 )
 
-func (cb *CassandraBackend) GetLocalsIdentities(user_id string) (identities []LocalIdentity, err error) {
+func (cb *CassandraBackend) RetrieveLocalsIdentities(user_id string) (identities []LocalIdentity, err error) {
 	user_identities := make(map[string]interface{})
 	err = cb.Session.Query(`SELECT local_identities from user where user_id = ?`, user_id).MapScan(user_identities)
 	if err != nil {

@@ -12,14 +12,14 @@ import (
 	"github.com/satori/go.uuid"
 )
 
-func (rest *RESTfacility) LocalsIdentities(user_id string) ([]LocalIdentity, error) {
-	return rest.store.GetLocalsIdentities(user_id)
+func (rest *RESTfacility) RetrieveLocalsIdentities(user_id string) ([]LocalIdentity, error) {
+	return rest.store.RetrieveLocalsIdentities(user_id)
 }
 
 // get contact from db
 // aggregate contact's identities
 // then update PI for each identity
-func (rest *RESTfacility) ContactIdentities(user_id, contact_id string) (identities []ContactIdentity, err error) {
+func (rest *RESTfacility) RetrieveContactIdentities(user_id, contact_id string) (identities []ContactIdentity, err error) {
 	_, e := uuid.FromString(contact_id)
 	if user_id != "" && contact_id != "" && e == nil {
 		contact, err := rest.store.RetrieveContact(user_id, contact_id)
