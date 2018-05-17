@@ -2,8 +2,9 @@ delivery_agent:
     direct: True
 
 elasticsearch:
-    url: http://es.dev.caliopen.org:9200
     mappings_version: v5
+    url:
+        - http://es.dev.caliopen.org:9200
 
 cassandra:
     keyspace: caliopen
@@ -71,3 +72,6 @@ key_discovery:
 qualifiers:
     geoip:
         file: "{{ geoip2_file }}"
+
+apiV1:
+    strict_patch: false ## if set to false, API will try to silently remove unexpected properties within patch.

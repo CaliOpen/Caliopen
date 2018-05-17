@@ -12,6 +12,7 @@ import pytz
 import json
 import copy
 
+from caliopen_storage.config import Configuration
 from caliopen_storage.exception import NotFound
 from caliopen_main.pi.objects import PIObject
 
@@ -137,6 +138,33 @@ class Message(ObjectIndexable):
     def patch_draft(self, patch, **options):
         """Operation specific to draft, before applying generic patch."""
         try:
+            params = dict(patch)
+        except Exception as exc:
+            log.info(exc)
+            raise err.PatchError(message=exc.message)
+
+        # silently remove unexpected props within patch if not in strict mode
+        strict_patch = Configuration('global').get('apiV1.strict_patch', False)
+        if not strict_patch:
+            allowed_properties = [
+                "body",
+                "subject",
+                "current_state",
+                "participants",
+                "message_id",
+                "identities",
+                "discussion_id",
+                "parent_id"
+            ]
+            for key, value in params.items():
+                if key not in allowed_properties:
+                    del (params[key])
+
+            for key, value in params["current_state"].items():
+                if key not in allowed_properties:
+                    del (params["current_state"][key])
+
+        try:
             self.get_db()
             self.unmarshall_db()
         except Exception as exc:
@@ -147,9 +175,8 @@ class Message(ObjectIndexable):
         if not self.is_draft:
             raise err.PatchUnprocessable(message="this message is not a draft")
         try:
-            params = dict(patch)
             current_state = params.pop("current_state")
-            draft_param = Draft(params)
+            draft_param = Draft(params, strict=strict_patch)
         except Exception as exc:
             log.info(exc)
             raise err.PatchError(message=exc.message)
@@ -207,7 +234,7 @@ class Message(ObjectIndexable):
         # date should reflect last edit time
         current_state["date"] = self.date
         current_state["date_sort"] = self.date_sort
-        validated_params["date"] = validated_params["date_sort"] =\
+        validated_params["date"] = validated_params["date_sort"] = \
             datetime.datetime.now(tz=pytz.utc)
 
         validated_params["current_state"] = current_state
