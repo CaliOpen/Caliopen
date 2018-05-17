@@ -176,7 +176,7 @@ class Message(ObjectIndexable):
             raise err.PatchUnprocessable(message="this message is not a draft")
         try:
             current_state = params.pop("current_state")
-            draft_param = Draft(params, strict=False)
+            draft_param = Draft(params, strict=strict_patch)
         except Exception as exc:
             log.info(exc)
             raise err.PatchError(message=exc.message)
