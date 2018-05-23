@@ -46,7 +46,7 @@ func GetLocalsIdentities(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, ret)
 }
 
-// GetRemoteIdentities handle GET …/identities/remotes
+// GetRemoteIdentities handles GET …/identities/remotes
 func GetRemoteIdentities(ctx *gin.Context) {
 
 	userID, err := operations.NormalizeUUIDstring(ctx.GetString("user_id"))
@@ -73,14 +73,14 @@ func GetRemoteIdentities(ctx *gin.Context) {
 	respBuf.WriteString("\"remote_identities\":[")
 	first := true
 	for _, id := range list {
-		json_contact, err := id.MarshalFrontEnd()
+		json_id, err := id.MarshalFrontEnd()
 		if err == nil {
 			if first {
 				first = false
 			} else {
 				respBuf.WriteByte(',')
 			}
-			respBuf.Write(json_contact)
+			respBuf.Write(json_id)
 		}
 	}
 	respBuf.WriteString("]}")
@@ -88,28 +88,58 @@ func GetRemoteIdentities(ctx *gin.Context) {
 
 }
 
-// GetRemoteIdentity handle GET …/identities/remotes/:identifier
+// GetRemoteIdentity handles GET …/identities/remotes/:identifier
 func GetRemoteIdentity(ctx *gin.Context) {
-	e := swgErr.New(http.StatusNotImplemented, "not implemented")
-	http_middleware.ServeError(ctx.Writer, ctx.Request, e)
-	ctx.Abort()
+	userID, err := operations.NormalizeUUIDstring(ctx.GetString("user_id"))
+	if err != nil {
+		e := swgErr.New(http.StatusUnprocessableEntity, err.Error())
+		http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+		ctx.Abort()
+	}
+	identifier := ctx.Param("identifier")
+	if identifier == "" {
+		e := swgErr.New(http.StatusUnprocessableEntity, "empty identifier")
+		http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+		ctx.Abort()
+		return
+	}
+	identity, e := caliopen.Facilities.RESTfacility.RetrieveRemoteIdentity(userID, identifier)
+	if e != nil {
+		returnedErr := new(swgErr.CompositeError)
+		if e.Code() == NotFoundCaliopenErr {
+			returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusNotFound, "db returned not found"), e, e.Cause())
+		} else {
+			returnedErr = swgErr.CompositeValidationError(e, e.Cause())
+		}
+		http_middleware.ServeError(ctx.Writer, ctx.Request, returnedErr)
+		ctx.Abort()
+	} else {
+		id_json, err := identity.MarshalFrontEnd()
+		if err != nil {
+			e := swgErr.New(http.StatusFailedDependency, err.Error())
+			http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+			ctx.Abort()
+		} else {
+			ctx.Data(http.StatusOK, "application/json; charset=utf-8", id_json)
+		}
+	}
 }
 
-// NewRemoteIdentity handle POST …/identities/remotes
+// NewRemoteIdentity handles POST …/identities/remotes
 func NewRemoteIdentity(ctx *gin.Context) {
 	e := swgErr.New(http.StatusNotImplemented, "not implemented")
 	http_middleware.ServeError(ctx.Writer, ctx.Request, e)
 	ctx.Abort()
 }
 
-// PatchRemoteIdentity handle PATCH …/identities/remotes/:identifier
+// PatchRemoteIdentity handles PATCH …/identities/remotes/:identifier
 func PatchRemoteIdentity(ctx *gin.Context) {
 	e := swgErr.New(http.StatusNotImplemented, "not implemented")
 	http_middleware.ServeError(ctx.Writer, ctx.Request, e)
 	ctx.Abort()
 }
 
-// DeleteRemoteIdentity handle DELETE …/identities/remotes/:identifier
+// DeleteRemoteIdentity handles DELETE …/identities/remotes/:identifier
 func DeleteRemoteIdentity(ctx *gin.Context) {
 	e := swgErr.New(http.StatusNotImplemented, "not implemented")
 	http_middleware.ServeError(ctx.Writer, ctx.Request, e)

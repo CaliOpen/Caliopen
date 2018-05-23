@@ -94,7 +94,6 @@ func (cb *CassandraBackend) UpdateRemoteIdentity(rId *RemoteIdentity, fields map
 }
 
 func (cb *CassandraBackend) RetrieveRemoteIdentities(userId string) (rIds []*RemoteIdentity, err error) {
-	err = errors.New("[cassandra backend] RetrieveRemoteIdentities not implemented")
 	all_ids, err := cb.Session.Query(`SELECT * FROM remote_identity WHERE user_id = ?`, userId).Iter().SliceMap()
 	if err != nil {
 		return

@@ -8,7 +8,7 @@ import (
 	"context"
 	"errors"
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
-	pi "github.com/CaliOpen/Caliopen/src/backend/main/go.main/pi"
+	"github.com/CaliOpen/Caliopen/src/backend/main/go.main/pi"
 	"github.com/satori/go.uuid"
 	"net/http"
 )
@@ -87,6 +87,15 @@ func (rest *RESTfacility) RetrieveRemoteIdentities(userId string) (ids []*Remote
 }
 
 func (rest *RESTfacility) RetrieveRemoteIdentity(userId, identifier string) (id *RemoteIdentity, err CaliopenError) {
+	var e error
+	id, e = rest.store.RetrieveRemoteIdentity(userId, identifier)
+	if e != nil {
+		if e.Error() == "not found" {
+			err = WrapCaliopenErr(e, NotFoundCaliopenErr, "remote identity not found")
+		} else {
+			err = WrapCaliopenErr(e, DbCaliopenErr, "store failed to retrieve remote identity")
+		}
+	}
 	return
 }
 
