@@ -39,6 +39,9 @@ const base = {
         test: /\.jsx?$/,
         include: path.join(__dirname, '../server/'),
         loader: 'babel-loader',
+        options: {
+          plugins: ['dynamic-import-node'],
+        },
       },
       { test: /\.html$/, loader: 'raw-loader' },
     ],
