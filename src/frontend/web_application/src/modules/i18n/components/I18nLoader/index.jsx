@@ -17,12 +17,16 @@ class I18nLoader extends Component {
     children: null,
   };
 
-  state = {
-    catalogs: {},
-  }
+  constructor(props) {
+    super(props);
 
-  componentDidMount() {
-    this.loadCatalog(this.getLanguageFromProps(this.props));
+    const language = this.getLanguageFromProps(props);
+    const catalog = this.loadCatalog(language);
+    const catalogs = catalog ? { [language]: catalog } : {};
+
+    this.state = {
+      catalogs,
+    };
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -30,7 +34,7 @@ class I18nLoader extends Component {
     const { catalogs } = nextState;
 
     if (language !== this.getLanguageFromProps(this.props) && !catalogs[language]) {
-      this.loadCatalog(language);
+      this.updateCatalog(language);
 
       return false;
     }
@@ -43,10 +47,16 @@ class I18nLoader extends Component {
   loadCatalog = async (language) => {
     const catalog = await import(/* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */ `../../../../../locale/${language}/messages.js`);
 
+    return unpackCatalog(catalog);
+  }
+
+  updateCatalog = (language) => {
+    const catalog = this.loadCatalog(language);
+
     this.setState(state => ({
       catalogs: {
         ...state.catalogs,
-        [language]: unpackCatalog(catalog),
+        [language]: catalog,
       },
     }));
   }
