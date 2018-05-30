@@ -19,6 +19,7 @@ import (
 	"github.com/gin-gonic/gin"
 	swgErr "github.com/go-openapi/errors"
 	"github.com/satori/go.uuid"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 )
@@ -156,8 +157,13 @@ func NewRemoteIdentity(ctx *gin.Context) {
 			returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusUnprocessableEntity, "api returned unprocessable error"), apiErr, apiErr.Cause())
 		case DbCaliopenErr:
 			if prevErr, ok := apiErr.Cause().(CaliopenError); ok {
-				if prevErr.Code() == ForbiddenCaliopenErr {
+				switch prevErr.Code() {
+				case ForbiddenCaliopenErr:
 					returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusForbidden, "api returned forbidden error"), apiErr, apiErr.Cause())
+				case NotFoundCaliopenErr:
+					returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusNotFound, "api failed to retrieve in store"), apiErr, apiErr.Cause())
+				default:
+					returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusFailedDependency, "api failed to call store"), apiErr, apiErr.Cause())
 				}
 			} else {
 				returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusFailedDependency, "api failed to call store"), apiErr, apiErr.Cause())
@@ -181,9 +187,60 @@ func NewRemoteIdentity(ctx *gin.Context) {
 
 // PatchRemoteIdentity handles PATCH …/identities/remotes/:identifier
 func PatchRemoteIdentity(ctx *gin.Context) {
-	e := swgErr.New(http.StatusNotImplemented, "not implemented")
-	http_middleware.ServeError(ctx.Writer, ctx.Request, e)
-	ctx.Abort()
+	var err error
+	userId, err := operations.NormalizeUUIDstring(ctx.MustGet("user_id").(string))
+	if err != nil {
+		e := swgErr.New(http.StatusUnprocessableEntity, err.Error())
+		http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+		ctx.Abort()
+		return
+	}
+
+	identifier := ctx.Param("identifier")
+	if identifier == "" {
+		e := swgErr.New(http.StatusBadRequest, "empty identifier")
+		http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+		ctx.Abort()
+		return
+	}
+
+	var patch []byte
+	patch, err = ioutil.ReadAll(ctx.Request.Body)
+	if err != nil {
+		e := swgErr.New(http.StatusUnprocessableEntity, err.Error())
+		http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+		ctx.Abort()
+		return
+	}
+
+	// call REST facility with payload
+	apiErr := caliopen.Facilities.RESTfacility.PatchRemoteIdentity(patch, userId, identifier)
+	if apiErr != nil {
+		returnedErr := new(swgErr.CompositeError)
+		switch apiErr.Code() {
+		case UnprocessableCaliopenErr:
+			returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusUnprocessableEntity, "api returned unprocessable error"), apiErr, apiErr.Cause())
+		case DbCaliopenErr:
+			if prevErr, ok := apiErr.Cause().(CaliopenError); ok {
+				switch prevErr.Code() {
+				case ForbiddenCaliopenErr:
+					returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusForbidden, "api returned forbidden error"), apiErr, apiErr.Cause())
+				case NotFoundCaliopenErr:
+					returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusNotFound, "api failed to retrieve in store"), apiErr, apiErr.Cause())
+				default:
+					returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusFailedDependency, "api failed to call store"), apiErr, apiErr.Cause())
+				}
+			} else {
+				returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusFailedDependency, "api failed to call store"), apiErr, apiErr.Cause())
+			}
+		default:
+			returnedErr = swgErr.CompositeValidationError(apiErr, apiErr.Cause())
+		}
+		http_middleware.ServeError(ctx.Writer, ctx.Request, returnedErr)
+		ctx.Abort()
+	} else {
+		ctx.Status(http.StatusNoContent)
+	}
 }
 
 // DeleteRemoteIdentity handles DELETE …/identities/remotes/:identifier
