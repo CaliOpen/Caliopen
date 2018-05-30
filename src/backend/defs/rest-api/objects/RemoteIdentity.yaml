@@ -16,4 +16,7 @@ properties:
     type: string
   type:
     type: string
+required:
+- infos
+- type
 

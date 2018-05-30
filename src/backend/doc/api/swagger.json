@@ -2384,7 +2384,11 @@
                       "type": {
                         "type": "string"
                       }
-                    }
+                    },
+                    "required": [
+                      "infos",
+                      "type"
+                    ]
                   }
                 }
               }
@@ -2458,7 +2462,11 @@
                 "type": {
                   "type": "string"
                 }
-              }
+              },
+              "required": [
+                "infos",
+                "type"
+              ]
             }
           }
         ],
@@ -2534,7 +2542,11 @@
                 "type": {
                   "type": "string"
                 }
-              }
+              },
+              "required": [
+                "infos",
+                "type"
+              ]
             }
           },
           "401": {
