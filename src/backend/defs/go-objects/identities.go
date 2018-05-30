@@ -6,6 +6,7 @@ package objects
 
 import (
 	"bytes"
+	"encoding/json"
 	"github.com/gocql/gocql"
 	"github.com/satori/go.uuid"
 	"time"
@@ -54,12 +55,12 @@ type (
 
 	//struct to store external user accounts
 	RemoteIdentity struct {
-		DisplayName string            `cql:"display_name"       json:"display_name"`
-		Identifier  string            `cql:"identifier"         json:"identifier"`
-		Infos       map[string]string `cql:"infos"              json:"infos"`
+		DisplayName string            `cql:"display_name"       json:"display_name"                                     patch:"user"`
+		Identifier  string            `cql:"identifier"         json:"identifier"                                       patch:"user"`
+		Infos       map[string]string `cql:"infos"              json:"infos"                                            patch:"user"`
 		LastCheck   time.Time         `cql:"last_check"         json:"last_check"           formatter:"RFC3339Milli"`
-		Status      string            `cql:"status"             json:"status"` // for example : active, inactive, deleted
-		Type        string            `cql:"type"               json:"type"`   // for example : imap, twitter…
+		Status      string            `cql:"status"             json:"status"                                           patch:"user"` // for example : active, inactive, deleted
+		Type        string            `cql:"type"               json:"type"                                             patch:"user"` // for example : imap, twitter…
 		UserId      UUID              `cql:"user_id"            json:"user_id"              frontend:"omit"`
 	}
 )
@@ -112,6 +113,55 @@ func (ri *RemoteIdentity) NewEmpty() interface{} {
 	nri := new(RemoteIdentity)
 	nri.Infos = map[string]string{}
 	return nri
+}
+
+func (ri *RemoteIdentity) UnmarshalJSON(b []byte) error {
+	input := map[string]interface{}{}
+	if err := json.Unmarshal(b, &input); err != nil {
+		return err
+	}
+
+	return ri.UnmarshalMap(input)
+}
+
+func (ri *RemoteIdentity) UnmarshalMap(input map[string]interface{}) error {
+	if dn, ok := input["display_name"].(string); ok {
+		ri.DisplayName = dn
+	}
+	if identifier, ok := input["identifier"].(string); ok {
+		ri.Identifier = identifier
+	}
+	if infos, ok := input["infos"].(map[string]interface{}); ok {
+		ri.Infos = make(map[string]string)
+		for k, v := range infos {
+			ri.Infos[k] = v.(string)
+		}
+	}
+
+	if lc, ok := input["last_check"]; ok {
+		ri.LastCheck, _ = time.Parse(time.RFC3339Nano, lc.(string))
+	}
+	if status, ok := input["status"].(string); ok {
+		ri.Status = status
+	}
+	if t, ok := input["type"].(string); ok {
+		ri.Type = t
+	}
+
+	if userid, ok := input["user_id"].(string); ok {
+		if id, err := uuid.FromString(userid); err == nil {
+			ri.UserId.UnmarshalBinary(id.Bytes())
+		}
+	}
+	return nil
+}
+
+func (ri *RemoteIdentity) JsonTags() (tags map[string]string) {
+	return jsonTags(ri)
+}
+
+func (ri *RemoteIdentity) SortSlices() {
+	//no slice to sort
 }
 
 // ensure mandatory properties are set, also default values.
