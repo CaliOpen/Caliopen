@@ -166,5 +166,19 @@ func (rest *RESTfacility) PatchRemoteIdentity(patch []byte, userId, identifier s
 }
 
 func (rest *RESTfacility) DeleteRemoteIdentity(userId, identifier string) CaliopenError {
+	remoteID, err1 := rest.RetrieveRemoteIdentity(userId, identifier)
+	if err1 != nil {
+		if err1.Error() == "not found" {
+			return WrapCaliopenErr(err1, NotFoundCaliopenErr, "remote identity not found")
+		} else {
+			return WrapCaliopenErr(err1, DbCaliopenErr, "store failed to retrieve remote identity")
+		}
+	}
+
+	err2 := rest.store.DeleteRemoteIdentity(remoteID)
+	if err2 != nil {
+		return WrapCaliopenErrf(err2, DbCaliopenErr, "[RESTfacility DeleteRemoteIdentity failed to delete in store")
+	}
+
 	return nil
 }

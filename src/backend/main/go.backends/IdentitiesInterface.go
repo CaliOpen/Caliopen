@@ -16,6 +16,7 @@ type (
 		CreateRemoteIdentity(rId *RemoteIdentity) CaliopenError
 		RetrieveRemoteIdentity(userId, identifier string) (*RemoteIdentity, error)
 		UpdateRemoteIdentity(rId *RemoteIdentity, fields map[string]interface{}) error
+		DeleteRemoteIdentity(rId *RemoteIdentity) error
 		RetrieveRemoteIdentities(userId string) ([]*RemoteIdentity, error)
 		RetrieveAllRemotes() (<-chan *RemoteIdentity, error)
 		Close()

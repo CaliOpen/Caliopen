@@ -146,3 +146,7 @@ func (cb *CassandraBackend) RetrieveAllRemotes() (<-chan *RemoteIdentity, error)
 
 	return ch, nil
 }
+
+func (cb *CassandraBackend) DeleteRemoteIdentity(rId *RemoteIdentity) error {
+	return cb.Session.Query(`DELETE FROM remote_identity WHERE user_id = ? AND identifier = ?`, rId.UserId, rId.Identifier).Exec()
+}
