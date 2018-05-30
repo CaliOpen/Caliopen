@@ -18,6 +18,7 @@ import (
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.main"
 	"github.com/gin-gonic/gin"
 	swgErr "github.com/go-openapi/errors"
+	"github.com/satori/go.uuid"
 	"net/http"
 	"strconv"
 )
@@ -127,9 +128,46 @@ func GetRemoteIdentity(ctx *gin.Context) {
 
 // NewRemoteIdentity handles POST …/identities/remotes
 func NewRemoteIdentity(ctx *gin.Context) {
-	e := swgErr.New(http.StatusNotImplemented, "not implemented")
-	http_middleware.ServeError(ctx.Writer, ctx.Request, e)
-	ctx.Abort()
+	// check payload
+	user_id := ctx.MustGet("user_id").(string)
+	userID, err := operations.NormalizeUUIDstring(user_id)
+	if err != nil {
+		e := swgErr.New(http.StatusUnprocessableEntity, err.Error())
+		http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+		ctx.Abort()
+		return
+	}
+	identity := new(RemoteIdentity)
+	identity.MarshallNew()
+	err = ctx.ShouldBindJSON(identity)
+	if err != nil {
+		e := swgErr.New(http.StatusUnprocessableEntity, err.Error())
+		http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+		ctx.Abort()
+		return
+	}
+	identity.UserId.UnmarshalBinary(uuid.FromStringOrNil(userID).Bytes())
+	// call api
+	apiErr := caliopen.Facilities.RESTfacility.CreateRemoteIdentity(identity)
+	if apiErr != nil {
+		returnedErr := new(swgErr.CompositeError)
+		if apiErr.Code() == UnprocessableCaliopenErr {
+			returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusUnprocessableEntity, "api returned unprocessable error"), apiErr, apiErr.Cause())
+		} else {
+			returnedErr = swgErr.CompositeValidationError(apiErr, apiErr.Cause())
+		}
+		http_middleware.ServeError(ctx.Writer, ctx.Request, returnedErr)
+		ctx.Abort()
+	} else {
+		ctx.JSON(http.StatusOK, struct {
+			Location   string `json:"location"`
+			Identifier string `json:"identifier"`
+		}{
+			http_middleware.RoutePrefix + http_middleware.IdentitiesRoute + "/" + identity.UserId.String() + "/" + identity.Identifier,
+			identity.Identifier,
+		})
+	}
+	return
 }
 
 // PatchRemoteIdentity handles PATCH …/identities/remotes/:identifier

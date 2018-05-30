@@ -123,7 +123,6 @@ func (cb *CassandraBackend) RetrieveAllRemotes() (<-chan *RemoteIdentity, error)
 				break
 			}
 			rId := new(RemoteIdentity)
-			rId.SetDefaultInfos()
 			rId.UnmarshalCQLMap(remoteID)
 			select {
 			case ch <- rId:

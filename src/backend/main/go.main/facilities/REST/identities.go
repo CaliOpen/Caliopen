@@ -5,6 +5,7 @@
 package REST
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
@@ -84,6 +85,32 @@ func (rest *RESTfacility) RetrieveRemoteIdentities(userId string) (ids []*Remote
 		err = WrapCaliopenErr(e, http.StatusFailedDependency, "store failed to retrieve remote ids")
 	}
 	return
+}
+
+func (rest *RESTfacility) CreateRemoteIdentity(identity *RemoteIdentity) CaliopenError {
+
+	// check if mandatory properties are ok
+	if len(identity.UserId) == 0 || (bytes.Equal(identity.UserId.Bytes(), EmptyUUID.Bytes())) {
+		return NewCaliopenErr(UnprocessableCaliopenErr, "[CreateRemoteIdentity] empty user id")
+	}
+	if identity.Type == "" {
+		return NewCaliopenErr(UnprocessableCaliopenErr, "[CreateRemoteIdentity] empty remote identity.type")
+	}
+
+	// set defaults
+	identity.SetDefaultsInfos()
+
+	// identifier should not be empty at this stage
+	if identity.Identifier == "" {
+		return NewCaliopenErr(UnprocessableCaliopenErr, "[CreateRemoteIdentity] empty remote identity.identifier")
+	}
+
+	err := rest.store.CreateRemoteIdentity(identity)
+	if err != nil {
+		return WrapCaliopenErr(err, DbCaliopenErr, "[CreateRemoteIdentity] CreateRemoteIdentity failed to create identity in store")
+	}
+
+	return nil
 }
 
 func (rest *RESTfacility) RetrieveRemoteIdentity(userId, identifier string) (id *RemoteIdentity, err CaliopenError) {

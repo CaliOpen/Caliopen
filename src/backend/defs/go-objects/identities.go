@@ -114,16 +114,55 @@ func (ri *RemoteIdentity) NewEmpty() interface{} {
 	return nri
 }
 
-// SetDefaultInfos fill Infos properties map with default keys and values
-func (ri *RemoteIdentity) SetDefaultInfos() {
-	(*ri).Infos = map[string]string{
-		"lastseenuid":  "",
-		"lastsync":     "",   // RFC3339 date string
-		"password":     "",   // credentials, SHOULD NOT BE HERE !! TODO.
-		"pollinterval": "15", // how often remote account should be polled, in minutes.
-		"server":       "",   // server hostname[|port]
-		"uidvalidity":  "",   // uidvalidity to invalidate data if needed (see RFC4549#section-4.1)
-		"username":     "",   // credentials
+// ensure mandatory properties are set, also default values.
+func (ri *RemoteIdentity) MarshallNew(args ...interface{}) {
+	if len(ri.UserId) == 0 || (bytes.Equal(ri.UserId.Bytes(), EmptyUUID.Bytes())) {
+		if len(args) == 1 {
+			switch args[0].(type) {
+			case UUID:
+				ri.UserId = args[0].(UUID)
+			}
+		}
+	}
+}
+
+// SetDefaults fills `Infos` map with default keys and values according to the type of the remote identity
+func (ri *RemoteIdentity) SetDefaultsInfos() {
+	defaults := map[string]string{}
+
+	switch ri.Type {
+	case "imap":
+		defaults = map[string]string{
+			"lastseenuid":  "",
+			"lastsync":     "",   // RFC3339 date string
+			"password":     "",   // credentials, SHOULD NOT BE HERE !! TODO.
+			"pollinterval": "15", // how often remote account should be polled, in minutes.
+			"server":       "",   // server hostname[|port]
+			"uidvalidity":  "",   // uidvalidity to invalidate data if needed (see RFC4549#section-4.1)
+			"username":     "",   // credentials
+		}
+	}
+
+	if ri.Infos == nil {
+		(*ri).Infos = defaults
+	} else {
+		for default_key, default_value := range defaults {
+			if v, ok := ri.Infos[default_key]; !ok || v == "" {
+				(*ri).Infos[default_key] = default_value
+			}
+		}
+	}
+
+	if ri.Status == "" {
+		(*ri).Status = "active"
+	}
+
+	// try to set identifier if it is missing
+	if ri.Identifier == "" {
+		switch ri.Type {
+		case "imap":
+			(*ri).Identifier = ri.Infos["username"]
+		}
 	}
 }
 

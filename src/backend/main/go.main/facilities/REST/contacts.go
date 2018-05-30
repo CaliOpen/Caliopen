@@ -69,8 +69,6 @@ func (rest *RESTfacility) CreateContact(contact *Contact) (err error) {
 	}(contact)
 
 	return nil
-
-	//return rest.store.CreateContact(contact)
 }
 
 // RetrieveContacts returns contacts from index given filter params

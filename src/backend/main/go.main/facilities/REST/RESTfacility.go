@@ -33,6 +33,7 @@ type (
 		//identities
 		RetrieveContactIdentities(user_id, contact_id string) (identities []ContactIdentity, err error)
 		RetrieveLocalsIdentities(user_id string) (identities []LocalIdentity, err error)
+		CreateRemoteIdentity(identity *RemoteIdentity) CaliopenError
 		RetrieveRemoteIdentities(userId string) (ids []*RemoteIdentity, err CaliopenError)
 		RetrieveRemoteIdentity(userId, identifier string) (id *RemoteIdentity, err CaliopenError)
 		UpdateRemoteIdentity(identity, oldIdentity *RemoteIdentity, update map[string]interface{}) CaliopenError
