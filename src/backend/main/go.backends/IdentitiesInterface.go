@@ -13,7 +13,7 @@ import (
 type (
 	IdentityStorage interface {
 		RetrieveLocalsIdentities(user_id string) ([]LocalIdentity, error)
-		CreateRemoteIdentity(rId *RemoteIdentity) error
+		CreateRemoteIdentity(rId *RemoteIdentity) CaliopenError
 		RetrieveRemoteIdentity(userId, identifier string) (*RemoteIdentity, error)
 		UpdateRemoteIdentity(rId *RemoteIdentity, fields map[string]interface{}) error
 		RetrieveRemoteIdentities(userId string) ([]*RemoteIdentity, error)

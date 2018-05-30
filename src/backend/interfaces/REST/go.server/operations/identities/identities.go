@@ -151,9 +151,18 @@ func NewRemoteIdentity(ctx *gin.Context) {
 	apiErr := caliopen.Facilities.RESTfacility.CreateRemoteIdentity(identity)
 	if apiErr != nil {
 		returnedErr := new(swgErr.CompositeError)
-		if apiErr.Code() == UnprocessableCaliopenErr {
+		switch apiErr.Code() {
+		case UnprocessableCaliopenErr:
 			returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusUnprocessableEntity, "api returned unprocessable error"), apiErr, apiErr.Cause())
-		} else {
+		case DbCaliopenErr:
+			if prevErr, ok := apiErr.Cause().(CaliopenError); ok {
+				if prevErr.Code() == ForbiddenCaliopenErr {
+					returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusForbidden, "api returned forbidden error"), apiErr, apiErr.Cause())
+				}
+			} else {
+				returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusFailedDependency, "api failed to call store"), apiErr, apiErr.Cause())
+			}
+		default:
 			returnedErr = swgErr.CompositeValidationError(apiErr, apiErr.Cause())
 		}
 		http_middleware.ServeError(ctx.Writer, ctx.Request, returnedErr)
