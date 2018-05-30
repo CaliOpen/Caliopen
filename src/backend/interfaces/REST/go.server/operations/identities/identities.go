@@ -22,6 +22,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 //GET …/identities/locals/{identity_id}
@@ -147,7 +148,11 @@ func NewRemoteIdentity(ctx *gin.Context) {
 		ctx.Abort()
 		return
 	}
+	// add UserId
 	identity.UserId.UnmarshalBinary(uuid.FromStringOrNil(userID).Bytes())
+	// reset forbidden property
+	identity.LastCheck = time.Time{}
+
 	// call api
 	apiErr := caliopen.Facilities.RESTfacility.CreateRemoteIdentity(identity)
 	if apiErr != nil {
