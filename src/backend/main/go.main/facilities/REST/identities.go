@@ -128,6 +128,10 @@ func (rest *RESTfacility) RetrieveRemoteIdentity(userId, identifier string) (id 
 }
 
 func (rest *RESTfacility) UpdateRemoteIdentity(identity, oldIdentity *RemoteIdentity, update map[string]interface{}) CaliopenError {
+	err := rest.store.UpdateRemoteIdentity(identity, update)
+	if err != nil {
+		return WrapCaliopenErr(err, DbCaliopenErr, "[RESTfacility] UpdateRemoteIdentity fails to call store")
+	}
 	return nil
 }
 

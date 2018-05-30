@@ -132,6 +132,17 @@ func (ri *RemoteIdentity) UnmarshalMap(input map[string]interface{}) error {
 		ri.Identifier = identifier
 	}
 	if infos, ok := input["infos"].(map[string]interface{}); ok {
+		/*
+			// create a new map, fill it with current values if any, then with values from input,
+			// at last replace current map with new one.
+			newMap := make(map[string]string)
+			for k, v := range ri.Infos {
+				newMap[k] = v
+			}
+			for k, v := range infos {
+				newMap[k] = v.(string)
+			}
+			ri.Infos = newMap*/
 		ri.Infos = make(map[string]string)
 		for k, v := range infos {
 			ri.Infos[k] = v.(string)
