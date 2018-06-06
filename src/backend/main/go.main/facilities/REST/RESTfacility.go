@@ -22,7 +22,6 @@ import (
 type (
 	RESTservices interface {
 		UsernameIsAvailable(string) (bool, error)
-		LocalsIdentities(user_id string) (identities []LocalIdentity, err error)
 		SuggestRecipients(user_id, query_string string) (suggests []RecipientSuggestion, err error)
 		GetSettings(user_id string) (settings *Settings, err error)
 		//contacts
@@ -32,7 +31,15 @@ type (
 		UpdateContact(contact, oldContact *Contact, update map[string]interface{}) error
 		PatchContact(patch []byte, userID, contactID string) error
 		DeleteContact(userID, contactID string) error
-		ContactIdentities(user_id, contact_id string) (identities []ContactIdentity, err error)
+		//identities
+		RetrieveContactIdentities(user_id, contact_id string) (identities []ContactIdentity, err error)
+		RetrieveLocalsIdentities(user_id string) (identities []LocalIdentity, err error)
+		CreateRemoteIdentity(identity *RemoteIdentity) CaliopenError
+		RetrieveRemoteIdentities(userId string) (ids []*RemoteIdentity, err CaliopenError)
+		RetrieveRemoteIdentity(userId, identifier string) (id *RemoteIdentity, err CaliopenError)
+		UpdateRemoteIdentity(identity, oldIdentity *RemoteIdentity, update map[string]interface{}) CaliopenError
+		PatchRemoteIdentity(patch []byte, userId, identifier string) CaliopenError
+		DeleteRemoteIdentity(userId, identifier string) CaliopenError
 		//messages
 		GetMessagesList(filter IndexSearch) (messages []*Message, totalFound int64, err error)
 		GetMessage(user_id, message_id string) (message *Message, err error)

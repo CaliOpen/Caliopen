@@ -12,10 +12,12 @@ import (
 
 type (
 	IdentityStorage interface {
-		CreateRemoteIdentity(rId *RemoteIdentity) error
+		RetrieveLocalsIdentities(user_id string) ([]LocalIdentity, error)
+		CreateRemoteIdentity(rId *RemoteIdentity) CaliopenError
 		RetrieveRemoteIdentity(userId, identifier string) (*RemoteIdentity, error)
 		UpdateRemoteIdentity(rId *RemoteIdentity, fields map[string]interface{}) error
-		GetLocalsIdentities(user_id string) (identities []LocalIdentity, err error)
+		DeleteRemoteIdentity(rId *RemoteIdentity) error
+		RetrieveRemoteIdentities(userId string) ([]*RemoteIdentity, error)
 		RetrieveAllRemotes() (<-chan *RemoteIdentity, error)
 		Close()
 	}

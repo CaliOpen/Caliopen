@@ -10,6 +10,7 @@ import (
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/contacts"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/devices"
+	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/identities"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/messages"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/notifications"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/participants"
@@ -178,9 +179,15 @@ func (server *REST_API) AddHandlers(api *gin.RouterGroup) {
 	usrs.PATCH("/:user_id", users.PatchUser)
 	usrs.POST("/:user_id/actions", users.Delete)
 
-	identities := api.Group(http_middleware.IdentitiesRoute, http_middleware.BasicAuthFromCache(caliopen.Facilities.Cache, "caliopen"))
-	identities.GET("/locals", users.GetLocalsIdentities)
-	identities.GET("/locals/:identity_id", users.GetLocalIdentity)
+	/** identities **/
+	ids := api.Group(http_middleware.IdentitiesRoute, http_middleware.BasicAuthFromCache(caliopen.Facilities.Cache, "caliopen"))
+	ids.GET("/locals", identities.GetLocalsIdentities)
+	ids.GET("/locals/:identity_id", identities.GetLocalIdentity)
+	ids.GET("/remotes", identities.GetRemoteIdentities)
+	ids.POST("/remotes", identities.NewRemoteIdentity)
+	ids.GET("/remotes/:identifier", identities.GetRemoteIdentity)
+	ids.PATCH("/remotes/:identifier", identities.PatchRemoteIdentity)
+	ids.DELETE("/remotes/:identifier", identities.DeleteRemoteIdentity)
 
 	/** passwords API **/
 	passwords := api.Group("/passwords")

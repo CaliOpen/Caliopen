@@ -17,7 +17,7 @@ import (
 	"time"
 )
 
-func (cb *CassandraBackend) GetLocalsIdentities(user_id string) (identities []LocalIdentity, err error) {
+func (cb *CassandraBackend) RetrieveLocalsIdentities(user_id string) (identities []LocalIdentity, err error) {
 	user_identities := make(map[string]interface{})
 	err = cb.Session.Query(`SELECT local_identities from user where user_id = ?`, user_id).MapScan(user_identities)
 	if err != nil {
@@ -43,16 +43,26 @@ func (cb *CassandraBackend) GetLocalsIdentities(user_id string) (identities []Lo
 	return
 }
 
-func (cb *CassandraBackend) CreateRemoteIdentity(rId *RemoteIdentity) error {
+func (cb *CassandraBackend) CreateRemoteIdentity(rId *RemoteIdentity) CaliopenError {
 
 	ridT := cb.IKeyspace.Table("remote_identity", &RemoteIdentity{}, gocassa.Keys{
 		PartitionKeys: []string{"user_id", "identifier"},
 	}).WithOptions(gocassa.Options{TableName: "remote_identity"})
 
-	//save remote identity
-	err := ridT.Set(rId).Run()
+	//check if remote already exist
+	var count int
+	err := cb.Session.Query(`SELECT count(*) from remote_identity WHERE user_id = ? AND identifier = ?`, rId.UserId, rId.Identifier).Scan(&count)
 	if err != nil {
-		return fmt.Errorf("[CassandraBackend] CreateRemoteIdentity: %s", err)
+		return WrapCaliopenErr(err, DbCaliopenErr, "[CassandraBackend] CreateRemoteIdentity fails")
+	}
+	if count != 0 {
+		return NewCaliopenErrf(ForbiddenCaliopenErr, "[CassandraBackend] CreateRemoteIdentity error : remote identity <%s> already exist for user <%s>", rId.Identifier, rId.UserId.String())
+	}
+
+	//save remote identity
+	err = ridT.Set(rId).Run()
+	if err != nil {
+		return WrapCaliopenErr(err, DbCaliopenErr, "[CassandraBackend] CreateRemoteIdentity fails")
 	}
 
 	return nil
@@ -93,6 +103,23 @@ func (cb *CassandraBackend) UpdateRemoteIdentity(rId *RemoteIdentity, fields map
 		Update(cassaFields).Run()
 }
 
+func (cb *CassandraBackend) RetrieveRemoteIdentities(userId string) (rIds []*RemoteIdentity, err error) {
+	all_ids, err := cb.Session.Query(`SELECT * FROM remote_identity WHERE user_id = ?`, userId).Iter().SliceMap()
+	if err != nil {
+		return
+	}
+	if len(all_ids) == 0 {
+		err = errors.New("ids not found")
+	}
+	for _, identity := range all_ids {
+		id := new(RemoteIdentity).NewEmpty().(*RemoteIdentity)
+		id.UnmarshalCQLMap(identity)
+		rIds = append(rIds, id)
+	}
+	return
+}
+
+// RetrieveAllRemotes returns a chan to range over all remote identities found in db
 func (cb *CassandraBackend) RetrieveAllRemotes() (<-chan *RemoteIdentity, error) {
 
 	ch := make(chan *RemoteIdentity)
@@ -106,7 +133,6 @@ func (cb *CassandraBackend) RetrieveAllRemotes() (<-chan *RemoteIdentity, error)
 				break
 			}
 			rId := new(RemoteIdentity)
-			rId.SetDefaultInfos()
 			rId.UnmarshalCQLMap(remoteID)
 			select {
 			case ch <- rId:
@@ -119,4 +145,8 @@ func (cb *CassandraBackend) RetrieveAllRemotes() (<-chan *RemoteIdentity, error)
 	}(cb, ch)
 
 	return ch, nil
+}
+
+func (cb *CassandraBackend) DeleteRemoteIdentity(rId *RemoteIdentity) error {
+	return cb.Session.Query(`DELETE FROM remote_identity WHERE user_id = ? AND identifier = ?`, rId.UserId, rId.Identifier).Exec()
 }

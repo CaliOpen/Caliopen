@@ -53,7 +53,6 @@ func UpdateWithPatch(patch []byte, obj ObjectPatchable, actor Initiator) (newObj
 
 	// copy fields that have been validated and modified into the map that will be returned.
 	modifiedFields = map[string]interface{}{}
-
 	for key, _ := range p.fieldsInPatch {
 		fieldName := p.jsonMap[key]
 		if value, ok := validatedFields[fieldName]; ok {
@@ -84,7 +83,7 @@ func buildPatch(rawPatch []byte, dbState ObjectPatchable, actor Initiator) (*pat
 
 	// get raw 'current_state' from patch and apply it to currentState object
 	patch.currentState = dbState.NewEmpty().(ObjectPatchable)
-	reflect.ValueOf(patch.currentState).Elem().Set(reflect.ValueOf(dbState).Elem())
+	reflect.ValueOf(patch.currentState).Elem().Set(reflect.ValueOf(dbState).Elem()) // now patch.currentState has same kind than object counterpart
 
 	patch.fieldsInCurrentState = patch.fieldsInPatch["current_state"].(map[string]interface{})
 	err = patch.currentState.UnmarshalMap(patch.fieldsInCurrentState)
@@ -100,7 +99,6 @@ func buildPatch(rawPatch []byte, dbState ObjectPatchable, actor Initiator) (*pat
 	if err != nil {
 		return nil, err
 	}
-
 	return &patch, nil
 }
 

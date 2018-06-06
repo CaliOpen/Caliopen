@@ -11,8 +11,7 @@ import (
 type APIStorage interface {
 	AttachmentStorage
 	ContactStorage
-	//identities
-	GetLocalsIdentities(user_id string) (identities []LocalIdentity, err error)
+	IdentityStorage
 	MessageStorage
 	TagsStorage
 	UserNameStorage

@@ -5,9 +5,24 @@ properties:
     type: string
   identifier:
     type: string
+  infos:          # set of key/value strings
+    type: object
+    additionalProperties:
+      type: string
+  last_check:
+    type: string
+    format: date-time
   status:
     type: string
+    enum:
+    - active
+    - inactive
+    - deleted
   type:
     type: string
-  infos:
-    type: object
+    enum:
+    - imap
+required:
+- infos
+- type
+
