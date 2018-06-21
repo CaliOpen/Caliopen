@@ -60,6 +60,7 @@ func NewWorker(config WorkerConfig, id uint8) (worker *Worker, err error) {
 			Keyspace:    config.StoreConfig.Keyspace,
 			Consistency: gocql.Consistency(config.StoreConfig.Consistency),
 			SizeLimit:   config.StoreConfig.SizeLimit,
+			UseVault:    config.StoreConfig.UseVault,
 		}
 		if config.StoreConfig.ObjectStore == "s3" {
 			c.WithObjStore = true
@@ -69,6 +70,11 @@ func NewWorker(config WorkerConfig, id uint8) (worker *Worker, err error) {
 			c.RawMsgBucket = config.StoreConfig.OSSConfig.Buckets["raw_messages"]
 			c.AttachmentBucket = config.StoreConfig.OSSConfig.Buckets["temporary_attachments"]
 			c.Location = config.StoreConfig.OSSConfig.Location
+		}
+		if c.UseVault {
+			c.Url = config.StoreConfig.VaultConfig.Url
+			c.Username = config.StoreConfig.VaultConfig.Username
+			c.Password = config.StoreConfig.VaultConfig.Password
 		}
 		w.Store, err = store.InitializeCassandraBackend(c)
 		if err != nil {

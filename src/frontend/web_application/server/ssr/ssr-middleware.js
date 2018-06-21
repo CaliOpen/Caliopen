@@ -1,6 +1,7 @@
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const DocumentTitle = require('react-document-title');
+const serialize = require('serialize-javascript');
 const Bootstrap = require('./components/Bootstrap').default;
 const configureStore = require('../../src/store/configure-store').default;
 const { getUserLocales } = require('../../src/services/i18n');
@@ -25,10 +26,7 @@ function getMarkup({ store, context, location }) {
 
     return [
       { key: '</title>', value: `${documentTitle}</title>` },
-      // XXX: the serialize here is vulnerable to xss. We are not affected since we have absolutly
-      // no prefetch or variable injection
-      // cf. https://github.com/yahoo/serialize-javascript#automatic-escaping-of-html-characters
-      { key: '</head>', value: `<script>window.__STORE__ = ${JSON.stringify(initialState)};</script></head>` },
+      { key: '</head>', value: `<script>window.__STORE__ = ${serialize(initialState)};</script></head>` },
       { key: '%MARKUP%', value: markup },
     ].reduce((str, current) => str.replace(current.key, current.value), template);
   } catch (e) {

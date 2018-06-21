@@ -18,6 +18,9 @@ RUN python ez_setup.py
 # Some package must be installed using pip and upgraded to latest
 RUN pip install --upgrade pip
 RUN pip install --upgrade pyasn1
+# The debian python openssl version is from dinosaur era
+RUN pip uninstall -y pyopenssl
+RUN pip install pyopenssl
 
 # Install some packages using pip to get benefit from docker layer cache
 RUN pip install cassandra-driver==3.4.1
@@ -30,13 +33,13 @@ ADD . /srv/caliopen/src/backend
 
 # Install Caliopen base packages
 WORKDIR /srv/caliopen/src/backend/main/py.storage
-RUN python setup.py develop
+RUN pip install -e .
 WORKDIR /srv/caliopen/src/backend/components/py.pi
-RUN python setup.py develop
+RUN pip install -e .
 WORKDIR /srv/caliopen/src/backend/main/py.main
-RUN python setup.py develop
+RUN pip install -e .
 WORKDIR /srv/caliopen/src/backend/components/py.pgp
-RUN python setup.py develop
+RUN pip install -e .
 
 ## Container specific installation part
 RUN pip install tornado==4.2
@@ -44,7 +47,7 @@ RUN pip install nats-client
 
 # Install python backend packages in develop mode
 WORKDIR /srv/caliopen/src/backend/interfaces/NATS/py.client
-RUN python setup.py develop
+RUN pip install -e .
 
 WORKDIR /srv/caliopen/src/backend/interfaces/NATS/py.client/caliopen_nats
 CMD ["python", "listener.py", "-f", "/srv/caliopen/src/backend/configs/caliopen-docker.yaml"]

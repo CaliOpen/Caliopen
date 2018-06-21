@@ -53,8 +53,8 @@ export const getPublicDevice = ({ id, keypair }) => {
     ecdsa_key: {
       curve: CURVE_TYPE_ASSOC[CURVE_TYPE],
       hash: HASH_NAME,
-      x: pub.x.toString('hex'),
-      y: pub.y.toString('hex'),
+      x: pub.getX().toString('hex'),
+      y: pub.getY().toString('hex'),
     },
   };
 };

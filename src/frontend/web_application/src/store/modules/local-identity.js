@@ -29,7 +29,7 @@ export function requestLocalIdentities() {
 const initialState = {
   isFetching: false,
   didInvalidate: false,
-  localIdentitiesById: [],
+  localIdentities: [],
   total: 0,
 };
 
@@ -43,10 +43,6 @@ export default function reducer(state = initialState, action) {
         isFetching: false,
         didInvalidate: false,
         localIdentities: state.didInvalidate === true ? [] : action.payload.data.local_identities,
-        // localIdentitiesById: localIdentitiesByIdReducer(
-        //   state.didInvalidate === true ? {} : state.localIdentitiesById,
-        //   action
-        // ),
         total: action.payload.data.total,
       };
     case INVALIDATE:

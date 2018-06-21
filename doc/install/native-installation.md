@@ -61,4 +61,12 @@ Will produce a caliopen_lmtp binary from where this command is launched inside t
 
 ## Python developments for CaliOpen
 
-**// FIXME**
+You will need a local virtualenv than can be setup using the `devtools/setup-virtualenv.sh` script.
+
+To start the apiv1 service and develop on it, you can use the pyramid pserve command to start a local
+http server that will be restarted each time you update part of the code.
+
+```
+cd src/backend
+pserve configs/caliopen-api.docker.ini --reload
+```

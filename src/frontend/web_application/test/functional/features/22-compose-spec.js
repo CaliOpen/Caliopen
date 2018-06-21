@@ -1,5 +1,6 @@
 const userUtil = require('../utils/user-util');
 const { home } = require('../utils/navigation');
+const { filter } = require('../utils/timeline');
 
 describe('Compose new message', () => {
   const EC = protractor.ExpectedConditions;
@@ -60,6 +61,7 @@ describe('Compose new message', () => {
       const draftBodyElement2 = element(by.css('.m-discussion-textarea__body'));
       expect(draftBodyElement2.getText()).toEqual(text1);
       await element(by.cssContainingText('.m-navbar-item__content', 'Messages')).click();
+      await filter('All');
       await browser.wait(EC.presenceOf($('.s-timeline .s-message-item')), 3 * 1000);
       expect(element.all(by.cssContainingText('.s-message-item__excerpt', text1)).count())
         .toEqual(1);

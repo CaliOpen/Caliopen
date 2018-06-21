@@ -39,14 +39,16 @@ class Timeline extends Component {
   };
 
   state = {
+    initialized: false,
     selectedMessages: [],
     isTagModalOpen: false,
     isDeleting: false,
   }
 
   componentDidMount() {
-    const { requestMessages, timelineFilter, loadMore } = this.props;
-    requestMessages(timelineFilter);
+    const { timelineFilter, loadMore } = this.props;
+
+    this.loadMessages(this.props);
 
     this.throttledLoadMore = throttle(
       () => loadMore(timelineFilter),
@@ -56,12 +58,7 @@ class Timeline extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      requestMessages, timelineFilter, didInvalidate, isFetching,
-    } = nextProps;
-    if (didInvalidate && !isFetching) {
-      requestMessages(timelineFilter);
-    }
+    this.loadMessages(nextProps);
   }
 
   onSelectMessage = (type, messageId) => {
@@ -88,6 +85,22 @@ class Timeline extends Component {
       ...prevState,
       selectedMessages: checked ? messagesIds : [],
     }));
+  }
+
+  loadMessages = async (props) => {
+    const {
+      requestMessages, timelineFilter, didInvalidate, isFetching,
+    } = props;
+    if ((!this.state.initialized || didInvalidate) && !isFetching) {
+      // "initialized" is not well named,
+      // we consider it "initialized" as soon as we start fetching messages to prevent multiple
+      // fetchs because setState would be applied at the very end after multiple
+      // componentWillReceiveProps
+      this.setState({ initialized: true });
+      requestMessages(timelineFilter);
+    }
+
+    return Promise.resolve();
   }
 
   handleOpenTags = () => {

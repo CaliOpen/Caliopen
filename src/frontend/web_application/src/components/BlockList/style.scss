@@ -6,10 +6,6 @@
   padding: 0;
 
   &__item {
-    border-bottom: 1px solid $co-color__fg__border--high;
-
-    &:last-child {
-      border-bottom: 0;
-    }
+    border-top: 1px solid $co-color__fg__border--higher;
   }
 }

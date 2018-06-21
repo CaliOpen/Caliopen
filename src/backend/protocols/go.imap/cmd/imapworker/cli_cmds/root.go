@@ -16,8 +16,8 @@ var (
 	version bool
 	RootCmd = &cobra.Command{
 		Use:   "imapworker",
-		Short: "IMAP worker",
-		Long:  `IMAP worker subscribes to relevant messaging system queues and executes operations on remote IMAP servers`,
+		Short: "IMAP worker daemon",
+		Long:  `IMAP worker is a daemon that subscribes to relevant messaging system queues and executes operations on remote IMAP servers`,
 		Run:   nil,
 	}
 )

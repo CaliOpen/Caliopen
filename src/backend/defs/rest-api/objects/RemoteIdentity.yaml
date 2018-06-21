@@ -1,13 +1,32 @@
 ---
 type: object
 properties:
+  credentials:    # set of key/value strings
+    type: object
+    additionalProperties:
+      type: string
   display_name:
     type: string
-  identifier:
+  infos:          # set of key/value strings
+    type: object
+    additionalProperties:
+      type: string
+  last_check:
+    type: string
+    format: date-time
+  remote_id:
     type: string
   status:
     type: string
+    enum:
+    - active
+    - inactive
+    - deleted
   type:
     type: string
-  infos:
-    type: object
+    enum:
+    - imap
+required:
+- infos
+- type
+

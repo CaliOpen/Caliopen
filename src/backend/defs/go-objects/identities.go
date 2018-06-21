@@ -6,6 +6,7 @@ package objects
 
 import (
 	"bytes"
+	"encoding/json"
 	"github.com/gocql/gocql"
 	"github.com/satori/go.uuid"
 	"time"
@@ -54,13 +55,14 @@ type (
 
 	//struct to store external user accounts
 	RemoteIdentity struct {
-		DisplayName string            `cql:"display_name"       json:"display_name"`
-		Identifier  string            `cql:"identifier"         json:"identifier"`
-		Infos       map[string]string `cql:"infos"              json:"infos"`
-		LastCheck   time.Time         `cql:"last_check"         json:"last_check"`
-		Status      string            `cql:"status"             json:"status"` // for example : active, inactive, deleted
-		Type        string            `cql:"type"               json:"type"`   // for example : imap, twitter…
-		UserId      UUID              `cql:"user_id"            json:"user_id"`
+		Credentials Credentials       `cql:"credentials"        json:"credentials,omitempty"                            patch:"user"`
+		DisplayName string            `cql:"display_name"       json:"display_name"                                     patch:"user"`
+		Infos       map[string]string `cql:"infos"              json:"infos"                                            patch:"user"`
+		LastCheck   time.Time         `cql:"last_check"         json:"last_check,omitempty"                 formatter:"RFC3339Milli"`
+		RemoteId    UUID              `cql:"remote_id"          json:"remote_id"`
+		Status      string            `cql:"status"             json:"status"                                           patch:"user"` // for example : active, inactive, deleted
+		Type        string            `cql:"type"               json:"type"                                             patch:"user"` // for example : imap, twitter…
+		UserId      UUID              `cql:"user_id"            json:"user_id"              frontend:"omit"`
 	}
 )
 
@@ -107,26 +109,151 @@ func (i *Identity) MarshallNew(...interface{}) {
 	//nothing to enforce
 }
 
-// SetDefaultInfos fill Infos properties map with default keys and values
-func (ri *RemoteIdentity) SetDefaultInfos() {
-	(*ri).Infos = map[string]string{
-		"lastseenuid":  "",
-		"lastsync":     "",   // RFC3339 date string
-		"password":     "",   // credentials, SHOULD NOT BE HERE !! TODO.
-		"pollinterval": "15", // how often remote account should be polled, in minutes.
-		"server":       "",   // server hostname[|port]
-		"uidvalidity":  "",   // uidvalidity to invalidate data if needed (see RFC4549#section-4.1)
-		"username":     "",   // credentials
-	}
+/** remote identity **/
+func (ri *RemoteIdentity) NewEmpty() interface{} {
+	nri := new(RemoteIdentity)
+	nri.Credentials = Credentials{}
+	nri.Infos = map[string]string{}
+	return nri
 }
 
-func (ri *RemoteIdentity) UnmarshalCQLMap(input map[string]interface{}) error {
+func (ri *RemoteIdentity) UnmarshalJSON(b []byte) error {
+	input := map[string]interface{}{}
+	if err := json.Unmarshal(b, &input); err != nil {
+		return err
+	}
+
+	return ri.UnmarshalMap(input)
+}
+
+func (ri *RemoteIdentity) UnmarshalMap(input map[string]interface{}) error {
+	if credentials, ok := input["credentials"].(map[string]interface{}); ok {
+		ri.Credentials = Credentials{}
+		for k, v := range credentials {
+			ri.Credentials[k] = v.(string)
+		}
+	}
 	if dn, ok := input["display_name"].(string); ok {
 		ri.DisplayName = dn
 	}
-	if identifier, ok := input["identifier"].(string); ok {
-		ri.Identifier = identifier
+	if infos, ok := input["infos"].(map[string]interface{}); ok {
+		/*
+			// create a new map, fill it with current values if any, then with values from input,
+			// at last replace current map with new one.
+			newMap := make(map[string]string)
+			for k, v := range ri.Infos {
+				newMap[k] = v
+			}
+			for k, v := range infos {
+				newMap[k] = v.(string)
+			}
+			ri.Infos = newMap*/
+		ri.Infos = make(map[string]string)
+		for k, v := range infos {
+			ri.Infos[k] = v.(string)
+		}
 	}
+
+	if lc, ok := input["last_check"]; ok {
+		ri.LastCheck, _ = time.Parse(time.RFC3339Nano, lc.(string))
+	}
+	if remote_id, ok := input["remote_id"].(string); ok {
+		if id, err := uuid.FromString(remote_id); err == nil {
+			ri.RemoteId.UnmarshalBinary(id.Bytes())
+		}
+	}
+	if status, ok := input["status"].(string); ok {
+		ri.Status = status
+	}
+	if t, ok := input["type"].(string); ok {
+		ri.Type = t
+	}
+	if userid, ok := input["user_id"].(string); ok {
+		if id, err := uuid.FromString(userid); err == nil {
+			ri.UserId.UnmarshalBinary(id.Bytes())
+		}
+	}
+	return nil
+}
+
+func (ri *RemoteIdentity) JsonTags() (tags map[string]string) {
+	return jsonTags(ri)
+}
+
+func (ri *RemoteIdentity) SortSlices() {
+	//no slice to sort
+}
+
+// ensure mandatory properties are set, also default values.
+func (ri *RemoteIdentity) MarshallNew(args ...interface{}) {
+	if len(ri.RemoteId) == 0 || (bytes.Equal(ri.RemoteId.Bytes(), EmptyUUID.Bytes())) {
+		ri.RemoteId.UnmarshalBinary(uuid.NewV4().Bytes())
+	}
+	if len(ri.UserId) == 0 || (bytes.Equal(ri.UserId.Bytes(), EmptyUUID.Bytes())) {
+		if len(args) == 1 {
+			switch args[0].(type) {
+			case UUID:
+				ri.UserId = args[0].(UUID)
+			}
+		}
+	}
+}
+
+// SetDefaults fills RemoteIdentity with default keys and values according to the type of the remote identity
+func (ri *RemoteIdentity) SetDefaults() {
+	defaults := map[string]string{}
+
+	switch ri.Type {
+	case "imap":
+		defaults = map[string]string{
+			"lastseenuid": "",
+			"lastsync":    "", // RFC3339 date string
+			"server":      "", // server hostname[|port]
+			"uidvalidity": "", // uidvalidity to invalidate data if needed (see RFC4549#section-4.1)
+		}
+	}
+	// defaults for every type
+	defaults["pollinterval"] = "15" // how often remote account should be polled, in minutes.
+
+	if ri.Infos == nil {
+		(*ri).Infos = defaults
+	} else {
+		for default_key, default_value := range defaults {
+			if v, ok := ri.Infos[default_key]; !ok || v == "" {
+				(*ri).Infos[default_key] = default_value
+			}
+		}
+	}
+
+	if ri.Status == "" {
+		(*ri).Status = "active"
+	}
+
+	if ri.Credentials == nil {
+		(*ri).Credentials = Credentials{}
+	}
+
+	// try to set DisplayName if it is missing
+	if ri.DisplayName == "" {
+		switch ri.Type {
+		case "imap":
+			(*ri).DisplayName, _ = ri.Credentials["username"]
+		}
+	}
+
+}
+
+func (ri *RemoteIdentity) UnmarshalCQLMap(input map[string]interface{}) error {
+	if credentials, ok := input["credentials"].(map[string]string); ok {
+		ri.Credentials = Credentials{}
+		for k, v := range credentials {
+			ri.Credentials[k] = v
+		}
+	}
+	if dn, ok := input["display_name"].(string); ok {
+		ri.DisplayName = dn
+	}
+
 	if infos, ok := input["infos"].(map[string]string); ok {
 		ri.Infos = make(map[string]string)
 		for k, v := range infos {
@@ -135,6 +262,9 @@ func (ri *RemoteIdentity) UnmarshalCQLMap(input map[string]interface{}) error {
 	}
 	if lc, ok := input["last_check"].(time.Time); ok {
 		ri.LastCheck = lc
+	}
+	if remote_id, ok := input["remote_id"].(gocql.UUID); ok {
+		ri.RemoteId.UnmarshalBinary(remote_id.Bytes())
 	}
 	if status, ok := input["status"].(string); ok {
 		ri.Status = status
@@ -146,6 +276,10 @@ func (ri *RemoteIdentity) UnmarshalCQLMap(input map[string]interface{}) error {
 		ri.UserId.UnmarshalBinary(userid.Bytes())
 	}
 	return nil
+}
+
+func (ri *RemoteIdentity) MarshalFrontEnd() ([]byte, error) {
+	return JSONMarshaller("frontend", ri)
 }
 
 // Sort interface implementations

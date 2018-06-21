@@ -1,5 +1,5 @@
 import throttle from 'lodash.throttle';
-import { sha1 } from 'object-hash';
+import JsSHA from 'jssha';
 import { updateTagCollection } from './updateTagCollection';
 import { getTagNamesInCommon } from '../services/getTagNamesInCommon';
 import { getCleanedTagCollection } from '../services/getTagLabel';
@@ -60,7 +60,13 @@ const createThrottled = (resolve, reject, dispatch, { i18n, messageIds, tags }) 
   }, UPDATE_WAIT_TIME, { leading: false });
 
 const throttleds = {};
-const getThrottleHash = messageIds => sha1(messageIds.sort());
+const sha1 = new JsSHA('SHA-1', 'TEXT');
+const getThrottleHash = messageIds =>
+  (messageIds.sort().reduce((sha, messageId) => {
+    sha.update(messageId);
+
+    return sha;
+  }, sha1).getHash('HEX'));
 
 export const updateMessagesTags = (i18n, messageIds, tags, { withThrottle = true } = {}) =>
   dispatch => new Promise(async (resolve, reject) => {

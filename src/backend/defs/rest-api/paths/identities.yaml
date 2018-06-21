@@ -29,8 +29,35 @@ identities_locals:
           "$ref": "../objects/Error.yaml"
 
 identities_remotes:
+  get:
+    description: returns the list of user's remote identities
+    tags:
+    - identities
+    security:
+    - basicAuth: []
+    parameters: []
+    produces:
+    - application/json
+    responses:
+      '200':
+        description: Remote identities returned
+        schema:
+          type: object
+          properties:
+            total:
+              type: integer
+              format: int32
+              description: number of remote identities found for user
+            remote_identities:
+              type: array
+              items:
+                "$ref": "../objects/RemoteIdentity.yaml"
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
   post:
-    description: create a new remote identity for an user
+    description: create a new remote identity for user
     tags:
     - identities
     security:
@@ -42,7 +69,9 @@ identities_remotes:
       in: body
       required: true
       schema:
-        "$ref": "../objects/NewRemoteIdentity.yaml"
+        "$ref": "../objects/RemoteIdentity.yaml"
+    produces:
+    - application/json
     responses:
       '200':
         description: Remote identity created
@@ -51,17 +80,19 @@ identities_remotes:
           properties:
             location:
               type: string
-              description: url to retrieve new remote identity's infos at /remotes/{identifier}
+              description: url to retrieve new remote identity's at identities/remotes/{identifier}
+            identifier:
+              type: string # url escaped identifier
 
 identities_remotes_{identifier}:
   get:
-    description: returns an user remote identity
+    description: returns a remote identity belonging to user
     tags:
     - identities
     security:
     - basicAuth: []
     parameters:
-    - name: identifier
+    - name: identifier # url escaped identifier
       in: path
       type: string
       required: true
@@ -74,5 +105,84 @@ identities_remotes_{identifier}:
           "$ref": "../objects/RemoteIdentity.yaml"
       '401':
         description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '404':
+        description: Remote identity not found
+        schema:
+          "$ref": "../objects/Error.yaml"
+  delete:
+    description: Delete a remote identity belonging to user
+    tags:
+    - identities
+    security:
+    - basicAuth: []
+    parameters:
+    - name: identifier # url escaped identifier
+      in: path
+      type: string
+      required: true
+    responses:
+      '204':
+        description: Remote identity deleted
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '404':
+        description: Contact not found
+        schema:
+          "$ref": "../objects/Error.yaml"
+  patch:
+    description: update a remote identity with rfc5789 and rfc7396 specifications
+    tags:
+    - identities
+    security:
+    - basicAuth: []
+    consumes:
+    - application/json
+    parameters:
+    - name: identifier # url escaped identifier
+      in: path
+      type: string
+      required: true
+    - name: patch
+      in: body
+      required: true
+      description: the patch to apply. See 'Caliopen Patch RFC' within /doc directory.
+      schema:
+        type: object
+        properties:
+          "$ref": "../objects/RemoteIdentity.yaml#/properties"
+          current_state:
+            type: object
+            properties:
+              "$ref": "../objects/RemoteIdentity.yaml#/properties"
+        required:
+        - current_state
+    produces:
+    - application/json
+    responses:
+      '204':
+        description: Update successful. No body is returned.
+      '400':
+        description: json payload malformed
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '401':
+        description: Unauthorized access
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '403':
+        description: Forbidden patch. Server is refusing to apply the given patch's
+          properties to this ressource
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '404':
+        description: identity not found
+        schema:
+          "$ref": "../objects/Error.yaml"
+      '422':
+        description: json is valid but patch was semantically malformed or unprocessable
         schema:
           "$ref": "../objects/Error.yaml"

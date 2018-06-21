@@ -5,6 +5,8 @@
 package REST
 
 import (
+	"io"
+
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.backends"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.backends/cache/redis"
@@ -15,13 +17,11 @@ import (
 	"github.com/gocql/gocql"
 	"github.com/nats-io/go-nats"
 	"github.com/tidwall/gjson"
-	"io"
 )
 
 type (
 	RESTservices interface {
 		UsernameIsAvailable(string) (bool, error)
-		LocalsIdentities(user_id string) (identities []LocalIdentity, err error)
 		SuggestRecipients(user_id, query_string string) (suggests []RecipientSuggestion, err error)
 		GetSettings(user_id string) (settings *Settings, err error)
 		//contacts
@@ -31,7 +31,15 @@ type (
 		UpdateContact(contact, oldContact *Contact, update map[string]interface{}) error
 		PatchContact(patch []byte, userID, contactID string) error
 		DeleteContact(userID, contactID string) error
-		ContactIdentities(user_id, contact_id string) (identities []ContactIdentity, err error)
+		//identities
+		RetrieveContactIdentities(user_id, contact_id string) (identities []ContactIdentity, err error)
+		RetrieveLocalsIdentities(user_id string) (identities []LocalIdentity, err error)
+		CreateRemoteIdentity(identity *RemoteIdentity) CaliopenError
+		RetrieveRemoteIdentities(userId string, withCredentials bool) (ids []*RemoteIdentity, err CaliopenError)
+		RetrieveRemoteIdentity(userId, RemoteId string, withCredentials bool) (id *RemoteIdentity, err CaliopenError)
+		UpdateRemoteIdentity(identity, oldIdentity *RemoteIdentity, update map[string]interface{}) CaliopenError
+		PatchRemoteIdentity(patch []byte, userId, RemoteId string) CaliopenError
+		DeleteRemoteIdentity(userId, RemoteId string) CaliopenError
 		//messages
 		GetMessagesList(filter IndexSearch) (messages []*Message, totalFound int64, err error)
 		GetMessage(user_id, message_id string) (message *Message, err error)
@@ -57,6 +65,7 @@ type (
 		RequestPasswordReset(payload PasswordResetRequest, notifier Notifications.Notifiers) error
 		ValidatePasswordResetToken(token string) (session *Pass_reset_session, err error)
 		ResetUserPassword(token, new_password string, notifier Notifications.Notifiers) error
+		DeleteUser(payload ActionsPayload) CaliopenError
 		//devices
 		CreateDevice(device *Device) CaliopenError
 		RetrieveDevices(userId string) ([]Device, CaliopenError)
@@ -88,6 +97,7 @@ func NewRESTfacility(config CaliopenConfig, nats_conn *nats.Conn) (rest_facility
 			Hosts:       config.RESTstoreConfig.Hosts,
 			Keyspace:    config.RESTstoreConfig.Keyspace,
 			Consistency: gocql.Consistency(config.RESTstoreConfig.Consistency),
+			UseVault:    config.RESTstoreConfig.UseVault,
 		}
 		if config.RESTstoreConfig.ObjStoreType == "s3" {
 			cassaConfig.WithObjStore = true
@@ -98,13 +108,20 @@ func NewRESTfacility(config CaliopenConfig, nats_conn *nats.Conn) (rest_facility
 			cassaConfig.OSSConfig.RawMsgBucket = config.RESTstoreConfig.OSSConfig.Buckets["raw_messages"]
 			cassaConfig.OSSConfig.AttachmentBucket = config.RESTstoreConfig.OSSConfig.Buckets["temporary_attachments"]
 		}
+		if config.RESTstoreConfig.UseVault {
+			cassaConfig.HVaultConfig.Url = config.RESTstoreConfig.VaultConfig.Url
+			cassaConfig.HVaultConfig.Username = config.RESTstoreConfig.VaultConfig.Username
+			cassaConfig.HVaultConfig.Password = config.RESTstoreConfig.VaultConfig.Password
+		}
 		backend, err := store.InitializeCassandraBackend(cassaConfig)
 		if err != nil {
-			log.WithError(err).Fatalf("Initalization of %s backend failed", config.RESTstoreConfig.BackendName)
+			log.WithError(err).Fatalf("initalization of %s backend failed", config.RESTstoreConfig.BackendName)
 		}
+
 		rest_facility.store = backends.APIStorage(backend) // type conversion
+
 	default:
-		log.Fatalf("Unknown backend: %s", config.RESTstoreConfig.BackendName)
+		log.Fatalf("unknown backend: %s", config.RESTstoreConfig.BackendName)
 	}
 
 	switch config.RESTindexConfig.IndexName {
@@ -114,16 +131,16 @@ func NewRESTfacility(config CaliopenConfig, nats_conn *nats.Conn) (rest_facility
 		}
 		indx, err := index.InitializeElasticSearchIndex(esConfig)
 		if err != nil {
-			log.WithError(err).Fatalf("Initalization of %s index failed", config.RESTindexConfig.IndexName)
+			log.WithError(err).Fatalf("initalization of %s index failed", config.RESTindexConfig.IndexName)
 		}
 		rest_facility.index = backends.APIIndex(indx) // type conversion
 	default:
-		log.Fatalf("Unknown index: %s", config.RESTindexConfig.IndexName)
+		log.Fatalf("unknown index: %s", config.RESTindexConfig.IndexName)
 	}
 
 	cach, err := cache.InitializeRedisBackend(config.CacheConfig)
 	if err != nil {
-		log.WithError(err).Fatal("Initialization of Redis cache failed")
+		log.WithError(err).Fatal("initialization of Redis cache failed")
 	}
 
 	rest_facility.Cache = backends.APICache(cach) // type conversion

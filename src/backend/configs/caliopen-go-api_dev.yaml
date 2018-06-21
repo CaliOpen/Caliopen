@@ -18,6 +18,11 @@ ApiConfig:
         buckets:
           raw_messages: caliopen-raw-messages                # bucket name to put raw messages to
           temporary_attachments: caliopen-tmp-attachments    # bucket name to store draft attachments
+      use_vault: false
+      vault_settings:
+        url: http://127.0.0.1:8200
+        username: api2                                       # password authentication for now ; later we'll make use of more secure auth methods (TLScert, kubernetes…)
+        password: weak_password
   IndexConfig:
     index_name: elasticsearch
     index_settings:

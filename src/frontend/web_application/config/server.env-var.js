@@ -19,4 +19,5 @@ module.exports = {
     secret: process.env.CALIOPEN_SEAL_SECRET,
   },
   maxBodySize: process.env.CALIOPEN_MAX_BODY_SIZE,
+  enableSyslog: process.env.CALIOPEN_ENABLE_SYSLOG,
 };

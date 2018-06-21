@@ -1,4 +1,4 @@
-version: '2'
+version: '2.1'
 volumes:
   index:
     driver: local
@@ -6,123 +6,128 @@ volumes:
     driver: local
   store:
     driver: local
+
 services:
   # Caliopen APIv2
   api:
-      build:
-        context: ../src/backend
-        dockerfile: Dockerfile.go-api
-      links:
-          - apiv1:apiv1.dev.caliopen.org
-          - redis:redis.dev.caliopen.org
-          - cassandra:cassandra.dev.caliopen.org
-          - nats:nats.dev.caliopen.org
-          - elasticsearch:es.dev.caliopen.org
-          - object_store:minio.dev.caliopen.org
-      ports:
-          - "31415:31415"
+    build:
+      context: ../src/backend
+      dockerfile: Dockerfile.go-api
+    ## this very bad config for a public machine
+    network_mode: "host"
+    extra_hosts:
+      - "apiv1.dev.caliopen.org:127.0.0.1"
+      - "redis.dev.caliopen.org:127.0.0.1"
+      - "cassandra.dev.caliopen.org:127.0.0.1"
+      - "nats.dev.caliopen.org:127.0.0.1"
+      - "es.dev.caliopen.org:127.0.0.1"
+      - "minio.dev.caliopen.org:127.0.0.1"
+    ports:
+      - "31415:31415"
 
   # Caliopen APIv1
   apiv1:
-      build:
-        context: ../src/backend
-        dockerfile: Dockerfile.py-api
-      links:
-          - redis:redis.dev.caliopen.org
-          - cassandra:cassandra.dev.caliopen.org
-          - elasticsearch:es.dev.caliopen.org
-      ports:
-          - "6543:6543"
+    build:
+      context: ../src/backend
+      dockerfile: Dockerfile.py-api
+    links:
+      - redis:redis.dev.caliopen.org
+      - cassandra:cassandra.dev.caliopen.org
+      - elasticsearch:es.dev.caliopen.org
+    ports:
+      - "6543:6543"
 
   # ### Redis Database
   #
   # Used to store sessions.
   redis:
-      image: redis
-      ports:
-          - "6379:6379"
+    image: redis
+    ports:
+        - "6379:6379"
 
   # ### Cassandra
   #
   # Cassandra is used as the reference storage for business data
   cassandra:
-      image: scylladb/scylla
-      ports:
-          - "9042:9042"
-          - "9160:9160"
-          - "7000:7000"
-      volumes:
-          - db:/var/lib/scylla
-      entrypoint:
-          - /docker-entrypoint.py
-          - --memory
-          - 512M
+    image: scylladb/scylla
+    ports:
+      - "9042:9042"
+      - "9160:9160"
+      - "7000:7000"
+    volumes:
+      - db:/var/lib/scylla
+    entrypoint:
+      - /docker-entrypoint.py
+      - --memory
+      - 512M
 
   # ### Elasticsearch
   #
   # Used to index mail content and ensure great research performances.
   elasticsearch:
-      image: docker.elastic.co/elasticsearch/elasticsearch:5.4.1
-      ports:
-          - "9200:9200"
-      environment:
-          - xpack.security.enabled=false
-          - xpack.monitoring.enabled=false
-          - "ES_JAVA_OPTS=-Xms512M -Xmx512M"
-      volumes:
-          - index:/usr/share/elasticsearch/data
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.4.1
+    ports:
+      - "9200:9200"
+    environment:
+      - xpack.security.enabled=false
+      - xpack.monitoring.enabled=false
+      - "ES_JAVA_OPTS=-Xms512M -Xmx512M"
+    volumes:
+      - index:/usr/share/elasticsearch/data
 
   # Caliopen cli tool
   cli:
-      build:
-        context: ../src/backend
-        dockerfile: Dockerfile.cli
-      links:
-          - cassandra:cassandra.dev.caliopen.org
-          - elasticsearch:es.dev.caliopen.org
-          - broker:broker.dev.caliopen.org
-      environment:
-          CQLENG_ALLOW_SCHEMA_MANAGEMENT: 1
-      volumes:
-        - .:/srv/caliopen/src/backend/devtools
+    build:
+      context: ../src/backend
+      dockerfile: Dockerfile.cli
+    links:
+      - cassandra:cassandra.dev.caliopen.org
+      - elasticsearch:es.dev.caliopen.org
+      - broker:broker.dev.caliopen.org
+    environment:
+      CQLENG_ALLOW_SCHEMA_MANAGEMENT: 1
+    volumes:
+      - .:/srv/caliopen/src/backend/devtools
 
   # Caliopen frontend
   frontend:
-      build:
-        context: ../src/frontend/web_application
-      links:
-          - api:api.dev.caliopen.org
-      ports:
-        - "4000:4000"
+    build:
+      context: ../src/frontend/web_application
+    network_mode: "host"
+    ports:
+      - "4000:4000"
+    extra_hosts:
+      - "api.dev.caliopen.org:127.0.0.1"
+
   # Broker
   broker:
-      build:
-        context: ../src/backend
-        dockerfile: Dockerfile.go-lmtp
-      links:
-          - cassandra:cassandra.dev.caliopen.org
-          - elasticsearch:es.dev.caliopen.org
-          - object_store:minio.dev.caliopen.org
-          - nats:nats.dev.caliopen.org
-          - message_handler:mc.dev.caliopen.org
-          - inbucket:smtp.dev.caliopen.org
-      ports:
-        - "2525:2525"
+    build:
+      context: ../src/backend
+      dockerfile: Dockerfile.go-lmtp
+    links:
+      - cassandra:cassandra.dev.caliopen.org
+      - elasticsearch:es.dev.caliopen.org
+      - object_store:minio.dev.caliopen.org
+      - nats:nats.dev.caliopen.org
+      - message_handler:mc.dev.caliopen.org
+      - inbucket:smtp.dev.caliopen.org
+    ports:
+      - "2525:2525"
   # NATS
   nats:
-      image: nats:0.9.6
-      ports:
-          - "4222:4222"
+    image: nats:0.9.6
+    ports:
+      - "4222:4222"
 
   # NATS Message Handler
   message_handler:
-      build:
-        context: ../src/backend
-        dockerfile: Dockerfile.message_handler
-      links:
-          - cassandra:cassandra.dev.caliopen.org
-          - elasticsearch:es.dev.caliopen.org
-          - nats:nats.dev.caliopen.org
+    build:
+      context: ../src/backend
+      dockerfile: Dockerfile.message_handler
+    links:
+      - cassandra:cassandra.dev.caliopen.org
+      - elasticsearch:es.dev.caliopen.org
+      - nats:nats.dev.caliopen.org
 
   # object storage
   object_store:
@@ -130,39 +135,35 @@ services:
     ports:
       - "9090:9090"
     volumes:
-        - ../src/backend/configs:/configs
-        - store:/export
+      - ../src/backend/configs:/configs
+      - store:/export
     command:
       server --address :9090 -C /configs/minio /export
 
   # Worker for remote identities
   identity_worker:
-      build:
-        context: ../src/backend
-        dockerfile: Dockerfile.identity-worker
-      links:
-        - cassandra:cassandra.dev.caliopen.org
-        - object_store:minio.dev.caliopen.org
-        - elasticsearch:es.dev.caliopen.org
-        - nats:nats.dev.caliopen.org
+    build:
+      context: ../src/backend
+      dockerfile: Dockerfile.identity-worker
+    links:
+      - cassandra:cassandra.dev.caliopen.org
+      - object_store:minio.dev.caliopen.org
+      - elasticsearch:es.dev.caliopen.org
+      - nats:nats.dev.caliopen.org
 
   # Poller for remote identities
   identity_poller:
-      build:
-        context: ../src/backend
-        dockerfile: Dockerfile.identity-poller
-      links:
-        - identity_worker:identityworker.dev.caliopen.org
-        - cassandra:cassandra.dev.caliopen.org
-        - nats:nats.dev.caliopen.org
+    build:
+      context: ../src/backend
+      dockerfile: Dockerfile.identity-poller
+    links:
+      - identity_worker:identityworker.dev.caliopen.org
+      - cassandra:cassandra.dev.caliopen.org
+      - nats:nats.dev.caliopen.org
 
   # Inbucket : a small smtp server to catch all outgoing emails for testing purpose
   # point your browser at localhost:8888
   inbucket:
-      image: jhillyerd/inbucket
-      ports:
-          - "8888:10080"
-          - "2500:10025"
-
-  # Postfix : a complete smpt server that act as the Caliopen's MTA
-  # TODO
+    image: jhillyerd/inbucket
+    ports:
+      - "8888:9000"

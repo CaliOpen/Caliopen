@@ -54,6 +54,7 @@ func (facilities *CaliopenFacilities) initialize(config CaliopenConfig) (err err
 	// REST facility initialization
 	rest := REST.NewRESTfacility(config, facilities.nats)
 	facilities.RESTfacility = rest
+
 	// copy cache facility from REST facility
 	facilities.Cache = rest.Cache
 

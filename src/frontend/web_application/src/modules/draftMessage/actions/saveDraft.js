@@ -1,7 +1,8 @@
 import throttle from 'lodash.throttle';
 import { v4 as uuidv4 } from 'uuid';
 import isEqual from 'lodash.isequal';
-import { createMessage, updateMessage } from '../../../store/actions/message';
+import { updateMessage } from '../../../store/actions/message';
+import { createMessage } from '../../../modules/message';
 import { editDraft as editDraftBase, syncDraft } from '../../../store/modules/draft-message';
 
 const UPDATE_WAIT_TIME = 5 * 1000;

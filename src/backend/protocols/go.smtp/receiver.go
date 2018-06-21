@@ -6,8 +6,6 @@ package caliopen_smtp
 
 import (
 	"bytes"
-	"errors"
-	"fmt"
 	broker "github.com/CaliOpen/Caliopen/src/backend/brokers/go.emails"
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"time"
@@ -37,10 +35,16 @@ func (lda *Lda) handler(peer Peer, ev SmtpEnvelope) error {
 	select {
 	case response := <-incoming.Response:
 		if response.Err {
-			return errors.New(fmt.Sprintf("554 Error : " + response.Response))
+			return Error{
+				Code:    554,
+				Message: response.Response,
+			}
 		}
 		return nil
 	case <-time.After(30 * time.Second):
-		return errors.New("554 Error: LDA timeout")
+		return Error{
+			Code:    554,
+			Message: "LDA timeout",
+		}
 	}
 }

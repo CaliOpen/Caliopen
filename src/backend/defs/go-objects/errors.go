@@ -83,4 +83,5 @@ const (
 	UnprocessableCaliopenErr
 	ForbiddenCaliopenErr
 	NotImplementedCaliopenErr
+	WrongCredentialsErr
 )

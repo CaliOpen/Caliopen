@@ -2,15 +2,16 @@ import { createSelector } from 'reselect';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { withI18n } from 'lingui-react';
-import { push } from 'react-router-redux';
-import { requestNewDraft, clearDraft, syncDraft } from '../../store/modules/draft-message';
-import { removeTab } from '../../store/modules/tab';
-import { saveDraft, sendDraft } from '../../modules/draftMessage';
+import { push, replace } from 'react-router-redux';
+import { clearDraft, syncDraft } from '../../store/modules/draft-message';
+import { removeTab, updateTab } from '../../store/modules/tab';
+import { newDraft, saveDraft, sendDraft } from '../../modules/draftMessage';
 import { uploadDraftAttachments, deleteDraftAttachment } from '../../modules/file';
 import { withNotification } from '../../hoc/notification';
 import { withCurrentTab } from '../../hoc/tab';
-import { deleteMessage } from '../../store/modules/message';
 import { updateTagCollection } from '../../modules/tags';
+import { deleteMessage } from '../../modules/message';
+import { currentTabSelector } from '../../store/selectors/tab';
 import Presenter from './presenter';
 
 const messageDraftSelector = state => state.draftMessage.draftsByInternalId;
@@ -107,8 +108,18 @@ const onDeleteMessage = ({ message, internalId }) => dispatch =>
     .then(() => dispatch(clearDraft({ internalId })))
     .then(() => dispatch(push('/')));
 
+const redirectToNewDraft = ({ internalId }) => (dispatch, getState) => {
+  const currentTab = currentTabSelector(getState());
+  const newPathname = `/compose/${internalId}`;
+  const tab = { ...currentTab, pathname: newPathname };
+  dispatch(updateTab({ tab, original: currentTab }));
+
+  return dispatch(replace(newPathname));
+};
+
 const mapDispatchToProps = dispatch => bindActionCreators({
-  requestNewDraft,
+  redirectToNewDraft,
+  requestDraft: newDraft,
   onEditDraft,
   onSaveDraft,
   onSendDraft,
@@ -116,6 +127,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   onUpdateEntityTags,
   onUploadAttachments,
   onDeleteAttachement,
+  replace,
 }, dispatch);
 
 export default compose(

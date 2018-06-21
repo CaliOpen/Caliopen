@@ -20,7 +20,7 @@ You can start storage services using these commands:
 
 ```
 cd devtools
-docker-compose build
+docker-compose pull
 docker-compose up -d redis cassandra elasticsearch
 ```
 (wait few seconds for cassandra to warm-up)
@@ -45,25 +45,12 @@ docker-compose run cli import -e dev@caliopen.local -f mbox -p devtools/fixtures
 
 **NB** : data are persisted after containers are stopped, even after being destroyed.
 
-Finally start the api
+Finally start the stack
 
 ```
-cd devtools
-docker-compose up -d api
+docker-compose up -d frontend broker api apiv1
 ```
 
-_Optionnaly you can also start the frontend container in case you want to have a full docker environment:_
-
-```
-docker-compose up -d frontend
-```
-
-If you want to send/receive emails, start email broker:
-
-```
-cd devtools
-docker-compose up -d broker
-```
 **NB** : for now, outgoing emails are caught by a local smtp server for testing purpose.
 
 You will have a Caliopen instance filled with data, accessible from your browser on localhost:4000.  
@@ -76,13 +63,17 @@ To automatically fetch emails from remote IMAP accounts you need to :
 3. launch _identitypoller_
 
 ##### 1. launch _imap_worker_
+
 `docker-compose up -d identity_worker`
+
 ##### 2. create a _remote identity_ for user _dev_:
-Retrieve user_id for user _dev_ :  
-- Run `docker-compose exec cassandra cqlsh -k caliopen -e 'select name, user_id from user;'` and pickup user_id for _dev_ user.  
-- Create at least one remote identity for user _dev_. Enter email account (-l), password (-p), server address (-s) and user_id (-u) :  
-`docker-compose run --no-deps --entrypoint imapctl identity_worker addremote -l 'your_email@gmail.com' -p 'your_secret_password' -s 'imap.gmail.com:993' -u 'xxxxxxxx-xxxxx-xxxxx-xxxx-xxxxxxxx'`  
+
+- Create at least one remote identity for user _dev_. Enter email account (-l), password (-p), server address (-s) and user_name for _dev_ account (-u) :  
+
+`docker-compose run --no-deps --entrypoint imapctl identity_worker addremote -l 'your_email@gmail.com' -p 'your_secret_password' -s 'imap.gmail.com:993' -u 'dev'`  
+
 ##### 3. launch _ids_poller_
+
 `docker-compose up -d identity_poller`
 
 _ids_poller_ will retrieve remote identities from cassandra and schedule fetching jobs accordingly on a regularly basis.  
@@ -92,9 +83,9 @@ You can add more remote identities later, they will be retrieve by _ids_poller_ 
 
 **Requirements:**
 
-* You need the backend running (see above)
 * You need [node](https://nodejs.org/en/) v8 or later
 * You need [yarn](https://yarnpkg.com/en/docs/install) to manage dependencies.
+* Enventually stop the frontend container `docker-compose stop frontend`
 
 Then develop locally using your normal practices:
 
@@ -106,6 +97,18 @@ npm start
 
 It's a bit long to compile.
 The first time you will see some errors about a missing file, it will be fixed at the end of the compilation.
+
+## Rebuild a container
+
+In case the image of a service (api or apiv1 ...) is not up-to-date, you mmight need to rebuild a container.
+
+_Replace "api" by the service you want to rebuild_
+
+```
+docker-compose build api
+docker-compose stop api
+docker-compose up -d api
+```
 
 ## Fresh install
 

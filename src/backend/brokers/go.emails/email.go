@@ -172,6 +172,7 @@ func (b *EmailBroker) SaveIndexSentEmail(ack *DeliveryAck) error {
 		Raw_msg_id: msg_id,
 		Raw_Size:   uint64(len(ack.EmailMessage.Email.Raw.String())),
 		Raw_data:   ack.EmailMessage.Email.Raw.String(),
+		Delivered:  true,
 	}
 	err = b.Store.StoreRawMessage(m)
 	if err != nil {

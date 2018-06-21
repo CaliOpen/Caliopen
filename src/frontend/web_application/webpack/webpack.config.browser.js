@@ -38,7 +38,7 @@ const configureDevServer = () => {
     devServer: {
       contentBase: false,
       hot: false,
-      inline: false,
+      inline: true,
       port: '8080',
       proxy: {
         '/': {

@@ -1,7 +1,8 @@
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { withI18n } from 'lingui-react';
-import { replyToMessage, deleteMessage } from '../../../../store/modules/message';
+import { replyToMessage } from '../../../../store/modules/message';
+import { deleteMessage } from '../../../../modules/message';
 import { clearDraft } from '../../../../store/modules/draft-message';
 import Presenter from './presenter';
 

@@ -73,7 +73,7 @@ class MessageSelector extends Component {
 
   render() {
     const {
-      i18n, count, totalCount, checked, isDeleting,
+      i18n, count, totalCount, checked, isDeleting, indeterminate,
     } = this.props;
 
     return (
@@ -88,21 +88,23 @@ class MessageSelector extends Component {
             />
           </span>
         )}
-        <span className="m-message-selector__actions">
-          <Button
-            icon="tags"
-            onClick={this.handleEditTags}
-            disabled={count === 0}
-            aria-label={i18n._('timeline.action.manage-tags', { defaults: 'Manage tags' })}
-          />
-          {this.renderDeleteButton()}
-        </span>
+        {(checked || indeterminate) && // show buttons only when one or more is selected
+          <span className="m-message-selector__actions">
+            <Button
+              icon="tags"
+              onClick={this.handleEditTags}
+              disabled={count === 0}
+              aria-label={i18n._('timeline.action.manage-tags', { defaults: 'Manage tags' })}
+            />
+            {this.renderDeleteButton()}
+          </span>
+        }
         <span className="m-message-selector__checkbox">
           <Checkbox
             label={i18n._('message-list.action.select_all_messages', { defaults: 'Select/deselect all messages' })}
             id="message-selector"
             checked={checked}
-            indeterminate={this.props.indeterminate}
+            indeterminate={indeterminate}
             onChange={this.toggleCheckbox}
             disabled={isDeleting}
             showLabelforSr

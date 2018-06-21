@@ -36,7 +36,7 @@ describe('Notification', () => {
     it('shows N new messages and clear', async () => {
       await browser.wait(EC.presenceOf($('.s-timeline .s-message-item')), 5 * 1000);
       await element(by.cssContainingText(
-        '.s-message-item .s-message-item__topic .s-message-item__excerpt',
+        '.s-message-item .s-message-item__title .s-message-item__excerpt',
         'msg with notifications'
       )).click();
       await browser.wait(EC.presenceOf(element(by.cssContainingText('.m-message', 'new messages'))), THROTTLE_DURATION);
@@ -50,7 +50,7 @@ describe('Notification', () => {
     it('shows N new messages and a specific note for other discussion', async () => {
       await browser.wait(EC.presenceOf($('.s-timeline .s-message-item')), 5 * 1000);
       await element(by.cssContainingText(
-        '.s-message-item .s-message-item__topic .s-message-item__excerpt',
+        '.s-message-item .s-message-item__title .s-message-item__excerpt',
         'msg with notifications'
       )).click();
       await browser.wait(EC.presenceOf(element(by.cssContainingText('.m-message', 'new messages'))), THROTTLE_DURATION);
@@ -62,7 +62,7 @@ describe('Notification', () => {
     it('shows a notification', async () => {
       await browser.wait(EC.presenceOf($('.s-timeline .s-message-item')), 5 * 1000);
       await element(by.cssContainingText(
-        '.s-message-item .s-message-item__topic .s-message-item__excerpt',
+        '.s-message-item .s-message-item__title .s-message-item__excerpt',
         'other msg'
       )).click();
       await browser.wait(EC.presenceOf(element(by.cssContainingText('.m-message', 'You received 4 new messages'))));

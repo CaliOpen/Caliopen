@@ -1,3 +1,6 @@
+export * from './actions/newDraft';
+export * from './actions/reply';
+export * from './actions/requestDiscussionDraft';
 export * from './actions/saveDraft';
 export * from './actions/sendDraft';
 export { default as AttachmentManager } from './components/AttachmentManager';

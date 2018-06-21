@@ -1,18 +1,14 @@
-import { isMessageFromUser } from '../../../../services/message';
+const getDay = (datetime) => {
+  const today = new Date(datetime);
+  today.setHours(0, 0, 0, 0);
 
-const groupMessages = (messages, user) => messages
+  return today;
+};
+
+const groupMessages = messages => messages
   .reduce((acc, message) => {
-    const datetime =
-      new Date(user && isMessageFromUser(message, user) ? message.date : message.date_insert);
-    const oneDayAgo = new Date();
-    oneDayAgo.setHours(oneDayAgo.getHours() - 24);
-    let date = new Date(Date.UTC(datetime.getFullYear(), datetime.getMonth(), datetime.getDate()));
-    if (oneDayAgo < datetime) {
-      date = Object.keys(acc)
-        .map(dt => new Date(dt))
-        .find(dt => new Date(dt) < datetime)
-        || datetime;
-    }
+    const datetime = new Date(message.date_sort);
+    const date = getDay(datetime);
     const accMessages = acc[date.toISOString()] || [];
 
     return {

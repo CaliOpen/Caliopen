@@ -15,11 +15,19 @@ const actions = {
 const selectors = {
   all: () => state => state.messages,
   last: () => state => [...state.messages].pop(),
-  byQuery: ({ offset = 0, limit = 20, discussion_id }) => createSelector(
+  byQuery: ({ offset = 0, limit = 20, discussion_id, is_draft, is_received }) => createSelector(
     [discussion_id ? selectors.byDiscussionId({ discussion_id }) :  selectors.all()],
     messages => {
       const end = new Number(offset) + new Number(limit);
-      return messages.slice(offset, end);
+      return messages.filter(message => {
+        if (is_draft !== undefined && message.is_draft.toString() !== is_draft) {
+          return false;
+        }
+        if (is_received !== undefined && message.is_received.toString() !== is_received) {
+          return false;
+        }
+        return true;
+      }).slice(offset, end);
     }
   ),
   byDiscussionId: ({ discussion_id }) => createSelector(
@@ -59,8 +67,10 @@ const reducer = {
       message_id: body.message_id || uuidv4(),
       is_draft: true,
       is_unread: false,
+      is_received: false,
       date: Date.now(),
       date_insert: Date.now(),
+      date_sort: Date.now(),
       pi: { technic: 50, context: 45, comportment: 25, version: 1 },
       participants: reduceParticipants(body),
     },

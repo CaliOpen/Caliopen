@@ -5,6 +5,7 @@ const http = require('http');
 const getApp = require('./app');
 const { getConfig, initConfig } = require('./config');
 const { version } = require('../package.json');
+const logger = require('./logger')();
 
 const { options: { config: configPath } } = argv
   .option([
@@ -17,8 +18,7 @@ const { options: { config: configPath } } = argv
   ])
   .version(version)
   .info('Run Caliopen web server')
-  .run()
-;
+  .run();
 
 if (configPath) {
   // read user's config file outside of webpack
@@ -34,7 +34,7 @@ const params = [
   ...(hostname ? [hostname] : []),
   () => {
     const { address, port: runningPort } = server.address();
-    console.log(`Server started: http://${address}:${runningPort}/`);
+    logger.info(`Server started: http://${address}:${runningPort}/`);
   },
 ];
 

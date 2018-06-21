@@ -20,7 +20,7 @@ class Modal extends Component {
     onClose: () => {},
   };
 
-  componentWillMount() {
+  componentDidMount() {
     ReactModal.setAppElement('#root');
   }
 

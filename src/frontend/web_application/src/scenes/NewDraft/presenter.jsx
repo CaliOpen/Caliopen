@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
 import { NewDraftForm, DraftMessageActionsContainer, AttachmentManager } from '../../modules/draftMessage';
 
 class NewDraft extends Component {
@@ -9,7 +10,6 @@ class NewDraft extends Component {
     message: PropTypes.shape({}),
     currentTab: PropTypes.shape({}),
     internalId: PropTypes.string,
-    requestNewDraft: PropTypes.func.isRequired,
     onEditDraft: PropTypes.func.isRequired,
     onSaveDraft: PropTypes.func.isRequired,
     onDeleteMessage: PropTypes.func.isRequired,
@@ -19,6 +19,8 @@ class NewDraft extends Component {
     notifyError: PropTypes.func.isRequired,
     onUploadAttachments: PropTypes.func.isRequired,
     onDeleteAttachement: PropTypes.func.isRequired,
+    redirectToNewDraft: PropTypes.func.isRequired,
+    requestDraft: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -30,13 +32,40 @@ class NewDraft extends Component {
 
   state = {
     isSending: false,
+    isRequestingDraft: false,
   };
 
   componentDidMount() {
-    const { internalId, draft, requestNewDraft } = this.props;
-    if (!internalId || !draft) {
-      requestNewDraft({ internalId });
+    return this.initDraft(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    return this.initDraft(nextProps);
+  }
+
+  initDraft = async (props) => {
+    if (this.state.isRequestingDraft) {
+      return undefined;
     }
+
+    const {
+      internalId,
+      draft,
+      redirectToNewDraft,
+      requestDraft,
+    } = props;
+
+    if (!internalId) {
+      return redirectToNewDraft({ internalId: uuidv4() });
+    }
+
+    if (!draft) {
+      this.setState({ isRequestingDraft: true });
+      await requestDraft({ internalId });
+      this.setState({ isRequestingDraft: false });
+    }
+
+    return undefined;
   }
 
   handleEditDraft = ({ draft }) => {

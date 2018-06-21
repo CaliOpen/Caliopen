@@ -30,6 +30,7 @@ class UserRecoveryEmail(BaseModel):
     recovery_email = columns.Text(primary_key=True)
     user_id = columns.UUID(required=True)
 
+
 class ReservedName(BaseModel):
     """List of reserved user names."""
 
@@ -43,6 +44,7 @@ class User(BaseModel):
     name = columns.Text(required=True)
     password = columns.Text(required=True)
     date_insert = columns.DateTime()
+    date_delete = columns.DateTime()
     given_name = columns.Text()
     family_name = columns.Text()
     params = columns.Map(columns.Text, columns.Text)
@@ -85,7 +87,8 @@ class RemoteIdentity(BaseModel):
     """User remote identities model."""
 
     user_id = columns.UUID(primary_key=True)
-    identifier = columns.Text(primary_key=True)
+    remote_id = columns.UUID(primary_key=True)
+    credentials = columns.Map(columns.Text, columns.Text)
     display_name = columns.Text()
     type = columns.Text()
     status = columns.Text()

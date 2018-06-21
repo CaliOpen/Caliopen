@@ -15,6 +15,7 @@ from ..base import Api
 from ..base.exception import AuthenticationError, NotAcceptable, Unprocessable
 
 from caliopen_storage.exception import NotFound
+from caliopen_main.common.core import PublicKey
 from caliopen_main.user.core import User
 from caliopen_main.user.parameters import NewUser, NewRemoteIdentity, Settings
 from caliopen_main.user.returns.user import ReturnUser, ReturnRemoteIdentity
@@ -29,6 +30,27 @@ class FakeDevice(object):
 
     device_id = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
     status = 'fake'
+
+
+def get_device_sig_key(user, device):
+    """Get device signature key."""
+    keys = PublicKey._model_class.filter(user_id=user.user_id,
+                                         resource_id=device.device_id)
+    keys = [x for x in keys if x.resource_type == 'device' and
+            x.use == 'sig']
+    if keys:
+        return keys[0]
+    return None
+
+
+def patch_device_key(key, param):
+    """Patch a device signature public key as X and Y points are not valid."""
+    if not key.x and not key.y:
+        key.x = int(param['ecdsa_key']['x'], 16)
+        key.y = int(param['ecdsa_key']['y'], 16)
+        key.save()
+        return True
+    return False
 
 
 @resource(path='',
@@ -57,9 +79,20 @@ class AuthenticationAPI(Api):
             raise AuthenticationError(detail=exc.message)
         # Device management
         in_device = self.request.swagger_data['authentication']['device']
+        key = None
         if in_device:
             try:
                 device = Device.get(user, in_device['device_id'])
+                # Found a device, check if signature public key have X and Y
+                key = get_device_sig_key(user, device)
+                if not key:
+                    log.error('No signature key found for device %r'
+                              % device.device_id)
+                else:
+                    if patch_device_key(key, in_device):
+                        log.info('Patch device key OK')
+                    else:
+                        log.warn('Patch device key does not work')
             except NotFound:
                 devices = Device.find(user)
                 if devices.get('objects', []):
@@ -69,6 +102,11 @@ class AuthenticationAPI(Api):
                 # we must declare a new device
                 device = Device.create_from_parameter(user, in_device,
                                                       self.request.headers)
+                key = get_device_sig_key(user, device)
+                if not key:
+                    log.error('No signature key found for device %r'
+                              % device.device_id)
+
         else:
             device = FakeDevice()
 
@@ -85,7 +123,13 @@ class AuthenticationAPI(Api):
                   'expires_in': ttl,  # TODO : remove this value
                   'expires_at': expires_at.isoformat()}
         cache_key = '{}-{}'.format(user.user_id, device.device_id)
-        self.request.cache.set(cache_key, tokens)
+        session_data = tokens.copy()
+        if key:
+            session_data.update({'key_id': str(key.key_id),
+                                 'x': key.x,
+                                 'y': key.y,
+                                 'curve': key.crv})
+        self.request.cache.set(cache_key, session_data)
 
         # XXX to remove when all authenticated API will use X-Device-ID
         self.request.cache.set(user.user_id, tokens)
@@ -180,40 +224,3 @@ class MeUserAPI(Api):
         user = User.get(user_id)
         return ReturnUser.build(user).serialize()
 
-
-@resource(path='/identities/remotes/{identifier}',
-          collection_path='/identities/remotes',
-          name='RemoteIdentities',
-          factory=DefaultContext)
-class RemoteIdentityAPI(Api):
-    """User remote identities dead simple API."""
-
-    @view(renderer='json',
-          permission='authenticated')
-    def collection_post(self):
-        """Get information about logged user."""
-        user_id = self.request.authenticated_userid.user_id
-        user = User.get(user_id)
-        data = self.request.swagger_data['identity']
-        param = NewRemoteIdentity({'display_name': data['display_name'],
-                                   'identifier': data['identifier'],
-                                   'type': data['type'],
-                                   'status': data.get('status', 'active'),
-                                   'infos': data['infos']
-                                   })
-        param.validate()
-        identity = user.add_remote_identity(param)
-        identity_url = self.request.route_path('RemoteIdentities',
-                                               identifier=identity.identity_id)
-        self.request.response.location = identity_url.encode('utf-8')
-        return {'location': identity_url}
-
-    @view(renderer='json',
-          permission='authenticated')
-    def get(self):
-        """Get information about logged user."""
-        user_id = self.request.authenticated_userid.user_id
-        user = User.get(user_id)
-        identifier = self.request.swagger_data['identifier']
-        identity = user.get_remote_identity(identifier)
-        return ReturnRemoteIdentity.build(identity).serialize()

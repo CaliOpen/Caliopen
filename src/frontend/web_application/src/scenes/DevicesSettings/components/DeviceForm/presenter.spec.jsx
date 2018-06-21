@@ -6,7 +6,9 @@ describe('component Device DeviceForm', () => {
   it('render', () => {
     const props = {
       device: {},
-      onChange: () => {},
+      onChange: jest.fn(),
+      notifySuccess: jest.fn(),
+      notifyError: jest.fn(),
       i18n: { _: id => id },
     };
 
@@ -22,7 +24,9 @@ describe('component Device DeviceForm', () => {
     it('is valid with simple ip', () => {
       const props = {
         device: {},
-        onChange: () => {},
+        onChange: jest.fn(),
+        notifySuccess: jest.fn(),
+        notifyError: jest.fn(),
         i18n: { _: id => id },
       };
 
@@ -37,7 +41,9 @@ describe('component Device DeviceForm', () => {
     it('is not valid', () => {
       const props = {
         device: {},
-        onChange: () => {},
+        onChange: jest.fn(),
+        notifySuccess: jest.fn(),
+        notifyError: jest.fn(),
         i18n: { _: id => id },
       };
 

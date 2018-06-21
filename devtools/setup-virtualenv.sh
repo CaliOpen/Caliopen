@@ -30,7 +30,7 @@ do
     if [[ -f "requirements.txt" ]]; then
         pip install -r requirements.txt
     fi
-    python setup.py develop
+    pip install -e .
     if [[ $? -ne 0 ]]; then
         echo "Error during installation of component ${comp}"
         exit 2

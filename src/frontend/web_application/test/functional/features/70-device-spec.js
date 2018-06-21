@@ -7,13 +7,13 @@ describe('Device', () => {
 
   it('Redirect to device management on a new device for an existing account', async () => {
     await signin();
-    await expect(browser.getCurrentUrl()).not.toContain('/settings/devices');
+    await expect(browser.getCurrentUrl()).not.toContain('/settings/new-device');
     await clearKeypairInLocalStorage({ save: true });
     await signin();
-    await expect(browser.getCurrentUrl()).toContain('/settings/devices');
+    await expect(browser.getCurrentUrl()).toContain('/settings/new-device');
     await restoreKeypairInLocalStorage();
     await signin();
-    await expect(browser.getCurrentUrl()).not.toContain('/settings/devices');
+    await expect(browser.getCurrentUrl()).not.toContain('/settings/new-device');
     // delete the created device
     await showSettings('Devices');
     const deviceBlock = element(by.cssContainingText('.m-device-settings', 'desktop 2'));
@@ -50,6 +50,8 @@ describe('Device', () => {
       await signin();
       await clearKeypairInLocalStorage();
       await signin();
+      await browser.wait(EC.presenceOf(element(by.css('.s-new-device-info__agreement')), 5 * 1000));
+      await element(by.cssContainingText('.s-new-device-info__agreement', 'I understand')).click();
       await browser.wait(EC.presenceOf(element(by.css('.m-device-settings')), 5 * 1000));
       const nbDevices = await element.all(by.css('.m-device-settings')).count();
       const deviceBlock = element(by.cssContainingText('.m-device-settings', `desktop ${nbDevices - 2}`));
@@ -71,6 +73,8 @@ describe('Device', () => {
       await signin();
       await clearKeypairInLocalStorage({ save: true });
       await signin();
+      await browser.wait(EC.presenceOf(element(by.css('.s-new-device-info__agreement')), 5 * 1000));
+      await element(by.cssContainingText('.s-new-device-info__agreement', 'I understand')).click();
       const nbDevices = await element.all(by.css('.m-device-settings')).count();
       const deviceBlock = element(by.cssContainingText('.m-device-settings', `desktop ${nbDevices - 1}`));
       await deviceBlock.element(by.cssContainingText('.m-button', 'Revoke this device')).click();

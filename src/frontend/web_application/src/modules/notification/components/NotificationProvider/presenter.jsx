@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { getNextNotifications } from '../../services/getNextNotifications';
 import MessageNotifier from '../MessageNotifier';
+import { getConfig } from '../../../device/services/storage';
 
 class NotificationProvider extends Component {
   static propTypes = {
@@ -58,7 +59,7 @@ class NotificationProvider extends Component {
       return;
     }
     this.setState({ isWorking: true }, () => {
-      this.worker.postMessage({ action: 'start' });
+      this.worker.postMessage({ action: 'start', device: getConfig() });
       this.worker.addEventListener('message', (ev) => {
         this.handleWorkerStatus(ev.data);
         this.handleWorkerResults(ev.data);

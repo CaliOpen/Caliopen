@@ -28,7 +28,7 @@ class Highlights extends Component {
       return [];
     }
 
-    return Array.from(new Set(term.split(' ')));
+    return Array.from(new Set(term.trim().split(' ')));
   }
 
   parseHighlight = (terms, highlight) => {

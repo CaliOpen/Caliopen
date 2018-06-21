@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Trans } from 'lingui-react';
-import { Section, PageTitle, Button } from '../../components/';
+import { Section, PageTitle, Button, Confirm, TextFieldGroup } from '../../components/';
 import ProfileForm from './components/ProfileForm';
 import ProfileInfo from './components/ProfileInfo';
+import { signout } from '../../modules/routing';
+import { deleteUser } from '../../modules/user';
 
 import './style.scss';
 
@@ -14,6 +16,7 @@ class UserProfile extends Component {
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     notifyError: PropTypes.func.isRequired,
+    notifySuccess: PropTypes.func.isRequired,
     i18n: PropTypes.shape({}).isRequired,
     user: PropTypes.shape({}),
   };
@@ -24,6 +27,8 @@ class UserProfile extends Component {
 
   state = {
     editMode: false,
+    password: '',
+    errorDeleteAccount: undefined,
   }
 
   componentDidMount() {
@@ -47,32 +52,98 @@ class UserProfile extends Component {
     notifyError({ message: i18n._('contact.feedback.unable_to_save', { defaults: 'Unable to save the contact' }) });
   }
 
+  handlePasswordChange = (ev) => {
+    this.setState({ password: ev.target.value, errorDeleteAccount: undefined });
+  };
+
+  handleDeleteAccount = async () => {
+    try {
+      await deleteUser({ user: this.props.user, password: this.state.password });
+      await this.props.notifySuccess({ message: (<Trans id="user.feedback.delete_account_sucessful">Your account has been deleted, you  will be automatically disconnected.</Trans>) });
+      signout();
+
+      return undefined;
+    } catch (errors) {
+      if (errors.some(err => err.message === '[RESTfacility] DeleteUser Wrong password')) {
+        this.setState({
+          errorDeleteAccount: [(
+            <Trans id="user.delete-form.error.incorrect_password">
+              Unable to delete your account, the given password is incorrect.
+            </Trans>
+          )],
+        });
+      } else {
+        this.setState({
+          errorDeleteAccount: errors.map(err => err.message),
+        });
+      }
+
+      return Promise.reject('Unable to delete account');
+    }
+  }
+
+  handleCloseDeleteConfirm = () => {
+    this.setState({ password: '', errorDeleteAccount: undefined });
+  }
+
   toggleEditMode = () => {
     this.setState({ editMode: !this.state.editMode });
   }
 
   renderForm = () => {
-    const { pristine, submitting } = this.props;
+    const { pristine, submitting, i18n } = this.props;
 
     return (
       <form method="post" name="user-profile" onSubmit={this.handleSubmit}>
         <ProfileForm editMode={this.state.editMode} />
-        {!this.state.editMode ? (
-          <Button onClick={this.toggleEditMode} shape="plain">
-            <Trans id="user.action.edit_profile">Edit</Trans>
-          </Button>
-        ) : (
-          <div>
-            <Button type="submit" shape="plain" disabled={submitting || pristine}>
-              <Trans id="user.action.update">Update</Trans>
+        <div className="s-user-profile__actions">
+          {!this.state.editMode ? (
+            <Button onClick={this.toggleEditMode} shape="plain">
+              <Trans id="user.action.edit_profile">Edit</Trans>
             </Button>
-            {' '}
-            <Button onClick={this.toggleEditMode} shape="hollow">
-              <Trans id="user.action.cancel_edit">Cancel</Trans>
-            </Button>
-          </div>
-        )}
-
+          ) : (
+            <div>
+              <Button type="submit" shape="plain" disabled={submitting || pristine}>
+                <Trans id="user.action.update">Update</Trans>
+              </Button>
+              {' '}
+              <Button onClick={this.toggleEditMode} shape="hollow">
+                <Trans id="user.action.cancel_edit">Cancel</Trans>
+              </Button>
+            </div>
+          )}
+          <Confirm
+            className="s-user-profile__delete"
+            render={confirm => (
+              <Button shape="plain" onClick={confirm} color="alert" >
+                <Trans id="user.action.delete">Delete account</Trans>
+              </Button>
+            )}
+            title={(<Trans id="user.delete-form.modal-title">Delete account</Trans>)}
+            content={(
+              <div className="s-user-profile__modal-delete-form">
+                <p>
+                  <Trans id="user.delete-form.modal-content">Are you sure to delete your Caliopen account ?</Trans>
+                </p>
+                <TextFieldGroup
+                  label={i18n._('user.delete-form.password.label', { defaults: 'Password' })}
+                  placeholder={i18n._('user.delete-form.password.placeholder', { defaults: 'password' })}
+                  name="password"
+                  type="password"
+                  value={this.state.password}
+                  errors={this.state.errorDeleteAccount}
+                  onChange={this.handlePasswordChange}
+                />
+              </div>
+            )}
+            confirmButtonContent={(
+              <Trans id="user.delete-form.action.delete">Delete my Caliopen account</Trans>
+            )}
+            onConfirm={this.handleDeleteAccount}
+            onCancel={this.handleCloseDeleteConfirm}
+            onClose={this.handleCloseDeleteConfirm}
+          />
+        </div>
       </form>
     );
   }

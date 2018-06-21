@@ -22,4 +22,5 @@ module.exports = {
     secret: 'D}(2$5q)#_#yKX90,+0d5?4**a6ws8e`', // at least 32 chars
   },
   maxBodySize: '5mb',
+  enableSyslog: false,
 };

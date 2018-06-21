@@ -77,21 +77,21 @@ class ContactEmailQualifier(object):
             # XXX for the moment
             return new_keys
 
-            if 'valid_public_keys' not in contact.privacy_features.keys():
-                contact.privacy_features['valid_public_keys'] = True
-                #  - Si le contact a une clé publique connue, le PIᵗ
-                # gagne 30 points (20 points si la clé fait moins
-                # de 2048 bits, 15 points si elle fait 1024 bits ou moins).
-                max_size = max([x.size] for x in new_keys)
-                if max_size <= 1024:
-                    contact.pi.technic = contact.pi.technic + 15
-                elif max_size <= 2048:
-                    contact.pi.technic = contact.pi.technic + 20
-                elif max_size > 2048:
-                    contact.pi.technic = contact.pi.technic + 30
+        if 'valid_public_keys' not in contact.privacy_features.keys():
+            contact.privacy_features['valid_public_keys'] = True
+            #  - Si le contact a une clé publique connue, le PIᵗ
+            # gagne 30 points (20 points si la clé fait moins
+            # de 2048 bits, 15 points si elle fait 1024 bits ou moins).
+            max_size = max([x.size] for x in new_keys)
+            if max_size <= 1024:
+                contact.pi.technic = contact.pi.technic + 15
+            elif max_size <= 2048:
+                contact.pi.technic = contact.pi.technic + 20
+            elif max_size > 2048:
+                contact.pi.technic = contact.pi.technic + 30
 
-                co_boost = 5 * len(new_keys)
-                contact.pi.comportment = contact.pi.comportment + co_boost
+            co_boost = 5 * len(new_keys)
+            contact.pi.comportment = contact.pi.comportment + co_boost
             contact.save()
 
     def create_new_email(self, contact, email):

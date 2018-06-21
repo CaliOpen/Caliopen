@@ -1,15 +1,14 @@
 import { createSelector } from 'reselect';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
 import { withI18n } from 'lingui-react';
 import { withNotification } from '../../../../hoc/notification';
 import { createMessageCollectionStateSelector } from '../../../../store/selectors/message';
-import { requestDraft, clearDraft, syncDraft } from '../../../../store/modules/draft-message';
+import { deleteDraft, deleteDraftSuccess, clearDraft, syncDraft } from '../../../../store/modules/draft-message';
 import { updateTagCollection, withTags } from '../../../../modules/tags';
-import { saveDraft, sendDraft } from '../../../../modules/draftMessage';
+import { requestDiscussionDraft, saveDraft, sendDraft } from '../../../../modules/draftMessage';
 import { uploadDraftAttachments, deleteDraftAttachment } from '../../../../modules/file';
-import { deleteMessage, invalidate } from '../../../../store/modules/message';
+import { deleteMessage } from '../../../../modules/message';
 import { getLastMessage } from '../../../../services/message';
 import Presenter from './presenter';
 
@@ -18,27 +17,33 @@ const discussionIdSelector = (state, ownProps) => ownProps.discussionId;
 const internalIdSelector = (state, ownProps) => ownProps.internalId;
 const userSelector = state => state.user.user;
 const messageCollectionStateSelector = createMessageCollectionStateSelector(() => 'discussion', discussionIdSelector);
+const draftActivitySelector = createSelector(
+  [messageDraftSelector, internalIdSelector],
+  (draftState, internalId) => draftState.draftActivityByInternalId[internalId] || {}
+);
 
 const mapStateToProps = createSelector(
   [
     messageDraftSelector, discussionIdSelector, internalIdSelector, messageCollectionStateSelector,
-    userSelector,
+    userSelector, draftActivitySelector,
   ],
-  (draftState, discussionId, internalId, { messages }, user) => {
+  (draftState, discussionId, internalId, { messages }, user, draftActivity) => {
     const message = messages && messages.find(item => item.is_draft === true);
     const sentMessages = messages.filter(item => item.is_draft !== true);
     const lastMessage = getLastMessage(sentMessages);
-    const { isFetching, draftsByInternalId } = draftState;
-    const draft = draftsByInternalId[internalId] || message;
+    const { draftsByInternalId } = draftState;
+    const draft = draftsByInternalId[internalId];
     const parentMessage = draft && sentMessages
       .find(item => item.message_id === draft.parent_id && item !== lastMessage);
+    const { isRequestingDraft, isDeletingDraft } = draftActivity;
 
     return {
       allowEditRecipients: messages.length === 1 && message && true,
       message,
       parentMessage,
       draft,
-      isFetching,
+      isRequestingDraft,
+      isDeletingDraft,
       discussionId,
       user,
     };
@@ -51,10 +56,15 @@ const onEditDraft = ({ internalId, draft, message }) => dispatch =>
 const onSaveDraft = ({ internalId, draft, message }) => dispatch =>
   dispatch(saveDraft({ internalId, draft, message }, { force: true }));
 
-const onDeleteMessage = ({ message, internalId, isNewDiscussion }) => dispatch =>
-  dispatch(deleteMessage({ message }))
-    .then(() => dispatch(clearDraft({ internalId })))
-    .then(() => isNewDiscussion && dispatch(push('/')));
+const onDeleteMessage = ({ message, internalId }) => async (dispatch) => {
+  dispatch(deleteDraft({ internalId }));
+  const result = await dispatch(deleteMessage({ message }));
+
+  await dispatch(clearDraft({ internalId }));
+  dispatch(deleteDraftSuccess({ internalId }));
+
+  return result;
+};
 
 const onUpdateEntityTags = (internalId, i18n, message, { type, entity, tags }) =>
   async (dispatch) => {
@@ -66,8 +76,6 @@ const onUpdateEntityTags = (internalId, i18n, message, { type, entity, tags }) =
       i18n,
       { type, entity: savedDraft, tags }
     ));
-
-    dispatch(invalidate('discussion', internalId));
 
     return dispatch(syncDraft({ internalId, draft: messageUpTodate }));
   };
@@ -83,8 +91,6 @@ const onUploadAttachments = (internalId, i18n, message, { draft, attachments }) 
       const messageUpTodate = await dispatch(uploadDraftAttachments({
         message: savedDraft, attachments,
       }));
-
-      dispatch(invalidate('discussion', internalId));
 
       return dispatch(syncDraft({ internalId, draft: messageUpTodate }));
     } catch (err) {
@@ -127,7 +133,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   onEditDraft,
   onSaveDraft,
   onSendDraft,
-  requestDraft,
+  requestDraft: requestDiscussionDraft,
   onDeleteMessage,
   onUpdateEntityTags,
   onUploadAttachments,

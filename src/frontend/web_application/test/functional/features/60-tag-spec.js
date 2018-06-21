@@ -1,5 +1,6 @@
 const { signin, showSettings } = require('../utils/user-util');
 const { switchApp, home } = require('../utils/navigation');
+const { filter } = require('../utils/timeline');
 
 describe('Tag', () => {
   const EC = protractor.ExpectedConditions;
@@ -16,7 +17,7 @@ describe('Tag', () => {
     // make sure the discussion is only one message because of scroll and saucelabs that will try to click on header instead of Tag
     const content = 'Shut up and take my money! Leela, are you alright?';
     await browser.wait(EC.presenceOf($('.s-timeline .s-message-item')), 5 * 1000);
-    await element(by.cssContainingText('.s-timeline .s-message-item .s-message-item__topic .s-message-item__excerpt', content)).click();
+    await element(by.cssContainingText('.s-timeline .s-message-item .s-message-item__title .s-message-item__excerpt', content)).click();
     await browser.wait(EC.presenceOf(element(by.cssContainingText('.m-message__container', content))), 5 * 1000);
     console.log('click tag');
     await browser.executeScript('window.scrollTo(0, 350);');
@@ -28,8 +29,9 @@ describe('Tag', () => {
   it('Manage tags on timeline', async () => {
     const tagName = 'Mon tag';
 
+    await filter('All');
     await browser.wait(EC.presenceOf($('.s-timeline .s-message-item')), 5 * 1000);
-    // XXX: force scroll du to call-to-action
+    // XXX: force scroll due to call-to-action
     await browser.executeScript('window.scrollTo(0, document.body.scrollHeight);');
 
     const messageElement = element(by.cssContainingText('.s-message-item', 'Fry! Stay back! He\'s too powerful!'));
@@ -57,6 +59,7 @@ describe('Tag', () => {
 
   it('Manage tags for multiple messages on timeline', async () => {
     const tagName = 'Mon tag';
+    await filter('All');
     await browser.wait(EC.presenceOf($('.s-timeline .s-message-item')), 5 * 1000);
     await browser.executeScript('window.scrollTo(0, document.body.scrollHeight);');
 

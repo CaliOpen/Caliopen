@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import getClient from '../../../../services/api-client';
 import ImportContactForm from '../ImportContactForm';
+import UploadFileAsFormField from '../../../../modules/file/services/uploadFileAsFormField';
 
 class ImportContact extends Component {
   static propTypes = {
@@ -24,8 +25,7 @@ class ImportContact extends Component {
   };
 
   handleImportContact = ({ file }) => {
-    const data = new FormData();
-    data.append('file', file);
+    const data = new UploadFileAsFormField(file, 'file');
 
     this.setState({ isLoading: true });
     getClient().post('/api/v1/imports', data)

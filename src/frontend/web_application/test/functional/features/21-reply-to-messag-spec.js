@@ -1,5 +1,6 @@
 const userUtil = require('../utils/user-util');
 const { home } = require('../utils/navigation');
+const { filter } = require('../utils/timeline');
 
 describe('Reply to message -', () => {
   const EC = protractor.ExpectedConditions;
@@ -21,12 +22,13 @@ describe('Reply to message -', () => {
 
   it('Automatically saves a draft', async () => {
     const discussion1Selector = by.cssContainingText(
-      '.s-timeline .s-message-item .s-message-item__topic .s-message-item__excerpt',
+      '.s-timeline .s-message-item .s-message-item__title .s-message-item__excerpt',
       'Fry! Stay back! He\'s too powerful!'
     );
     const text1 = 'Automatically saves a draft, then refresh.';
     const text2 = ' Automatically updates a draft, then refresh.';
 
+    await filter('All');
     await browser.wait(EC.presenceOf($('.s-timeline .s-message-item')), 5 * 1000);
     await element(discussion1Selector).click();
     await browser.wait(EC.presenceOf($('.m-discussion-textarea__body')), 5 * 1000);
@@ -49,11 +51,11 @@ describe('Reply to message -', () => {
 
   it('Automatically saves a draft while browsing', async () => {
     const discussion1Selector = by.cssContainingText(
-      '.s-timeline .s-message-item .s-message-item__topic .s-message-item__excerpt',
+      '.s-timeline .s-message-item .s-message-item__title .s-message-item__excerpt',
       'Fry! Stay back! He\'s too powerful!'
     );
     const discussion2Selector = by.cssContainingText(
-      '.s-timeline .s-message-item .s-message-item__topic .s-message-item__subject',
+      '.s-timeline .s-message-item .s-message-item__title .s-message-item__subject',
       'Shut up and take my money'
     );
     const text3 = 'Add an answer to second discussion, don\'t wait and go to first one.';
@@ -64,6 +66,7 @@ describe('Reply to message -', () => {
 
     console.log('back to first discussion, don\'t wait');
     await home();
+    await filter('All');
     // force scroll top to click on discussion
     await browser.executeScript('window.scrollTo(0,0);');
     await element(discussion1Selector).click();
@@ -83,10 +86,11 @@ describe('Reply to message -', () => {
 
   it('Force saves a draft', async () => {
     const discussion1Selector = by.cssContainingText(
-      '.s-timeline .s-message-item .s-message-item__topic .s-message-item__excerpt',
+      '.s-timeline .s-message-item .s-message-item__title .s-message-item__excerpt',
       'Fry! Stay back! He\'s too powerful!'
     );
     const text1 = 'Force save a draft.';
+    await filter('All');
     await browser.wait(EC.presenceOf($('.s-timeline .s-message-item')), 5 * 1000);
     await element(discussion1Selector).click();
     await browser.wait(EC.presenceOf($('.m-discussion-textarea__body')), 5 * 1000);
@@ -105,10 +109,12 @@ describe('Reply to message -', () => {
 
   it('Sends a draft', async () => {
     const discussion1Selector = by.cssContainingText(
-      '.s-timeline .s-message-item .s-message-item__topic .s-message-item__excerpt',
+      '.s-timeline .s-message-item .s-message-item__title .s-message-item__excerpt',
       'Fry! Stay back! He\'s too powerful!'
     );
     const text1 = 'yes I am!';
+
+    await filter('All');
     await browser.wait(EC.presenceOf(element(by.css('.s-timeline .s-message-item'))), 5 * 1000);
     await element(discussion1Selector).click();
     await browser.wait(EC.presenceOf(element(by.css('.m-discussion-textarea__body'))), 5 * 1000);

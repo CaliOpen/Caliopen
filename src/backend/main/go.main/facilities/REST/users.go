@@ -7,6 +7,8 @@ package REST
 import (
 	"errors"
 	"fmt"
+	"time"
+
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.main/facilities/Notifications"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.main/users"
@@ -14,7 +16,7 @@ import (
 	"github.com/renstrom/shortuuid"
 	"github.com/satori/go.uuid"
 	"github.com/tidwall/gjson"
-	"time"
+	"golang.org/x/crypto/bcrypt"
 )
 
 const (
@@ -213,6 +215,38 @@ func (rest *RESTfacility) ResetUserPassword(token, new_password string, notify N
 		Type:    NotifAdminMail,
 	}
 	go notify.ByEmail(&notif)
+
+	return nil
+}
+
+// DeleteUser deletes a user in store,
+// Check the password as a validation before
+func (rest *RESTfacility) DeleteUser(payload ActionsPayload) CaliopenError {
+
+	user, err := rest.store.RetrieveUser(payload.UserId)
+	if err != nil {
+		return WrapCaliopenErr(err, DbCaliopenErr, "[RESTfacility] DeleteUser failed to retrieve user")
+	}
+
+	if !user.DateDelete.IsZero() {
+		return NewCaliopenErr(UnprocessableCaliopenErr, "[RESTfacility] User already deleted.")
+	}
+
+	err = bcrypt.CompareHashAndPassword(user.Password, []byte(payload.Params.Password))
+	if err != nil {
+		return WrapCaliopenErr(err, WrongCredentialsErr, "[RESTfacility] DeleteUser Wrong password")
+	}
+	err = rest.store.DeleteUser(payload.UserId)
+	if err != nil {
+		return WrapCaliopenErr(err, DbCaliopenErr, "[RESTfacility] DeleteUser failed to delete user in store")
+	}
+
+	// Logout
+	err = rest.Cache.LogoutUser(payload.Params.AccessToken)
+
+	if err != nil {
+		return NewCaliopenErr(UnprocessableCaliopenErr, "[RESTfacility] Unable to logout.")
+	}
 
 	return nil
 }

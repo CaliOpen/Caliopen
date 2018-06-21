@@ -61,14 +61,19 @@ class Confirm extends PureComponent {
   }
 
 
-  handleConfirm = () => {
+  handleConfirm = async () => {
     const { onConfirm } = this.props;
-
-    this.setState({
-      isModalOpen: false,
-    }, () => {
-      onConfirm();
-    });
+    try {
+      await onConfirm();
+      // FIXME: it throws when unmounted in case onConfirm drop the component (e.g. delete)
+      this.setState({
+        isModalOpen: false,
+      });
+    } catch (err) {
+      // nothing to do
+      // the developer should display an error
+      // FIXME: does this capture an error and doesn't make the dev aware of this error ?
+    }
   }
 
   renderModal() {

@@ -6,7 +6,9 @@ describe('component Device RevokeDevice', () => {
   it('render', () => {
     const props = {
       device: {},
-      onRevokeDevice: jest.fn(),
+      revokeDevice: jest.fn(),
+      notifyError: jest.fn(),
+      notifySuccess: jest.fn(),
     };
 
     const comp = shallow(

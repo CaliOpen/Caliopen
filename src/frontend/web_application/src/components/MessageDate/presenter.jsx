@@ -7,8 +7,26 @@ class MessageDate extends PureComponent {
   static propTypes = {
     dateTime: PropTypes.instanceOf(Moment).isRequired,
   };
-  static defaultProps = {
-  };
+  static defaultProps = {};
+
+  renderDate = () => {
+    const { dateTime } = this.props;
+
+    const diffDays = Moment().diff(dateTime, 'days');
+    const diffYear = Moment().diff(dateTime, 'years');
+
+    switch (true) {
+      default:
+      case diffDays === 0:
+        return dateTime.format('LT'); // 11:00
+      case diffDays > 0 && diffDays <= 7:
+        return dateTime.format('dddd'); // monday
+      case diffYear === 0 && diffDays > 7:
+        return dateTime.format('LL'); // 'March 22, 2018'
+      case diffYear >= 1:
+        return dateTime.format('YYYY'); // 2017
+    }
+  }
 
   render() {
     const { dateTime } = this.props;
@@ -18,9 +36,7 @@ class MessageDate extends PureComponent {
         title={dateTime.format('LLL')}
         dateTime={dateTime.format('')}
       >
-        <span className="m-message-date__date">{dateTime.format('L')}</span>
-        {' '}
-        <span className="m-message-date__time">{dateTime.format('LT')}</span>
+        <span className="m-message-date__date">{this.renderDate()}</span>
       </time>
     );
   }

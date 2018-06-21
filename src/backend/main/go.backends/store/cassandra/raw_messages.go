@@ -73,3 +73,7 @@ func (cb *CassandraBackend) GetRawMessage(raw_message_id string) (message obj.Ra
 	}
 	return
 }
+
+func (cb *CassandraBackend) SetDeliveredStatus(raw_msg_id string, delivered bool) error {
+	return cb.Session.Query(`UPDATE raw_message SET delivered = ? WHERE raw_msg_id = ?`, delivered, raw_msg_id).Exec()
+}

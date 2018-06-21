@@ -69,8 +69,6 @@ func (rest *RESTfacility) CreateContact(contact *Contact) (err error) {
 	}(contact)
 
 	return nil
-
-	//return rest.store.CreateContact(contact)
 }
 
 // RetrieveContacts returns contacts from index given filter params
@@ -106,7 +104,7 @@ func (rest *RESTfacility) PatchContact(patch []byte, userID, contactID string) e
 	// read into the patch to make basic controls before processing it with generic helper
 	patchReader, err := simplejson.NewJson(patch)
 	if err != nil {
-		return WrapCaliopenErrf(err, FailDependencyCaliopenErr, "[RESTfacility] PatchTag failed with simplejson error : %s", err)
+		return WrapCaliopenErrf(err, FailDependencyCaliopenErr, "[RESTfacility] PatchContact failed with simplejson error : %s", err)
 	}
 	// forbid tags modification immediately
 	if _, hasTagsProp := patchReader.CheckGet("tags"); hasTagsProp {

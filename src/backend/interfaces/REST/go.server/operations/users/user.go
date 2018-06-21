@@ -5,6 +5,9 @@
 package users
 
 import (
+	"io/ioutil"
+	"net/http"
+
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/middlewares"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations"
@@ -12,8 +15,6 @@ import (
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.main/helpers"
 	"github.com/gin-gonic/gin"
 	swgErr "github.com/go-openapi/errors"
-	"io/ioutil"
-	"net/http"
 )
 
 // PATCH …/users/{user_id}
@@ -155,6 +156,66 @@ func Create(ctx *gin.Context) {
 	http_middleware.ServeError(ctx.Writer, ctx.Request, e)
 	ctx.Abort()
 	return
+}
+
+// POST …/users/{user_id}/actions
+func Delete(ctx *gin.Context) {
+	var err error
+	var caliopenErr CaliopenError
+	auth_user := ctx.MustGet("user_id").(string)
+	access_token := ctx.MustGet("access_token").(string)
+	user_id, err := operations.NormalizeUUIDstring(ctx.Param("user_id"))
+
+	if err != nil {
+		e := swgErr.New(http.StatusUnprocessableEntity, err.Error())
+		http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+		ctx.Abort()
+		return
+	}
+	//for now, an user can only modify himself
+	if auth_user != user_id {
+		e := swgErr.New(http.StatusUnauthorized, "user can only modify himself")
+		http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+		ctx.Abort()
+		return
+	}
+
+	var payload ActionsPayload
+
+	err = ctx.BindJSON(&payload)
+	if err != nil {
+		e := swgErr.New(http.StatusUnprocessableEntity, "unable to unmarshal payload : "+err.Error())
+		http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+		ctx.Abort()
+		return
+	}
+
+	if payload.Params == nil || payload.Params.Password == "" {
+		e := swgErr.New(http.StatusBadRequest, "Password missing")
+		http_middleware.ServeError(ctx.Writer, ctx.Request, e)
+		ctx.Abort()
+		return
+	}
+
+	payload.UserId = user_id
+	payload.Params.AccessToken = access_token
+
+	caliopenErr = caliopen.Facilities.RESTfacility.DeleteUser(payload)
+	if caliopenErr != nil {
+		returnedErr := new(swgErr.CompositeError)
+		if caliopenErr.Code() == DbCaliopenErr && caliopenErr.Cause().Error() == "[CassandraBackend] user not found" {
+			returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusNotFound, "db returned not found"), caliopenErr, caliopenErr.Cause())
+		} else if caliopenErr.Code() == WrongCredentialsErr && caliopenErr.Cause().Error() == "[RESTfacility] DeleteUser Wrong password" {
+			returnedErr = swgErr.CompositeValidationError(swgErr.New(http.StatusUnauthorized, "wrong password"), caliopenErr, caliopenErr.Cause())
+		} else {
+			returnedErr = swgErr.CompositeValidationError(caliopenErr, caliopenErr.Cause())
+		}
+
+		http_middleware.ServeError(ctx.Writer, ctx.Request, returnedErr)
+		ctx.Abort()
+	} else {
+		ctx.Status(http.StatusNoContent)
+	}
 }
 
 func Get(ctx *gin.Context) {

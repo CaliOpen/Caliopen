@@ -16,6 +16,7 @@ class RawMessage(BaseModel):
     raw_data = columns.Bytes()  # may be empty if data is too large to fit into cassandra
     raw_size = columns.Integer()  # number of bytes in 'data' column
     uri = columns.Text()  # where object is stored if it was too large to fit into raw_data column
+    delivered = columns.Boolean()  # true only if complete delivery succeeded
 
 
 class UserRawLookup(BaseModel):

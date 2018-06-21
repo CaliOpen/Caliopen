@@ -6,6 +6,9 @@ package cache
 
 import (
 	"encoding/json"
+	"errors"
+	"strings"
+
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 )
 
@@ -23,4 +26,14 @@ func (cache *RedisBackend) GetAuthToken(key string) (value *Auth_cache, err erro
 		return nil, err
 	}
 	return
+}
+
+// LogoutUser will delete the entry of the user corresponding the ke
+func (cache *RedisBackend) LogoutUser(key string) error {
+	if !strings.HasPrefix(key, "tokens::") {
+		return errors.New("Unvalid key")
+	}
+	_, err := cache.client.Del(key).Result()
+
+	return err
 }

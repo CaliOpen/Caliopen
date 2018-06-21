@@ -93,12 +93,7 @@ class SigninForm extends Component {
       <div className="s-signin">
         <FormGrid className="s-signin__form">
           <form method="post" {...form}>
-            <FormRow>
-              <FormColumn rightSpace={false} bottomSpace>
-                <div className="s-signin__alpha" dangerouslySetInnerHTML={{ __html: i18n._('signup.limited_registration', { defaults: 'During alpha phase, signup is limited. Please register at <a href="https://welcome.caliopen.org">https://welcome.caliopen.org</a>.' }) }} />
-              </FormColumn>
-            </FormRow>
-            { errors.global && (
+            {errors.global && (
               <FormRow>
                 <FormColumn rightSpace={false} bottomSpace>
                   <FieldErrors errors={errors.global} />
@@ -177,11 +172,11 @@ class SigninForm extends Component {
               <FormColumn rightSpace={false} className="s-signin__link">
                 <Link to="/auth/forgot-password"><Trans id="signin.action.forgot_password">Forgot password?</Trans></Link>
               </FormColumn>
-              {/* <FormColumn rightSpace={false}>
+              <FormColumn rightSpace={false} className="s-signin__link">
                 <Link to="/auth/signup">
                   <Trans id="signin.create_an_account">Create an account</Trans>
                 </Link>
-              </FormColumn> */}
+              </FormColumn>
             </FormRow>
           </form>
         </FormGrid>

@@ -5,7 +5,6 @@ import axiosMiddleware from './middlewares/axios-middleware';
 import contactMiddleware from './middlewares/contacts-middleware';
 import deviceMiddleware from './middlewares/device-middleware';
 import discussionMiddleware from './middlewares/discussions-middleware';
-import draftMessageMiddleware from './middlewares/draft-messages-middleware';
 import i18nMiddleware from './middlewares/i18n-middleware';
 import importanceLevelMiddleware from './middlewares/importance-level-middleware';
 import messageMiddleware from './middlewares/messages-middleware';
@@ -22,7 +21,6 @@ const middlewares = [
   contactMiddleware,
   deviceMiddleware,
   discussionMiddleware,
-  draftMessageMiddleware,
   i18nMiddleware,
   importanceLevelMiddleware,
   messageMiddleware,

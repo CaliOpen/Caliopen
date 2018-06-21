@@ -26,3 +26,5 @@ type (
 		Urls []string `mapstructure:"urls"`
 	}
 )
+
+const failuresThreshold = 48 // how many hours to wait before disabling a faulty remote.

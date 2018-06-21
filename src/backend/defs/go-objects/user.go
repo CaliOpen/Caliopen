@@ -8,14 +8,16 @@ package objects
 
 import (
 	"encoding/json"
+	"math/big"
+	"time"
 	"github.com/gocql/gocql"
 	"github.com/satori/go.uuid"
-	"time"
 )
 
 type User struct {
 	ContactId        UUID              `cql:"contact_id"               json:"contact_id"`
 	DateInsert       time.Time         `cql:"date_insert"              json:"date_insert"                              formatter:"RFC3339Milli"`
+	DateDelete       time.Time         `cql:"date_delete"              json:"date_delete"                              formatter:"RCF3339Milli"`
 	FamilyName       string            `cql:"family_name"              json:"family_name"`
 	GivenName        string            `cql:"given_name"               json:"given_name"`
 	LocalIdentities  []string          `cql:"local_identities"         json:"local_identities"`
@@ -41,6 +43,10 @@ type Auth_cache struct {
 	Expires_in    int       `json:"expires_in"`
 	Expires_at    time.Time `json:"expires_at"`
 	Refresh_token string    `json:"refresh_token"`
+	Curve		  string    `json:"curve"`
+	X             big.Int 	`json:"x"`
+	Y             big.Int   `json:"y"`
+	Key_id        string    `json:"key_id"`
 }
 
 // data stored into cache as long as a reset password request is pending for an user
@@ -57,6 +63,7 @@ func (user *User) UnmarshalCQLMap(input map[string]interface{}) {
 	contactId, _ := input["contact_id"].(gocql.UUID)
 	user.ContactId.UnmarshalBinary(contactId.Bytes())
 	user.DateInsert, _ = input["date_insert"].(time.Time)
+	user.DateDelete, _ = input["date_delete"].(time.Time)
 	user.FamilyName, _ = input["family_name"].(string)
 	user.GivenName, _ = input["given_name"].(string)
 	user.LocalIdentities, _ = input["local_identities"].([]string)

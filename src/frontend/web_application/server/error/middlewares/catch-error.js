@@ -1,7 +1,13 @@
+const logger = require('../../logger')();
+
 const isDev = process.env.NODE_ENV === 'development';
 
 const catchError = (err, req, res, next) => {
-  console.error(err);
+  if (!err.status || err.status >= 500) {
+    logger.error(err.message);
+  } else {
+    logger.info(err.message);
+  }
 
   const publicError = {
     status: err.status,

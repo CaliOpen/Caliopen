@@ -22,6 +22,8 @@ type (
 		SizeLimit    uint64   `mapstructure:"raw_size_limit"` // max size for db (in bytes)
 		ObjStoreType string   `mapstructure:"object_store"`
 		OSSConfig    `mapstructure:"object_store_settings"`
+		UseVault     bool `mapstructure:"use_vault"`
+		VaultConfig  `mapstructure:"vault_settings"`
 	}
 
 	RESTIndexConfig struct {
@@ -44,12 +46,14 @@ type (
 	}
 	// Cassandra
 	StoreConfig struct {
-		Hosts       []string  `mapstructure:"hosts"`
-		Keyspace    string    `mapstructure:"keyspace"`
-		Consistency uint16    `mapstructure:"consistency_level"`
-		SizeLimit   uint64    `mapstructure:"raw_size_limit"` // max size to store (in bytes)
-		ObjectStore string    `mapstructure:"object_store"`
-		OSSConfig   OSSConfig `mapstructure:"object_store_settings"`
+		Hosts       []string    `mapstructure:"hosts"`
+		Keyspace    string      `mapstructure:"keyspace"`
+		Consistency uint16      `mapstructure:"consistency_level"`
+		SizeLimit   uint64      `mapstructure:"raw_size_limit"` // max size to store (in bytes)
+		ObjectStore string      `mapstructure:"object_store"`
+		OSSConfig   OSSConfig   `mapstructure:"object_store_settings"`
+		UseVault    bool        `mapstructure:"use_vault"`
+		VaultConfig VaultConfig `mapstructure:"vault_settings"`
 	}
 
 	// Objects Store
@@ -66,5 +70,12 @@ type (
 		AdminUsername string `mapstructure:"admin_username"`
 		BaseUrl       string `mapstructure:"base_url"`       // url upon which to build custom links sent to users. No trailing slash please.
 		TemplatesPath string `mapstructure:"templates_path"` // path to templates Notifiers may need to access to
+	}
+
+	// Hashicorp Vault
+	VaultConfig struct {
+		Url      string `mapstructure:"url"`
+		Username string `mapstructure:"username"`
+		Password string `mapstructure:"password"`
 	}
 )

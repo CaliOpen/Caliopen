@@ -1,0 +1,32 @@
+@import '../../styles/common';
+@import '../../styles/vendor/bootstrap_foundation-sites';
+
+$message_width: 45rem;
+
+.s-new-device-info {
+  width: $message_width;
+  margin: auto;
+  padding-top: 3 * $co-component__height;
+  padding-bottom: 3 * $co-component__height;
+  text-align: justify;
+
+  &__title {
+    margin-bottom: $co-margin;
+  }
+
+  &__actions {
+    margin-top: 2 * $co-component__height;
+    text-align: center;
+  }
+
+  &__learn-more {
+    margin-right: $co-margin;
+  }
+
+  &__modal {
+    width: 100%;
+    max-width: 2 * map-get($co-form__width, 'xlarge');
+    max-height: 100%;
+    overflow: auto;
+  }
+}

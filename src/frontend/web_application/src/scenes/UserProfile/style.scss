@@ -5,12 +5,6 @@
   @include flex-grid-row($size: expand);
   margin-top: $co-margin;
 
-  &__actions {
-    @include flex-grid-column(12);
-    margin-top: $co-margin;
-    margin-bottom: $co-margin;
-  }
-
   &__info {
     @include flex-grid-column(12);
   }
@@ -19,9 +13,16 @@
     @include flex-grid-column(12);
   }
 
+  &__delete {
+    float: right;
+  }
+
+
+
   @include breakpoint(medium) {
     &__info { @include flex-grid-size(4); }
     &__details { @include flex-grid-size(8); }
+
   }
 
   @include breakpoint(large) {

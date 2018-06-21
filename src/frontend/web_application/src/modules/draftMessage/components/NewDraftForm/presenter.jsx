@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { v1 as uuidV1 } from 'uuid';
 import { Trans } from 'lingui-react';
-import { Button, Icon, Spinner, Dropdown, withDropdownControl, TextFieldGroup } from '../../../../components/';
+import { Button, Confirm, Icon, Spinner, Dropdown, withDropdownControl, TextFieldGroup } from '../../../../components/';
 import { ContactAvatarLetter } from '../../../../modules/avatar';
 import DiscussionDraft, { TopRow, BodyRow, BottomRow } from '../DiscussionDraft';
 import DiscussionTextarea from '../DiscussionTextarea';
 import RecipientList from '../RecipientList';
+import { getRecipients } from '../../../../services/message/';
 import './style.scss';
 
 const DropdownControl = withDropdownControl(Button);
@@ -116,15 +117,55 @@ class NewDraftForm extends Component {
     );
   }
 
+  renderSendButton(recipients) {
+    const { isSending } = this.props;
+    const { body, subject } = this.state.draft;
+    const isMessageValid = (recipients && recipients.length !== 0);
+    const needsConfirm = body === '' || (hasMailSupport(recipients) && subject === '');
+
+    if (needsConfirm) {
+      return (
+        <Confirm
+          className="m-new-draft__bottom-action"
+          onConfirm={this.handleSend}
+          title={(<Trans id="messages.compose.confirm-send.title">Send a message</Trans>)}
+          content={(<Trans id="message.compose.confirm-send.content">Some fields are empty (subject and/or body). Send this message anyway ?</Trans>)}
+          confirmButtonContent={(<Trans id="message.compose.confirm-send.confirm-button">Yes, just do it!</Trans>)}
+          render={confirm => (
+            <Button
+              onClick={confirm}
+              icon={isSending ? (<Spinner isLoading display="inline" />) : 'send'}
+              responsive="icon-only"
+              disabled={!isMessageValid || isSending}
+            >
+              <Trans id="messages.compose.action.send">Send</Trans>
+            </Button>
+            )
+          }
+        />
+      );
+    }
+
+    return (
+      <Button
+        className="m-new-draft__bottom-action"
+        onClick={this.handleSend}
+        icon={isSending ? (<Spinner isLoading display="inline" />) : 'send'}
+        responsive="icon-only"
+        disabled={!isMessageValid || isSending}
+      >
+        <Trans id="messages.compose.action.send">Send</Trans>
+      </Button>
+    );
+  }
+
   render() {
     const {
-      user, internalId, renderDraftMessageActionsContainer, i18n, isSending, renderAttachments,
+      user, internalId, renderDraftMessageActionsContainer, i18n, renderAttachments,
       draftFormRef,
     } = this.props;
     const dropdownId = uuidV1();
-    const recipients = this.state.draft.participants && this.state.draft.participants
-      .filter(participant => participant.type.toLowerCase() !== 'from');
-    const isMessageValid = (recipients && recipients.length !== 0);
+    const recipients = getRecipients(this.state.draft);
 
     return (
       <DiscussionDraft className="m-new-draft" draftFormRef={draftFormRef}>
@@ -179,15 +220,7 @@ class NewDraftForm extends Component {
             {renderAttachments()}
           </BottomRow>
           <BottomRow className="m-new-draft__bottom-bar">
-            <Button
-              className="m-new-draft__bottom-action"
-              onClick={this.handleSend}
-              icon={isSending ? (<Spinner isLoading display="inline" />) : 'send'}
-              responsive="icon-only"
-              disabled={!isMessageValid || isSending}
-            >
-              <Trans id="messages.compose.action.send">Send</Trans>
-            </Button>
+            {this.renderSendButton(recipients)}
             <Button
               className="m-new-draft__bottom-action"
               onClick={this.handleSave}

@@ -13,8 +13,8 @@ from .store import (Contact as ModelContact,
                     Organization, Email, IM, PostalAddress,
                     Phone, SocialIdentity)
 from .store.contact_index import IndexedContact
-from caliopen_main.common.store.tag import ResourceTag
 from caliopen_storage.core import BaseCore, BaseUserCore
+from caliopen_storage.exception import NotFound
 from caliopen_storage.core.mixin import MixinCoreRelation, MixinCoreNested
 from caliopen_main.pi.objects import PIModel
 
@@ -214,7 +214,12 @@ class Contact(BaseUserCore, MixinCoreRelation, MixinCoreNested):
                                                     value=value)
         if lookups and lookups[0].contact_ids:
             # XXX how to manage many contacts
-            return cls.get(user, lookups[0].contact_ids[0])
+            try:
+                return cls.get(user, lookups[0].contact_ids[0])
+            except NotFound:
+                log.warn('Inconsistent contact lookup with non existing '
+                         ' contact %r' % lookups[0].contact_ids)
+                return None
         # XXX something else to do ?
         return None
 

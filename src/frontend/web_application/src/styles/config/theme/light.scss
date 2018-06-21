@@ -73,7 +73,7 @@ $co-color__contrast__text--higher:          lighten($co-color__contrast__text, 2
 // foreground
 $co-color__fg__back:                  #fff;
 $co-color__fg__back--lower:           darken($co-color__fg__back, 10%);
-$co-color__fg__back--low:             darken($co-color__fg__back, 4%);
+$co-color__fg__back--low:             #f3f3f3;
 // $co-color__fg__back--high:            lighten($co-color__fg__back, 5%);
 // $co-color__fg__back--higher:          lighten($co-color__fg__back, 10%);
 
@@ -81,7 +81,7 @@ $co-color__fg__border:                #b3b3b3;
 $co-color__fg__border--lower:         darken($co-color__fg__border, 25%);
 $co-color__fg__border--low:           darken($co-color__fg__border, 10%);
 $co-color__fg__border--high:          lighten($co-color__fg__border, 15%);
-$co-color__fg__border--higher:        lighten($co-color__fg__border, 25%);
+$co-color__fg__border--higher:        #f9f9f9;
 
 $co-color__fg__text:                  #444;
 $co-color__fg__text--lower:           darken($co-color__fg__text, 20%);

@@ -6,12 +6,13 @@ package users
 
 import (
 	"errors"
+	"strconv"
+
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.backends"
 	"github.com/nbutton23/zxcvbn-go"
 	"github.com/tidwall/gjson"
 	"golang.org/x/crypto/bcrypt"
-	"strconv"
 )
 
 const (

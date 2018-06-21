@@ -3,6 +3,10 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import logging
 import base64
+import ecdsa
+import hashlib
+
+from asn1crypto.core import Sequence, Integer
 
 from zope.interface import implements, implementer
 from pyramid.interfaces import IAuthenticationPolicy, IAuthorizationPolicy
@@ -12,6 +16,13 @@ from caliopen_main.user.core import User
 from ..base.exception import AuthenticationError
 
 log = logging.getLogger(__name__)
+
+
+class EcdsaSignature(Sequence):
+    """Asn.1 structure for an ECDSA signature."""
+    _fields = [
+        ('r', Integer),
+        ('s', Integer)]
 
 
 class AuthenticatedUser(object):
@@ -37,8 +48,9 @@ class AuthenticatedUser(object):
 
         user_id, token = auth.split(':')
 
-        if 'X-Device-ID' in self.request.headers:
-            device_id = self.request.headers['X-Device-ID']
+        device_id = None
+        if 'X-Caliopen-Device-ID' in self.request.headers:
+            device_id = self.request.headers['X-Caliopen-Device-ID']
             cache_key = '{}-{}'.format(user_id, device_id)
         else:
             log.warn('No Device in API call')
@@ -50,6 +62,10 @@ class AuthenticatedUser(object):
             raise AuthenticationError
         if infos.get('access_token') != token:
             raise AuthenticationError
+
+        if 'X-Caliopen-Device-Signature' in self.request.headers:
+            valid = self._validate_signature(self.request, device_id, infos)
+            log.info('Signature verification result %r' % valid)
 
         self.user_id = user_id
         self.access_token = token
@@ -69,6 +85,35 @@ class AuthenticatedUser(object):
         except Exception as exc:
             log.error('Invalid range for IL {}: {}'.format(il_range, exc))
             raise exc
+
+    def _validate_signature(self, request, device_id, infos):
+        """Validate device signature."""
+        if infos['curve'] == 'P-256':
+            curve = ecdsa.ecdsa.curve_256
+            crv = ecdsa.curves.NIST256p
+            hashfunc = hashlib.sha256
+        else:
+            log.warn('Unsupported curve %r' % infos['curve'])
+            return False
+        try:
+            point = ecdsa.ellipticcurve.Point(curve, infos['x'], infos['y'])
+        except AssertionError:
+            log.warn('Invalid curve points')
+            return False
+
+        sign_header = request.headers['X-Caliopen-Device-Signature']
+        data = '{}{}{}'.format(request.method, request.path_qs, request.body)
+        try:
+            ecdsasign = EcdsaSignature.load(base64.decodestring(sign_header))
+            signature = ecdsasign['r'].contents + ecdsasign['s'].contents
+            vk = ecdsa.VerifyingKey.from_public_point(point, crv,
+                                                      hashfunc=hashfunc)
+            return vk.verify(signature, data)
+        except ecdsa.BadSignatureError:
+            pass
+        except Exception as exc:
+            log.error('Exception during signature verification %r' % exc)
+        return False
 
     def _load_user(self):
         if self._user:

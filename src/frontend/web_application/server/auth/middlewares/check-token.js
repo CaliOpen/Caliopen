@@ -13,7 +13,9 @@ const checkToken = (req, res, next) => {
   if (
     !tokens.access_token || !tokens.refresh_token || !tokens.expires_at
   ) {
-    next(new Error('Invalid tokens'));
+    const error = new Error('Invalid tokens');
+    error.status = 401;
+    next(error);
 
     return;
   }

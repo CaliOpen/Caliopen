@@ -34,20 +34,6 @@ users:
         schema:
           "$ref": "../objects/Error.yaml"
 users_{user_id}:
-  delete:
-    description: Not Yet Implemented
-    tags:
-    - users
-    security:
-    - basicAuth: []
-    parameters:
-    - name: user_id
-      in: path
-      required: true
-      type: string
-    responses:
-      default:
-        description: route not implemented, should raise an error
   patch:
     description: Partially implemented. Currently only for changing password.
     tags:

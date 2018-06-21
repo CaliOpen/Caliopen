@@ -33,7 +33,7 @@ type Message struct {
 	Is_received         bool               `cql:"is_received"              json:"is_received"      `
 	Message_id          UUID               `cql:"message_id"               json:"message_id,omitempty"                                      formatter:"rfc4122"`
 	Parent_id           UUID               `cql:"parent_id"                json:"parent_id,omitempty"        `
-	Participants        []Participant      `cql:"participants"             json:"participants,omitempty"     `
+	Participants        []Participant      `cql:"participants"             json:"participants"     `
 	Privacy_features    *PrivacyFeatures   `cql:"privacy_features"         json:"privacy_features,omitempty" `
 	PrivacyIndex        *PrivacyIndex      `cql:"pi"                       json:"pi,omitempty"`
 	Raw_msg_id          UUID               `cql:"raw_msg_id"               json:"raw_msg_id,omitempty"                                      formatter:"rfc4122"`

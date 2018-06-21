@@ -6,6 +6,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- API v1 and v2 validate signed ecdsa http queries
+- delete an account
+
+### Changed
+
+- optimization, prevent timeline to fetch multiple times the API
+- Internal email delivery is more reliable, with better error handling, reporting and logging.
+
+### Fixed
+
+- change parent of a draft has no effects
+- sort of the messages of a discussion
+- discussion might not be up to date after creating a draft
+- sending two consecutives messages was failing when the second message is saved before clicking on the send button.
+
 ## [0.10.1] 2018-05-18
 
 ### Fixed

@@ -3,9 +3,13 @@ import { shallow } from 'enzyme';
 import DeviceProvider from './presenter';
 
 describe('device - DeviceProvider', () => {
+  const props = {
+    setDeviceGenerated: jest.fn(),
+  };
+
   it('render', () => {
     const comp = shallow(
-      <DeviceProvider>Foo</DeviceProvider>,
+      <DeviceProvider {...props} >Foo</DeviceProvider>,
       { disableLifecycleMethods: true }
     );
 

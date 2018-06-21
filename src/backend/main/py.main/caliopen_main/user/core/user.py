@@ -357,6 +357,10 @@ class User(BaseCore):
             user = cls.by_name(user_name)
         except NotFound:
             raise CredentialException('Invalid user')
+
+        if user.date_delete:
+            raise CredentialException('Invalid credentials')
+
         # XXX : decode unicode not this way
         if bcrypt.hashpw(str(password.encode('utf-8')),
                          str(user.password)) == user.password:

@@ -9,6 +9,7 @@ jest.mock('lingui-react', () => ({
 describe('component ImForm', () => {
   it('init form', () => {
     const props = {
+      onDelete: jest.fn(),
       i18n: { _: (id, values) => id },
     };
 

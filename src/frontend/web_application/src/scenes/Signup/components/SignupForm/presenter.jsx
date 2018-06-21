@@ -176,11 +176,6 @@ class SignupForm extends Component {
       <div className="s-signup">
         <FormGrid className="s-signup__form">
           <form method="post" name="ac_form" {...form}>
-            <FormRow>
-              <FormColumn rightSpace={false} bottomSpace>
-                <div className="s-signup__alpha" dangerouslySetInnerHTML={{ __html: i18n._('signup.limited_registration', { defaults: 'During alpha phase, signup is limited. Please register at <a href="https://welcome.caliopen.org">https://welcome.caliopen.org</a>.' }) }} />
-              </FormColumn>
-            </FormRow>
             {errors.global && errors.global.length !== 0 && (
             <FormRow>
               <FormColumn rightSpace={false} bottomSpace>

@@ -10,14 +10,14 @@ import (
 
 type APIStorage interface {
 	AttachmentStorage
+	CredentialsStorage
 	ContactStorage
-	//identities
-	GetLocalsIdentities(user_id string) (identities []LocalIdentity, err error)
+	DevicesStorage
+	IdentityStorage
 	MessageStorage
 	TagsStorage
 	UserNameStorage
 	UserStorage
-	DevicesStorage
 }
 
 type APIIndex interface {
@@ -30,6 +30,7 @@ type APIIndex interface {
 type APICache interface {
 	// authentication
 	GetAuthToken(token string) (value *Auth_cache, err error)
+	LogoutUser(key string) error
 	// password reset process
 	GetResetPasswordToken(token string) (*Pass_reset_session, error)
 	GetResetPasswordSession(user_id string) (*Pass_reset_session, error)

@@ -26,7 +26,7 @@ func (p *Poller) updateCache() (added, removed, updated map[string]bool, err err
 	active := make(map[string]bool)
 	const defaultInterval = "15"
 
-	remotes, err := p.Store.RetrieveAllRemotes()
+	remotes, err := p.Store.RetrieveAllRemotes(false)
 	if err != nil {
 		logrus.WithError(err).Warn("[updateCache] failed to retrieve remote identities")
 		return
@@ -34,7 +34,7 @@ func (p *Poller) updateCache() (added, removed, updated map[string]bool, err err
 
 	for remote := range remotes {
 		if p.statusTypeOK(remote) {
-			idkey := remote.UserId.String() + remote.Identifier
+			idkey := remote.UserId.String() + remote.RemoteId.String()
 			active[idkey] = true
 			if entry, ok := p.Cache[idkey]; ok {
 				//check if pollinterval has changed

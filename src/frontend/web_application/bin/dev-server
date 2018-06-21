@@ -3,8 +3,22 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
+const winston = require('winston');
 const fork = require('child_process').fork;
 const config = require('../webpack/webpack.config.server');
+
+const logger = winston.createLogger({
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.timestamp(),
+    winston.format.label({ label: 'webpack-server' }),
+    winston.format.align(),
+    winston.format.printf(info => `${info.timestamp} ${info.level} ${info.label} - ${info.message}`),
+  ),
+  transports: [
+    new winston.transports.Console(),
+  ],
+});
 
 let caliopen;
 const compiler = webpack(config);
@@ -19,19 +33,21 @@ const start = () => {
       caliopen.kill();
     }
 
-    console.log(stats.toString({ chunk: false, colors: true }));
+    logger.debug(stats.toString({ chunk: false, colors: true }));
     if (err || stats.hasErrors()) {
-      console.error('[webpack server] unable to compile');
+      logger.error('unable to compile');
 
       return;
     }
-    console.log('[webpack server] done');
+    logger.info('done');
     try {
       caliopen = fork(path.join(__dirname, '../dist/server/index.js'), { cwd: path.join(__dirname, '../') });
     } catch (forkErr) {
-      console.error('[webpack server] Unable to start caliopen express server. Wait for rebuild.');
-      console.log(forkErr);
-      caliopen.kill();
+      logger.error('Unable to start caliopen express server. Wait for rebuild.');
+      logger.debug(forkErr);
+      if (caliopen) {
+        caliopen.kill();
+      }
     }
   });
 };
@@ -44,7 +60,7 @@ const checkForPrerequisites = () => new Promise((resolve) => {
   });
 
   const intervalId = setInterval(() => {
-    console.log('[webpack server] check for presence of template.html in dist/server/ directory');
+    logger.info('check for presence of template.html in dist/server/ directory');
     fs.access(path.resolve(__dirname, '../dist/server/template.html'), fs.constants.R_OK, (err) => {
       if (!err) {
         clearInterval(intervalId);
@@ -55,6 +71,6 @@ const checkForPrerequisites = () => new Promise((resolve) => {
 });
 
 checkForPrerequisites().then(() => {
-  console.log('[webpack server] Prerequisites OK. Start server compilation');
+  logger.info('Prerequisites OK. Start server compilation');
   start();
 });

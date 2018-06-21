@@ -1,0 +1,632 @@
+Received: from pb-mx12.pobox.com (pb-mx12.pobox.com [64.147.108.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail1.alpha.caliopen.org (Postfix) with ESMTPS id 7CB254031C
+	for <someoneos@alpha.caliopen.org>; Sat, 21 Apr 2018 12:28:32 +0200 (CEST)
+Received: from pb-mx12.nyi.icgroup.com (localhost.local [127.0.0.1])
+	by pb-mx12.pobox.com (Postfix) with ESMTP id 3332917069;
+	Sat, 21 Apr 2018 06:30:29 -0400 (EDT)
+X-Pobox-Filter-Version: 3.1
+X-Pobox-Loop-ID: 97699de182b5846295308e8103444ad000e8e34c
+Delivered-To: someone@pobox.com
+X-Pobox-Delivery-ID: E285A2-8BB3817067-1524306628-16058349!pb-mx12.pobox.com
+Received: from o114.p8.mailjet.com (o114.p8.mailjet.com [87.253.233.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by pb-mx12.pobox.com (Postfix) with ESMTPS id 8BB3817067
+	for <someone@pobox.com>; Sat, 21 Apr 2018 06:30:28 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; q=dns/txt;
+  d=hoalen.com; i=info@hoalen.com; s=mailjet;
+  h=message-id:mime-version:from:to:subject:date:list-id:list-unsubscribe:
+  precedence:x-csa-complaints:x-mj-mid:x-mj-smtpguid:x-report-abuse-to:
+  content-type;
+  bh=Z6shVnZrbxs/K1NeSnjTJNsYnyT9pTVIKVuNwuFeKsQ=;
+  b=oTilStolAxDv5SKtF8iJqoEtp6hfwSd2/VXz43PCxYQ08ZqlUxGkqK+jq
+ 2qt3fKRS99xrdZ4VOpQ2fzLSev4fRH1sEHSffrfLlf8v+piVV4db3PvOJYQ4
+ OHRRTEKQSfkqs5JIV4eMp9h+ues6WKGgnRcNVwjfkykHsRcXr9zaDc=
+Message-Id: <66c3d094.AMUAAAV2f1kAAWYCyZAAAE40REEAAEr4y9MAEROrAACv-ABa2xLD@mailjet.com>
+MIME-Version: 1.0
+From: "HOALEN SALTWATER Co." <info@hoalen.com>
+To: someone@pobox.com
+Subject: Classic chambray styles.
+Date: Sat, 21 Apr 2018 10:30:27 +0000
+List-Id: <info.hoalen.com.xix6-xouz8.mj>
+List-Unsubscribe: <mailto:unsub-66c3d094.xix6.ss8l5kj6yvro@bnc3.mailjet.com>
+Precedence: bulk
+X-CSA-Complaints: whitelist-complaints@eco.de
+X-MJ-Mid:
+	AMUAAAV2f1kAAWYCyZAAAE40REEAAEr4y9MAEROrAACv-ABa2xLDm75qCAUuSpi3Ndy_lLfQxAAAsWA
+X-MJ-SMTPGUID: 9bbe6a08-052e-4a98-b735-dcbf94b7d0c4
+X-REPORT-ABUSE-TO: Message sent by Mailjet please report to
+	abuse@mailjet.com with a copy of the message
+Content-Type: multipart/alternative; boundary="=-TmdQenFaaBdQnpCMWq90"
+X-Pobox-Client-Address: 87.253.233.114
+X-Pobox-Client-Name: o114.p8.mailjet.com
+X-Pobox-Client-HELO: o114.p8.mailjet.com
+X-Pobox-Original-Sender:
+ 66c3d094.AMUAAAV2f1kAAWYCyZAAAE40REEAAEr4y9MAEROrAACv-ABa2xLD@bnc3.mailjet.com
+
+--=-TmdQenFaaBdQnpCMWq90
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+" />
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=
+=3D1.0"/>
+    <title>HOALEN - Saltwater Players Co.</title>
+    <style type=3D"text/css">
+        html {
+            /*font-size: 100%;*/
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #626262;
+            font-size:80%;
+            font-size:14px;
+        }
+
+        .about {
+            width:900px;
+        }
+
+        .text-about {
+            width:900px;
+        }
+
+        .logo-main {
+
+        }
+        a {
+            color: #626262;
+            text-decoration: none;
+        }
+        a:link {color: #626262;}
+        a:visited {color: #626262;}
+        a:hover {color: #626262;text-decoration: underline}
+        a:active {color: #626262;}
+
+        #outlook a {padding:0;}
+        body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text=
+-size-adjust:100%; margin:0; padding:0;}
+        .ExternalClass {width:100%;}
+        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalCla=
+ss font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
+        #backgroundTable {margin:0; padding:0; width:100% !important; line-=
+height: 100% !important;}
+
+        img {outline:none; text-decoration:none; -ms-interpolation-mode: bi=
+cubic;}
+        a img {border:none;vertical-align: bottom;}
+        .image_fix {display:block;}
+        p {margin: 1em 0;}
+        h1, h2, h3, h4, h5, h6 {color: #626262 !important;}
+        h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: #626262 !important;}
+        h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h=
+6 a:active {color: #626262 !important;}
+        h1 a:visited, h2 a:visited,  h3 a:visited, h4 a:visited, h5 a:visit=
+ed, h6 a:visited {color: #626262 !important;}
+
+        table td {border-collapse: collapse;}
+
+        a[href^=3D"tel"], a[href^=3D"sms"] {
+            text-decoration: none;
+            color: #626262;
+            pointer-events: none;
+            cursor: default;
+        }
+
+        @media only screen and (max-device-width: 480px) {
+
+
+            body {
+                font-size: 5.5px;
+                font-size: 8px;
+            }
+
+
+
+            .about {
+                /*font-size: 200%;*/
+                width:100%;
+                letter-spacing: 0.1em!important;
+            }
+
+            .text-about {
+
+                /*width:95%;*/
+                /*font-size: 50%;*/
+                text-align: center;
+                width:100%;
+
+
+            }
+
+            .footer {
+                width:100%;
+                /*font-size: 100%;*/
+                text-align: center;
+            }
+
+
+
+            .content {
+                width:100%;
+                line-height: 0;
+            }
+
+
+
+            .containerdemi {
+                max-width:100%!important;
+                width:100%;
+            }
+
+            .demi {
+                display:inline-block!important;
+                width:50%!important;
+                border:0!important;
+                margin:0!important;
+                padding:0!important;
+            }
+
+            .full {
+                width:100%!important;
+                border:0!important;
+                margin:0!important;
+                padding:0!important;
+            }
+
+            .image {
+                width:100%!important;
+
+                border:0!important;
+                margin:0!important;
+                padding:0!important;
+            }
+
+
+
+            .logo-main {
+                width:250px;
+
+            }
+
+            .logo-footer {
+                width:25em;
+            }
+
+
+            .mobile-break {
+                display:block;
+                width:0;
+                height:0;
+                overflow:hidden;
+            }
+
+            .button-mobile {
+                display:block;
+
+            }
+
+            .footer-legal {
+                font-size: 1.4em!important;
+            }
+
+            .mobile-break-about {
+                margin:2em auto;
+            }
+
+            .social-mobile {
+                width:8em;
+            }
+
+            .mobile-seabass {
+                width:100px;
+            }
+
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class=3D"header" style=3D"width:100%;max-width: 900px;text-align:cente=
+r;margin:0 auto">
+    <a href=3D"http://www.hoalen.com"><img class=3D"logo-main" style=3D"wid=
+th: 100%!important;" src=3D"http://www.hoalen.com/nl/general/logo-hoalen-he=
+ader-newsletter-2.jpg" border=3D"0" class=3D""/></a>
+</div>
+
+<!-- Content -->
+<div style=3D"width:0;height:0;overflow:hidden">Elegant beach look - </div>
+
+<div class=3D"content" style=3D"width:100%;text-align:center;margin:0 auto"=
+>
+    <div><a rel=3D"" href=3D"https://www.hoalen.com/en/woman-eurielle-1454.=
+html#/size-36/color-indigo?utm_source=3DMailjet&utm_medium=3De-mail&utm_cam=
+paign=3Dclassic-chambray-styles."><img src=3D"https://www.hoalen.com/medias=
+/newsletters/900/227-1524305443.jpg" border=3D"0" class=3D"full"/></a></div=
+><div><a rel=3D"" href=3D"https://www.hoalen.com/en/woman-eurielle-1454.htm=
+l#/size-36/color-indigo?utm_source=3DMailjet&utm_medium=3De-mail&utm_campai=
+gn=3Dclassic-chambray-styles."><img src=3D"https://www.hoalen.com/medias/ne=
+wsletters/900/227-1524305463.jpg" border=3D"0" class=3D"full"/></a></div><d=
+iv><a rel=3D"" href=3D"https://www.hoalen.com/en/woman-eurielle-1454.html#/=
+size-36/color-indigo?utm_source=3DMailjet&utm_medium=3De-mail&utm_campaign=
+=3Dclassic-chambray-styles."><img src=3D"https://www.hoalen.com/medias/news=
+letters/900/227-1524305476.jpg" border=3D"0" class=3D"full"/></a></div><div=
+><a rel=3D"" href=3D"https://www.hoalen.com/en/outdoor-clothing-man-sezaig-=
+1460.html#/size-s/color-indigo?utm_source=3DMailjet&utm_medium=3De-mail&utm=
+_campaign=3Dclassic-chambray-styles."><img src=3D"https://www.hoalen.com/me=
+dias/newsletters/900/227-1524305531.jpg" border=3D"0" class=3D"full"/></a><=
+/div>
+</div>
+
+<!-- About -->
+<div class=3D"about" style=3D"width:100%;max-width: 900px;margin:5em auto 0=
+ auto;text-align:center;">
+
+    <!-- Social -->
+    <p style=3D"vertical-align:middle">
+        <a style=3D"margin:0 0.75em;vertical-align:middle" href=3D"https://=
+www.hoalen.com"><img class=3D"social-mobile" style=3D"width: 100%!important=
+;vertical-align:middle" src=3D"http://www.hoalen.com/nl/general/logo-hoalen=
+-bottom-2.jpg" border=3D"0" alt=3D"hoalen"/></a>
+
+    </p>
+
+
+
+    <div class=3D"text-about" style=3D"color:#000!important;width:100%;max-=
+width: 900px;box-sizing:border-box;padding:1.5em;margin:0 auto">
+        <p style=3D"font-size: 1.4em;font-family: 'helvetica neue', arial, =
+sans-serif;font-weight: 200;letter-spacing: 0.1em;margin:0">Cette lettre vo=
+us informe des derniers produits,<br/>innovations, =C3=A9v=C3=A9nements et =
+activit=C3=A9s de notre marque ainsi<br/>que des projets et des aventures r=
+=C3=A9alis=C3=A9s par nos ambassadeurs.</p>
+        <p style=3D"font-size: 1.4em;font-family: 'helvetica neue', arial, =
+sans-serif;font-weight: 200;letter-spacing: 0.1em;"><i>This newsletter keep=
+s you updated on the latest products, innovations, events and corporate act=
+ivity of our company, as well as on the projects and<br/>adventures being p=
+ursued by our ambassadors.</i></p>
+
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div class=3D"footer" style=3D"width:100%;max-width: 900px;text-align:cente=
+r;line-height:1.25em;margin:0 auto 3em auto">
+
+    <p class=3D"footer-legal" style=3D"margin:1.75em 0 0 0;font-size: 1.0em=
+;font-family: 'helvetica neue', arial, sans-serif;font-weight: 200;letter-s=
+pacing: 0.1em;">Si vous souhaitez ne plus recevoir nos e-mails, <a href=3D"=
+http://xix6.mj.am/unsub2?hl=3Dfr&m=3DAMUAAAV2f1kAAWYCyZAAAE40REEAAEr4y9MAER=
+OrAACv-ABa2xLDm75qCAUuSpi3Ndy_lLfQxAAAsWA&b=3D66c3d094&e=3Dd597839d&x=3DDGt=
+exrtLzM8323CeidSHNg" style=3D"color:#626262;font-weight:300">cliquez ici.</=
+a></p>
+    <p class=3D"footer-legal" style=3D"margin:0.25em 0;font-size: 1.0em;fon=
+t-family: 'helvetica neue', arial, sans-serif;font-style:italic;font-weight=
+: 200;letter-spacing: 0.1em;">If you want to unsubscribe from this list, <a=
+ href=3D"http://xix6.mj.am/unsub2?hl=3Den&m=3DAMUAAAV2f1kAAWYCyZAAAE40REEAA=
+Er4y9MAEROrAACv-ABa2xLDm75qCAUuSpi3Ndy_lLfQxAAAsWA&b=3D66c3d094&e=3Dd597839=
+d&x=3DDGtexrtLzM8323CeidSHNg" style=3D"color:#626262;font-weight:300">click=
+ here.</a></p>
+
+</div>
+
+</body>
+</html>
+=
+
+--=-TmdQenFaaBdQnpCMWq90
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+" />
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=
+=3D1.0"/>
+    <title>HOALEN - Saltwater Players Co.</title>
+    <style type=3D"text/css">
+        html {
+            /*font-size: 100%;*/
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #626262;
+            font-size:80%;
+            font-size:14px;
+        }
+
+        .about {
+            width:900px;
+        }
+
+        .text-about {
+            width:900px;
+        }
+
+        .logo-main {
+
+        }
+        a {
+            color: #626262;
+            text-decoration: none;
+        }
+        a:link {color: #626262;}
+        a:visited {color: #626262;}
+        a:hover {color: #626262;text-decoration: underline}
+        a:active {color: #626262;}
+
+        #outlook a {padding:0;}
+        body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text=
+-size-adjust:100%; margin:0; padding:0;}
+        .ExternalClass {width:100%;}
+        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalCla=
+ss font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
+        #backgroundTable {margin:0; padding:0; width:100% !important; line-=
+height: 100% !important;}
+
+        img {outline:none; text-decoration:none; -ms-interpolation-mode: bi=
+cubic;}
+        a img {border:none;vertical-align: bottom;}
+        .image_fix {display:block;}
+        p {margin: 1em 0;}
+        h1, h2, h3, h4, h5, h6 {color: #626262 !important;}
+        h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: #626262 !important;}
+        h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h=
+6 a:active {color: #626262 !important;}
+        h1 a:visited, h2 a:visited,  h3 a:visited, h4 a:visited, h5 a:visit=
+ed, h6 a:visited {color: #626262 !important;}
+
+        table td {border-collapse: collapse;}
+
+        a[href^=3D"tel"], a[href^=3D"sms"] {
+            text-decoration: none;
+            color: #626262;
+            pointer-events: none;
+            cursor: default;
+        }
+
+        @media only screen and (max-device-width: 480px) {
+
+
+            body {
+                font-size: 5.5px;
+                font-size: 8px;
+            }
+
+
+
+            .about {
+                /*font-size: 200%;*/
+                width:100%;
+                letter-spacing: 0.1em!important;
+            }
+
+            .text-about {
+
+                /*width:95%;*/
+                /*font-size: 50%;*/
+                text-align: center;
+                width:100%;
+
+
+            }
+
+            .footer {
+                width:100%;
+                /*font-size: 100%;*/
+                text-align: center;
+            }
+
+
+
+            .content {
+                width:100%;
+                line-height: 0;
+            }
+
+
+
+            .containerdemi {
+                max-width:100%!important;
+                width:100%;
+            }
+
+            .demi {
+                display:inline-block!important;
+                width:50%!important;
+                border:0!important;
+                margin:0!important;
+                padding:0!important;
+            }
+
+            .full {
+                width:100%!important;
+                border:0!important;
+                margin:0!important;
+                padding:0!important;
+            }
+
+            .image {
+                width:100%!important;
+
+                border:0!important;
+                margin:0!important;
+                padding:0!important;
+            }
+
+
+
+            .logo-main {
+                width:250px;
+
+            }
+
+            .logo-footer {
+                width:25em;
+            }
+
+
+            .mobile-break {
+                display:block;
+                width:0;
+                height:0;
+                overflow:hidden;
+            }
+
+            .button-mobile {
+                display:block;
+
+            }
+
+            .footer-legal {
+                font-size: 1.4em!important;
+            }
+
+            .mobile-break-about {
+                margin:2em auto;
+            }
+
+            .social-mobile {
+                width:8em;
+            }
+
+            .mobile-seabass {
+                width:100px;
+            }
+
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class=3D"header" style=3D"width:100%;max-width: 900px;text-align:cente=
+r;margin:0 auto">
+    <a href=3D"http://xix6.mj.am/lnk/AMUAAAV2f1kAAWYCyZAAAE40REEAAEr4y9MAER=
+OrAACv-ABa2xLDm75qCAUuSpi3Ndy_lLfQxAAAsWA/1/oxKQIjdkgM25LiKd5YdKVQ/aHR0cDov=
+L3d3dy5ob2FsZW4uY29t"><img class=3D"logo-main" style=3D"width: 100%!importa=
+nt;" src=3D"http://www.hoalen.com/nl/general/logo-hoalen-header-newsletter-=
+2.jpg" border=3D"0" class=3D""/></a>
+</div>
+
+<!-- Content -->
+<div style=3D"width:0;height:0;overflow:hidden">Elegant beach look - </div>
+
+<div class=3D"content" style=3D"width:100%;text-align:center;margin:0 auto"=
+>
+    <div><a rel=3D"" href=3D"http://xix6.mj.am/lnk/AMUAAAV2f1kAAWYCyZAAAE40=
+REEAAEr4y9MAEROrAACv-ABa2xLDm75qCAUuSpi3Ndy_lLfQxAAAsWA/2/db83xRRGMfwzmivCY=
+keuCw/aHR0cHM6Ly93d3cuaG9hbGVuLmNvbS9lbi93b21hbi1ldXJpZWxsZS0xNDU0Lmh0bWwjL=
+3NpemUtMzYvY29sb3ItaW5kaWdvP3V0bV9zb3VyY2U9TWFpbGpldCZ1dG1fbWVkaXVtPWUtbWFp=
+bCZ1dG1fY2FtcGFpZ249Y2xhc3NpYy1jaGFtYnJheS1zdHlsZXMu#/size-36/color-indigo?=
+utm_source=3DMailjet&utm_medium=3De-mail&utm_campaign=3Dclassic-chambray-st=
+yles."><img src=3D"https://www.hoalen.com/medias/newsletters/900/227-152430=
+5443.jpg" border=3D"0" class=3D"full"/></a></div><div><a rel=3D"" href=3D"h=
+ttp://xix6.mj.am/lnk/AMUAAAV2f1kAAWYCyZAAAE40REEAAEr4y9MAEROrAACv-ABa2xLDm7=
+5qCAUuSpi3Ndy_lLfQxAAAsWA/3/oIJapmsUhGAv1BfauTHKfQ/aHR0cHM6Ly93d3cuaG9hbGVu=
+LmNvbS9lbi93b21hbi1ldXJpZWxsZS0xNDU0Lmh0bWwjL3NpemUtMzYvY29sb3ItaW5kaWdvP3V=
+0bV9zb3VyY2U9TWFpbGpldCZ1dG1fbWVkaXVtPWUtbWFpbCZ1dG1fY2FtcGFpZ249Y2xhc3NpYy=
+1jaGFtYnJheS1zdHlsZXMu#/size-36/color-indigo?utm_source=3DMailjet&utm_mediu=
+m=3De-mail&utm_campaign=3Dclassic-chambray-styles."><img src=3D"https://www=
+.hoalen.com/medias/newsletters/900/227-1524305463.jpg" border=3D"0" class=
+=3D"full"/></a></div><div><a rel=3D"" href=3D"http://xix6.mj.am/lnk/AMUAAAV=
+2f1kAAWYCyZAAAE40REEAAEr4y9MAEROrAACv-ABa2xLDm75qCAUuSpi3Ndy_lLfQxAAAsWA/4/=
+Zud1wb7eO6glrlMsv5HfKw/aHR0cHM6Ly93d3cuaG9hbGVuLmNvbS9lbi93b21hbi1ldXJpZWxs=
+ZS0xNDU0Lmh0bWwjL3NpemUtMzYvY29sb3ItaW5kaWdvP3V0bV9zb3VyY2U9TWFpbGpldCZ1dG1=
+fbWVkaXVtPWUtbWFpbCZ1dG1fY2FtcGFpZ249Y2xhc3NpYy1jaGFtYnJheS1zdHlsZXMu#/size=
+-36/color-indigo?utm_source=3DMailjet&utm_medium=3De-mail&utm_campaign=3Dcl=
+assic-chambray-styles."><img src=3D"https://www.hoalen.com/medias/newslette=
+rs/900/227-1524305476.jpg" border=3D"0" class=3D"full"/></a></div><div><a r=
+el=3D"" href=3D"http://xix6.mj.am/lnk/AMUAAAV2f1kAAWYCyZAAAE40REEAAEr4y9MAE=
+ROrAACv-ABa2xLDm75qCAUuSpi3Ndy_lLfQxAAAsWA/5/1Lm4mtuvEogSDbJsn5J9Ww/aHR0cHM=
+6Ly93d3cuaG9hbGVuLmNvbS9lbi9vdXRkb29yLWNsb3RoaW5nLW1hbi1zZXphaWctMTQ2MC5odG=
+1sIy9zaXplLXMvY29sb3ItaW5kaWdvP3V0bV9zb3VyY2U9TWFpbGpldCZ1dG1fbWVkaXVtPWUtb=
+WFpbCZ1dG1fY2FtcGFpZ249Y2xhc3NpYy1jaGFtYnJheS1zdHlsZXMu#/size-s/color-indig=
+o?utm_source=3DMailjet&utm_medium=3De-mail&utm_campaign=3Dclassic-chambray-=
+styles."><img src=3D"https://www.hoalen.com/medias/newsletters/900/227-1524=
+305531.jpg" border=3D"0" class=3D"full"/></a></div>
+</div>
+
+<!-- About -->
+<div class=3D"about" style=3D"width:100%;max-width: 900px;margin:5em auto 0=
+ auto;text-align:center;">
+
+    <!-- Social -->
+    <p style=3D"vertical-align:middle">
+        <a style=3D"margin:0 0.75em;vertical-align:middle" href=3D"http://x=
+ix6.mj.am/lnk/AMUAAAV2f1kAAWYCyZAAAE40REEAAEr4y9MAEROrAACv-ABa2xLDm75qCAUuS=
+pi3Ndy_lLfQxAAAsWA/6/CqG2zQCL1QrygZPbMC15Yg/aHR0cHM6Ly93d3cuaG9hbGVuLmNvbQ"=
+><img class=3D"social-mobile" style=3D"width: 100%!important;vertical-align=
+:middle" src=3D"http://www.hoalen.com/nl/general/logo-hoalen-bottom-2.jpg" =
+border=3D"0" alt=3D"hoalen"/></a>
+
+    </p>
+
+
+
+    <div class=3D"text-about" style=3D"color:#000!important;width:100%;max-=
+width: 900px;box-sizing:border-box;padding:1.5em;margin:0 auto">
+        <p style=3D"font-size: 1.4em;font-family: 'helvetica neue', arial, =
+sans-serif;font-weight: 200;letter-spacing: 0.1em;margin:0">Cette lettre vo=
+us informe des derniers produits,<br/>innovations, =C3=A9v=C3=A9nements et =
+activit=C3=A9s de notre marque ainsi<br/>que des projets et des aventures r=
+=C3=A9alis=C3=A9s par nos ambassadeurs.</p>
+        <p style=3D"font-size: 1.4em;font-family: 'helvetica neue', arial, =
+sans-serif;font-weight: 200;letter-spacing: 0.1em;"><i>This newsletter keep=
+s you updated on the latest products, innovations, events and corporate act=
+ivity of our company, as well as on the projects and<br/>adventures being p=
+ursued by our ambassadors.</i></p>
+
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div class=3D"footer" style=3D"width:100%;max-width: 900px;text-align:cente=
+r;line-height:1.25em;margin:0 auto 3em auto">
+
+    <p class=3D"footer-legal" style=3D"margin:1.75em 0 0 0;font-size: 1.0em=
+;font-family: 'helvetica neue', arial, sans-serif;font-weight: 200;letter-s=
+pacing: 0.1em;">Si vous souhaitez ne plus recevoir nos e-mails, <a href=3D"=
+http://xix6.mj.am/unsub2?hl=3Dfr&amp;m=3DAMUAAAV2f1kAAWYCyZAAAE40REEAAEr4y9=
+MAEROrAACv-ABa2xLDm75qCAUuSpi3Ndy_lLfQxAAAsWA&amp;b=3D66c3d094&amp;e=3Dd597=
+839d&amp;x=3DDGtexrtLzM8323CeidSHNg" style=3D"color:#626262;font-weight:300=
+">cliquez ici.</a></p>
+    <p class=3D"footer-legal" style=3D"margin:0.25em 0;font-size: 1.0em;fon=
+t-family: 'helvetica neue', arial, sans-serif;font-style:italic;font-weight=
+: 200;letter-spacing: 0.1em;">If you want to unsubscribe from this list, <a=
+ href=3D"http://xix6.mj.am/unsub2?hl=3Den&amp;m=3DAMUAAAV2f1kAAWYCyZAAAE40R=
+EEAAEr4y9MAEROrAACv-ABa2xLDm75qCAUuSpi3Ndy_lLfQxAAAsWA&amp;b=3D66c3d094&amp=
+;e=3Dd597839d&amp;x=3DDGtexrtLzM8323CeidSHNg" style=3D"color:#626262;font-w=
+eight:300">click here.</a></p>
+
+</div>
+
+
+<br/><img src=3D"http://xix6.mj.am/oo/AMUAAAV2f1kAAWYCyZAAAE40REEAAEr4y9MAE=
+ROrAACv-ABa2xLDm75qCAUuSpi3Ndy_lLfQxAAAsWA/77d9de80/e.gif" height=3D"1" wid=
+th=3D"1" alt=3D"" border=3D"0" style=3D"height:1px;width:1px;border:0;"/>
+</body>
+</html>
+=
+
+--=-TmdQenFaaBdQnpCMWq90--
+

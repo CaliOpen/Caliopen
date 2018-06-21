@@ -10,6 +10,7 @@ describe('component PhoneForm', () => {
   it('init form', () => {
     const props = {
       i18n: { _: (id, values) => id },
+      onDelete: jest.fn(),
     };
 
     const comp = shallow(

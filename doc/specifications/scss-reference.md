@@ -8,6 +8,15 @@
 
 ---
 
+**Requirements:**
+
+A basic knowledge of ITCSS and BEM is highly recommanded.
+
+* [A  conference of Harry Roberts](https://www.youtube.com/watch?v=1OKZOV-iLj4) about managing css with ITCSS (1:13)
+* [BEM](http://getbem.com/introduction/) introduction
+
+---
+
 A CSS architecture is subject to two opposing interests. For one hand, we want a set of **generic
 and modular** components we can use freely and easily maintain. On the other hand, we want an
 ergonomic interface and a semantic code, so **specific** to each task or showed information.

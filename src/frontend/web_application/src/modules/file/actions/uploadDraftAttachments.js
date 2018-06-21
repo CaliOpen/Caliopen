@@ -1,15 +1,11 @@
 import { uploadAttachment, requestMessage } from '../../../store/modules/message';
 import { tryCatchAxiosPromise } from '../../../services/api-client';
+import UploadFileAsFormField from '../services/uploadFileAsFormField';
 
 export const uploadDraftAttachments = ({ message, attachments }) => async (dispatch) => {
-  if (typeof FormData !== 'function') {
-    throw new Error('not a browser environment');
-  }
-
   try {
     await Promise.all(attachments.map((file) => {
-      const attachment = new FormData();
-      attachment.append('attachment', file);
+      const attachment = new UploadFileAsFormField(file, 'attachment');
 
       return tryCatchAxiosPromise(dispatch(uploadAttachment({ message, attachment })));
     }));

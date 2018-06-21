@@ -24,7 +24,7 @@ func GetIdentities(ctx *gin.Context) {
 		ctx.Abort()
 		return
 	}
-	identities, err := caliopen.Facilities.RESTfacility.ContactIdentities(user_id, contact_id)
+	identities, err := caliopen.Facilities.RESTfacility.RetrieveContactIdentities(user_id, contact_id)
 	if err != nil {
 		e := swgErr.New(http.StatusInternalServerError, err.Error())
 		http_middleware.ServeError(ctx.Writer, ctx.Request, e)

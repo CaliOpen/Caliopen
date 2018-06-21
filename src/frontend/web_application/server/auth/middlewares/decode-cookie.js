@@ -13,7 +13,7 @@ const decodeCookie = (req, res, next) => {
 
   cyphered.decode(seal, secret, (err, obj) => {
     if (err || !obj) {
-      const error = new Error('Unexpected Server Error');
+      const error = new Error('Unexpected Server Error on cookie decoding');
       error.status = 500;
       error.err = err;
 

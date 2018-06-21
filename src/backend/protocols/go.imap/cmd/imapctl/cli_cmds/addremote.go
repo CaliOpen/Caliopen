@@ -27,26 +27,26 @@ var (
 
 type remoteId struct {
 	DisplayName  string
-	Identifier   string
 	Login        string
 	Mailbox      string
 	Password     string
 	PollInterval string
+	RemoteId     string
 	Server       string
-	UserId       string
+	UserId       UUID
+	UserName     string
 }
 
 func init() {
 	//mandatory
-	addRemoteCmd.Flags().StringVarP(&id.UserId, "userid", "u", "", "user account uuid in which mails will be imported (required)")
+	addRemoteCmd.Flags().StringVarP(&id.UserName, "username", "u", "", "user name account in which mails will be imported (required)")
 	addRemoteCmd.Flags().StringVarP(&id.Server, "server", "s", "", "remote hostname[:port] IMAP server address (required)")
 	addRemoteCmd.Flags().StringVarP(&id.Login, "login", "l", "", "IMAP login credential (required)")
 	//optional
 	addRemoteCmd.Flags().StringVarP(&id.Password, "pass", "p", "", "IMAP password credential")
 	addRemoteCmd.Flags().StringVarP(&id.Mailbox, "mailbox", "m", "INBOX", "IMAP mailbox name to fetch mail from (case sensitive, default to 'INBOX'")
-	addRemoteCmd.Flags().StringVarP(&id.Identifier, "identifier", "i", id.Login, "identifier for remote identity (default to login)")
-	addRemoteCmd.Flags().StringVarP(&id.DisplayName, "display", "d", "", "display name for remote identity")
-	addRemoteCmd.MarkFlagRequired("userid")
+	addRemoteCmd.Flags().StringVarP(&id.DisplayName, "display", "d", "", "display name for remote identity (default to login)")
+	addRemoteCmd.MarkFlagRequired("username")
 	addRemoteCmd.MarkFlagRequired("server")
 	addRemoteCmd.MarkFlagRequired("login")
 	RootCmd.AddCommand(addRemoteCmd)
@@ -54,6 +54,8 @@ func init() {
 
 func addRemote(cmd *cobra.Command, args []string) {
 	var is backends.IdentityStorage
+	var us backends.UserNameStorage
+	var cb *store.CassandraBackend
 	var rId RemoteIdentity
 	var err error
 	switch cmdConfig.StoreName {
@@ -65,34 +67,39 @@ func addRemote(cmd *cobra.Command, args []string) {
 			SizeLimit:   cmdConfig.StoreConfig.SizeLimit,
 		}
 
-		is, err = store.InitializeCassandraBackend(c)
+		cb, err = store.InitializeCassandraBackend(c)
 		if err != nil {
 			log.WithError(err).Fatalf("[addRemote] initalization of %s backend failed", cmdConfig.StoreName)
 		}
 
 	}
-	if id.Identifier == "" {
-		id.Identifier = id.Login
+	is = backends.IdentityStorage(cb)
+	us = backends.UserNameStorage(cb)
+
+	user, e := us.UserByUsername(id.UserName)
+	if e != nil {
+		log.WithError(e).Fatalf("[addRemote] failed to retrieve user name <%s>", id.UserName)
 	}
+	id.UserId = user.UserId
 	if id.DisplayName == "" {
-		id.DisplayName = id.Identifier
+		id.DisplayName = id.Login
 	}
 	rId = RemoteIdentity{
 		DisplayName: id.DisplayName,
-		Identifier:  id.Identifier,
 		Status:      "active",
 		Type:        "imap",
-		UserId:      UUID(uuid.FromStringOrNil(id.UserId)),
+		UserId:      id.UserId,
 	}
-	rId.SetDefaultInfos()
-	rId.Infos["password"] = id.Password
+	rId.RemoteId.UnmarshalBinary(uuid.NewV4().Bytes())
+	rId.SetDefaults()
 	rId.Infos["server"] = id.Server
-	rId.Infos["username"] = id.Login
+	rId.Credentials["password"] = id.Password
+	rId.Credentials["username"] = id.Login
 
 	err = is.CreateRemoteIdentity(&rId)
 	if err != nil {
 		log.WithError(err).Warn("[addRemote] storage failed to store remote identity")
 	} else {
-		log.Info("OK, new remote identity added ! Bye.")
+		log.Infof("OK, new remote identity added with id %s ! Bye.", rId.RemoteId.String())
 	}
 }

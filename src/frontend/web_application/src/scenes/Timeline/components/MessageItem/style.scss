@@ -62,50 +62,16 @@ $s-message-item__pi-width: 7px;
     margin-left: $s-message-item__pi-width;
   }
 
-  &__col-title {
+  &__col-content {
     @include flex-grid-size;
     min-width: 0; // https://github.com/zurb/foundation-sites/pull/8511
   }
 
-  &__title {
-    @include flex-grid-row($size: expand);
-    align-items: center;
-  }
-
-  &__author { @include flex-grid-size(12); }
-
-  &__author-name {
-    color: $co-color__primary--lower;
-    font-size: $co-font__size;
-    font-weight: 600;
-  }
-
-  &__topic {
-    @include flex-grid-size(12);
-
-    &--unread { font-weight: 600; }
-    &--draft { font-style: italic; }
-  }
-
-  &__subject { color: $co-color__fg__text--lower; }
-  &__excerpt { color: $co-color__fg__text--high; }
-
-  &__col-file {
+  &__col-date {
     @include flex-grid-column(shrink);
-    display: none;
-  }
-
-  &__col-dates {
-    @include flex-grid-column(shrink);
-    color: $co-color__fg__text--high;
+    color: $co-color__fg__text--higher;
     text-align: right;
-
-    &--unread {
-      color: $co-color__fg__text--low;
-    }
   }
-
-  &__type-label { display: none; }
 
   &__col-select {
     display: none;
@@ -113,21 +79,64 @@ $s-message-item__pi-width: 7px;
     margin-left: auto;
   }
 
+  &__content {
+    @include flex-grid-row;
+    align-items: center;
+    min-height: $co-component__height;
+    color: $co-color__fg__text--higher;
+    font-weight: 400;
+
+    &--draft { font-style: italic; }
+  }
+
+  &__author {
+    @include flex-grid-size(12);
+    color: $co-color__primary--lower;
+    font-weight: 600;
+  }
+
+  &__title {
+    @include flex-grid-size;
+    margin-right: $co-component__spacing;
+  }
+
+  &__subject { color: $co-color__fg__text--low; }
+  &__file {
+    @include flex-grid-column(shrink);
+  }
+
+  &__tags {
+    @include flex-grid-size(shrink);
+  }
+
+  &__tag {
+    display: inline-block;
+    margin-right: $co-component__spacing / 2;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
   @include breakpoint(medium) {
     padding-top: 0;
     padding-bottom: 0;
 
-    &__col-select,
-    &__col-file {
-      display: block;
+    &__col-select {
+      display: flex;
     }
 
-    &__topic { @include flex-grid-column; }
+    &__col-content {
+      @include flex-grid-size;
+    }
 
-    &__col-dates { @include flex-grid-size(shrink); }
+    &__author {
+      @include flex-grid-size(2);
+      min-width: 220px;
+    }
 
-    &__author { @include flex-grid-size(shrink); }
-
-    &__type-label { display: inline }
+    &__tags {
+      @include flex-grid-size(shrink);
+    }
   }
 }

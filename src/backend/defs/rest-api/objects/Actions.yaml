@@ -10,6 +10,9 @@ properties:
         - set_read
         - set_unread
         - reset_password
+        - delete
+  params:
+    type: object
 additionalProperties: false
 required:
   - actions

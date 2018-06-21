@@ -13,20 +13,17 @@ import (
 )
 
 type imapJob struct {
-	remoteId  *RemoteIdentity
-	poller    *Poller
+	remoteId  string
 	natsTopic string
+	poller    *Poller
+	userId    string
 }
 
 func (j imapJob) Run() {
 	msg, err := json.Marshal(IMAPfetchOrder{
-		Order:      "sync",
-		UserId:     j.remoteId.UserId.String(),
-		Identifier: j.remoteId.Identifier,
-		Server:     j.remoteId.Infos["server"],
-		Mailbox:    "INBOX", // TODO
-		Login:      j.remoteId.Infos["username"],
-		Password:   j.remoteId.Infos["password"],
+		Order:    "sync",
+		UserId:   j.userId,
+		RemoteId: j.remoteId,
 	})
 	if err != nil {
 		logrus.WithError(err).Fatal("unable to marshal natsOrder")
@@ -39,5 +36,5 @@ func (j imapJob) Run() {
 		logrus.WithError(err).Fatal("nats publish failed")
 	}
 
-	logrus.Infof("ordering to sync mailbox from %s for user %s", j.remoteId.Identifier, j.remoteId.UserId.String())
+	logrus.Infof("ordering to sync mailbox from remote %s for user %s", j.remoteId, j.userId)
 }

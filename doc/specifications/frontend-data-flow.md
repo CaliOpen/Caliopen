@@ -1,4 +1,4 @@
-# Data Flux
+# Frontend data flow
 
 Caliopen must offers a simple API for a simple concept:
 
@@ -14,6 +14,8 @@ Following this assomption, an action MUST be a Promise.
 An action MAY be specific to a component.
 An action MAY be related to one or more concept.
 An action MAY be a serie of redux actions.
+An action MUST return an entity or a collection of entity or throw an error.
+An action MUST store the result of the action(s) in the state except for password related actions.
 
 ## State
 

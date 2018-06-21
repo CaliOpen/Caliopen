@@ -14,6 +14,7 @@ describe('component NavigationAlt', () => {
         applications={applications}
         currentApplication={currentApplication}
         i18n={{ _: translate }}
+        onClickApp={ jest.fn() }
       />
     );
 

@@ -57,6 +57,7 @@ class DeviceForm extends Component {
   }
 
   validateIP = (ip) => {
+    // XXX: add IP V6 support
     if (/^[0-9]{1,3}(\.[-/0-9]*){1,3}$/.test(ip)) {
       return { isValid: true };
     }

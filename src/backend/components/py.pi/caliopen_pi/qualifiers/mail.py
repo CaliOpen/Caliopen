@@ -19,7 +19,6 @@ from caliopen_main.discussion.core import Discussion
 from ..features.types import unmarshall_features
 from ..features import InboundMailFeature
 
-
 log = logging.getLogger(__name__)
 
 
@@ -122,6 +121,10 @@ class UserMessageQualifier(object):
             new_message.participants.append(participant)
             participants.append((participant, contact))
 
+        if not participants:
+            raise Exception("no participant found in raw message {}".format(
+                raw.raw_msg_id))
+
         for a in message.attachments:
             attachment = Attachment()
             attachment.content_type = a.content_type
@@ -165,6 +168,8 @@ class UserMessageQualifier(object):
                 "validation failed with error : « {} » \
                 for new_message {}[dump : {}]".format(
                     exc, new_message, vars(new_message)))
+            raise exc
+
         return new_message
         # TODO link raw message with current user
         # XXX create lookup

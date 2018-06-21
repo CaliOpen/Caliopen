@@ -5,7 +5,7 @@ import SigninForm from './components/SigninForm';
 import getClient from '../../services/api-client';
 import { STATUS_VERIFIED } from '../../modules/device';
 
-const URL_DEVICES = '/settings/devices';
+const URL_DEVICES = '/settings/new-device';
 
 const getRedirect = (queryString) => {
   const paramRedirect = queryString.split(/[?|&]/).find(str => /^redirect/.test(str));

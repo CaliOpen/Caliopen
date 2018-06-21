@@ -9,9 +9,7 @@ volumes:
 services:
   # Caliopen APIv2
   api:
-    build:
-      context: ../src/backend
-      dockerfile: Dockerfile.go-api
+    image: public-registry.caliopen.org/api:compose
     links:
       - apiv1:apiv1.dev.caliopen.org
       - redis:redis.dev.caliopen.org
@@ -24,9 +22,7 @@ services:
 
   # Caliopen APIv1
   apiv1:
-    build:
-      context: ../src/backend
-      dockerfile: Dockerfile.py-api
+    image: public-registry.caliopen.org/apiv1:compose
     links:
       - redis:redis.dev.caliopen.org
       - cassandra:cassandra.dev.caliopen.org
@@ -74,9 +70,7 @@ services:
 
   # Caliopen cli tool
   cli:
-    build:
-      context: ../src/backend
-      dockerfile: Dockerfile.cli
+    image: public-registry.caliopen.org/cli:compose
     links:
       - cassandra:cassandra.dev.caliopen.org
       - elasticsearch:es.dev.caliopen.org
@@ -88,17 +82,14 @@ services:
 
   # Caliopen frontend
   frontend:
-    build:
-      context: ../src/frontend/web_application
+    image: public-registry.caliopen.org/frontend:compose
     links:
       - api:api.dev.caliopen.org
     ports:
       - "127.0.0.1:4000:4000"
   # Broker
   broker:
-    build:
-      context: ../src/backend
-      dockerfile: Dockerfile.go-lmtp
+    image: public-registry.caliopen.org/broker:compose
     links:
       - cassandra:cassandra.dev.caliopen.org
       - elasticsearch:es.dev.caliopen.org
@@ -115,9 +106,7 @@ services:
 
   # NATS Message Handler
   message_handler:
-    build:
-      context: ../src/backend
-      dockerfile: Dockerfile.message_handler
+    image: public-registry.caliopen.org/message_handler:compose
     links:
       - cassandra:cassandra.dev.caliopen.org
       - elasticsearch:es.dev.caliopen.org
@@ -136,24 +125,20 @@ services:
 
   # Worker for remote identities
   identity_worker:
-      build:
-        context: ../src/backend
-        dockerfile: Dockerfile.identity-worker
-      links:
-        - cassandra:cassandra.dev.caliopen.org
-        - object_store:minio.dev.caliopen.org
-        - elasticsearch:es.dev.caliopen.org
-        - nats:nats.dev.caliopen.org
+    image: public-registry.caliopen.org/identity_worker:compose
+    links:
+      - cassandra:cassandra.dev.caliopen.org
+      - object_store:minio.dev.caliopen.org
+      - elasticsearch:es.dev.caliopen.org
+      - nats:nats.dev.caliopen.org
 
   # Poller for remote identities
   identity_poller:
-      build:
-        context: ../src/backend
-        dockerfile: Dockerfile.identity-poller
-      links:
-        - identity_worker:identityworker.dev.caliopen.org
-        - cassandra:cassandra.dev.caliopen.org
-        - nats:nats.dev.caliopen.org
+    image: public-registry.caliopen.org/identity_poller:compose
+    links:
+      - identity_worker:identityworker.dev.caliopen.org
+      - cassandra:cassandra.dev.caliopen.org
+      - nats:nats.dev.caliopen.org
 
   # Postfix : a complete smpt server that act as the Caliopen's MTA
   # TODO

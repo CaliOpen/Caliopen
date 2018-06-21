@@ -10,6 +10,7 @@ import (
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/contacts"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/devices"
+	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/identities"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/messages"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/notifications"
 	"github.com/CaliOpen/Caliopen/src/backend/interfaces/REST/go.server/operations/participants"
@@ -49,12 +50,14 @@ type (
 	}
 
 	BackendSettings struct {
-		Hosts            []string      `mapstructure:"hosts"`
-		Keyspace         string        `mapstructure:"keyspace"`
-		Consistency      uint16        `mapstructure:"consistency_level"`
-		SizeLimit        uint64        `mapstructure:"raw_size_limit"` // max size for db (in bytes)
-		ObjStoreType     string        `mapstructure:"object_store"`
-		ObjStoreSettings obj.OSSConfig `mapstructure:"object_store_settings"`
+		Hosts            []string        `mapstructure:"hosts"`
+		Keyspace         string          `mapstructure:"keyspace"`
+		Consistency      uint16          `mapstructure:"consistency_level"`
+		SizeLimit        uint64          `mapstructure:"raw_size_limit"` // max size for db (in bytes)
+		ObjStoreType     string          `mapstructure:"object_store"`
+		ObjStoreSettings obj.OSSConfig   `mapstructure:"object_store_settings"`
+		UseVault         bool            `mapstructure:"use_vault"`
+		VaultSettings    obj.VaultConfig `mapstructure:"vault_settings"`
 	}
 
 	IndexConfig struct {
@@ -103,6 +106,8 @@ func (server *REST_API) initialize(config APIConfig) error {
 			SizeLimit:    config.BackendConfig.Settings.SizeLimit,
 			ObjStoreType: config.BackendConfig.Settings.ObjStoreType,
 			OSSConfig:    config.BackendConfig.Settings.ObjStoreSettings,
+			UseVault:     config.BackendConfig.Settings.UseVault,
+			VaultConfig:  config.BackendConfig.Settings.VaultSettings,
 		},
 		RESTindexConfig: obj.RESTIndexConfig{
 			IndexName: config.IndexConfig.IndexName,
@@ -176,10 +181,17 @@ func (server *REST_API) AddHandlers(api *gin.RouterGroup) {
 	/** users API **/
 	usrs := api.Group("/users", http_middleware.BasicAuthFromCache(caliopen.Facilities.Cache, "caliopen"))
 	usrs.PATCH("/:user_id", users.PatchUser)
+	usrs.POST("/:user_id/actions", users.Delete)
 
-	identities := api.Group(http_middleware.IdentitiesRoute, http_middleware.BasicAuthFromCache(caliopen.Facilities.Cache, "caliopen"))
-	identities.GET("/locals", users.GetLocalsIdentities)
-	identities.GET("/locals/:identity_id", users.GetLocalIdentity)
+	/** identities **/
+	ids := api.Group(http_middleware.IdentitiesRoute, http_middleware.BasicAuthFromCache(caliopen.Facilities.Cache, "caliopen"))
+	ids.GET("/locals", identities.GetLocalsIdentities)
+	ids.GET("/locals/:identity_id", identities.GetLocalIdentity)
+	ids.GET("/remotes", identities.GetRemoteIdentities)
+	ids.POST("/remotes", identities.NewRemoteIdentity)
+	ids.GET("/remotes/:remote_id", identities.GetRemoteIdentity)
+	ids.PATCH("/remotes/:remote_id", identities.PatchRemoteIdentity)
+	ids.DELETE("/remotes/:remote_id", identities.DeleteRemoteIdentity)
 
 	/** passwords API **/
 	passwords := api.Group("/passwords")

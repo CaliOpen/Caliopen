@@ -74,7 +74,7 @@ func imapLogin(rId *RemoteIdentity) (tlsConn *tls.Conn, imapClient *client.Clien
 	}
 
 	// Login
-	if err = imapClient.Login(rId.Infos["username"], rId.Infos["password"]); err != nil {
+	if err = imapClient.Login(rId.Credentials["username"], rId.Credentials["password"]); err != nil {
 		log.WithError(err).Error("[fetchMail] imapLogin failed to login IMAP")
 		return
 	}
@@ -126,15 +126,18 @@ func fetchMailbox(ibox *imapBox, imapClient *client.Client, provider Provider, c
 
 	mbox, err := imapClient.Select(ibox.name, true)
 	if err != nil {
-		log.WithError(err).Error("[fetchMail] failed to select INBOX")
+		log.WithError(err).Error("[fetchMailbox] failed to select INBOX")
 		return
 	}
 
 	from := uint32(1)
-	to := mbox.Messages
+	to := mbox.UidNext
 
-	return fetch(imapClient, provider, from, to, ch)
-
+	err = fetch(imapClient, provider, from, to, ch)
+	if err != nil {
+		log.WithError(err).Error("[fetchMailbox] failed")
+	}
+	return err
 }
 
 // MashalImap build RFC5322 mail from imap.Message,
@@ -185,7 +188,7 @@ func buildXheaders(tlsConn *tls.Conn, imapClient *client.Client, rId *RemoteIden
 		proto,
 		time.Now().Format(time.RFC1123Z))
 
-	xHeaders["X-Fetched-Imap-Account"] = rId.Identifier
+	xHeaders["X-Fetched-Imap-Account"] = rId.DisplayName
 	xHeaders["X-Fetched-Imap-Box"] = base64.StdEncoding.EncodeToString([]byte(box.name))
 	xHeaders["X-Fetched-Imap-For"] = rId.UserId.String()
 	xHeaders["X-Fetched-Imap-Uid"] = strconv.Itoa(int(message.Uid))
@@ -214,6 +217,7 @@ func buildXheaders(tlsConn *tls.Conn, imapClient *client.Client, rId *RemoteIden
 // from and to must be uid
 // zero values will be replaced by * wildcard
 func fetch(imapClient *client.Client, provider Provider, from, to uint32, ch chan *imap.Message) error {
+
 	if from != 0 && to != 0 && from > to {
 		close(ch)
 		return fmt.Errorf("[fetch] 'to' param is lower than 'from'")
@@ -227,7 +231,7 @@ func fetch(imapClient *client.Client, provider Provider, from, to uint32, ch cha
 	seqset := new(imap.SeqSet)
 	seqset.AddRange(from, to)
 
-	log.Info("beginning to fetch messages.")
+	log.Info("beginning to fetch messages…")
 	items := []imap.FetchItem{imap.FetchFlags, imap.FetchUid, "BODY.PEEK[]"}
 	if len(provider.fetchItems) > 0 {
 		items = append(items, provider.fetchItems...)

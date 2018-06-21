@@ -9,6 +9,8 @@ package store
 import (
 	"errors"
 	"fmt"
+	"time"
+
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"github.com/gocassa/gocassa"
 	"github.com/gocql/gocql"
@@ -65,4 +67,9 @@ func (cb *CassandraBackend) UserByRecoveryEmail(email string) (user *User, err e
 		return nil, err
 	}
 	return cb.RetrieveUser(user_id.String())
+}
+
+// DeleteUser sets the date_delete in the database
+func (cb *CassandraBackend) DeleteUser(user_id string) error {
+	return cb.Session.Query(`UPDATE user SET date_delete = ? WHERE user_id = ?`, time.Now(), user_id).Exec()
 }

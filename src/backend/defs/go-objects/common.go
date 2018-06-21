@@ -212,7 +212,13 @@ func marshallField(obj interface{}, field, context string, jsonBuf *bytes.Buffer
 					if fieldKind == reflect.Struct {
 						b, e = JSONMarshaller(context, field_value)
 					} else if fieldKind == reflect.Ptr && field_value != nil {
-						b, e = JSONMarshaller(context, reflect.Indirect(reflect.ValueOf(field_value)))
+						value_at := reflect.Indirect(reflect.ValueOf(field_value))
+						if value_at.Type().Kind() == reflect.Struct {
+							b, e = JSONMarshaller(context, value_at.Interface())
+						} else {
+							enc.Encode(field_value)
+							return
+						}
 					} else {
 						enc.Encode(field_value)
 						return

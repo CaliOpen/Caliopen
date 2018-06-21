@@ -7,11 +7,13 @@ jest.mock('lingui-react', () => ({
 }));
 
 describe('scene - ForgotPassword', () => {
-  const translator = { t: str => str };
+  const props = {
+    i18n: { _: str => str },
+  };
 
   it('render', () => {
     const comp = shallow(
-      <Presenter i18n={translator} />
+      <Presenter {...props} />
     );
 
     expect(comp.text()).toContain('ForgotPasswordForm');
