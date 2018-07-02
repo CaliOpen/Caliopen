@@ -8,6 +8,7 @@ export const typeAssoc = {
   'angle-down': 'fa fa-angle-down',
   'arrow-right': 'fa fa-arrow-right',
   'arrow-left': 'fa fa-arrow-left',
+  bell: 'fa fa-bell',
   'birthday-cake': 'fa fa-birthday-cake',
   briefcase: 'fa fa-briefcase',
   building: 'fa fa-building',

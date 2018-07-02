@@ -8,7 +8,7 @@ import ForgotPassword from './scenes/ForgotPassword';
 import ResetPassword from './scenes/ResetPassword';
 import Contact from './scenes/Contact';
 import AuthPage from './layouts/AuthPage';
-import Page from './layouts/Page';
+import Page from './layouts/Page2';
 import Settings from './layouts/Settings';
 import Timeline from './scenes/Timeline';
 import NewDraft from './scenes/NewDraft';
