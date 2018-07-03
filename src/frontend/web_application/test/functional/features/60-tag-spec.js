@@ -33,9 +33,10 @@ describe('Tag', () => {
     await filter('All');
     await browser.wait(EC.presenceOf($('.s-timeline .s-message-item')), 5 * 1000);
     // XXX: force scroll due to call-to-action
+    await browser.executeScript(() => window.scrollTo(0, 200));
     const messageElement = element(by.cssContainingText('.s-message-item', 'Fry! Stay back! He\'s too powerful!'));
-    await browser.executeScript(() => window.scrollTo(0, 0));
     await messageElement.element(by.css('.s-message-item__col-select input[type=checkbox]')).click();
+    await browser.executeScript(() => window.scrollTo(0, 0));
     await element(by.css('.m-message-selector__actions .m-button[aria-label="Manage tags"]')).click();
     expect(element(by.cssContainingText('.m-modal', 'Tags')).isPresent()).toEqual(true);
     expect(element.all(by.css('.m-tags-form__section .m-tag-item')).count()).toEqual(2);
@@ -53,20 +54,27 @@ describe('Tag', () => {
     await element(by.cssContainingText('.m-tags-form__section .m-tag-item', tagName)).element(by.css('[aria-label="Remove"]')).click();
     await browser.wait(EC.stalenessOf(element(by.cssContainingText('.m-tags-form__section .m-tag-item', tagName))), 5 * 1000);
     await browser.wait(EC.stalenessOf(messageElement.element(by.cssContainingText('.s-message-item__tags', tagName))), 5 * 1000);
+
+    // reset
+    await element(by.cssContainingText('.m-tags-form__section .m-tag-item', 'Amphibians')).element(by.css('[aria-label="Remove"]')).click();
+    await browser.element(by.css('.m-tags-form .m-input-text')).sendKeys('Inbox');
+    await browser.element(by.cssContainingText('.m-tags-form__found-tag', 'Inbox')).click();
     await element(by.css('.m-modal__close')).click();
-    await browser.executeScript('window.scrollTo(0,0);');
+    await browser.executeScript(() => window.scrollTo(0, 0));
   });
 
   it('Manage tags for multiple messages on timeline', async () => {
     const tagName = 'Mon tag';
     await filter('All');
+
     await browser.wait(EC.presenceOf($('.s-timeline .s-message-item')), 5 * 1000);
-    await browser.executeScript('window.scrollTo(0, 0);');
     const messageElement1 = element(by.cssContainingText('.s-message-item', 'zoidberg'));
     const messageElement2 = element(by.cssContainingText('.s-message-item', 'Fry! Stay back!'));
 
+    await browser.executeScript(() => window.scrollTo(0, 200));
     await messageElement1.element(by.css('.s-message-item__col-select input[type=checkbox]')).click();
     await messageElement2.element(by.css('.s-message-item__col-select input[type=checkbox]')).click();
+    await browser.executeScript(() => window.scrollTo(0, 0));
     await element(by.css('.m-message-selector__actions .m-button[aria-label="Manage tags"]')).click();
     expect(element(by.cssContainingText('.m-modal', 'Tags')).isPresent()).toEqual(true);
     expect(element.all(by.css('.m-tags-form__section .m-tag-item')).count()).toEqual(1);
@@ -82,7 +90,7 @@ describe('Tag', () => {
     await browser.wait(EC.stalenessOf(element(by.cssContainingText('.m-tags-form__section .m-tag-item', tagName))), 5 * 1000);
 
     await element(by.css('.m-modal__close')).click();
-    await browser.executeScript('window.scrollTo(0,0);');
+    await browser.executeScript(() => window.scrollTo(0, 0));
   });
 
   it('Manage tags on a contact', async () => {
