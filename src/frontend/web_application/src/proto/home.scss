@@ -1,0 +1,19 @@
+.folded-discussion {
+    background-color: white;
+    font-size: 0.75rem;
+    line-height: 3rem;
+}
+
+.m-avatar-letter-wrapper {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: white;
+    font: 1rem;
+    line-height: 1.5rem;
+
+    &__letter::before {
+        background-color: #d6f2ff;
+        color: #333333;
+        font-size: 1rem;
+    }
+}

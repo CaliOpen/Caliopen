@@ -26,7 +26,7 @@ class Discussion(Model):
     total_count = IntType(required=True, default=0)
     unread_count = IntType(required=True, default=0)
     attachment_count = IntType(default=0)
-
+    last_message_id = UUIDType(required=True)
     class Options:
         roles = {'default': blacklist('user_id')}
         serialize_when_none = False

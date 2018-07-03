@@ -10,7 +10,7 @@ import Contact from './scenes/Contact';
 import AuthPage from './layouts/AuthPage';
 import Page from './layouts/Page2';
 import Settings from './layouts/Settings';
-import Timeline from './scenes/Timeline';
+import Timeline from './proto/home';
 import NewDraft from './scenes/NewDraft';
 import SearchResults from './scenes/SearchResults';
 import User from './layouts/User';
@@ -26,6 +26,8 @@ import ContactBook from './scenes/ContactBook';
 import PageNotFound from './scenes/PageNotFound';
 import DevicesSettings from './scenes/DevicesSettings';
 import NewDeviceInfo from './scenes/NewDeviceInfo';
+// Quick & trashy prototypes
+
 
 export const getRouteConfig = ({ __ }) => [
   {
