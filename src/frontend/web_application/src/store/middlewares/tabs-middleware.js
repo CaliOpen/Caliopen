@@ -40,8 +40,8 @@ const createHomeTab = async (store, { pathname, search, hash }) => ({
   pathname,
   search,
   hash,
-  // Nice side effect : no more "undefined" in title while loading
   label: 'Caliopen',
+  icon: 'home',
 });
 
 const createDiscussionTab = async (store, discussionId, { pathname, search, hash }) => {

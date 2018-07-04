@@ -1,0 +1,40 @@
+.tab {
+  height: 41px;
+  border-top: 2px solid grey;
+  margin-top: 5px;
+  margin-left: 4px;
+  margin-right: 0;
+
+  &:first-of-type {
+    margin-left: 0;
+  }
+
+  .m-item-link {
+    line-height: 41px;
+  }
+}
+
+.tab-timeline {
+  color: white;
+  background-color: #8dceec;
+  border-top: none;
+}
+
+.m-navbar-item {
+  border-bottom: none;
+}
+
+.m-navbar-item--is-active {
+  position: relative;
+  margin-top: 0;
+  height: 46px;
+  margin-left: 0;
+
+  .m-item-link {
+    line-height: 46px;
+  }
+}
+
+.m-navbar-item--is-active + .tab {
+  margin-left: 0;
+}
