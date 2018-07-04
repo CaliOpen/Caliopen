@@ -1,14 +1,23 @@
+#discussion-list {
+    background-color: lightgrey;
+}
+
 .folded-discussion {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    margin: 0.1rem 0;
+    border-left: 0.5rem solid red;
     background-color: white;
-    font-size: 0.75rem;
     line-height: 3rem;
 }
 
 .m-avatar-letter-wrapper {
     width: 1.5rem;
     height: 1.5rem;
+    margin: auto 1rem auto 1.875rem;
     background-color: white;
-    font: 1rem;
     line-height: 1.5rem;
 
     &__letter::before {
@@ -16,4 +25,26 @@
         color: #333333;
         font-size: 1rem;
     }
+}
+
+.participants {
+    width: 10.1rem;
+    margin-right: 4rem;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.excerpt {
+    flex-grow: 1;
+    color: grey;
+    font-weight: 400;
+    text-decoration: none;
+
+    strong {
+        font-weight: 800;
+    }
+}
+
+.message-type {
+    margin: 0 1rem 0 0;
 }

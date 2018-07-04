@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
+import Moment from 'react-moment';
 import Link from '../components/Link';
+import Icon from '../components/Icon';
+import MessageDate from '../components/MessageDate';
 import getClient from '../services/api-client';
 import { renderParticipant } from '../services/message';
 import AvatarLetter from '../modules/avatar/components/AvatarLetter';
 import AvatarLetterWrapper from '../modules/avatar/components/AvatarLetterWrapper';
+import withScrollManager from '../modules/scroll/hoc/scrollManager';
+
 import './home.scss';
 
+@withScrollManager()
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +30,7 @@ class Home extends Component {
 
     if (discussions) {
       return (
-        <ul>
+        <ul id="discussion-list">
           { discussions.map((discussion) => {
             const {
               excerpt, discussion_id: discussionId, total, date_insert: date,
@@ -34,13 +40,22 @@ class Home extends Component {
             const participant = this.selectDiscussionAuthor(discussion);
 
             return (
-              <li id={`discussion-${discussionId}`} key={discussionId} data-nb-messages={total} data-date={date} className="folded-discussion">
+              <li
+                id={`discussion-${discussionId}`}
+                key={discussionId}
+                data-nb-messages={total}
+                data-date={date}
+                className="folded-discussion"
+              >
                 <AvatarLetterWrapper>
                   <AvatarLetter word={renderParticipant(participant)} />
                 </AvatarLetterWrapper>
-                <Link to={`/discussions/${discussionId}#${lastMessageId}`}>
+                <a className="participants">{participant.label}</a>
+                <Link to={`/discussions/${discussionId}#${lastMessageId}`} className="excerpt">
                   {excerpt}
                 </Link>
+                <span className="message-type"><Icon type="envelope" /></span>
+                <Moment element={MessageDate}>{date}</Moment>
               </li>
             );
           })}

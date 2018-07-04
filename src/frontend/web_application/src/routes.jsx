@@ -26,8 +26,6 @@ import ContactBook from './scenes/ContactBook';
 import PageNotFound from './scenes/PageNotFound';
 import DevicesSettings from './scenes/DevicesSettings';
 import NewDeviceInfo from './scenes/NewDeviceInfo';
-// Quick & trashy prototypes
-
 
 export const getRouteConfig = ({ __ }) => [
   {
