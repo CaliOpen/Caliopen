@@ -1,3 +1,5 @@
+@import '../../styles/object/o-navigation';
+
 $maxWidth: 1380px; // 1380 (fundation) | 1260 (maquette)
 
 .page {
@@ -68,7 +70,6 @@ $maxWidth: 1380px; // 1380 (fundation) | 1260 (maquette)
     .search-input {
       border: none;
       width: 100%;
-
     }
 
     .search-button {
@@ -77,6 +78,41 @@ $maxWidth: 1380px; // 1380 (fundation) | 1260 (maquette)
       right: 4px;
       height: 34px;
       line-height: 34px;
+    }
+  }
+}
+
+.navbar {
+  position: relative;
+  height: 46px;
+
+  &__wrapper {
+    @include o-navigation-wrapper;
+    margin-top: 0;
+    height: auto;
+    max-width: initial;
+    background-color: transparent;
+
+    &--sticky {
+      top: 0;
+      background-color: #d9f2fe;
+
+      .m-horizontal-scroll {
+        height: 41px;
+        background-image: none;
+      }
+
+      .tab {
+        margin-top: 0;
+      }
+
+      .m-navbar-item--is-active {
+        height: 41px;
+
+        .m-item-link {
+          line-height: 41px;
+        }
+      }
     }
   }
 }

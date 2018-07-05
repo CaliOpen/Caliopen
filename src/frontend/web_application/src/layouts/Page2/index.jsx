@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Brand, Link, Icon, InputText } from '../../components/';
 import BackgroundImage from '../Page/components/BackgroundImage';
+import StickyNavBar from '../Page/components/Navigation/components/StickyNavBar';
 import Navigation from './components/Navigation';
 import UserMenu from '../Page/components/Header/components/UserMenu';
 import SearchField from '../Page/components/Header/components/SearchField';
@@ -40,8 +41,15 @@ class Page extends Component {
               </div>
             </div>
           </div>
-          <div className="center">
-            <Navigation />
+            <div className="navbar">
+              <StickyNavBar
+                className="navbar__wrapper"
+                stickyClassName="navbar__wrapper--sticky"
+              >
+                <div className="center">
+                  <Navigation />
+                </div>
+              </StickyNavBar>
           </div>
           <div className="center">
             {children}
