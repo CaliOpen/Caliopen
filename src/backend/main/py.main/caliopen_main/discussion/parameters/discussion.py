@@ -20,6 +20,7 @@ class Discussion(Model):
                                tzd=u'utc')
     date_update = DateTimeType(serialized_format=helpers.RFC3339Milli,
                                tzd=u'utc')
+    last_message_subject = StringType()
     excerpt = StringType(required=True)
     importance_level = IntType(required=True, default=0)
     participants = ListType(ModelType(Participant), default=lambda: [])

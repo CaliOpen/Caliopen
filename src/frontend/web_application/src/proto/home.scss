@@ -1,3 +1,22 @@
+#discussions {
+    background-color: white;
+
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height: 3rem;
+    }
+
+    .select-all {
+        margin: auto 0.875rem auto 0.875rem;
+    }
+
+    label {
+        display: none;
+    }
+}
+
 #discussion-list {
     background-color: lightgrey;
 }
@@ -7,13 +26,19 @@
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: stretch;
-    margin: 0.1rem 0;
+    margin: 0.125rem 0;
     border-left: 0.5rem solid red;
     background-color: white;
     line-height: 3rem;
+
+    time {
+        flex: 0;
+    }
 }
 
 .m-avatar-letter-wrapper {
+    flex-grow: 0;
+    flex-shrink: 0;
     width: 1.5rem;
     height: 1.5rem;
     margin: auto 1rem auto 1.875rem;
@@ -28,23 +53,49 @@
 }
 
 .participants {
+    flex-grow: 0;
+    flex-shrink: 0;
     width: 10.1rem;
     margin-right: 4rem;
     overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .excerpt {
-    flex-grow: 1;
+    flex-grow: 2;
+    flex-shrink: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: grey;
     font-weight: 400;
     text-decoration: none;
+    white-space: nowrap;
 
     strong {
+        color: #515151;
         font-weight: 800;
     }
 }
 
 .message-type {
-    margin: 0 1rem 0 0;
+    margin: 0 1rem 0 1rem;
+    color: grey;
+}
+
+.m-message-date__date {
+    color: grey;
+    white-space: nowrap;
+
+}
+
+.discussion-select {
+    display: inline-block;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: auto 0.875rem auto 0.5rem;
+
+    label {
+        display: none;
+    }
 }

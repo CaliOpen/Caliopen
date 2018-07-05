@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import Moment from 'react-moment';
-import Link from '../components/Link';
-import Icon from '../components/Icon';
 import MessageDate from '../components/MessageDate';
+import { Icon, Link, Checkbox } from '../components';
 import getClient from '../services/api-client';
 import { renderParticipant } from '../services/message';
 import AvatarLetter from '../modules/avatar/components/AvatarLetter';
@@ -23,7 +22,17 @@ class Home extends Component {
       .then((response) => { this.setState({ discussions: response.data.discussions }); });
   }
 
-  selectDiscussionAuthor = discussion => discussion.participants.find(participant => participant.type === 'From');
+  selectDiscussionLastAuthor = discussion => discussion.participants.find(participant => participant.type === 'From');
+
+  renderMessageSubject = (discussion) => {
+    const { last_message_subject: lastMessageSubject } = discussion;
+
+    if (lastMessageSubject) {
+      return <strong>{lastMessageSubject}</strong>;
+    }
+
+    return null;
+  }
 
   renderDiscussions() {
     const { discussions } = this.state;
@@ -34,10 +43,10 @@ class Home extends Component {
           { discussions.map((discussion) => {
             const {
               excerpt, discussion_id: discussionId, total, date_insert: date,
-              last_message_id: lastMessageId,
+              last_message_id: lastMessageId, unread_count: unreadCount,
             } = discussion;
 
-            const participant = this.selectDiscussionAuthor(discussion);
+            const participant = this.selectDiscussionLastAuthor(discussion);
 
             return (
               <li
@@ -45,17 +54,22 @@ class Home extends Component {
                 key={discussionId}
                 data-nb-messages={total}
                 data-date={date}
-                className="folded-discussion"
+                className={`folded-discussion${unreadCount ? ' unread' : ''}`}
               >
                 <AvatarLetterWrapper>
                   <AvatarLetter word={renderParticipant(participant)} />
                 </AvatarLetterWrapper>
                 <a className="participants">{participant.label}</a>
                 <Link to={`/discussions/${discussionId}#${lastMessageId}`} className="excerpt">
+                  {this.renderMessageSubject(discussion)}
+                  {' '}
                   {excerpt}
                 </Link>
                 <span className="message-type"><Icon type="envelope" /></span>
                 <Moment element={MessageDate}>{date}</Moment>
+                <div className="discussion-select">
+                  <Checkbox />
+                </div>
               </li>
             );
           })}
@@ -67,7 +81,12 @@ class Home extends Component {
 
   render() {
     return (
-      <section id="discussion-list" className="s-timeline">
+      <section id="discussions" className="s-timeline">
+        <header>
+          <div className="select-all">
+            <Checkbox />
+          </div>
+        </header>
         { this.renderDiscussions() }
       </section>);
   }

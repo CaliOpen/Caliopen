@@ -8,7 +8,9 @@
 		"name": "work",
 		"type": "system"
 	}],
-	"excerpt": "<p>It's okay, Bender. I like cooking too. You, minion. Lift my arm. AFTER H=\r\nIM! I don't know what you did, Fry, but once again, you screwed up! Now all\r\nthe planets are gonna start cracking wise abo",
+    "last_message_id": "11111111-267d-4d9c-97ee-d0fc59c64202",
+    "last_message_subject": "",
+	"excerpt": "Fry! Stay back! He's too powerful! Can I use the gun? I barely knew Philip, but as a ...",
 	"privacy_index": 1,
 	"participants": [{
 		"type": "Cc",
@@ -57,6 +59,8 @@
 	}],
 	"date_insert": "2017-03-21T10:55:00.153000+00:00",
 	"discussion_id": "46d30c27-6cd8-407b-8536-fda4196c20ca",
+	"last_message_id": "2222222-267d-4d9c-97ee-d0fc59c64201",
+	"last_message_subject": "Shut up and take my money",
 	"total_count": 2,
 	"attachment_count": 2,
 	"importance_level": 0,
@@ -79,6 +83,9 @@
 	}],
 	"date_insert": "2017-03-21T10:55:00.153000+00:00",
 	"discussion_id": "3330c27-6cd8-407b-8536-fda4196c20ca",
+	"last_message_subject": "remove message one by one",
+	"last_message_id": "3333-267d-4d9c-97ee-d0fc59c64201",
+	"total_count": 2,
 	"total_count": 2,
 	"attachment_count": 2,
 	"importance_level": 0,
@@ -101,9 +108,119 @@
 	}],
 	"date_insert": "2017-03-21T10:55:00.153000+00:00",
 	"discussion_id": "44440c27-6cd8-407b-8536-fda4196c20ca",
-	"total_count": 2,
+	"last_message_id": "5555-267d-4d9c-97ee-d0fc59c64201",
+	"last_message_subject": "remove messages",
 	"attachment_count": 2,
 	"importance_level": 0,
 	"unread_count": 2
+},
+{
+    "tags": [],
+    "excerpt": "Les champignons gardent toute leur saveur quand ils",
+	"privacy_index": 25,
+    "participants": [
+        {
+            "address": "panoramix@caliopen.local",
+            "contacts_ids": [
+                "df71ff9d-026b-4d18-b555-b8d110c57069"
+            ],
+            "protocol": "email",
+            "label": "Panoramix",
+            "type": "From"
+        },
+        {
+            "address": "john@caliopen.local",
+            "contact_ids": [
+                "c-john-01"
+            ],
+            "label": "foo",
+            "protocol": "email",
+            "type": "To"
+        },
+        {
+            "address": "asterix@caliopen.local",
+            "contacts_ids": [
+                "2c8fb086-86da-4a87-9abc-668b73578f49"
+            ],
+            "protocol": "email",
+            "label": "Astérix",
+            "type": "To"
+        }
+    ],
+    "date_insert": "0042-09-08T15:00:00+00:00",
+    "discussion_id": "b1256c1e-7b65-4fe2-8960-a7d6c0c4a051",
+    "last_message_id": "0bf58db0-b664-49e1-ade3-4f4e2424aa86",
+    "last_message_subject": "Ils sont fous ces romains.",
+	"attachment_count": 0,
+	"importance_level": 7,
+	"unread_count": 2
+},
+{
+    "tags": [],
+    "excerpt": "Moi, je verrais plutôt les champignons en salade…\n",
+	"privacy_index": 1,
+    "participants": [
+        {
+            "address": "agecanonix@caliopen.local",
+            "contacts_ids": [
+                "51cbcbbd-3b88-44f0-963a-06740e546c33"
+            ],
+            "protocol": "email",
+            "label": "Agecanonix",
+            "type": "From"
+        },
+        {
+            "address": "john@caliopen.local",
+            "contact_ids": [
+                "c-john-01"
+            ],
+            "label": "foo",
+            "protocol": "email",
+            "type": "To"
+        },
+        {
+            "address": "abraracourcix@caliopen.local",
+            "contacts_ids": [
+                "643fb7b3-c6fe-4f2b-9c0d-2ab671f482d5"
+            ],
+            "protocol": "email",
+            "label": "Abraracourcix",
+            "type": "To"
+        },
+        {
+            "address": "obelix@caliopen.local",
+            "contacts_ids": [
+                "629e086d-7257-49d7-9080-61cbb98b93ee"
+            ],
+            "protocol": "email",
+            "label": "Obélix",
+            "type": "To"
+        },
+        {
+            "address": "panoramix@caliopen.local",
+            "contacts_ids": [
+                "3e8769b9-77fb-4389-a00f-e2d1fd845fa1"
+            ],
+            "protocol": "email",
+            "label": "Panoramix",
+            "type": "To"
+        },
+        {
+            "address": "asterix@caliopen.local",
+            "contacts_ids": [
+                "2c8fb086-86da-4a87-9abc-668b73578f49"
+            ],
+            "protocol": "email",
+            "label": "Astérix",
+            "type": "To"
+        }
+    ],
+    "date_insert": "0042-09-08T14:32:00+00:00",
+    "discussion_id": "37e376ce-8be4-453c-a3bf-86eefaff1940",
+    "last_message_id": "193e0cf8-fce8-4e26-8fe2-85858009b81d",
+    "last_message_subject": "Ils sont fous ces romains.",
+	"attachment_count": 0,
+	"importance_level": 7,
+	"unread_count": 9
 }
 ]
