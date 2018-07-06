@@ -232,7 +232,7 @@
 	}],
 	"privacy_features": {},
 	"raw_msg_id": "bbbbbbbbb-267d-4d9c-97ee-d0fc59c64201",
-	"subject": "remove message one by one",
+	"subject": "remove messages",
 	"type": "email",
 	"pi": { "technic": 50, "context": 45, "comportment": 25, "version": 1 }
 },
@@ -274,7 +274,7 @@
 },
 {
     "attachment": [],
-    "discussion_id": "37e376ce-8be4-453c-a3bf-86eefaff1940",
+    "discussion_id": "b1256c1e-7b65-4fe2-8960-a7d6c0c4a051",
     "message_id": "74488b21-318c-4c60-be21-36cea07cfde2",
     "is_answered": true,
     "is_draft": false,
@@ -331,7 +331,7 @@
 },
 {
     "attachment": [],
-    "discussion_id": "37e376ce-8be4-453c-a3bf-86eefaff1940",
+    "discussion_id": "b1256c1e-7b65-4fe2-8960-a7d6c0c4a051",
     "message_id": "0bf58db0-b664-49e1-ade3-4f4e2424aa86",
     "is_answered": true,
     "is_draft": false,
@@ -388,7 +388,7 @@
 },
 {
     "attachment": [],
-    "discussion_id": "37e376ce-8be4-453c-a3bf-86eefaff1940",
+    "discussion_id": "b1256c1e-7b65-4fe2-8960-a7d6c0c4a051",
     "message_id": "956e52a5-5d73-4838-8d95-f5006973457c",
     "is_answered": true,
     "is_draft": false,
@@ -445,7 +445,7 @@
 },
 {
     "attachment": [],
-    "discussion_id": "37e376ce-8be4-453c-a3bf-86eefaff1940",
+    "discussion_id": "b1256c1e-7b65-4fe2-8960-a7d6c0c4a051",
     "message_id": "a0da20e1-0829-4f0f-b44a-7417177b4f4e",
     "is_answered": true,
     "is_draft": false,

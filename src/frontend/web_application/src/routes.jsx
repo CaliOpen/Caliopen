@@ -10,7 +10,7 @@ import Contact from './scenes/Contact';
 import AuthPage from './layouts/AuthPage';
 import Page from './layouts/Page2';
 import Settings from './layouts/Settings';
-import Timeline from './scenes/Timeline';
+import Timeline from './scenes/Timeline2';
 import NewDraft from './scenes/NewDraft';
 import SearchResults from './scenes/SearchResults';
 import User from './layouts/User';
