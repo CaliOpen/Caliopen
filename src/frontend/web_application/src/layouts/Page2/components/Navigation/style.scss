@@ -1,0 +1,17 @@
+.m-horizontal-scroll {
+  background-image: linear-gradient(180deg, transparent 5px, #e1f5ff 5px);
+  height: 46px;
+
+  &__container {
+    background: linear-gradient(180deg, transparent 5px, #fff 2px);
+  }
+}
+
+.compose-item {
+  border-top: none;
+}
+
+.compose-btn {
+  padding: 0 .5rem;
+  color: white;
+}

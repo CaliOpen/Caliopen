@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import throttle from 'lodash.throttle';
@@ -114,24 +114,24 @@ class HorizontalScroll extends Component {
 
     return (
       <div className={classnames(className, 'm-horizontal-scroll')}>
-        { this.state.hasNavigationSliders && (
-          <NavbarItem>
-            <Button onClick={this.handleLeftTrigger} className="m-horizontal-scroll__anchor">
-              <Icon type="arrow-left" />
-            </Button>
-          </NavbarItem>
-        )}
         <div className="m-horizontal-scroll__visible-zone" ref={this.setRef('visibleZone')}>
           <div className="m-menu m-horizontal-scroll__container" ref={this.setRef('container')}>
             {children}
           </div>
         </div>
         {this.state.hasNavigationSliders && (
-          <NavbarItem>
-            <Button onClick={this.handleRightTrigger} className="m-horizontal-scroll__anchor">
-              <Icon type="arrow-right" />
-            </Button>
-          </NavbarItem>
+          <Fragment>
+            <NavbarItem className="scroll-anchor-item">
+              <Button onClick={this.handleLeftTrigger} className="m-horizontal-scroll__anchor scroll-anchor--left">
+                <Icon type="arrow-left" />
+              </Button>
+            </NavbarItem>
+            <NavbarItem className="scroll-anchor-item">
+              <Button onClick={this.handleRightTrigger} className="m-horizontal-scroll__anchor scroll-anchor--right">
+                <Icon type="arrow-right" />
+              </Button>
+            </NavbarItem>
+          </Fragment>
         )}
       </div>
     );

@@ -1,0 +1,135 @@
+@import '../../styles/object/o-navigation';
+
+$maxWidth: 1380px; // 1380 (fundation) | 1260 (maquette)
+
+.page {
+}
+
+.brand {
+  vertical-align: middle;
+  height: 40px;
+  color: black;
+  path {
+    fill: black;
+  }
+}
+
+.header-device {
+  background-color: #2bc1ac;
+  height: 40px;
+  line-height: 40px;
+  font-size: 14px;
+
+  &,
+  .m-link {
+    color: black;
+    font-weight: normal;
+  }
+}
+
+.header {
+  background-color: #e1f5ff;
+  height: 50px;
+  line-height: 50px;
+
+  .header-content {
+    .brand {
+      height: 29px;
+      display: inline-block;
+    }
+    .user-menu {
+      color: #0f98c6;
+      float: right;
+      display: inline-block;
+      .m-button {
+        color: #0f98c6;
+      }
+    }
+    .notif-menu {
+      display: inline-block;
+      float: right;
+      .m-button {
+        color: #115972;
+      }
+    }
+  }
+}
+
+.main-actions {
+  padding: 26px 0 20px;
+  display: flex;
+
+  .write-btn {
+    margin-right: 25px;
+  }
+
+  .search-field {
+    position: relative;
+    width: 100%;
+
+    .search-input {
+      border: none;
+      width: 100%;
+    }
+
+    .search-button {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      height: 34px;
+      line-height: 34px;
+    }
+  }
+}
+
+.navbar {
+  position: relative;
+  height: 46px;
+
+  &__wrapper {
+    @include o-navigation-wrapper;
+    margin-top: 0;
+    height: auto;
+    max-width: initial;
+    background-color: transparent;
+
+    .compose-item {
+      display: none;
+    }
+
+    &--sticky {
+      top: 0;
+      background-color: #d9f2fe;
+      box-shadow: none;
+
+      .m-horizontal-scroll {
+        height: 41px;
+        background-image: none;
+      }
+
+      .m-navbar-item,
+      .tab {
+        margin-top: 0;
+      }
+
+      .m-navbar-item--is-active {
+        height: 41px;
+
+        .m-item-link {
+          line-height: 41px;
+        }
+      }
+
+      .compose-item {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+.center {
+    max-width: $maxWidth;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 40px;
+}
