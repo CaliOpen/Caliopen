@@ -1,7 +1,5 @@
 .tab {
-  height: 41px;
   border-top: 2px solid grey;
-  margin-top: 5px;
   margin-left: 4px;
   margin-right: 0;
 
@@ -15,19 +13,21 @@
 }
 
 .tab-timeline {
-  color: white;
-  background-color: #8dceec;
   border-top: none;
+  background-color: #8dceec;
+  color: white;
 }
 
 .m-navbar-item {
+  height: 41px;
+  margin-top: 5px;
   border-bottom: none;
 }
 
 .m-navbar-item--is-active {
   position: relative;
-  margin-top: 0;
   height: 46px;
+  margin-top: 0;
   margin-left: 0;
 
   .m-item-link {
