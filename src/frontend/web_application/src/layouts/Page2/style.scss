@@ -93,15 +93,21 @@ $maxWidth: 1380px; // 1380 (fundation) | 1260 (maquette)
     max-width: initial;
     background-color: transparent;
 
+    .compose-item {
+      display: none;
+    }
+
     &--sticky {
       top: 0;
       background-color: #d9f2fe;
+      box-shadow: none;
 
       .m-horizontal-scroll {
         height: 41px;
         background-image: none;
       }
 
+      .m-navbar-item,
       .tab {
         margin-top: 0;
       }
@@ -112,6 +118,10 @@ $maxWidth: 1380px; // 1380 (fundation) | 1260 (maquette)
         .m-item-link {
           line-height: 41px;
         }
+      }
+
+      .compose-item {
+        display: inline-block;
       }
     }
   }
