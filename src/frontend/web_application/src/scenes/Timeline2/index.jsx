@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import Moment from 'react-moment';
-import MessageDate from '../components/MessageDate';
-import { Icon, Link, Checkbox } from '../components';
-import getClient from '../services/api-client';
-import { renderParticipant } from '../services/message';
-import AvatarLetter from '../modules/avatar/components/AvatarLetter';
-import AvatarLetterWrapper from '../modules/avatar/components/AvatarLetterWrapper';
-import withScrollManager from '../modules/scroll/hoc/scrollManager';
+import MessageDate from '../../components/MessageDate';
+import { Icon, Link, Checkbox } from '../../components';
+import getClient from '../../services/api-client';
+import { renderParticipant } from '../../services/message';
+import AvatarLetter from '../../modules/avatar/components/AvatarLetter';
+import AvatarLetterWrapper from '../../modules/avatar/components/AvatarLetterWrapper';
+import withScrollManager from '../../modules/scroll/hoc/scrollManager';
 
-import './home.scss';
+import './style.scss';
 
 @withScrollManager()
 class Home extends Component {

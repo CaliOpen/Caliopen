@@ -42,12 +42,9 @@
     width: 1.5rem;
     height: 1.5rem;
     margin: auto 1rem auto 1.875rem;
-    background-color: white;
     line-height: 1.5rem;
 
     &__letter::before {
-        background-color: #d6f2ff;
-        color: #333333;
         font-size: 1rem;
     }
 }
