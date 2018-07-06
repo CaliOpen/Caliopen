@@ -1,0 +1,92 @@
+@import '../../styles/common';
+
+$m-participants-icon__size: 25px;
+$m-participants-icon__padding: 0;
+
+.m-participants-icon {
+  display: inline-block;
+  vertical-align: middle;
+
+  width: $m-participants-icon__size;
+  height: $m-participants-icon__size;
+
+  border-radius: 50%;
+  background-color: $co-color__primary--low;
+  overflow: hidden;
+
+  &__letter {
+    &::before {
+      display: block;
+      float: left;
+
+      text-align: center;
+    }
+  }
+
+  &__letter--1 {
+    &::before {
+      width: $m-participants-icon__size;
+      height: $m-participants-icon__size;
+      line-height: $m-participants-icon__size;
+    }
+  }
+
+  &__letter--2 {
+    &::before {
+      width: $m-participants-icon__size * .5 - $m-participants-icon__padding * .5;
+      height: $m-participants-icon__size;
+      font-size: $m-participants-icon__size * .25;
+      line-height: $m-participants-icon__size;
+    }
+
+    &:first-child {
+      &::before {
+        margin-right: $m-participants-icon__padding;
+      }
+    }
+  }
+
+  &__letter--3 {
+    &::before {
+      width: $m-participants-icon__size * .5 - $m-participants-icon__padding * .5;
+      height: $m-participants-icon__size * .5;
+      font-size: $m-participants-icon__size * .25;
+      line-height: $m-participants-icon__size * .5;
+    }
+
+    &:first-child {
+      &::before {
+        height: $m-participants-icon__size;
+        margin: 0 $m-participants-icon__padding $m-participants-icon__padding 0;
+        line-height: $m-participants-icon__size;
+      }
+    }
+
+    &:nth-child(2) {
+      &::before {
+        margin-bottom: $m-participants-icon__padding;
+      }
+    }
+  }
+
+  &__letter--4 {
+    &::before {
+      width: $m-participants-icon__size * .5 - $m-participants-icon__padding * .5;
+      height: $m-participants-icon__size * .5;
+      font-size: $m-participants-icon__size * .25;
+      line-height: $m-participants-icon__size * .5;
+    }
+
+    &:first-child {
+      &::before {
+        margin: 0 $m-participants-icon__padding $m-participants-icon__padding 0;
+      }
+    }
+
+    &:nth-child(3) {
+      &::before {
+        margin-right: $m-participants-icon__padding;
+      }
+    }
+  }
+}
