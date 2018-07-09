@@ -123,6 +123,10 @@ $maxWidth: 1380px; // 1380 (fundation) | 1260 (maquette)
       .compose-item {
         display: inline-block;
       }
+
+      .m-horizontal-scroll__container {
+        background: #fff;
+      }
     }
   }
 }
