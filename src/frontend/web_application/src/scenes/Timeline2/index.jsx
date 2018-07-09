@@ -7,6 +7,7 @@ import getClient from '../../services/api-client';
 import { renderParticipant } from '../../services/message';
 import AvatarLetter from '../../modules/avatar/components/AvatarLetter';
 import AvatarLetterWrapper from '../../modules/avatar/components/AvatarLetterWrapper';
+import StickyNavBar from '../../layouts/Page/components/Navigation/components/StickyNavBar';
 import withScrollManager from '../../modules/scroll/hoc/scrollManager';
 
 import './style.scss';
@@ -82,11 +83,13 @@ class Home extends Component {
   render() {
     return (
       <section id="discussions" className="s-timeline">
-        <header>
-          <div className="select-all">
-            <Checkbox />
-          </div>
-        </header>
+        <StickyNavBar className="action-bar" stickyClassName="sticky-action-bar">
+          <header>
+            <div className="select-all">
+              <Checkbox />
+            </div>
+          </header>
+        </StickyNavBar>
         { this.renderDiscussions() }
       </section>);
   }

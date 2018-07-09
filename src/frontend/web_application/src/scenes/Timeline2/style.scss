@@ -1,3 +1,17 @@
+.sticky-action-bar {
+    position: fixed;
+    top: 41px;
+    right: 0;
+    left: 0;
+    background-color: white;
+
+    header {
+        max-width: 1380px;
+        margin: 0 auto;
+        padding: 0 40px;
+    }
+}
+
 #discussions {
     background-color: white;
 
@@ -6,6 +20,7 @@
         align-items: center;
         justify-content: flex-end;
         height: 3rem;
+        background-color: white;
     }
 
     .select-all {
