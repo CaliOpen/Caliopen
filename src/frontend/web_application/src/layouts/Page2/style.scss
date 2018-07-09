@@ -123,13 +123,36 @@ $maxWidth: 1380px; // 1380 (fundation) | 1260 (maquette)
       .compose-item {
         display: inline-block;
       }
+
+      .m-horizontal-scroll__container {
+        background: #fff;
+      }
     }
+  }
+}
+
+.footer {
+  padding-top: 58px;
+  padding-bottom: 46px;
+  text-align: center;
+
+  .astuce {
+    margin-bottom: 26px;
+    color: #0f98c6;
+  }
+  .brand {
+    height: 32px;
+  }
+  .release {
+    color: #000;
+    font-size: 14px;
   }
 }
 
 .center {
     max-width: $maxWidth;
-    margin-left: auto;
     margin-right: auto;
-    padding: 0 40px;
+    margin-left: auto;
+    padding-right: 40px;
+    padding-left: 40px;
 }
