@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import MessageDate from '../../components/MessageDate';
-import { Icon, Link, Checkbox } from '../../components';
+import { Badge, Icon, Link, Checkbox } from '../../components';
+import ParticipantsIconLetter from '../../components/ParticipantsIconLetter';
 import getClient from '../../services/api-client';
-import { renderParticipant } from '../../services/message';
-import AvatarLetter from '../../modules/avatar/components/AvatarLetter';
-import AvatarLetterWrapper from '../../modules/avatar/components/AvatarLetterWrapper';
 import StickyNavBar from '../../layouts/Page/components/Navigation/components/StickyNavBar';
 import withScrollManager from '../../modules/scroll/hoc/scrollManager';
 
@@ -23,7 +21,10 @@ class Home extends Component {
       .then((response) => { this.setState({ discussions: response.data.discussions }); });
   }
 
-  selectDiscussionLastAuthor = discussion => discussion.participants.find(participant => participant.type === 'From');
+  buildParticipantsLabels = ({ participants }) =>
+    participants.map(participant => participant.label);
+
+  selectDiscussionLastAuthor = ({ participants }) => participants.find(participant => participant.type === 'From');
 
   renderMessageSubject = (discussion) => {
     const { last_message_subject: lastMessageSubject } = discussion;
@@ -34,6 +35,16 @@ class Home extends Component {
 
     return null;
   }
+
+  renderTags = ({ tags }) => (
+    tags && (
+      <ul className="s-message-item__tags">
+        {tags.map(tag => (
+          <li key={tag.name} className="s-message-item__tag"><Badge>{tag.name}</Badge></li>
+        ))}
+      </ul>
+    )
+  );
 
   renderDiscussions() {
     const { discussions } = this.state;
@@ -48,6 +59,7 @@ class Home extends Component {
             } = discussion;
 
             const participant = this.selectDiscussionLastAuthor(discussion);
+            const labels = this.buildParticipantsLabels(discussion);
 
             return (
               <li
@@ -57,19 +69,18 @@ class Home extends Component {
                 data-date={date}
                 className={`folded-discussion${unreadCount ? ' unread' : ''}`}
               >
-                <AvatarLetterWrapper>
-                  <AvatarLetter word={renderParticipant(participant)} />
-                </AvatarLetterWrapper>
+                <ParticipantsIconLetter labels={labels} />
                 <a className="participants">{participant.label}</a>
                 <Link to={`/discussions/${discussionId}#${lastMessageId}`} className="excerpt">
                   {this.renderMessageSubject(discussion)}
                   {' '}
                   {excerpt}
                 </Link>
+                {this.renderTags(discussion)}
                 <span className="message-type"><Icon type="envelope" /></span>
                 <Moment element={MessageDate}>{date}</Moment>
                 <div className="discussion-select">
-                  <Checkbox />
+                  <Checkbox label="" />
                 </div>
               </li>
             );
@@ -86,7 +97,7 @@ class Home extends Component {
         <StickyNavBar className="action-bar" stickyClassName="sticky-action-bar">
           <header>
             <div className="select-all">
-              <Checkbox />
+              <Checkbox label="" />
             </div>
           </header>
         </StickyNavBar>
