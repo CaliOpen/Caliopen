@@ -1,0 +1,66 @@
+@import '../../../../styles/vendor/bootstrap_foundation-sites';
+
+.contact-item {
+  @include flex-grid-row($size: expanded);
+  align-items: center;
+
+  &__title {
+    @include flex-grid-column;
+    @include flex-grid-row($size: expanded);
+    align-items: baseline;
+    color: #505050;
+
+    &:hover {
+      background-color: $co-color__fg__back;
+      color: $co-color__fg__text--high;
+    }
+
+    &:active {
+      background-color: $co-color__fg__back--low;
+      color: $co-color__fg__text--low;
+    }
+  }
+
+  &__avatar {
+    @include flex-grid-column(shrink);
+  }
+  &__name {
+    @include flex-grid-size;
+  }
+
+  &__info,
+  &__select {
+    @include flex-grid-column(shrink);
+  }
+
+  &__contact-title {
+    margin-right: $co-component__spacing;
+  }
+  &__contact-prefix,
+  &__contact-suffix {
+    margin-right: $co-component__spacing;
+    color: $co-color__fg__text--lower;
+  }
+
+  &__interactions-icon {
+    color: #9a9a9a;
+  }
+  &__interactions-nb {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+
+  &__interactions-info {
+    color: #9a9a9a;
+    text-align: right;
+
+    .m-link {
+      color: #0e97c3;
+      text-decoration: none;
+    }
+  }
+
+  // @include breakpoint(medium) {
+  //   &__info { @include flex-grid-size(5); }
+  // }
+}

@@ -36,17 +36,19 @@
     }
 }
 
-.m-avatar-letter-wrapper {
-    flex-grow: 0;
-    flex-shrink: 0;
-    width: 1.5rem;
-    height: 1.5rem;
-    margin: auto 1rem auto 1.875rem;
-    line-height: 1.5rem;
+.s-timeline {
+  .m-avatar-letter-wrapper {
+      flex-grow: 0;
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 1.5rem;
+      margin: auto 1rem auto 1.875rem;
+      line-height: 1.5rem;
 
-    &__letter::before {
-        font-size: 1rem;
-    }
+      &__letter::before {
+          font-size: 1rem;
+      }
+  }
 }
 
 .participants {

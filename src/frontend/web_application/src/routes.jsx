@@ -22,7 +22,7 @@ import RemoteIdentitySettings from './scenes/RemoteIdentitySettings';
 import ApplicationSettings from './scenes/ApplicationSettings';
 import Tags from './scenes/TagsSettings';
 import MessageList from './scenes/MessageList';
-import ContactBook from './scenes/ContactBook';
+import ContactBook from './scenes/ContactBook2';
 import PageNotFound from './scenes/PageNotFound';
 import DevicesSettings from './scenes/DevicesSettings';
 import NewDeviceInfo from './scenes/NewDeviceInfo';

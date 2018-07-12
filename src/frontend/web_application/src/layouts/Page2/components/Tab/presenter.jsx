@@ -18,13 +18,13 @@ class Tab extends Component {
             active={isActive}
             contentChildren={(
               <ItemLink to={getTabUrl(tab)} title={tab.label}>
-                <Icon className="m-tab__icon" type={tab.icon || 'dot-circle-o'} />
+                <Icon className="m-tab__icon" type={tab.icon || 'dot-circle'} />
               </ItemLink>
             )}
             last={last}
           />
         );
-      case tab.pathname === '/contacts/':
+      case tab.pathname === '/contacts':
       case tab.pathname.startsWith('/settings/'):
       case tab.pathname.startsWith('/contacts/'):
       case tab.pathname.startsWith('/user/'):
@@ -34,7 +34,7 @@ class Tab extends Component {
             active={isActive}
             contentChildren={(
               <ItemLink to={getTabUrl(tab)} title={tab.label}>
-                <Icon className="m-tab__icon" type={tab.icon || 'dot-circle-o'} />
+                <Icon className="m-tab__icon" type={tab.icon || 'dot-circle'} />
                 {tab.label}
               </ItemLink>
             )}

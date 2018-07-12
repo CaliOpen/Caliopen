@@ -10,11 +10,13 @@ class Checkbox extends Component {
     id: PropTypes.string.isRequired,
     indeterminate: PropTypes.bool,
     showLabelforSr: PropTypes.bool,
+    className: PropTypes.string,
   };
 
   static defaultProps = {
     indeterminate: null,
     showLabelforSr: false,
+    className: undefined,
   };
 
   state = {}
@@ -32,11 +34,11 @@ class Checkbox extends Component {
 
   render() {
     const {
-      id, label, showLabelforSr, indeterminate, ...inputProps
+      id, label, showLabelforSr, indeterminate, className, ...inputProps
     } = this.props;
 
     return (
-      <div className="m-checkbox">
+      <div className={classnames(className, 'm-checkbox')}>
         <input
           type="checkbox"
           className="m-checkbox__input"

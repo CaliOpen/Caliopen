@@ -1,0 +1,54 @@
+@import '../../../../styles/vendor/bootstrap_foundation-sites';
+
+$m-contact-list__contact-spacing: 1.25rem;
+
+.m-contact-list {
+
+  &__nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 35px;
+    margin-left: 24px;
+  }
+
+  &__alpha-letter {
+    color: #9a9a9a;
+    font-size: 15px;
+    line-height: 13px;
+    text-decoration: none;
+    text-transform: capitalize;
+  }
+
+  &__list {
+    margin-top: 30px;
+  }
+
+  &__alpha-title {
+    padding-left: map_get($co-form__spacing, 'large');
+    color: #9a9a9a;
+    text-transform: capitalize;
+
+    &:before {
+      display: block;
+      content: "";
+      position: relative;
+      top: 10px;
+      margin-right: 16px;
+      margin-left: 40px;
+      border-top: 2px solid #8dceec;
+    }
+
+    .m-title__text {
+      font-size: 20px;
+      line-height: 20px;
+    }
+  }
+
+  &__contact {
+    margin-bottom: 1px;
+    margin-left: 80px;
+    padding-top: $m-contact-list__contact-spacing;
+    padding-bottom: $m-contact-list__contact-spacing;
+    padding-left: map_get($co-form__spacing, 'small');
+  }
+}
