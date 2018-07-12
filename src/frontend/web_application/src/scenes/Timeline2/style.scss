@@ -1,3 +1,17 @@
+.sticky-action-bar {
+    position: fixed;
+    top: 41px;
+    right: 0;
+    left: 0;
+    background-color: white;
+
+    header {
+        max-width: 1380px;
+        margin: 0 auto;
+        padding: 0 40px;
+    }
+}
+
 #discussions {
     background-color: white;
 
@@ -6,6 +20,7 @@
         align-items: center;
         justify-content: flex-end;
         height: 3rem;
+        background-color: white;
     }
 
     .select-all {
@@ -34,21 +49,29 @@
     time {
         flex: 0;
     }
+
+    .s-message-item__tags {
+        display: flex;
+        flex: 1 1;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    .s-message-item__tag {
+        margin: 0 0.25rem;
+    }
 }
 
-.s-timeline {
-  .m-avatar-letter-wrapper {
-      flex-grow: 0;
-      flex-shrink: 0;
-      width: 1.5rem;
-      height: 1.5rem;
-      margin: auto 1rem auto 1.875rem;
-      line-height: 1.5rem;
+.m-participants-icon {
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: auto 1rem auto 1.875rem;
+    color: white;
+    line-height: 2rem;
 
-      &__letter::before {
-          font-size: 1rem;
-      }
-  }
+    i.fa {
+        color: #333333;
+    }
 }
 
 .participants {

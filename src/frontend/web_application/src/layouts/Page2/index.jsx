@@ -54,6 +54,13 @@ class Page extends Component {
           <div className="center">
             {children}
           </div>
+          <div className="center footer">
+            <div className="astuce">
+              <b>Astuce : </b>pour améliorer la confidentialitéde vos échanges, saviez-vous que vous pouviez lorem ipsum dolor sit amet!
+            </div>
+            <div className="logo"><Brand className="brand" /></div>
+            <div className="release">v0.0.0 Be good.</div>
+          </div>
         </div>
       </BackgroundImage>
     );
