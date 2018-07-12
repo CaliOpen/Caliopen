@@ -70,6 +70,7 @@ const createContactsTab = async (store, { pathname, search, hash }) => ({
   search,
   hash,
   label: 'Caliopen',
+  icon: 'users',
 });
 
 const createContactTab = async (store, contactId, { pathname, search, hash }) =>

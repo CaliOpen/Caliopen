@@ -1,0 +1,92 @@
+@import '../../styles/common';
+@import '../../styles/vendor/bootstrap_foundation-sites';
+
+.contact-book {
+  background: $co-color__bg__back;
+
+  &__col-selector {
+    height: 44px;
+    border-bottom: 3px solid #ebf8ff;
+    color: #1a5773;
+    font-weight: bold;
+    line-height: 44px;
+    text-align: right;
+
+    .m-button--inline {
+      margin-left: 10px;
+      color: #0e97c3;
+      text-decoration: none;
+    }
+  }
+
+  &__select-all {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px
+  }
+
+  &__contacts {
+    @include flex-grid-row($size: expand);
+  }
+
+  &__tags {
+    @include flex-grid-size;
+    padding-right: 16px;
+    padding-left: 16px;
+    background-color: #e8f5fb;
+
+    .m-nav-list__item {
+      padding-right: 0;
+      padding-left: 0;
+
+      .m-tag-list__tag {
+        padding-left: 0;
+
+        &.m-button {
+          color: #505050;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  &__tags-title {
+    margin: 20px 0 12px 0;
+    color: #505050;
+    font-size: 18px;
+    line-height: 14px;
+  }
+
+  &__import {
+    @include flex-grid-row;
+    margin-top: 12px;
+    margin-bottom: $co-margin;
+  }
+
+  &__import-button {
+    @include flex-grid-size;
+  }
+
+  &__button {
+    line-height: $co-component__height;
+    text-transform: uppercase;
+  }
+
+  &__contact-list {
+    @include flex-grid-size;
+    background-color: #fff;
+  }
+
+  &__load-more {
+    padding-top: $co-margin;
+    padding-bottom: $co-margin;
+    text-align: center;
+  }
+
+  @include breakpoint(medium) {
+    &__tags {
+      @include flex-grid-column(shrink);
+      padding-right: $co-margin;
+    }
+  }
+}

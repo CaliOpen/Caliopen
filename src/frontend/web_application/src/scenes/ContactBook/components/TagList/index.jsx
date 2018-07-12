@@ -37,7 +37,7 @@ class TagList extends Component {
     );
 
     return (
-      <Button onClick={this.createHandleClickTag(tagName)} className={tagClassName}>{label}</Button>
+      <Button display="inline" onClick={this.createHandleClickTag(tagName)} className={tagClassName}>{label}</Button>
     );
   }
 
