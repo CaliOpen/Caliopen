@@ -1,9 +1,9 @@
 export const sortMessages = (messages, reversed) => messages.sort((a, b) => {
   if (reversed) {
-    return new Date(b.date_insert) - new Date(a.date_insert);
+    return new Date(b.date_sort) - new Date(a.date_sort);
   }
 
-  return new Date(a.date_insert) - new Date(b.date_insert);
+  return new Date(a.date_sort) - new Date(b.date_sort);
 });
 
 export const renderParticipant = participant => `${participant.label}` || `(${participant.address})`;

@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - load more doesn't load correctly when filter has been changed
 - prevent signin until JS is fully loaded, previously a json shows up with informations about a fake device.
+- message sort on "Load More" in discussion view
+- unlock correctly syncing state after a fetch failure
 
 ### Changed
 
@@ -27,6 +29,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - ensure to not retrieve credentials when patching a remote identity
 - RawMessage.get raise correctly
 - request body must be utf8 encoded correctly, do not use it for the moment
+
+### Changed
+
+- prevent invalidation of whole discussion during scroll
 
 ## [0.11.0] 2018-07-04
 
