@@ -8,7 +8,6 @@ import requests
 from .base import BaseDiscovery
 
 log = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG)
 
 
 class KeybaseDiscovery(BaseDiscovery):

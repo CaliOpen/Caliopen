@@ -124,6 +124,20 @@ class MailMessage(object):
     body_html = ""
     body_plain = ""
 
+    def __init__(self, raw_data):
+        """Parse an RFC2822,5322 mail message."""
+        self.raw = raw_data
+        try:
+            self.mail = Message(raw_data)
+        except Exception as exc:
+            log.error('Parse message failed %s' % exc)
+            raise exc
+        if self.mail.defects:
+            # XXX what to do ?
+            log.warn('Defects on parsed mail %r' % self.mail.defects)
+            self.warning = self.mail.defects
+        self.get_bodies()
+
     def get_bodies(self):
         """
         extract body alternatives, if any,
@@ -202,20 +216,6 @@ class MailMessage(object):
         else:
             self.body_plain = self.mail.get_payload(decode=True)
 
-    def __init__(self, raw_data):
-        """Parse an RFC2822,5322 mail message."""
-        self.raw = raw_data
-        try:
-            self.mail = Message(raw_data)
-        except Exception as exc:
-            log.error('Parse message failed %s' % exc)
-            raise exc
-        if self.mail.defects:
-            # XXX what to do ?
-            log.warn('Defects on parsed mail %r' % self.mail.defects)
-            self.warning = self.mail.defects
-        self.get_bodies()
-
     @property
     def subject(self):
         """Mail subject."""
@@ -272,7 +272,9 @@ class MailMessage(object):
             participant_type = header.capitalize()
             if self.mail.get(header):
                 if ',' in self.mail.get(header):
-                    addrs.extend(self.mail.get(header).split(','))
+                    parts = self.mail.get(header).split(',')
+                    filtered = [x for x in parts if '@' in x]
+                    addrs.extend(filtered)
                 else:
                     addrs.append(self.mail.get(header))
             for addr in addrs:

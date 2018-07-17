@@ -8,7 +8,7 @@ module.exports = {
     await browser.get('/auth/signin');
     await element(by.css('input[name=username]')).sendKeys(loginKeys);
     await element(by.css('input[name=password]')).sendKeys(passwordKeys);
-    await element(by.cssContainingText('button[type=submit]', 'I\'m in a safe place')).click();
+    await element(by.cssContainingText('button[type=submit]', 'Login')).click();
 
     return browser.wait(EC.presenceOf(element(by.css('.l-header__brand'))), 5 * 1000);
   },

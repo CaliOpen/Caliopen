@@ -295,6 +295,9 @@ func (f *Fetcher) handleFetchFailure(rId *RemoteIdentity, err CaliopenError) err
 		f.disableRemoteIdentity(rId)
 	}
 
+	// unlock sync state
+	delete((*rId).Infos, "syncing")
+
 	// udpate RemoteIdentity in db
 	return f.Store.UpdateRemoteIdentity(rId, map[string]interface{}{
 		"Infos": rId.Infos,

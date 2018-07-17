@@ -162,16 +162,16 @@ func (msg *Message) UnmarshalMap(input map[string]interface{}) error {
 	if body_plain, ok := input["body_plain"].(string); ok {
 		msg.Body_plain = body_plain
 	}
-	if date, ok := input["date"]; ok {
+	if date, ok := input["date"]; ok && date != nil {
 		msg.Date, _ = time.Parse(time.RFC3339Nano, date.(string))
 	}
-	if date, ok := input["date_delete"]; ok {
+	if date, ok := input["date_delete"]; ok && date != nil {
 		msg.Date_delete, _ = time.Parse(time.RFC3339Nano, date.(string))
 	}
-	if date, ok := input["date_insert"]; ok {
+	if date, ok := input["date_insert"]; ok && date != nil {
 		msg.Date_insert, _ = time.Parse(time.RFC3339Nano, date.(string))
 	}
-	if date, ok := input["date_sort"]; ok {
+	if date, ok := input["date_sort"]; ok && date != nil {
 		msg.Date_sort, _ = time.Parse(time.RFC3339Nano, date.(string))
 	}
 	if discussion_id, ok := input["discussion_id"].(string); ok {

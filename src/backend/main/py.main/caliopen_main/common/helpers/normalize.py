@@ -6,9 +6,10 @@ from email.utils import parseaddr
 
 log = logging.getLogger(__name__)
 
+
 def clean_email_address(addr):
     """Clean an email address for user resolve."""
-    real_name, email = parseaddr(addr)
+    real_name, email = parseaddr(addr.replace('\r', ''))
     if not email:
         log.info('Invalid email address %s' % addr)
         return ("", "")

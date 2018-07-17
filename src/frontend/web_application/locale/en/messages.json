@@ -299,6 +299,7 @@
   "page_not_found.caliopen-ascii-logo": "Logo of Caliopen in ASCIi art",
   "remote_identity.type.mail": "Mail",
   "remote_identity.add_account": "Add an external account",
+  "remote_identity.gmail_warning": "If you aim to add a Gmail account, please ensure that IMAP protocol is activated in your Gmail settings at <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://mail.google.com/mail/u/0/#settings/fwdandpop\">“Forward and POP/IMAP”</a>, and that <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://myaccount.google.com/lesssecureapps\">Less secure application access</a> is activated for your Google account.",
   "remote_identity.action.continue": "Continue",
   "remote_identity.last_connection.never": "Never",
   "remote_identity.form.display_name.error": "a name is required",

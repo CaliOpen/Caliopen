@@ -6,6 +6,40 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- prevent invalidation of whole discussion during scroll
+
+### Fixed
+
+- message sort on "Load More" in discussion view
+
+## [0.11.2] 2018-07-16
+
+### Fixed
+
+- load more doesn't load correctly when filter has been changed
+- prevent signin until JS is fully loaded, previously a json shows up with informations about a fake device.
+- unlock correctly syncing state after a fetch failure
+- safer parsing of email with ',' or '\r' character
+
+### Changed
+
+- remove unused safe/public/unsafe login buttons
+
+## [0.11.1] 2018-07-12
+
+### Added
+
+- explain how to authorize retrieve of an imap gmail account
+
+### Fixed
+
+- do not try to parse a null date_sort
+- ensure to not retrieve credentials when patching a remote identity
+- RawMessage.get raise correctly
+- request body must be utf8 encoded correctly, do not use it for the moment
+
 ## [0.11.0] 2018-07-04
 
 ### Added

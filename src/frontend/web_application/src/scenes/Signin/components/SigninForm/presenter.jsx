@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Trans } from 'lingui-react';
 import { usernameNormalizer } from '../../../../modules/user';
-import { Link, FieldErrors, TextFieldGroup, Button, FormGrid, FormRow, FormColumn } from '../../../../components/';
+import { Spinner, FieldErrors, TextFieldGroup, Button, FormGrid, FormRow, FormColumn } from '../../../../components/';
 
 import './style.scss';
 
 const CONTEXT_SAFE = 'safe';
-const CONTEXT_PUBLIC = 'public';
-const CONTEXT_UNSECURE = 'unsecure';
+// const CONTEXT_PUBLIC = 'public';
+// const CONTEXT_UNSECURE = 'unsecure';
 
 function generateStateFromProps(props) {
   return {
@@ -32,6 +32,7 @@ class SigninForm extends Component {
   };
 
   state = {
+    isMounted: false,
     formValues: {
       username: '',
       password: '',
@@ -43,17 +44,18 @@ class SigninForm extends Component {
   }
 
   componentDidMount() {
-    setTimeout(this.setValues(), 1);
+    setTimeout(this.initialize(), 1);
   }
 
   componentWillReceiveProps(newProps) {
     this.setState(generateStateFromProps(newProps));
   }
 
-  setValues = () => {
+  initialize = () => {
     const password = this.passwordInputRef.value;
     const username = this.usernameInputRef.value;
     this.setState({
+      isMounted: true,
       formValues: {
         password,
         username,
@@ -136,46 +138,11 @@ class SigninForm extends Component {
                   onClick={this.createHandleSubmit(CONTEXT_SAFE)}
                   display="expanded"
                   shape="plain"
-                  className="s-signin__login-safe"
+                  disabled={!this.state.isMounted}
+                  icon={!this.state.isMounted ? <Spinner isLoading display="inline" /> : undefined}
                 >
-                  <Trans id="signin.action.login_safe">I&apos;m in a safe place</Trans>
+                  <Trans id="signin.action.login">Login</Trans>
                 </Button>
-              </FormColumn>
-            </FormRow>
-            <FormRow>
-              <FormColumn rightSpace={false} className="s-signin__action" bottomSpace>
-                <Button
-                  type="submit"
-                  onClick={this.createHandleSubmit(CONTEXT_PUBLIC)}
-                  display="expanded"
-                  shape="plain"
-                  className="s-signin__login-public"
-                >
-                  <Trans id="signin.action.login_public">I&apos;m in a public place</Trans>
-                </Button>
-              </FormColumn>
-            </FormRow>
-            <FormRow>
-              <FormColumn rightSpace={false} className="s-signin__action" bottomSpace>
-                <Button
-                  type="submit"
-                  onClick={this.createHandleSubmit(CONTEXT_UNSECURE)}
-                  display="expanded"
-                  shape="plain"
-                  className="s-signin__login-unsecure"
-                >
-                  <Trans id="signin.action.login_unsecure">I&apos;m in a non private place</Trans>
-                </Button>
-              </FormColumn>
-            </FormRow>
-            <FormRow>
-              <FormColumn rightSpace={false} className="s-signin__link">
-                <Link to="/auth/forgot-password"><Trans id="signin.action.forgot_password">Forgot password?</Trans></Link>
-              </FormColumn>
-              <FormColumn rightSpace={false} className="s-signin__link">
-                <Link to="/auth/signup">
-                  <Trans id="signin.create_an_account">Create an account</Trans>
-                </Link>
               </FormColumn>
             </FormRow>
           </form>

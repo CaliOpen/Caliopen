@@ -167,16 +167,23 @@ class ReplyForm extends Component {
             >
               <Trans id="messages.compose.action.save">Save</Trans>
             </Button>
-            <Button className="m-reply__bottom-action" onClick={this.handleSave} icon="share-alt" responsive="icon-only">
-              <Trans id="messages.compose.action.copy">Copy to</Trans>
-            </Button>
-            {/* TODO: enable rich text editor
-              <Button
-              className="m-new-reply__bottom-action m-reply__bottom-action--editor"
-              icon="editor"
-              responsive="icon-only"
-            />
-            */}
+            {
+            // XXX no api available yet
+            // <Button
+            //   className="m-reply__bottom-action"
+            //   icon="share-alt"
+            //   responsive="icon-only"
+            // >
+            // <Trans id="messages.compose.action.copy">Copy to</Trans>
+            // </Button>
+            //
+            //  TODO: enable rich text editor
+            // <Button
+            //   className="m-new-reply__bottom-action m-reply__bottom-action--editor"
+            //   icon="editor"
+            //   responsive="icon-only"
+            // />
+            }
           </BottomRow>
         </form>
       </DiscussionDraft>

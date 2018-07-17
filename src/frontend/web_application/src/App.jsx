@@ -9,6 +9,7 @@ import Routes from './routes';
 import I18nProviderLegacy from './components/I18nProvider';
 import { initConfig } from './services/config';
 import { NotificationProvider } from './modules/notification';
+import './app.scss';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends Component {

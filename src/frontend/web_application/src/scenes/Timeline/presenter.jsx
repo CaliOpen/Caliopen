@@ -46,12 +46,12 @@ class Timeline extends Component {
   }
 
   componentDidMount() {
-    const { timelineFilter, loadMore } = this.props;
+    const { loadMore } = this.props;
 
     this.loadMessages(this.props);
 
     this.throttledLoadMore = throttle(
-      () => loadMore(timelineFilter),
+      () => loadMore(this.props.timelineFilter),
       LOAD_MORE_THROTTLE,
       { trailing: false }
     );

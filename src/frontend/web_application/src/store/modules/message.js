@@ -323,29 +323,14 @@ function messagesByIdReducer(state = {}, action = {}) {
   }
 }
 
-const sortTypeCollection = (type, messageIds) => {
-  // sort messages according to UX + API
-  // XXX: actually not the best way to do it, it would be better to share the algo between
-  // back and front and use it on rendering
-  if (type === 'timeline') {
-    return messageIds;
-  }
-
-  return [...messageIds].reverse();
-};
-
-const addToTypeCollection = (type, messageId, collection) => {
+const addMessageToCollection = (type, messageId, collection) => {
   // sort messages according to UX + API
   // XXX: cf. above in sortTypeCollection
   if (!messageId) {
     return collection;
   }
 
-  if (type === 'timeline') {
-    return [messageId, ...collection];
-  }
-
-  return [...collection, messageId];
+  return [messageId, ...collection];
 };
 
 const messagesCollectionReducer = (state = {
@@ -371,10 +356,7 @@ const messagesCollectionReducer = (state = {
         didInvalidate: false,
         messages: [...new Set([
           ...((state.didInvalidate && []) || state.messages),
-          ...sortTypeCollection(
-            type,
-            action.payload.data.messages.map(message => message.message_id)
-          ),
+          ...action.payload.data.messages.map(message => message.message_id),
         ])],
         total: action.payload.data.total,
         request: action.meta.previousAction.payload.request,
@@ -382,8 +364,7 @@ const messagesCollectionReducer = (state = {
     case ADD_TO_COLLECTION:
       return {
         ...state,
-        messages: [...new Set(addToTypeCollection(
-          type,
+        messages: [...new Set(addMessageToCollection(
           (type === 'timeline' && [TIMELINE_FILTER_ALL, TIMELINE_FILTER_DRAFT].some(k => k === key)) || key === action.payload.message.discussion_id ?
             action.payload.message.message_id : undefined,
           state.messages

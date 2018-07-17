@@ -102,7 +102,7 @@ class AuthenticatedUser(object):
             return False
 
         sign_header = request.headers['X-Caliopen-Device-Signature']
-        data = '{}{}{}'.format(request.method, request.path_qs, request.body)
+        data = '{}{}{}'.format(request.method, request.path_qs, '')
         try:
             ecdsasign = EcdsaSignature.load(base64.decodestring(sign_header))
             signature = ecdsasign['r'].contents + ecdsasign['s'].contents

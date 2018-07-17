@@ -12,6 +12,7 @@ import { updateTagCollection, withTags } from '../../modules/tags';
 import { setMessageRead, deleteMessage } from '../../modules/message';
 import { reply } from '../../modules/draftMessage';
 import withScrollManager from '../../modules/scroll/hoc/scrollManager';
+import { sortMessages } from '../../services/message';
 import Presenter from './presenter';
 
 const getDiscussionIdFromProps = props => props.match.params.discussionId;
@@ -25,7 +26,7 @@ const mapStateToProps = createSelector(
   (messagesById, discussionId, {
     didInvalidate, messageIds, hasMore, isFetching,
   }) => {
-    const messages = messageIds.map(messageId => messagesById[messageId]);
+    const messages = sortMessages(messageIds.map(messageId => messagesById[messageId]), false);
 
     return {
       discussionId,

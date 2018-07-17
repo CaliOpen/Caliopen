@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Trans } from 'lingui-react';
+import { Trans, withI18n } from 'lingui-react';
 import { RadioFieldGroup, Button, Section, FormGrid, FormRow, FormColumn } from '../../../../components';
 import RemoteIdentityEmail from '../RemoteIdentityEmail';
 
@@ -8,12 +8,14 @@ function generateStateFromProps({ remoteIdentity }) {
   return { remoteIdentity };
 }
 
+@withI18n()
 class IdentityForm extends Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     remoteIdentity: PropTypes.shape({}),
     onRemoteIdentityChange: PropTypes.func.isRequired,
     onRemoteIdentityDelete: PropTypes.func.isRequired,
+    i18n: PropTypes.shape({}).isRequired,
   };
   static defaultProps = {
     remoteIdentity: undefined,
@@ -78,6 +80,7 @@ class IdentityForm extends Component {
   }
 
   renderCreate() {
+    const { i18n } = this.props;
     const options = [
       { value: 'imap', label: (<Trans id="remote_identity.type.mail">Mail</Trans>) },
     ];
@@ -86,6 +89,7 @@ class IdentityForm extends Component {
       <Section
         title={(<Trans id="remote_identity.add_account">Add an external account</Trans>)}
       >
+        <p className="callout warning" dangerouslySetInnerHTML={{ __html: i18n._('remote_identity.gmail_warning', { defaults: 'If you aim to add a Gmail account, please ensure that IMAP protocol is activated in your Gmail settings at <a target="_blank" rel="noopener noreferrer" href="https://mail.google.com/mail/u/0/#settings/fwdandpop"> “Forward and POP/IMAP”, </a> and that <a target="_blank" rel="noopener noreferrer" href="https://myaccount.google.com/lesssecureapps">Less secure application access</a> is activated for your Google account.' }) }} />
         <FormGrid>
           <FormRow>
             <FormColumn bottomSpace>

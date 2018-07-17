@@ -151,13 +151,15 @@ func MarshalImap(message *imap.Message, xHeaders ImapFetcherHeaders) (mail *Emai
 		mailBuff.WriteString(k + ": " + v + "\r")
 	}
 
-	for _, body := range message.Body { // should have only one body
-		_, err := mailBuff.ReadFrom(body)
-		if err != nil {
-			//TODO
+	if len(message.Body) == 1 { // should have only one body
+		for _, body := range message.Body {
+			_, err := mailBuff.ReadFrom(body)
+			if err != nil {
+				//TODO
+			}
+			// stop at first iteration because only one body
+			break
 		}
-		// stop at first iteration because only one body
-		break
 	}
 
 	mail = &Email{
