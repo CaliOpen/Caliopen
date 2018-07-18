@@ -1,4 +1,6 @@
-$co-site-width: 1380px;
+// do not use rem, this allow more content for the same width by
+// changing font-size for breakpoints in the root element (e.g 88% for large screen)
+$co-site-width: 1200px;
 $co-header__height: 3.25rem !default; // 52px
 $co-brand-width: 10rem;
 $co-pi-width: (

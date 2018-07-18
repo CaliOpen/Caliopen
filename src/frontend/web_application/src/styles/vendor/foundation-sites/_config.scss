@@ -51,7 +51,7 @@
 // ---------
 
 // $global-font-size: 100%;
-// $global-width: rem-calc(1200);
+$global-width: $co-site-width;
 // $global-lineheight: 1.5;
 $foundation-palette: $caliopen-palette;
 // $light-gray: #e6e6e6;
@@ -90,7 +90,7 @@ $breakpoints: (
 // 3. The Grid
 // -----------
 
-// $grid-row-width: $global-width;
+$grid-row-width: $global-width;
 // $grid-column-count: 12;
 $grid-column-gutter: (
   small: $co-grid__gutter--small,
