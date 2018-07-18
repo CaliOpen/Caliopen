@@ -1,0 +1,40 @@
+@import '../../styles/util/breakpoint';
+
+.l-page-header {
+  height: 50px;
+  background-color: #e1f5ff;
+  line-height: 50px;
+
+  &__brand {
+    display: inline-block;
+    vertical-align: middle;
+    height: 29px;
+    margin-left: 4px;
+
+    color: black;
+    path {
+      fill: black;
+    }
+
+    @include breakpoint(medium) {
+      margin-left: 0;
+    }
+  }
+
+  &__user-menu {
+    display: inline-block;
+    float: right;
+    color: #0f98c6;
+    .m-button {
+      color: #0f98c6;
+    }
+  }
+
+  &__notif-menu {
+    display: inline-block;
+    float: right;
+    .m-button {
+      color: #115972;
+    }
+  }
+}

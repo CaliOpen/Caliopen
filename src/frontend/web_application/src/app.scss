@@ -43,3 +43,9 @@
 
 // --- Reset zf-normalizer
 @import 'styles/base/reset';
+
+html {
+  @include breakpoint(large) {
+    font-size: 88%; // ~14px
+  };
+}

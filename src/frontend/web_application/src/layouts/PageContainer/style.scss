@@ -1,0 +1,20 @@
+@import '../../styles/common';
+@import '../../styles/util/breakpoint';
+
+.l-page-container {
+  max-width: $co-site-width;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 0;
+  padding-left: 0;
+
+  @include breakpoint(medium) {
+    padding-right: 4px;
+    padding-left: 4px;
+  }
+
+  @include breakpoint(xlarge) {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
