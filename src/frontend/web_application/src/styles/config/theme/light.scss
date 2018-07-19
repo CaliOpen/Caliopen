@@ -1,11 +1,12 @@
 // --- Colors ---
 // bright colors
-$co-color__primary:                   #1395ba;
+$co-color__primary:                   #0f98c6;
 $co-color__primary--lower:            darken($co-color__primary, 15%);
 $co-color__primary--low:              darken($co-color__primary, 10%);
 $co-color__primary--high:             #8dceec;
 $co-color__primary--higher:           lighten($co-color__primary--high, 15%);
 $co-color__primary__text:             #8dceec;
+$co-color__primary__text--alt:        black;
 
 $co-color__secondary:                 #13ba95;
 $co-color__secondary--lower:          darken($co-color__secondary, 15%);
