@@ -1,22 +1,22 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Brand, Link, Icon, InputText } from '../../components/';
+import { Brand } from '../../components/';
 import { BackgroundImage } from '../../modules/pi';
 import { PageActions } from '../../modules/control';
 import StickyNavBar from '../Page/components/Navigation/components/StickyNavBar';
 import Navigation from './components/Navigation';
-import UserMenu from '../Page/components/Header/components/UserMenu';
-import SearchField from '../Page/components/Header/components/SearchField';
 import PageContainer from '../PageContainer';
 import PageHeader from '../PageHeader';
 import './style.scss';
 import './navbar.scss';
 import './footer.scss';
 
-// const Tips = () => null;
-
+// eslint-disable-next-line react/prefer-stateless-function
 class Page extends Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+  };
+
   render() {
     const { children } = this.props;
 
@@ -25,7 +25,7 @@ class Page extends Component {
         <PageHeader />
 
         <PageContainer>
-          <PageActions className="l-page__main-actions"/>
+          <PageActions className="l-page__main-actions" />
         </PageContainer>
 
         <div className="l-navbar">
