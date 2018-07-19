@@ -1,0 +1,19 @@
+@import '../../styles/common';
+
+.l-footer {
+  padding-top: 3.625rem;
+  padding-bottom: 2.875rem;
+  text-align: center;
+
+  &__tips {
+    margin-bottom: 1.625rem;
+    color: $co-color__primary;
+  }
+  &__brand {
+    height: 32px;
+  }
+  &__release {
+    color: $co-color__primary__text--alt;
+    font-size: $co-font__size--small;
+  }
+}

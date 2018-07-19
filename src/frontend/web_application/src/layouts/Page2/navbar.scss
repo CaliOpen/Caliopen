@@ -1,0 +1,53 @@
+@import '../../styles/object/o-navigation';
+@import '../../styles/vendor/bootstrap_foundation-sites';
+
+$item-active-height: rem-calc($co-component__height + 0.25rem);
+
+.l-navbar {
+  position: relative;
+  height: $item-active-height;
+
+  &__wrapper {
+    @include o-navigation-wrapper;
+    max-width: initial;
+    height: auto;
+    margin-top: 0;
+    background-color: transparent;
+
+    .compose-item {
+      display: none;
+    }
+
+    &--sticky {
+      top: 0;
+      background-color: #d9f2fe;
+      box-shadow: none;
+
+      .m-horizontal-scroll {
+        height: $co-component__height;
+        background-image: none;
+      }
+
+      .m-navbar-item,
+      .tab {
+        margin-top: 0;
+      }
+
+      .m-navbar-item--is-active {
+        height: $co-component__height;
+
+        .m-item-link {
+          line-height: $co-component__height;
+        }
+      }
+
+      .compose-item {
+        display: inline-block;
+      }
+
+      .m-horizontal-scroll__container {
+        background: #fff;
+      }
+    }
+  }
+}

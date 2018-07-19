@@ -11,6 +11,8 @@ import SearchField from '../Page/components/Header/components/SearchField';
 import PageContainer from '../PageContainer';
 import PageHeader from '../PageHeader';
 import './style.scss';
+import './navbar.scss';
+import './footer.scss';
 
 // const Tips = () => null;
 
@@ -26,10 +28,10 @@ class Page extends Component {
           <PageActions className="l-page__main-actions"/>
         </PageContainer>
 
-        <div className="navbar">
+        <div className="l-navbar">
           <StickyNavBar
-            className="navbar__wrapper"
-            stickyClassName="navbar__wrapper--sticky"
+            className="l-navbar__wrapper"
+            stickyClassName="l-navbar__wrapper--sticky"
           >
             <PageContainer>
               <Navigation />
@@ -42,15 +44,17 @@ class Page extends Component {
         </PageContainer>
 
         <PageContainer>
-          <div className="center footer">
+          <div className="l-footer">
             {/* <Tips /> */}
-            <div className="astuce">
-              <b>Astuce : </b>pour améliorer la confidentialitéde vos échanges, saviez-vous que vous pouviez lorem ipsum dolor sit amet!
+            <div className="l-footer__tips">
+              <b>Astuce : </b>
+              pour améliorer la confidentialitéde vos échanges, saviez-vous que vous pouviez lorem
+              ipsum dolor sit amet!
             </div>
 
             {/* <Footer /> */}
-            <div className="logo"><Brand className="brand" /></div>
-            <div className="release">v0.0.0 Be good.</div>
+            <div className="l-footer__logo"><Brand className="l-footer__brand" theme="low" /></div>
+            <div className="l-footer__release">v0.0.0 Be good.</div>
           </div>
         </PageContainer>
       </BackgroundImage>

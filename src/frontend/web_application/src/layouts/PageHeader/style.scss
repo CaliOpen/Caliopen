@@ -9,12 +9,7 @@
     display: inline-block;
     vertical-align: middle;
     height: 29px;
-    margin-left: 4px;
-
-    color: black;
-    path {
-      fill: black;
-    }
+    margin-left: .25rem;
 
     @include breakpoint(medium) {
       margin-left: 0;
