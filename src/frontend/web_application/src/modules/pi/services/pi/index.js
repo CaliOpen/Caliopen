@@ -9,18 +9,19 @@ export const getPiClass = (piAggregate) => {
 };
 
 export const getAngles = () => {
-  const piLength = PI_PROPERTIES.length;
-  if (piLength === 0) {
+  if (PI_PROPERTIES.length === 0) {
     return 0;
   }
 
-  return 360 / piLength;
+  return 360 / PI_PROPERTIES.length;
 };
 
 export const getAveragePI = (pi) => {
-  const piProps = PI_PROPERTIES;
-
   if (!pi) return NaN;
 
-  return Math.round((piProps.reduce((acc, name) => acc + pi[name] || 0, 0)) / piProps.length);
+  const averagePI = (
+    PI_PROPERTIES.reduce((acc, name) => acc + pi[name] || 0, 0)
+  ) / PI_PROPERTIES.length;
+
+  return Math.round(averagePI);
 };
