@@ -1,6 +1,6 @@
 const { SpecReporter } = require('jasmine-spec-reporter');
 
-const front_url = process.env.FRONTEND_ADDRESS || 'localhost' ;
+const frontUrl = process.env.FRONTEND_ADDRESS || 'localhost';
 
 const cfg = {
   SELENIUM_PROMISE_MANAGER: true,
@@ -29,7 +29,7 @@ const cfg = {
     // print: () => {},
     defaultTimeoutInterval: 70 * 1000,
   },
-  baseUrl: `http://${front_url}:4000/`,
+  baseUrl: `http://${frontUrl}:4000/`,
   onPrepare: () => {
     browser.ignoreSynchronization = true;
     browser.manage().window().setSize(1024, 768);
@@ -63,8 +63,7 @@ if (process.env.SAUCE_USERNAME && process.env.SAUCE_ACCESS_KEY) {
 
   cfg.sauceUser = process.env.SAUCE_USERNAME;
   cfg.sauceKey = process.env.SAUCE_ACCESS_KEY;
-  cfg.sauceSeleniumAddress = process.env.SAUCE_ADDRESS + ':' + process.env.SAUCE_PORT + '/wd/hub';
-  cfg.sauceSeleniumUseHttp = true;
+  cfg.sauceSeleniumAddress = `${process.env.SAUCE_ADDRESS}:${process.env.SAUCE_PORT}/wd/hub`;
   const branch = process.env.DRONE_BRANCH;
   const prNumber = process.env.DRONE_PULL_REQUEST;
   const name = `CaliOpen e2e - ${prNumber ? `#${prNumber}` : branch}`;
