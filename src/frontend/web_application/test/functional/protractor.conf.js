@@ -64,6 +64,7 @@ if (process.env.SAUCE_USERNAME && process.env.SAUCE_ACCESS_KEY) {
   cfg.sauceUser = process.env.SAUCE_USERNAME;
   cfg.sauceKey = process.env.SAUCE_ACCESS_KEY;
   cfg.sauceSeleniumAddress = `${process.env.SAUCE_ADDRESS}:${process.env.SAUCE_PORT}/wd/hub`;
+  cfg.sauceSeleniumUseHttp = true;
   const branch = process.env.DRONE_BRANCH;
   const prNumber = process.env.DRONE_PULL_REQUEST;
   const name = `CaliOpen e2e - ${prNumber ? `#${prNumber}` : branch}`;
