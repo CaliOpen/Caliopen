@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { withI18n } from '@lingui/react';
 import { Trans } from '@lingui/macro'; // eslint-disable-line import/no-extraneous-dependencies
-import { TextFieldGroup, CheckboxFieldGroup, FormGrid, FormRow, FormColumn, FieldErrors, Confirm, Button, Spinner } from '../../../../components';
+import { TextFieldGroup, CheckboxFieldGroup, FormGrid, FormRow, FormColumn, FieldErrors, Confirm, Button, Spinner, TextBlock } from '../../../../components';
 import { REMOTE_IDENTITY_STATUS_ACTIVE, REMOTE_IDENTITY_STATUS_INACTIVE, PROTOCOL_EMAIL, Identity } from '../../../../modules/remoteIdentity';
 import Status from '../Status';
 import RemoteIdentityDetails from '../RemoteIdentityDetails';
@@ -11,10 +11,11 @@ import './style.scss';
 
 function generateStateFromProps(props, prevState) {
   const {
-    identity_id: identityId, infos, credentials, status, protocol,
+    identity_id: identityId, infos, credentials = {}, status, protocol,
     identifier,
   } = props.remoteIdentity || {};
-  const [inserverHostname = '', inserverPort = ''] = infos && infos.inserver ? infos.inserver.split(':') : [];
+  const [inserverHostname = '', inserverPort = ''] = infos && infos.inserver ? infos.inserver.split(':') : [prevState.remoteIdentity.inserverHostname, prevState.remoteIdentity.inserverPort];
+  const [outserverHostname = '', outserverPort = ''] = infos && infos.outserver ? infos.outserver.split(':') : [prevState.remoteIdentity.outserverHostname, prevState.remoteIdentity.outserverPort];
   const active = status ?
     status === REMOTE_IDENTITY_STATUS_ACTIVE :
     prevState.remoteIdentity.active;
@@ -26,13 +27,9 @@ function generateStateFromProps(props, prevState) {
       ...(identifier ? { identifier } : {}),
       inserverHostname,
       inserverPort,
-      ...(
-        credentials ?
-          {
-            inusername: credentials.inusername,
-            inpassword: credentials.inpassword,
-          } : {}
-      ),
+      outserverHostname,
+      outserverPort,
+      credentials,
       active,
       ...(protocol ? { protocol } : {}),
     },
@@ -42,14 +39,18 @@ function generateStateFromProps(props, prevState) {
 function getIdentityFromState(state, props) {
   const {
     remoteIdentity: {
-      identifier, inserverHostname, inserverPort, inusername, inpassword, active, protocol,
+      identifier, active, protocol,
+      inserverHostname, inserverPort, inusername, inpassword,
+      outserverHostname, outserverPort, outusername, outpassword,
     },
   } = state;
   const { remoteIdentity } = props;
-  const credentials = (inusername || inpassword) ? {
+  const credentials = (inusername || inpassword || outusername || outpassword) ? {
     ...(remoteIdentity.credentials ? remoteIdentity.credentials : {}),
     inusername,
     inpassword,
+    outusername,
+    outpassword,
   } : undefined;
 
   return new Identity({
@@ -60,6 +61,7 @@ function getIdentityFromState(state, props) {
     infos: {
       ...(remoteIdentity.infos ? remoteIdentity.infos : {}),
       inserver: `${inserverHostname}:${inserverPort}`,
+      outserver: `${outserverHostname}:${outserverPort}`,
     },
     protocol,
     status: active ? REMOTE_IDENTITY_STATUS_ACTIVE : REMOTE_IDENTITY_STATUS_INACTIVE,
@@ -91,9 +93,13 @@ class RemoteIdentityEmail extends Component {
     remoteIdentity: {
       identifier: '',
       inserverHostname: '',
-      inserverPort: '',
+      inserverPort: '993',
       inusername: '',
       inpassword: '',
+      outserverHostname: '',
+      outserverPort: '465',
+      outusername: '',
+      outpassword: '',
       active: true,
       protocol: PROTOCOL_EMAIL,
     },
@@ -113,11 +119,14 @@ class RemoteIdentityEmail extends Component {
   }
 
   save = async () => {
+    const { onChange, remoteIdentity } = this.props;
     try {
-      await this.props.onChange({
+      await onChange({
         identity: getIdentityFromState(this.state, this.props),
       });
-      this.reset();
+      if (remoteIdentity.identity_id) {
+        this.reset();
+      }
     } catch (errs) {
       if (errs.some(err => err.code === 6)) {
         this.setState({
@@ -178,6 +187,28 @@ class RemoteIdentityEmail extends Component {
         remoteIdentity: {
           ...prevState.remoteIdentity,
           inusername: prevState.remoteIdentity.identifier,
+          outusername: prevState.remoteIdentity.identifier,
+        },
+      };
+    });
+  }
+
+  createHandleBlurInOutParam = shortname => () => {
+    const { remoteIdentity } = this.props;
+
+    if (remoteIdentity.entity_id) {
+      return;
+    }
+
+    this.setState((prevState) => {
+      if (prevState.remoteIdentity[`out${shortname}`].length > 0) {
+        return {};
+      }
+
+      return {
+        remoteIdentity: {
+          ...prevState.remoteIdentity,
+          [`out${shortname}`]: prevState.remoteIdentity[`in${shortname}`],
         },
       };
     });
@@ -197,6 +228,12 @@ class RemoteIdentityEmail extends Component {
   handleToggleEdit = () => {
     this.setState(prevState => ({
       editing: !prevState.editing,
+    }));
+  }
+
+  handlToggleAdvanced = () => {
+    this.setState(prevState => ({
+      advancedForm: !prevState.advancedForm,
     }));
   }
 
@@ -232,13 +269,19 @@ class RemoteIdentityEmail extends Component {
       { formProperty: 'identifier', error: <Trans id="remote_identity.form.identifier.error">a valid email is required</Trans> },
       { formProperty: 'inserverHostname', error: <Trans id="remote_identity.form.serverHostname.error">mail server is required</Trans> },
       { formProperty: 'inserverPort', error: <Trans id="remote_identity.form.serverPort.error">port is required</Trans> },
+      { formProperty: 'outserverHostname', error: <Trans id="remote_identity.form.serverHostname.error">mail server is required</Trans> },
+      { formProperty: 'outserverPort', error: <Trans id="remote_identity.form.serverPort.error">port is required</Trans> },
       { formProperty: 'protocol', error: <Trans id="remote_identity.form.protocol.error">protocol is required</Trans> },
       ...(!remoteIdentity.identity_id ||
           this.state.remoteIdentity.inusername.length > 0 ||
-          this.state.remoteIdentity.inpassword.length > 0 ?
+          this.state.remoteIdentity.inpassword.length > 0 ||
+          this.state.remoteIdentity.outusername.length > 0 ||
+          this.state.remoteIdentity.outpassword.length > 0 ?
         [
           { formProperty: 'inusername', error: <Trans id="remote_identity.form.username.error">login is required</Trans> },
           { formProperty: 'inpassword', error: <Trans id="remote_identity.form.password.error">password is required</Trans> },
+          { formProperty: 'outusername', error: <Trans id="remote_identity.form.username.error">login is required</Trans> },
+          { formProperty: 'outpassword', error: <Trans id="remote_identity.form.password.error">password is required</Trans> },
         ] : []
       ),
     ]);
@@ -270,6 +313,13 @@ class RemoteIdentityEmail extends Component {
             />
           </FormColumn>
         </FormRow>
+        {this.state.advancedForm && (
+          <FormRow>
+            <FormColumn bottomSpace>
+              <TextBlock weight="strong"><Trans id="remote_identity.form.inserver">In server</Trans></TextBlock>
+            </FormColumn>
+          </FormRow>
+        )}
         <FormRow>
           {/* <FormColumn bottomSpace size="medium">
             <SelectFieldGroup
@@ -289,6 +339,7 @@ class RemoteIdentityEmail extends Component {
               value={this.state.remoteIdentity.inserverHostname}
               errors={this.state.formErrors.inserverHostname}
               onChange={this.handleParamsChange}
+              onBlur={this.createHandleBlurInOutParam('serverHostname')}
               name="inserverHostname"
               autoComplete="on"
               required
@@ -307,6 +358,33 @@ class RemoteIdentityEmail extends Component {
             />
           </FormColumn>
         </FormRow>
+        {!this.state.advancedForm && (
+          <FormRow>
+            <FormColumn bottomSpace fluid>
+              <TextFieldGroup
+                label={<Trans id="remote_identity.form.outgoing_mail_server.label">Outgoing mail server:</Trans>}
+                value={this.state.remoteIdentity.outserverHostname}
+                errors={this.state.formErrors.outserverHostname}
+                onChange={this.handleParamsChange}
+                name="outserverHostname"
+                autoComplete="on"
+                required
+              />
+            </FormColumn>
+            <FormColumn bottomSpace size="shrink">
+              <TextFieldGroup
+                label={<Trans id="remote_identity.form.port.label">Port:</Trans>}
+                value={this.state.remoteIdentity.outserverPort}
+                errors={this.state.formErrors.outserverPort}
+                onChange={this.handleParamsChange}
+                name="outserverPort"
+                type="number"
+                autoComplete="on"
+                required
+              />
+            </FormColumn>
+          </FormRow>
+        )}
         <FormRow>
           <FormColumn bottomSpace size="medium">
             <TextFieldGroup
@@ -314,6 +392,7 @@ class RemoteIdentityEmail extends Component {
               value={this.state.remoteIdentity.inusername}
               errors={this.state.formErrors.inusername}
               onChange={this.handleParamsChange}
+              onBlur={this.createHandleBlurInOutParam('username')}
               name="inusername"
               autoComplete="username"
               required
@@ -326,12 +405,72 @@ class RemoteIdentityEmail extends Component {
               value={this.state.remoteIdentity.inpassword}
               errors={this.state.formErrors.inpassword}
               onChange={this.handleParamsChange}
+              onBlur={this.createHandleBlurInOutParam('password')}
               name="inpassword"
               autoComplete="new-password"
               required
             />
           </FormColumn>
         </FormRow>
+        {this.state.advancedForm && (
+          <Fragment>
+            <FormRow>
+              <FormColumn bottomSpace>
+                <TextBlock weight="strong"><Trans id="remote_identity.form.outserver">Out server</Trans></TextBlock>
+              </FormColumn>
+            </FormRow>
+            <FormRow>
+              <FormColumn bottomSpace fluid>
+                <TextFieldGroup
+                  label={<Trans id="remote_identity.form.outgoing_mail_server.label">Outgoing mail server:</Trans>}
+                  value={this.state.remoteIdentity.outserverHostname}
+                  errors={this.state.formErrors.outserverHostname}
+                  onChange={this.handleParamsChange}
+                  name="outserverHostname"
+                  autoComplete="on"
+                  required
+                />
+              </FormColumn>
+              <FormColumn bottomSpace size="shrink">
+                <TextFieldGroup
+                  label={<Trans id="remote_identity.form.port.label">Port:</Trans>}
+                  value={this.state.remoteIdentity.outserverPort}
+                  errors={this.state.formErrors.outserverPort}
+                  onChange={this.handleParamsChange}
+                  name="outserverPort"
+                  type="number"
+                  autoComplete="on"
+                  required
+                />
+              </FormColumn>
+            </FormRow>
+            <FormRow>
+              <FormColumn bottomSpace size="medium">
+                <TextFieldGroup
+                  label={<Trans id="remote_identity.form.username.label">Login:</Trans>}
+                  value={this.state.remoteIdentity.outusername}
+                  errors={this.state.formErrors.outusername}
+                  onChange={this.handleParamsChange}
+                  name="outusername"
+                  autoComplete="username"
+                  required
+                />
+              </FormColumn>
+              <FormColumn bottomSpace size="medium">
+                <TextFieldGroup
+                  label={<Trans id="remote_identity.form.password.label">Password:</Trans>}
+                  type="password"
+                  value={this.state.remoteIdentity.outpassword}
+                  errors={this.state.formErrors.outpassword}
+                  onChange={this.handleParamsChange}
+                  name="outpassword"
+                  autoComplete="new-password"
+                  required
+                />
+              </FormColumn>
+            </FormRow>
+          </Fragment>
+        )}
         {remoteIdentity && remoteIdentity.identity_id && (
           <FormRow>
             <FormColumn bottomSpace>
@@ -407,6 +546,14 @@ class RemoteIdentityEmail extends Component {
           <Fragment>
             <Button onClick={this.handleCancel} shape="hollow" className="m-remote-identity-email__action">
               <Trans id="remote_identity.action.cancel">Cancel</Trans>
+            </Button>
+            <Button onClick={this.handlToggleAdvanced} shape="plain" className="m-remote-identity-email__action">
+              {!this.state.advancedForm && (
+                <Trans id="remote_identity.action.toggle-advanced-form">Advanced</Trans>
+              )}
+              {this.state.advancedForm && (
+                <Trans id="remote_identity.action.toggle-simple-form">Simple</Trans>
+              )}
             </Button>
             <Button
               onClick={this.handleSave}
