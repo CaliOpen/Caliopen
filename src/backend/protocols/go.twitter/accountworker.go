@@ -55,10 +55,10 @@ const (
 
 // NewWorker create a worker dedicated to a specific twitter account.
 // A worker holds remote identity credentials and data, as well as user context connection to twitter API.
-func NewAccountWorker(userID, remoteID string, conf WorkerConfig) (accountWorker *AccountWorker, err error) {
+func NewAccountWorker(userID, remoteID string, worker Worker) (accountWorker *AccountWorker, err error) {
 	accountWorker = new(AccountWorker)
 	accountWorker.WorkerDesk = make(chan uint, 3)
-	b, e := broker.Initialize(conf.BrokerConfig)
+	b, e := broker.Initialize(worker.Conf.BrokerConfig, worker.Store, worker.Index, worker.NatsConn, worker.Notifier)
 	if e != nil {
 		err = fmt.Errorf("[TwitterWorker]NewAccountWorker failed to initialize a twitter broker : %s", e)
 		return nil, err
@@ -88,7 +88,7 @@ func NewAccountWorker(userID, remoteID string, conf WorkerConfig) (accountWorker
 		accountWorker.lastDMseen = "0"
 	}
 
-	authConf := oauth1.NewConfig(conf.TwitterAppKey, conf.TwitterAppSecret)
+	authConf := oauth1.NewConfig(worker.Conf.TwitterAppKey, worker.Conf.TwitterAppSecret)
 	token := oauth1.NewToken(accountWorker.userAccount.accessToken, accountWorker.userAccount.accessTokenSecret)
 	httpClient := authConf.Client(oauth1.NoContext, token)
 	if accountWorker.twitterClient = twitter.NewClient(httpClient); accountWorker.twitterClient == nil {

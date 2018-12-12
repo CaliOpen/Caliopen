@@ -29,12 +29,9 @@ func (w *Worker) WorkerMsgHandler(msg *nats.Msg) {
 		log.Infof("received reload_worker order for remote twitter ID %s", message.RemoteId)
 	case "add_worker":
 		log.Infof("received add_worker order for remote twitter ID %s", message.RemoteId)
-		accountWorker, err := NewAccountWorker(message.UserId, message.RemoteId, w.conf)
-		if err != nil {
+		accountWorker := w.getOrCreateWorker(message.UserId, message.RemoteId)
+		if accountWorker == nil {
 			log.WithError(err).Warnf("[WorkerMsgHandler] failed to create new worker for remote %s (user %s)", message.RemoteId, message.UserId)
-		} else {
-			w.RegisterWorker(accountWorker)
-			go accountWorker.Start()
 		}
 	case "remove_worker":
 		log.Infof("received remove_worker order for remote twitter ID %s", message.RemoteId)
@@ -59,7 +56,7 @@ func (w *Worker) DMmsgHandler(msg *nats.Msg) {
 			case <-time.After(30 * time.Second):
 				log.Warnf("[DMmsgHandler] worker's desk is full for remote %s (user %s)", message.RemoteId, message.UserId)
 			}
-		}  else {
+		} else {
 			log.Warnf("[DMmsgHandler] failed to get a worker for remote %s (user %s)", message.RemoteId, message.UserId)
 			w.natsReplyError(msg, errors.New("[DMmsgHandler] failed to get a worker"))
 		}
@@ -67,7 +64,7 @@ func (w *Worker) DMmsgHandler(msg *nats.Msg) {
 		if accountWorker := w.getOrCreateWorker(message.UserId, message.RemoteId); accountWorker != nil {
 			com := twitter_broker.NatsCom{
 				Order: message,
-				Ack: make(chan *DeliveryAck),
+				Ack:   make(chan *DeliveryAck),
 			}
 			select {
 			case accountWorker.broker.Connectors.Egress <- com:
@@ -113,5 +110,3 @@ func (w *Worker) natsReplyError(msg *nats.Msg, err error) {
 	json_resp, _ := json.Marshal(ack)
 	w.NatsConn.Publish(msg.Reply, json_resp)
 }
-
-

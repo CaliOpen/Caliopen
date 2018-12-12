@@ -67,12 +67,10 @@ func InitializeCassandraBackend(config CassandraConfig) (cb *CassandraBackend, e
 			return nil, err
 		}
 	}
-
 	return
 }
 
 func (cb *CassandraBackend) initialize(config CassandraConfig) (err error) {
-
 	cb.CassandraConfig = config
 	cb.Timeout = DefaultTimeout
 	// connect to the cluster
@@ -107,7 +105,7 @@ func (cb *CassandraBackend) Close() {
 // SessionQuery is a wrapper to cb.Session.Query(…………) that re-init a Session if it has been closed
 func (cb *CassandraBackend) SessionQuery(stmt string, values ...interface{}) *gocql.Query {
 	if cb.Session.Closed() {
-		err := cb.initialize(cb.CassandraConfig)
+		err := (*cb).initialize(cb.CassandraConfig)
 		if err != nil {
 			log.WithError(err).Warn("[CassandraBackend] SessionQuery failed to re-init a gocql Session")
 		}
