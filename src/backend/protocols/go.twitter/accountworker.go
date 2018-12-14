@@ -35,6 +35,7 @@ type (
 		userID            UUID
 		remoteID          UUID
 		screenName        string
+		twitterID         string
 	}
 )
 
@@ -51,6 +52,8 @@ const (
 	dateFirstErrorKey = "firstErrorDate"
 	dateLastErrorKey  = "lastErrorDate"
 	errorsCountKey    = "errorsCount"
+
+	defaultPollInterval = "2"
 )
 
 // NewWorker create a worker dedicated to a specific twitter account.
@@ -82,6 +85,7 @@ func NewAccountWorker(userID, remoteID string, worker Worker) (accountWorker *Ac
 		remoteID:          remote.Id,
 		screenName:        remote.Identifier,
 	}
+
 	if lastseen, ok := remote.Infos[lastSeenInfosKey]; ok {
 		accountWorker.lastDMseen = lastseen
 	} else {
@@ -94,7 +98,14 @@ func NewAccountWorker(userID, remoteID string, worker Worker) (accountWorker *Ac
 	if accountWorker.twitterClient = twitter.NewClient(httpClient); accountWorker.twitterClient == nil {
 		return nil, errors.New("[NewWorker] twitter api failed to create http client")
 	}
-
+	if twitterid, ok := remote.Infos["twitterid"]; ok && twitterid != "" {
+		accountWorker.userAccount.twitterID = twitterid
+	} else {
+		twitterUser, _, e := accountWorker.twitterClient.Users.Show(&twitter.UserShowParams{ScreenName: accountWorker.userAccount.screenName})
+		if e == nil {
+			accountWorker.userAccount.twitterID = twitterUser.IDStr
+		}
+	}
 	accountWorker.usersScreenNames = map[int64]string{}
 
 	return
@@ -179,22 +190,25 @@ func (worker *AccountWorker) PollDM() {
 				if err.Code == 88 {
 					log.Infof("[AccountWorker %s] PollDM : twitter returned rate limit error, slowing down worker for account", worker.userAccount.remoteID)
 					if pollInterval, ok := accountInfos["pollinterval"]; ok {
+						var newInterval string
 						interval, e := strconv.Atoi(pollInterval)
-						if e == nil {
-							newInterval := strconv.Itoa(interval * 2)
-							accountInfos["pollinterval"] = newInterval
-							worker.broker.Store.UpdateRemoteInfosMap(worker.userAccount.userID.String(), worker.userAccount.remoteID.String(), accountInfos)
-							order := RemoteIDNatsMessage{
-								IdentityId:   worker.userAccount.remoteID.String(),
-								Order:        "update_interval",
-								PollInterval: newInterval,
-								Protocol:     "twitter",
-								UserId:       worker.userAccount.userID.String(),
-							}
-							jorder, jerr := json.Marshal(order)
-							if jerr == nil {
-								worker.broker.NatsConn.Publish("idCache", jorder)
-							}
+						if e != nil || interval < 1 {
+							newInterval = defaultPollInterval
+						} else {
+							newInterval = strconv.Itoa(interval * 2)
+						}
+						accountInfos["pollinterval"] = newInterval
+						worker.broker.Store.UpdateRemoteInfosMap(worker.userAccount.userID.String(), worker.userAccount.remoteID.String(), accountInfos)
+						order := RemoteIDNatsMessage{
+							IdentityId:   worker.userAccount.remoteID.String(),
+							Order:        "update_interval",
+							PollInterval: newInterval,
+							Protocol:     "twitter",
+							UserId:       worker.userAccount.userID.String(),
+						}
+						jorder, jerr := json.Marshal(order)
+						if jerr == nil {
+							worker.broker.NatsConn.Publish("idCache", jorder)
 						}
 					}
 				}
@@ -224,16 +238,17 @@ func (worker *AccountWorker) PollDM() {
 	log.Infof("[AccountWorker %s] PollDM %d events retrieved", worker.userAccount.remoteID.String(), len(DMs.Events))
 	for _, event := range DMs.Events {
 		if worker.dmNotSeen(event) {
-			//TODO: handle DM sent by user : remove or not ?
-
-			//lookup sender & recipient's screen_names because there are not embedded in event object
-			(*event.Message).SenderScreenName = worker.getAccountName(event.Message.SenderID)
-			(*event.Message).Target.RecipientScreenName = worker.getAccountName(event.Message.Target.RecipientID)
-			err = worker.broker.ProcessInDM(worker.userAccount.userID, worker.userAccount.remoteID, &event, true)
-			if err != nil {
-				// something went wrong, forget this DM
-				log.WithError(err).Warnf("[AccountWorker %s] ProcessInDM failed for event : %+v", worker.userAccount.remoteID.String(), event)
-				continue
+			if worker.isDMunique(event.ID) {
+				log.Infof("dm %s is new", event.ID)
+				//lookup sender & recipient's screen_names because there are not embedded in event object
+				(*event.Message).SenderScreenName = worker.getAccountName(event.Message.SenderID)
+				(*event.Message).Target.RecipientScreenName = worker.getAccountName(event.Message.Target.RecipientID)
+				err = worker.broker.ProcessInDM(worker.userAccount.userID, worker.userAccount.remoteID, &event, true)
+				if err != nil {
+					// something went wrong, forget this DM
+					log.WithError(err).Warnf("[AccountWorker %s] ProcessInDM failed for event : %+v", worker.userAccount.remoteID.String(), event)
+					continue
+				}
 			}
 			worker.lastDMseen = event.ID
 		}
@@ -318,15 +333,24 @@ func (worker *AccountWorker) getAccountName(accountID string) (accountName strin
 	if err == nil {
 		var inCache bool
 		if accountName, inCache = worker.usersScreenNames[ID]; !inCache {
-			users, _, err := worker.twitterClient.Users.Lookup(&twitter.UserLookupParams{UserID: []int64{ID}})
-			if err == nil && len(users) > 0 {
-				accountName = users[0].ScreenName
-				(*worker).usersScreenNames[ID] = accountName
+			user, _, err := worker.twitterClient.Users.Show(&twitter.UserShowParams{UserID: ID})
+			if err == nil && user != nil {
+				(*worker).usersScreenNames[ID] = user.ScreenName
 			}
+			return user.ScreenName
 		}
 		return accountName
 	}
 	return
+}
+
+// isDMunique returns true if Twitter Direct Message id is not found within user's messages index
+// if seeking fails for any reason, true is returned anyway to allow duplication
+func (worker *AccountWorker) isDMunique(dmID string) bool {
+	if isFound, err := worker.broker.Index.SeekMessageByExternalRef(worker.userAccount.userID.String(), dmID); err == nil {
+		return !isFound
+	}
+	return true
 }
 
 func (worker *AccountWorker) saveErrorState(infos map[string]string, err string) error {

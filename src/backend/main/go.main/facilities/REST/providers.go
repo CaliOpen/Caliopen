@@ -118,8 +118,9 @@ func (rest *RESTfacility) CreateTwitterIdentity(requestToken, verifier string) (
 			"secret": accessSecret,
 		}
 		userIdentity.Infos = map[string]string{
-			"provider": "twitter",
-			"authtype": Oauth1,
+			"provider":  "twitter",
+			"authtype":  Oauth1,
+			"twitterid": twitterUser.IDStr,
 		}
 		// save identity
 		e := rest.CreateUserIdentity(userIdentity)
