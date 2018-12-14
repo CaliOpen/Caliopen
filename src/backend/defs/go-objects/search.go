@@ -8,15 +8,15 @@ import (
 	"gopkg.in/olivere/elastic.v5"
 )
 
-// params to pass to API to trigger an elasticsearch search
+// params to pass to API to trigger an elasticsearch filtering search
 type IndexSearch struct {
-	Limit   int                 `json:"limit"`
-	Offset  int                 `json:"offset"`
-	Terms   map[string][]string `json:"terms"`
-	Shard_id   string           `json:"shard_id"`
-	User_id UUID                `json:"user_id"`
-	DocType string              `json:"doc_type"`
-	ILrange [2]int8             `json:"il_range"`
+	Limit    int                 `json:"limit"`
+	Offset   int                 `json:"offset"`
+	Terms    map[string][]string `json:"terms"`
+	Shard_id string              `json:"shard_id"`
+	User_id  UUID                `json:"user_id"`
+	DocType  string              `json:"doc_type"`
+	ILrange  [2]int8             `json:"il_range"`
 }
 
 type IndexResult struct {

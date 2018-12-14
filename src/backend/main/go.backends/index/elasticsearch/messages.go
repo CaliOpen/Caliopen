@@ -33,6 +33,7 @@ func (es *ElasticSearchBackend) CreateMessage(user *objects.UserInfo, msg *objec
 		log.WithError(err).Warn("backend Index: IndexMessage operation failed")
 		return err
 	}
+
 	log.Infof("New msg indexed with id %s", resp.Id)
 	return nil
 
@@ -172,6 +173,24 @@ func (es *ElasticSearchBackend) GetMessagesRange(filter objects.IndexSearch) (me
 	}
 	sort.Sort(objects.ByDateSortAsc(messages))
 	return messages, totalFound, nil
+}
+
+// return false if message not found or error
+func (es *ElasticSearchBackend) SeekMessageByExternalRef(userID, externalMessageID string) (bool, error) {
+	q := elastic.NewBoolQuery()
+	// Strictly filter on user_id and external ref.
+	q = q.Must(
+		elastic.NewTermQuery("user_id", userID),
+		elastic.NewNestedQuery("external_references", elastic.NewTermQuery("external_references.message_id", externalMessageID)),
+	)
+
+	result, err := es.Client.Search().Type(objects.MessageIndexType).Query(q).Do(context.TODO())
+	if err != nil {
+		return false, err
+	} else if result.TotalHits() > 0 {
+		return true, nil
+	}
+	return false, nil
 }
 
 func executeMessagesQuery(search *elastic.SearchService) (messages []*objects.Message, totalFound int64, err error) {

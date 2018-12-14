@@ -22,7 +22,6 @@ func (cb *CassandraBackend) CreateMessage(msg *Message) error {
 }
 
 func (cb *CassandraBackend) RetrieveMessage(user_id, msg_id string) (msg *Message, err error) {
-
 	msg = new(Message).NewEmpty().(*Message) // correctly initialize nested values
 	m := map[string]interface{}{}
 	q := cb.SessionQuery(`SELECT * FROM message WHERE user_id = ? and message_id = ?`, user_id, msg_id)
