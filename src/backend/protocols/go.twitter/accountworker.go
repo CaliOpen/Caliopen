@@ -239,7 +239,6 @@ func (worker *AccountWorker) PollDM() {
 	for _, event := range DMs.Events {
 		if worker.dmNotSeen(event) {
 			if worker.isDMunique(event.ID) {
-				log.Infof("dm %s is new", event.ID)
 				//lookup sender & recipient's screen_names because there are not embedded in event object
 				(*event.Message).SenderScreenName = worker.getAccountName(event.Message.SenderID)
 				(*event.Message).Target.RecipientScreenName = worker.getAccountName(event.Message.Target.RecipientID)
