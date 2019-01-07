@@ -6,15 +6,12 @@ import logging
 import re
 import hashlib
 
-from elasticsearch import Elasticsearch
 from caliopen_storage.config import Configuration
+from caliopen_data import ESProvider
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 logging.basicConfig(level=logging.WARN)
-
-mapping = '_v5'
-DEFAULT_RESULT_WINDOW = 10000
 
 
 def valid_uuid(uuid):
@@ -27,6 +24,7 @@ def valid_uuid(uuid):
 
 def anonymise_email(email):
     """Anonymise email field using an hash function."""
+    # XXX do a better email formatting, even if it's supposed to be clean ...
     assert '@' in email, 'Invalid email {0}'.format(email)
     local_part, domain = email.split('@')
     hash_local = hashlib.sha256(local_part.encode('utf-8')).hexdigest()
@@ -34,60 +32,15 @@ def anonymise_email(email):
     return '{0}@{1}'.format(hash_local, hash_domain)
 
 
-class DataManager(object):
-    def __init__(self, client=None):
-        self.es_client = client
-        self.url = url
+class EmailGraph(ESProvider):
 
-    def run(self, output):
-        f = open(output, 'w')
-        indexes = self.es_client.indices.get("_all")
-        for index in indexes:
-            user_id = index.replace(mapping, '')
-            if valid_uuid(user_id):
-                for record in self.process_user(index):
-                    f.write(';'.join(record))
-                    f.write('\n')
-            else:
-                log.info('Not a valid uuid {}'.format(index))
-        f.close()
-
-    def process_user(self, index):
-        log.info('Processing index {0}'.format(index))
-        search = IndexedMessage.search(using=self.es_client,
-                                       index=index)
-        count = search.count()
-        log.info('Have {} message to process'.format(count))
-        nb = 0
-        data = []
-        updated_settings = False
-        if count > DEFAULT_RESULT_WINDOW:
-            updated_settings = True
-            self._update_settings(index, count + 100)
-        while nb < count:
-            search = IndexedMessage.search(using=self.es_client,
-                                           index=index)[nb:nb + 100]
-            results = search.execute()
-            for result in results:
-                lines = self.process_message(result)
-                if lines:
-                    data.extend(lines)
-            nb += 100
-        if updated_settings:
-            self._update_settings(index, DEFAULT_RESULT_WINDOW)
-        return data
-
-    def _update_settings(self, index, max_result_window):
-        log.info('Updating index {0} settings'.format(index))
-        body = {'max_result_window': max_result_window}
-        self.es_client.indices.put_settings(body, index)
-
-    def process_message(self, message):
+    def _format_item(self, message):
         from_ = filter(lambda x: x['type'] == 'From',
                        message.participants)
         if from_:
             from_ = from_[0]
         else:
+            log.warn('Message without from header')
             return
         to = filter(lambda x: x['type'] in ('To', 'Cc'), message.participants)
         type = 'plain'
@@ -110,16 +63,46 @@ class DataManager(object):
             yield [hash1, hash2, type, date, received]
 
 
+class Extractor(object):
+
+    def __init__(self, config):
+        self.shards = config.get('elasticsearch', {}).get('shards', [])
+        self.provider = EmailGraph(config)
+
+    def _get_indices(self):
+        for idx in self.provider._store.indices.get('_all'):
+            if valid_uuid(idx):
+                yield idx
+
+    def process(self, output, index=None):
+        if index:
+            indices = [index]
+        else:
+            indices = self._get_indices()
+        with open(output, 'w') as output:
+            for index in indices:
+                cpt = 0
+                log.info('Processing index %s' % index)
+                search = IndexedMessage.search()
+                self.provider.prepare(search, index=index,
+                                      doc_type='indexed_message')
+                for records in self.provider.next():
+                    for record in records:
+                        output.write('{0}\n'.format(';'.join(record)))
+                        cpt += 1
+                log.info('%d records processed' % cpt)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', dest='conffile')
     parser.add_argument('-o', dest='output')
+    parser.add_argument('-i', dest='index')
     args = parser.parse_args()
 
     Configuration.load(args.conffile, 'global')
     from caliopen_main.message.store.message_index import IndexedMessage
 
-    url = Configuration('global').get('elasticsearch.url')
-    client = Elasticsearch(url)
-    manager = DataManager(client)
-    manager.run(args.output)
+    config = Configuration('global').configuration
+    extractor = Extractor(config)
+    extractor.process(args.output, args.index)
