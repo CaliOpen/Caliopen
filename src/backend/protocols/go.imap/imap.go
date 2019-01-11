@@ -109,7 +109,7 @@ func imapLogin(rId *UserIdentity) (tlsConn *tls.Conn, imapClient *client.Client,
 
 // syncMailbox will check uidvalidity and fetch only new messages since last sync state saved in RemoteIdentity.
 // If no previous state found in RemoteIdentity or uidvalidity has changed, syncMailbox will do a full fetch instead.
-func syncMailbox(ibox imapBox, imapClient *client.Client, provider Provider, ch chan *imap.Message) (err error) {
+func syncMailbox(ibox *imapBox, imapClient *client.Client, provider Provider, ch chan *imap.Message) (err error) {
 
 	mbox, err := imapClient.Select(ibox.name, false)
 	if err != nil {
@@ -121,7 +121,7 @@ func syncMailbox(ibox imapBox, imapClient *client.Client, provider Provider, ch 
 	if ibox.lastSync.IsZero() {
 		// first sync, blindly fetch all messages
 		from, to = 1, 0
-		ibox.uidValidity = mbox.UidValidity
+		(*ibox).uidValidity = mbox.UidValidity
 	} else {
 		// check mailbox UIDVALIDITY
 		if ibox.uidValidity != mbox.UidValidity {
@@ -130,7 +130,7 @@ func syncMailbox(ibox imapBox, imapClient *client.Client, provider Provider, ch 
 			log.Warnf("[syncMailbox] uidValidity has changed from %d to %d. Local mailbox should resync.", ibox.uidValidity, mbox.UidValidity)
 			// for now, we blindly (re)fetch all messages
 			from, to = 1, 0
-			ibox.uidValidity = mbox.UidValidity
+			(*ibox).uidValidity = mbox.UidValidity
 		} else {
 			if ibox.lastSeenUid == 0 {
 				from, to = 1, 0
@@ -146,7 +146,7 @@ func syncMailbox(ibox imapBox, imapClient *client.Client, provider Provider, ch 
 
 // fetchMailbox retrieves all messages found within remote mailbox
 // unaware of synchronization
-func fetchMailbox(ibox imapBox, imapClient *client.Client, provider Provider, ch chan *imap.Message) (err error) {
+func fetchMailbox(ibox *imapBox, imapClient *client.Client, provider Provider, ch chan *imap.Message) (err error) {
 
 	mbox, err := imapClient.Select(ibox.name, true)
 	if err != nil {
@@ -195,7 +195,7 @@ func MarshalImap(message *imap.Message, xHeaders ImapFetcherHeaders) (mail *Emai
 
 // buildXheaders builds custom X-Fetched headers
 // with provider specific information
-func buildXheaders(tlsConn *tls.Conn, rId *UserIdentity, box imapBox, message *imap.Message, provider Provider) (xHeaders ImapFetcherHeaders) {
+func buildXheaders(tlsConn *tls.Conn, rId *UserIdentity, box *imapBox, message *imap.Message, provider Provider) (xHeaders ImapFetcherHeaders) {
 	connState := tlsConn.ConnectionState()
 
 	var proto string

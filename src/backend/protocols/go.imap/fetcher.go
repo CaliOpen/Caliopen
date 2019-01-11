@@ -96,7 +96,7 @@ func (f *Fetcher) SyncRemoteWithLocal(order IMAPorder) error {
 		name:        "INBOX",
 		uidValidity: uint32(uidvalidity),
 	}
-	go f.syncMails(userIdentity, box, mails)
+	go f.syncMails(userIdentity, &box, mails)
 
 	// 3. forward mails to lda as they come on mails chan
 	errs := []error{}
@@ -106,7 +106,9 @@ func (f *Fetcher) SyncRemoteWithLocal(order IMAPorder) error {
 			// do not forward seen message, we already have it
 			continue
 		}
-		err := f.Lda.deliverMail(mail, order.UserId)
+
+		//err := f.Lda.deliverMail(mail, order.UserId)
+		var err error
 		errs = append(errs, err)
 		if err == nil {
 			box.lastSeenUid = mail.ImapUid
@@ -116,6 +118,7 @@ func (f *Fetcher) SyncRemoteWithLocal(order IMAPorder) error {
 			close(mails)
 			break
 		}
+
 	}
 
 	for i, err := range errs {
@@ -170,7 +173,7 @@ func (f *Fetcher) FetchRemoteToLocal(order IMAPorder) error {
 
 	// 2. fetch remote messages
 	mails := make(chan *Email, 10)
-	go f.fetchMails(&userIdentity, box, mails)
+	go f.fetchMails(&userIdentity, &box, mails)
 	//TODO errors handling
 
 	// 3. forward mails to lda
@@ -184,7 +187,7 @@ func (f *Fetcher) FetchRemoteToLocal(order IMAPorder) error {
 }
 
 // fetchMails fetches all messages from remote mailbox and returns well-formed Emails for lda.
-func (f *Fetcher) fetchMails(userIdentity *UserIdentity, box imapBox, ch chan *Email) (err error) {
+func (f *Fetcher) fetchMails(userIdentity *UserIdentity, box *imapBox, ch chan *Email) (err error) {
 	if userIdentity.Infos["authtype"] == Oauth2 {
 		err = users.ValidateOauth2Credentials(userIdentity, f, true)
 		if err != nil {
@@ -223,7 +226,7 @@ func (f *Fetcher) fetchMails(userIdentity *UserIdentity, box imapBox, ch chan *E
 
 // fetchSyncMails reads last sync state for remote identity,
 // fetches new messages accordingly, and returns well-formed Emails for lda.
-func (f *Fetcher) syncMails(userIdentity *UserIdentity, box imapBox, ch chan *Email) (err error) {
+func (f *Fetcher) syncMails(userIdentity *UserIdentity, box *imapBox, ch chan *Email) (err error) {
 	// Don't forget to close chan before leaving
 	defer close(ch)
 	if userIdentity.Infos["authtype"] == Oauth2 {
