@@ -112,6 +112,7 @@ func getValidGmailAccessToken(uId *UserIdentity, provider Provider, hostname str
 		tokenSource := oauthConfig.TokenSource(ctx, restoredToken)
 		updatedToken, tokenErr := tokenSource.Token()
 		if tokenErr != nil {
+			logrus.Errorf("[getValidGmailAccessToken]TokenSource error : %+v", tokenErr)
 			err = tokenErr
 			return
 		}
