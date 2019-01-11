@@ -8,6 +8,7 @@ import (
 	"fmt"
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.backends"
+	"github.com/Sirupsen/logrus"
 	"golang.org/x/oauth2"
 	googleOAuth2 "golang.org/x/oauth2/google"
 	"time"
@@ -40,7 +41,7 @@ func ValidateOauth2Credentials(userIdentity *UserIdentity, interfacer Oauth2Inte
 		}
 		credentialsUpdated, err := getValidGmailAccessToken(userIdentity, gmail, interfacer.GetHostname())
 		if err != nil {
-			return WrapCaliopenErr(err, WrongCredentialsErr, "imapLogin failure")
+			return WrapCaliopenErr(err, WrongCredentialsErr, "failed to get valid gmail access token")
 		}
 		if credentialsUpdated && updateStore {
 			credentials := userIdentity.Credentials
@@ -94,15 +95,17 @@ func getValidGmailAccessToken(uId *UserIdentity, provider Provider, hostname str
 		return
 	}
 
-	expiry, _ := time.Parse(time.RFC3339, (*uId.Credentials)[CRED_TOKEN_EXPIRY])
-
+	expiry, err := time.Parse(time.RFC3339, (*uId.Credentials)[CRED_TOKEN_EXPIRY])
+	if err != nil {
+		logrus.Error(err)
+	}
 	restoredToken := &oauth2.Token{
 		AccessToken:  (*uId.Credentials)[CRED_ACCESS_TOKEN],
 		TokenType:    (*uId.Credentials)[CRED_TOKEN_TYPE],
 		RefreshToken: (*uId.Credentials)[CRED_REFRESH_TOKEN],
 		Expiry:       expiry,
 	}
-	if !restoredToken.Valid() {
+	if restoredToken.Expiry.IsZero() || !restoredToken.Valid() {
 		// need a new token
 		oauthConfig := SetGoogleOauthConfig(provider, hostname)
 		ctx := context.TODO()
@@ -112,7 +115,7 @@ func getValidGmailAccessToken(uId *UserIdentity, provider Provider, hostname str
 			err = tokenErr
 			return
 		}
-
+		logrus.Infof("updated token : %+v", updatedToken) // TODO: REMOVE
 		(*uId.Credentials)[CRED_ACCESS_TOKEN] = updatedToken.AccessToken
 		(*uId.Credentials)[CRED_REFRESH_TOKEN] = updatedToken.RefreshToken
 		(*uId.Credentials)[CRED_TOKEN_EXPIRY] = updatedToken.Expiry.Format(time.RFC3339)
