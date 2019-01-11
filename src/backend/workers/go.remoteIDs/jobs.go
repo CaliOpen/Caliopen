@@ -17,7 +17,7 @@ func (p *Poller) AddJobFor(idkey string) (err error) {
 	defer p.cacheMux.Unlock()
 	if entry, ok := p.Cache[idkey]; ok {
 		switch entry.remoteProtocol {
-		case EmailProtocol:
+		case EmailProtocol, ImapProtocol:
 			cronStr := "@every " + entry.pollInterval + "m"
 			entry.cronId, err = p.MainCron.AddJob(cronStr, imapJob{
 				remoteId:  entry.remoteID.String(),
