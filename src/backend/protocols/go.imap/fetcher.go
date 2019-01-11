@@ -107,8 +107,8 @@ func (f *Fetcher) SyncRemoteWithLocal(order IMAPorder) error {
 			continue
 		}
 
-		//err := f.Lda.deliverMail(mail, order.UserId)
-		var err error
+		err := f.Lda.deliverMail(mail, order.UserId)
+		//var err error // swap this line with the line above to avoid importing emails in debug mode
 		errs = append(errs, err)
 		if err == nil {
 			box.lastSeenUid = mail.ImapUid

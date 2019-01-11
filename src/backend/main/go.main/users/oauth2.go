@@ -108,8 +108,6 @@ func getValidGmailAccessToken(uId *UserIdentity, provider Provider, hostname str
 	if restoredToken.Expiry.IsZero() || !restoredToken.Valid() {
 		// need a new token
 		oauthConfig := SetGoogleOauthConfig(provider, hostname)
-		logrus.Infof("oauthConfig for renew : %+v", oauthConfig)
-		logrus.Infof("restored token for renew : %+v", restoredToken)
 		ctx := context.TODO()
 		tokenSource := oauthConfig.TokenSource(ctx, restoredToken)
 		updatedToken, tokenErr := tokenSource.Token()
