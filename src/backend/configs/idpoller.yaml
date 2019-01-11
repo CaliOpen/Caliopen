@@ -2,6 +2,7 @@
 scan_interval: 180                              # in minutes. How often storage is scanned to sync with remote identities data
 remote_protocols:                               # which kind of remote protocols poller must handle
   - email
+  - imap
   - twitter
 #storage facility
 store_name: cassandra                           # backend for remote identities data
