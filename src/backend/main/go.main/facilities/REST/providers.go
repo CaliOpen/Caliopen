@@ -174,6 +174,10 @@ func (rest *RESTfacility) CreateGmailIdentity(state, code string) (remoteId stri
 		err = WrapCaliopenErrf(e, NotFoundCaliopenErr, "[CreateGmailIdentity] failed to retrieve access token for state %s", state)
 		return
 	}
+	if token.RefreshToken == "" {
+		err = WrapCaliopenErrf(e, NotFoundCaliopenErr, "[CreateGmailIdentity] failed to get a refresh token for state %s. User should check application permissions.", state)
+		return
+	}
 	// retrieve gmail profile from Google api
 	httpClient := oauthConfig.Client(ctx, token)
 	googleService, e := googleApi.New(httpClient)
