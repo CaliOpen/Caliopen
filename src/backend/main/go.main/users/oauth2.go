@@ -105,12 +105,12 @@ func getValidGmailAccessToken(uId *UserIdentity, provider Provider, hostname str
 		RefreshToken: (*uId.Credentials)[CRED_REFRESH_TOKEN],
 		Expiry:       expiry,
 	}
+	//logrus.Infof("restoredToken : %+v\n\n", restoredToken)
 	if restoredToken.Expiry.IsZero() || !restoredToken.Valid() {
 		// need a new token
 		oauthConfig := SetGoogleOauthConfig(provider, hostname)
 		ctx := context.TODO()
 		//logrus.Infof("oauthConfig : %+v\n\n", oauthConfig)
-		//logrus.Infof("restoredToken : %+v\n\n", restoredToken)
 		tokenSource := oauthConfig.TokenSource(ctx, restoredToken)
 		updatedToken, tokenErr := tokenSource.Token()
 		if tokenErr != nil {
