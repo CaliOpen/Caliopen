@@ -15,12 +15,12 @@ import (
 type VaultCredentials interface {
 	CreateCredentials(userIdentity *UserIdentity, cred Credentials) error
 	RetrieveCredentials(userId, remoteId string) (Credentials, error)
-	UpdateCredentials(userId, remoteId string, cred Credentials) error
+	UpdateCredentials(userId, remoteId string, cred Credentials, upsertMode bool) error
 	DeleteCredentials(userId, remoteId string) error
 }
 
 func (vault *HVaultClient) CreateCredentials(userIdentity *UserIdentity, cred Credentials) error {
-	return vault.UpdateCredentials(userIdentity.UserId.String(), userIdentity.Id.String(), cred)
+	return vault.UpdateCredentials(userIdentity.UserId.String(), userIdentity.Id.String(), cred, true)
 }
 
 // RetrieveCrendentials gets credentials from vault, if application has read rights on vault
@@ -55,10 +55,18 @@ func (vault *HVaultClient) RetrieveCredentials(userId, remoteId string) (cred Cr
 	return
 }
 
-func (vault *HVaultClient) UpdateCredentials(userId, remoteId string, cred Credentials) error {
+func (vault *HVaultClient) UpdateCredentials(userId, remoteId string, cred Credentials, upsertMode bool) error {
 	payload := make(map[string]interface{})
 	payload["data"] = cred
 	path := fmt.Sprintf(credentialsPath, userId, remoteId)
+	if !upsertMode {
+		// ensure credentials exist before updating
+		// or silently returns without doing anything (mimicking cassandra)
+		secret, err := vault.hclient.Logical().Read(path)
+		if err != nil || secret == nil {
+			return nil
+		}
+	}
 	_, err := vault.hclient.Logical().Write(path, payload)
 	return err
 }

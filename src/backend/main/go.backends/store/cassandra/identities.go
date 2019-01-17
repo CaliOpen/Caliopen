@@ -134,8 +134,10 @@ func (cb *CassandraBackend) UpdateUserIdentity(userIdentity *UserIdentity, field
 			PartitionKeys: []string{"user_id", "identity_id"},
 		}).WithOptions(gocassa.Options{TableName: "user_identity"})
 
-		err = userIdentityTable.Where(gocassa.Eq("user_id", userIdentity.UserId.String()), gocassa.Eq("identity_id", userIdentity.Id.String())).
-			Update(cassaFields).Run()
+		statement, values := userIdentityTable.Where(gocassa.Eq("user_id", userIdentity.UserId.String()), gocassa.Eq("identity_id", userIdentity.Id.String())).
+			Update(cassaFields).GenerateStatement()
+
+		err := cb.Session.Query(statement+" IF EXISTS", values...).Exec()
 		if err != nil {
 			return err
 		}
@@ -154,10 +156,11 @@ func (cb *CassandraBackend) UpdateRemoteInfosMap(userId, remoteId string, infos 
 		PartitionKeys: []string{"user_id", "identity_id"},
 	}).WithOptions(gocassa.Options{TableName: "user_identity"})
 
-	return userIdentityTable.Where(gocassa.Eq("user_id", userId), gocassa.Eq("identity_id", remoteId)).
+	statement, values := userIdentityTable.Where(gocassa.Eq("user_id", userId), gocassa.Eq("identity_id", remoteId)).
 		Update(map[string]interface{}{
 			"infos": infos,
-		}).Run()
+		}).GenerateStatement()
+	return cb.Session.Query(statement+" IF EXISTS", values...).Exec()
 }
 
 // RetrieveRemoteInfos is a convenient way to quickly retrieve infos map without the need of an already created UserIdentity object

@@ -38,17 +38,19 @@ func (cb *CassandraBackend) RetrieveCredentials(userId, identityId string) (cred
 func (cb *CassandraBackend) UpdateCredentials(userId, identityId string, cred Credentials) error {
 
 	if cb.UseVault {
-		return cb.Vault.UpdateCredentials(userId, identityId, cred)
+		return cb.Vault.UpdateCredentials(userId, identityId, cred, false)
 	}
 
 	userIdentityTable := cb.IKeyspace.Table("user_identity", &UserIdentity{}, gocassa.Keys{
 		PartitionKeys: []string{"user_id", "identity_id"},
 	}).WithOptions(gocassa.Options{TableName: "user_identity"})
 
-	return userIdentityTable.Where(gocassa.Eq("user_id", userId), gocassa.Eq("identity_id", identityId)).
+	statement, values := userIdentityTable.Where(gocassa.Eq("user_id", userId), gocassa.Eq("identity_id", identityId)).
 		Update(map[string]interface{}{
 			"credentials": cred,
-		}).Run()
+		}).GenerateStatement()
+
+	return cb.Session.Query(statement+" IF EXISTS", values...).Exec()
 }
 
 func (cb *CassandraBackend) DeleteCredentials(userId, identityId string) error {
