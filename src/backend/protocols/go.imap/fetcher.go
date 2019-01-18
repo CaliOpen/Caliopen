@@ -57,9 +57,9 @@ func (f *Fetcher) SyncRemoteWithLocal(order IMAPorder) error {
 	}
 
 	// 1.2 check if a sync process is running
-	if syncing, ok := userIdentity.Infos["syncing"]; ok {
-		startDate, _ := time.Parse(time.RFC3339, syncing)
-		if time.Since(startDate)/time.Hour < failuresThreshold {
+	if syncing, ok := userIdentity.Infos["syncing"]; ok && syncing != "" {
+		startDate, e := time.Parse(time.RFC3339, syncing)
+		if e == nil && time.Since(startDate)/time.Hour < failuresThreshold {
 			log.Infof("[SyncRemoteWithLocal] avoiding concurrent sync for <%s>. Syncing in progress since %s", order.RemoteId, userIdentity.Infos["syncing"])
 			return nil
 		}

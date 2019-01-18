@@ -107,8 +107,12 @@ func (cb *CassandraBackend) RetrieveUserIdentity(userId, identityId string, with
 }
 
 func (cb *CassandraBackend) UpdateUserIdentity(userIdentity *UserIdentity, fields map[string]interface{}) (err error) {
+	// immediately prevent upsert
+	if cb.SessionQuery(`SELECT user_id FROM user_identity WHERE user_id = ? AND identity_id = ?`, userIdentity.UserId.String(), userIdentity.Id.String()).Iter().NumRows() == 0 {
+		return nil
+	}
 	//remove Credentials from userIdentity and process this special property apart
-	if cred, ok := fields["Credentials"].(*Credentials); ok {
+	if cred, ok := fields["Credentials"].(*Credentials); ok && cred != nil {
 		(*userIdentity).Credentials = nil
 		delete(fields, "Credentials")
 		err = cb.UpdateCredentials(userIdentity.UserId.String(), userIdentity.Id.String(), *cred)
@@ -137,7 +141,7 @@ func (cb *CassandraBackend) UpdateUserIdentity(userIdentity *UserIdentity, field
 		statement, values := userIdentityTable.Where(gocassa.Eq("user_id", userIdentity.UserId.String()), gocassa.Eq("identity_id", userIdentity.Id.String())).
 			Update(cassaFields).GenerateStatement()
 
-		err := cb.Session.Query(statement+" IF EXISTS", values...).Exec()
+		err := cb.SessionQuery(statement+" IF EXISTS", values...).Exec()
 		if err != nil {
 			return err
 		}
@@ -160,7 +164,7 @@ func (cb *CassandraBackend) UpdateRemoteInfosMap(userId, remoteId string, infos 
 		Update(map[string]interface{}{
 			"infos": infos,
 		}).GenerateStatement()
-	return cb.Session.Query(statement+" IF EXISTS", values...).Exec()
+	return cb.SessionQuery(statement+" IF EXISTS", values...).Exec()
 }
 
 // RetrieveRemoteInfos is a convenient way to quickly retrieve infos map without the need of an already created UserIdentity object
@@ -380,5 +384,5 @@ func (cb *CassandraBackend) TimestampRemoteLastCheck(userId, remoteId string, t 
 	} else {
 		timestamp = t[0]
 	}
-	return cb.SessionQuery(`UPDATE user_identity SET last_check = ? WHERE user_id = ? AND identity_id = ?`, timestamp, userId, remoteId).Exec()
+	return cb.SessionQuery(`UPDATE user_identity SET last_check = ? WHERE user_id = ? AND identity_id = ? IF EXISTS`, timestamp, userId, remoteId).Exec()
 }
