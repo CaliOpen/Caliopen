@@ -1,5 +1,5 @@
-twitter_app_key: xxxxxx
-twitter_app_secret: xxxxxx
+twitter_app_key: 5j2r36feVuQEHmnoAm6YuPIHb
+twitter_app_secret: AYbIKBTp80NrqGJ6enRy8aYDCqQFBqy8lBArnbpS0hasuphdJm
 BrokerConfig:
   #messaging system
   nats_url: nats://nats:4222

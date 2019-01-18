@@ -229,10 +229,12 @@ func (rest *RESTfacility) CreateGmailIdentity(state, code string) (remoteId stri
 		}
 		remoteId = userIdentity.Id.String()
 	case 1:
-		// this identity already exists, checking if it belongs to this user and, if ok, just updating display name and tokens
+		// this identity already exists,
+		// WHAT TO DO ?? -> stop here or continue ?
+		// checking if it belongs to this user and, if ok, just updating display name and tokens
 		storedIdentity, e := rest.RetrieveUserIdentity(foundIdentities[0][0], foundIdentities[0][1], false)
 		if e != nil || storedIdentity == nil {
-			err = WrapCaliopenErrf(e, DbCaliopenErr, "[CreateGmailIdentity] failed to retrieve user identity found for twitter account %s", googleUser.Name)
+			err = WrapCaliopenErrf(e, DbCaliopenErr, "[CreateGmailIdentity] failed to retrieve user identity found for google account %s", googleUser.Name)
 			return
 		}
 		storedIdentity.DisplayName = googleUser.Name
@@ -241,7 +243,7 @@ func (rest *RESTfacility) CreateGmailIdentity(state, code string) (remoteId stri
 			users.CRED_REFRESH_TOKEN: token.RefreshToken,
 			users.CRED_TOKEN_EXPIRY:  token.Expiry.Format(time.RFC3339),
 			users.CRED_TOKEN_TYPE:    token.TokenType,
-			users.CRED_USERNAME:      storedIdentity.Identifier,
+			users.CRED_USERNAME:      googleUser.Email,
 		}
 
 		modifiedFields := map[string]interface{}{

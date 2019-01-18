@@ -50,15 +50,15 @@ ApiConfig:
   - name: gmail
     protocol: email
     infos:
-      client_id:
-      client_secret:
+      client_id: 277079930119-98iu7okdrsn3cs8ing44piq5k2osshvj.apps.googleusercontent.com
+      client_secret: TfcUbMZp4tOM954JvcyUQyLk
       imapserver: imap.gmail.com:993
       smtpserver: smtp.gmail.com:587
   - name: twitter
     protocol: twitter
     infos:
-      consumer_key:
-      consumer_secret:
+      consumer_key: 5j2r36feVuQEHmnoAm6YuPIHb
+      consumer_secret: AYbIKBTp80NrqGJ6enRy8aYDCqQFBqy8lBArnbpS0hasuphdJm
 ProxyConfig:
   listen_interface: 0.0.0.0
   port: 31415

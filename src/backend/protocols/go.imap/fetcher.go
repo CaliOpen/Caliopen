@@ -66,19 +66,25 @@ func (f *Fetcher) SyncRemoteWithLocal(order IMAPorder) error {
 	}
 	// save syncing state in db to prevent concurrent sync
 	(*userIdentity).Infos["syncing"] = time.Now().Format(time.RFC3339)
-	f.Store.UpdateUserIdentity(userIdentity, map[string]interface{}{
+	err = f.Store.UpdateUserIdentity(userIdentity, map[string]interface{}{
 		"Infos": userIdentity.Infos,
 	})
+	if err != nil {
+		log.WithError(err).Infof("[SyncRemoteWithLocal] failed to update remote identity <%s> : <%s>", order.UserId, order.RemoteId)
+		return err
+	}
 
 	// 2. sync/fetch with remote IMAP
 	mails := make(chan *Email)
 	lastsync := time.Time{}
-	if userIdentity.Infos["lastsync"] != "" {
+	if ls, ok := userIdentity.Infos["lastsync"]; ok && ls != "" {
 		lastsync, err = time.Parse(time.RFC3339, userIdentity.Infos["lastsync"])
 		if err != nil {
 			log.WithError(err).Warnf("[syncMails] failed to parse lastsync string <%s>", userIdentity.Infos["lastsync"])
 			lastsync = time.Time{}
 		}
+	} else {
+		lastsync = time.Time{}
 	}
 	// Sync INBOX (only INBOX for now)
 	// TODO : sync other mailbox(es) from userIdentity.Infos params or from order

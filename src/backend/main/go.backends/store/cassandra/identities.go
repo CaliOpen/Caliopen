@@ -109,7 +109,7 @@ func (cb *CassandraBackend) RetrieveUserIdentity(userId, identityId string, with
 func (cb *CassandraBackend) UpdateUserIdentity(userIdentity *UserIdentity, fields map[string]interface{}) (err error) {
 	// immediately prevent upsert
 	if cb.SessionQuery(`SELECT user_id FROM user_identity WHERE user_id = ? AND identity_id = ?`, userIdentity.UserId.String(), userIdentity.Id.String()).Iter().NumRows() == 0 {
-		return nil
+		return errors.New("not found")
 	}
 	//remove Credentials from userIdentity and process this special property apart
 	if cred, ok := fields["Credentials"].(*Credentials); ok && cred != nil {
@@ -269,12 +269,10 @@ func (cb *CassandraBackend) DeleteUserIdentity(userIdentity *UserIdentity) error
 		}
 	}
 	// delete related rows in relevant lookup tables
-	go func(*CassandraBackend, *UserIdentity) {
-		err := cb.DeleteLookups(userIdentity)
-		if err != nil {
-			log.WithError(err).Error("[CassandraBackend] DeleteUserIdentity: failed to delete lookups")
-		}
-	}(cb, userIdentity)
+	err := cb.DeleteLookups(userIdentity)
+	if err != nil {
+		log.WithError(err).Error("[CassandraBackend] DeleteUserIdentity: failed to delete lookups")
+	}
 	return cb.SessionQuery(`DELETE FROM user_identity WHERE user_id = ? AND identity_id = ?`, userIdentity.UserId, userIdentity.Id).Exec()
 }
 

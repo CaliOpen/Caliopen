@@ -198,12 +198,12 @@ func (rest *RESTfacility) DeleteUserIdentity(userId, identityId string) Caliopen
 		}
 	}
 
+	//TODO: emit nats message to IDpoller & workers
 	err2 := rest.store.DeleteUserIdentity(remoteID)
 	if err2 != nil {
 		return WrapCaliopenErrf(err2, DbCaliopenErr, "[RESTfacility DeleteUserIdentity failed to delete in store")
 	}
 
-	//TODO: emit nats message to IDpoller
 	return nil
 }
 
