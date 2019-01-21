@@ -47,5 +47,5 @@ LDAConfig:
     - name: gmail
       protocol: email
       infos:
-        client_id: 277079930119-98iu7okdrsn3cs8ing44piq5k2osshvj.apps.googleusercontent.com
-        client_secret: TfcUbMZp4tOM954JvcyUQyLk
+        client_id:
+        client_secret:
