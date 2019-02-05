@@ -17,8 +17,9 @@ from caliopen_main.discussion.core import (DiscussionThreadLookup,
 # XXX use a message formatter registry not directly mail format
 from caliopen_main.message.parsers.mail import MailMessage
 from caliopen_main.discussion.core import Discussion
+from caliopen_main.common.core.feature import marshal_features
 
-from ..features import InboundMailFeature, marshal_features
+from ..features import InboundMailFeature
 
 log = logging.getLogger(__name__)
 

@@ -4,6 +4,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 import logging
 
 from caliopen_storage.helpers.connection import connect_storage
+from caliopen_main.common.core.feature import init_features
 
 from .renderer import TextPlainRenderer, JsonRenderer, PartRenderer
 from .deserializer import json_deserializer
@@ -27,6 +28,8 @@ def swagger_error_view(exc, request):
 def includeme(config):
     """Configure REST API."""
     connect_storage()
+    init_features()
+
     config.commit()
 
     # configure renderers

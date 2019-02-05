@@ -8,7 +8,7 @@ import logging
 from user_agents import parse as parse_ua
 import geoip2.database as geoip
 
-from .types import init_features
+from caliopen_main.common.core.feature import PrivacyFeature
 
 log = logging.getLogger(__name__)
 
@@ -40,7 +40,7 @@ class DeviceFeature(object):
         """Instanciate a new qualifier for an user."""
         self.user = user
         self.conf = conf
-        self._features = init_features('device')
+        self._features = PrivacyFeature.by_type('device')
 
     def process(self, device):
         """Process a device to compute it's privacy features and PI."""

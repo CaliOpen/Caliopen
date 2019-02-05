@@ -3,9 +3,9 @@
 from __future__ import absolute_import, print_function, unicode_literals
 import logging
 
+from caliopen_main.common.core.feature import marshal_features
 from caliopen_main.message.parameters import (NewInboundMessage,
-                                              Participant,
-                                              Attachment)
+                                              Participant)
 from caliopen_main.message.parsers.twitter import TwitterDM
 from caliopen_main.discussion.core import Discussion
 from caliopen_main.discussion.core import (DiscussionThreadLookup,
@@ -13,7 +13,6 @@ from caliopen_main.discussion.core import (DiscussionThreadLookup,
                                            DiscussionGlobalLookup)
 from caliopen_storage.exception import NotFound
 
-from ..features import marshal_features
 
 log = logging.getLogger(__name__)
 

@@ -5,8 +5,8 @@ from __future__ import absolute_import, print_function, unicode_literals
 import logging
 
 from caliopen_main.pi.parameters import PIParameter
+from caliopen_main.common.core.feature import marshal_features, PrivacyFeature
 from .helpers.histogram import ParticipantHistogram
-from .types import init_features, marshal_features
 
 log = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class ContactFeature(object):
     def __init__(self, user, conf=None):
         self.user = user
         self.conf = conf
-        self._features = init_features('contact')
+        self._features = PrivacyFeature.by_type('contact')
 
     def _compute_histogram(self, email):
         """Get an histogram for a contact email and compute basic infos."""

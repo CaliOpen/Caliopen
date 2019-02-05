@@ -15,7 +15,7 @@ from ..base import Api
 from ..base.exception import (ResourceNotFound,
                               MergePatchError)
 from pyramid.httpexceptions import HTTPServerError, HTTPMovedPermanently
-from caliopen_pi.features import marshal_features
+from caliopen_main.common.core.feature import marshal_features
 
 log = logging.getLogger(__name__)
 

@@ -8,7 +8,12 @@ import (
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 )
 
+type ConfigStorage interface {
+	RetrievePrivacyFeatures() ([]PrivacyFeature, error)
+}
+
 type APIStorage interface {
+	ConfigStorage
 	AttachmentStorage
 	CredentialsStorage
 	ContactStorage

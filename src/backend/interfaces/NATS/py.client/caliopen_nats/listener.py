@@ -12,6 +12,7 @@ from nats.io import Client as Nats
 
 from caliopen_storage.config import Configuration
 from caliopen_storage.helpers.connection import connect_storage
+from caliopen_main.common.core.feature import init_features
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -100,6 +101,8 @@ if __name__ == '__main__':
     import subscribers
 
     connect_storage()
+    init_features()
+
     inbound_smtp_handler(Configuration('global').get('message_queue'))
     inbound_twitter_handler(Configuration('global').get('message_queue'))
     contact_handler(Configuration('global').get('message_queue'))

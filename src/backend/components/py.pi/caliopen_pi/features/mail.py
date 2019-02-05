@@ -7,10 +7,10 @@ import logging
 import pgpy
 
 from caliopen_main.pi.parameters import PIParameter
+from caliopen_main.common.core.feature import PrivacyFeature
 from .helpers.spam import SpamScorer
 from .helpers.ingress_path import get_ingress_features
 from .helpers.importance_level import compute_importance
-from .types import init_features
 
 log = logging.getLogger(__name__)
 
@@ -29,7 +29,7 @@ class InboundMailFeature(object):
         """Get a ``MailMessage`` instance and extract privacy features."""
         self.message = message
         self.config = config
-        self._features = init_features('message')
+        self._features = PrivacyFeature.by_type('message')
 
     def is_blacklist_mx(self, mx):
         """MX is blacklisted."""
