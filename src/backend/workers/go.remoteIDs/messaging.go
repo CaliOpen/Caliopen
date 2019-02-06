@@ -141,7 +141,7 @@ func (mqh *MqHandler) natsImapHandler(msg *nats.Msg) {
 			log.Debugf("[natsImapHandler] replying to %s with job : %+v", msg.Reply, job)
 			reply, err := json.Marshal(job.Order)
 			if err != nil {
-				log.WithError(err).Warn("[natsImapHandler] failed to json Marshal job : %+v", job)
+				log.WithError(err).Warnf("[natsImapHandler] failed to json Marshal job : %+v", job)
 				e := mqh.natsConn.Publish(msg.Reply, []byte(`{"order":"error"}`))
 				if e != nil {
 					log.WithError(e).Warn("[natsImapHandler] failed to publish reply on nats")
@@ -193,7 +193,7 @@ func (mqh *MqHandler) natsTwitterHandler(msg *nats.Msg) {
 			log.Debugf("[natsTwitterHandler] replying to %s with job : %+v", msg.Reply, job)
 			reply, err := json.Marshal(job.Order)
 			if err != nil {
-				log.WithError(err).Warn("[natsTwitterHandler] failed to json Marshal job : %+v", job)
+				log.WithError(err).Warnf("[natsTwitterHandler] failed to json Marshal job : %+v", job)
 				e := mqh.natsConn.Publish(msg.Reply, []byte(`{"order":"error"}`))
 				if e != nil {
 					log.WithError(e).Warn("[natsTwitterHandler] failed to publish reply on nats")

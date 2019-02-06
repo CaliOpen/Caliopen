@@ -163,6 +163,3 @@ node_modules
 
 # registry configuration
 /devtools/registry.conf
-
-# for now, ignore go _test files because they are not suitable for unit tests yet
-*_test.go
