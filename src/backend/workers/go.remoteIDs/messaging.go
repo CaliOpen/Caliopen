@@ -23,7 +23,7 @@ type MqHandler struct {
 
 const defaultInterval = "15"
 
-func initMqHandler() (*MqHandler, error) {
+func InitMqHandler() (*MqHandler, error) {
 	handler := new(MqHandler)
 	natsConn, err := nats.Connect(poller.Config.NatsUrl)
 	if err != nil {

@@ -697,6 +697,36 @@
 			"revisionTime": "2016-11-07T13:59:01Z"
 		},
 		{
+			"checksumSHA1": "QtwVv623yFBGBev8A2KGeRD86wg=",
+			"path": "github.com/nats-io/gnatsd",
+			"revision": "a733e6781ad246ee2f4c38a53e5cdf5609c66988",
+			"revisionTime": "2019-02-07T04:57:31Z"
+		},
+		{
+			"checksumSHA1": "PheVXSvzeFalboZRNqN7ZD49rso=",
+			"path": "github.com/nats-io/gnatsd/conf",
+			"revision": "a733e6781ad246ee2f4c38a53e5cdf5609c66988",
+			"revisionTime": "2019-02-07T04:57:31Z"
+		},
+		{
+			"checksumSHA1": "Eut774pqSZHx/IMG2hJdG32vTgI=",
+			"path": "github.com/nats-io/gnatsd/logger",
+			"revision": "a733e6781ad246ee2f4c38a53e5cdf5609c66988",
+			"revisionTime": "2019-02-07T04:57:31Z"
+		},
+		{
+			"checksumSHA1": "Xgi3GpKD0OxZkJ3kHU1Syh3DRhs=",
+			"path": "github.com/nats-io/gnatsd/server",
+			"revision": "a733e6781ad246ee2f4c38a53e5cdf5609c66988",
+			"revisionTime": "2019-02-07T04:57:31Z"
+		},
+		{
+			"checksumSHA1": "rm/ETqE8LFv61eWUaS3Dy9ILYWc=",
+			"path": "github.com/nats-io/gnatsd/server/pse",
+			"revision": "a733e6781ad246ee2f4c38a53e5cdf5609c66988",
+			"revisionTime": "2019-02-07T04:57:31Z"
+		},
+		{
 			"checksumSHA1": "mNIK6LfMGR+IzGogT1PNvJysmdQ=",
 			"path": "github.com/nats-io/go-nats",
 			"revision": "4cf007b2f724143321da6c887060853c8a855696",
@@ -713,6 +743,18 @@
 			"path": "github.com/nats-io/go-nats/util",
 			"revision": "5de724c34e492d986d0c7cb95ac7ba38935dacc6",
 			"revisionTime": "2017-05-02T05:17:01Z"
+		},
+		{
+			"checksumSHA1": "FDo/Fsb8Sfht8mdTEKdxnd6XW/I=",
+			"path": "github.com/nats-io/jwt",
+			"revision": "a7fd8925349a3183ec07e1683d4e34eb5ad0e453",
+			"revisionTime": "2018-12-13T04:27:21Z"
+		},
+		{
+			"checksumSHA1": "6xwMpun2lAxptGPocW+HKJg1Xoc=",
+			"path": "github.com/nats-io/nkeys",
+			"revision": "1546a3320a8f195a5b5c84aef8309377c2e411d5",
+			"revisionTime": "2018-12-05T15:18:57Z"
 		},
 		{
 			"checksumSHA1": "qI+4s7mlYYbB7ppay+Z3Y7+mhik=",
@@ -925,6 +967,18 @@
 			"revisionTime": "2018-08-31T22:38:59Z"
 		},
 		{
+			"checksumSHA1": "2LpxYGSf068307b7bhAuVjvzLLc=",
+			"path": "golang.org/x/crypto/ed25519",
+			"revision": "b8fe1690c61389d7d2a8074a507d1d40c5d30448",
+			"revisionTime": "2019-01-30T22:18:58Z"
+		},
+		{
+			"checksumSHA1": "0JTAFXPkankmWcZGQJGScLDiaN8=",
+			"path": "golang.org/x/crypto/ed25519/internal/edwards25519",
+			"revision": "b8fe1690c61389d7d2a8074a507d1d40c5d30448",
+			"revisionTime": "2019-01-30T22:18:58Z"
+		},
+		{
 			"checksumSHA1": "I2ARPC3AOFziJA0OLk7qi6OeS5M=",
 			"path": "golang.org/x/crypto/openpgp",
 			"revision": "0e37d006457bf46f9e6692014ba72ef82c33022c",
@@ -1067,6 +1121,36 @@
 			"path": "golang.org/x/sys/windows",
 			"revision": "1561086e645b2809fb9f8a1e2a38160bf8d53bf4",
 			"revisionTime": "2018-09-19T14:05:07Z"
+		},
+		{
+			"checksumSHA1": "P9OIhD26uWlIST/me4TYnvseCoY=",
+			"path": "golang.org/x/sys/windows/registry",
+			"revision": "41f3e6584952bb034a481797859f6ab34b6803bd",
+			"revisionTime": "2019-02-04T12:38:20Z"
+		},
+		{
+			"checksumSHA1": "1TSbUa/il1mt6ZWJJymLmCxADbU=",
+			"path": "golang.org/x/sys/windows/svc",
+			"revision": "41f3e6584952bb034a481797859f6ab34b6803bd",
+			"revisionTime": "2019-02-04T12:38:20Z"
+		},
+		{
+			"checksumSHA1": "e9KJPWrdqg5PMkbE2w60Io8rY4M=",
+			"path": "golang.org/x/sys/windows/svc/debug",
+			"revision": "41f3e6584952bb034a481797859f6ab34b6803bd",
+			"revisionTime": "2019-02-04T12:38:20Z"
+		},
+		{
+			"checksumSHA1": "uVlUSSKplihZG7N+QJ6fzDZ4Kh8=",
+			"path": "golang.org/x/sys/windows/svc/eventlog",
+			"revision": "41f3e6584952bb034a481797859f6ab34b6803bd",
+			"revisionTime": "2019-02-04T12:38:20Z"
+		},
+		{
+			"checksumSHA1": "2r2jKuLuFOs4tqF8BXnsFdLHQAA=",
+			"path": "golang.org/x/sys/windows/svc/mgr",
+			"revision": "41f3e6584952bb034a481797859f6ab34b6803bd",
+			"revisionTime": "2019-02-04T12:38:20Z"
 		},
 		{
 			"checksumSHA1": "Mr4ur60bgQJnQFfJY0dGtwWwMPE=",
