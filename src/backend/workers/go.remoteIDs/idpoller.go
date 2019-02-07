@@ -45,7 +45,7 @@ func InitPoller(config PollerConfig, verboseLog bool) (idpoller *Poller, err err
 	}
 	poller.Config = config
 
-	poller.mqh, err = initMqHandler()
+	poller.mqh, err = InitMqHandler()
 	if err != nil {
 		return nil, err
 	}
