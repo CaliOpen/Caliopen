@@ -3,6 +3,7 @@ package go_remoteIDs
 import (
 	"github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.backends/backendstest"
+	"strconv"
 	"sync"
 	"testing"
 	"time"
@@ -115,8 +116,16 @@ func TestDbHandler_GetCacheEntry(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	dbh.cache["key1"] = cacheEntry{}
-	dbh.cache["key2"] = cacheEntry{}
+	// fill cache with entries
+	const count = 1000
+	var key string
+	for i := 0; i < count; i++ {
+		key = strconv.Itoa(i)
+		dbh.cache[key] = cacheEntry{
+			iDkey:        key,
+			pollInterval: "1",
+		}
+	}
 
 	// test not found entry
 	if _, ok := dbh.GetCacheEntry("unvalid"); ok {
@@ -126,27 +135,23 @@ func TestDbHandler_GetCacheEntry(t *testing.T) {
 	// test concurrent access
 	wg := new(sync.WaitGroup)
 	c := make(chan struct{})
-	wg.Add(2)
+	wg.Add(count)
+	for i := 0; i < count; i++ {
+		go func(key string) {
+			if _, ok := dbh.GetCacheEntry(key); !ok {
+				t.Errorf("failed to retrieve cache entry <%s>", key)
+			}
+			wg.Done()
+		}(strconv.Itoa(i))
+	}
 	go func() {
 		wg.Wait()
 		close(c)
 	}()
-	go func() {
-		if _, ok := dbh.GetCacheEntry("key1"); !ok {
-			t.Error("failed to retrieve cache entry 'key1'")
-		}
-		wg.Done()
-	}()
-	go func() {
-		if _, ok := dbh.GetCacheEntry("key2"); !ok {
-			t.Error("failed to retrieve cache entry 'key2'")
-		}
-		wg.Done()
-	}()
 	select {
 	case <-c:
 		return
-	case <-time.After(time.Second):
+	case <-time.After(2 * time.Second):
 		t.Error("timeout waiting for concurrent get")
 	}
 }
@@ -156,42 +161,47 @@ func TestDbHandler_UpdateCacheEntry(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	origin := cacheEntry{
-		iDkey:        "key",
-		pollInterval: "1",
+	// fill cache with entries
+	const count = 1000
+	var key string
+	for i := 0; i < count; i++ {
+		key = strconv.Itoa(i)
+		dbh.cache[key] = cacheEntry{
+			iDkey:        key,
+			pollInterval: "1",
+		}
 	}
-	dbh.cache["key"] = origin
 
 	// test concurrent update
 	wg := new(sync.WaitGroup)
 	c := make(chan struct{})
-	wg.Add(2)
+	wg.Add(count)
+	for i := 0; i < count; i++ {
+		go func(interval, key string) {
+			dbh.UpdateCacheEntry(cacheEntry{
+				iDkey:        key,
+				pollInterval: interval,
+			})
+			wg.Done()
+		}(strconv.Itoa(i*2), strconv.Itoa(i))
+	}
 	go func() {
 		wg.Wait()
 		close(c)
 	}()
-	go func() {
-		mod1 := origin
-		mod1.pollInterval = "2"
-		dbh.UpdateCacheEntry(mod1)
-		wg.Done()
-	}()
-	go func() {
-		mod1 := origin
-		mod1.pollInterval = "3"
-		dbh.UpdateCacheEntry(mod1)
-		wg.Done()
-	}()
 	select {
 	case <-c:
-		if entry, ok := dbh.GetCacheEntry("key"); ok {
-			if entry.pollInterval != "2" && entry.pollInterval != "3" {
-				t.Errorf("expected pollintervall to be '2' or '3', got %s", entry.pollInterval)
+		for i := 0; i < count; i++ {
+			key := strconv.Itoa(i)
+			if entry, ok := dbh.GetCacheEntry(key); ok {
+				if entry.pollInterval != strconv.Itoa(i*2) {
+					t.Errorf("expected pollintervall to be %s, got %s", strconv.Itoa(i*2), entry.pollInterval)
+				}
+			} else {
+				t.Error("failed to get cache entry 'key' to test UpdateCacheEntry")
 			}
-		} else {
-			t.Error("failed to get cache entry 'key' to test UpdateCacheEntry")
 		}
-	case <-time.After(time.Second):
+	case <-time.After(2 * time.Second):
 		t.Error("timeout waiting for concurrent update")
 	}
 }
@@ -201,32 +211,37 @@ func TestDbHandler_RemoveCacheEntry(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	dbh.cache["key1"] = cacheEntry{}
-	dbh.cache["key2"] = cacheEntry{}
-	dbh.cache["key3"] = cacheEntry{}
+	// fill cache with entries
+	const count = 1000 // use an even number
+	var key string
+	for i := 0; i < count; i++ {
+		key = strconv.Itoa(i)
+		dbh.cache[key] = cacheEntry{
+			iDkey:        key,
+			pollInterval: "1",
+		}
+	}
 
 	// test concurrent remove
 	wg := new(sync.WaitGroup)
 	c := make(chan struct{})
-	wg.Add(2)
+	wg.Add(count / 2)
+	for i := 0; i < count/2; i++ {
+		go func(key string) {
+			dbh.RemoveCacheEntry(key)
+			wg.Done()
+		}(strconv.Itoa(i))
+	}
 	go func() {
 		wg.Wait()
 		close(c)
 	}()
-	go func() {
-		dbh.RemoveCacheEntry("key1")
-		wg.Done()
-	}()
-	go func() {
-		dbh.RemoveCacheEntry("key2")
-		wg.Done()
-	}()
 	select {
 	case <-c:
-		if len(dbh.cache) != 1 {
-			t.Errorf("expected cache with one entry, got %d", len(dbh.cache))
+		if len(dbh.cache) != count/2 {
+			t.Errorf("expected cache with %d entries, got %d", count/2, len(dbh.cache))
 		}
 	case <-time.After(time.Second):
-		t.Error("timeout waiting for concurrent get")
+		t.Error("timeout waiting for concurrent remove")
 	}
 }
