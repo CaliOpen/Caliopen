@@ -81,7 +81,7 @@ func TestJobsHandler_ConsumePendingJobFor(t *testing.T) {
 		return
 	}
 	// fill jobs queue for two different worker types
-	const count = 1000 // must be an even number
+	const count = 1000
 	var worker string
 	for i := 0; i < count; i++ {
 		if i%2 == 0 {
@@ -99,7 +99,6 @@ func TestJobsHandler_ConsumePendingJobFor(t *testing.T) {
 			},
 		})
 	}
-
 	// consume jobs to check FIFO returns
 	for i := 0; i < count; i++ {
 		if i%2 == 0 {
@@ -115,12 +114,17 @@ func TestJobsHandler_ConsumePendingJobFor(t *testing.T) {
 			t.Errorf("expected to have job #%d for worker '%s', got %s", i, worker, job.Order.Order)
 		}
 	}
-
-	if len(jbh.pendingJobs) != 0 {
-		t.Errorf("expected an empty pending jobs list, got %d jobs left", len(jbh.pendingJobs))
+	if len(jbh.pendingJobs["even"]) != 0 {
+		t.Errorf("expected an empty pending jobs list for 'even', got %d jobs left", len(jbh.pendingJobs))
 	}
-	if len(jbh.jobsSequence) != 0 {
-		t.Errorf("expected an empty jobs sequence list, got %d elems left", len(jbh.jobsSequence))
+	if len(jbh.pendingJobs["odd"]) != 0 {
+		t.Errorf("expected an empty pending jobs list for 'odd', got %d jobs left", len(jbh.pendingJobs))
+	}
+	if len(jbh.jobsSequence["even"]) != 0 {
+		t.Errorf("expected an empty jobs sequence list for 'even', got %d elems left", len(jbh.jobsSequence))
+	}
+	if len(jbh.jobsSequence["odd"]) != 0 {
+		t.Errorf("expected an empty jobs sequence list for 'odd', got %d elems left", len(jbh.jobsSequence))
 	}
 }
 

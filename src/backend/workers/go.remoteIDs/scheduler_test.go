@@ -4,6 +4,7 @@ import (
 	"github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"github.com/satori/go.uuid"
 	"reflect"
+	"strconv"
 	"testing"
 	"time"
 )
@@ -88,5 +89,82 @@ func TestScheduler_AddSyncJobFor(t *testing.T) {
 	dur := syncJob.Next.Sub(time.Now())
 	if dur < 0 || dur > time.Minute {
 		t.Errorf("expected job to be run within minute timeframe, got %d seconds", dur/time.Second)
+	}
+}
+
+func TestScheduler_RemoveJobFor(t *testing.T) {
+	poller.Config = PollerConfig{
+		ScanInterval: 10,
+	}
+	sch, err := initScheduler()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	// fill-in scheduler
+	const count = 1000 // must be an even number
+	entries := []cacheEntry{}
+	for i := 0; i < count; i++ {
+		id := objects.UUID(uuid.NewV4())
+		entry, err := sch.AddSyncJobFor(cacheEntry{
+			pollInterval:   "1",
+			remoteID:       id,
+			remoteProtocol: "email",
+			userID:         id,
+		})
+		if err != nil {
+			t.Error(err)
+		}
+		entries = append(entries, entry)
+	}
+
+	// sequentially remove half of jobs because cron pkg fails to handle concurrent remove
+	// TODO : ^^^dig into this flaw^^^
+	for i := 0; i < count/2; i++ {
+		sch.RemoveJobFor(entries[i])
+	}
+	if len(sch.MainCron.Entries()) != (count/2)+1 {
+		t.Errorf("expected %d jobs left in MainCron, got %d", (count/2)+1, len(sch.MainCron.Entries()))
+	}
+}
+
+func TestScheduler_UpdateSyncJobFor(t *testing.T) {
+	poller.Config = PollerConfig{
+		ScanInterval: 10,
+	}
+	sch, err := initScheduler()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	// fill-in scheduler
+	const count = 1000 // must be an even number
+	entries := []cacheEntry{}
+	for i := 0; i < count; i++ {
+		id := objects.UUID(uuid.NewV4())
+		entry, err := sch.AddSyncJobFor(cacheEntry{
+			pollInterval:   "1",
+			remoteID:       id,
+			remoteProtocol: "email",
+			userID:         id,
+		})
+		if err != nil {
+			t.Error(err)
+		}
+		entries = append(entries, entry)
+	}
+
+	// update pollinterval
+	for i := 0; i < count; i++ {
+		entry := entries[i]
+		oldCronId := entry.cronId
+		entry.pollInterval = strconv.Itoa(i)
+		entry, err := sch.UpdateSyncJobFor(entry)
+		if err != nil {
+			t.Error(err)
+		}
+		if entry.cronId == oldCronId || entry.cronId == 0 {
+			t.Error("expected a new cron id after updating entry")
+		}
 	}
 }
