@@ -2,6 +2,7 @@
 """Caliopen message object classes."""
 from __future__ import absolute_import, print_function, unicode_literals
 
+import uuid
 from datetime import datetime
 
 from caliopen_storage.exception import NotFound
@@ -15,12 +16,15 @@ class ParticipantLookup(BaseUserCore):
     _model_class = ModelParticipantLookup
 
     @classmethod
-    def create(cls, user, identifier, type):
+    def create(cls, user, identifier, type, part_id=None):
         """Create a new ``ParticipantLookup`` instance."""
         date = datetime.utcnow()
+        if not part_id:
+            part_id = uuid.uuid4()
         return super(ParticipantLookup, cls).create(user=user,
                                                     identifier=identifier,
                                                     type=type,
+                                                    participant_id=part_id,
                                                     date_insert=date)
 
     @classmethod
@@ -33,3 +37,11 @@ class ParticipantLookup(BaseUserCore):
             return cls(model)
         except NotFound:
             return None
+
+    @classmethod
+    def get_or_create(cls, user, identifier, type, part_id=None):
+        """Shortcut to get an existing ``ParticipantLookup`` or create it."""
+        obj = cls.get(user, identifier, type)
+        if obj is None:
+            obj = cls.create(user, identifier, type, part_id)
+        return obj
