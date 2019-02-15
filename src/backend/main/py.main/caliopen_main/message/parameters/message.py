@@ -3,6 +3,7 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import hashlib
+import logging
 
 from schematics.models import Model
 from schematics.types import (StringType, DateTimeType,
@@ -20,6 +21,8 @@ RECIPIENT_TYPES = ['To', 'From', 'Cc', 'Bcc', 'Reply-To', 'Sender']
 MESSAGE_PROTOCOLS = ['email', 'twitter', None]
 MESSAGE_STATES = ['draft', 'sending', 'sent', 'cancel',
                   'unread', 'read', 'deleted']
+
+log = logging.getLogger(__name__)
 
 
 class NewMessage(Model):
@@ -57,15 +60,12 @@ class NewMessage(Model):
     @property
     def hash_participants(self):
         """Create an hash from participants addresses for global lookup."""
-        addresses = []
-        for participant in self.participants:
-            if participant.contact_ids:
-                addresses.append(participant.contact_ids[0])
-            else:
-                addresses.append(participant.address.lower())
+        addresses = [x.participant_id for x in self.participants]
         addresses = list(set(addresses))
         addresses.sort()
-        return hashlib.sha256(''.join(addresses)).hexdigest()
+        res = hashlib.sha256(''.join(addresses)).hexdigest()
+        log.info('Participants {} hash {}'.format(addresses, res))
+        return res
 
 
 class NewInboundMessage(NewMessage):
