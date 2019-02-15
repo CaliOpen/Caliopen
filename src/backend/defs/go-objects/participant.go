@@ -5,22 +5,29 @@
 package objects
 
 import (
+	"bytes"
+	"github.com/gocql/gocql"
 	"github.com/satori/go.uuid"
+	"time"
 )
 
-type Participant struct {
-	Address     string `cql:"address"          json:"address,omitempty"`
-	Contact_ids []UUID `cql:"contact_ids"      json:"contact_ids,omitempty"             formatter:"rfc4122"`
-	Label       string `cql:"label"            json:"label,omitempty"`
-	Protocol    string `cql:"protocol"         json:"protocol,omitempty"`
-	Type        string `cql:"type"             json:"type,omitempty"`
-}
+type (
+	Participant struct {
+		Address     string `cql:"address"          json:"address,omitempty"`
+		Contact_ids []UUID `cql:"contact_ids"      json:"contact_ids,omitempty"             formatter:"rfc4122"`
+		Label       string `cql:"label"            json:"label,omitempty"`
+		Protocol    string `cql:"protocol"         json:"protocol,omitempty"`
+		Type        string `cql:"type"             json:"type,omitempty"`
+	}
 
-/*
-func (rcpt *Participant) MarshalJSON() ([]byte, error) {
-	return customJSONMarshaler(rcpt, "json")
-}
-*/
+	ParticipantLookup struct {
+		UserId        UUID      `cql:"user_id"`
+		Identifier    string    `cqls:"identifier"`
+		Type          string    `cql:"type"`
+		ParticipantId UUID      `cql:"participant_id"`
+		DateInsert    time.Time `cql:"date_insert"`
+	}
+)
 
 func (p *Participant) UnmarshalMap(input map[string]interface{}) error {
 	if address, ok := input["address"].(string); ok {
@@ -49,9 +56,39 @@ func (p *Participant) UnmarshalMap(input map[string]interface{}) error {
 	return nil //TODO: errors handling
 }
 
+func (pl *ParticipantLookup) UnmarshalCQLMap(input map[string]interface{}) error {
+	if user_id, ok := input["user_id"].(gocql.UUID); ok {
+		pl.UserId.UnmarshalBinary(user_id.Bytes())
+	}
+	if identifier, ok := input["identifier"].(string); ok {
+		pl.Identifier = identifier
+	}
+	if type_, ok := input["type"].(string); ok {
+		pl.Type = type_
+	}
+	if part_id, ok := input["participant_id"].(gocql.UUID); ok {
+		pl.ParticipantId.UnmarshalBinary(part_id.Bytes())
+	}
+	return nil
+}
+
 // part of CaliopenObject interface
 func (p *Participant) MarshallNew(...interface{}) {
 	// nothing to enforce
+}
+
+func (pl *ParticipantLookup) MarshallNew(args ...interface{}) {
+	if len(pl.ParticipantId) == 0 || (bytes.Equal(pl.ParticipantId.Bytes(), EmptyUUID.Bytes())) {
+		pl.ParticipantId.UnmarshalBinary(uuid.NewV4().Bytes())
+	}
+	if len(pl.UserId) == 0 || (bytes.Equal(pl.UserId.Bytes(), EmptyUUID.Bytes())) {
+		if len(args) == 1 {
+			switch args[0].(type) {
+			case UUID:
+				pl.UserId = args[0].(UUID)
+			}
+		}
+	}
 }
 
 // Sort interface implementation

@@ -17,6 +17,7 @@ type APIStorage interface {
 	IdentityStorage
 	KeysStorage
 	MessageStorage
+	ParticipantStorage
 	TagsStorage
 	UserNameStorage
 	UserStorage
