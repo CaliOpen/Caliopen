@@ -12,6 +12,7 @@ class Participant(Model):
     label = StringType()
     protocol = StringType()
     type = StringType()
+    participant_id = UUIDType()
 
     class Options:
         serialize_when_none = False
