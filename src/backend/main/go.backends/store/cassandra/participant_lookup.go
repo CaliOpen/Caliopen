@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-func (cb *CassandraBackend) RetrieveParticipantLookup(user_id, identifier, typ string) (lookup *ParticipantLookup, err error) {
+func (cb *CassandraBackend) RetrieveParticipantLookup(user_id UUID, identifier, typ string) (lookup *ParticipantLookup, err error) {
 
 	// retrieve participant lookup
 	lookup = new(ParticipantLookup)

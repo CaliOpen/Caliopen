@@ -22,7 +22,7 @@ type (
 
 	ParticipantLookup struct {
 		UserId        UUID      `cql:"user_id"`
-		Identifier    string    `cqls:"identifier"`
+		Identifier    string    `cql:"identifier"`
 		Type          string    `cql:"type"`
 		ParticipantId UUID      `cql:"participant_id"`
 		DateInsert    time.Time `cql:"date_insert"`

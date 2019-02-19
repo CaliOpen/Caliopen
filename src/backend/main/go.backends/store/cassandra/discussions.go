@@ -15,6 +15,73 @@ import (
 	"strings"
 )
 
+// setParticipantLookupWithContact manage contact_ids related to a participant
+func (cb *CassandraBackend) setParticipantLookupWithContact(user_id UUID, participant Participant, partId UUID) error {
+	for _, uuid := range participant.Contact_ids {
+		contact_id := uuid.String()
+		log.Info("Processing participant ", participant, " with contact ", contact_id)
+		lookup_contact, err := cb.RetrieveParticipantLookup(user_id, contact_id, "contact")
+		if err == gocql.ErrNotFound {
+			newLookup := &ParticipantLookup{}
+			newLookup.MarshallNew(user_id)
+			newLookup.Type = "contact"
+			newLookup.Identifier = contact_id
+			newLookup.ParticipantId = partId
+			err = cb.CreateParticipantLookup(newLookup)
+			if err != nil {
+				return err
+			}
+			log.Info("Created contact related participant_lookup ", newLookup)
+			return nil
+		}
+		if err != nil && err != gocql.ErrNotFound {
+			return err
+		}
+		if lookup_contact.ParticipantId != partId {
+			log.Warn("Inconsistent ParticipantId with contact one ", participant)
+		}
+	}
+	return nil
+}
+
+func (cb *CassandraBackend) setParticipantLookup(user_id UUID, participant Participant) (partId UUID, err error) {
+	lookup, err := cb.RetrieveParticipantLookup(user_id, participant.Address, participant.Protocol)
+	if err == gocql.ErrNotFound {
+		newLookup := &ParticipantLookup{}
+		newLookup.MarshallNew(user_id)
+		newLookup.Identifier = strings.ToLower(participant.Address)
+		newLookup.Type = participant.Protocol
+		err = cb.CreateParticipantLookup(newLookup)
+		return newLookup.ParticipantId, err
+	}
+	return lookup.ParticipantId, err
+}
+
+func (cb *CassandraBackend) prepareParticipantLookup(user_id UUID, participants []Participant) (parts []string, err error) {
+	set := make(map[string]struct{})
+	parts = make([]string, len(participants))
+
+	for _, participant := range participants {
+		partId, err := cb.setParticipantLookup(user_id, participant)
+		if err != nil {
+			return parts, err
+		}
+		log.Info("Created participant ", partId, " for participant ", participant)
+
+		err = cb.setParticipantLookupWithContact(user_id, participant, partId)
+		if err != nil {
+			return parts, err
+		}
+		to_add := partId.String()
+		if _, ok := set[to_add]; !ok {
+			set[to_add] = struct{}{}
+			parts = append(parts, to_add)
+		}
+	}
+	sort.Strings(parts)
+	return parts, nil
+}
+
 // CreateDiscussion create a new discussion
 func (cb *CassandraBackend) CreateDiscussion(discussion Discussion) error {
 	discussionT := cb.IKeyspace.Table("discussion", &Discussion{}, gocassa.Keys{
@@ -71,23 +138,13 @@ func (cb *CassandraBackend) GetDiscussionGlobalLookup(user_id UUID, hash string)
 // GetDiscussionByParticipants retrieve the hash value related to a list of participants used for discussion lookup
 // golang version of python NewMessage.hash_participants function
 func (cb *CassandraBackend) GetDiscussionHashByParticipants(user_id UUID, participants []Participant) (string, error) {
-	set := make(map[string]struct{})
-	parts := make([]string, len(participants))
-	for _, participant := range participants {
-		var to_add string
-		if len(participant.Contact_ids) > 0 {
-			to_add = participant.Contact_ids[0].String()
-		} else {
-			to_add = strings.ToLower(participant.Address)
-		}
-		if _, ok := set[to_add]; !ok {
-			set[to_add] = struct{}{}
-			parts = append(parts, to_add)
-		}
+	parts, err := cb.prepareParticipantLookup(user_id, participants)
+	if err != nil {
+		log.Errorf("prepareParticipantLookup error %s", err)
+		return "", err
 	}
-	sort.Strings(parts)
 	hash := sha256.Sum256([]byte(strings.Join(parts, "")))
-	log.Debug("Computed hash for parts ", fmt.Sprintf("%x", hash))
+	log.Debug("Computed hash for partipants ", fmt.Sprintf("%x", hash))
 	return fmt.Sprintf("%x", hash), nil
 }
 
