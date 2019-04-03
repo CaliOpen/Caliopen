@@ -7,7 +7,6 @@ from caliopen_storage.store.model import BaseModel
 
 
 class Discussion(BaseModel):
-
     """Discussion to group messages model."""
 
     # XXX threading simplest model, most data are only in index
@@ -35,9 +34,17 @@ class DiscussionThreadLookup(BaseModel):
     discussion_id = columns.UUID()
 
 
-class DiscussionGlobalLookup(BaseModel):
-    """Lookup discussion for many participants."""
+class DiscussionHashLookup(BaseModel):
+    """Lookup discussion by participants' hash"""
 
     user_id = columns.UUID(primary_key=True)
     hashed = columns.Text(primary_key=True)
     discussion_id = columns.UUID()
+
+
+class DiscussionParticipantLookup(BaseModel):
+    """Lookup discussion by a participant_id"""
+
+    user_id = columns.UUID(primary_key=True)
+    participant_id = columns.UUID(primary_key=True)
+    discussion_id = columns.UUID(primary_key=True)
