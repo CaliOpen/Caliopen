@@ -29,6 +29,7 @@ from caliopen_storage.core import BaseCore
 from caliopen_main.common.core import BaseUserCore
 
 from caliopen_main.contact.core import Contact as CoreContact
+from caliopen_main.contact.parameters import NewEmail
 from caliopen_main.contact.objects.contact import Contact
 from caliopen_main.participant.core import ParticipantLookup
 from caliopen_main.pi.objects import PIModel
@@ -297,34 +298,35 @@ class User(BaseCore):
 
         # save and index linked contact
         if hasattr(new_user, "contact"):
-            contact = Contact(user=core, **new_user.contact.serialize())
-            contact.contact_id = uuid.uuid4()
-            contact.title = Contact._compute_title(contact)
+            #  add local email to contact
+            local_mail = NewEmail()
+            local_mail.address = default_local_id
+            new_user.contact.emails.append(local_mail)
 
+            #  create default contact for user
+            contact = CoreContact.create(core, new_user.contact)
+
+            # create related participants for contact and its emails
+            contact_participant_id = uuid.uuid4()
+            ParticipantLookup.get_or_create(core, contact.contact_id,
+                                            'contact',
+                                            contact_participant_id)
             for email in contact.emails:
-                if email.address is not None and validate_email(email.address):
-                    email.email_id = uuid.uuid4()
+                ParticipantLookup.get_or_create(core, email.address,
+                                                'email',
+                                                contact_participant_id)
 
-            try:
-                contact.marshall_db()
-                contact.save_db()
-            except Exception as exc:
-                log.info("save_db error : {}".format(exc))
-
-            contact.marshall_index()
-            contact.save_index()
             # XXX should use core proxy, not directly model attribute
             core.model.contact_id = contact.contact_id
 
-            # fill contact_lookup table
-            log.info("contact id : {}".format(contact.contact_id))
-            # TOFIX does not work
-            # ContactLookup.create(user_id=core.user_id,
-            #                     value=default_local_id, type='email',
-            #                     contact_ids=[contact.contact_id])
+            log.info("contact id {} for new user {}".format(contact.contact_id,
+                                                            core.user_id))
+        else:
+            log.error(
+                "missing contact in new_user params for user {}. "
+                "Can't create related tables".format(core.user_id))
 
         core.save()
-
         return core
 
     @classmethod
@@ -397,16 +399,13 @@ class User(BaseCore):
     def add_local_identity(self, address):
         """
         Add a local smtp identity to an user and fill related lookup tables
-
-        return: True if success, False otherwise
-        rtype: bool
         """
         formatted = address.lower()
         try:
             local_identity = User.by_local_identifier(address, 'smtp')
             if local_identity:
                 log.warn("local identifier {} already exist".format(address))
-                return False
+                return None
         except NotFound:
             try:
                 identities = IdentityLookup.find(identifier=formatted)
@@ -417,7 +416,7 @@ class User(BaseCore):
                             identity.user_id == self.user_id:
                         if identity.identity_id in self.local_identities:
                             # Local identity already created. Should raise error ?
-                            return True
+                            return identity
                     raise Exception(
                         'Inconsistent local identity {}'.format(address))
             except NotFound:
@@ -436,10 +435,10 @@ class User(BaseCore):
                 IdentityTypeLookup.create(type=identity.type,
                                           user_id=identity.user_id,
                                           identity_id=identity.identity_id)
-                return True
+                return identity
             except Exception as exc:
                 log.error('Unexpected exception {}'.format(exc))
-            return False
+            return None
 
     @property
     def local_identities(self):
