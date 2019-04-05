@@ -46,6 +46,7 @@ class DiscussionIndexManager(object):
 
     def __search_ids(self, limit, offset, min_pi, max_pi, min_il, max_il):
         """Search discussions ids as a bucket aggregation."""
+        # TODO : search on participants_hash instead
         search = self._prepare_search(). \
             filter("range", importance_level={'gte': min_il, 'lte': max_il})
         # Do bucket term aggregation, sorted by last_message date
@@ -72,7 +73,7 @@ class DiscussionIndexManager(object):
 
     def get_last_message(self, discussion_id, min_il, max_il, include_draft):
         """Get last message of a given discussion."""
-
+        # TODO : une discussion_id
         search = self._prepare_search() \
             .filter("match", discussion_id=discussion_id) \
             .filter("range", importance_level={'gte': min_il, 'lte': max_il})
@@ -94,6 +95,7 @@ class DiscussionIndexManager(object):
                                            max_il)
         discussions = []
         for bucket in buckets:
+            # TODO : les buckets seront des hash_participants, donc il faut créer la liste des discussion_id avant et itérer là-dessus
             message = self.get_last_message(bucket['key'],
                                             min_il, max_il,
                                             True)
@@ -115,6 +117,7 @@ class DiscussionIndexManager(object):
     def get_by_id(self, discussion_id, min_il=0, max_il=100):
         """Return a single discussion by discussion_id"""
 
+        # TODO : search by multiple discussion_id because they are hashes now
         search = self._prepare_search() \
             .filter("match", discussion_id=discussion_id)
         search.aggs.bucket('discussions', A('terms', field='discussion_id')) \

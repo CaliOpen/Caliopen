@@ -146,20 +146,41 @@ class Discussion(BaseUserCore):
     _pkey_name = 'discussion_id'
 
     @classmethod
-    def create_from_message(cls, user, message):
+    def create_from_message(cls, user, message, participants):
+        """
+        create a new Discussion in store alongside relevant lookup tables
+        :param user:
+        :param message: an object with body_plain property
+        :param participants: a collection of Participant with participant_id
+        :return: Discussion
+        """
         # TODO excerpt from plain or html body
         maxsize = 200
         excerpt = unicode_truncate(message.body_plain,
                                    maxsize) if message.body_plain else u''
         new_id = uuid.uuid4()
+        ids_hash = hash_participants_ids(participants)
         kwargs = {u'discussion_id': new_id,
                   u'date_insert': datetime.datetime.now(tz=pytz.utc),
                   # 'privacy_index': message.privacy_index,
                   # 'importance_level': message.importance_level,
+                  u'participants_hash': ids_hash['hash'],
+                  u'participants_ids': ids_hash['ids'],
                   u'excerpt': excerpt,
                   }
 
         discussion = cls.create(user, **kwargs)
+
+        # fill-in lookup tables
+        for participant_id in ids_hash['ids']:
+            DiscussionParticipantLookup.create(user,
+                                               participant_id=participant_id,
+                                               discussion_id=\
+                                                   discussion.discussion_id)
+
+        DiscussionHashLookup.create(user, hashed=ids_hash['hash'],
+                                    discussion_id=discussion.discussion_id)
+
         log.debug('Created discussion {}'.format(discussion.discussion_id))
         return discussion
 
@@ -186,6 +207,15 @@ class Discussion(BaseUserCore):
         except NotFound:
             return None
         return cls.get(user, lookup.discussion_id)
+
+    @classmethod
+    def by_participant_id(cls, user, participant_id):
+        try:
+            lookup = DiscussionParticipantLookup.get(user, participant_id)
+        except NotFound:
+            return None
+        return cls.get(user,
+                       lookup.discussion_id)  # TODO : not a get but lookup
 
 
 class ReturnDiscussion(ReturnCoreObject):

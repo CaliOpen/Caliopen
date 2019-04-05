@@ -9,10 +9,12 @@ from caliopen_storage.store.model import BaseModel
 class Discussion(BaseModel):
     """Discussion to group messages model."""
 
-    # XXX threading simplest model, most data are only in index
     user_id = columns.UUID(primary_key=True)
     discussion_id = columns.UUID(primary_key=True)
+    participants_hash = columns.Text(primary_key=True)  # hashed participant_ids
+    participants_ids = columns.List(columns.Text())  # sorted participants' ids
     date_insert = columns.DateTime()
+    new_id = columns.UUID()  # discussion_id that replaces this one if in any
     # privacy_index = columns.Integer()
     importance_level = columns.Integer()
     excerpt = columns.Text()
