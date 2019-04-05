@@ -41,6 +41,7 @@ class NewMessage(Model):
     message_id = UUIDType()
     parent_id = UUIDType()
     participants = ListType(ModelType(Participant), default=lambda: [])
+    participants_hash = StringType()
     privacy_features = DictType(StringType(), default=lambda: {})
     pi = ModelType(PIParameter)
     raw_msg_id = UUIDType()
@@ -59,14 +60,8 @@ class NewMessage(Model):
 
     @property
     def hash_participants(self):
-        """Create an hash from participants addresses for global lookup."""
-        addresses = [x.participant_id for x in self.participants
-                     if x.participant_id]
-        addresses = list(set(addresses))
-        addresses.sort()
-        res = hashlib.sha256(''.join(addresses)).hexdigest()
-        log.info('Participants {} hash {}'.format(addresses, res))
-        return res
+        ids_hash = hash_participants_ids(self.participants)
+        return ids_hash['hash']
 
 
 class NewInboundMessage(NewMessage):

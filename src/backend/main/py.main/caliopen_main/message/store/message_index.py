@@ -36,6 +36,7 @@ class IndexedMessage(BaseIndexDocument):
     is_received = Boolean()
     parent_id = Keyword()
     participants = Nested(doc_class=IndexedParticipant)
+    participants_hash = Keyword()
     privacy_features = Object()
     pi = Object(doc_class=PIIndexModel)
     raw_msg_id = Keyword()
@@ -110,6 +111,7 @@ class IndexedMessage(BaseIndexDocument):
         participants.field("protocol", Keyword())
         participants.field("type", Keyword())
         m.field('participants', participants)
+        m.field('participants_hash', 'keyword')
         # PI
         pi = Object(doc_class=PIIndexModel, include_in_all=True,
                     properties={

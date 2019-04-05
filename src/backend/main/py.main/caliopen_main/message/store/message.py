@@ -40,6 +40,7 @@ class Message(BaseModel, IndexedModelMixin):
     is_received = columns.Boolean(default=False)
     parent_id = columns.UUID()
     participants = columns.List(columns.UserDefinedType(Participant))
+    participants_hash = columns.Text()
     privacy_features = columns.Map(columns.Text(), columns.Text())
     pi = columns.UserDefinedType(PIModel)
     raw_msg_id = columns.UUID()

@@ -56,6 +56,7 @@ class Message(ObjectIndexable):
         'message_id': UUID,
         'parent_id': UUID,
         'participants': [Participant],
+        'participants_hash': types.StringType,
         'privacy_features': types.DictType,
         'pi': PIObject,
         'raw_msg_id': UUID,
