@@ -11,12 +11,15 @@ def clean_email_address(addr):
     """Clean an email address for user resolve."""
     real_name, email = parseaddr(addr.replace('\r', ''))
     if not email:
-        log.info('Invalid email address %s' % addr)
+        log.error('Invalid email address %s' % addr)
         return ("", "")
-    name, domain = email.lower().split('@', 2)
+    name, domain = email.lower().split('@', 1)
+    if '@' in domain:
+        log.error("invalid email address %s" % addr)
+        return ("", "")
     if '+' in name:
         try:
-            name, ext = name.split('+', 2)
+            name, ext = name.split('+', 1)
         except Exception as exc:
             log.info(exc)
     # unicode everywhere
