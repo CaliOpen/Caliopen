@@ -15,6 +15,7 @@ from caliopen_main.discussion.core import (DiscussionThreadLookup,
 # XXX use a message formatter registry not directly mail format
 from caliopen_main.message.parsers.mail import MailMessage
 from caliopen_main.discussion.core import Discussion
+from caliopen_main.participant.core import hash_participants_ids
 
 from ..features import InboundMailFeature, marshal_features
 from .base import BaseQualifier
@@ -128,6 +129,9 @@ class UserMessageQualifier(BaseQualifier):
             log.debug('Created discussion {}'.format(discussion.discussion_id))
             new_message.discussion_id = discussion.discussion_id
             self.create_lookups(lookup_sequence, new_message)
+
+        ids_hash = hash_participants_ids(new_message.participants)
+        new_message.participants_hash = ids_hash['hash']
         # Format features
         new_message.privacy_features = \
             marshal_features(new_message.privacy_features)

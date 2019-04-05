@@ -11,6 +11,7 @@ from caliopen_main.discussion.core import (DiscussionThreadLookup,
                                            DiscussionHashLookup,
                                            DiscussionParticipantLookup)
 
+from caliopen_main.participant.core import hash_participants_ids
 from ..features import marshal_features
 from .base import BaseQualifier
 
@@ -21,7 +22,7 @@ class UserDMQualifier(BaseQualifier):
     """Process a Twitter direct message to unmarshal it in our stack."""
 
     _lookups = {
-        'global': DiscussionHashLookup,
+        'hash': DiscussionHashLookup,
         'thread': DiscussionThreadLookup,
         'list': DiscussionListLookup,
         'participant': DiscussionParticipantLookup
@@ -31,7 +32,8 @@ class UserDMQualifier(BaseQualifier):
         """Return list of lookup type, value from a tweet."""
         seq = list()
 
-        seq.append(('global', message.hash_participants))
+        participants = message.hash_participants
+        seq.append(('hash', participants))
 
         if message.external_references["message_id"]:
             seq.append(("thread", message.external_references["message_id"]))
@@ -92,6 +94,9 @@ class UserDMQualifier(BaseQualifier):
             log.debug('Created discussion {}'.format(discussion.discussion_id))
             new_message.discussion_id = discussion.discussion_id
             self.create_lookups(lookup_sequence, new_message)
+
+        ids_hash = hash_participants_ids(new_message.participants)
+        new_message.participants_hash = ids_hash['hash']
         # Format features
         new_message.privacy_features = \
             marshal_features(new_message.privacy_features)
