@@ -32,7 +32,7 @@ def main(args=sys.argv):
     sp_import.add_argument('-p', dest='import_path')
     sp_import.add_argument('-e', dest='email')
     sp_import.add_argument('--contact-probability', dest='contact_probability',
-                           default=1.0)
+                           default=0.8)
     sp_import.add_argument('-t', dest='to')
 
     sp_import_vcard = subparsers.add_parser('import_vcard',

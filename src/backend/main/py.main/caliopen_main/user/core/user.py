@@ -30,6 +30,7 @@ from caliopen_main.common.core import BaseUserCore
 
 from caliopen_main.contact.core import Contact as CoreContact
 from caliopen_main.contact.objects.contact import Contact
+from caliopen_main.participant.core import ParticipantLookup
 from caliopen_main.pi.objects import PIModel
 from caliopen_main.user.helpers import validators
 from .setups import (setup_index, setup_system_tags,

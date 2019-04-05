@@ -15,5 +15,6 @@ class IndexedParticipant(InnerObjectWrapper):
     address = Keyword()
     contact_ids = Keyword(multi=True)
     label = Text()
+    participant_id = Keyword()
     protocol = Keyword()
     type = Keyword()

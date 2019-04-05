@@ -45,6 +45,7 @@ class Discussion(Api):
             raise HTTPBadRequest
 
         try:
+            # TODO : get discussion's hashes before querying index
             discussion_view = MainView().get_one(self.user, discussion_id,
                                                  il_range[0],
                                                  il_range[1])

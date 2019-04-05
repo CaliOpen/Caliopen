@@ -7,12 +7,10 @@ from cassandra.cqlengine import columns
 from caliopen_storage.store.model import BaseModel
 from caliopen_storage.store.mixin import IndexedModelMixin
 from caliopen_main.pi.objects import PIModel
-from caliopen_main.common.core import BaseUserCore
 
 from .attachment import MessageAttachment
-from .external_references import ExternalReferences, \
-    MessageExternalRefLookup as ModelMessageExternalRefLookup
-from .participant import Participant
+from .external_references import ExternalReferences
+from caliopen_main.participant.store.participant import Participant
 from .message_index import IndexedMessage
 
 import uuid

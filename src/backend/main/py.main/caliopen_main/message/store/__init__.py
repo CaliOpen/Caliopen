@@ -7,8 +7,7 @@ from .external_references import ExternalReferences, MessageExternalRefLookup
 from .external_references_index import IndexedExternalReferences
 from .message import Message
 from .message_index import IndexedMessage
-from .participant import Participant
-from .participant_index import IndexedParticipant
+from caliopen_main.participant.store.participant import Participant
 from .raw import RawMessage, UserRawLookup
 
 __all__ = ['MessageAttachment', 'IndexedMessageAttachment',

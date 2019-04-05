@@ -9,7 +9,7 @@ from caliopen_storage.store.model import BaseIndexDocument
 from .attachment_index import IndexedMessageAttachment
 from .external_references_index import IndexedExternalReferences
 from caliopen_main.pi.objects import PIIndexModel
-from .participant_index import IndexedParticipant
+from caliopen_main.participant.store.participant_index import IndexedParticipant
 
 
 class IndexedMessage(BaseIndexDocument):

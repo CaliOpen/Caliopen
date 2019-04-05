@@ -14,13 +14,15 @@ from caliopen_main.common.core import BaseUserCore
 from caliopen_main.common.helpers.strings import unicode_truncate
 
 from ..store.discussion import (DiscussionListLookup as ModelListLookup,
-     DiscussionThreadLookup as ModelThreadLookup,
-     DiscussionGlobalLookup as ModelGlobalLookup,
-     Discussion as ModelDiscussion)
+                                DiscussionThreadLookup as ModelThreadLookup,
+                                DiscussionHashLookup as ModelHashLookup,
+                                DiscussionParticipantLookup as ModelParticipantLookup,
+                                Discussion as ModelDiscussion)
 from ..store.discussion_index import DiscussionIndexManager as DIM
 
 from caliopen_main.discussion.parameters import Discussion as DiscussionParam
-from caliopen_main.message.parameters.participant import Participant
+from caliopen_main.participant.parameters import Participant
+from caliopen_main.participant.core import hash_participants_ids
 
 log = logging.getLogger(__name__)
 
@@ -49,11 +51,18 @@ class DiscussionThreadLookup(BaseUserCore):
     _pkey_name = 'external_root_msg_id'
 
 
-class DiscussionGlobalLookup(BaseUserCore):
-    """Lookup global discussion."""
+class DiscussionHashLookup(BaseUserCore):
+    """Lookup discussion by participants' hash"""
 
-    _model_class = ModelGlobalLookup
+    _model_class = ModelHashLookup
     _pkey_name = 'hashed'
+
+
+class DiscussionParticipantLookup(BaseUserCore):
+    """Lookup discussion by a participant_id"""
+
+    _model_class = ModelParticipantLookup
+    _pkey_name = "participant_id"
 
 
 def build_discussion(core, index):
@@ -65,7 +74,7 @@ def build_discussion(core, index):
     discuss.date_update = index.last_message.date_sort
     # TODO : excerpt from plain or html body
     maxsize = 100
-    discuss.last_message_id = index.last_message.message_id 
+    discuss.last_message_id = index.last_message.message_id
     discuss.last_message_subject = index.last_message.subject
     discuss.excerpt = unicode_truncate(index.last_message.body_plain,
                                        maxsize) if index.last_message.body_plain else u''
@@ -134,7 +143,6 @@ class Discussion(BaseUserCore):
     """Discussion core object."""
 
     _model_class = ModelDiscussion
-
     _pkey_name = 'discussion_id'
 
     @classmethod
@@ -150,6 +158,7 @@ class Discussion(BaseUserCore):
                   # 'importance_level': message.importance_level,
                   u'excerpt': excerpt,
                   }
+
         discussion = cls.create(user, **kwargs)
         log.debug('Created discussion {}'.format(discussion.discussion_id))
         return discussion
@@ -173,7 +182,7 @@ class Discussion(BaseUserCore):
     @classmethod
     def by_hash(cls, user, hash):
         try:
-            lookup = DiscussionGlobalLookup.get(user, hash)
+            lookup = DiscussionHashLookup.get(user, hash)
         except NotFound:
             return None
         return cls.get(user, lookup.discussion_id)

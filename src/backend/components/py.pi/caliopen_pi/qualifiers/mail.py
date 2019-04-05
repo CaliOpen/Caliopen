@@ -9,7 +9,8 @@ from caliopen_main.message.parameters import (NewInboundMessage,
 from caliopen_storage.config import Configuration
 from caliopen_main.discussion.core import (DiscussionThreadLookup,
                                            DiscussionListLookup,
-                                           DiscussionGlobalLookup)
+                                           DiscussionHashLookup,
+                                           DiscussionParticipantLookup)
 
 # XXX use a message formatter registry not directly mail format
 from caliopen_main.message.parsers.mail import MailMessage
@@ -33,9 +34,10 @@ class UserMessageQualifier(BaseQualifier):
     """
 
     _lookups = {
-        'global': DiscussionGlobalLookup,
+        'hash': DiscussionHashLookup,
         'thread': DiscussionThreadLookup,
         'list': DiscussionListLookup,
+        'participant': DiscussionParticipantLookup,
     }
 
     def lookup_discussion_sequence(self, mail, message, *args, **kwargs):
@@ -46,7 +48,8 @@ class UserMessageQualifier(BaseQualifier):
         for list_id in mail.extra_parameters.get('lists', []):
             seq.append(('list', list_id))
 
-        seq.append(('global', message.hash_participants))
+        participants = message.hash_participants
+        seq.append(('hash', participants))
 
         # try to link message to external thread's root message-id
         if len(message.external_references["ancestors_ids"]) > 0:
@@ -65,33 +68,33 @@ class UserMessageQualifier(BaseQualifier):
         @param raw: a RawMessage object
         @rtype: NewMessage
         """
-        message = MailMessage(raw.raw_data)
+        email = MailMessage(raw.raw_data)
         new_message = NewInboundMessage()
         new_message.raw_msg_id = raw.raw_msg_id
-        new_message.subject = message.subject
-        new_message.body_html = message.body_html
-        new_message.body_plain = message.body_plain
-        new_message.date = message.date
-        new_message.size = message.size
-        new_message.protocol = message.message_protocol
+        new_message.subject = email.subject
+        new_message.body_html = email.body_html
+        new_message.body_plain = email.body_plain
+        new_message.date = email.date
+        new_message.size = email.size
+        new_message.protocol = email.message_protocol
         new_message.is_unread = True
         new_message.is_draft = False
         new_message.is_answered = False
         new_message.is_received = True
         new_message.importance_level = 0  # XXX tofix on parser
-        new_message.external_references = message.external_references
+        new_message.external_references = email.external_references
 
         participants = []
-        for p in message.participants:
-            participant, contact = self.get_participant(message, p)
+        for p in email.participants:
+            participant, contact = self.get_participant(email, p)
             new_message.participants.append(participant)
             participants.append((participant, contact))
 
         if not participants:
-            raise Exception("no participant found in raw message {}".format(
+            raise Exception("no participant found in raw email {}".format(
                 raw.raw_msg_id))
 
-        for a in message.attachments:
+        for a in email.attachments:
             attachment = Attachment()
             attachment.content_type = a.content_type
             attachment.file_name = a.filename
@@ -103,7 +106,7 @@ class UserMessageQualifier(BaseQualifier):
 
         # Compute PI !!
         conf = Configuration('global').configuration
-        extractor = InboundMailFeature(message, conf)
+        extractor = InboundMailFeature(email, conf)
         extractor.process(self.user, new_message, participants)
 
         # compute tags
@@ -112,7 +115,7 @@ class UserMessageQualifier(BaseQualifier):
             log.debug('Resolved tags {}'.format(new_message.tags))
 
         # lookup by external references
-        lookup_sequence = self.lookup_discussion_sequence(message, new_message)
+        lookup_sequence = self.lookup_discussion_sequence(email, new_message)
         lkp = self.lookup(lookup_sequence)
         log.debug('Lookup with sequence {} give {}'.
                   format(lookup_sequence, lkp))
@@ -120,7 +123,8 @@ class UserMessageQualifier(BaseQualifier):
         if lkp:
             new_message.discussion_id = lkp.discussion_id
         else:
-            discussion = Discussion.create_from_message(self.user, message)
+            discussion = Discussion.create_from_message(self.user, email,
+                                                        new_message.participants)
             log.debug('Created discussion {}'.format(discussion.discussion_id))
             new_message.discussion_id = discussion.discussion_id
             self.create_lookups(lookup_sequence, new_message)

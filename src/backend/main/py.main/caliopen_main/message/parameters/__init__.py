@@ -4,8 +4,7 @@ from .attachment import Attachment
 from .draft import Draft
 from .external_references import ExternalReferences
 from .message import NewMessage, NewInboundMessage, Message
-from .participant import Participant
 
 
 __all__ = ['Attachment', 'Draft', 'ExternalReferences',
-           'NewMessage', 'Message', 'Participant']
+           'NewMessage', 'Message']

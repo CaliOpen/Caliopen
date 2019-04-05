@@ -2,7 +2,6 @@
 """Caliopen parameters for message related classes."""
 from __future__ import absolute_import, print_function, unicode_literals
 
-import hashlib
 import logging
 
 from schematics.models import Model
@@ -11,10 +10,11 @@ from schematics.types import (StringType, DateTimeType,
 from schematics.types.compound import ListType, ModelType, DictType
 from schematics.transforms import blacklist
 
-from .participant import Participant
 from .attachment import Attachment
 from .external_references import ExternalReferences
 from caliopen_main.pi.parameters import PIParameter
+from caliopen_main.participant.parameters import Participant
+from caliopen_main.participant.core import hash_participants_ids
 import caliopen_storage.helpers.json as helpers
 
 RECIPIENT_TYPES = ['To', 'From', 'Cc', 'Bcc', 'Reply-To', 'Sender']

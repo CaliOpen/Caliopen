@@ -6,7 +6,7 @@ import logging
 
 from caliopen_storage.exception import NotFound
 from caliopen_main.contact.core import Contact
-from caliopen_main.message.parameters import Participant
+from caliopen_main.participant.parameters import Participant
 from caliopen_main.message.core import ParticipantLookup
 
 
@@ -14,7 +14,6 @@ log = logging.getLogger(__name__)
 
 
 class BaseQualifier(object):
-
     _lookups = {}
 
     def __init__(self, user, identity):
@@ -73,10 +72,6 @@ class BaseQualifier(object):
         c = Contact.lookup(self.user, participant.address)
         if c:
             p.contact_ids = [c.contact_id]
-            ParticipantLookup.get_or_create(self.user,
-                                            c.contact_id,
-                                            'contact',
-                                            p.participant_id)
         else:
             if p.address == self.identity.identifier:
                 p.contact_ids = [self.user.contact_id]

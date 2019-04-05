@@ -3,12 +3,14 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import uuid
+import logging
 from datetime import datetime
 
 from caliopen_storage.exception import NotFound
 from caliopen_main.common.core import BaseUserCore
 from ..store.participant import ParticipantLookup as ModelParticipantLookup
 
+log = logging.getLogger(__name__)
 
 class ParticipantLookup(BaseUserCore):
     """Manage participant lookup for discussion consistency."""
@@ -16,32 +18,32 @@ class ParticipantLookup(BaseUserCore):
     _model_class = ModelParticipantLookup
 
     @classmethod
-    def create(cls, user, identifier, type, part_id=None):
+    def create(cls, user, identifier, kind, part_id=None):
         """Create a new ``ParticipantLookup`` instance."""
         date = datetime.utcnow()
         if not part_id:
             part_id = uuid.uuid4()
         return super(ParticipantLookup, cls).create(user=user,
                                                     identifier=identifier,
-                                                    type=type,
+                                                    kind=kind,
                                                     participant_id=part_id,
                                                     date_insert=date)
 
     @classmethod
-    def get(cls, user, identifier, type):
+    def get(cls, user, identifier, kind):
         """Retrieve a participant."""
         try:
             model = cls._model_class.get(user_id=user.user_id,
-                                         identifier=identifier,
-                                         type=type)
+                                         identifier=str(identifier),
+                                         kind=kind)
             return cls(model)
         except NotFound:
             return None
 
     @classmethod
-    def get_or_create(cls, user, identifier, type, part_id=None):
+    def get_or_create(cls, user, identifier, kind, part_id=None):
         """Shortcut to get an existing ``ParticipantLookup`` or create it."""
-        obj = cls.get(user, identifier, type)
+        obj = cls.get(user, str(identifier), kind)
         if obj is None:
-            obj = cls.create(user, identifier, type, part_id)
+            obj = cls.create(user, str(identifier), kind, part_id)
         return obj

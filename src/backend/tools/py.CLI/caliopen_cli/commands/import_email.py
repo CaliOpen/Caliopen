@@ -10,6 +10,7 @@ import os
 import re
 from random import random
 import logging
+import uuid
 
 from email import message_from_string, message_from_file
 from mailbox import mbox, Maildir
@@ -22,12 +23,13 @@ log = logging.getLogger(__name__)
 def import_email(email, import_path, format, contact_probability,
                  **kwargs):
     """Import emails for an user."""
-    from caliopen_main.user.core import User, UserIdentity
+    from caliopen_main.user.core import User
     from caliopen_main.contact.core import Contact, ContactLookup
     from caliopen_main.message.parsers.mail import MailMessage
     from caliopen_main.contact.parameters import NewContact, NewEmail
     from caliopen_nats.delivery import UserMailDelivery
     from caliopen_main.message.core import RawMessage
+    from caliopen_main.participant.core import ParticipantLookup
     from caliopen_storage.config import Configuration
 
     max_size = int(Configuration("global").get("object_store.db_size_limit"))
@@ -92,11 +94,22 @@ def import_email(email, import_path, format, contact_probability,
                         e_mail = NewEmail()
                         e_mail.address = participant.address
                         contact_param.emails = [e_mail]
-                    Contact.create(user, contact_param)
-        log.info('No contact associated to raw {} '.format(raw.raw_msg_id))
+                    contact = Contact.create(user, contact_param)
+                    # create related participants for contact and its emails
+                    contact_participant_id = uuid.uuid4()
+                    ParticipantLookup.get_or_create(user, contact.contact_id,
+                                                    'contact',
+                                                    contact_participant_id)
+                    for email in contact.emails:
+                        ParticipantLookup.get_or_create(user, email.address,
+                                                        'email',
+                                                        contact_participant_id)
+        else:
+            log.info('No contact associated to raw {} '.format(raw.raw_msg_id))
 
         processor = UserMailDelivery(user,
-                        user.local_identities[0])  # assume one local identity
+                                     user.local_identities[
+                                         0])  # assume one local identity
         try:
             obj_message = processor.process_raw(raw.raw_msg_id)
         except Exception as exc:

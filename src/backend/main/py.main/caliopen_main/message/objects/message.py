@@ -23,9 +23,9 @@ from ..parameters.draft import Draft
 from ..core import RawMessage
 from .attachment import MessageAttachment
 from .external_references import ExternalReferences
-from .participant import Participant
+from caliopen_main.participant.objects.participant import Participant
 from schematics.types import UUIDType
-from caliopen_main.message.parameters.participant import \
+from caliopen_main.participant.parameters import \
     Participant as IndexedParticipant
 from caliopen_main.common import errors as err
 

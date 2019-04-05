@@ -6,7 +6,7 @@ import uuid
 from schematics.types import StringType
 from .message import NewInboundMessage
 from caliopen_main.user.objects.identity import UserIdentity
-from caliopen_main.message.parameters.participant import Participant
+from caliopen_main.participant.parameters import Participant
 from caliopen_main.message.parameters.external_references import \
     ExternalReferences
 from caliopen_main.discussion.store.discussion_index import \
@@ -75,7 +75,8 @@ class Draft(NewInboundMessage):
             raise PatchUnprocessable('Invalid user identities')
 
         user_identity = UserIdentity(user,
-                                     identity_id=str(self['user_identities'][0]))
+                                     identity_id=str(
+                                         self['user_identities'][0]))
         try:
             user_identity.get_db()
             user_identity.unmarshall_db()

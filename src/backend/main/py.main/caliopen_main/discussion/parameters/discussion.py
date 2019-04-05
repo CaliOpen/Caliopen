@@ -7,7 +7,7 @@ from schematics.types import (StringType, DateTimeType,
 from schematics.types.compound import ListType, ModelType
 from schematics.transforms import blacklist
 
-from caliopen_main.message.parameters.participant import Participant
+from caliopen_main.participant.parameters import Participant
 import caliopen_storage.helpers.json as helpers
 
 

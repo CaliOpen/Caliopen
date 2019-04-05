@@ -8,13 +8,15 @@ import datetime
 import pytz
 from caliopen_storage.exception import NotFound
 from caliopen_main.message.core import RawMessage, MessageExternalRefLookup
+from caliopen_main.message.store import \
+    MessageExternalRefLookup as ModelMessageExternalRefLookup
 from caliopen_main.message.objects.message import Message
-from caliopen_main.message.store.message import ModelMessageExternalRefLookup
 from caliopen_pi.qualifiers import UserMessageQualifier, UserDMQualifier
 
 log = logging.getLogger(__name__)
 
 DUPLICATE_MESSAGE_EXC = "message already imported for this user"
+
 
 class UserMessageDelivery(object):
 
@@ -33,7 +35,6 @@ class UserMessageDelivery(object):
         log.debug('Retrieved raw message {}'.format(raw_msg_id))
 
         message = self.qualifier.process_inbound(raw)
-
         external_refs = ModelMessageExternalRefLookup.filter(
             user_id=self.user.user_id,
             external_msg_id=message.external_msg_id)
