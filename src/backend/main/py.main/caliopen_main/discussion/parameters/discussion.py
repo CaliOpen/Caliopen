@@ -15,7 +15,7 @@ class Discussion(Model):
     """Existing discussion."""
 
     user_id = UUIDType()
-    discussion_id = UUIDType(required=True)
+    discussion_id = StringType(required=True) # = participants_hash
     date_insert = DateTimeType(serialized_format=helpers.RFC3339Milli,
                                tzd=u'utc')
     date_update = DateTimeType(serialized_format=helpers.RFC3339Milli,

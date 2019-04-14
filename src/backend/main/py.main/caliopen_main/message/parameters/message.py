@@ -14,7 +14,7 @@ from .attachment import Attachment
 from .external_references import ExternalReferences
 from caliopen_main.pi.parameters import PIParameter
 from caliopen_main.participant.parameters import Participant
-from caliopen_main.participant.core import hash_participants_ids
+from caliopen_main.participant.core import hash_participants_uri
 import caliopen_storage.helpers.json as helpers
 
 RECIPIENT_TYPES = ['To', 'From', 'Cc', 'Bcc', 'Reply-To', 'Sender']
@@ -31,7 +31,7 @@ class NewMessage(Model):
     attachments = ListType(ModelType(Attachment), default=lambda: [])
     date = DateTimeType(serialized_format=helpers.RFC3339Milli,
                         tzd=u'utc')
-    discussion_id = UUIDType()
+    discussion_id = StringType() # = participants uris' hash
     external_references = ModelType(ExternalReferences)
     importance_level = IntType()
     is_answered = BooleanType()
@@ -41,7 +41,6 @@ class NewMessage(Model):
     message_id = UUIDType()
     parent_id = UUIDType()
     participants = ListType(ModelType(Participant), default=lambda: [])
-    participants_hash = StringType()
     privacy_features = DictType(StringType(), default=lambda: {})
     pi = ModelType(PIParameter)
     raw_msg_id = UUIDType()
@@ -60,7 +59,7 @@ class NewMessage(Model):
 
     @property
     def hash_participants(self):
-        ids_hash = hash_participants_ids(self.participants)
+        ids_hash = hash_participants_uri(self.participants)
         return ids_hash['hash']
 
 

@@ -135,4 +135,4 @@ class ContactLookup(BaseModel):
     value = columns.Text(
         primary_key=True)  # address or 'identifier' in identity
     type = columns.Text(primary_key=True)  # email, IM, etc.
-    contact_ids = columns.List(columns.UUID())  # many contacts is allowed
+    contact_id = columns.UUID()

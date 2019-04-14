@@ -3,26 +3,22 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import logging
-import uuid
-import datetime
-import pytz
+import hashlib
 
 from caliopen_storage.exception import NotFound
-from caliopen_storage.parameters import ReturnCoreObject
 
 from caliopen_main.common.core import BaseUserCore
 from caliopen_main.common.helpers.strings import unicode_truncate
 
-from ..store.discussion import (DiscussionListLookup as ModelListLookup,
-                                DiscussionThreadLookup as ModelThreadLookup,
-                                DiscussionHashLookup as ModelHashLookup,
-                                DiscussionParticipantLookup as ModelParticipantLookup,
-                                Discussion as ModelDiscussion)
+from ..store.discussion_lookup import (DiscussionListLookup as ModelListLookup,
+                                       DiscussionThreadLookup as ModelThreadLookup)
+from caliopen_main.discussion.objects import Discussion as DiscussionObject
+from caliopen_main.participant.core import ParticipantLookup
+from caliopen_main.participant.core import HashLookup
 from ..store.discussion_index import DiscussionIndexManager as DIM
 
 from caliopen_main.discussion.parameters import Discussion as DiscussionParam
 from caliopen_main.participant.parameters import Participant
-from caliopen_main.participant.core import hash_participants_ids
 
 log = logging.getLogger(__name__)
 
@@ -54,15 +50,15 @@ class DiscussionThreadLookup(BaseUserCore):
 class DiscussionHashLookup(BaseUserCore):
     """Lookup discussion by participants' hash"""
 
-    _model_class = ModelHashLookup
-    _pkey_name = 'hashed'
+    _model_class = ParticipantLookup  #  TODO : changed
+    _pkey_name = 'source'
 
 
 class DiscussionParticipantLookup(BaseUserCore):
     """Lookup discussion by a participant_id"""
 
-    _model_class = ModelParticipantLookup
-    _pkey_name = "participant_id"
+    _model_class = ParticipantLookup  # TODO : changed
+    _pkey_name = "source"
 
 
 def build_discussion(core, index):
@@ -216,8 +212,3 @@ class Discussion(BaseUserCore):
             return None
         return cls.get(user,
                        lookup.discussion_id)  # TODO : not a get but lookup
-
-
-class ReturnDiscussion(ReturnCoreObject):
-    _core_class = Discussion
-    _return_class = DiscussionParam

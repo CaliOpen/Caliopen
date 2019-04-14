@@ -46,7 +46,7 @@ class Message(ObjectIndexable):
         'date_delete': datetime.datetime,
         'date_insert': datetime.datetime,
         'date_sort': datetime.datetime,
-        'discussion_id': UUID,
+        'discussion_id': types.StringType,
         'external_references': ExternalReferences,
         'importance_level': types.IntType,
         'is_answered': types.BooleanType,

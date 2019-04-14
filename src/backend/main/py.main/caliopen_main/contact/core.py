@@ -18,12 +18,13 @@ from caliopen_storage.exception import NotFound
 from caliopen_storage.core.mixin import MixinCoreRelation, MixinCoreNested
 from caliopen_main.pi.objects import PIModel
 from caliopen_main.common.core import BaseUserCore
+from caliopen_main.participant.core import ParticipantLookup
+from caliopen_main.participant.objects import Participant
 
 log = logging.getLogger(__name__)
 
 
 class ContactLookup(BaseUserCore):
-
     """Contact lookup core class."""
 
     _model_class = ModelContactLookup
@@ -69,7 +70,6 @@ class BaseContactSubCore(BaseCore):
 
 
 class Contact(BaseUserCore, MixinCoreRelation, MixinCoreNested):
-
     _model_class = ModelContact
     _pkey_name = 'contact_id'
     _index_class = IndexedContact
@@ -109,7 +109,10 @@ class Contact(BaseUserCore, MixinCoreRelation, MixinCoreNested):
         log.debug('Will create lookup for type {} and value {}'.
                   format(type, value))
         lookup = ContactLookup.create(self.user, value=value, type=type,
-                                      contact_ids=[self.contact_id])
+                                      contact_id=self.contact_id)
+        participant = Participant(address=value, protocol=type)
+        ParticipantLookup.update(self.user, self.contact_id, participant)
+
         return lookup
 
     def _create_lookups(self):
@@ -206,15 +209,17 @@ class Contact(BaseUserCore, MixinCoreRelation, MixinCoreNested):
 
     @classmethod
     def lookup(cls, user, value):
-        lookups = ContactLookup._model_class.filter(user_id=user.user_id,
+        lookup = ContactLookup._model_class.get(user_id=user.user_id,
                                                     value=value)
-        if lookups and lookups[0].contact_ids:
-            # XXX how to manage many contacts
+        if lookup and lookup.contact_id:
+            # as of 2019, april it is forbidden in Caliopen
+            # to add an external address to more than one contact
+            # as a mater of fact, lookup should always return one contact only
             try:
-                return cls.get(user, lookups[0].contact_ids[0])
+                return cls.get(user, lookup.contact_id)
             except NotFound:
                 log.warn('Inconsistent contact lookup with non existing '
-                         ' contact %r' % lookups[0].contact_ids)
+                         ' contact %r' % lookup.contact_id)
                 return None
         # XXX something else to do ?
         return None

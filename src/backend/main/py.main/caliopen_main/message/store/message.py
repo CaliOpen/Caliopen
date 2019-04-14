@@ -31,7 +31,7 @@ class Message(BaseModel, IndexedModelMixin):
     date_delete = columns.DateTime()
     date_insert = columns.DateTime()
     date_sort = columns.DateTime()
-    discussion_id = columns.UUID()
+    discussion_id = columns.Text()
     external_references = columns.UserDefinedType(ExternalReferences)
     importance_level = columns.Integer()
     is_answered = columns.Boolean()
@@ -40,7 +40,6 @@ class Message(BaseModel, IndexedModelMixin):
     is_received = columns.Boolean(default=False)
     parent_id = columns.UUID()
     participants = columns.List(columns.UserDefinedType(Participant))
-    participants_hash = columns.Text()
     privacy_features = columns.Map(columns.Text(), columns.Text())
     pi = columns.UserDefinedType(PIModel)
     raw_msg_id = columns.UUID()
@@ -48,6 +47,3 @@ class Message(BaseModel, IndexedModelMixin):
     tags = columns.List(columns.Text(), db_field="tagnames")
     protocol = columns.Text()
     user_identities = columns.List(columns.UUID)
-
-
-
