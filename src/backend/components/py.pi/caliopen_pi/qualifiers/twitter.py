@@ -11,7 +11,6 @@ from caliopen_main.discussion.core import (DiscussionThreadLookup,
                                            DiscussionHashLookup,
                                            DiscussionParticipantLookup)
 
-from caliopen_main.participant.core import hash_participants_ids
 from ..features import marshal_features
 from .base import BaseQualifier
 
@@ -64,13 +63,21 @@ class UserDMQualifier(BaseQualifier):
         new_message.external_references = tweet.external_references
 
         participants = []
+        participants_uris = set()
         for p in tweet.participants:
             participant, contact = self.get_participant(tweet, p)
             new_message.participants.append(participant)
-            participants.append(participant)
+            participants.append((participant, contact))
+            participants_uris.add(
+                participant.protocol + ":" + participant.address)
+
         if not participants:
             raise Exception("no participant found in raw tweet {}".format(
                 raw.raw_msg_id))
+
+        # set/get current discussion
+        disc = Discussion.get_or_create_from_uris(self.user, participants_uris)
+        new_message.discussion_id = disc.uris_hash  # embed immutable value only
 
         # Compute PI !!
         # TODO
@@ -81,22 +88,21 @@ class UserDMQualifier(BaseQualifier):
             log.debug('Resolved tags {}'.format(new_message.tags))
 
         # lookup by external references
-        lookup_sequence = self.lookup_discussion_sequence(new_message)
-        lkp = self.lookup(lookup_sequence)
-        log.debug('Lookup with sequence {} give {}'.
-                  format(lookup_sequence, lkp))
+        # lookup_sequence = self.lookup_discussion_sequence(new_message)
+        # lkp = self.lookup(lookup_sequence)
+        # log.debug('Lookup with sequence {} give {}'.
+        #           format(lookup_sequence, lkp))
+        #
+        # if lkp:
+        #     new_message.discussion_id = lkp.discussion_id
+        # else:
+        #     #TODO : remove discussion.create
+        #     discussion = Discussion.create_from_message(self.user, tweet,
+        #                                                 new_message.participants)
+        #     log.debug('Created discussion {}'.format(discussion.discussion_id))
+        #     new_message.discussion_id = discussion.discussion_id
+        #     self.create_lookups(lookup_sequence, new_message)
 
-        if lkp:
-            new_message.discussion_id = lkp.discussion_id
-        else:
-            discussion = Discussion.create_from_message(self.user, tweet,
-                                                        new_message.participants)
-            log.debug('Created discussion {}'.format(discussion.discussion_id))
-            new_message.discussion_id = discussion.discussion_id
-            self.create_lookups(lookup_sequence, new_message)
-
-        ids_hash = hash_participants_ids(new_message.participants)
-        new_message.participants_hash = ids_hash['hash']
         # Format features
         new_message.privacy_features = \
             marshal_features(new_message.privacy_features)
