@@ -29,7 +29,6 @@ def import_email(email, import_path, format, contact_probability,
     from caliopen_main.contact.parameters import NewContact, NewEmail
     from caliopen_nats.delivery import UserMailDelivery
     from caliopen_main.message.core import RawMessage
-    from caliopen_main.participant.core import ParticipantLookup
     from caliopen_storage.config import Configuration
 
     max_size = int(Configuration("global").get("object_store.db_size_limit"))
@@ -94,16 +93,7 @@ def import_email(email, import_path, format, contact_probability,
                         e_mail = NewEmail()
                         e_mail.address = participant.address
                         contact_param.emails = [e_mail]
-                    contact = Contact.create(user, contact_param)
-                    # create related participants for contact and its emails
-                    contact_participant_id = uuid.uuid4()
-                    ParticipantLookup.get_or_create(user, contact.contact_id,
-                                                    'contact',
-                                                    contact_participant_id)
-                    for email in contact.emails:
-                        ParticipantLookup.get_or_create(user, email.address,
-                                                        'email',
-                                                        contact_participant_id)
+                    Contact.create(user, contact_param)
         else:
             log.info('No contact associated to raw {} '.format(raw.raw_msg_id))
 
