@@ -30,8 +30,6 @@ from caliopen_main.common.core import BaseUserCore
 
 from caliopen_main.contact.core import Contact as CoreContact
 from caliopen_main.contact.parameters import NewEmail
-from caliopen_main.contact.objects.contact import Contact
-from caliopen_main.participant.core import ParticipantLookup
 from caliopen_main.pi.objects import PIModel
 from caliopen_main.user.helpers import validators
 from .setups import (setup_index, setup_system_tags,
@@ -306,17 +304,6 @@ class User(BaseCore):
             #  create default contact for user
             contact = CoreContact.create(core, new_user.contact)
 
-            # create related participants for contact and its emails
-            contact_participant_id = uuid.uuid4()
-            ParticipantLookup.get_or_create(core, contact.contact_id,
-                                            'contact',
-                                            contact_participant_id)
-            for email in contact.emails:
-                ParticipantLookup.get_or_create(core, email.address,
-                                                'email',
-                                                contact_participant_id)
-
-            # XXX should use core proxy, not directly model attribute
             core.model.contact_id = contact.contact_id
 
             log.info("contact id {} for new user {}".format(contact.contact_id,
