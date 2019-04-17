@@ -33,6 +33,9 @@ const updateDraft = ({ internalId, draft, message }) => async (dispatch) => {
 };
 
 const createOrUpdateDraft = ({ internalId, draft, message }) => (dispatch) => {
+  // XXX: look for participants with no associated contact and search for eventual contacts
+  // usefull for brand new draft with manual addresses set
+  // https://trello.com/c/uCA80Wln/209-an-api-to-find-a-contact-according-to-an-address
   if (message) {
     return dispatch(updateDraft({ internalId, draft, message }));
   }

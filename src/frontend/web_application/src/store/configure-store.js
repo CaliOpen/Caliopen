@@ -7,7 +7,6 @@ import contactMiddleware from './middlewares/contacts-middleware';
 import discussionMiddleware from './middlewares/discussions-middleware';
 import importanceLevelMiddleware from './middlewares/importance-level-middleware';
 import messageMiddleware from './middlewares/messages-middleware';
-import participantSuggestions from './middlewares/participant-suggestions-middleware';
 import promiseMiddleware from './middlewares/promise-middleware';
 import searchMiddleware from './middlewares/search-middleware';
 import thunkMiddleware from './middlewares/thunk-middleware';
@@ -20,7 +19,6 @@ const middlewares = [
   discussionMiddleware,
   importanceLevelMiddleware,
   messageMiddleware,
-  participantSuggestions,
   promiseMiddleware,
   searchMiddleware,
   thunkMiddleware,

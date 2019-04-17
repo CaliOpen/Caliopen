@@ -70,7 +70,7 @@ class RecipientList extends Component {
       setSearchTerms({ internalId, searchTerms: this.state.searchTerms });
 
       if (this.state.searchTerms.length >= 3) {
-        return this.search(this.state.searchTerms);
+        return this.search({ terms: this.state.searchTerms });
       }
 
       if (!this.state.searchTerms.length) {
