@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { Trans } from '@lingui/react';
 import { formatName } from '../../../../services/contact';
 import { RawButton } from '../../../../components';
 import './style.scss';
@@ -27,7 +28,12 @@ class ContactTitleField extends PureComponent {
         className={classnames(className, 's-contact-title-field')}
         onClick={onClick}
       >
-        {formatName({ contact, format })}
+        {
+        contact ?
+          formatName({ contact, format })
+          :
+          (<Trans id="contact.title-field.new-contact">New contact</Trans>)
+        }
       </RawButton>
     );
   }

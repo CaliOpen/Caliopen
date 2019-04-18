@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Hide "load" more button when all messages are displayed
 - Display decryption error message
 - Glitches on encrypted mails
+- Crash on contact creation
 
 ### Added
 
