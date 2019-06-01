@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Quick reply is now multilines.
 - Use message's excerpt in search results instead of garbled highlights
 - Move vcard file import route on apiv2 to use contact uniqueness and lookups principles
+- clean recovery_email structure when deleting an user account
 
 ### Fixed
 

@@ -71,7 +71,19 @@ func (cb *CassandraBackend) UserByRecoveryEmail(email string) (user *User, err e
 
 // DeleteUser sets the date_delete in the database
 func (cb *CassandraBackend) DeleteUser(user_id string) error {
-	return cb.SessionQuery(`UPDATE user SET date_delete = ? WHERE user_id = ?`, time.Now(), user_id).Exec()
+	err := cb.SessionQuery(`UPDATE user SET date_delete = ? WHERE user_id = ?`, time.Now(), user_id).Exec()
+	if err != nil {
+		return err
+	}
+	user, err := cb.RetrieveUser(user_id)
+	if err != nil {
+		return err
+	}
+	err = cb.SessionQuery(`DELETE from user_recovery_email WHERE recovery_email = ?`, user.RecoveryEmail).Exec()
+	if err != nil {
+		return err
+	}
+	return err
 }
 
 // GetShardForUser returns user's shard_id or empty string if error
