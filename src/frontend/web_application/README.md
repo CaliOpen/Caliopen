@@ -79,3 +79,14 @@ Each build target has its folder:
 The `index.html` is generated using webpack and a `template`.
 
 And each target has its `webpack` config.
+
+## Code quality
+
+In order to make sure the code is relatively valid and consistent, some linting and formating checks are done on CI.
+You can run `yarn lint` to check if valid before sending a pull request.
+To fix automatically your code, run those 2 commands (or use eslint and prettier in your dev env):
+
+```
+yarn lint:js --fix
+yarn prettier --write .
+```
