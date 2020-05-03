@@ -1,12 +1,24 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- re-enable Take a Tour.
+- update internal frontend dependencies.
+
+### Fixed
+
+- Openpgp form when only one identity.
+
 ## [0.23] 2019-07-19
 
-## Added
+### Added
 
 - Mastodon protocol
 - Tag email with imap flags when fetching external account
@@ -269,7 +281,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Timeline colors
 
-
 ## [0.13.2] 2018-12-11
 
 ### Added
@@ -345,7 +356,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - Share an index for many users, scalibility of elasticsearch does not work using old scheme
-
 
 ### Added
 
@@ -472,8 +482,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Device management first part: declare new device with an ecdsa key
 - Backend notification base principle with a related API
 
-
 ### Changed
+
 - Refactor vcard parsing logic to get more informations
 - Contacts API are now v2
 - Authenticate with a context and a device (known or a new one to declare)
@@ -582,7 +592,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - ancestors_id always an array, even empty
 - save a draft notify correctly
 
-
 ## [0.5.3] 2017-11-02
 
 ### Added
@@ -640,7 +649,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - API for full-text searches on messages & contacts
 - Compute importance level v0 for inbound messages
 
-
 ### Changed
 
 - Improve `PATCH` API
@@ -655,6 +663,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.3.0] 2017-08-31
 
 ### Added
+
 - A python package caliopen_pi to group all logic related to privacy index compute
 - Add route `GET /v2/contacts/{contact_id}/identities` to search & retrieve identities from a contact.
 - New scene components related to Settings layout
@@ -671,6 +680,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - API /v1/discussions returns messages ordered by last_messsage date_insert field.
 
 ### Changed
+
 - Rename <Account...> layout and related scenes to <User...>
 - Display notification if contact update failed
 - support TAB for adding a participant to a discussion
@@ -684,6 +694,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - ingress & egress JSON payload are double validated by our API instead of only relying on swagger.
 
 ### Fixed
+
 - Bad wording for message update failures
 - Blink when composing a new message
 - Inconsistent date format string across stack
@@ -692,12 +703,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Elasticsearch inconsistent mapping
 
 ## [0.2.1] - 2017-07-04
+
 ### Added
+
 - GET /identities/remotes/<identifier> route to fix issue #383
 - add a docker compose for staging platform
 
 ## [0.2.0] - 2017-07-02
+
 ### Added
+
 - Participants suggestion API
 - Basic user remote identities API
 - API for attachment management during draft composition
@@ -713,8 +728,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Basic import of a contact book
 - Add piwik, the analytics plateform for the alpha testing purpose
 
-
 ### Changed
+
 - Remove any cassandra counters and secondary index usage
 - Replace cassandra with scylladb in development stack
 - Upgrade elasticsearch from 2.4 version to 5.x ones
@@ -722,9 +737,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Infinite scroll on the lists
 - Display real contact book (previous was fake)
 
-
 ## [0.1.0] - 2017-05-07
+
 ### Added
+
 - Initial release
 - Basic inbound email processing using NATS as message queue broker
 - Contact API
