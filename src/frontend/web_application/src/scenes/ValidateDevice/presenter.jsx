@@ -96,7 +96,7 @@ class ValidateDevice extends Component {
               You can send the verification link from
               <1>the device list</1>.
               `}
-              componnents={[<br />, <Link to="/settings/devices" />]}
+              components={[<br />, <Link to="/settings/devices" />]}
             />
           </Section>
         );
