@@ -94,7 +94,8 @@ const base = {
 const config = webpackMerge(
   common,
   configs.configureEnv('server'),
-  configs.configureSrcBabelLoader({ isNode: true }),
+  // configs.configureSrcBabelLoader({ isNode: true }),
+  configs.configureSrcTsLoader({ isNode: true }),
   configs.configureAssets(),
   base
 );
