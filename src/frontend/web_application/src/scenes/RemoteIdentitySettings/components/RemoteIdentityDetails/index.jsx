@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Trans } from '@lingui/macro'; // eslint-disable-line import/no-extraneous-dependencies
+import { Trans } from '@lingui/react';
 import {
   Callout,
   CheckboxFieldGroup,
@@ -46,10 +46,13 @@ class RemoteIdentityDetails extends Component {
       <FormGrid className={classnames(className)}>
         <FormRow>
           <FormColumn bottomSpace>
-            <Trans id="remote_identity.last_connection">
-              Last connection:
-              <LastConnection lastCheck={remoteIdentity.last_check} />
-            </Trans>
+            <Trans
+              id="remote_identity.last_connection"
+              defaults="Last connection: <0/>"
+              components={[
+                <LastConnection lastCheck={remoteIdentity.last_check} />,
+              ]}
+            />
           </FormColumn>
         </FormRow>
         {remoteIdentity.infos.lastFetchError && (

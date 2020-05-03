@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Trans } from '@lingui/macro'; // eslint-disable-line import/no-extraneous-dependencies
+import { Trans } from '@lingui/react';
 import { Section, Callout, Icon, Title } from '../../../../components';
 import {
   PROVIDER_GMAIL,
@@ -73,14 +73,16 @@ class NewIdentity extends Component {
           </Trans>
         </p>
         <Callout color="info">
-          <Trans id="remote_identity.how_to">
-            <p>
-              External accounts are fetched every 15 minutes.
-              <br />
-              Currently there is no indicator to inform that the account is
-              correctly configured until first try is done.
-            </p>
-          </Trans>
+          <Trans
+            id="remote_identity.how_to"
+            components={[<p />, <br />]}
+            defaults={`
+            <0>
+              External accounts are fetched every 15 minutes. <1 />
+              Currently there is no indicator to inform that the account is correctly configured until first try is done.
+            </0>
+            `}
+          />
         </Callout>
         <Title hr>
           <Trans id="remote_identity.choose-provider.title">

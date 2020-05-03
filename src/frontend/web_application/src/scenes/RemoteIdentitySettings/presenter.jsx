@@ -43,15 +43,18 @@ class RemoteIdentitySettings extends Component {
 
   handleError = (error) => {
     // TODO : better error handling
-    console.log(error);
+    // console.log(error);
     let errorMessage;
     if (error.data && error.data.errors && error.data.errors.length > 0) {
       errorMessage = error.data.errors[0].message;
     } else {
-      errorMessage = 'new identity failed. See console for error';
+      errorMessage = this.props.i18n._(
+        'new identity failed. See console for error'
+      );
     }
-    const { i18n, notifyError } = this.props;
-    notifyError({ message: i18n._('', null, { defaults: errorMessage }) });
+    const { notifyError } = this.props;
+
+    notifyError({ message: errorMessage });
   };
 
   handleClear = () => {

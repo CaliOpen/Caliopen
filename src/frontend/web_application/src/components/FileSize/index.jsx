@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Trans } from '@lingui/macro'; // eslint-disable-line import/no-extraneous-dependencies
-import { NumberFormat } from '@lingui/react';
+import { Trans, NumberFormat } from '@lingui/react';
 
 class FileSize extends Component {
   static propTypes = {
@@ -11,7 +10,7 @@ class FileSize extends Component {
   renderB() {
     const { size } = this.props;
 
-    return <Trans id="file.size.B">{size} B</Trans>;
+    return <Trans id="file.size.B" defaults="{size} B" values={{ size }} />;
   }
 
   renderKB() {
@@ -19,9 +18,13 @@ class FileSize extends Component {
     const value = Math.round(size / 10) / 100;
 
     return (
-      <Trans id="file.size.kB">
-        <NumberFormat format={{ maximumFractionDigits: 1 }} value={value} /> kB
-      </Trans>
+      <Trans
+        id="file.size.kB"
+        defaults="<0/> kB"
+        components={[
+          <NumberFormat format={{ maximumFractionDigits: 1 }} value={value} />,
+        ]}
+      />
     );
   }
 
@@ -30,9 +33,13 @@ class FileSize extends Component {
     const value = Math.round(size / 10000) / 100;
 
     return (
-      <Trans id="file.size.mB">
-        <NumberFormat format={{ maximumFractionDigits: 1 }} value={value} /> mB
-      </Trans>
+      <Trans
+        id="file.size.mB"
+        defaults="<0/> mB"
+        components={[
+          <NumberFormat format={{ maximumFractionDigits: 1 }} value={value} />,
+        ]}
+      />
     );
   }
 
@@ -41,9 +48,13 @@ class FileSize extends Component {
     const value = Math.round(size / 10000000) / 100;
 
     return (
-      <Trans id="file.size.gB">
-        <NumberFormat format={{ maximumFractionDigits: 1 }} value={value} /> gB
-      </Trans>
+      <Trans
+        id="file.size.gB"
+        defaults="<0/> gB"
+        components={[
+          <NumberFormat format={{ maximumFractionDigits: 1 }} value={value} />,
+        ]}
+      />
     );
   }
 
@@ -52,9 +63,13 @@ class FileSize extends Component {
     const value = Math.round(size / 10000000000) / 100;
 
     return (
-      <Trans id="file.size.tB">
-        <NumberFormat format={{ maximumFractionDigits: 1 }} value={value} /> tB
-      </Trans>
+      <Trans
+        id="file.size.tB"
+        defaults="<0/> tB"
+        components={[
+          <NumberFormat format={{ maximumFractionDigits: 1 }} value={value} />,
+        ]}
+      />
     );
   }
 
