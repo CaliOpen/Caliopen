@@ -1,4 +1,3 @@
 dist/
-locale/_build/
-locale/**/*.js
+locale/
 node_modules/
