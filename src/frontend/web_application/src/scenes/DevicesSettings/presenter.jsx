@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Trans } from '@lingui/macro'; // eslint-disable-line import/no-extraneous-dependencies
+import { Trans } from '@lingui/react';
 import { PageTitle, Section } from '../../components';
 import DeviceSettings from './components/DeviceSettings';
 import './style.scss';
@@ -57,13 +57,17 @@ class DevicesSettings extends PureComponent {
                 </Trans>
               </div>
               <div>
-                <Trans id="devices.feedback.unverified_device_more">
+                <Trans
+                  id="devices.feedback.unverified_device_more"
+                  defaults={`
                   To respect privacy and security rules, your discussions
                   history will not fully appear according to Privacy settings
-                  <br />
+                  <0/>
                   Please verify this device and eventually set restrictions from
                   your trusted device.
-                </Trans>
+                `}
+                  components={[<br />]}
+                />
               </div>
             </Section>
           </div>

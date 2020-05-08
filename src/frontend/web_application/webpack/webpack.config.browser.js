@@ -25,8 +25,8 @@ const base = {
   },
   output: {
     path: path.join(__dirname, '..', 'dist/server/public'),
-    filename: '[name].[chunkhash].js',
-    chunkFilename: '[name].[chunkhash].js',
+    filename: isDev ? '[name].js' : '[name].[chunkhash].js',
+    chunkFilename: isDev ? '[name].js' : '[name].[chunkhash].js',
     publicPath: PUBLIC_PATH,
   },
 };
@@ -100,7 +100,8 @@ const configureDevServer = () => {
 
 const config = webpackMerge(
   common,
-  configs.configureSrcBabelLoader(),
+  configs.configureSrcTsLoader(),
+  // configs.configureSrcBabelLoader(),
   configs.configureStylesheet(),
   configs.configureAssets(),
   configs.configureVendorSplit(),

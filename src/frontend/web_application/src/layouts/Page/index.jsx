@@ -21,7 +21,7 @@ import InstallButton from './components/InstallButton';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import NotificationCenter from './components/NotificationCenter';
-// import TakeATour from './components/TakeATour';
+import TakeATour from './components/TakeATour';
 import PageContainer from '../PageContainer';
 import './style.scss';
 import './header.scss';
@@ -91,7 +91,9 @@ class Page extends Component {
                 >
                   <VerticalMenu>
                     {/* FIXME: unable to get the router outside of the App */}
-                    {/* <VerticalMenuItem><TakeATour /></VerticalMenuItem> */}
+                    <VerticalMenuItem>
+                      <TakeATour />
+                    </VerticalMenuItem>
                     <VerticalMenuItem>
                       <Link
                         button

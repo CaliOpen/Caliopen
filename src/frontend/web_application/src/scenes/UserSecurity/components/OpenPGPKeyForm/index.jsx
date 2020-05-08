@@ -177,7 +177,7 @@ class OpenPGPKeyForm extends Component {
               <Trans id="user.openpgp.action.switch-generate-key">
                 Generate key
               </Trans>
-            </Button>
+            </Button>{' '}
             <Button
               onClick={this.handleSwitchFormType}
               name={FORM_TYPE_RAW}
@@ -195,7 +195,7 @@ class OpenPGPKeyForm extends Component {
               <SelectFieldGroup
                 className="m-account-openpgp-form__field-group"
                 label={i18n._('user.openpgp.form.email.label', null, {
-                  defaults: 'Email',
+                  defaults: 'Email:',
                 })}
                 value={generateForm.email[0].email}
                 onChange={this.handleGenerateChanges}
@@ -206,8 +206,8 @@ class OpenPGPKeyForm extends Component {
             )}
             {emailOptions.length === 1 && (
               <p className="m-account-openpgp-form__field-group">
-                <Trans id="user.openpgp.form.email.label">Email</Trans>{' '}
-                {generateForm.email}
+                <Trans id="user.openpgp.form.email.label">Email:</Trans>{' '}
+                {generateForm.email[0].email}
               </p>
             )}
             <div className="m-account-openpgp-form__field-group">
@@ -240,7 +240,7 @@ class OpenPGPKeyForm extends Component {
               <Button type="submit" shape="plain">
                 <Spinner isLoading={isLoading} />{' '}
                 <Trans id="user.openpgp.action.create">Create</Trans>
-              </Button>
+              </Button>{' '}
               <Button onClick={this.handleCancelForm} shape="hollow">
                 <Trans id="general.action.cancel">Cancel</Trans>
               </Button>

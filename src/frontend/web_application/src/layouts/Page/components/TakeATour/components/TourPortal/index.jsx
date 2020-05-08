@@ -2,6 +2,7 @@
 import React from 'react';
 // extends https://github.com/elrumordelaluz/reactour/blob/master/src/TourPortal.js
 import TourPortalBase from 'reactour/dist/TourPortal';
+import { Trans } from '@lingui/react';
 import { Navigation, Dot, SvgMask, Controls } from 'reactour/dist/components';
 import cn from 'classnames';
 import Guide from '../Guide';
@@ -130,7 +131,9 @@ class TourPortal extends TourPortalBase {
             {showCloseButton && (
               <div className="m-tour-portal__close">
                 <Button onClick={onRequestClose} icon="remove">
-                  <span className="show-for-sr">{onRequestClose}</span>
+                  <span className="show-for-sr">
+                    <Trans id="take-a-tour.action.close">Close</Trans>
+                  </span>
                 </Button>
               </div>
             )}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Trans } from '@lingui/macro'; // eslint-disable-line import/no-extraneous-dependencies
+import { Trans } from '@lingui/react';
 import { Title } from '../../../../components';
 import Message from '../../../Discussion/components/Message';
 import { withUser } from '../../../../modules/user';
@@ -71,9 +71,11 @@ class DraftDiscussion extends Component {
     return (
       <div className={classnames(className)}>
         <Title hr>
-          <Trans id="discussion-draft.last-messages">
-            Last messages with {participants}
-          </Trans>
+          <Trans
+            id="discussion-draft.last-messages"
+            defaults="Last messages with {participants}"
+            values={{ participants }}
+          />
         </Title>
         {messages.map((message) => (
           <Message

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 jest.mock('@lingui/react', () => ({
   withI18n: () => (WrappedComponent) => (props) => (
@@ -13,17 +13,7 @@ jest.mock('@lingui/react', () => ({
       return id;
     }
 
-    return <div>{children}</div>;
+    return children;
   },
   NumberFormat: ({ value }) => value,
-}));
-
-jest.mock('@lingui/macro', () => ({
-  Trans: ({ id, children }) => {
-    if (!children) {
-      return id;
-    }
-
-    return <div>{children}</div>;
-  },
 }));

@@ -369,22 +369,22 @@ const messagesCollectionReducer = (
         ...state,
         isFetching: false,
         didInvalidate: false,
-        messages: [
-          ...new Set([
+        messages: Array.from(
+          new Set([
             ...((state.didInvalidate && []) || state.messages),
             ...action.payload.data.messages.map(
               (message) => message.message_id
             ),
-          ]),
-        ],
+          ])
+        ),
         total: action.payload.data.total,
         request: action.meta.previousAction.payload.request,
       };
     case ADD_TO_COLLECTION:
       return {
         ...state,
-        messages: [
-          ...new Set(
+        messages: Array.from(
+          new Set(
             addMessageToCollection(
               (type === 'timeline' &&
                 [TIMELINE_FILTER_ALL, TIMELINE_FILTER_DRAFT].some(
@@ -395,8 +395,8 @@ const messagesCollectionReducer = (
                 : undefined,
               state.messages
             )
-          ),
-        ],
+          )
+        ),
       };
     case REMOVE_FROM_COLLECTION:
       return {

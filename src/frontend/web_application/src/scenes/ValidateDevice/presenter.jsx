@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Trans } from '@lingui/macro'; // eslint-disable-line import/no-extraneous-dependencies
+import { Trans } from '@lingui/react';
 import { Spinner, Link, Section } from '../../components';
 import './style.scss';
 
@@ -74,10 +74,11 @@ class ValidateDevice extends Component {
       case STATUS_SUCCEED:
         return (
           <Section className="s-validate-device__feedback" borderContext="safe">
-            <Trans id="device.validation.suceed">
-              The device is now verified, you can continue to use{' '}
-              <Link to="/">Caliopen</Link>.
-            </Trans>
+            <Trans
+              id="device.validation.suceed"
+              defaults="The device is now verified, you can continue to use <0>Caliopen</0>"
+              components={[<Link to="/" />]}
+            />
           </Section>
         );
       case STATUS_FAILED:
@@ -86,13 +87,17 @@ class ValidateDevice extends Component {
             className="s-validate-device__feedback"
             borderContext="unsecure"
           >
-            <Trans id="device.validation.failed">
+            <Trans
+              id="device.validation.failed"
+              defaults={`
               The device cannot be verified, the validation link might not be
               valid anymore or may be the device has been revoked.
-              <br />
+              <0 />
               You can send the verification link from
-              <Link to="/settings/devices">the device list</Link>.
-            </Trans>
+              <1>the device list</1>.
+              `}
+              components={[<br />, <Link to="/settings/devices" />]}
+            />
           </Section>
         );
     }

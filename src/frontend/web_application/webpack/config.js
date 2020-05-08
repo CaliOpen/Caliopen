@@ -7,6 +7,49 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const clientOptions = require('../config/client.default.js');
 
+const isDev = process.env.NODE_ENV === 'development';
+
+const configureSrcTsLoader = ({ isNode } = { isNode: false }) => {
+  return {
+    module: {
+      rules: [
+        {
+          test: /(?<!\.worker)\.(j|t)sx?$/,
+          exclude: /node_modules/,
+          include: path.join(__dirname, '../src/'),
+          loader: 'ts-loader',
+        },
+        ...(isNode
+          ? [
+              {
+                test: /\.worker\.(t|j)s$/,
+                use: [{ loader: 'null-loader' }],
+              },
+            ]
+          : [
+              {
+                test: /\.worker\.(t|j)s$/,
+                exclude: /node_modules/,
+                use: [
+                  { loader: 'worker-loader' },
+                  {
+                    loader: 'ts-loader',
+                  },
+                  {
+                    loader: 'eslint-loader',
+                    options: {
+                      cache: true,
+                      failOnError: false,
+                    },
+                  },
+                ],
+              },
+            ]),
+      ],
+    },
+  };
+};
+
 const configureSrcBabelLoader = ({ isNode } = { isNode: false }) => {
   const presetEnvTarget = isNode ? { node: 'current' } : {};
 
@@ -93,7 +136,7 @@ const configureStylesheet = () => {
       }),
       new OptimizeCssAssetsPlugin({ canPrint: false }),
       new MiniCssExtractPlugin({
-        filename: 'client.[hash].css',
+        filename: isDev ? 'client.css' : 'client.[hash].css',
       }),
     ],
     module: {
@@ -295,6 +338,7 @@ const configureEnv = (buildTarget) => {
 };
 
 module.exports = {
+  configureSrcTsLoader,
   configureSrcBabelLoader,
   configureStylesheet,
   configureAssets,
