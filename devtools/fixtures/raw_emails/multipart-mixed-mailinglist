@@ -1,0 +1,125 @@
+Return-Path: <django-bounces@lists.afpy.org>
+Delivered-To: dev@caliopen.local
+Received: from spool.mail.caliopen.local (mspool2-d.mgt.caliopen.local [10.0.21.133])
+        by nmboxes9-d.mgt.caliopen.local (Postfix) with ESMTP id 9D4EE139871
+        for <dev@caliopen.local>; Mon,  1 Sep 2014 11:23:37 +0200 (CEST)
+Received: from mfilter31-d.caliopen.local (mfilter31-d.caliopen.local
+ [217.70.178.162]) by spool.mail.caliopen.local (Postfix) with ESMTP id
+ 994AD1783BB for <dev@caliopen.local>; Mon,  1 Sep 2014 11:23:37 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mfilter31-d.caliopen.local
+Received: from spool.mail.caliopen.local ([10.0.21.133]) by
+ mfilter31-d.caliopen.local (mfilter31-d.caliopen.local [10.0.15.180]) (amavisd-new,
+ port 10024) with ESMTP id lEfK94Tafwuj for <dev@caliopen.local>; Mon,  1 Sep
+ 2014 11:23:36 +0200 (CEST)
+Received: from afpy.org (afpy.org [88.191.125.34])
+        by spool.mail.caliopen.local (Postfix) with ESMTP id BA938178318
+        for <dev@caliopen.local>; Mon,  1 Sep 2014 11:23:28 +0200 (CEST)
+Received: by afpy.org (Postfix, from userid 38)
+        id 20C3B4406F8; Mon,  1 Sep 2014 11:23:25 +0200 (CEST)
+Received: from sd-22277.dedibox.fr (localhost [127.0.0.1])
+        by afpy.org (Postfix) with ESMTP id 0D63B44062E;
+        Mon,  1 Sep 2014 11:22:10 +0200 (CEST)
+X-Original-To: django@afpy.org
+Delivered-To: django@afpy.org
+Received: by afpy.org (Postfix, from userid 38)
+ id 6C8E1440618; Mon,  1 Sep 2014 11:22:07 +0200 (CEST)
+Received: from mail.gordontesos.com (212-83-143-26.rev.poneytelecom.eu
+ [212.83.143.26]) by afpy.org (Postfix) with ESMTP id C46BB4405CC
+ for <django@lists.afpy.org>; Mon,  1 Sep 2014 11:22:01 +0200 (CEST)
+Received: from localhost (34.12.65.86.rev.sfr.net [86.65.12.34])
+ by mail.gordontesos.com (Postfix) with ESMTPSA id 77BFF8279F1E9
+ for <django@lists.afpy.org>; Mon,  1 Sep 2014 11:22:19 +0200 (CEST)
+Date: Mon, 1 Sep 2014 11:21:42 +0200
+From: Damien Nicolas <damien+django@gordon.re>
+To: django@lists.afpy.org
+Message-ID: <20140901092142.GA5933@scootaloo.v2bi.net>
+References: <2568469.Lpznf0x0NT@kaos1>
+ <CAKEfE8EHb=SvyrUtmrq+V_cogtm+GhJVWy=WD_aDg02-E0O3mA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAKEfE8EHb=SvyrUtmrq+V_cogtm+GhJVWy=WD_aDg02-E0O3mA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [afpy/django] Utilisation de ForeignKey.to_field
+X-BeenThere: django@lists.afpy.org
+X-Mailman-Version: 2.1.15
+Precedence: list
+Reply-To: Liste francophone pour le framework web Django
+ <django@lists.afpy.org>
+List-Id: Liste francophone pour le framework web Django
+ <django.lists.afpy.org>
+List-Unsubscribe: <http://lists.afpy.org/mailman/options/django>,
+ <mailto:django-request@lists.afpy.org?subject=unsubscribe>
+List-Archive: <http://lists.afpy.org/pipermail/django/>
+List-Post: <mailto:django@lists.afpy.org>
+List-Help: <mailto:django-request@lists.afpy.org?subject=help>
+List-Subscribe: <http://lists.afpy.org/mailman/listinfo/django>,
+ <mailto:django-request@lists.afpy.org?subject=subscribe>
+Content-Type: multipart/mixed; boundary="===============8604724958523782091=="
+Errors-To: django-bounces@lists.afpy.org
+Sender: "django" <django-bounces@lists.afpy.org>
+X-Evolution-Source: 1485874172.1665.16@tao
+
+
+--===============8604724958523782091==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="ReaqsoxgOBHFXBhH"
+Content-Disposition: inline
+
+
+--ReaqsoxgOBHFXBhH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Sep 01, 2014 at 10:58:50AM +0200, F. D.V. wrote:
+> Salut,
+>=20
+> Je vois plusieurs choses bizarres dans ton code :
+>=20
+> Il y a 2 __str__ dans ta class Reglement.. le 2eme ne sera jamais ex=C3=
+=A9cut=C3=A9,
+> d'ailleurs je crois qu'il vaut mieux utiliser __unicode__ =C3=A0 la place=
+=2E...
+
+Tout d=C3=A9pend de la version de Python. En python3, les cha=C3=AEnes unic=
+ode =C3=A9tant des
+objets String, c=E2=80=99est bien __str__ qui doit =C3=AAtre utilis=C3=A9 p=
+our Django.
+
+--=20
+Damien
+
+--ReaqsoxgOBHFXBhH
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.21 (GNU/Linux)
+
+iQIcBAEBAgAGBQJUBDqmAAoJECO4F/GFk2XMDRIQAIJb0P+YaG3cBU/KLZUTkFqk
+5AQLK/vWvibq4MTKavNc/l+rnyMfskqLvJQ0QkrCpAQmGY2TB0XPOHarRlwfp5t6
+xJ70jskKzAVI/ARMq32km1nfooVql3PjnkMQmGCW5uNgvVY+T5ZtJ8qi6/wet8xt
+8ObwZHX+e1BFXtm3hHcbdTqCbNoPYpnMiMayp/IaxmODb6pyKsfjZgTJu1bAzugK
+GWH6GWrxGvoZRXfTV5iJwdjt+xjHLIJY2dtFRzmQkAuYYbvBuagICFI8ShnKQ+9h
+rBKVqbtakUrMYt2FaUaU4OjNv8Ai/gYTzNCO9DHHC3+ZRxfuWwXNcg9ceHrRoCS4
+C7I0feqZ4Q7wDJZtFv3lI4Av0h+cLTp/EM5FaMEjKdvW20ii17dj/Tgr46ZxS7d2
+t3YGS9uV3ZPlCoCDFfE97Gwa6oqj6AlHo+FnK1yjSvz5n+2Scs32vgS/5HaH1hyA
+m91lJZGgJ0Hzh7CGyLaez5DIUnC98EV5VIXeCIDP6lheFkMGyz1S4SjNFBVOD2m6
+5AOnqjJ+Xq1uUMHULXLZI2eHMki54XTdh3CBUiAxvESTIFGUtnORcgOnDu8aAAYp
+XmL764jdYulSbGGnrxrL1NDgpTWBtrYMyd9UiN+ncEt7NbUZ5Xo0Hgv7a0rNyXk7
+3Szj1r8yUHzP4+odxO6D
+=VaPo
+-----END PGP SIGNATURE-----
+
+--ReaqsoxgOBHFXBhH--
+
+--===============8604724958523782091==
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+_______________________________________________
+django mailing list
+django@lists.afpy.org
+http://lists.afpy.org/mailman/listinfo/django
+--===============8604724958523782091==--

@@ -1,0 +1,254 @@
+Return-Path: <ops@caliopen.org>
+Delivered-To: dev@caliopen.local
+Received: from spool.mail.caliopen.app (spool2.mail.caliopen.app
+ [217.70.178.211]) by nmboxes41.sd4.0x35.net (Postfix) with ESMTP id
+ DC780201E3 for <dev@caliopen.local>; Fri, 31 May 2019 13:02:39 +0000 (UTC)
+Received: from relay6-d.mail.caliopen.app (relay6-d.mail.caliopen.app
+ [217.70.183.198]) by spool.mail.caliopen.app (Postfix) with ESMTPS id
+ B8FFD740084 for <alert@caliopen.org>; Fri, 31 May 2019 13:02:38 +0000 (UTC)
+X-Originating-IP: 155.133.129.44
+Received: from localhost (xvm-129-44.dc3.ghst.net [155.133.129.44])
+        (Authenticated sender: ops@caliopen.org)
+        by relay6-d.mail.caliopen.app (Postfix) with ESMTPSA id 75B94C0008
+        for <alert@caliopen.org>; Fri, 31 May 2019 13:02:38 +0000 (UTC)
+Subject: [FIRING:2] FilesystemFull (192.168.1.70:9100 external nodes
+ prom-monitor / critical)
+To: dev@calipoen.local
+From: ops@caliopen.org
+Date: Fri, 31 May 2019 13:02:38 +0000
+Content-Type: multipart/alternative;  boundary=7871dbfcb241649dc38f33b7a9bab21ad134a8392b7d5306aedb2661735a
+MIME-Version: 1.0
+X-GND-Status: LEGIT
+X-Evolution-Source: 1485874172.1665.16@tao
+Message-ID: <01374e98c126e2611de30f5506827e6c279f514c.camel@caliopen.org>
+
+
+--7871dbfcb241649dc38f33b7a9bab21ad134a8392b7d5306aedb2661735a
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns=3D"http://www.w3.org/199=
+9/xhtml" style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, sans-ser=
+if; box-sizing: border-box; font-size: 14px; margin: 0;">
+<head style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;=
+ box-sizing: border-box; font-size: 14px; margin: 0;">
+<meta name=3D"viewport" content=3D"width=3Ddevice-width" style=3D"font-fami=
+ly: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box;=
+ font-size: 14px; margin: 0;" />
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8" st=
+yle=3D"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-siz=
+ing: border-box; font-size: 14px; margin: 0;" />
+<title style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif=
+; box-sizing: border-box; font-size: 14px; margin: 0;">[FIRING:2] Filesyste=
+mFull (192.168.1.70:9100 external nodes prom-monitor / critical)</title>
+
+</head>
+
+<body itemscope=3D"" itemtype=3D"http://schema.org/EmailMessage" style=3D"f=
+ont-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: bor=
+der-box; font-size: 14px; -webkit-font-smoothing: antialiased; -webkit-text=
+-size-adjust: none; height: 100%; line-height: 1.6em; width: 100% !importan=
+t; background-color: #f6f6f6; margin: 0; padding: 0;" bgcolor=3D"#f6f6f6">
+
+<table style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif=
+; box-sizing: border-box; font-size: 14px; width: 100%; background-color: #=
+f6f6f6; margin: 0;" bgcolor=3D"#f6f6f6">
+  <tr style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;=
+ box-sizing: border-box; font-size: 14px; margin: 0;">
+    <td style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, sans-seri=
+f; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0;=
+" valign=3D"top"></td>
+    <td width=3D"600" style=3D"font-family: 'Helvetica Neue', Helvetica, Ar=
+ial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: t=
+op; display: block !important; max-width: 600px !important; clear: both !im=
+portant; width: 100% !important; margin: 0 auto; padding: 0;" valign=3D"top=
+">
+      <div style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, sans-s=
+erif; box-sizing: border-box; font-size: 14px; max-width: 600px; display: b=
+lock; margin: 0 auto; padding: 0;">
+        <table width=3D"100%" cellpadding=3D"0" cellspacing=3D"0" style=3D"=
+font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: bo=
+rder-box; font-size: 14px; border-radius: 3px; background-color: #fff; marg=
+in: 0; border: 1px solid #e9e9e9;" bgcolor=3D"#fff">
+          <tr style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, san=
+s-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+            <td style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, s=
+ans-serif; box-sizing: border-box; font-size: 16px; vertical-align: top; co=
+lor: #fff; font-weight: 500; text-align: center; border-radius: 3px 3px 0 0=
+; background-color: #E6522C; margin: 0; padding: 20px;" align=3D"center" bg=
+color=3D"#E6522C" valign=3D"top">
+              2 alerts for=20
+                alertname=3DFilesystemFull
+             =20
+            </td>
+          </tr>
+          <tr style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, san=
+s-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+            <td style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, s=
+ans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; ma=
+rgin: 0; padding: 10px;" valign=3D"top">
+              <table width=3D"100%" cellpadding=3D"0" cellspacing=3D"0" sty=
+le=3D"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizi=
+ng: border-box; font-size: 14px; margin: 0;">
+                <tr style=3D"font-family: 'Helvetica Neue', Helvetica, Aria=
+l, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                  <td style=3D"font-family: 'Helvetica Neue', Helvetica, Ar=
+ial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: t=
+op; margin: 0; padding: 0 0 20px;" valign=3D"top">
+                    <a href=3D"http://alertmanager-76ccccb5f4-jtzdl:9093/#/=
+alerts?receiver=3Dteam-ops" style=3D"font-family: 'Helvetica Neue', Helveti=
+ca, Arial, sans-serif; box-sizing: border-box; font-size: 14px; color: #FFF=
+; text-decoration: none; line-height: 2em; font-weight: bold; text-align: c=
+enter; cursor: pointer; display: inline-block; border-radius: 5px; text-tra=
+nsform: capitalize; background-color: #348eda; margin: 0; border-color: #34=
+8eda; border-style: solid; border-width: 10px 20px;">View in AlertManager</=
+a>
+                  </td>
+                </tr>
+               =20
+                <tr style=3D"font-family: 'Helvetica Neue', Helvetica, Aria=
+l, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                  <td style=3D"font-family: 'Helvetica Neue', Helvetica, Ar=
+ial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: t=
+op; margin: 0; padding: 0 0 20px;" valign=3D"top">
+                    <strong style=3D"font-family: 'Helvetica Neue', Helveti=
+ca, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"=
+>[2] Firing</strong>
+                  </td>
+                </tr>
+               =20
+               =20
+                <tr style=3D"font-family: 'Helvetica Neue', Helvetica, Aria=
+l, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                  <td style=3D"font-family: 'Helvetica Neue', Helvetica, Ar=
+ial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: t=
+op; margin: 0; padding: 0 0 20px;" valign=3D"top">
+                    <strong style=3D"font-family: 'Helvetica Neue', Helveti=
+ca, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"=
+>Labels</strong><br style=3D"font-family: 'Helvetica Neue', Helvetica, Aria=
+l, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" />
+                    alertname =3D FilesystemFull<br style=3D"font-family: '=
+Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font=
+-size: 14px; margin: 0;" />device =3D /dev/xvda1<br style=3D"font-family: '=
+Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font=
+-size: 14px; margin: 0;" />fstype =3D ext4<br style=3D"font-family: 'Helvet=
+ica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size:=
+ 14px; margin: 0;" />instance =3D 192.168.1.70:9100<br style=3D"font-family=
+: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; f=
+ont-size: 14px; margin: 0;" />job =3D external nodes<br style=3D"font-famil=
+y: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; =
+font-size: 14px; margin: 0;" />monitor =3D prom-monitor<br style=3D"font-fa=
+mily: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-bo=
+x; font-size: 14px; margin: 0;" />mountpoint =3D /<br style=3D"font-family:=
+ 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; fo=
+nt-size: 14px; margin: 0;" />severity =3D critical<br style=3D"font-family:=
+ 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; fo=
+nt-size: 14px; margin: 0;" />
+                    <strong style=3D"font-family: 'Helvetica Neue', Helveti=
+ca, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"=
+>Annotations</strong><br style=3D"font-family: 'Helvetica Neue', Helvetica,=
+ Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" />
+                    description =3D 192.168.1.70:9100: free space less than=
+ 30%<br style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, sans-seri=
+f; box-sizing: border-box; font-size: 14px; margin: 0;" />summary =3D Files=
+ystem 192.168.1.70:9100 almost full<br style=3D"font-family: 'Helvetica Neu=
+e', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; =
+margin: 0;" />
+                    <a href=3D"http://prometheus-567b9b5f65-j48mm:9090/grap=
+h?g0.expr=3Dnode_filesystem_free&#43;%2F&#43;node_filesystem_size&#43;%3C&#=
+43;0.3&amp;g0.tab=3D1" style=3D"font-family: 'Helvetica Neue', Helvetica, A=
+rial, sans-serif; box-sizing: border-box; font-size: 14px; color: #348eda; =
+text-decoration: underline; margin: 0;">Source</a><br style=3D"font-family:=
+ 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; fo=
+nt-size: 14px; margin: 0;" />
+                  </td>
+                </tr>
+               =20
+                <tr style=3D"font-family: 'Helvetica Neue', Helvetica, Aria=
+l, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                  <td style=3D"font-family: 'Helvetica Neue', Helvetica, Ar=
+ial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: t=
+op; margin: 0; padding: 0 0 20px;" valign=3D"top">
+                    <strong style=3D"font-family: 'Helvetica Neue', Helveti=
+ca, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"=
+>Labels</strong><br style=3D"font-family: 'Helvetica Neue', Helvetica, Aria=
+l, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" />
+                    alertname =3D FilesystemFull<br style=3D"font-family: '=
+Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font=
+-size: 14px; margin: 0;" />device =3D rootfs<br style=3D"font-family: 'Helv=
+etica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-siz=
+e: 14px; margin: 0;" />fstype =3D rootfs<br style=3D"font-family: 'Helvetic=
+a Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 1=
+4px; margin: 0;" />instance =3D 192.168.1.70:9100<br style=3D"font-family: =
+'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; fon=
+t-size: 14px; margin: 0;" />job =3D external nodes<br style=3D"font-family:=
+ 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; fo=
+nt-size: 14px; margin: 0;" />monitor =3D prom-monitor<br style=3D"font-fami=
+ly: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box;=
+ font-size: 14px; margin: 0;" />mountpoint =3D /<br style=3D"font-family: '=
+Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font=
+-size: 14px; margin: 0;" />severity =3D critical<br style=3D"font-family: '=
+Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font=
+-size: 14px; margin: 0;" />
+                    <strong style=3D"font-family: 'Helvetica Neue', Helveti=
+ca, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"=
+>Annotations</strong><br style=3D"font-family: 'Helvetica Neue', Helvetica,=
+ Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" />
+                    description =3D 192.168.1.70:9100: free space less than=
+ 30%<br style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, sans-seri=
+f; box-sizing: border-box; font-size: 14px; margin: 0;" />summary =3D Files=
+ystem 192.168.1.70:9100 almost full<br style=3D"font-family: 'Helvetica Neu=
+e', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; =
+margin: 0;" />
+                    <a href=3D"http://prometheus-567b9b5f65-j48mm:9090/grap=
+h?g0.expr=3Dnode_filesystem_free&#43;%2F&#43;node_filesystem_size&#43;%3C&#=
+43;0.3&amp;g0.tab=3D1" style=3D"font-family: 'Helvetica Neue', Helvetica, A=
+rial, sans-serif; box-sizing: border-box; font-size: 14px; color: #348eda; =
+text-decoration: underline; margin: 0;">Source</a><br style=3D"font-family:=
+ 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; fo=
+nt-size: 14px; margin: 0;" />
+                  </td>
+                </tr>
+               =20
+
+               =20
+               =20
+              </table>
+            </td>
+          </tr>
+        </table>
+
+        <div style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, sans=
+-serif; box-sizing: border-box; font-size: 14px; width: 100%; clear: both; =
+color: #999; margin: 0; padding: 20px;">
+          <table width=3D"100%" style=3D"font-family: 'Helvetica Neue', Hel=
+vetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin:=
+ 0;">
+            <tr style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, s=
+ans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+              <td style=3D"font-family: 'Helvetica Neue', Helvetica, Arial,=
+ sans-serif; box-sizing: border-box; font-size: 12px; vertical-align: top; =
+text-align: center; color: #999; margin: 0; padding: 0 0 20px;" align=3D"ce=
+nter" valign=3D"top"><a href=3D"http://alertmanager-76ccccb5f4-jtzdl:9093" =
+style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-s=
+izing: border-box; font-size: 12px; color: #999; text-decoration: underline=
+; margin: 0;">Sent by AlertManager</a></td>
+            </tr>
+          </table>
+        </div></div>
+    </td>
+    <td style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, sans-seri=
+f; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0;=
+" valign=3D"top"></td>
+  </tr>
+</table>
+
+</body>
+</html>
+
+
+--7871dbfcb241649dc38f33b7a9bab21ad134a8392b7d5306aedb2661735a--

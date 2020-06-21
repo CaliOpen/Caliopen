@@ -36,6 +36,39 @@ EXCLUDED_EXT_FLAGS = ['\Seen', 'nonjunk', '$notjunk', 'notjunk', '$mdnsent',
                       '$forwarded', '$sent', '\Recent', '\All', '\Archive',
                       '\Drafts', '\Junk', '\Sent', '\Trash']
 
+PGP_MESSAGE_HEADER = '-----BEGIN PGP MESSAGE-----'
+
+
+def is_inline_part(part):
+    """Return true if part is inline, false otherwise."""
+    sub_type = part.get_content_subtype()
+    if sub_type in ['html', 'text', 'plain']:
+        return True
+    content_disposition = part.get("Content-Disposition")
+    if content_disposition:
+        if ';' in content_disposition:
+            if content_disposition.lower().startswith('attachment'):
+                return False
+    # XXX : missing strange situation with multipart related and inline
+    """
+    &&
+        // If multipart/related, only the first part can be inline
+        // If a text part with a filename, and not the first item
+        // in the multipart, assume it is an attachment
+        ( i === 0 ||
+          ( multipartType != "related" &&
+            ( isInlineMediaType( part.type ) || !part.name ) ) );
+    """
+    return is_inline_media(part)
+
+
+def is_inline_media(part):
+    """Return true if the media can be seen inline, false otherwise."""
+    maintype = part.get_content_maintype()
+    if maintype in ['image', 'audio', 'video']:
+        return True
+    return False
+
 
 class MailAttachment(object):
     """Mail part structure."""
@@ -51,12 +84,7 @@ class MailAttachment(object):
                 self.filename = self.filename.decode('utf-8')
             except UnicodeError:
                 log.warn('Invalid filename encoding')
-        content_disposition = part.get("Content-Disposition")
-        if content_disposition:
-            dispositions = content_disposition.strip().split(";")
-            self.is_inline = bool(dispositions[0].lower() == "inline")
-        else:
-            self.is_inline = True
+        self.is_inline = is_inline_part(part)
         data = part.get_payload()
         self.can_index = False
         if any(x in part.get_content_type() for x in TEXT_CONTENT_TYPE):
@@ -67,8 +95,9 @@ class MailAttachment(object):
                                 (charsets, part.get_payload()))
             self.charset = charsets[0]
             if 'Content-Transfer-Encoding' in part.keys():
-                if part.get('Content-Transfer-Encoding') == 'base64':
-                    data = base64.b64decode(data)
+                # https://tools.ietf.org/html/rfc2045#section-6.1
+                encoding = part['Content-Transfer-Encoding']
+                data = self._decode_data(data, encoding)
             if self.charset:
                 data = data.decode(self.charset, 'replace'). \
                     encode('utf-8')
@@ -80,33 +109,11 @@ class MailAttachment(object):
         self.data = data
         self.size = len(data) if data else 0
 
-    @classmethod
-    def is_attachment(cls, part):
-        """Check if a part conform to Caliopen's attachment definition.
-
-        A part is an "attachment" if it verifies ANY of this conditions :
-        - it has a Content-Disposition header with param "attachment"
-        - the main part of the Content-Type header
-                                        is within "attachment_types" list below
-        - the part is not a PGP/Mime encryption envelope
-
-        see https://www.iana.org/assignments/media-types/media-types.xhtml
-
-        :param part: an email/message's part as return by the walk() func.
-        :return: true or false
-        """
-        content_disposition = part.get("Content-Disposition")
-        if content_disposition:
-            dispositions = content_disposition.strip().split(";")
-            if bool(dispositions[0].lower() == "attachment") or \
-                    bool(dispositions[0].lower() == "inline"):
-                return True
-
-        attachment_types = (
-            "application", "image", "video", "audio", "message", "font")
-        if part.get_content_maintype() in attachment_types:
-            return True
-        return False
+    def _decode_data(self, data, encoding):
+        if encoding.lower() == 'base64':
+            return base64.b64decode(data)
+        log.warn('Unhandled encoding {}'.format(encoding))
+        return data
 
 
 class MailParticipant(object):
@@ -134,14 +141,14 @@ class MailMessage(object):
 
     recipient_headers = ['From', 'To', 'Cc', 'Bcc']
     message_protocol = 'email'
-    warnings = []
-    body_html = ""
-    body_plain = ""
 
     def __init__(self, raw_data):
         """Parse an RFC2822,5322 mail message."""
         self.raw = raw_data
         self._extra_parameters = {}
+        self.body_plain = ''
+        self.body_html = ''
+        self._attachments = []
         try:
             self.mail = Message(raw_data)
         except Exception as exc:
@@ -150,63 +157,139 @@ class MailMessage(object):
         if self.mail.defects:
             # XXX what to do ?
             log.warn('Defects on parsed mail %r' % self.mail.defects)
-            self.warning = self.mail.defects
-        self.get_bodies()
-
-    def get_bodies(self):
-        """Extract body alternatives, if any."""
-        body_html = ""
-        body_plain = ""
-
-        if self.mail.get("Content-Type", None):
-            if self.mail.is_multipart():
-                if self.mail.get_content_subtype() == 'encrypted':
-                    parts = self.mail.get_payload()
-                    if len(parts) == 2:
-                        self.body_plain = parts[1].get_payload()
-                        return
-                    else:
-                        log.warn('Encrypted message with invalid parts count')
-                for top_level_part in self.mail.get_payload():
-                    if top_level_part.get_content_maintype() == "multipart":
-                        for alternative in top_level_part.get_payload():
-                            charset = alternative.get_param("charset")
-                            if isinstance(charset, tuple):
-                                charset = unicode(charset[2],
-                                                  charset[0] or "us-ascii")
-                            if alternative.get_content_type() == "text/plain":
-                                body_plain = alternative.get_payload(
-                                    decode=True)
-                                self.body_plain = to_utf8(body_plain, charset)
-                            elif alternative.get_content_type() == "text/html":
-                                body_html = alternative. \
-                                    get_payload(decode=True)
-                                self.body_html = to_utf8(body_html, charset)
-                        break
-                    else:
-                        charset = top_level_part.get_param("charset")
-                        if isinstance(charset, tuple):
-                            charset = unicode(charset[2],
-                                              charset[0] or "us-ascii")
-                        if top_level_part.get_content_type() == "text/plain":
-                            body_plain = top_level_part. \
-                                get_payload(decode=True)
-                            self.body_plain = to_utf8(body_plain, charset)
-                        elif top_level_part.get_content_type() == "text/html":
-                            body_html = top_level_part.get_payload(decode=True)
-                            self.body_html = to_utf8(body_html, charset)
-            else:
-                charset = self.mail.get_param("charset")
-                if isinstance(charset, tuple):
-                    charset = unicode(charset[2], charset[0] or "us-ascii")
-                if self.mail.get_content_type() == "text/html":
-                    body_html = self.mail.get_payload(decode=True)
-                    self.body_html = to_utf8(body_html, charset)
-                else:
-                    body_plain = self.mail.get_payload(decode=True)
-                    self.body_plain = to_utf8(body_plain, charset)
+            self.warnings = self.mail.defects
         else:
-            self.body_plain = self.mail.get_payload(decode=True)
+            self.warnings = []
+        self._parse()
+        self._detect_pgp_inline()
+
+    def _detect_pgp_inline(self):
+        """PGP Inline is not an RFC, we have to detect header in body_plain."""
+        if 'pgp' in self._extra_parameters.get('encrypted', ''):
+            # Not inline, detected on mime structure
+            return
+        try:
+            body = self.body_plain.decode('utf-8')
+            if body.startswith(PGP_MESSAGE_HEADER):
+                self._extra_parameters.update({'encrypted': 'pgp-inline'})
+        except UnicodeDecodeError:
+            log.warn('Invalid body_plain encoding for message')
+            pass
+
+    def _encode_part(self, part):
+        """Encode a part to utf-8."""
+        charsets = part.get_charsets()
+        charset = charsets[0] if charsets else None
+        return to_utf8(part.get_payload(), charset)
+
+    def _parse(self):
+        """Main function to build mail representation."""
+        attachments = []
+        html_bodies = []
+        text_bodies = []
+        main_type = self.mail.get_content_maintype()
+        sub_type = self.mail.get_content_subtype()
+        multipart_type = sub_type if main_type == 'multipart' else None
+        in_alternative = True if sub_type == 'alternative' else False
+
+        parts = self.mail.get_payload()
+        if not isinstance(parts, list):
+            # plain mail
+            content = self._encode_part(self.mail)
+            if sub_type == 'html':
+                self.body_html = content
+            elif sub_type == 'plain':
+                self.body_plain = content
+            else:
+                attachments.append(self.mail)
+        else:
+            self._parse_structure(parts, multipart_type, in_alternative,
+                                  attachments, html_bodies, text_bodies)
+            self.body_html = '\n'.join([self._encode_part(x)
+                                        for x in html_bodies])
+            self.body_plain = '\n'.join([self._encode_part(x)
+                                         for x in text_bodies])
+        self._attachments = attachments
+
+    def _parse_structure(self, parts, multipart_type, in_alternative,
+                         attachments, html_bodies, text_bodies):
+        """
+        Parse a mail part structure.
+
+        Inspired from: https://jmap.io/spec-mail.html#body-parts
+        """
+        text_length = sum(len(x) for x in text_bodies) if text_bodies else -1
+        html_length = sum(len(x) for x in html_bodies) if html_bodies else -1
+        if multipart_type == 'encrypted':
+            # rfc1847
+            proto = self.mail.get_param('protocol')
+            if proto:
+                self._extra_parameters.update({'encrypted': proto.lower()})
+
+            content = [x for x in parts
+                       if x.get_content_subtype() == 'octet-stream']
+            if content:
+                text_bodies.append(content[0])
+                # Add also as an attachment
+                attachments.append(content[0])
+            else:
+                log.warn('No encrypted data found')
+            # Remove the 2 related encrypted part from list
+            encaps = [x for x in parts
+                      if x.get_content_type() == proto]
+            parts.pop(parts.index(encaps[0]))
+            parts.pop(parts.index(content[0]))
+        for part in parts:
+            is_multipart = part.is_multipart()
+            is_inline = is_inline_part(part)
+            sub_type = part.get_content_subtype()
+            if is_multipart:
+                alternative = in_alternative or sub_type == 'alternative'
+                self._parse_structure(part.get_payload(),
+                                      sub_type,
+                                      alternative,
+                                      attachments,
+                                      html_bodies,
+                                      text_bodies)
+            else:
+                if is_inline:
+                    if multipart_type == 'alternative':
+                        if sub_type == 'html':
+                            html_bodies.append(part)
+                        elif sub_type == 'plain':
+                            text_bodies.append(part)
+                        else:
+                            attachments.append(part)
+                    else:
+                        if in_alternative:
+                            if sub_type == 'plain':
+                                html_bodies = []
+                            if sub_type == 'html':
+                                text_bodies = []
+
+                        if sub_type == 'html':
+                            html_bodies.append(part)
+                        elif sub_type == 'plain':
+                            text_bodies.append(part)
+                        else:
+                            attachments.append(part)
+                    if not (text_bodies or html_bodies) and \
+                       is_inline_part(part):
+                        attachments.append(part)
+                else:
+                    attachments.append(part)
+
+        if multipart_type == 'alternative' and html_bodies and text_bodies:
+            if text_length == sum(len(x) for x in text_bodies) and \
+               html_length != sum(len(x) for x in html_bodies):
+                log.warn('Not sure about this html processing ...')
+                for html in html_bodies:
+                    text_bodies.append(html)
+            if html_length == sum(len(x) for x in html_bodies) and \
+               text_length != sum(len(x) for x in text_bodies):
+                log.warn('Not sure about this text processing ...')
+                for text in text_bodies:
+                    html_bodies.append(text)
 
     @property
     def subject(self):
@@ -293,20 +376,8 @@ class MailMessage(object):
 
     @property
     def attachments(self):
-        """Extract parts which we consider as attachments."""
-        if not self.mail.is_multipart():
-            return []
-        attchs = []
-        for p in walk_with_boundary(self.mail, ""):
-            if not p.is_multipart():
-                if p.get_content_subtype() == 'pgp-encrypted':
-                    # Special consideration. Do not present it as an attachment
-                    # but set _extra_parameters accordingly
-                    self._extra_parameters.update({'encrypted': 'pgp'})
-                    continue
-                if MailAttachment.is_attachment(p):
-                    attchs.append(MailAttachment(p))
-        return attchs
+        """List of attachments for this message."""
+        return [MailAttachment(x) for x in self._attachments]
 
     @property
     def extra_parameters(self):

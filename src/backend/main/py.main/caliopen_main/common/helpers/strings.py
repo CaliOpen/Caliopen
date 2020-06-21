@@ -36,11 +36,14 @@ def to_utf8(input, charset):
             log.warn("decoding <{}> string to utf-8 failed "
                      "with error : {}".format(input, exc))
             return input
-    else:
-        try:
-            return input.decode("us-ascii", "replace"). \
-                encode("utf-8", "replace")
-        except Exception as exc:
-            log.warn("decoding <{}> string to utf-8 failed "
-                     "with error : {}".format(bytes(input), exc))
-            return input
+        except LookupError as exc:
+            log.warn("decode with charset error: {}".format(exc))
+
+    # without charset
+    try:
+        return input.decode("us-ascii", "replace"). \
+            encode("utf-8", "replace")
+    except Exception as exc:
+        log.warn("decoding <{}> string to utf-8 failed "
+                 "with error : {}".format(bytes(input), exc))
+    return input
