@@ -6,7 +6,8 @@
           "@babel/preset-env",
           { "modules": "auto", "targets": { "node": "current" } }
         ],
-        "@babel/preset-react"
+        "@babel/preset-react",
+        "@babel/preset-typescript"
       ],
       "plugins": [
         "babel-plugin-dynamic-import-node",
