@@ -28,10 +28,18 @@ class Message extends Component {
     scrollToMe: undefined,
     onMessageDelete: undefined,
     noInteractions: false,
-    onMessageRead: () => {},
-    onMessageUnread: () => {},
-    onReply: () => {},
-    updateTagCollection: () => {},
+    onMessageRead: () => {
+      // noop
+    },
+    onMessageUnread: () => {
+      // noop
+    },
+    onReply: () => {
+      // noop
+    },
+    updateTagCollection: () => {
+      // noop
+    },
     encryptionStatus: undefined,
   };
 

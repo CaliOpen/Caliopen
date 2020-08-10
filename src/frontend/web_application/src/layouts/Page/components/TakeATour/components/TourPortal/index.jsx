@@ -187,7 +187,9 @@ class TourPortal extends TourPortalBase {
                         current === steps.length - 1
                           ? lastStepNextButton
                             ? onRequestClose
-                            : () => {}
+                            : () => {
+                                // noop
+                              }
                           : typeof nextStep === 'function'
                           ? nextStep
                           : this.nextStep

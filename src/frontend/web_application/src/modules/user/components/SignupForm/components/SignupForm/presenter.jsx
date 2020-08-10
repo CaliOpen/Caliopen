@@ -27,7 +27,9 @@ function generateStateFromProps(props) {
   };
 }
 
-const noop = () => {};
+const noop = () => {
+  // noop
+};
 
 class SignupForm extends Component {
   static propTypes = {

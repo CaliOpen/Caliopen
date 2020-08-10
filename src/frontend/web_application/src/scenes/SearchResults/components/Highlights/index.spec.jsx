@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Highlights from './';
+import Highlights from '.';
 
 describe('parseHighlight', () => {
   it('render an highlighted string', () => {

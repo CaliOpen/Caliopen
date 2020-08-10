@@ -1,7 +1,7 @@
 import React, { createRef } from 'react';
 import { shallow, mount } from 'enzyme';
-import Dropdown, { withDropdownControl } from './';
-import { Button } from '../';
+import Dropdown, { withDropdownControl } from '.';
+import { Button } from '..';
 
 const DropdownControl = withDropdownControl(Button);
 

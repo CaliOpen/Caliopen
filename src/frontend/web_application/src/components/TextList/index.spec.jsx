@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import TextList, { TextItem } from './';
+import TextList, { TextItem } from '.';
 
 describe('component TextList', () => {
   it('render', () => {

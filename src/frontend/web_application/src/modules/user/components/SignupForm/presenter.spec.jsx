@@ -22,7 +22,9 @@ describe('scene - Signup', () => {
     i18n: { _: (str) => str },
     onSignupSuccess: jest.fn(),
     settings: {},
-    push: () => {},
+    push: () => {
+      // noop
+    },
   };
 
   it('render', () => {

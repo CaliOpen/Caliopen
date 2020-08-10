@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import TextareaFieldGroup from './';
+import TextareaFieldGroup from '.';
 
 describe('component TextareaFieldGroup', () => {
   it('should render', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import RadioFieldGroup from './';
+import RadioFieldGroup from '.';
 
 describe('component RadioFieldGroup', () => {
   it('render', () => {

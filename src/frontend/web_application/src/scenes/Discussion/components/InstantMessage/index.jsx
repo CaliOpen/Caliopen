@@ -61,9 +61,15 @@ class InstantMessage extends PureComponent {
 
   static defaultProps = {
     encryptionStatus: undefined,
-    onMessageRead: () => {},
-    onMessageUnread: () => {},
-    onMessageDelete: () => {},
+    onMessageRead: () => {
+      // noop
+    },
+    onMessageUnread: () => {
+      // noop
+    },
+    onMessageDelete: () => {
+      // noop
+    },
     noInteractions: false,
   };
 

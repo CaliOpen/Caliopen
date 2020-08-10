@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import BlockList from './';
+import BlockList from '.';
 
 describe('component BlockList', () => {
   it('render', () => {

@@ -34,10 +34,18 @@ class TabProvider extends Component {
     previousPathname: undefined,
     providerValue: {
       tabs: [],
-      removeTab: () => {},
-      updateTab: () => {},
-      getCurrentTab: () => {},
-      closeTab: () => {},
+      removeTab: () => {
+        // noop
+      },
+      updateTab: () => {
+        // noop
+      },
+      getCurrentTab: () => {
+        // noop
+      },
+      closeTab: () => {
+        // noop
+      },
     },
   };
 

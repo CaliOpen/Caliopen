@@ -16,8 +16,12 @@ jest.mock('../../../../modules/userNotify/hoc/withNotification', () => ({
 describe('component UserMenu', () => {
   it('render', () => {
     const props = {
-      getUser: () => {},
-      notifyInfo: () => {},
+      getUser: () => {
+        // noop
+      },
+      notifyInfo: () => {
+        // noop
+      },
     };
     const comp = shallow(<Presenter {...props} />);
     expect(comp.dive().find('VerticalMenu').length).toEqual(1);

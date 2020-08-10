@@ -105,7 +105,9 @@ class ContactItem extends PureComponent {
   static defaultProps = {
     contact: undefined,
     className: undefined,
-    onSelectEntity: () => {},
+    onSelectEntity: () => {
+      // noop
+    },
     onClickContact: undefined,
     isContactSelected: false,
     selectDisabled: false,

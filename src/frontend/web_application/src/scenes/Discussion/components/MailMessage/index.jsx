@@ -57,9 +57,15 @@ class MailMessage extends Component {
   };
 
   static defaultProps = {
-    onMessageRead: () => {},
-    onMessageUnread: () => {},
-    onMessageDelete: () => {},
+    onMessageRead: () => {
+      // noop
+    },
+    onMessageUnread: () => {
+      // noop
+    },
+    onMessageDelete: () => {
+      // noop
+    },
     noInteractions: false,
     encryptionStatus: undefined,
   };

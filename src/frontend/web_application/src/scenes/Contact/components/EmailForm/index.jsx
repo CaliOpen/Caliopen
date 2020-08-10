@@ -31,7 +31,9 @@ class EmailForm extends PureComponent {
 
   static defaultProps = {
     errors: [],
-    onDelete: () => {},
+    onDelete: () => {
+      // noop
+    },
   };
 
   UNSAFE_componentWillMount() {

@@ -126,8 +126,12 @@ class RemoteIdentityEmail extends Component {
   static defaultProps = {
     className: undefined,
     remoteIdentity: {},
-    onDelete: () => {},
-    onCancel: () => {},
+    onDelete: () => {
+      // noop
+    },
+    onCancel: () => {
+      // noop
+    },
   };
 
   static initialState = {

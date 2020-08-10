@@ -37,7 +37,9 @@ class SelectFieldGroup extends PureComponent {
     expanded: false,
     options: [],
     errors: [],
-    onChange: () => {},
+    onChange: () => {
+      // noop
+    },
     className: null,
   };
 

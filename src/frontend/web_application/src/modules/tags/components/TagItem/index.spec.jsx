@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import TagItem from './';
+import TagItem from '.';
 
 describe('component TagItem', () => {
   const connectedProps = {

@@ -16,7 +16,9 @@ class Recipient extends Component {
   };
 
   static defaultProps = {
-    onRemove: () => {},
+    onRemove: () => {
+      // noop
+    },
     className: undefined,
     isValid: true,
   };

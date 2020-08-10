@@ -44,7 +44,11 @@ class TagFieldGroup extends Component {
 
   handleChange = (ev) => {
     const {
-      input: { onChange = () => {} },
+      input: {
+        onChange = () => {
+          // noop
+        },
+      },
     } = this.props;
     const terms = ev.target.value;
     this.setState({ terms });

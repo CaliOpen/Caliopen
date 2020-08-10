@@ -55,7 +55,9 @@ class OpenPGPKey extends Component {
     children: undefined,
     privateKeyArmored: undefined,
     editMode: false,
-    onDeleteKey: () => {},
+    onDeleteKey: () => {
+      // noop
+    },
   };
 
   constructor(props) {

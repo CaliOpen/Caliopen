@@ -3,7 +3,7 @@ import {
   calcPolygonPoints,
   calcXpoint,
   calcYpoint,
-} from './';
+} from '.';
 
 describe('comp PiGraph > services > svg', () => {
   describe('calcGridCoordinates', () => {

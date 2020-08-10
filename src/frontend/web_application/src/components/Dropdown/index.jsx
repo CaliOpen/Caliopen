@@ -142,7 +142,9 @@ class Dropdown extends Component {
             { leading: true, trailing: true }
           )
         )
-      : () => {};
+      : () => {
+          // noop
+        };
   }
 
   componentDidUpdate(prevProps) {

@@ -24,7 +24,9 @@ class TextFieldGroup extends PureComponent {
     id: undefined,
     showLabelforSr: false,
     errors: [],
-    onBlur: () => {},
+    onBlur: () => {
+      // noop
+    },
     expanded: true,
     className: undefined,
     display: 'block',

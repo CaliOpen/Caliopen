@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Icon from './';
+import Icon from '.';
 
 describe('component Icon', () => {
   it('render', () => {

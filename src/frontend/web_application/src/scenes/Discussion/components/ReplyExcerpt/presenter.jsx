@@ -15,7 +15,9 @@ class ReplyExcerpt extends PureComponent {
 
   static defaultProps = {
     draft: undefined,
-    draftExcerptRef: () => {},
+    draftExcerptRef: () => {
+      // noop
+    },
     className: undefined,
   };
 

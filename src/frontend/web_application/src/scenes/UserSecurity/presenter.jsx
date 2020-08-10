@@ -26,7 +26,7 @@ class UserSecurity extends Component {
   };
 
   componentDidMount() {
-    /* eslint-disable-next-line global-require */
+    /* eslint-disable-next-line */
     this.saveKey = require('../../services/openpgp-keychain-repository').saveKey;
 
     this.props.requestUser();

@@ -24,7 +24,9 @@ class Tab extends PureComponent {
 
   static defaultProps = {
     className: undefined,
-    onRemove: () => {},
+    onRemove: () => {
+      // noop
+    },
   };
 
   handleRemove = () => {

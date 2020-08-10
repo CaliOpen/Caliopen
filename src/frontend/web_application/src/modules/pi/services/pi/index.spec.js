@@ -1,9 +1,4 @@
-import {
-  getAngles,
-  getAveragePI,
-  getAveragePIMessage,
-  PI_PROPERTIES,
-} from './';
+import { getAngles, getAveragePI, getAveragePIMessage, PI_PROPERTIES } from '.';
 
 describe('MultidimensionalPi > services > pi', () => {
   describe('getAngles', () => {

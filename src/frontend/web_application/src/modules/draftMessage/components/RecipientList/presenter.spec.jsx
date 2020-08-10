@@ -9,7 +9,9 @@ describe('component RecipientList', () => {
     internalId: 'simpleDraft',
     search: noop,
     setSearchTerms: noop,
-    onRecipientsChange: () => {},
+    onRecipientsChange: () => {
+      // noop
+    },
   };
 
   /* eslint-disable max-len */

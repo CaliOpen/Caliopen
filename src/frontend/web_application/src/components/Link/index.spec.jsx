@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Link from './';
+import Link from '.';
 
 jest.mock('react-router-dom', () => {
   const BaseLink = ({ children, ...props }) => (
@@ -17,7 +17,16 @@ jest.mock('react-router-dom', () => {
 describe('component Link', () => {
   it('render', () => {
     const context = {
-      router: { history: { push: () => {}, replace: () => {} } },
+      router: {
+        history: {
+          push: () => {
+            // noop
+          },
+          replace: () => {
+            // noop
+          },
+        },
+      },
     };
     const comp = shallow(<Link to="/foo">Foo</Link>, { context });
 

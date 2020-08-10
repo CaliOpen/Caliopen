@@ -1,5 +1,5 @@
 import configureMockStore from 'redux-mock-store';
-import { updateTagCollection } from './';
+import { updateTagCollection } from '.';
 import promiseMiddleware from '../../../../store/middlewares/promise-middleware';
 import thunkMiddleware from '../../../../store/middlewares/thunk-middleware';
 

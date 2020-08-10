@@ -25,7 +25,9 @@ class TagSearch extends Component {
 
   static defaultProps = {
     terms: '',
-    onChange: () => {},
+    onChange: () => {
+      // noop
+    },
     isFetching: false,
     errors: [],
   };

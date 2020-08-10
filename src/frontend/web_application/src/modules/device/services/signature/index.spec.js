@@ -1,6 +1,6 @@
 import base64 from 'base64-js';
 import { ec as EC } from 'elliptic';
-import { getSignatureHeaders } from './';
+import { getSignatureHeaders } from '.';
 import { CURVE_TYPE } from '../ecdsa';
 import UploadFileAsFormField from '../../../file/services/uploadFileAsFormField';
 

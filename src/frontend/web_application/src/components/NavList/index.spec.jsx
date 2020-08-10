@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import NavList, { NavItem } from './';
+import NavList, { NavItem } from '.';
 
 describe('component NavList', () => {
   it('render', () => {

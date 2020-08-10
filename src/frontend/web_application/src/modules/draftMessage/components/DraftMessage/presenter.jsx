@@ -92,10 +92,18 @@ class DraftMessage extends Component {
     original: undefined,
     canEditRecipients: false,
     parentMessage: undefined,
-    draftFormRef: () => {},
-    onFocus: () => {},
-    onSent: () => {},
-    onDeleteMessageSuccessfull: () => {},
+    draftFormRef: () => {
+      // noop
+    },
+    onFocus: () => {
+      // noop
+    },
+    onSent: () => {
+      // noop
+    },
+    onDeleteMessageSuccessfull: () => {
+      // noop
+    },
     isFetching: true,
     isEncrypted: false,
     draftEncryption: undefined,

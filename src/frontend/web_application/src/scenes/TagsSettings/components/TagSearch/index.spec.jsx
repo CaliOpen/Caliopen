@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import TagSearch from './';
+import TagSearch from '.';
 
 describe('component TagSearch', () => {
   const props = {

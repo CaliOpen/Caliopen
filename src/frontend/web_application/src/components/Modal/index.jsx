@@ -17,7 +17,9 @@ class Modal extends Component {
     className: undefined,
     title: undefined,
     children: undefined,
-    onClose: () => {},
+    onClose: () => {
+      // noop
+    },
   };
 
   componentDidMount() {

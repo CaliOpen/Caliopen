@@ -23,8 +23,12 @@ class Confirm extends PureComponent {
   };
 
   static defaultProps = {
-    onCancel: () => {},
-    onClose: () => {},
+    onCancel: () => {
+      // noop
+    },
+    onClose: () => {
+      // noop
+    },
     className: undefined,
     title: undefined,
     content: undefined,

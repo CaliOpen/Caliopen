@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import TagFieldGroup from './';
+import TagFieldGroup from '.';
 
 describe('component TagFieldGroup', () => {
   const props = {

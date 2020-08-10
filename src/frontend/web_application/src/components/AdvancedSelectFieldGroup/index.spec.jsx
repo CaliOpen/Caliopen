@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import SelectFieldGroup from './';
+import SelectFieldGroup from '.';
 
 describe('component SelectFieldGroup', () => {
   it('should render', () => {

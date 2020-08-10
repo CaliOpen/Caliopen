@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import AuthorAvatarLetter from './';
+import AuthorAvatarLetter from '.';
 
 describe('component ContactAvatarLetter', () => {
   it('render', () => {

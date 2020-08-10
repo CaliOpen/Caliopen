@@ -40,7 +40,9 @@ class ContactList extends PureComponent {
     selectedContactsIds: [],
     sortDir: DEFAULT_SORT_DIR,
     mode: MODE_CONTACT_BOOK,
-    onSelectEntity: () => {},
+    onSelectEntity: () => {
+      // noop
+    },
     onClickContact: undefined,
   };
 
@@ -84,7 +86,9 @@ class ContactList extends PureComponent {
   }
 
   renderPlaceholder() {
-    const noop = () => {};
+    const noop = () => {
+      // noop
+    };
 
     return (
       <div className="m-contact-list">
