@@ -1,7 +1,9 @@
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { withI18n } from '@lingui/react';
-import { CancelToken } from 'axios';
+// FIXME: why webpack ignores this ts lib?
+import { CancelToken } from 'axios/dist/axios';
+
 import { Button, TextBlock, FileSize, Icon } from '../../../../components';
 import getClient from '../../../../services/api-client';
 import DownloadFileProgression from '../DownloadFileProgression';

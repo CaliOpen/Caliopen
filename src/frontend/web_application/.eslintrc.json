@@ -1,5 +1,10 @@
 {
-  "extends": ["airbnb", "prettier", "plugin:@typescript-eslint/recommended"],
+  "extends": [
+    "airbnb",
+    "prettier",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript"
+  ],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "root": true,
@@ -10,10 +15,22 @@
     "jest": true,
     "protractor": true
   },
-
+  "settings": {
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx", ".d.ts"]
+  },
   "rules": {
     // usefull until UNSAFE_componentWill... is removed
     "camelcase": "warn",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
     "import/no-cycle": ["error", { "maxDepth": 1 }],
     "import/no-extraneous-dependencies": [
       "error",
@@ -42,6 +59,10 @@
         "aspects": ["noHref", "invalidHref", "preferButton"]
       }
     ],
+    "react/jsx-filename-extension": [
+      "error",
+      { "extensions": [".jsx", ".tsx"] }
+    ],
     "no-async-promise-executor": "warn",
     "react/destructuring-assignment": "off",
     // useful until babel compile </> directly
@@ -55,7 +76,7 @@
     "react/no-unused-prop-types": "warn",
     "react/no-unused-state": "warn",
     "react/prefer-stateless-function": "warn",
-    "react/prop-types": "warn",
+    "react/prop-types": "off",
     "react/require-default-props": "warn",
     "react/static-property-placement": ["warn", "static public field"],
     "react/state-in-constructor": "off",
@@ -63,9 +84,11 @@
     // ---
     //  compat prettier
     "react/jsx-curly-newline": "off",
+    "react/jsx-indent": "off",
     "react/jsx-one-expression-per-line": "off",
-    "react/jsx-wrap-multilines": "off"
+    "react/jsx-wrap-multilines": "off",
     // ---
+    "@typescript-eslint/ban-ts-comment": "warn"
   },
   "globals": {
     "inject": true,

@@ -4,13 +4,12 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 // import { Trans } from '@lingui/react';
 import AskPassphraseForm from '../AskPassphraseForm';
+import { messageEncryptionStatusesSelector } from '../../selectors/message';
 
 import './style.scss';
 
-const messageEncryptionStatusSelector = (state) =>
-  state.encryption.messageEncryptionStatusById;
 const lockedMessagesSelector = (messagesIds) =>
-  createSelector([messageEncryptionStatusSelector], (encryptionState) => ({
+  createSelector([messageEncryptionStatusesSelector], (encryptionState) => ({
     lockedMessagesByKey: messagesIds.reduce((acc, messageId) => {
       const messageStatus = encryptionState[messageId];
 

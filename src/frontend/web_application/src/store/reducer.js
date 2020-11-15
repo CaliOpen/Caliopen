@@ -3,7 +3,7 @@ import notifyReducer from 'react-redux-notify';
 import { reducer as formReducer } from 'redux-form';
 import contactReducer from './modules/contact';
 import deviceReducer from './modules/device';
-import discussionReducer from './modules/discussion';
+import discussionReducer from './modules/discussion.ts';
 import draftMessageReducer from './modules/draft-message';
 import i18nReducer from './modules/i18n';
 import importanceLevelReducer from './modules/importance-level';

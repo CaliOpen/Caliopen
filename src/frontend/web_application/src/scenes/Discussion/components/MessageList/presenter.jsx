@@ -20,7 +20,7 @@ class MessageList extends Component {
     isFetching: PropTypes.bool.isRequired,
     onMessageRead: PropTypes.func.isRequired,
     onMessageUnread: PropTypes.func.isRequired,
-    onMessageDelete: PropTypes.func.isRequired,
+    onDeleteMessageSuccess: PropTypes.func.isRequired,
     user: PropTypes.shape({}),
     hash: PropTypes.string,
     settings: PropTypes.shape({}).isRequired,
@@ -77,6 +77,7 @@ class MessageList extends Component {
       scrollToTarget,
       user,
       settings,
+      onDeleteMessageSuccess,
     } = this.props;
 
     return messages.reduce((acc, message) => {
@@ -102,7 +103,7 @@ class MessageList extends Component {
         <Message
           onMessageRead={onMessageRead}
           onMessageUnread={onMessageUnread}
-          onMessageDelete={onMessageDelete}
+          onDeleteMessageSuccess={onDeleteMessageSuccess}
           message={message}
           key={message.message_id}
           scrollToMe={message.message_id === hash ? scrollToTarget : undefined}

@@ -12,8 +12,9 @@ import {
   requestDiscussion,
   sortMessages,
   getLastMessageFromArray,
+  getDraft,
 } from '../../modules/message';
-import { reply } from '../../modules/draftMessage';
+import { reply, draftMessagesSelector } from '../../modules/draftMessage';
 import { createMessageCollectionStateSelector } from '../../store/selectors/message';
 import { UserSelector } from '../../store/selectors/user';
 import { withTags, updateTagCollection } from '../../modules/tags';
@@ -22,6 +23,7 @@ import { withPush } from '../../modules/routing/hoc/withPush';
 import Discussion from './presenter';
 
 const getDiscussionIdFromProps = (props) => props.match.params.discussionId;
+// FIXME: bad selector, coupling w/ location
 const discussionIdSelector = (state, ownProps) =>
   getDiscussionIdFromProps(ownProps);
 const discussionStateSelector = (state) => state.discussion;
@@ -51,6 +53,55 @@ const firstUnreadMessageSelector = createSelector(
   (sortedMessages) => sortedMessages.filter((message) => message.is_unread)[0]
 );
 
+const draftMessageSelector = createSelector(
+  [
+    messageByIdSelector,
+    messageCollectionStateSelector,
+    draftMessagesSelector,
+    discussionIdSelector,
+  ],
+  (messagesById, { messageIds }, draftMessages, discussionId) => {
+    const draftMessage = draftMessages.find(
+      (draft) => draft.discussion_id === discussionId
+    );
+    if (draftMessage) {
+      return draftMessage;
+    }
+
+    if (messageIds.length === 0) {
+      return undefined;
+    }
+
+    const message = sortMessages(
+      messageIds
+        .filter(
+          (messageId) =>
+            messagesById[messageId] && messagesById[messageId].is_draft
+        )
+        .map((messageId) => messagesById[messageId]),
+      false
+    ).pop();
+
+    return message;
+  }
+);
+
+// actual saved drafts for the discussion
+const messagesDraftByDiscussionIdSelector = createSelector(
+  [
+    (state) => state.message.messagesById,
+    (_, { discussionId }) => discussionId,
+  ],
+  (messagesByIdState, discussionId) =>
+    Object.keys(messagesByIdState)
+      .filter(
+        (id) =>
+          messagesByIdState[id]?.is_draft &&
+          messagesByIdState[id]?.discussion_id === discussionId
+      )
+      .map((id) => messagesByIdState[id])
+);
+
 const mapStateToProps = createSelector(
   [
     sortedMessagesSelector,
@@ -61,6 +112,7 @@ const mapStateToProps = createSelector(
     discussionIdSelector,
     UserSelector,
     messageCollectionStateSelector,
+    draftMessageSelector,
   ],
   (
     sortedMessages,
@@ -70,7 +122,8 @@ const mapStateToProps = createSelector(
     discussionState,
     discussionId,
     userState,
-    { didInvalidate, messageIds, hasMore, isFetching }
+    { didInvalidate, messageIds, hasMore, isFetching },
+    draftMessage
   ) => {
     const canBeClosed = messageIds.length === 0;
 
@@ -86,6 +139,7 @@ const mapStateToProps = createSelector(
       canBeClosed,
       lastMessage,
       firstUnreadMessage,
+      draftMessage,
     };
   }
 );
@@ -107,8 +161,24 @@ const updateDiscussionTags = ({ i18n, messages, tags }) => async (dispatch) =>
     )
   );
 
-const onMessageReply = ({ message, discussionId }) => async (dispatch) => {
-  dispatch(reply({ internalId: discussionId, message }));
+const onMessageReply = ({ message }) => async (dispatch) => {
+  dispatch(reply({ message }));
+};
+
+const requestDiscussionAndDraft = ({ discussionId }) => async (
+  dispatch,
+  getState
+) => {
+  const discussion = await dispatch(requestDiscussion({ discussionId }));
+  const draftMessage = messagesDraftByDiscussionIdSelector(getState(), {
+    discussionId,
+  }).pop();
+
+  if (!draftMessage) {
+    await dispatch(getDraft({ discussionId }));
+  }
+
+  return discussion;
 };
 
 const mapDispatchToProps = (dispatch, ownProps) =>
@@ -122,7 +192,7 @@ const mapDispatchToProps = (dispatch, ownProps) =>
       setMessageRead,
       deleteMessage,
       deleteDiscussion,
-      requestDiscussion: requestDiscussion.bind(null, {
+      requestDiscussion: requestDiscussionAndDraft.bind(null, {
         discussionId: getDiscussionIdFromProps(ownProps),
       }),
       updateDiscussionTags,

@@ -1,91 +1,98 @@
 import {
-  requestDraft as requestDraftBase,
   requestDraftSuccess,
   createDraft,
+  syncDraft,
 } from '../../../store/modules/draft-message';
-import { getDraft, getMessage, getLastMessage, Message } from '../../message';
+import {
+  getDraft as getDiscussionDraftBase,
+  getMessage,
+  getLastMessage,
+  Message,
+} from '../../message';
 import { getUser } from '../../user';
-import { draftSelector } from '../selectors/draft';
 import { getDefaultIdentity } from './getDefaultIdentity';
 import { changeAuthorInParticipants } from '../services/changeAuthorInParticipants';
+import {
+  DraftMessageFormData,
+  mapMessageToDraftMessageFormData,
+} from '../models';
 
-const requestDiscussionDraft = ({ internalId }) => async (dispatch) => {
-  dispatch(requestDraftBase({ internalId }));
-  const draft = await dispatch(getDraft({ discussionId: internalId }));
-
-  if (draft) {
-    dispatch(requestDraftSuccess({ internalId, draft }));
-
-    return draft;
-  }
-
+export const createDiscussionDraft = ({ discussionId, values }) => async (
+  dispatch
+) => {
   const [parentMessage, user] = await Promise.all([
-    dispatch(getLastMessage({ discussionId: internalId })),
+    values.parent_id
+      ? dispatch(getMesage({ messageId: values.parent_id }))
+      : dispatch(getLastMessage({ discussionId })),
     dispatch(getUser()),
   ]);
   const { participants, protocol } = parentMessage;
   const identity = await dispatch(
     getDefaultIdentity({ participants, protocol })
   );
-  const newDraft = new Message({
-    // discussion_id is never saved for a draft, it set by the backend when the message is sent
+  const newDraft = new DraftMessageFormData({
+    // discussion_id is never saved for a draft, it is set by the backend when the message is sent
     // rollback 5fb2eb667210cfe8336b03d48efb5a350ccf32cd and await for new discussion algo (still
     // not working with current API)
     // XXX: the next API will give the discussionId according to participants
-    // may be better to give the participants and the default identity according to the
+    // may be better to give the participants and the getDraftDefault identity according to the
     // discussionId?
     // how to deal w/ no network capability?
-    discussion_id: internalId,
+    discussion_id: discussionId,
     subject: parentMessage.subject || '',
     parent_id: parentMessage.message_id,
     user_identities: identity ? [identity.identity_id] : [],
-    participants: changeAuthorInParticipants({
+    recipients: changeAuthorInParticipants({
       participants: parentMessage.participants,
       user,
       identity,
     }),
+    identity_id: identity?.identity_id,
+    ...values,
   });
 
-  await dispatch(createDraft({ internalId, draft: newDraft }));
-  dispatch(requestDraftSuccess({ internalId, draft: newDraft }));
+  await dispatch(createDraft({ draft: newDraft }));
+  dispatch(requestDraftSuccess({ draft: newDraft }));
 
   return newDraft;
 };
 
-export const requestDraft = ({
-  internalId,
-  hasDiscussion,
-  messageId,
-}) => async (dispatch, getState) => {
-  const draft = draftSelector(getState(), { internalId });
+export const getOrCreateDiscussionDraft = ({ discussionId }) => async (
+  dispatch
+) => {
+  const draft = await dispatch(getDiscussionDraftBase({ discussionId }));
 
   if (draft) {
+    dispatch(
+      requestDraftSuccess({
+        draft,
+      })
+    );
+
     return draft;
   }
 
-  if (hasDiscussion) {
-    return dispatch(requestDiscussionDraft({ internalId }));
-  }
+  return dispatch(createDiscussionDraft({ discussionId, values: {} }));
+};
 
-  if (!messageId) {
-    throw new Error('a messageId must be defined when not in a discussion');
-  }
-
-  dispatch(requestDraftBase({ internalId }));
-
+export const getSimpleDraft = ({ messageId }) => async (dispatch) => {
   try {
-    const message = await dispatch(getMessage({ messageId }));
-    dispatch(requestDraftSuccess({ internalId, draft: message }));
+    const message = await Promise.resolve(dispatch(getMessage({ messageId })));
+    dispatch(
+      requestDraftSuccess({ draft: mapMessageToDraftMessageFormData(message) })
+    );
+    dispatch(syncDraft(mapMessageToDraftMessageFormData(message)));
 
     return message;
   } catch (err) {
     const identity = await dispatch(getDefaultIdentity());
-    const newDraft = new Message({
+    const newDraft = new DraftMessageFormData({
       message_id: messageId,
       user_identities: identity ? [identity.identity_id] : [],
     });
-    await dispatch(createDraft({ internalId, draft: newDraft }));
-    dispatch(requestDraftSuccess({ internalId, draft: newDraft }));
+    await dispatch(createDraft({ draft: newDraft }));
+    dispatch(requestDraftSuccess({ draft: newDraft }));
+    dispatch(syncDraft(newDraft));
 
     return newDraft;
   }

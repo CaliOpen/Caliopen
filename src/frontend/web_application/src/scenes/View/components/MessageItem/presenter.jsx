@@ -107,17 +107,13 @@ class MessageItem extends Component {
   renderContent = () => {
     const { message } = this.props;
     const { attachments } = message;
-    const linkTo =
-      message.parent_id || !message.is_draft
-        ? `/discussions/${message.discussion_id}#reply`
-        : `/messages/${message.message_id}`;
 
     return (
       <Link
         className={classnames('s-message-item__content', {
           's-message-item__content--draft': message.is_draft,
         })}
-        to={linkTo}
+        to={`/messages/${message.message_id}`}
         noDecoration
       >
         <TextBlock className="s-message-item__participants">

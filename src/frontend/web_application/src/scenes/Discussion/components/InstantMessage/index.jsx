@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import Linkify from 'linkifyjs/react';
 import { withI18n, Trans } from '@lingui/react';
 import { withScrollTarget } from '../../../../modules/scroll';
-import { withPush } from '../../../../modules/routing';
 import { getAveragePIMessage, getPiClass } from '../../../../modules/pi';
 import { AuthorAvatarLetter } from '../../../../modules/avatar';
 import { LockedMessage } from '../../../../modules/encryption';
@@ -20,9 +19,6 @@ import {
 } from '../../../../services/message';
 import MessagePi from '../MessagePi';
 import TagList from '../TagList';
-import { replyHandler } from '../../services/replyHandler';
-import { messageDeleteHandler } from '../../services/messageDeleteHandler';
-import { toggleMarkAsReadHandler } from '../../services/toggleMarkAsReadHandler';
 
 import './style.scss';
 import './instant-message-aside.scss';
@@ -40,7 +36,6 @@ const PROTOCOL_ICONS = {
 
 @withI18n()
 @withScrollTarget()
-@withPush()
 class InstantMessage extends PureComponent {
   static propTypes = {
     message: PropTypes.shape({}).isRequired,
@@ -52,7 +47,6 @@ class InstantMessage extends PureComponent {
     onMessageDelete: PropTypes.func,
     onOpenTags: PropTypes.func.isRequired,
     onReply: PropTypes.func.isRequired,
-    push: PropTypes.func.isRequired,
     user: PropTypes.shape({}).isRequired,
     scrollTarget: PropTypes.shape({ forwardRef: PropTypes.func }).isRequired,
     isLocked: PropTypes.bool.isRequired,
@@ -73,11 +67,26 @@ class InstantMessage extends PureComponent {
     noInteractions: false,
   };
 
-  handleMessageDelete = messageDeleteHandler(this);
+  handleMessageDelete = () => {
+    const { message, onMessageDelete } = this.props;
+    onMessageDelete({ message });
+  };
 
-  handleToggleMarkAsRead = toggleMarkAsReadHandler(this);
+  handleToggleMarkAsRead = () => {
+    const { message, onMessageRead, onMessageUnread } = this.props;
 
-  handleReply = replyHandler(this);
+    if (message.is_unread) {
+      onMessageRead({ message });
+    } else {
+      onMessageUnread({ message });
+    }
+  };
+
+  handleReply = () => {
+    const { onReply, message } = this.props;
+
+    onReply();
+  };
 
   getProtocolIconType = ({ protocol }) => PROTOCOL_ICONS[protocol] || 'comment';
 

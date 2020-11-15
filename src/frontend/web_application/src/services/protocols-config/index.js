@@ -5,6 +5,8 @@ export const ASSOC_PROTOCOL_ICON = {
   unknown: 'question-circle',
 };
 
+export const getIconType = protocol => ASSOC_PROTOCOL_ICON[protocol] || ASSOC_PROTOCOL_ICON.unknown;
+
 export default {
   unknown: {
     default: true,

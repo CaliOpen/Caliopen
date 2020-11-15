@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { withI18n } from '@lingui/react';
 import {
@@ -48,22 +48,30 @@ class MessageRecipients extends PureComponent {
     );
   };
 
-  getRecipientsArray = () => {
-    const { message, user, i18n } = this.props;
-
-    return isUserRecipient(message, user)
+  const recipients =
+    user && isUserRecipient(message, user)
       ? [
           i18n._('message.participants.me', null, { defaults: 'Me' }),
-          ...this.getRecipientsLabels(getRecipientsExceptUser(message, user)),
+          ...getRecipientsLabels(getRecipientsExceptUser(message, user)),
         ]
-      : this.getRecipientsLabels(getRecipients(message));
-  };
+      : getRecipientsLabels(getRecipients(message));
 
-  render() {
-    return (
-      <span className="m-message-recipients">{this.getRecipientsString()}</span>
-    );
+  const numberRecipients = recipients.length;
+
+  if (numberRecipients === 0) {
+    return i18n._('message.participants.me', null, { defaults: 'Me' });
   }
+  if (!shorten || numberRecipients === 1) return recipients.join(', ');
+
+  const recipientsStr = i18n._(
+    'messages.participants.and_x_others',
+    { first: recipients[0], number: numberRecipients - 1 },
+    {
+      defaults: '{first} and {number, plural, one {# other} other {# others}}',
+    }
+  );
+
+  return <span className="m-message-recipients">{recipientsStr}</span>;
 }
 
-export default MessageRecipients;
+export default withI18n()(MessageRecipients);

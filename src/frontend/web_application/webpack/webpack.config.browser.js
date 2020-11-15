@@ -84,6 +84,7 @@ const configureDevServer = () => {
       contentBase: false,
       hot: false,
       inline: true,
+      liveReload: false,
       port: '8080',
       proxy: {
         '/': {

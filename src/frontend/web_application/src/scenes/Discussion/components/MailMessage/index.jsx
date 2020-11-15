@@ -5,7 +5,6 @@ import { Trans, withI18n } from '@lingui/react';
 import classnames from 'classnames';
 import Linkify from 'linkifyjs/react';
 import { withScrollTarget } from '../../../../modules/scroll';
-import { withPush } from '../../../../modules/routing';
 import { ParticipantLabel } from '../../../../modules/message';
 import {
   Button,
@@ -18,9 +17,6 @@ import MessageAttachments from '../MessageAttachments';
 import MessageRecipients from '../MessageRecipients';
 import MessagePi from '../MessagePi';
 import TagList from '../TagList';
-import { replyHandler } from '../../services/replyHandler';
-import { messageDeleteHandler } from '../../services/messageDeleteHandler';
-import { toggleMarkAsReadHandler } from '../../services/toggleMarkAsReadHandler';
 import { LockedMessage } from '../../../../modules/encryption';
 import { getAuthor, getRecipients } from '../../../../services/message';
 import {
@@ -34,7 +30,6 @@ import './mail-message-details.scss';
 
 @withI18n()
 @withScrollTarget()
-@withPush()
 class MailMessage extends Component {
   static propTypes = {
     message: PropTypes.shape({
@@ -42,11 +37,9 @@ class MailMessage extends Component {
     }).isRequired,
     onMessageRead: PropTypes.func,
     onMessageUnread: PropTypes.func,
-    onMessageDelete: PropTypes.func,
+    onMessageDelete: PropTypes.func.isRequired,
     onOpenTags: PropTypes.func.isRequired,
     onReply: PropTypes.func.isRequired,
-    push: PropTypes.func.isRequired,
-    user: PropTypes.shape({}).isRequired,
     settings: PropTypes.shape({ default_locale: PropTypes.string.isRequired })
       .isRequired,
     i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
@@ -63,18 +56,30 @@ class MailMessage extends Component {
     onMessageUnread: () => {
       // noop
     },
-    onMessageDelete: () => {
-      // noop
-    },
     noInteractions: false,
     encryptionStatus: undefined,
   };
 
-  handleMessageDelete = messageDeleteHandler(this);
+  handleMessageDelete = () => {
+    const { message, onMessageDelete } = this.props;
+    onMessageDelete({ message });
+  };
 
-  handleToggleMarkAsRead = toggleMarkAsReadHandler(this);
+  handleToggleMarkAsRead = () => {
+    const { message, onMessageRead, onMessageUnread } = this.props;
 
-  handleReply = replyHandler(this);
+    if (message.is_unread) {
+      onMessageRead({ message });
+    } else {
+      onMessageUnread({ message });
+    }
+  };
+
+  handleReply = () => {
+    const { onReply, message } = this.props;
+
+    onReply();
+  };
 
   renderBody() {
     const { message, isLocked, encryptionStatus } = this.props;
@@ -150,7 +155,6 @@ class MailMessage extends Component {
       message,
       scrollTarget: { forwardRef },
       onOpenTags,
-      user,
       noInteractions,
       encryptionStatus,
     } = this.props;
@@ -178,7 +182,7 @@ class MailMessage extends Component {
           {this.renderAuthor()}
           <TextBlock className="m-mail-message-details__recipients">
             <Trans id="message.to">To:</Trans>{' '}
-            <MessageRecipients message={message} user={user} shorten />
+            <MessageRecipients message={message} shorten />
           </TextBlock>
         </div>
         <aside className={classnames('s-mail-message__info', infoPiClassName)}>

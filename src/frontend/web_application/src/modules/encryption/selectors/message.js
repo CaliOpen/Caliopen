@@ -1,7 +1,11 @@
-import { createSelector } from 'reselect';
+export function encryptionSelector(state) {
+  return state.encryption;
+}
 
-export const encryptionSelector = (state) => state.encryption;
-export const messageEncryptionStatusSelector = createSelector(
-  [encryptionSelector],
-  (encryptionState) => encryptionState.messageEncryptionStatusById
-);
+export function messageEncryptionStatusesSelector(state) {
+  return encryptionSelector(state).messageEncryptionStatusById;
+}
+
+export function messageEncryptionStatusSelector(state, messageId) {
+  return messageEncryptionStatusesSelector(state)[messageId];
+}

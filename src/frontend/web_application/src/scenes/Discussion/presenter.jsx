@@ -15,9 +15,9 @@ import {
 import MessageList from './components/MessageList';
 import ReplyExcerpt from './components/ReplyExcerpt';
 import AddParticipantsToContactBook from './components/AddParticipantsToContactBook';
+import QuickDraftForm from './components/QuickDraftForm';
 import { withCloseTab } from '../../modules/tab';
 import { ManageEntityTags, getTagLabel } from '../../modules/tags';
-import { DraftMessage } from '../../modules/draftMessage';
 import { ScrollDetector, withScrollManager } from '../../modules/scroll';
 import { addEventListener } from '../../services/event-manager';
 
@@ -34,6 +34,8 @@ class Discussion extends Component {
   static propTypes = {
     loadMore: PropTypes.func.isRequired,
     discussionId: PropTypes.string.isRequired,
+    draftMessageId: PropTypes.string,
+    draftMessage: PropTypes.shape({}),
     discussion: PropTypes.shape({}),
     requestDiscussion: PropTypes.func.isRequired,
     user: PropTypes.shape({}),
@@ -63,6 +65,8 @@ class Discussion extends Component {
   };
 
   static defaultProps = {
+    draftMessageId: undefined,
+    draftMessage: undefined,
     discussion: undefined,
     lastMessage: undefined,
     messages: [],
@@ -182,10 +186,10 @@ class Discussion extends Component {
   };
 
   handleMessageReply = () => {
-    const { messages, onMessageReply, push, discussionId } = this.props;
+    const { messages, onMessageReply, push } = this.props;
     const message = messages[messages.length - 1];
 
-    onMessageReply({ discussionId, message });
+    onMessageReply({ message });
     push({ hash: 'reply' });
   };
 
@@ -349,6 +353,8 @@ class Discussion extends Component {
       user,
       isUserFetching,
       firstUnreadMessage,
+      draftMessage,
+      draftMessageId,
     } = this.props;
     const hash = this.getHash();
 
@@ -365,7 +371,7 @@ class Discussion extends Component {
           hash={hash}
           onMessageRead={this.handleSetMessageRead}
           onMessageUnread={this.handleSetMessageUnread}
-          onMessageDelete={this.handleDeleteMessage}
+          onDeleteMessageSuccess={this.eventuallyCloseTab}
           scrollToTarget={scrollToTarget}
           user={user}
           isUserFetching={isUserFetching}
@@ -389,14 +395,14 @@ class Discussion extends Component {
             's-discussion__reply--open': this.state.isDraftFocus,
           })}
         >
-          <DraftMessage
-            internalId={discussionId}
+          <QuickDraftForm
+            discussionId={discussionId}
+            // TODO: useful?
             scrollToMe={hash === 'reply' ? scrollToTarget : undefined}
             onFocus={this.handleFocusDraft}
             draftFormRef={(node) => {
               this.replyFormRef = node;
             }}
-            hasDiscussion // mandatory for withDraftMessage HoC!
           />
         </div>
         <div
@@ -406,7 +412,6 @@ class Discussion extends Component {
         >
           <ReplyExcerpt
             discussionId={discussionId}
-            internalId={discussionId}
             onFocus={this.handleFocusDraft}
             draftExcerptRef={(node) => {
               this.replyExcerptRef = node;

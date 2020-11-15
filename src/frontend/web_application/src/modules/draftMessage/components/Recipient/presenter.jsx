@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Badge, Icon } from '../../../../components';
-import { ASSOC_PROTOCOL_ICON } from '../../../../services/protocols-config';
-
-const getIconType = (protocol) =>
-  ASSOC_PROTOCOL_ICON[protocol] || ASSOC_PROTOCOL_ICON.unknown;
+import { getIconType } from '../../../../services/protocols-config';
 
 class Recipient extends Component {
   static propTypes = {

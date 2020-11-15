@@ -25,6 +25,8 @@ class WithIdentities extends Component {
   }
 
   render() {
+    console.warn('DEPRECATED: useIdentities instead');
+
     const {
       render,
       identities,

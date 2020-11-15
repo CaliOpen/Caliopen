@@ -115,3 +115,9 @@ export const tryCatchAxiosPromise = async (prom) => {
     return Promise.reject(handleClientResponseError(err));
   }
 };
+
+export function handleAxiosPromise(prom) {
+  return prom.then(handleClientResponseSuccess, (err) =>
+    Promise.reject(handleClientResponseError(err))
+  );
+}

@@ -13,7 +13,7 @@ const findRecipient = (recipients, { address, protocol }) =>
   );
 
 const searchTermsSelector = (state, ownProps) =>
-  state.draftMessage.recipientSearchTermsByInternalId[ownProps.internalId];
+  state.draftMessage.recipientSearchTermsByMessageId[ownProps.messageId];
 
 const participantSuggestionsSelector = (state) => state.participantSuggestions;
 

@@ -17,7 +17,7 @@ const consolidateParticipant = (participant) => async (dispatch) => ({
   ],
 });
 
-export const consolidateParticipants = ({ participants }) => (dispatch) =>
+export const consolidateParticipants = (participants) => (dispatch) =>
   Promise.all(
     participants.map(async (participant) =>
       participant.contact_ids && participant.contact_ids.length > 0

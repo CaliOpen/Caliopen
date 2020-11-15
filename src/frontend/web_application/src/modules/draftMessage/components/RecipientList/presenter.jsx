@@ -34,7 +34,7 @@ export const KEY = {
 class RecipientList extends Component {
   static propTypes = {
     className: PropTypes.string,
-    internalId: PropTypes.string,
+    messageId: PropTypes.string,
     recipients: PropTypes.arrayOf(PropTypes.shape({})),
     onRecipientsChange: PropTypes.func.isRequired,
     setSearchTerms: PropTypes.func.isRequired,
@@ -45,7 +45,7 @@ class RecipientList extends Component {
 
   static defaultProps = {
     className: undefined,
-    internalId: undefined,
+    messageId: undefined,
     recipients: [],
     searchResults: [],
     identity: undefined,
@@ -67,8 +67,8 @@ class RecipientList extends Component {
   };
 
   handleSearchChange = (ev) => {
-    const { setSearchTerms, internalId } = this.props;
-    if (!internalId) {
+    const { setSearchTerms, messageId } = this.props;
+    if (!messageId) {
       return;
     }
 
@@ -78,7 +78,7 @@ class RecipientList extends Component {
         searchOpened: true,
       },
       () => {
-        setSearchTerms({ internalId, searchTerms: this.state.searchTerms });
+        setSearchTerms({ messageId, searchTerms: this.state.searchTerms });
 
         if (this.state.searchTerms.length >= 3) {
           return this.search({ terms: this.state.searchTerms });

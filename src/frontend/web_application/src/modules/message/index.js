@@ -5,6 +5,7 @@ export * from './actions/getDraft';
 export * from './actions/getLastMessage';
 export * from './actions/getMessage';
 export * from './actions/getMessages';
+export * from './actions/getParentMessage';
 export * from './actions/requestDiscussion';
 export * from './actions/requestMessages';
 export * from './actions/setMessageRead';

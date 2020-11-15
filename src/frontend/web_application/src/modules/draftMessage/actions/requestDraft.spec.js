@@ -15,12 +15,12 @@ const getStore = () =>
       messagesById: {},
     },
     draftMessage: {
-      draftsByInternalId: {},
-    },
-    user: {
+      draftsByMessageId: {},
       user: {
-        contact: {
-          contact_id: 'unused',
+        user: {
+          contact: {
+            contact_id: 'unused',
+          },
         },
       },
     },
@@ -289,7 +289,7 @@ describe('modules draftMessage - actions - requestDraft', () => {
           messagesById: {},
         },
         draftMessage: {
-          draftsByInternalId: {
+          draftsByMessageId: {
             foo: draft,
           },
         },
