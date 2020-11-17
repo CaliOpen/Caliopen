@@ -1,6 +1,7 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import { withI18n, Trans } from '@lingui/react';
+import type { I18n } from '@lingui/core';
 import { compose } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -42,6 +43,7 @@ import { getModuleStateSelector } from '../../../../store/selectors/getModuleSta
 import ToggleAdvancedFormButton from './components/ToggleAdvancedFormButton';
 import './draft-message-quick.scss';
 import { IDraftMessageFormData } from 'src/modules/draftMessage/types';
+import { useScrollToMe } from 'src/modules/scroll';
 
 export const KEY = {
   ENTER: 13,
@@ -81,7 +83,7 @@ function useDraftMessage(discussionId): void | IDraftMessageFormData {
 }
 interface QuickDraftFormProps {
   // injected props
-  i18n: any;
+  i18n: I18n;
   push: Function;
   closeTab: Function;
   contacts: any[];
@@ -106,6 +108,7 @@ function QuickDraftForm({
   discussionId,
   contacts,
 }: QuickDraftFormProps) {
+  const ref = useScrollToMe('#reply', { focusable: true });
   const dispatch = useDispatch();
   const [isSaving, setIsSaving] = React.useState(false);
   const [isSending, setIsSending] = React.useState(false);
@@ -254,9 +257,8 @@ function QuickDraftForm({
     //   forwardRef(el);
     // };
 
-    // ref={ref}
     return (
-      <div>
+      <div ref={innerRef}>
         <PlaceholderBlock
           className={classnames(className, 'm-draft-message-placeholder')}
         />
@@ -267,7 +269,7 @@ function QuickDraftForm({
   const errors = validate({ draftMessage, i18n, availableIdentities });
   if (errors.length) {
     return (
-      <div className="m-quickdraft-errors">
+      <div className="m-quickdraft-errors" ref={innerRef}>
         <FieldErrors errors={errors} />
         <p>
           <Trans
@@ -284,10 +286,7 @@ function QuickDraftForm({
 
   return (
     // eslint-disable-next-line react/jsx-filename-extension
-    <div
-      className={classnames(className, 'm-draft-message-quick')}
-      ref={innerRef}
-    >
+    <div className={classnames(className, 'm-draft-message-quick')}>
       <form onSubmit={handleSend}>
         <div
           className={classnames(className, 'm-draft-message-quick__container')}
@@ -302,6 +301,8 @@ function QuickDraftForm({
             <LockedMessage encryptionStatus={draftEncryption} />
           ) : (
             <textarea
+              // @ts-ignore
+              ref={ref}
               rows={/\n+/.test(draftMessage.body) ? 7 : 1}
               className={classnames('m-draft-message-quick__input', {
                 'm-draft-message-quick__input--encrypted': encryptionEnabled,
