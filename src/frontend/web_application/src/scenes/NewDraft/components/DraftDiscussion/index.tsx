@@ -36,7 +36,6 @@ function DraftDiscussion({ messageId, className }: Props) {
   return (
     <div className={classnames(className)}>
       <Title hr>
-        {/* @ts-ignore */}
         <TextBlock>
           <Trans
             id="discussion-draft.last-messages"

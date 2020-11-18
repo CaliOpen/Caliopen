@@ -136,27 +136,31 @@ function QuickDraftForm({
   const encryptionEnabled =
     isEncrypted && draftEncryption.status === STATUS_DECRYPTED;
 
-
   const handleChange = (ev) => {
-    const { name, value } = ev.target;
-    dispatch(saveDraft({
-      draft: {
-        ...draftMessage,
-        [name]: value,
-      }
+    if (!draftMessage) {
+      return;
     }
-      , { withThrottle: true }));
-  }
 
+    const { name, value } = ev.target;
+    dispatch(
+      saveDraft(
+        {
+          ...draftMessage,
+          [name]: value,
+        },
+        { withThrottle: true }
+      )
+    );
+  };
 
   const getRecipientList = () => {
     // participants may not be present when the draft is new, it is the responsibility of the
     // backend to calculate what will be the participants for a reply
-    if (!draftMessage || !draftMessage.participants) {
+    if (!draftMessage || !draftMessage.recipients) {
       return null;
     }
 
-    const recipients = getRecipients(draftMessage);
+    const recipients = draftMessage.recipients;
 
     if (!recipients) {
       return '';
@@ -174,7 +178,7 @@ function QuickDraftForm({
 
   const getQuickInputPlaceholder = () => {
     if (!draftMessage) {
-      return null;
+      return undefined;
     }
     const { identifier } =
       availableIdentities.find(
@@ -199,7 +203,7 @@ function QuickDraftForm({
       );
     }
 
-    return i18n._('draft-message.form.placeholder.quick-start', null, {
+    return i18n._('draft-message.form.placeholder.quick-start', undefined, {
       defaults: 'Start a new discussion',
     });
   };
@@ -219,7 +223,7 @@ function QuickDraftForm({
     } catch (err) {
       dispatch(
         notifyError({
-          message: i18n._('draft.feedback.send-error', null, {
+          message: i18n._('draft.feedback.send-error', undefined, {
             defaults: 'Unable to send the message',
           }),
         })
@@ -330,7 +334,7 @@ function QuickDraftForm({
               icon={
                 isSending ? <Spinner loading display="block" /> : 'paper-plane'
               }
-              title={i18n._('draft-message.action.send', null, {
+              title={i18n._('draft-message.action.send', undefined, {
                 defaults: 'Send',
               })}
               className={classnames('m-draft-message-quick__send-button', {

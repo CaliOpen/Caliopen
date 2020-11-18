@@ -102,7 +102,7 @@ export const saveDraft = (
     withThrottle = false,
     force = false,
   }: { withThrottle?: boolean; force?: boolean } = {}
-) => async (dispatch, getState): Promise<void | Message> => {
+) => async (dispatch): Promise<void | Message> => {
   dispatch(editDraftBase(draft));
 
   if (throttled[draft.message_id]) {

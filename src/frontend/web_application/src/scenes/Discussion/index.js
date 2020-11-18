@@ -161,8 +161,8 @@ const updateDiscussionTags = ({ i18n, messages, tags }) => async (dispatch) =>
     )
   );
 
-const onMessageReply = ({ message }) => async (dispatch) => {
-  dispatch(reply({ message }));
+const onMessageReply = (message) => async (dispatch) => {
+  dispatch(reply(message));
 };
 
 const requestDiscussionAndDraft = ({ discussionId }) => async (

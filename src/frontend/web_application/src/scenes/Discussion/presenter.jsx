@@ -189,7 +189,7 @@ class Discussion extends Component {
     const { messages, onMessageReply, push } = this.props;
     const message = messages[messages.length - 1];
 
-    onMessageReply({ message });
+    onMessageReply(message);
     push({ hash: 'reply' });
   };
 
@@ -397,8 +397,6 @@ class Discussion extends Component {
         >
           <QuickDraftForm
             discussionId={discussionId}
-            // TODO: useful?
-            scrollToMe={hash === 'reply' ? scrollToTarget : undefined}
             onFocus={this.handleFocusDraft}
             draftFormRef={(node) => {
               this.replyFormRef = node;

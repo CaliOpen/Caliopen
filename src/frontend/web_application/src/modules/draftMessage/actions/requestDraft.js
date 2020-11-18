@@ -22,7 +22,7 @@ export const createDiscussionDraft = ({ discussionId, values }) => async (
 ) => {
   const [parentMessage, user] = await Promise.all([
     values.parent_id
-      ? dispatch(getMesage({ messageId: values.parent_id }))
+      ? dispatch(getMessage({ messageId: values.parent_id }))
       : dispatch(getLastMessage({ discussionId })),
     dispatch(getUser()),
   ]);

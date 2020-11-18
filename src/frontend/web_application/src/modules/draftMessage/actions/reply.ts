@@ -1,15 +1,20 @@
 import { saveDraft } from './saveDraft';
 import { createDiscussionDraft } from './requestDraft';
-import { getDraft, Message } from '../../message';
+import { getDraft, Message, messageSelector } from '../../message';
 import { mapMessageToDraftMessageFormData } from '../models';
 
-export const reply = (messageInReply) => async (dispatch): Promise<Message> => {
-  // in a discussion, I want to reply to a message
-
-  // find the draft if any for the discussion
-  // or create new draft
-  // set the parent and save
-
+/**
+ * In a discussion, I want to reply to a message
+ * find the draft if any for the discussion
+ * or create new draft
+ * set the parent and save
+ *
+ * @param messageInReply Message
+ */
+export const reply = (messageInReply: Message) => async (
+  dispatch,
+  getState
+): Promise<Message> => {
   const discussionId = messageInReply.discussion_id;
   let draft = await dispatch(getDraft({ discussionId }));
 
@@ -27,5 +32,13 @@ export const reply = (messageInReply) => async (dispatch): Promise<Message> => {
     draft = { ...draft, parent_id: messageInReply.message_id };
   }
 
-  return dispatch(saveDraft(mapMessageToDraftMessageFormData(draft)));
+  await dispatch(
+    saveDraft(mapMessageToDraftMessageFormData(draft), {
+      withThrottle: false,
+      force: true,
+    })
+  );
+  const message = messageSelector(getState(), { messageId: draft.message_id });
+
+  return message;
 };

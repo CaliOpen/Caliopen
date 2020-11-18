@@ -1,4 +1,5 @@
 import type { IDraftMessageFormData } from '../types';
+import type { I18n } from '@lingui/core';
 import { getIdentityProtocol } from './getIdentityProtocol';
 import { PROTOCOL_MASTODON, PROTOCOL_TWITTER } from '../../message';
 
@@ -8,13 +9,7 @@ export const validate = ({
   availableIdentities,
 }: {
   draftMessage: IDraftMessageFormData;
-  i18n: {
-    _: (
-      id: string,
-      values: null | { [key: string]: string },
-      options: { defaults: string }
-    ) => string;
-  };
+  i18n: I18n;
   availableIdentities: any[];
 }): string[] => {
   const identity = availableIdentities.find(
@@ -23,7 +18,7 @@ export const validate = ({
 
   if (!identity) {
     return [
-      i18n._('draft-message.errors.missing-identity', null, {
+      i18n._('draft-message.errors.missing-identity', undefined, {
         defaults: 'An identity is mandatory to create a draft',
       }),
     ];
