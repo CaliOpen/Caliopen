@@ -13,14 +13,14 @@ describe('ducks module draft-message', () => {
       const initialState = {
         ...reducer(undefined, { type: '@@INIT' }),
         draftsByMessageId: {
-          a111: draft,
+          111: draft,
         },
       };
       const body = 'foo';
       expect(reducer(undefined, module.editDraft({ ...draft, body }))).toEqual({
         ...initialState,
         draftsByMessageId: {
-          a111: {
+          111: {
             ...draft,
             body,
           },

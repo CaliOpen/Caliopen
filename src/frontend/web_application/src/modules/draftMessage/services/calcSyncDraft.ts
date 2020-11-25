@@ -14,7 +14,6 @@ export const calcSyncDraft = (
   const { body = '', subject, user_identities } = draft;
 
   const parentId = draft.parent_id || message.parent_id;
-  const isInDiscussion = draft.parent_id && draft.parent_id.length > 0;
 
   return {
     ...nextDraft,

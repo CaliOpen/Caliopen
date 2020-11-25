@@ -29,7 +29,7 @@ describe('modules identity - service - calcSyncDraft', () => {
     protocol: '',
     type: 'To',
   };
-  it('simple newer message', () => {
+  it('update body', () => {
     const draft = {
       ...draftBase,
       message_id: '111',
@@ -42,36 +42,27 @@ describe('modules identity - service - calcSyncDraft', () => {
       message_id: '111',
       discussion_id: '112',
     };
-    expect(calcSyncDraft(draft, message)).toEqual({
-      recipients: [],
-      body: 'new body',
-      message_id: '111',
-      discussion_id: '112',
-    });
-  });
-
-  it('should write discussion_id or read only props', () => {
-    const draft = {
-      ...draftBase,
-      message_id: '111',
-      participants: [],
-      body: 'new body',
-      discussion_id: undefined,
-    };
-    const message = {
-      ...messageBase,
-      body: 'old body',
-      message_id: '111',
-      discussion_id: '112',
-      tags: ['foo'],
-    };
-    expect(calcSyncDraft(draft, message)).toEqual({
-      recipients: [],
-      body: 'new body',
-      message_id: '111',
-      discussion_id: '112',
-      tags: ['foo'],
-    });
+    expect(calcSyncDraft(draft, message)).toMatchInlineSnapshot(`
+      Object {
+        "body": "new body",
+        "date": "",
+        "date_insert": "",
+        "discussion_id": "112",
+        "identity_id": "",
+        "is_answered": false,
+        "is_draft": true,
+        "is_unread": true,
+        "message_id": "111",
+        "parent_id": undefined,
+        "protocol": "whatever",
+        "raw_msg_id": "111",
+        "recipients": Array [],
+        "subject": undefined,
+        "tags": Array [],
+        "user_id": "114",
+        "user_identities": Array [],
+      }
+    `);
   });
 
   it('message with new attachments', () => {
@@ -92,16 +83,37 @@ describe('modules identity - service - calcSyncDraft', () => {
         { file_name: 'bar.png', temp_id: 'aabbb222' },
       ],
     };
-    expect(calcSyncDraft(draft, message)).toEqual({
-      recipients: [],
-      body: 'new body',
-      message_id: '111',
-      discussion_id: '112',
-      attachments: [
-        { file_name: 'foo.png', temp_id: 'aabbb111' },
-        { file_name: 'bar.png', temp_id: 'aabbb222' },
-      ],
-    });
+    expect(calcSyncDraft(draft, message)).toMatchInlineSnapshot(`
+      Object {
+        "attachments": Array [
+          Object {
+            "file_name": "foo.png",
+            "temp_id": "aabbb111",
+          },
+          Object {
+            "file_name": "bar.png",
+            "temp_id": "aabbb222",
+          },
+        ],
+        "body": "new body",
+        "date": "",
+        "date_insert": "",
+        "discussion_id": "112",
+        "identity_id": "",
+        "is_answered": false,
+        "is_draft": true,
+        "is_unread": true,
+        "message_id": "111",
+        "parent_id": undefined,
+        "protocol": "whatever",
+        "raw_msg_id": "111",
+        "recipients": Array [],
+        "subject": undefined,
+        "tags": Array [],
+        "user_id": "114",
+        "user_identities": Array [],
+      }
+    `);
   });
 
   it('message with removed attachments', () => {
@@ -118,74 +130,31 @@ describe('modules identity - service - calcSyncDraft', () => {
       message_id: '111',
       discussion_id: '112',
     };
-    expect(calcSyncDraft(draft, message)).toEqual({
-      recipients: [],
-      body: 'new body',
-      message_id: '111',
-      discussion_id: '112',
-    });
-  });
-
-  describe('parent_id', () => {
-    it('uses draft when in discussion', () => {
-      const draft = {
-        ...draftBase,
-        message_id: '111',
-        parent_id: 'aabbb1',
-        participants: [],
-        body: 'new body',
-        discussion_id: '112',
-      };
-      const message = {
-        ...messageBase,
-        parent_id: 'aabbb0',
-        participants: [
-          { ...participantBase, participant_id: '01' },
-          { ...participantBase, participant_id: '02' },
-        ],
-        body: 'old body',
-        message_id: '111',
-        discussion_id: '112',
-      };
-      expect(calcSyncDraft(draft, message)).toEqual({
-        parent_id: 'aabbb1',
-        recipients: [{ participant_id: '01' }, { participant_id: '02' }],
-        body: 'new body',
-        message_id: '111',
-        discussion_id: '112',
-      });
-    });
-    it('uses message when in compose', () => {
-      const draft = {
-        ...draftBase,
-        message_id: '111',
-        participants: [
-          { ...participantBase, participant_id: '01' },
-          { ...participantBase, participant_id: '02' },
-        ],
-        body: 'new body',
-        discussion_id: '112',
-      };
-      const message = {
-        ...messageBase,
-        parent_id: 'aabbb0',
-        participants: [{ ...participantBase, participant_id: '01' }],
-        body: 'old body',
-        message_id: '111',
-        discussion_id: '112',
-      };
-      expect(calcSyncDraft(draft, message)).toEqual({
-        parent_id: 'aabbb0',
-        recipients: [{ participant_id: '01' }, { participant_id: '02' }],
-        body: 'new body',
-        message_id: '111',
-        discussion_id: '112',
-      });
-    });
+    expect(calcSyncDraft(draft, message)).toMatchInlineSnapshot(`
+      Object {
+        "body": "new body",
+        "date": "",
+        "date_insert": "",
+        "discussion_id": "112",
+        "identity_id": "",
+        "is_answered": false,
+        "is_draft": true,
+        "is_unread": true,
+        "message_id": "111",
+        "parent_id": undefined,
+        "protocol": "whatever",
+        "raw_msg_id": "111",
+        "recipients": Array [],
+        "subject": undefined,
+        "tags": Array [],
+        "user_id": "114",
+        "user_identities": Array [],
+      }
+    `);
   });
 
   describe('participants', () => {
-    it('uses the participants of up to date message when reply', () => {
+    it('uses the participants of up to date message', () => {
       const draft = {
         ...draftBase,
         message_id: '111',
@@ -206,69 +175,40 @@ describe('modules identity - service - calcSyncDraft', () => {
         message_id: '111',
         discussion_id: '112',
       };
-      expect(calcSyncDraft(draft, message)).toEqual({
-        recipients: [{ participant_id: '01' }, { participant_id: '02' }],
-        parent_id: 'aabbb1',
-        body: 'new body',
-        message_id: '111',
-        discussion_id: '112',
-      });
-    });
-    it('uses the participants of up to date message when compose new but is actually a reply', () => {
-      const draft = {
-        ...draftBase,
-        message_id: '111',
-        participants: [
-          { ...participantBase, participant_id: '01' },
-          { ...participantBase, participant_id: '02' },
-        ],
-        body: 'new body',
-        attachments: [{ file_name: 'foo.png', temp_id: 'aabbb111' }],
-        discussion_id: '112',
-      };
-      const message = {
-        ...messageBase,
-        participants: [
-          { ...participantBase, participant_id: '01' },
-          { ...participantBase, participant_id: '02' },
-        ],
-        parent_id: 'aabbb0',
-        body: 'old body',
-        message_id: '111',
-        discussion_id: '112',
-      };
-      expect(calcSyncDraft(draft, message)).toEqual({
-        recipients: [{ participant_id: '01' }, { participant_id: '02' }],
-        parent_id: 'aabbb0',
-        body: 'new body',
-        message_id: '111',
-        discussion_id: '112',
-      });
-    });
-    it('uses the participants of the draft when new', () => {
-      const draft = {
-        ...draftBase,
-        message_id: '111',
-        participants: [{ ...participantBase, participant_id: '03' }],
-        body: 'new body',
-        attachments: [{ file_name: 'foo.png', temp_id: 'aabbb111' }],
-      };
-      const message = {
-        ...messageBase,
-        participants: [
-          { ...participantBase, participant_id: '01' },
-          { ...participantBase, participant_id: '02' },
-        ],
-        body: 'old body',
-        message_id: '111',
-        discussion_id: '112',
-      };
-      expect(calcSyncDraft(draft, message)).toEqual({
-        recipients: [{ participant_id: '03' }],
-        body: 'new body',
-        message_id: '111',
-        discussion_id: '112',
-      });
+      expect(calcSyncDraft(draft, message)).toMatchInlineSnapshot(`
+        Object {
+          "body": "new body",
+          "date": "",
+          "date_insert": "",
+          "discussion_id": "112",
+          "identity_id": "",
+          "is_answered": false,
+          "is_draft": true,
+          "is_unread": true,
+          "message_id": "111",
+          "parent_id": "aabbb1",
+          "protocol": "whatever",
+          "raw_msg_id": "111",
+          "recipients": Array [
+            Object {
+              "address": "",
+              "participant_id": "01",
+              "protocol": "",
+              "type": "To",
+            },
+            Object {
+              "address": "",
+              "participant_id": "02",
+              "protocol": "",
+              "type": "To",
+            },
+          ],
+          "subject": undefined,
+          "tags": Array [],
+          "user_id": "114",
+          "user_identities": Array [],
+        }
+      `);
     });
   });
 });
