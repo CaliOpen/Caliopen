@@ -4,7 +4,6 @@ import Moment from 'react-moment';
 import { Trans, withI18n } from '@lingui/react';
 import classnames from 'classnames';
 import Linkify from 'linkifyjs/react';
-import { withScrollTarget } from '../../../../modules/scroll';
 import { ParticipantLabel } from '../../../../modules/message';
 import {
   Button,
@@ -29,7 +28,6 @@ import './style.scss';
 import './mail-message-details.scss';
 
 @withI18n()
-@withScrollTarget()
 class MailMessage extends Component {
   static propTypes = {
     message: PropTypes.shape({
@@ -43,10 +41,11 @@ class MailMessage extends Component {
     settings: PropTypes.shape({ default_locale: PropTypes.string.isRequired })
       .isRequired,
     i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
-    scrollTarget: PropTypes.shape({ forwardRef: PropTypes.func }).isRequired,
     noInteractions: PropTypes.bool,
     isLocked: PropTypes.bool.isRequired,
     encryptionStatus: PropTypes.shape({}),
+    // scrollToMe
+    forwardedRef: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -153,10 +152,10 @@ class MailMessage extends Component {
   render() {
     const {
       message,
-      scrollTarget: { forwardRef },
       onOpenTags,
       noInteractions,
       encryptionStatus,
+      forwardedRef,
     } = this.props;
     const isDecrypted =
       encryptionStatus && encryptionStatus.status === STATUS_DECRYPTED;
@@ -175,7 +174,7 @@ class MailMessage extends Component {
     return (
       <article
         id={`message-${message.message_id}`}
-        ref={forwardRef}
+        ref={forwardedRef}
         className="s-mail-message"
       >
         <div className="s-mail-message__details m-mail-message-details">

@@ -4,7 +4,6 @@ import Moment from 'react-moment';
 import classNames from 'classnames';
 import Linkify from 'linkifyjs/react';
 import { withI18n, Trans } from '@lingui/react';
-import { withScrollTarget } from '../../../../modules/scroll';
 import { getAveragePIMessage, getPiClass } from '../../../../modules/pi';
 import { AuthorAvatarLetter } from '../../../../modules/avatar';
 import { LockedMessage } from '../../../../modules/encryption';
@@ -35,7 +34,6 @@ const PROTOCOL_ICONS = {
 };
 
 @withI18n()
-@withScrollTarget()
 class InstantMessage extends PureComponent {
   static propTypes = {
     message: PropTypes.shape({}).isRequired,
@@ -48,9 +46,10 @@ class InstantMessage extends PureComponent {
     onOpenTags: PropTypes.func.isRequired,
     onReply: PropTypes.func.isRequired,
     user: PropTypes.shape({}).isRequired,
-    scrollTarget: PropTypes.shape({ forwardRef: PropTypes.func }).isRequired,
     isLocked: PropTypes.bool.isRequired,
     encryptionStatus: PropTypes.shape({}),
+    // scrollToMe
+    forwardedRef: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -211,12 +210,7 @@ class InstantMessage extends PureComponent {
   }
 
   render() {
-    const {
-      isLocked,
-      encryptionStatus,
-      message,
-      scrollTarget: { forwardRef },
-    } = this.props;
+    const { isLocked, encryptionStatus, message, forwardedRef } = this.props;
     const author = getAuthor(message);
     const pi = getAveragePIMessage({ message });
 
@@ -232,7 +226,7 @@ class InstantMessage extends PureComponent {
     );
 
     return (
-      <article className={articleClassNames} ref={forwardRef}>
+      <article className={articleClassNames} ref={forwardedRef}>
         <header className="m-instant-message__author m-instant-message-author">
           <AuthorAvatarLetter
             message={message}

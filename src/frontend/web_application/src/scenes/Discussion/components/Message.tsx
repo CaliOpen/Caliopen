@@ -19,6 +19,7 @@ import MailMessage from './MailMessage';
 import { Router } from 'react-router-dom';
 import { reply } from 'src/modules/draftMessage';
 import { useSettings } from 'src/modules/settings';
+import { useScrollToMe } from 'src/modules/scroll';
 
 interface Props {
   message: MessageClass;
@@ -37,6 +38,7 @@ function Message({
 }: Props) {
   const history = useHistory();
   const dispatch = useDispatch();
+  const ref = useScrollToMe(`#${message.message_id}`);
   const [isTagModalOpen, setTagModalOpen] = React.useState(false);
 
   const settings = useSettings();
@@ -97,6 +99,7 @@ function Message({
       <>
         {isMail ? (
           <MailMessage
+            forwardedRef={ref}
             message={message}
             settings={settings}
             onOpenTags={handleOpenTags}
@@ -109,6 +112,7 @@ function Message({
           />
         ) : (
           <InstantMessage
+            forwardedRef={ref}
             message={message}
             onOpenTags={handleOpenTags}
             onCloseTags={handleCloseTags}
