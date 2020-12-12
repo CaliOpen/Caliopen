@@ -78,6 +78,14 @@ function Message({
     history.push(`/messages/${draft.message_id}`);
   };
 
+  const handleReadMessage = () => {
+    dispatch(setMessageRead({ message, isRead: true }));
+  };
+
+  const handleUnreadMessage = () => {
+    dispatch(setMessageRead({ message, isRead: false }));
+  };
+
   return (
     <VisibilitySensor
       // @ts-ignore: actually : void|false|string
@@ -94,7 +102,9 @@ function Message({
             onOpenTags={handleOpenTags}
             onCloseTags={handleCloseTags}
             onTagsChange={handleTagsChange}
-            onDeleteMessage={handleDeleteMessage}
+            onMessageDelete={handleDeleteMessage}
+            onMessageRead={handleReadMessage}
+            onMessageUnread={handleUnreadMessage}
             onReply={handleReplyMessage}
           />
         ) : (
@@ -103,7 +113,9 @@ function Message({
             onOpenTags={handleOpenTags}
             onCloseTags={handleCloseTags}
             onTagsChange={handleTagsChange}
-            onDeleteMessage={handleDeleteMessage}
+            onMessageDelete={handleDeleteMessage}
+            onMessageRead={handleReadMessage}
+            onMessageUnread={handleUnreadMessage}
             onReply={handleReplyMessage}
           />
         )}
