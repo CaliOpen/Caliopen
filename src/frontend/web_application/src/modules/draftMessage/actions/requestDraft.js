@@ -26,7 +26,8 @@ export const createDiscussionDraft = ({ discussionId, values }) => async (
       : dispatch(getLastMessage({ discussionId })),
     dispatch(getUser()),
   ]);
-  const { participants, protocol } = parentMessage;
+  // parentMessage may not exist at all
+  const { participants, protocol } = parentMessage || {};
   const identity = await dispatch(
     getDefaultIdentity({ participants, protocol })
   );
@@ -39,11 +40,11 @@ export const createDiscussionDraft = ({ discussionId, values }) => async (
     // discussionId?
     // how to deal w/ no network capability?
     discussion_id: discussionId,
-    subject: parentMessage.subject || '',
-    parent_id: parentMessage.message_id,
+    subject: parentMessage?.subject || '',
+    parent_id: parentMessage?.message_id,
     user_identities: identity ? [identity.identity_id] : [],
     recipients: changeAuthorInParticipants({
-      participants: parentMessage.participants,
+      participants: parentMessage?.participants,
       user,
       identity,
     }),
