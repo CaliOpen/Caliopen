@@ -4,7 +4,7 @@ from .provider import DataProvider, FileDataProvider, ESProvider
 from .interface import IDataProvider
 from .store import save_file
 
-__version__ = '0.22.0'
+__version__ = '0.23.0'
 
 
 __all__ = ['IDataProvider', 'DataProvider',

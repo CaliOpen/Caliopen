@@ -10,10 +10,11 @@ Things to do for a new release...
   git checkout master && git pull
   git merge develop
   ```
-* Make sure `CHANGELOG.md` is up to date according to http://keepachangelog.com (and don't forget **to add the version you want to release**, it is not automated)
+* Make sure `CHANGELOG.md` is up to date according to http://keepachangelog.com (and don't forget **to add the version you want to release**, it is not automated, keep semver notation of the version e.g `0.24.0`)
 * Stash or commit if you have changes
 * Change the version of caliopen packages (python and virtualenv are required):
-  ```
+
+  ```bash
   cd devtools
   # or you can use `setup-virtualenv.sh`
   virtualenv --python=python2.7 ./.venv

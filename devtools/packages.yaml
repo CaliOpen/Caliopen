@@ -103,6 +103,13 @@ packages:
         dependencies:
           go: "^1.7"
       -
+        name: mastodonworker
+        build_target: github.com/CaliOpen/Caliopen/src/backend/protocols/go.mastodon/cmd/mastodonworker
+        path: src/backend/protocols/go.mastodon
+        description: Mastodon daemon to handle transactions with Mastodon API endpoints.
+        dependencies:
+          go: "^1.7"
+      -
           name: idpoller
           build_target: github.com/CaliOpen/Caliopen/src/backend/workers/go.remoteIDs/cmd/idpoller
           path: src/backend/workers/go.remoteIDs
