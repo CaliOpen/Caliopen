@@ -9,9 +9,6 @@ export class Participant {
     Object.assign(this, props);
   }
 
-  // FIXME: not defined in Participant.yaml
-  participant_id: string;
-
   address: string;
 
   protocol: string;

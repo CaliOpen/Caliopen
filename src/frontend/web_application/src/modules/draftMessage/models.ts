@@ -22,11 +22,11 @@ export class DraftMessageFormData implements IDraftMessageFormData {
 export function mapDraftMessageFormDataToMessage(
   formData: DraftMessageFormData
 ): IDraftMessagePayload {
-  const { recipients, ...rest } = formData;
+  const { identity_id, recipients, ...rest } = formData;
   return new NewMessage({
     ...rest,
-    // XXX: include identity?
     participants: recipients.map(mapRecipientToParticipant),
+    user_identities: [identity_id],
   });
 }
 
@@ -46,9 +46,5 @@ export function mapParticipantToRecipient(participant: Participant): Recipient {
 }
 
 export function mapRecipientToParticipant(recipient: Recipient): Participant {
-  return {
-    // XXX: should be another way
-    participant_id: '',
-    ...recipient,
-  };
+  return recipient;
 }

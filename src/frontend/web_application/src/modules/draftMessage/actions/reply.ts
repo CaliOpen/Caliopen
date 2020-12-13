@@ -16,24 +16,25 @@ export const reply = (messageInReply: Message) => async (
   getState
 ): Promise<Message> => {
   const discussionId = messageInReply.discussion_id;
-  let draft = await dispatch(getDraft({ discussionId }));
+  const draftMessage = await dispatch(getDraft({ discussionId }));
 
-  if (!draft) {
-    draft = await dispatch(
-      createDiscussionDraft({
-        discussionId,
-        values: {
-          parent_id: messageInReply.message_id,
-        },
-      })
-    );
-  } else {
-    // FIXME: change subject & co?
-    draft = { ...draft, parent_id: messageInReply.message_id };
-  }
+  // FIXME: change subject & co? (not only parent_id)
+  const draft = draftMessage
+    ? {
+        ...mapMessageToDraftMessageFormData(draftMessage),
+        parent_id: messageInReply.message_id,
+      }
+    : await dispatch(
+        createDiscussionDraft({
+          discussionId,
+          values: {
+            parent_id: messageInReply.message_id,
+          },
+        })
+      );
 
   await dispatch(
-    saveDraft(mapMessageToDraftMessageFormData(draft), {
+    saveDraft(draft, {
       withThrottle: false,
       force: true,
     })

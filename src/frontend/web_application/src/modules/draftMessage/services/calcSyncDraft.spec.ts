@@ -24,7 +24,6 @@ describe('modules identity - service - calcSyncDraft', () => {
     user_identities: [],
   };
   const participantBase: Participant = {
-    participant_id: '113',
     address: '',
     protocol: '',
     type: 'To',
