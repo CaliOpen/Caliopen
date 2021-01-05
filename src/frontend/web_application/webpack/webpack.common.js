@@ -4,7 +4,7 @@ const mode = isDev ? 'development' : 'production';
 
 module.exports = {
   mode,
-  devtool: isDev ? 'eval' : 'source-map',
+  devtool: isDev ? 'eval-source-map' : 'source-map',
   entry: {
     app: [],
     vendor: [],
