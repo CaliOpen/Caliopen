@@ -1,20 +1,15 @@
 import { postActions, requestMessage } from '../../../store/modules/message';
 import { messagesByIdSelector } from '../../../store/selectors/message';
 import { clearDraft } from '../../../store/modules/draft-message';
-import { saveDraft } from './saveDraft';
+import { Message } from 'src/modules/message';
 
-export const sendDraft = ({ draft }) => async (dispatch, getState) => {
+export const sendDraft = (draft: Message) => async (
+  dispatch,
+  getState
+): Promise<Message> => {
   try {
-    const savedMessage = await dispatch(
-      saveDraft(
-        { draft },
-        {
-          withThrottle: false,
-        }
-      )
-    );
     // discussion_id is set after the message has been sent for new drafts
-    await dispatch(postActions({ draft, actions: ['send'] }));
+    await dispatch(postActions({ message: draft, actions: ['send'] }));
     await dispatch(requestMessage(draft.message_id));
 
     const messageUpToDate = messagesByIdSelector(getState())[draft.message_id];

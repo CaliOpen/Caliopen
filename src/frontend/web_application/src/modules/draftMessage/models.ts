@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Message, NewMessage, Participant } from 'src/modules/message';
 import { IDraftMessagePayload } from 'src/modules/message/types';
 import { IDraftMessageFormData, Recipient } from './types';
+import { getParticipantsExceptUser } from 'src/services/message';
 
 export class DraftMessageFormData implements IDraftMessageFormData {
   constructor(props: Partial<DraftMessageFormData> = {}) {
@@ -33,12 +34,14 @@ export function mapDraftMessageFormDataToMessage(
 export function mapMessageToDraftMessageFormData(
   message: Message
 ): DraftMessageFormData {
-  const { participants, ...rest } = message;
+  const { participants, user_identities, ...rest } = message;
 
   return new DraftMessageFormData({
     ...rest,
-    // TODO: filter identity
-    recipients: participants,
+    recipients: participants.filter(
+      (participant) => participant.type !== 'From'
+    ),
+    identity_id: user_identities?.[0] || '',
   });
 }
 export function mapParticipantToRecipient(participant: Participant): Recipient {

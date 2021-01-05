@@ -6,3 +6,4 @@ export * from './hoc/withContacts';
 export * from './selectors/contactSelector';
 export * from './services/addAddressToContact';
 export * from './services/identityTypes';
+export * from './hooks/useContacts';

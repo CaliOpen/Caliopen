@@ -88,11 +88,9 @@ interface QuickDraftFormProps {
   closeTab: Function;
   contacts: any[];
   // ownProps
-  encryptionChildren: React.ReactNode;
+  encryptionChildren?: React.ReactNode;
   className?: string;
-  innerRef: any;
-  handleSend: Function;
-  handleChange: Function;
+  innerRef: React.Ref<HTMLDivElement>;
   onFocus: any;
   discussionId: string;
 }
@@ -103,7 +101,7 @@ function QuickDraftForm({
   closeTab,
   encryptionChildren = null,
   className = undefined,
-  innerRef = undefined,
+  innerRef,
   onFocus,
   discussionId,
   contacts,
@@ -212,12 +210,17 @@ function QuickDraftForm({
     ev.preventDefault();
     setIsSending(true);
 
+    if (!draftMessage) {
+      return;
+    }
+
     try {
-      const message = await dispatch(
-        sendDraft({
-          draft: draftMessage,
+      const savedMessage = await dispatch(
+        saveDraft(draftMessage, {
+          withThrottle: false,
         })
       );
+      const message = await dispatch(sendDraft(savedMessage));
 
       setIsSending(false);
     } catch (err) {
@@ -353,14 +356,10 @@ function QuickDraftForm({
   );
 }
 
-const QuickDraftFormRef = compose(
+export default compose(
   withCloseTab(),
   withPush(),
   withI18n(),
   withContacts()
   // @ts-ignore: can be fixed with compose(...[hoc,]) but then fails in forwardRef
 )(QuickDraftForm);
-
-export default React.forwardRef((props, ref) => (
-  <QuickDraftFormRef {...props} innerRef={ref} />
-));

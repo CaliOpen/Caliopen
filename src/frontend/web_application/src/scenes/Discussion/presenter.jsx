@@ -398,7 +398,7 @@ class Discussion extends Component {
           <QuickDraftForm
             discussionId={discussionId}
             onFocus={this.handleFocusDraft}
-            draftFormRef={(node) => {
+            innerRef={(node) => {
               this.replyFormRef = node;
             }}
           />

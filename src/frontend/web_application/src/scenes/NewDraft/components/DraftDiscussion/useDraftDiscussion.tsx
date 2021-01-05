@@ -25,7 +25,6 @@ const getParticipantsHash = ({ participants }) => {
   );
 };
 const discussionStateSelector = getModuleStateSelector('discussion');
-const messageStateSelector = getModuleStateSelector('message');
 
 const discussionIdSelector = (state, messageId: string) => {
   const discussionState = discussionStateSelector(state);
@@ -60,7 +59,13 @@ const messageCollectionStateSelector = createMessageCollectionStateSelector(
 );
 
 const requestDraftDiscussion = (messageId: string) => async (dispatch) => {
-  const draftMessage = await dispatch(getMessage({ messageId }));
+  const draftMessage = await dispatch(getMessage({ messageId })).catch(
+    () => undefined
+  );
+
+  if (!draftMessage) {
+    return;
+  }
 
   const { participants } = draftMessage;
   const internalHash = getParticipantsHash({ participants });

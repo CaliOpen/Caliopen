@@ -1,6 +1,5 @@
 import * as React from 'react';
 import classnames from 'classnames';
-import { createSelector } from 'reselect';
 import { useDispatch, useSelector } from 'react-redux';
 import { Trans, withI18n } from '@lingui/react';
 import {
@@ -21,37 +20,34 @@ import {
   syncDraft,
 } from 'src/store/modules/draft-message';
 import { STATUS_DECRYPTED, STATUS_ERROR } from 'src/store/modules/encryption';
-import { contactsSelector } from 'src/modules/contact';
 import {
   saveDraft,
   sendDraft,
   draftMessageSelector,
   AttachmentManager,
   validate,
-  getSimpleDraft,
+  getOrCreateDraft,
   DraftMessageFormData,
 } from 'src/modules/draftMessage';
 import { calcSyncDraft } from 'src/modules/draftMessage/services/calcSyncDraft';
-import { filterIdentities } from 'src/modules/draftMessage/services/filterIdentities';
 import { getIdentityProtocol } from 'src/modules/draftMessage/services/getIdentityProtocol';
 import { LockedMessage } from 'src/modules/encryption';
 import {
   uploadDraftAttachments,
   deleteDraftAttachment,
 } from 'src/modules/file';
-import { identitiesSelector } from 'src/modules/identity';
 import {
   deleteMessage,
   PROTOCOL_EMAIL,
   messageSelector,
 } from 'src/modules/message';
 import { notifyError } from 'src/modules/userNotify';
-import { userSelector } from 'src/modules/user';
 import { messageEncryptionStatusSelector } from 'src/modules/encryption/selectors/message';
 import { IIdentity } from 'src/modules/identity/types';
 import { isMessageEncrypted } from 'src/services/encryption';
 import IdentitySelector from './components/IdentitySelector';
 import Recipients from './components/Recipients';
+import { useAvailableIdentities } from './hooks/useAvailableIdentities';
 import './draft-message-advanced.scss';
 import './draft-message-placeholder.scss';
 
@@ -62,31 +58,12 @@ function useDraftMessage(messageId: string): DraftMessageFormData | undefined {
   );
   React.useEffect(() => {
     if (!draftMessage) {
-      dispatch(getSimpleDraft({ messageId }));
+      dispatch(getOrCreateDraft(messageId));
     }
   }, [draftMessage]);
 
   return draftMessage;
 }
-
-const availableIdentitiesSelector = (state, draftMessage) =>
-  createSelector(
-    [
-      identitiesSelector,
-      userSelector,
-      contactsSelector,
-      (state) =>
-        draftMessage &&
-        messageSelector(state, { messageId: draftMessage.parent_id }),
-    ],
-    (identities, user, contacts, parentMessage) =>
-      filterIdentities({
-        identities,
-        user,
-        contacts,
-        parentMessage,
-      })
-  )(state);
 
 const onDeleteMessage = ({ message }) => async (dispatch) => {
   dispatch(deleteDraft({ draft: message }));
@@ -153,7 +130,7 @@ const onSendDraft = (draft) => async (dispatch) => {
       })
     );
     // discussion_id is set after the message has been sent for new drafts
-    const messageUpToDate = await dispatch(sendDraft({ draft: savedMessage }));
+    const messageUpToDate = await dispatch(sendDraft(savedMessage));
 
     dispatch(clearDraft({ draft }));
 
@@ -196,23 +173,14 @@ function DraftMessage(props: DraftMessageProps) {
     className,
     messageId,
     i18n,
-    // draftFormRef,
-    // scrollTarget: { forwardRef },
     onDeleteMessageSuccessfull,
     onSent,
   } = props;
-  // TODO:
-  // const ref = (el) => {
-  //   draftFormRef(el);
-  //   forwardRef(el);
-  // };
   const [isSending, setIsSending] = React.useState(false);
   const dispatch = useDispatch();
   const draftMessageFormData = useDraftMessage(messageId);
   const message = useSelector((state) => messageSelector(state, { messageId }));
-  const availableIdentities = useSelector((state) =>
-    availableIdentitiesSelector(state, draftMessageFormData)
-  );
+  const availableIdentities = useAvailableIdentities(draftMessageFormData);
   const parentMessage = useSelector(
     (state) =>
       draftMessageFormData &&
