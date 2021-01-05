@@ -8,18 +8,18 @@ export const actions = {
 };
 
 const selectors = {
-  all: () => state => state.discussions,
-  byId: ({ discussion_id }) => createSelector(
-    selectors.all(),
-    discussions => {
-      const discussion = discussions.find(discussion => discussion.discussion_id === discussion_id);
+  all: () => (state) => state.discussions,
+  byId: ({ discussion_id }) =>
+    createSelector(selectors.all(), (discussions) => {
+      const discussion = discussions.find(
+        (discussion) => discussion.discussion_id === discussion_id
+      );
       if (discussion) {
         return discussion;
       }
 
       throw new Error('discussion not found');
-    }
-  ),
+    }),
 };
 
 const reducer = {
@@ -30,7 +30,11 @@ const reducer = {
 
     const discussion = {
       discussion_id: uuidv1(),
-      participants: body.participants,
+      participants: body.participants.map((participant) => ({
+        ...participant,
+        protocol:
+          participant.protocol === 'smtp' ? 'email' : participant.protocol,
+      })),
       excerpt: body.body.slice(0, 100), // it works beccause created using POST message route
       privacy_index: 1,
       date_insert: new Date(),
@@ -43,10 +47,7 @@ const reducer = {
     // set discussionId for new draft;
     req.discussionId = discussion.discussion_id;
 
-    return [
-      ...state,
-      discussion,
-    ];
+    return [...state, discussion];
   },
 };
 
