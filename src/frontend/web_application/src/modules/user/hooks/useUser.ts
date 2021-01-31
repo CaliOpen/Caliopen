@@ -20,16 +20,17 @@ const getUser = () => async (dispatch, getState) => {
   return userStateSelector(getState()).user;
 };
 
-export function useUser(): User {
+export function useUser(): void | User {
   const dispatch = useDispatch();
   const { user } = useSelector(userStateSelector);
   const shouldFetch = useSelector(shouldFetchSelector);
+  const authenticated = isAuthenticated();
 
   React.useEffect(() => {
-    if (shouldFetch && isAuthenticated()) {
+    if (shouldFetch && authenticated) {
       dispatch(getUser());
     }
-  }, [shouldFetch, dispatch]);
+  }, [shouldFetch, dispatch, authenticated]);
 
   return user;
 }
