@@ -4,6 +4,7 @@ import { withI18n, Trans } from '@lingui/react';
 import type { I18n } from '@lingui/core';
 import { compose } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
+import { useCurrentTab, useCloseTab } from 'src/modules/tab';
 import {
   Button,
   Spinner,
@@ -28,7 +29,6 @@ import { filterIdentities } from '../../../../modules/draftMessage/services/filt
 import { identitiesSelector } from '../../../../modules/identity';
 import { messageSelector } from '../../../../modules/message';
 import { withPush } from '../../../../modules/routing';
-import { withCloseTab } from '../../../../modules/tab';
 import { userSelector } from '../../../../modules/user';
 import { notifyError } from '../../../../modules/userNotify';
 
@@ -97,7 +97,6 @@ interface QuickDraftFormProps {
 function QuickDraftForm({
   i18n,
   push,
-  closeTab,
   encryptionChildren = null,
   className = undefined,
   innerRef,
@@ -115,6 +114,9 @@ function QuickDraftForm({
       draftMessage &&
       messageSelector(state, { messageId: draftMessage.message_id })
   );
+
+  const closeTab = useCloseTab();
+  const tab = useCurrentTab();
 
   // FIXME: move to hook
   const availableIdentities = useSelector((state) =>
@@ -249,8 +251,8 @@ function QuickDraftForm({
     setIsSaving(true);
     try {
       await dispatch(saveDraft(draftMessage));
-      closeTab();
       push(`/messages/${draftMessage.message_id}#compose`);
+      closeTab(tab);
     } catch (err) {
       setIsSaving(false);
     }
@@ -356,7 +358,6 @@ function QuickDraftForm({
 }
 
 export default compose(
-  withCloseTab(),
   withPush(),
   withI18n(),
   withContacts()

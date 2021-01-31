@@ -43,9 +43,6 @@ class TabProvider extends Component {
       getCurrentTab: () => {
         // noop
       },
-      closeTab: () => {
-        // noop
-      },
     },
   };
 
@@ -56,7 +53,6 @@ class TabProvider extends Component {
         removeTab: this.removeTab,
         updateTab: this.updateTab,
         getCurrentTab: this.getCurrentTab,
-        closeTab: this.closeTab,
       },
     }));
     this.initializeApps();
