@@ -1,3 +1,4 @@
+import { DraftMessageFormData } from 'src/modules/draftMessage';
 import { IDraftMessageFormData } from 'src/modules/draftMessage/types';
 
 export const CREATE_DRAFT = 'co/draft-message/CREATE_DRAFT';
@@ -6,8 +7,6 @@ export const EDIT_DRAFT = 'co/draft-message/EDIT_DRAFT';
 export const SAVE_DRAFT = 'co/draft-message/SAVE_DRAFT';
 export const SEND_DRAFT = 'co/draft-message/SEND_DRAFT';
 export const CLEAR_DRAFT = 'co/draft-message/CLEAR_DRAFT';
-export const REQUEST_DRAFT = 'co/draft-message/REQUEST_DRAFT';
-export const REQUEST_DRAFT_SUCCESS = 'co/draft-message/REQUEST_DRAFT_SUCCESS';
 export const DELETE_DRAFT = 'co/draft-message/DELETE_DRAFT';
 export const DELETE_DRAFT_SUCCESS = 'co/draft-message/DELETE_DRAFT_SUCCESS';
 export const SET_RECIPIENT_SEARCH_TERMS =
@@ -60,21 +59,6 @@ export function clearDraft({ draft }) {
   };
 }
 
-export function requestDraft({ messageId }) {
-  return {
-    type: REQUEST_DRAFT,
-    payload: { messageId },
-  };
-}
-
-// TODEL?
-export function requestDraftSuccess({ draft }) {
-  return {
-    type: REQUEST_DRAFT_SUCCESS,
-    payload: { draft },
-  };
-}
-
 export function deleteDraft({ draft }) {
   return {
     type: DELETE_DRAFT,
@@ -114,7 +98,6 @@ function draftReducer(state = {}, action) {
   switch (action.type) {
     case CREATE_DRAFT:
     case EDIT_DRAFT:
-    case REQUEST_DRAFT_SUCCESS:
     case DECRYPT_DRAFT_SUCCESS:
       return {
         ...state,
@@ -132,7 +115,6 @@ function dratfsByMessageIdReducer(state, action) {
     case CREATE_DRAFT:
     case SYNC_DRAFT:
     case EDIT_DRAFT:
-    case REQUEST_DRAFT_SUCCESS:
     case DECRYPT_DRAFT_SUCCESS:
       return {
         ...state,
@@ -150,22 +132,6 @@ function dratfsByMessageIdReducer(state, action) {
 
 function draftActivityByMessageIdReducer(state, action) {
   switch (action.type) {
-    case REQUEST_DRAFT:
-      return {
-        ...state,
-        [action.payload.draft.message_id]: {
-          ...state[action.payload.draft.message_id],
-          isRequestingDraft: true,
-        },
-      };
-    case REQUEST_DRAFT_SUCCESS:
-      return {
-        ...state,
-        [action.payload.draft.message_id]: {
-          ...state[action.payload.draft.message_id],
-          isRequestingDraft: false,
-        },
-      };
     case DELETE_DRAFT:
       return {
         ...state,
@@ -187,7 +153,23 @@ function draftActivityByMessageIdReducer(state, action) {
   }
 }
 
-const initialState = {
+export interface State {
+  didInvalidate: boolean;
+  draftsByMessageId: {
+    [messageId: string]: DraftMessageFormData;
+  };
+  recipientSearchTermsByMessageId: {
+    [messageId: string]: string;
+  };
+  draftActivityByMessageId: {
+    [messageId: string]: {
+      isRequestingDraft: boolean;
+      isDeletingDraft: boolean;
+    };
+  };
+}
+
+const initialState: State = {
   didInvalidate: false,
   draftsByMessageId: {},
   recipientSearchTermsByMessageId: {},
@@ -216,7 +198,6 @@ export default function reducer(state = initialState, action) {
       };
     case DELETE_DRAFT:
     case DELETE_DRAFT_SUCCESS:
-    case REQUEST_DRAFT:
       return {
         ...state,
         draftActivityByMessageId: draftActivityByMessageIdReducer(
@@ -225,7 +206,6 @@ export default function reducer(state = initialState, action) {
         ),
       };
     case DECRYPT_DRAFT_SUCCESS:
-    case REQUEST_DRAFT_SUCCESS:
       return {
         ...state,
         draftActivityByMessageId: draftActivityByMessageIdReducer(

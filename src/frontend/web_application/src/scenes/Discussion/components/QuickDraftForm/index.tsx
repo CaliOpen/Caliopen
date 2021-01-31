@@ -33,7 +33,6 @@ import { userSelector } from '../../../../modules/user';
 import { notifyError } from '../../../../modules/userNotify';
 
 import { isMessageEncrypted } from '../../../../services/encryption';
-import { getRecipients } from '../../../../services/message';
 import {
   STATUS_DECRYPTED,
   STATUS_ERROR,

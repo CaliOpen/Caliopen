@@ -7,6 +7,7 @@ describe('ducks module draft-message', () => {
       const draft: IDraftMessageFormData = {
         message_id: '111',
         recipients: [],
+        participants: [],
         body: 'bar',
         identity_id: 'aaa',
       };

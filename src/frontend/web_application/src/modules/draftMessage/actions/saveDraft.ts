@@ -1,6 +1,4 @@
 import throttle from 'lodash.throttle';
-import { v4 as uuidv4 } from 'uuid';
-import isEqual from 'lodash.isequal';
 import { calcSyncDraft } from '../services/calcSyncDraft';
 import { updateMessage } from '../../../store/actions/message';
 import { createMessage, getMessage, Message } from '../../message';
@@ -9,11 +7,9 @@ import {
   syncDraft,
 } from '../../../store/modules/draft-message';
 import { consolidateParticipants } from './consolidateParticipants';
-import {
-  DraftMessageFormData,
-  mapDraftMessageFormDataToMessage,
-} from '../models';
+import { mapDraftMessageFormDataToMessage } from '../models';
 import { IDraftMessagePayload } from 'src/modules/message/types';
+import { IDraftMessageFormData } from '../types';
 
 const UPDATE_WAIT_TIME = 5 * 1000;
 
@@ -97,7 +93,7 @@ const createThrottle = (
   );
 
 export const saveDraft = (
-  draft: DraftMessageFormData,
+  draft: IDraftMessageFormData,
   {
     withThrottle = false,
     force = false,

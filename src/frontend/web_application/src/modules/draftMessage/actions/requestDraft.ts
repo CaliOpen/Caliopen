@@ -1,8 +1,4 @@
-import {
-  requestDraftSuccess,
-  createDraft,
-  syncDraft,
-} from '../../../store/modules/draft-message';
+import { createDraft, syncDraft } from '../../../store/modules/draft-message';
 import {
   getDraft as getDiscussionDraftBase,
   getMessage,
@@ -53,7 +49,7 @@ export const createDiscussionDraft = ({ discussionId, values }) => async (
   });
 
   await dispatch(createDraft({ draft: newDraft }));
-  dispatch(requestDraftSuccess({ draft: newDraft }));
+  dispatch(syncDraft(newDraft));
 
   return newDraft;
 };
@@ -64,13 +60,10 @@ export const getOrCreateDiscussionDraft = ({ discussionId }) => async (
   const draft = await dispatch(getDiscussionDraftBase({ discussionId }));
 
   if (draft) {
-    dispatch(
-      requestDraftSuccess({
-        draft,
-      })
-    );
+    const draftFormData = mapMessageToDraftMessageFormData(draft);
+    dispatch(syncDraft(draftFormData));
 
-    return draft;
+    return draftFormData;
   }
 
   return dispatch(createDiscussionDraft({ discussionId, values: {} }));
@@ -82,7 +75,6 @@ export const getOrCreateDraft = (messageId) => async (
   try {
     const message = await Promise.resolve(dispatch(getMessage({ messageId })));
     const draft = mapMessageToDraftMessageFormData(message);
-    dispatch(requestDraftSuccess({ draft }));
     dispatch(syncDraft(draft));
 
     return draft;
@@ -93,7 +85,6 @@ export const getOrCreateDraft = (messageId) => async (
       identity_id: identity?.identity_id,
     });
     await dispatch(createDraft({ draft: newDraft }));
-    dispatch(requestDraftSuccess({ draft: newDraft }));
     dispatch(syncDraft(newDraft));
 
     return newDraft;

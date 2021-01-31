@@ -15,6 +15,7 @@ import { Participant } from '../message';
 //   parent_id: void | string;
 // }
 
+// XXX extend Participant?
 export interface Recipient {
   address: string;
   label?: string;
@@ -26,9 +27,10 @@ export interface Recipient {
 
 export interface IDraftMessageFormData {
   message_id: string;
-  // XXX: useful?
-  // user_identities: string[];
+  discussion_id?: string;
   recipients: Array<Recipient>;
+  // FIXME: Keep a copy of participants because of a bug backend side: the indenty is duplicated (from and to in participant) in draft. So it defeats discussion id selection on advanced draft form
+  participants: Array<Participant>;
   body: string;
   subject?: string;
   parent_id?: string;

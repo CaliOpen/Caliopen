@@ -20,14 +20,13 @@ function DraftDiscussion({ messageId, className }: Props) {
     return null;
   }
 
+  // participants except user
   const participants = discussion.participants
     .filter(
       (participant) =>
-        !(
-          participant.contact_ids &&
-          participant.contact_ids.some(
-            (contactId) => contactId === user.contact.contact_id
-          )
+        !user ||
+        !(participant.contact_ids || EMPTY_ARRAY).some(
+          (contactId) => contactId === user.contact.contact_id
         )
     )
     .map((participant) => participant.label)

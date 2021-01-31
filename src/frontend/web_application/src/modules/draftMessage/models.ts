@@ -2,7 +2,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { Message, NewMessage, Participant } from 'src/modules/message';
 import { IDraftMessagePayload } from 'src/modules/message/types';
 import { IDraftMessageFormData, Recipient } from './types';
-import { getParticipantsExceptUser } from 'src/services/message';
 
 export class DraftMessageFormData implements IDraftMessageFormData {
   constructor(props: Partial<DraftMessageFormData> = {}) {
@@ -10,13 +9,13 @@ export class DraftMessageFormData implements IDraftMessageFormData {
   }
 
   message_id: string = uuidv4();
-  // discussion_id: string;
+  discussion_id?: string;
   subject?: string = '';
   body: string = '';
   parent_id?: string;
-  // XXX: useful?
-  // user_identities: string[] = [];
   recipients: Array<Recipient> = [];
+  // FIXME: Keep a copy of participants because of a bug backend side: the indenty is duplicated (from and to in participant) in draft. So it defeats discussion id selection on advanced draft form
+  participants: Array<Participant> = [];
   identity_id: string;
 }
 
@@ -34,13 +33,26 @@ export function mapDraftMessageFormDataToMessage(
 export function mapMessageToDraftMessageFormData(
   message: Message
 ): DraftMessageFormData {
-  const { participants, user_identities, ...rest } = message;
+  const {
+    message_id,
+    discussion_id,
+    subject,
+    body,
+    parent_id,
+    participants,
+    user_identities,
+  } = message;
 
   return new DraftMessageFormData({
-    ...rest,
+    message_id,
+    discussion_id,
+    subject,
+    body,
+    parent_id,
     recipients: participants.filter(
       (participant) => participant.type !== 'From'
     ),
+    participants,
     identity_id: user_identities?.[0] || '',
   });
 }

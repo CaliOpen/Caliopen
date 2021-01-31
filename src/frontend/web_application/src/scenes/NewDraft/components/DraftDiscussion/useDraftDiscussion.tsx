@@ -41,7 +41,7 @@ const discussionIdSelector = (state, messageId: string) => {
   const discussionId =
     discussionState.discussionByParticipantsHash[
       getParticipantsHash({
-        participants,
+        participants: participants,
       })
     ]?.discussionId;
 
@@ -81,6 +81,8 @@ const requestDraftDiscussion = (messageId: string) => async (dispatch) => {
   }
 };
 
+const EMPTY_ARRAY = [];
+
 /**
  * This hook relies on draftMessage participants to get the discussion and the related messages.
  * @param messageId string
@@ -113,6 +115,8 @@ export function useDraftDiscussion(messageId: string) {
 
   return {
     discussion,
-    messages,
+    messages: (messages || EMPTY_ARRAY).filter(
+      (message) => message.message_id !== messageId
+    ),
   };
 }
