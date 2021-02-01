@@ -19,16 +19,15 @@ export function useAvailableIdentities(
   const parentMessage = useSelector((state) =>
     messageSelector(state, { messageId: draft?.parent_id })
   );
-  const [fetching, setFetching] = React.useState<boolean>(false);
+  const [loaded, setLoaded] = React.useState<boolean>(false);
   React.useEffect(() => {
     (async function fetch() {
-      if (draft && draft.parent_id && !fetching) {
-        setFetching(true);
+      if (draft && draft.parent_id && !parentMessage && !loaded) {
         await dispatch(getMessage({ messageId: draft.parent_id }));
-        setFetching(false);
+        setLoaded(true);
       }
     })();
-  }, [draft, fetching]);
+  }, [draft, loaded, parentMessage]);
 
   if (!identities) {
     return EMPTY_ARRAY;
