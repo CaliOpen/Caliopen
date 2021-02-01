@@ -2,7 +2,7 @@ import { decryptMessage } from '../../modules/encryption';
 // Renaming REQUEST_DRAFT_SUCCESS actions for disambiguation.
 import {
   decryptDraftSuccess,
-  REQUEST_DRAFT_SUCCESS as DRAFT_REQUEST_DRAFT_SUCCESS,
+  // REQUEST_DRAFT_SUCCESS as DRAFT_REQUEST_DRAFT_SUCCESS,
 } from '../modules/draft-message';
 import {
   FETCH_MESSAGES_SUCCESS,
@@ -19,8 +19,8 @@ import {
 
 const extractMessagesFromAction = ({ payload, type }) => {
   switch (type) {
-    case DRAFT_REQUEST_DRAFT_SUCCESS:
-      return [payload.draft];
+    // case DRAFT_REQUEST_DRAFT_SUCCESS:
+    //   return [payload.draft];
     case REQUEST_MESSAGE_SUCCESS:
       return [payload.data];
     case REQUEST_MESSAGES_SUCCESS:
@@ -62,21 +62,23 @@ const setPassphrase = ({ fingerprint }) => (dispatch, getState) => {
 
 export default (store) => (next) => async (action) => {
   switch (action.type) {
-    case DRAFT_REQUEST_DRAFT_SUCCESS:
-      store
-        .dispatch(
-          decryptMessage({ message: extractMessagesFromAction(action)[0] })
-        )
-        .then((draft) =>
-          store.dispatch(
-            decryptDraftSuccess({
-              internalId: action.payload.internalId,
-              draft,
-            })
-          )
-        );
+    // FIXME: this does not exist anymore, is it syncDraft now? (but it is a draftFormData now)
+    // What is the algo: fetch draft > decrypt draft > store draft form data > edit draft > encrypt draft > save ?
+    // case DRAFT_REQUEST_DRAFT_SUCCESS:
+    //   store
+    //     .dispatch(
+    //       decryptMessage({ message: extractMessagesFromAction(action)[0] })
+    //     )
+    //     .then((draft) =>
+    //       store.dispatch(
+    //         decryptDraftSuccess({
+    //           internalId: action.payload.internalId,
+    //           draft,
+    //         })
+    //       )
+    //     );
 
-      return next(action);
+    //   return next(action);
     case MESSAGE_REQUEST_DRAFT_SUCCESS:
     case REQUEST_MESSAGE_SUCCESS:
     case REQUEST_MESSAGES_SUCCESS:
