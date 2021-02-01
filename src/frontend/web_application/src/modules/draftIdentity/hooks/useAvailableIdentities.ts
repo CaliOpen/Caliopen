@@ -5,12 +5,12 @@ import { filterIdentities } from 'src/modules/draftMessage/services/filterIdenti
 import { useIdentities } from 'src/modules/identity';
 import { messageSelector, getMessage } from 'src/modules/message';
 import { useUser } from 'src/modules/user';
-import { DraftMessageFormData } from 'src/modules/draftMessage';
+import { IDraftMessageFormData } from 'src/modules/draftMessage/types';
 
 const EMPTY_ARRAY = [];
 
 export function useAvailableIdentities(
-  draft: undefined | DraftMessageFormData
+  draft: undefined | IDraftMessageFormData
 ) {
   const dispatch = useDispatch();
   const { identities } = useIdentities();

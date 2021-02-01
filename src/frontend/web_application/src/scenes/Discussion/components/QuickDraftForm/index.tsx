@@ -43,6 +43,7 @@ import ToggleAdvancedFormButton from './components/ToggleAdvancedFormButton';
 import './draft-message-quick.scss';
 import { IDraftMessageFormData } from 'src/modules/draftMessage/types';
 import { useScrollToMe } from 'src/modules/scroll';
+import { useAvailableIdentities } from 'src/modules/draftIdentity';
 
 export const KEY = {
   ENTER: 13,
@@ -67,7 +68,7 @@ const availableIdentitiesSelector = (state, { contacts, draftMessage }) => {
   });
 };
 
-function useDraftMessage(discussionId): void | IDraftMessageFormData {
+function useDraftMessage(discussionId): undefined | IDraftMessageFormData {
   const dispatch = useDispatch();
   const draftMessage = useSelector((state) =>
     discussionDraftSelector(state, discussionId)
@@ -118,10 +119,8 @@ function QuickDraftForm({
   const closeTab = useCloseTab();
   const tab = useCurrentTab();
 
-  // FIXME: move to hook
-  const availableIdentities = useSelector((state) =>
-    availableIdentitiesSelector(state, { contacts, draftMessage })
-  );
+  const availableIdentities = useAvailableIdentities(draftMessage);
+
   const draftEncryption = useSelector(
     (state) =>
       draftMessage &&

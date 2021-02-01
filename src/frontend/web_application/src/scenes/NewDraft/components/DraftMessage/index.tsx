@@ -47,7 +47,7 @@ import { IIdentity } from 'src/modules/identity/types';
 import { isMessageEncrypted } from 'src/services/encryption';
 import IdentitySelector from './components/IdentitySelector';
 import Recipients from './components/Recipients';
-import { useAvailableIdentities } from './hooks/useAvailableIdentities';
+import { useAvailableIdentities } from 'src/modules/draftIdentity';
 import './draft-message-advanced.scss';
 import './draft-message-placeholder.scss';
 
