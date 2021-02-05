@@ -40,6 +40,7 @@ import {
   deleteMessage,
   PROTOCOL_EMAIL,
   messageSelector,
+  Message,
 } from 'src/modules/message';
 import { notifyError } from 'src/modules/userNotify';
 import { messageEncryptionStatusSelector } from 'src/modules/encryption/selectors/message';
@@ -164,7 +165,7 @@ interface DraftMessageProps {
   className?: string;
   messageId: string;
   onDeleteMessageSuccessfull: Function;
-  onSent: Function;
+  onSent: (message: Message) => void;
   i18n: any;
 }
 
@@ -290,7 +291,7 @@ function DraftMessage(props: DraftMessageProps) {
       const message = await dispatch(onSendDraft(draftMessageFormData));
 
       setIsSending(false);
-      onSent({ message });
+      onSent(message);
     } catch (err) {
       dispatch(
         notifyError({

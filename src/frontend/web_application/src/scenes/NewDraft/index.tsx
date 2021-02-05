@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { useDispatch } from 'react-redux';
 import { withCloseTab } from '../../modules/tab';
 import { withScrollManager } from '../../modules/scroll';
-import { getMessage } from '../../modules/message';
+import { getMessage, Message } from '../../modules/message';
 import DraftMessage from './components/DraftMessage';
 import DraftDiscussion from './components/DraftDiscussion';
 import './style.scss';
@@ -29,7 +29,7 @@ function NewDraft(props: NewDraftProps) {
       dispatch(getMessage({ messageId })).then(
         (message) => {
           if (!message.is_draft) {
-            redirectDiscussion(message.discussion_id);
+            redirectDiscussion(message);
           }
         },
         () => {
@@ -39,17 +39,19 @@ function NewDraft(props: NewDraftProps) {
     }
   }, [messageId]);
 
-  const handleSent = ({ discussionId }) => {
-    redirectDiscussion(discussionId);
+  const handleSent = (message) => {
+    redirectDiscussion(message);
   };
 
   // TODO: rollback pour garder le redirect si c'est pas draft
-  const redirectDiscussion = ({ discussionId, message }) => {
+  const redirectDiscussion = (message: Message) => {
     const { closeTab } = props;
 
     closeTab();
 
-    return history.push(`/discussions/${discussionId}#${message.message_id}`);
+    return history.push(
+      `/discussions/${message.discussion_id}#${message.message_id}`
+    );
   };
 
   const getHash = () => {
