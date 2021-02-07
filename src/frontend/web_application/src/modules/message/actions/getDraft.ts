@@ -15,10 +15,10 @@ export const getDraft = ({ discussionId }: { discussionId: string }) => async (
   }
 
   try {
-    const response = handleClientResponseSuccess(
+    const data = handleClientResponseSuccess(
       await dispatch(requestDraft({ discussionId }))
     );
-    [draft] = response.messages;
+    [draft] = data.messages;
 
     return draft;
   } catch (error) {

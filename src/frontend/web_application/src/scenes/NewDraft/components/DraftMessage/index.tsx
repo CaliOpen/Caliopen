@@ -133,8 +133,6 @@ const onSendDraft = (draft) => async (dispatch) => {
     // discussion_id is set after the message has been sent for new drafts
     const messageUpToDate = await dispatch(sendDraft(savedMessage));
 
-    dispatch(clearDraft({ draft }));
-
     return messageUpToDate;
   } catch (err) {
     return Promise.reject(err);
@@ -290,8 +288,8 @@ function DraftMessage(props: DraftMessageProps) {
     try {
       const message = await dispatch(onSendDraft(draftMessageFormData));
 
-      setIsSending(false);
       onSent(message);
+      setIsSending(false);
     } catch (err) {
       dispatch(
         notifyError({

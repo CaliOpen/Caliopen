@@ -4,6 +4,7 @@ import { withI18n, Trans } from '@lingui/react';
 import type { I18n } from '@lingui/core';
 import { compose } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { useCurrentTab, useCloseTab } from 'src/modules/tab';
 import {
   Button,
@@ -49,25 +50,6 @@ export const KEY = {
   ENTER: 13,
 };
 
-const messagesByIdSelector = (state) =>
-  getModuleStateSelector('message')(state).messagesById;
-
-const parentMessageSelector = (state, message) =>
-  message && messagesByIdSelector(state)[message.parent_id];
-
-const availableIdentitiesSelector = (state, { contacts, draftMessage }) => {
-  const user = userSelector(state);
-  const parentMessage = parentMessageSelector(state, draftMessage);
-  const identities = identitiesSelector(state);
-
-  return filterIdentities({
-    identities,
-    user,
-    contacts,
-    parentMessage,
-  });
-};
-
 function useDraftMessage(discussionId): undefined | IDraftMessageFormData {
   const dispatch = useDispatch();
   const draftMessage = useSelector((state) =>
@@ -84,9 +66,6 @@ function useDraftMessage(discussionId): undefined | IDraftMessageFormData {
 interface QuickDraftFormProps {
   // injected props
   i18n: I18n;
-  push: Function;
-  closeTab: Function;
-  contacts: any[];
   // ownProps
   encryptionChildren?: React.ReactNode;
   className?: string;
@@ -97,13 +76,11 @@ interface QuickDraftFormProps {
 
 function QuickDraftForm({
   i18n,
-  push,
   encryptionChildren = null,
   className = undefined,
   innerRef,
   onFocus,
   discussionId,
-  contacts,
 }: QuickDraftFormProps) {
   const ref = useScrollToMe('#reply', { focusable: true });
   const dispatch = useDispatch();
@@ -118,6 +95,7 @@ function QuickDraftForm({
 
   const closeTab = useCloseTab();
   const tab = useCurrentTab();
+  const history = useHistory();
 
   const availableIdentities = useAvailableIdentities(draftMessage);
 
@@ -250,7 +228,7 @@ function QuickDraftForm({
     setIsSaving(true);
     try {
       await dispatch(saveDraft(draftMessage));
-      push(`/messages/${draftMessage.message_id}#compose`);
+      history.push(`/messages/${draftMessage.message_id}#compose`);
       closeTab(tab);
     } catch (err) {
       setIsSaving(false);
@@ -357,8 +335,6 @@ function QuickDraftForm({
 }
 
 export default compose(
-  withPush(),
-  withI18n(),
-  withContacts()
+  withI18n()
   // @ts-ignore: can be fixed with compose(...[hoc,]) but then fails in forwardRef
 )(QuickDraftForm);

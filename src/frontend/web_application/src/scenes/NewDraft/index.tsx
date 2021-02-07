@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Redirect, useHistory, useParams } from 'react-router-dom';
-import { compose } from 'redux';
 import { useDispatch } from 'react-redux';
-import { withCloseTab } from '../../modules/tab';
+import { useCloseTab, useCurrentTab } from '../../modules/tab';
 import { withScrollManager } from '../../modules/scroll';
 import { getMessage, Message } from '../../modules/message';
 import DraftMessage from './components/DraftMessage';
@@ -11,7 +10,6 @@ import DraftDiscussion from './components/DraftDiscussion';
 import './style.scss';
 
 interface NewDraftProps {
-  closeTab: Function;
   scrollManager: {
     scrollToTarget: Function;
   };
@@ -22,6 +20,8 @@ interface NewDraftProps {
 function NewDraft(props: NewDraftProps) {
   const dispatch = useDispatch();
   const history = useHistory();
+  const closeTab = useCloseTab();
+  const tab = useCurrentTab();
   const { messageId } = useParams<{ messageId?: string }>();
 
   React.useEffect(() => {
@@ -43,15 +43,12 @@ function NewDraft(props: NewDraftProps) {
     redirectDiscussion(message);
   };
 
+  const handleCloseTab = () => closeTab(tab);
+
   // TODO: rollback pour garder le redirect si c'est pas draft
   const redirectDiscussion = (message: Message) => {
-    const { closeTab } = props;
-
-    closeTab();
-
-    return history.push(
-      `/discussions/${message.discussion_id}#${message.message_id}`
-    );
+    history.push(`/discussions/${message.discussion_id}#${message.message_id}`);
+    handleCloseTab();
   };
 
   const getHash = () => {
@@ -61,7 +58,6 @@ function NewDraft(props: NewDraftProps) {
   };
 
   const {
-    closeTab,
     scrollManager: { scrollToTarget },
   } = props;
 
@@ -78,7 +74,7 @@ function NewDraft(props: NewDraftProps) {
         scrollToMe={hash === 'compose' ? scrollToTarget : undefined}
         className="s-new-draft__form"
         messageId={messageId}
-        onDeleteMessageSuccessfull={closeTab}
+        onDeleteMessageSuccessfull={handleCloseTab}
         onSent={handleSent}
       />
       <DraftDiscussion
@@ -89,7 +85,4 @@ function NewDraft(props: NewDraftProps) {
   );
 }
 
-export default compose<any, any, any>(
-  withCloseTab(),
-  withScrollManager()
-)(NewDraft);
+export default withScrollManager()(NewDraft);
