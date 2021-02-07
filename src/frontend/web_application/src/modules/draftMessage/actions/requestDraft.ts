@@ -71,9 +71,12 @@ export const getOrCreateDiscussionDraft = ({ discussionId }) => async (
 
 export const getOrCreateDraft = (messageId) => async (
   dispatch
-): Promise<DraftMessageFormData> => {
+): Promise<void | DraftMessageFormData> => {
   try {
     const message = await Promise.resolve(dispatch(getMessage({ messageId })));
+    if (!message.is_draft) {
+      return undefined;
+    }
     const draft = mapMessageToDraftMessageFormData(message);
     dispatch(syncDraft(draft));
 
