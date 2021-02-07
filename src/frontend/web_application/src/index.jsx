@@ -18,7 +18,12 @@ import { getConfig } from './services/config';
 let devTools;
 
 if (CALIOPEN_ENV === 'development') {
-  devTools = window.devToolsExtension && window.devToolsExtension();
+  devTools =
+    window.__REDUX_DEVTOOLS_EXTENSION__ &&
+    window.__REDUX_DEVTOOLS_EXTENSION__({
+      trace: true,
+      traceLimit: 25,
+    });
 }
 
 const locales = getUserLocales();
