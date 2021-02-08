@@ -4,19 +4,20 @@ import descriptor from './username-validity';
 describe('services username-utils username-validity', () => {
   const validator = new Schema(descriptor);
 
-  const validate = username => new Promise((resolve, reject) => {
-    validator.validate({ username }, (errors, fields) => {
-      if (errors) {
-        return reject({ errors, fields });
-      }
+  const validate = (username) =>
+    new Promise((resolve, reject) => {
+      validator.validate({ username }, (errors, fields) => {
+        if (errors) {
+          return reject({ errors, fields });
+        }
 
-      return resolve(true);
+        return resolve(true);
+      });
     });
-  });
 
   const unexpectedValid = () => expect(true).toBe(false);
-  const expectTrue = res => expect(res).toBe(true);
-  const expectOneError = res => expect(res.errors.length).toEqual(1);
+  const expectTrue = (res) => expect(res).toBe(true);
+  const expectOneError = (res) => expect(res.errors.length).toEqual(1);
 
   describe('isValid', () => {
     it('not valid under 3 characters & after 42 characters', async () => {

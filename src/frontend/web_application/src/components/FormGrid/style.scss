@@ -28,7 +28,6 @@
     }
 
     @include breakpoint(medium) {
-
       &--right-space {
         padding-right: map_get($co-form__spacing, 'medium');
       }

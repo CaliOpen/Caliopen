@@ -4,8 +4,12 @@
 .m-link {
   @include o-clickable;
 
-  &--text { @include o-clickable--text; }
-  &--button { @include o-clickable--button; }
+  &--text {
+    @include o-clickable--text;
+  }
+  &--button {
+    @include o-clickable--button;
+  }
   &--badge {
     padding-right: $co-radius * 2;
     padding-left: $co-radius * 2;
@@ -20,9 +24,15 @@
       color: $co-color__contrast__text;
     }
   }
-  &--plain { @include o-clickable--plain; }
-  &--hollow { @include o-clickable--hollow; }
-  &--active { @include o-clickable--active-text; }
+  &--plain {
+    @include o-clickable--plain;
+  }
+  &--hollow {
+    @include o-clickable--hollow;
+  }
+  &--active {
+    @include o-clickable--active-text;
+  }
 
   &--expanded {
     @include o-clickable--expanded;

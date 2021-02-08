@@ -22,9 +22,7 @@ class ActionBar extends PureComponent {
   };
 
   render() {
-    const {
-      className, isLoading, actionsNode, hr, children,
-    } = this.props;
+    const { className, isLoading, actionsNode, hr, children } = this.props;
 
     return (
       <div
@@ -32,13 +30,15 @@ class ActionBar extends PureComponent {
           'm-action-bar--hr': hr,
         })}
       >
-        <div className={classnames('m-action-bar__loading', { 'm-action-bar__loading--is-loading': isLoading })}>
+        <div
+          className={classnames('m-action-bar__loading', {
+            'm-action-bar__loading--is-loading': isLoading,
+          })}
+        >
           <Spinner isLoading={isLoading} display="inline" />
         </div>
         {actionsNode && (
-          <div className="m-action-bar__actions">
-            {actionsNode}
-          </div>
+          <div className="m-action-bar__actions">{actionsNode}</div>
         )}
         {children}
       </div>

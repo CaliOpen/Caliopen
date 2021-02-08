@@ -11,7 +11,9 @@ const StylezedScreenshot = ({ className, i18n, type }) => {
         <img
           className={className}
           src={smartphoneSrc}
-          alt={i18n._('screenshot.smartphone', null, { defaults: 'blurry screenshot of Caliopen for smartphone' })}
+          alt={i18n._('screenshot.smartphone', null, {
+            defaults: 'blurry screenshot of Caliopen for smartphone',
+          })}
         />
       );
     default:
@@ -20,7 +22,9 @@ const StylezedScreenshot = ({ className, i18n, type }) => {
         <img
           className={className}
           src={desktopSrc}
-          alt={i18n._('screenshot.desktop', null, { defaults: 'blurry screenshot of Caliopen for desktop' })}
+          alt={i18n._('screenshot.desktop', null, {
+            defaults: 'blurry screenshot of Caliopen for desktop',
+          })}
         />
       );
   }
@@ -28,7 +32,7 @@ const StylezedScreenshot = ({ className, i18n, type }) => {
 
 StylezedScreenshot.propTypes = {
   className: PropTypes.string,
-  i18n: PropTypes.shape({}).isRequired,
+  i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   type: PropTypes.oneOf(['smartphone', 'desktop']).isRequired,
 };
 StylezedScreenshot.defaultProps = {

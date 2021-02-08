@@ -40,12 +40,14 @@
   }
 
   @include breakpoint(medium) {
-    max-width: $co-site-width - (map_get($co-page-container-paddings, 'medium') * 2);
+    max-width: $co-site-width -
+      (map_get($co-page-container-paddings, 'medium') * 2);
     margin-right: auto;
     margin-left: auto;
   }
 
   @include breakpoint(xlarge) {
-    max-width: $co-site-width - (map_get($co-page-container-paddings, 'xlarge') * 2);
+    max-width: $co-site-width -
+      (map_get($co-page-container-paddings, 'xlarge') * 2);
   }
 }

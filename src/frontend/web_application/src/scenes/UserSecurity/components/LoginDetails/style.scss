@@ -13,10 +13,16 @@
     @include flex-grid-size(12);
   }
 
-  &__action { @include flex-grid-size(shrink); }
+  &__action {
+    @include flex-grid-size(shrink);
+  }
 
   @include breakpoint(medium) {
-    &__input { @include flex-grid-size; }
-    &__action { @include flex-grid-column(shrink); }
+    &__input {
+      @include flex-grid-size;
+    }
+    &__action {
+      @include flex-grid-column(shrink);
+    }
   }
 }

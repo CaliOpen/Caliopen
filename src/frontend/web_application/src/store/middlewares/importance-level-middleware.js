@@ -9,7 +9,7 @@ const importanceLevelHandler = ({ store, action }) => {
   store.dispatch(invalidateAll());
 };
 
-export default store => next => (action) => {
+export default (store) => (next) => (action) => {
   const result = next(action);
 
   importanceLevelHandler({ store, action });

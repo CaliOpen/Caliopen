@@ -2,8 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Trans } from '@lingui/react';
 import {
-  Spinner, Link, Label, Subtitle, PasswordStrength, FieldErrors, TextBlock, Modal, Button,
-  TextFieldGroup, CheckboxFieldGroup, FormGrid, FormRow, FormColumn,
+  Spinner,
+  Link,
+  Label,
+  Subtitle,
+  PasswordStrength,
+  FieldErrors,
+  TextBlock,
+  Modal,
+  Button,
+  TextFieldGroup,
+  CheckboxFieldGroup,
+  FormGrid,
+  FormRow,
+  FormColumn,
 } from '../../../../../../components';
 import { getConfig } from '../../../../../../services/config';
 
@@ -15,7 +27,9 @@ function generateStateFromProps(props) {
   };
 }
 
-const noop = () => {};
+const noop = () => {
+  // noop
+};
 
 class SignupForm extends Component {
   static propTypes = {
@@ -25,7 +39,7 @@ class SignupForm extends Component {
     onFieldChange: PropTypes.func,
     onFieldBlur: PropTypes.func,
     isValidating: PropTypes.bool.isRequired,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
   static defaultProps = {
@@ -33,7 +47,7 @@ class SignupForm extends Component {
     form: {},
     onFieldChange: noop,
     onFieldBlur: noop,
-  }
+  };
 
   state = {
     isModalOpen: false,
@@ -47,17 +61,19 @@ class SignupForm extends Component {
     passwordStrength: '',
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState(generateStateFromProps(this.props));
   }
 
   async componentDidMount() {
-    import(/* webpackChunkName: "zxcvbn" */ 'zxcvbn').then(({ default: zxcvbn }) => {
-      this.zxcvbn = zxcvbn;
-    });
+    import(/* webpackChunkName: "zxcvbn" */ 'zxcvbn').then(
+      ({ default: zxcvbn }) => {
+        this.zxcvbn = zxcvbn;
+      }
+    );
   }
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     this.setState(generateStateFromProps(newProps));
   }
 
@@ -76,13 +92,15 @@ class SignupForm extends Component {
   handlePasswordChange = (event) => {
     this.handleInputChange(event);
     this.calcPasswordStrengh();
-  }
+  };
 
   calcPasswordStrengh = () => {
     if (this.zxcvbn) {
       this.setState((prevState) => {
         const { password } = prevState.formValues;
-        const passwordStrength = !password.length ? '' : this.zxcvbn(password).score;
+        const passwordStrength = !password.length
+          ? ''
+          : this.zxcvbn(password).score;
 
         return {
           ...prevState,
@@ -90,23 +108,24 @@ class SignupForm extends Component {
         };
       });
     }
-  }
+  };
 
   handleInputChange = (event) => {
-    const {
-      name, value: inputValue, type, checked,
-    } = event.target;
+    const { name, value: inputValue, type, checked } = event.target;
     const value = type === 'checkbox' ? checked : inputValue;
     const { onFieldChange } = this.props;
 
-    this.setState(prevState => ({
-      formValues: {
-        ...prevState.formValues,
-        [name]: value,
-      },
-    }), () => {
-      onFieldChange(name, value);
-    });
+    this.setState(
+      (prevState) => ({
+        formValues: {
+          ...prevState.formValues,
+          [name]: value,
+        },
+      }),
+      () => {
+        onFieldChange(name, value);
+      }
+    );
   };
 
   handleInputBlur = (event) => {
@@ -129,8 +148,12 @@ class SignupForm extends Component {
       <Modal
         className="s-signup__modal"
         isOpen={this.state.isModalOpen}
-        contentLabel={i18n._('signup.privacy.modal.label', null, { defaults: 'About Piwik' })}
-        title={i18n._('signup.privacy.modal.label', null, { defaults: 'About Piwik' })}
+        contentLabel={i18n._('signup.privacy.modal.label', null, {
+          defaults: 'About Piwik',
+        })}
+        title={i18n._('signup.privacy.modal.label', null, {
+          defaults: 'About Piwik',
+        })}
         onClose={this.handleCloseModal}
       >
         <p>
@@ -140,42 +163,40 @@ class SignupForm extends Component {
         </p>
         <p>
           <Trans id="signup.privacy.modal.text.alpha_tester">
-            As an alpha-tester your contribution is precious and will allow us to finalize Caliopen.
+            As an alpha-tester your contribution is precious and will allow us
+            to finalize Caliopen.
           </Trans>
         </p>
         <p>
           <Trans id="signup.privacy.modal.text.get_data">
-            For this purpose, you grant us the right to collect data related to your usage
-            (displayed pages, timings, clics, scrolls ...almost everything that can be collected!).
+            For this purpose, you grant us the right to collect data related to
+            your usage (displayed pages, timings, clics, scrolls ...almost
+            everything that can be collected!).
           </Trans>
         </p>
         <p>
           <Trans id="signup.privacy.modal.text.desactivate_dnt">
-            You need to deactivate the DoNotTrack setting from your browser preferences (more
-            informations at http://donottrack.us), as well as allowing cookies.
+            You need to deactivate the DoNotTrack setting from your browser
+            preferences (more informations at http://donottrack.us), as well as
+            allowing cookies.
           </Trans>
         </p>
         <p>
           <Trans id="signup.privacy.modal.text.piwik">
-            We use https://piwik.org/ the open-source analytics plateform. The collected data will not
-            be disclosed to any third party, and will stay scoped to Caliopen&apos;s alpha testing
-            purpose.
+            We use https://piwik.org/ the open-source analytics plateform. The
+            collected data will not be disclosed to any third party, and will
+            stay scoped to Caliopen&apos;s alpha testing purpose.
           </Trans>
         </p>
-        <Button
-          shape="plain"
-          onClick={this.handleCloseModal}
-        >
+        <Button shape="plain" onClick={this.handleCloseModal}>
           <Trans id="signup.privacy.modal.close">Ok got it !</Trans>
         </Button>
       </Modal>
     );
-  }
+  };
 
   render() {
-    const {
-      form, errors = {}, i18n, isValidating,
-    } = this.props;
+    const { form, errors = {}, i18n, isValidating } = this.props;
     const { hostname } = getConfig();
 
     return (
@@ -183,11 +204,14 @@ class SignupForm extends Component {
         <FormGrid className="s-signup__form">
           <form method="post" name="ac_form" {...form}>
             {errors.global && errors.global.length !== 0 && (
-            <FormRow>
-              <FormColumn rightSpace={false} bottomSpace>
-                <FieldErrors className="s-signup__global-errors" errors={errors.global} />
-              </FormColumn>
-            </FormRow>
+              <FormRow>
+                <FormColumn rightSpace={false} bottomSpace>
+                  <FieldErrors
+                    className="s-signup__global-errors"
+                    errors={errors.global}
+                  />
+                </FormColumn>
+              </FormRow>
             )}
             <FormRow>
               <FormColumn rightSpace={false} bottomSpace>
@@ -195,15 +219,24 @@ class SignupForm extends Component {
                   id="signup_username"
                   name="username"
                   theme="contrasted"
-                  label={i18n._('signup.form.username.label', null, { defaults: 'Username' })}
-                  placeholder={i18n._('signup.form.username.placeholder', null, { defaults: 'username' })}
+                  label={i18n._('signup.form.username.label', null, {
+                    defaults: 'Username',
+                  })}
+                  placeholder={i18n._(
+                    'signup.form.username.placeholder',
+                    null,
+                    { defaults: 'username' }
+                  )}
                   value={this.state.formValues.username}
                   errors={errors.username}
                   onChange={this.handleInputChange}
                   onBlur={this.handleInputBlur}
                 />
                 <TextBlock className="s-signup__user">
-                  <span className="s-signup__username">{this.state.formValues.username}</span>@{hostname}
+                  <span className="s-signup__username">
+                    {this.state.formValues.username}
+                  </span>
+                  @{hostname}
                 </TextBlock>
               </FormColumn>
             </FormRow>
@@ -213,8 +246,14 @@ class SignupForm extends Component {
                   id="signup_password"
                   theme="contrasted"
                   name="password"
-                  label={i18n._('signup.form.password.label', null, { defaults: 'Password' })}
-                  placeholder={i18n._('signup.form.password.placeholder', null, { defaults: 'password' })}
+                  label={i18n._('signup.form.password.label', null, {
+                    defaults: 'Password',
+                  })}
+                  placeholder={i18n._(
+                    'signup.form.password.placeholder',
+                    null,
+                    { defaults: 'password' }
+                  )}
                   type="password"
                   value={this.state.formValues.password}
                   errors={errors.password}
@@ -223,9 +262,9 @@ class SignupForm extends Component {
                 />
               </FormColumn>
               {this.state.passwordStrength.length !== 0 && (
-              <FormColumn rightSpace={false} bottomSpace>
-                <PasswordStrength strength={this.state.passwordStrength} />
-              </FormColumn>
+                <FormColumn rightSpace={false} bottomSpace>
+                  <PasswordStrength strength={this.state.passwordStrength} />
+                </FormColumn>
               )}
             </FormRow>
             <FormRow>
@@ -236,19 +275,31 @@ class SignupForm extends Component {
                   name="recovery_email"
                   // Alpha: label "recovery email" replaced by "invitation email"
                   // label={
-                    // i18n._('signup.form.recovery_email.label',
-                    //  null, { defaults: 'Backup email address' })
-                    // }
-        // placeholder={i18n._('signup.form.recovery_email.placeholder', null, { defaults: '' })}
-                  label={i18n._('signup.form.invitation_email.label', null, { defaults: 'Invitation email:' })}
-                  placeholder={i18n._('signup.form.invitation_email.placeholder', null, { defaults: 'example@domain.tld' })}
+                  // i18n._('signup.form.recovery_email.label',
+                  //  null, { defaults: 'Backup email address' })
+                  // }
+                  // placeholder={i18n._('signup.form.recovery_email.placeholder', null, { defaults: '' })}
+                  label={i18n._('signup.form.invitation_email.label', null, {
+                    defaults: 'Invitation email:',
+                  })}
+                  placeholder={i18n._(
+                    'signup.form.invitation_email.placeholder',
+                    null,
+                    { defaults: 'example@domain.tld' }
+                  )}
                   value={this.state.formValues.recovery_email}
                   errors={errors.recovery_email}
                   onChange={this.handleInputChange}
                   onBlur={this.handleInputBlur}
                 />
-                <Label htmlFor="signup_recovery_email" className="s-signup__recovery-label">
-                  <Trans id="signup.form.invitation_email.tip">Please fill with the email provided when you requested an invitation.</Trans>
+                <Label
+                  htmlFor="signup_recovery_email"
+                  className="s-signup__recovery-label"
+                >
+                  <Trans id="signup.form.invitation_email.tip">
+                    Please fill with the email provided when you requested an
+                    invitation.
+                  </Trans>
                 </Label>
               </FormColumn>
             </FormRow>
@@ -269,11 +320,19 @@ class SignupForm extends Component {
               </FormRow>
               */}
             <FormRow>
-              <FormColumn rightSpace={false} className="s-signup__privacy" bottomSpace>
-                <Subtitle><Trans id="signup.form.privacy.title">Privacy policy</Trans></Subtitle>
+              <FormColumn
+                rightSpace={false}
+                className="s-signup__privacy"
+                bottomSpace
+              >
+                <Subtitle>
+                  <Trans id="signup.form.privacy.title">Privacy policy</Trans>
+                </Subtitle>
                 <p className="s-signup__privacy-text">
-                  <Trans id="signup.form.privacy.intro">Throughout the development phase, we collect some data (but no more than the NSA).</Trans>
-                  {' '}
+                  <Trans id="signup.form.privacy.intro">
+                    Throughout the development phase, we collect some data (but
+                    no more than the NSA).
+                  </Trans>{' '}
                   <Button
                     className="s-signup__privacy-link"
                     onClick={this.handleOpenModal}
@@ -286,7 +345,9 @@ class SignupForm extends Component {
                 <CheckboxFieldGroup
                   id="signup_privacy"
                   className="s-signup__privacy-checkbox"
-                  label={i18n._('signup.form.privacy.checkbox.label', null, { defaults: 'I understand and agree' })}
+                  label={i18n._('signup.form.privacy.checkbox.label', null, {
+                    defaults: 'I understand and agree',
+                  })}
                   name="privacy"
                   checked={this.state.formValues.privacy}
                   errors={errors.privacy}
@@ -295,14 +356,20 @@ class SignupForm extends Component {
               </FormColumn>
             </FormRow>
             <FormRow>
-              <FormColumn rightSpace={false} className="s-signup__action" bottomSpace>
+              <FormColumn
+                rightSpace={false}
+                className="s-signup__action"
+                bottomSpace
+              >
                 <Button
                   type="submit"
                   onClick={this.handleSubmit}
                   display="expanded"
                   shape="plain"
                   disabled={isValidating}
-                  icon={isValidating ? (<Spinner isLoading display="inline" />) : null}
+                  icon={
+                    isValidating ? <Spinner isLoading display="inline" /> : null
+                  }
                 >
                   <Trans id="signup.action.create">Create</Trans>
                 </Button>
@@ -310,7 +377,9 @@ class SignupForm extends Component {
             </FormRow>
             <FormRow>
               <FormColumn rightSpace={false} className="s-signup__link">
-                <Link to="/auth/signin"><Trans id="signup.go_signin">I already have an account</Trans></Link>
+                <Link to="/auth/signin">
+                  <Trans id="signup.go_signin">I already have an account</Trans>
+                </Link>
               </FormColumn>
             </FormRow>
           </form>

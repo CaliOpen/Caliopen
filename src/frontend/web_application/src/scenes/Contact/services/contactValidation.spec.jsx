@@ -2,8 +2,7 @@ import { contactValidation } from './contactValidation';
 
 describe('contact scene - services - contactValidation', () => {
   it('init', () => {
-    const values = {
-    };
+    const values = {};
     expect(contactValidation(values)).toEqual({});
   });
   describe('test identities', () => {
@@ -20,9 +19,7 @@ describe('contact scene - services - contactValidation', () => {
     });
     it('works with good Twitter handle', () => {
       const values = {
-        identities: [
-          { type: 'twitter', name: 'foo' },
-        ],
+        identities: [{ type: 'twitter', name: 'foo' }],
       };
       expect(contactValidation(values).identities[0]).toBeUndefined();
     });

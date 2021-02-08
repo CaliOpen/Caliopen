@@ -92,10 +92,6 @@ const selectors = {
         result = getMessageFromNotifier(message_id);
       }
 
-      if (!result) {
-        throw `no message found for ${message_id}`;
-      }
-
       return result;
     }
   ),
@@ -213,6 +209,11 @@ const routes = {
     action: actions.get,
     selector: selectors.byId,
     status: 200,
+    middlewares: [data => (req, res, next) => {
+      if (!data) {
+        res.status(404);
+      }
+    }],
   },
   'DELETE /v1/messages/:message_id': {
     action: actions.delete,

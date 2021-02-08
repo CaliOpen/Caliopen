@@ -5,7 +5,11 @@ import { Trans } from '@lingui/react';
 import { WithSettings } from '../../modules/settings';
 import SearchResultsLayout from '../../layouts/SearchResults';
 import {
-  Link, InfiniteScroll, PageTitle, Button, BlockList,
+  Link,
+  InfiniteScroll,
+  PageTitle,
+  Button,
+  BlockList,
 } from '../../components';
 import MessageResultItem from './components/MessageResultItem';
 import ContactResultItem from './components/ContactResultItem';
@@ -47,9 +51,12 @@ class SearchResults extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { term, doctype, search } = this.props;
-    if (nextProps.term && (nextProps.term !== term || nextProps.doctype !== doctype)) {
+    if (
+      nextProps.term &&
+      (nextProps.term !== term || nextProps.doctype !== doctype)
+    ) {
       this.initLoadMore({ doctype: nextProps.doctype, term: nextProps.term });
       search({ term: nextProps.term, doctype: nextProps.doctype });
     }
@@ -57,7 +64,8 @@ class SearchResults extends Component {
 
   initLoadMore = ({ doctype, term }) => {
     this.debouncedLoadMore = debounce(
-      () => this.props.hasMoreByDoctype &&
+      () =>
+        this.props.hasMoreByDoctype &&
         this.props.hasMoreByDoctype[doctype] &&
         this.props.loadMore({ term, doctype }),
       LOAD_MORE_INTERVAL,
@@ -66,25 +74,26 @@ class SearchResults extends Component {
         trailing: false,
       }
     );
-  }
+  };
 
   renderMessages(messages) {
     const { term } = this.props;
 
     return (
-      <WithSettings render={({ default_locale: locale }) => (
-        <BlockList className="s-search-results__item">
-          {messages.map(messageHit => (
-            <MessageResultItem
-              locale={locale}
-              key={messageHit.document.message_id}
-              message={messageHit.document}
-              highlights={messageHit.highlights}
-              term={term}
-            />
-          ))}
-        </BlockList>
-      )}
+      <WithSettings
+        render={({ default_locale: locale }) => (
+          <BlockList className="s-search-results__item">
+            {messages.map((messageHit) => (
+              <MessageResultItem
+                locale={locale}
+                key={messageHit.document.message_id}
+                message={messageHit.document}
+                highlights={messageHit.highlights}
+                term={term}
+              />
+            ))}
+          </BlockList>
+        )}
       />
     );
   }
@@ -94,7 +103,7 @@ class SearchResults extends Component {
 
     return (
       <BlockList className="s-search-results__item">
-        {contacts.map(contactHit => (
+        {contacts.map((contactHit) => (
           <ContactResultItem
             key={contactHit.document.contact_id}
             contact={contactHit.document}
@@ -123,11 +132,17 @@ class SearchResults extends Component {
       <div className="s-search-results__preview">
         {messages && (
           <div className="s-search-results__label">
-            <Trans id="search-results.preview.nb-messages" values={{ nbMessages, term }}>
-              {nbMessages} messages contains &quot;{term}&quot; in their subject or content:
-            </Trans>
-            {' '}
-            <Link className="s-search-results__link" to={`/search-results?term=${term}&doctype=message`}>
+            <Trans
+              id="search-results.preview.nb-messages"
+              values={{ nbMessages, term }}
+            >
+              {nbMessages} messages contains &quot;{term}&quot; in their subject
+              or content:
+            </Trans>{' '}
+            <Link
+              className="s-search-results__link"
+              to={`/search-results?term=${term}&doctype=message`}
+            >
               <Trans id="search-results.actions.display-all">Display all</Trans>
             </Link>
           </div>
@@ -137,11 +152,17 @@ class SearchResults extends Component {
         </div>
         {contacts && (
           <div className="s-search-results__label">
-            <Trans id="search-results.preview.nb-contacts" values={{ nbContacts, term }}>
-              {nbContacts} contacts contains &quot;{term}&quot; in their label or profile:
-            </Trans>
-            {' '}
-            <Link className="s-search-results__link" to={`/search-results?term=${term}&doctype=contact`}>
+            <Trans
+              id="search-results.preview.nb-contacts"
+              values={{ nbContacts, term }}
+            >
+              {nbContacts} contacts contains &quot;{term}&quot; in their label
+              or profile:
+            </Trans>{' '}
+            <Link
+              className="s-search-results__link"
+              to={`/search-results?term=${term}&doctype=contact`}
+            >
               <Trans id="search-results.actions.display-all">Display all</Trans>
             </Link>
           </div>

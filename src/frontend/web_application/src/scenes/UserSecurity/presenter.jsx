@@ -10,7 +10,7 @@ import './style.scss';
 
 class UserSecurity extends Component {
   static propTypes = {
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     requestUser: PropTypes.func.isRequired,
     user: PropTypes.shape({}),
     notifySuccess: PropTypes.func.isRequired,
@@ -26,7 +26,7 @@ class UserSecurity extends Component {
   };
 
   componentDidMount() {
-    /* eslint-disable-next-line global-require */
+    /* eslint-disable-next-line */
     this.saveKey = require('../../services/openpgp-keychain-repository').saveKey;
 
     this.props.requestUser();
@@ -34,28 +34,45 @@ class UserSecurity extends Component {
 
   handleSubmit = (data) => {
     const { user } = this.props;
-    getClient().patch(`/api/v2/users/${user.user_id}`, {
-      ...data,
-    }).then(this.handleSubmitSuccess, this.handleSubmitError);
-  }
+    getClient()
+      .patch(`/api/v2/users/${user.user_id}`, {
+        ...data,
+      })
+      .then(this.handleSubmitSuccess, this.handleSubmitError);
+  };
 
   handleSubmitSuccess = () => {
     this.setState({ updated: true }, () => {
       const { requestUser, notifySuccess, i18n } = this.props;
-      notifySuccess({ message: i18n._('password.form.feedback.successfull', null, { defaults: 'Password updated!' }), duration: 0 });
+      notifySuccess({
+        message: i18n._('password.form.feedback.successfull', null, {
+          defaults: 'Password updated!',
+        }),
+        duration: 0,
+      });
       requestUser();
     });
-  }
+  };
 
   handleSubmitError = ({ response }) => {
     const { notifyError, i18n } = this.props;
 
     if (response.status === 424) {
-      return notifyError({ message: i18n._('password.form.feedback.error-old-password', null, { defaults: 'Wrong old password.' }), duration: 0 });
+      return notifyError({
+        message: i18n._('password.form.feedback.error-old-password', null, {
+          defaults: 'Wrong old password.',
+        }),
+        duration: 0,
+      });
     }
 
-    return notifyError({ message: i18n._('password.form.feedback.unexpected-error', null, { defaults: 'Error when updating password.' }), duration: 0 });
-  }
+    return notifyError({
+      message: i18n._('password.form.feedback.unexpected-error', null, {
+        defaults: 'Error when updating password.',
+      }),
+      duration: 0,
+    });
+  };
 
   render() {
     const { i18n, user } = this.props;
@@ -64,7 +81,11 @@ class UserSecurity extends Component {
       <div className="s-user-account-security">
         <PageTitle />
         <form method="post" name="user_security_form">
-          <Section title={i18n._('user.security.section_password.title', null, { defaults: 'Customize your interface' })}>
+          <Section
+            title={i18n._('user.security.section_password.title', null, {
+              defaults: 'Customize your interface',
+            })}
+          >
             <div className="s-user-account-security__credentials">
               <div className="s-user-account-security__login">
                 <LoginDetails user={user} />
@@ -88,7 +109,9 @@ class UserSecurity extends Component {
           </Section>
           */}
         <Section
-          title={i18n._('user.security.section_pgpkeys.title', null, { defaults: 'PGP private keys' })}
+          title={i18n._('user.security.section_pgpkeys.title', null, {
+            defaults: 'PGP private keys',
+          })}
         >
           <OpenPGPKeysDetails user={user} />
         </Section>

@@ -12,9 +12,7 @@ const getStorage = () => {
   return ls;
 };
 
-export const saveConfig = ({
-  id, priv, hash, curve,
-}) => {
+export const saveConfig = ({ id, priv, hash, curve }) => {
   const storage = getStorage();
   storage.save(DEVICE_NAMESPACE, 'id', id);
   storage.save(DEVICE_NAMESPACE, 'priv', priv);
@@ -38,10 +36,13 @@ export const getConfig = () => {
     return null;
   }
 
-  return params.reduce((acc, item) => ({
-    ...acc,
-    [item.id]: item.value,
-  }), {});
+  return params.reduce(
+    (acc, item) => ({
+      ...acc,
+      [item.id]: item.value,
+    }),
+    {}
+  );
 };
 
 // XXX: should be a "Model" ?

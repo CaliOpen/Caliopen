@@ -15,14 +15,14 @@ class ReplyExcerpt extends PureComponent {
 
   static defaultProps = {
     draft: undefined,
-    draftExcerptRef: () => {},
+    draftExcerptRef: () => {
+      // noop
+    },
     className: undefined,
   };
 
   render() {
-    const {
-      draft, draftExcerptRef, onFocus, className,
-    } = this.props;
+    const { draft, draftExcerptRef, onFocus, className } = this.props;
 
     return (
       <div

@@ -22,7 +22,6 @@ yarn start
 yarn start:dev
 ```
 
-
 **For desktop**
 
 ```

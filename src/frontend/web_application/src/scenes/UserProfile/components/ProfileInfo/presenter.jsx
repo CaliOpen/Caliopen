@@ -44,13 +44,14 @@ class ProfileInfo extends PureComponent {
                 </div>
               </div>
               <div className="m-user-profile-details__name">
-                <h3 className="m-user-profile-details__title">{user && user.name}</h3>
+                <h3 className="m-user-profile-details__title">
+                  {user && user.name}
+                </h3>
                 <h4 className="m-user-profile-details__subtitle">
                   {user && user.contact && formatName({ contact, format })}
                 </h4>
                 <p>
-                  <Trans id="user.profile.subscribed_date">Subscribed on</Trans>
-                  {' '}
+                  <Trans id="user.profile.subscribed_date">Subscribed on</Trans>{' '}
                   {user && (
                     <Moment
                       className="m-user-profile-details__subscribed-date"
@@ -72,7 +73,6 @@ class ProfileInfo extends PureComponent {
                 </div>
               </div>
               */}
-
             </div>
           );
         }}

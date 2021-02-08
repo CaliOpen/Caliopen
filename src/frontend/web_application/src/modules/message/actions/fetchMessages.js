@@ -3,7 +3,9 @@ import { tryCatchAxiosAction } from '../../../services/api-client';
 
 // TODO: refactor in requestMessages cf. store/modules/message
 export const fetchMessages = (...params) => async (dispatch) => {
-  const { messages } = await tryCatchAxiosAction(() => dispatch(fetchMessagesBase(...params)));
+  const { messages } = await tryCatchAxiosAction(() =>
+    dispatch(fetchMessagesBase(...params))
+  );
 
   return messages;
 };

@@ -13,16 +13,26 @@
     @include flex-grid-size;
   }
 
-  &__form { @include flex-grid-size(12); }
+  &__form {
+    @include flex-grid-size(12);
+  }
 
-  &__action { @include flex-grid-size(shrink); }
+  &__action {
+    @include flex-grid-size(shrink);
+  }
 
   @include breakpoint(medium) {
-    &__strength { @include flex-grid-size; }
-    &__action { @include flex-grid-column(shrink); }
+    &__strength {
+      @include flex-grid-size;
+    }
+    &__action {
+      @include flex-grid-column(shrink);
+    }
   }
 
   @include breakpoint(large) {
-    &__strength { @include flex-grid-size(8); }
+    &__strength {
+      @include flex-grid-size(8);
+    }
   }
 }

@@ -43,22 +43,21 @@ class DatePickerGroup extends PureComponent {
 
     return (
       <div className={classnames('m-date-picker-group', className)}>
-
-        {label && (
-          <label htmlFor={id}>{label}</label>
-        )}
+        {label && <label htmlFor={id}>{label}</label>}
 
         <DatePicker
           id={id}
           className={classnames('m-date-picker-group__input', inputClassName)}
-          calendarClassName={classnames('m-date-picker-group__calendar', calendarClassName)}
+          calendarClassName={classnames(
+            'm-date-picker-group__calendar',
+            calendarClassName
+          )}
           selected={selected ? moment(selected) : null}
           onChange={onChange}
           locale={locale}
           {...props}
         />
       </div>
-
     );
   }
 }

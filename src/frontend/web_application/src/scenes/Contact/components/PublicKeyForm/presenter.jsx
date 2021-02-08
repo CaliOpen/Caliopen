@@ -4,7 +4,15 @@ import { Field } from 'redux-form';
 import { withI18n, Trans } from '@lingui/react';
 import renderReduxField from '../../../../services/renderReduxField';
 import {
-  Button, Confirm, FieldErrors, Fieldset, FormColumn, FormGrid, FormRow, Icon, Legend,
+  Button,
+  Confirm,
+  FieldErrors,
+  Fieldset,
+  FormColumn,
+  FormGrid,
+  FormRow,
+  Icon,
+  Legend,
   TextFieldGroup as TextFieldGroupBase,
 } from '../../../../components';
 import { getMaxSize } from '../../../../services/config';
@@ -18,7 +26,7 @@ const TextFieldGroup = renderReduxField(TextFieldGroupBase);
 class PublicKeyForm extends PureComponent {
   static propTypes = {
     errors: PropTypes.arrayOf(PropTypes.string),
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     contactId: PropTypes.string.isRequired,
     publicKey: PropTypes.shape({}),
     handleSubmit: PropTypes.func.isRequired,
@@ -34,9 +42,7 @@ class PublicKeyForm extends PureComponent {
   };
 
   handleDelete = () => {
-    const {
-      contactId, publicKey, deletePublicKey, onSuccess,
-    } = this.props;
+    const { contactId, publicKey, deletePublicKey, onSuccess } = this.props;
 
     deletePublicKey({ contactId, publicKeyId: publicKey.key_id });
     onSuccess();
@@ -44,7 +50,11 @@ class PublicKeyForm extends PureComponent {
 
   render() {
     const {
-      form, errors, i18n, publicKey, onCancel,
+      form,
+      errors,
+      i18n,
+      publicKey,
+      onCancel,
       handleSubmit,
     } = this.props;
 
@@ -59,14 +69,20 @@ class PublicKeyForm extends PureComponent {
                   <Trans id="contact.public_key_form.legend">Public Key</Trans>
                 </Legend>
               </FormColumn>
-              {errors.length > 0 && <FormColumn><FieldErrors errors={errors} /></FormColumn>}
+              {errors.length > 0 && (
+                <FormColumn>
+                  <FieldErrors errors={errors} />
+                </FormColumn>
+              )}
             </FormRow>
             <FormRow>
               <FormColumn bottomSpace>
                 <Field
                   component={TextFieldGroup}
                   name="label"
-                  label={i18n._('contact.public_key_form.label.label', null, { defaults: 'Key label' })}
+                  label={i18n._('contact.public_key_form.label.label', null, {
+                    defaults: 'Key label',
+                  })}
                   required
                   accept="application/x-pgp"
                 />
@@ -77,7 +93,9 @@ class PublicKeyForm extends PureComponent {
                 <Field
                   component={ReduxedInputFileGroup}
                   fileAsContent
-                  label={i18n._('contact.public_key_form.key.label', null, { defaults: 'Key (ascii armored)' })}
+                  label={i18n._('contact.public_key_form.key.label', null, {
+                    defaults: 'Key (ascii armored)',
+                  })}
                   maxSize={getMaxSize()}
                   name="key"
                   required={publicKey === undefined}
@@ -88,7 +106,10 @@ class PublicKeyForm extends PureComponent {
               </FormColumn>
             </FormRow>
             <FormRow>
-              <FormColumn className="m-public-key-form__actions" rightSpaced={false}>
+              <FormColumn
+                className="m-public-key-form__actions"
+                rightSpaced={false}
+              >
                 {publicKey ? (
                   <Confirm
                     onConfirm={this.handleDelete}
@@ -99,18 +120,43 @@ class PublicKeyForm extends PureComponent {
                     )}
                     content={i18n._(
                       'contact.public_key_form.confirm_delete.content',
-                      { label: publicKey.label, fingerprint: publicKey.fingerprint },
-                      { defaults: 'Are you sure you want to delete the key "{label} - {fingerprint}" ? This action cannot be undone.' }
+                      {
+                        label: publicKey.label,
+                        fingerprint: publicKey.fingerprint,
+                      },
+                      {
+                        defaults:
+                          'Are you sure you want to delete the key "{label} - {fingerprint}" ? This action cannot be undone.',
+                      }
                     )}
-                    render={confirm => (
-                      <Button className="m-public-key-form__button-remove" type="button" color="alert" icon="remove" onClick={confirm}>
-                        <Trans id="contact.public_key_form.delete_key">Delete Key</Trans>
+                    render={(confirm) => (
+                      <Button
+                        className="m-public-key-form__button-remove"
+                        type="button"
+                        color="alert"
+                        icon="remove"
+                        onClick={confirm}
+                      >
+                        <Trans id="contact.public_key_form.delete_key">
+                          Delete Key
+                        </Trans>
                       </Button>
                     )}
                   />
                 ) : null}
-                <Button icon="remove" className="m-public-key-form__button-cancel" onClick={onCancel}><Trans id="contact.public_key_form.cancel">Cancel</Trans></Button>
-                <Button type="submit" icon="check" shape="plain" className="m-public-key-form__button-validate">
+                <Button
+                  icon="remove"
+                  className="m-public-key-form__button-cancel"
+                  onClick={onCancel}
+                >
+                  <Trans id="contact.public_key_form.cancel">Cancel</Trans>
+                </Button>
+                <Button
+                  type="submit"
+                  icon="check"
+                  shape="plain"
+                  className="m-public-key-form__button-validate"
+                >
                   <Trans id="contact.public_key_form.validate">Validate</Trans>
                 </Button>
               </FormColumn>

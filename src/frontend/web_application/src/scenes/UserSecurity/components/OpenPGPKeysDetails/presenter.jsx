@@ -2,8 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Trans } from '@lingui/react';
 import { Icon, Button } from '../../../../components';
-import { getPrimaryKeysByFingerprint, saveKey, deleteKey } from '../../../../services/openpgp-keychain-repository';
-import { generateKey, getPublicKeyFromPrivateKey } from '../../../../services/encryption';
+import {
+  getPrimaryKeysByFingerprint,
+  saveKey,
+  deleteKey,
+} from '../../../../services/openpgp-keychain-repository';
+import {
+  generateKey,
+  getPublicKeyFromPrivateKey,
+} from '../../../../services/encryption';
 import OpenPGPKey from '../OpenPGPKey';
 import OpenPGPKeyForm from '../OpenPGPKeyForm';
 import './style.scss';
@@ -17,7 +24,7 @@ class OpenPGPKeysDetails extends Component {
 
   static defaultProps = {
     isLoading: false,
-  }
+  };
 
   state = {
     importForm: { errors: {} },
@@ -38,28 +45,34 @@ class OpenPGPKeysDetails extends Component {
   getPrivateKeys = () => Object.values(this.state.keys || {});
 
   getUserEmails = () => {
-    const { user: { contact, title } } = this.props;
+    const {
+      user: { contact, title },
+    } = this.props;
 
     if (contact) {
-      return contact.emails.map(({ address }) => ({ name: title, email: address }));
+      return contact.emails.map(({ address }) => ({
+        name: title,
+        email: address,
+      }));
     }
 
     return null;
-  }
+  };
 
-  updateKeyState = newState => getPrimaryKeysByFingerprint()
-    .then(keys => this.setState(prevState => ({
-      ...prevState,
-      ...newState,
-      keys,
-    })));
-
+  updateKeyState = (newState) =>
+    getPrimaryKeysByFingerprint().then((keys) =>
+      this.setState((prevState) => ({
+        ...prevState,
+        ...newState,
+        keys,
+      }))
+    );
 
   handleClickEditMode = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       editMode: !prevState.editMode,
     }));
-  }
+  };
 
   importKeys = async () => {
     const { saveUserPublicKey, user } = this.props;
@@ -67,21 +80,28 @@ class OpenPGPKeysDetails extends Component {
 
     this.setState({ isFormLoading: true });
     try {
-      const publicKeyArmored = await getPublicKeyFromPrivateKey(privateKeyArmored, passphrase);
+      const publicKeyArmored = await getPublicKeyFromPrivateKey(
+        privateKeyArmored,
+        passphrase
+      );
       const error = await saveKey(publicKeyArmored, privateKeyArmored);
-      const newState = error ?
-        {
-          isFormLoading: false,
-          importForm: { privateKeyArmored, passphrase, errors: { global: [error] } },
-        }
+      const newState = error
+        ? {
+            isFormLoading: false,
+            importForm: {
+              privateKeyArmored,
+              passphrase,
+              errors: { global: [error] },
+            },
+          }
         : {
-          isFormLoading: false,
-          importForm: {
-            errors: {},
-            privateKeyArmored: '',
-            passphrase: '',
-          },
-        };
+            isFormLoading: false,
+            importForm: {
+              errors: {},
+              privateKeyArmored: '',
+              passphrase: '',
+            },
+          };
 
       if (!error) {
         saveUserPublicKey(publicKeyArmored, user);
@@ -91,10 +111,14 @@ class OpenPGPKeysDetails extends Component {
     } catch (e) {
       this.updateKeyState({
         isFormLoading: false,
-        importForm: { privateKeyArmored, passphrase, errors: { global: [e.message] } },
+        importForm: {
+          privateKeyArmored,
+          passphrase,
+          errors: { global: [e.message] },
+        },
       });
     }
-  }
+  };
 
   handleDeleteKey = async ({ fingerprint }) => {
     await deleteKey(fingerprint);
@@ -103,22 +127,22 @@ class OpenPGPKeysDetails extends Component {
   };
 
   handleImportFormChange = (newValue) => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       importForm: {
         ...prevState.importForm,
         ...newValue,
       },
     }));
-  }
+  };
 
   handleGenerateFormChange = (newValue) => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       generateForm: {
         ...prevState.generateForm,
         ...newValue,
       },
     }));
-  }
+  };
 
   generateAndSaveKeys = async () => {
     const { saveUserPublicKey, user } = this.props;
@@ -141,7 +165,7 @@ class OpenPGPKeysDetails extends Component {
     this.updateKeyState(newState);
 
     return error;
-  }
+  };
 
   renderPrivateKey = (keyPair, key) => (
     <OpenPGPKey
@@ -156,12 +180,8 @@ class OpenPGPKeysDetails extends Component {
     </OpenPGPKey>
   );
 
-
   render() {
-    const {
-      isLoading,
-      user,
-    } = this.props;
+    const { isLoading, user } = this.props;
 
     const activeButtonProp = this.state.editMode ? { color: 'active' } : {};
 

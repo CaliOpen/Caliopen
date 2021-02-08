@@ -4,7 +4,9 @@
 .s-search-results {
   background: $co-color__fg__back;
 
-  &__preview { @include flex-grid-row; }
+  &__preview {
+    @include flex-grid-row;
+  }
 
   &__label {
     @include flex-grid-column(12);
@@ -15,7 +17,9 @@
     font-weight: 600;
   }
 
-  &__list { @include flex-grid-size(12); }
+  &__list {
+    @include flex-grid-size(12);
+  }
 
   &__load-more {
     padding: $co-component__spacing;

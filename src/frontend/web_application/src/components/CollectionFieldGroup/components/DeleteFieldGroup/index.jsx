@@ -6,7 +6,12 @@ import Button from '../../../Button';
 import './style.scss';
 
 const DeleteFieldGroup = ({
-  template, item, position, onDelete, onChange, className,
+  template,
+  item,
+  position,
+  onDelete,
+  onChange,
+  className,
 }) => {
   const handleDelete = () => {
     onDelete({ item });
@@ -18,7 +23,11 @@ const DeleteFieldGroup = ({
 
   return (
     <div className={classnames('m-delete-field-group', className)}>
-      {template({ item, onChange: handleChange, className: 'm-delete-field-group__input' })}
+      {template({
+        item,
+        onChange: handleChange,
+        className: 'm-delete-field-group__input',
+      })}
       <Button
         onClick={handleDelete}
         shape="plain"
@@ -33,7 +42,8 @@ const DeleteFieldGroup = ({
 DeleteFieldGroup.propTypes = {
   template: PropTypes.func.isRequired,
   item: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})]).isRequired,
-  position: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  position: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
   onDelete: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   className: PropTypes.string,

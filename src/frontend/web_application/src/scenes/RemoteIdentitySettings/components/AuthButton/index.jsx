@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Trans } from '@lingui/macro'; // eslint-disable-line import/no-extraneous-dependencies
+import { Trans } from '@lingui/react';
 import classnames from 'classnames';
 import {
   Spinner,
@@ -26,7 +26,11 @@ class AuthButton extends Component {
     className: PropTypes.string,
     onDone: PropTypes.func.isRequired,
     authorize: PropTypes.func.isRequired,
-    providerName: PropTypes.oneOf([PROVIDER_GMAIL, PROVIDER_TWITTER, PROVIDER_MASTODON]).isRequired,
+    providerName: PropTypes.oneOf([
+      PROVIDER_GMAIL,
+      PROVIDER_TWITTER,
+      PROVIDER_MASTODON,
+    ]).isRequired,
   };
 
   static defaultProps = {
@@ -40,7 +44,7 @@ class AuthButton extends Component {
 
   handleAcctChange = (event) => {
     this.setState({ mastodonAcct: event.target.value });
-  }
+  };
 
   authorize = async () => {
     const { authorize, onDone, providerName } = this.props;
@@ -59,7 +63,7 @@ class AuthButton extends Component {
         hasActivity: false,
       });
     }
-  }
+  };
 
   render() {
     const { className, providerName } = this.props;
@@ -73,7 +77,9 @@ class AuthButton extends Component {
             className={classnames(className, 'm-oauth-button')}
             disabled={this.state.hasActivity}
           >
-            {this.state.hasActivity ? (<Spinner isloading />) : (
+            {this.state.hasActivity ? (
+              <Spinner isloading />
+            ) : (
               <ProviderIcon
                 className="m-oauth-button__logo"
                 providerName={providerName}
@@ -83,19 +89,23 @@ class AuthButton extends Component {
           </ProviderButton>
         </FormRow>
         {providerName === PROVIDER_MASTODON && (
-        <FormRow>
-          <FormColumn bottomSpace fluid>
-            <TextFieldGroup
-              label={(
-                <Trans id="remote_identity.form.mastodon.instance_label">Before pushing Mastodon button, enter your account address below (ex.: username@instance.tld)</Trans>)}
-              value={this.state.mastodonAcct}
-              onChange={this.handleAcctChange}
-              name="mastodonAcct"
-              autoComplete="on"
-              required
-            />
-          </FormColumn>
-        </FormRow>
+          <FormRow>
+            <FormColumn bottomSpace fluid>
+              <TextFieldGroup
+                label={
+                  <Trans id="remote_identity.form.mastodon.instance_label">
+                    Before pushing Mastodon button, enter your account address
+                    below (ex.: username@instance.tld)
+                  </Trans>
+                }
+                value={this.state.mastodonAcct}
+                onChange={this.handleAcctChange}
+                name="mastodonAcct"
+                autoComplete="on"
+                required
+              />
+            </FormColumn>
+          </FormRow>
         )}
       </FormGrid>
     );

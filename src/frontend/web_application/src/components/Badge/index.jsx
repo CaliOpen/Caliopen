@@ -36,9 +36,7 @@ class Badge extends PureComponent {
   };
 
   renderChildren() {
-    const {
-      to, children, large, onDelete,
-    } = this.props;
+    const { to, children, large, onDelete } = this.props;
 
     const textClassName = classnames('m-badge__text', {
       'm-badge__text--large': large,
@@ -50,30 +48,46 @@ class Badge extends PureComponent {
     }
 
     return (
-      <BaseLink to={to} className={textClassName}>{children}</BaseLink>
+      <BaseLink to={to} className={textClassName}>
+        {children}
+      </BaseLink>
     );
   }
 
   render() {
     const {
-      children, className, onDelete, low, large, radiusType, isLoading, ariaLabel, rightSpaced,
-      color, to, ...props
+      children,
+      className,
+      onDelete,
+      low,
+      large,
+      radiusType,
+      isLoading,
+      ariaLabel,
+      rightSpaced,
+      color,
+      to,
+      ...props
     } = this.props;
 
     const badgeProps = {
-      className: classnames('m-badge', {
-        'm-badge--low': low,
-        'm-badge--large': large,
-        'm-badge--no-radius': radiusType === 'no',
-        'm-badge--normal-radius': radiusType === 'normal',
-        'm-badge--rounded-radius': radiusType === 'rounded',
-        'm-badge--right-spaced': rightSpaced,
-        'm-badge--active': color === 'active',
-        'm-badge--alert': color === 'alert',
-        'm-badge--secondary': color === 'secondary',
-        'm-badge--success': color === 'success',
-        'm-badge--is-link': to !== undefined,
-      }, className),
+      className: classnames(
+        'm-badge',
+        {
+          'm-badge--low': low,
+          'm-badge--large': large,
+          'm-badge--no-radius': radiusType === 'no',
+          'm-badge--normal-radius': radiusType === 'normal',
+          'm-badge--rounded-radius': radiusType === 'rounded',
+          'm-badge--right-spaced': rightSpaced,
+          'm-badge--active': color === 'active',
+          'm-badge--alert': color === 'alert',
+          'm-badge--secondary': color === 'secondary',
+          'm-badge--success': color === 'success',
+          'm-badge--is-link': to !== undefined,
+        },
+        className
+      ),
       ...props,
     };
 
@@ -89,7 +103,7 @@ class Badge extends PureComponent {
             className={buttonClassName}
             display="inline"
             onClick={onDelete}
-            icon={isLoading ? (<Spinner isLoading display="inline" />) : 'remove'}
+            icon={isLoading ? <Spinner isLoading display="inline" /> : 'remove'}
             aria-label={ariaLabel}
           />
         )}

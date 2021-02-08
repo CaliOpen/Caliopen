@@ -11,14 +11,18 @@
   color: $co-color__fg__text--high;
   font-size: $co-font__size--small;
 
-  &:hover { color: $co-color__fg__text--lower; }
+  &:hover {
+    color: $co-color__fg__text--lower;
+  }
 
   &--draft,
   &--unread {
     background-color: $co-color__fg__back;
   }
 
-  &__col-avatar { @include flex-grid-column(shrink); }
+  &__col-avatar {
+    @include flex-grid-column(shrink);
+  }
 
   &__col-title {
     @include flex-grid-size;
@@ -31,7 +35,9 @@
     margin-left: auto;
   }
 
-  &__subject { color: $co-color__fg__text--lower; }
+  &__subject {
+    color: $co-color__fg__text--lower;
+  }
 
   &__author {
     color: $co-color__primary--lower;
@@ -52,7 +58,9 @@
     }
   }
 
-  &__tags { padding-left: $co-component__spacing; }
+  &__tags {
+    padding-left: $co-component__spacing;
+  }
 
   &__highlights {
     @include flex-grid-column(12);

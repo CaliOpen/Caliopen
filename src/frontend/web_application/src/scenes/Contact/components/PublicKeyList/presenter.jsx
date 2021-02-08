@@ -8,7 +8,11 @@ import { strToBase64 } from '../../../../services/encode-utils';
 import './style.scss';
 
 const KEY_QUALITY_CLASSES = ['weak', 'average', 'good'];
-const KEY_QUALITY_ICONS = ['exclamation-triangle', 'expire-soon', 'info-circle'];
+const KEY_QUALITY_ICONS = [
+  'exclamation-triangle',
+  'expire-soon',
+  'info-circle',
+];
 
 @withI18n()
 class PublicKeyList extends Component {
@@ -34,7 +38,10 @@ class PublicKeyList extends Component {
 
   componentDidMount() {
     const {
-      contactId, requestPublicKeys, isFetching, needsFetching,
+      contactId,
+      requestPublicKeys,
+      isFetching,
+      needsFetching,
       didInvalidate,
     } = this.props;
 
@@ -45,7 +52,10 @@ class PublicKeyList extends Component {
 
   componentDidUpdate() {
     const {
-      contactId, requestPublicKeys, isFetching, needsFetching,
+      contactId,
+      requestPublicKeys,
+      isFetching,
+      needsFetching,
     } = this.props;
 
     if (!isFetching && (needsFetching || this.props.didInvalidate)) {
@@ -59,7 +69,7 @@ class PublicKeyList extends Component {
     this.setState({ editMode: false }, () => {
       this.props.requestPublicKeys({ contactId });
     });
-  }
+  };
 
   getKeyQuality = (publicKey) => {
     let score = 2;
@@ -73,15 +83,17 @@ class PublicKeyList extends Component {
 
   enterAddMode = () => {
     this.setState({ editMode: true, editKey: null });
-  }
+  };
 
   quitEditMode = () => {
     this.setState({ editMode: false });
-  }
+  };
 
-  getPublicKeyDataUrl = ({ key }) => `data:application/x-pgp;base64,${strToBase64(key)}`;
+  getPublicKeyDataUrl = ({ key }) =>
+    `data:application/x-pgp;base64,${strToBase64(key)}`;
 
-  handleEdit = publicKey => () => this.setState({ editMode: true, editKey: publicKey.key_id });
+  handleEdit = (publicKey) => () =>
+    this.setState({ editMode: true, editKey: publicKey.key_id });
 
   renderKeyItem = (publicKey) => {
     const { contactId, i18n } = this.props;
@@ -104,24 +116,34 @@ class PublicKeyList extends Component {
       <li key={publicKey.key_id} className="m-public-key-list__key">
         <Icon
           type={KEY_QUALITY_ICONS[this.getKeyQuality(publicKey)]}
-          className={`m-public-key-list__quality-icon--${KEY_QUALITY_CLASSES[this.getKeyQuality(publicKey)]}`}
+          className={`m-public-key-list__quality-icon--${
+            KEY_QUALITY_CLASSES[this.getKeyQuality(publicKey)]
+          }`}
           rightSpaced
         />
-        <strong className="m-public-key-list__key-label">{publicKey.label}</strong>
+        <strong className="m-public-key-list__key-label">
+          {publicKey.label}
+        </strong>
         &nbsp;:&nbsp;
         {publicKey.fingerprint}
         <Link
           button
           href={this.getPublicKeyDataUrl(publicKey)}
           download={`${publicKey.label}.pubkey.asc`}
-          title={i18n._('contact.public_key_list.download_key', null, { defaults: 'Download key' })}
+          title={i18n._('contact.public_key_list.download_key', null, {
+            defaults: 'Download key',
+          })}
         >
           <Icon type="download" />
         </Link>
-        <Button icon="edit" className="m-public-key-list__edit-button" onClick={this.handleEdit(publicKey)} />
+        <Button
+          icon="edit"
+          className="m-public-key-list__edit-button"
+          onClick={this.handleEdit(publicKey)}
+        />
       </li>
     );
-  }
+  };
 
   renderAddForm = () => {
     const { contactId } = this.props;
@@ -143,19 +165,19 @@ class PublicKeyList extends Component {
         type="button"
         shape="plain"
       >
-        <Trans id="contact.public_keys_list.add_key.label">Add public key</Trans>
+        <Trans id="contact.public_keys_list.add_key.label">
+          Add public key
+        </Trans>
       </Button>
     );
-  }
+  };
 
   render() {
     const { publicKeys } = this.props;
 
     return (
       <Fragment>
-        <ul>
-          {publicKeys.map(publicKey => this.renderKeyItem(publicKey))}
-        </ul>
+        <ul>{publicKeys.map((publicKey) => this.renderKeyItem(publicKey))}</ul>
         {this.renderAddForm()}
       </Fragment>
     );

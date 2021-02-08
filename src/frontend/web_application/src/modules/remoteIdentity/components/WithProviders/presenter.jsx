@@ -17,7 +17,10 @@ class WithProviders extends Component {
 
   componentDidMount() {
     const {
-      providers, requestProviders, didInvalidate, isFetching,
+      providers,
+      requestProviders,
+      didInvalidate,
+      isFetching,
     } = this.props;
 
     if ((!providers || didInvalidate) && !isFetching) {
@@ -25,10 +28,8 @@ class WithProviders extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {
-      requestProviders, didInvalidate, isFetching,
-    } = nextProps;
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { requestProviders, didInvalidate, isFetching } = nextProps;
 
     if (didInvalidate && !isFetching) {
       requestProviders();

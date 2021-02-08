@@ -1,5 +1,7 @@
-export const REQUEST_LOCAL_IDENTITIES = 'co/local-identity/REQUEST_LOCAL_IDENTITIES';
-export const REQUEST_LOCAL_IDENTITIES_SUCCESS = 'co/local-identity/REQUEST_LOCAL_IDENTITIES_SUCCESS';
+export const REQUEST_LOCAL_IDENTITIES =
+  'co/local-identity/REQUEST_LOCAL_IDENTITIES';
+export const REQUEST_LOCAL_IDENTITIES_SUCCESS =
+  'co/local-identity/REQUEST_LOCAL_IDENTITIES_SUCCESS';
 export const INVALIDATE = 'co/local-identity/INVALIDATE';
 
 export function requestLocalIdentities() {
@@ -42,7 +44,10 @@ export default function reducer(state = initialState, action) {
         ...state,
         isFetching: false,
         didInvalidate: false,
-        localIdentities: state.didInvalidate === true ? [] : action.payload.data.local_identities,
+        localIdentities:
+          state.didInvalidate === true
+            ? []
+            : action.payload.data.local_identities,
         total: action.payload.data.total,
       };
     case INVALIDATE:

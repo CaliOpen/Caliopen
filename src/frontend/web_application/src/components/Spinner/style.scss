@@ -1,8 +1,12 @@
 @import '../../styles/common';
 
 @keyframes m-loading__spin {
-  from { transform: scale(1) rotate(0deg);}
-  to { transform: scale(1) rotate(360deg);}
+  from {
+    transform: scale(1) rotate(0deg);
+  }
+  to {
+    transform: scale(1) rotate(360deg);
+  }
 }
 
 .m-spinner {
@@ -16,14 +20,13 @@
     display: inline-block;
     font-size: 1rem;
 
-    animation: m-loading__spin .5s infinite linear;
+    animation: m-loading__spin 0.5s infinite linear;
 
     svg {
       path {
         fill: $co-color__fg__text--higher;
       }
     }
-
   }
   &--bright {
     #{$baseName}__icon {

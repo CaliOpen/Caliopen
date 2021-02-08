@@ -16,7 +16,7 @@ describe('Service calcObjectForPatch', () => {
 
     it('handle undefined as new value', () => {
       const previous = { foo: 'bar' };
-      const updated = { };
+      const updated = {};
 
       expect(calcObjectForPatch(updated, previous)).toEqual({
         current_state: {
@@ -27,12 +27,11 @@ describe('Service calcObjectForPatch', () => {
 
     it('handle undefined as previous value', () => {
       const updated = { foo: 'bar' };
-      const previous = { };
+      const previous = {};
 
       expect(calcObjectForPatch(updated, previous)).toEqual({
         foo: 'bar',
-        current_state: {
-        },
+        current_state: {},
       });
     });
   });

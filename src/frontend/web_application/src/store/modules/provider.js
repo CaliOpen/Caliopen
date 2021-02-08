@@ -1,7 +1,8 @@
 export const REQUEST_PROVIDERS = 'co/provider/REQUEST_PROVIDERS';
-export const REQUEST_PROVIDERS_SUCCESS = 'co/provider/REQUEST_PROVIDERS_SUCCESS';
+export const REQUEST_PROVIDERS_SUCCESS =
+  'co/provider/REQUEST_PROVIDERS_SUCCESS';
 
-export const providerStateSelector = state => state.provider;
+export const providerStateSelector = (state) => state.provider;
 
 export function requestProviders() {
   return {

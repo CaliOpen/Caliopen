@@ -32,8 +32,12 @@
     $height: map-get($co-form__height, $height);
   }
 
-  &__item { min-height: $height; }
-  &__item-content { line-height: $height; }
+  &__item {
+    min-height: $height;
+  }
+  &__item-content {
+    line-height: $height;
+  }
 }
 
 @mixin m-menu {
@@ -43,7 +47,9 @@
   margin: 0;
   padding: 0;
 
-  &__item--is-active { color: $co-color__fg__text--high; }
+  &__item--is-active {
+    color: $co-color__fg__text--high;
+  }
 
   &__item-content {
     display: block;
@@ -61,9 +67,15 @@
   // &--horizontal   { @include m-menu--horizontal; }
   // &--vertical { @include m-menu--vertical; }
 
-  &--small  { @include m-menu--height(small); }
-  &--medium { @include m-menu--height(medium); }
-  &--large  { @include m-menu--height(large); }
+  &--small {
+    @include m-menu--height(small);
+  }
+  &--medium {
+    @include m-menu--height(medium);
+  }
+  &--large {
+    @include m-menu--height(large);
+  }
 }
 
 .m-vertical-menu {

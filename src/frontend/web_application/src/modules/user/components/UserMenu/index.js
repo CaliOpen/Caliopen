@@ -5,11 +5,9 @@ import Presenter from './presenter';
 import { getUser } from '../../actions/getUser';
 import { userSelector } from '../../selectors/userSelector';
 
-const mapStateToProps = createSelector(
-  [userSelector],
-  user => ({ user })
-);
+const mapStateToProps = createSelector([userSelector], (user) => ({ user }));
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getUser }, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ getUser }, dispatch);
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(Presenter);

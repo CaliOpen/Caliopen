@@ -21,7 +21,7 @@ const findEntityByContentType = (entity, contentType) => {
 };
 
 // mail sometimes do not have CRLF as they should.
-const crlfize = str => str.replace(/([^\r])?\n/g, '$1\r\n');
+const crlfize = (str) => str.replace(/([^\r])?\n/g, '$1\r\n');
 
 export const getPlainTextFromMime = ({ body }) => {
   const entity = parse(crlfize(body));
@@ -46,7 +46,8 @@ export const getPlainTextFromMime = ({ body }) => {
   return body;
 };
 
-export const mimeEncapsulate = body => factory({
-  contentType: 'text/plain;charset=utf8',
-  body,
-});
+export const mimeEncapsulate = (body) =>
+  factory({
+    contentType: 'text/plain;charset=utf8',
+    body,
+  });

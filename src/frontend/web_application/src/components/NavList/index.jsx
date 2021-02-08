@@ -5,12 +5,9 @@ import NavItem from './components/NavItem';
 import './style.scss';
 
 const NavList = ({ className, dir, ...props }) => {
-  const navClassName = classnames(
-    'm-nav-list',
-    {
-      'm-nav-list--vertical': dir === 'vertical',
-    },
-  );
+  const navClassName = classnames('m-nav-list', {
+    'm-nav-list--vertical': dir === 'vertical',
+  });
 
   return (
     <nav className={classnames('m-nav', className)}>

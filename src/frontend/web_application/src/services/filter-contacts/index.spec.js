@@ -21,20 +21,23 @@ describe('Service contactFilter', () => {
         deleted: 0,
         privacy_index: 0,
         infos: {},
-        emails: [{
-          email_id: '93f03145-4398-4bd4-9bd5-00000001',
-          is_primary: 0,
-          date_update: null,
-          label: null,
-          address: 'bender@caliopen.local',
-          date_insert: '2016-05-09T15:01:42.116000',
-          type: 'other',
-        }],
+        emails: [
+          {
+            email_id: '93f03145-4398-4bd4-9bd5-00000001',
+            is_primary: 0,
+            date_update: null,
+            label: null,
+            address: 'bender@caliopen.local',
+            date_insert: '2016-05-09T15:01:42.116000',
+            type: 'other',
+          },
+        ],
         family_name: 'Rodriguez',
         name_suffix: null,
         avatar: 'avatar.png',
         public_keys: [],
-      }, {
+      },
+      {
         addresses: [],
         privacy_features: {},
         phones: [],
@@ -52,25 +55,29 @@ describe('Service contactFilter', () => {
         deleted: 0,
         privacy_index: 0,
         infos: {},
-        emails: [{
-          email_id: '93f03145-4398-4bd4-9bd5-00000002',
-          is_primary: 0,
-          date_update: null,
-          label: null,
-          address: 'zoidberg@caliopen.local',
-          date_insert: '2016-05-09T15:01:43.116000',
-          type: 'other',
-        }],
+        emails: [
+          {
+            email_id: '93f03145-4398-4bd4-9bd5-00000002',
+            is_primary: 0,
+            date_update: null,
+            label: null,
+            address: 'zoidberg@caliopen.local',
+            date_insert: '2016-05-09T15:01:43.116000',
+            type: 'other',
+          },
+        ],
         family_name: 'Zoidberg',
         name_suffix: null,
         avatar: 'avatar.png',
         public_keys: [],
       },
     ];
-    expect(contactFilter({
-      contacts,
-      searchTerms: 'end',
-    })).toEqual([contacts[0]]);
+    expect(
+      contactFilter({
+        contacts,
+        searchTerms: 'end',
+      })
+    ).toEqual([contacts[0]]);
   });
 
   it('finds a contact by a sub property like identities', () => {
@@ -79,37 +86,40 @@ describe('Service contactFilter', () => {
       { identities: [{ identity_id: 'foobar' }] },
       { identities: [{ identity_id: 'bar' }] },
     ];
-    expect(contactFilter({
-      contacts,
-      searchTerms: 'oba',
-    })).toEqual([contacts[0], contacts[1]]);
+    expect(
+      contactFilter({
+        contacts,
+        searchTerms: 'oba',
+      })
+    ).toEqual([contacts[0], contacts[1]]);
   });
 
   it('finds a contact which contains special chars', () => {
-    const contacts = [
-      { given_name: 'J\'own d\'œuf' },
-      { given_name: 'jérém' },
-    ];
+    const contacts = [{ given_name: "J'own d'œuf" }, { given_name: 'jérém' }];
 
-    expect(contactFilter({
-      contacts,
-      searchTerms: 'œuf',
-    })).toEqual([contacts[0]]);
+    expect(
+      contactFilter({
+        contacts,
+        searchTerms: 'œuf',
+      })
+    ).toEqual([contacts[0]]);
 
-    expect(contactFilter({
-      contacts,
-      searchTerms: 'jérém',
-    })).toEqual([contacts[1]]);
+    expect(
+      contactFilter({
+        contacts,
+        searchTerms: 'jérém',
+      })
+    ).toEqual([contacts[1]]);
   });
 
   it('finds a contact which contains uppercases', () => {
-    const contacts = [
-      { given_name: 'jOhny' },
-    ];
+    const contacts = [{ given_name: 'jOhny' }];
 
-    expect(contactFilter({
-      contacts,
-      searchTerms: 'john',
-    })).toEqual([contacts[0]]);
+    expect(
+      contactFilter({
+        contacts,
+        searchTerms: 'john',
+      })
+    ).toEqual([contacts[0]]);
   });
 });

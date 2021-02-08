@@ -37,7 +37,11 @@ export const TIMELINE_FILTER_RECEIVED = 'received';
 export const TIMELINE_FILTER_SENT = 'sent';
 export const TIMELINE_FILTER_DRAFT = 'draft';
 
-export function requestMessages(type = 'timeline', key = '0', { offset = 0, limit = 20, ...opts } = {}) {
+export function requestMessages(
+  type = 'timeline',
+  key = '0',
+  { offset = 0, limit = 20, ...opts } = {}
+) {
   const params = { offset, limit, ...opts };
 
   return {
@@ -77,7 +81,7 @@ export function invalidate(type, key) {
 export function invalidateAll() {
   return {
     type: INVALIDATE_ALL_MESSAGES,
-    payload: { },
+    payload: {},
   };
 }
 
@@ -243,7 +247,6 @@ export function fetchMessages(params) {
   };
 }
 
-
 export function requestDraft({ discussionId }) {
   return {
     type: REQUEST_DRAFT,
@@ -272,11 +275,16 @@ export function hasMore(state) {
  * @deprecated use createMessageCollectionStateSelector() instead (cf. selectors)
  */
 export function getMessagesFromCollection(type, key, { state }) {
-  if (!state.messagesCollections[type] || !state.messagesCollections[type][key]) {
+  if (
+    !state.messagesCollections[type] ||
+    !state.messagesCollections[type][key]
+  ) {
     return [];
   }
 
-  return state.messagesCollections[type][key].messages.map(id => state.messagesById[id]);
+  return state.messagesCollections[type][key].messages.map(
+    (id) => state.messagesById[id]
+  );
 }
 
 function draftMessageReducer(state = {}, action) {
@@ -307,10 +315,13 @@ function messagesByIdReducer(state = {}, action = {}) {
       };
     case FETCH_MESSAGES_SUCCESS:
     case REQUEST_MESSAGES_SUCCESS:
-      return action.payload.data.messages.reduce((previousState, message) => ({
-        ...previousState,
-        [message.message_id]: message,
-      }), state);
+      return action.payload.data.messages.reduce(
+        (previousState, message) => ({
+          ...previousState,
+          [message.message_id]: message,
+        }),
+        state
+      );
     case SYNC_MESSAGE:
       return {
         ...state,
@@ -334,13 +345,16 @@ const addMessageToCollection = (messageId, collection) => {
   return [messageId, ...collection];
 };
 
-const messagesCollectionReducer = (state = {
-  isFetching: false,
-  didInvalidate: false,
-  messages: [],
-  total: 0,
-  request: {},
-}, action) => {
+const messagesCollectionReducer = (
+  state = {
+    isFetching: false,
+    didInvalidate: false,
+    messages: [],
+    total: 0,
+    request: {},
+  },
+  action
+) => {
   const { type, key } = action.internal;
 
   switch (action.type) {
@@ -355,26 +369,41 @@ const messagesCollectionReducer = (state = {
         ...state,
         isFetching: false,
         didInvalidate: false,
-        messages: [...new Set([
-          ...((state.didInvalidate && []) || state.messages),
-          ...action.payload.data.messages.map(message => message.message_id),
-        ])],
+        messages: Array.from(
+          new Set([
+            ...((state.didInvalidate && []) || state.messages),
+            ...action.payload.data.messages.map(
+              (message) => message.message_id
+            ),
+          ])
+        ),
         total: action.payload.data.total,
         request: action.meta.previousAction.payload.request,
       };
     case ADD_TO_COLLECTION:
       return {
         ...state,
-        messages: [...new Set(addMessageToCollection(
-          (type === 'timeline' && [TIMELINE_FILTER_ALL, TIMELINE_FILTER_DRAFT].some(k => k === key)) || key === action.payload.message.discussion_id ?
-            action.payload.message.message_id : undefined,
-          state.messages
-        ))],
+        messages: Array.from(
+          new Set(
+            addMessageToCollection(
+              (type === 'timeline' &&
+                [TIMELINE_FILTER_ALL, TIMELINE_FILTER_DRAFT].some(
+                  (k) => k === key
+                )) ||
+                key === action.payload.message.discussion_id
+                ? action.payload.message.message_id
+                : undefined,
+              state.messages
+            )
+          )
+        ),
       };
     case REMOVE_FROM_COLLECTION:
       return {
         ...state,
-        messages: state.messages.filter(id => id !== action.payload.message.message_id),
+        messages: state.messages.filter(
+          (id) => id !== action.payload.message.message_id
+        ),
       };
     case INVALIDATE_ALL_MESSAGES:
     case INVALIDATE_MESSAGES:
@@ -410,20 +439,30 @@ const makeMessagesCollectionTypeReducer = (action) => {
     [type]: {
       ...(state[type] || {}),
       [key]: messagesCollectionReducer(state[type] && state[type][key], {
-        ...act, internal: { type, key },
+        ...act,
+        internal: { type, key },
       }),
     },
   });
 };
 
-const allMessagesCollectionsReducer = (state, action) => Object.keys(state)
-  .reduce((accType, type) => ({
-    ...accType,
-    [type]: Object.keys(state[type]).reduce((accKey, key) => ({
-      ...accKey,
-      [key]: messagesCollectionReducer(state[type][key], { ...action, internal: { type, key } }),
-    }), {}),
-  }), {});
+const allMessagesCollectionsReducer = (state, action) =>
+  Object.keys(state).reduce(
+    (accType, type) => ({
+      ...accType,
+      [type]: Object.keys(state[type]).reduce(
+        (accKey, key) => ({
+          ...accKey,
+          [key]: messagesCollectionReducer(state[type][key], {
+            ...action,
+            internal: { type, key },
+          }),
+        }),
+        {}
+      ),
+    }),
+    {}
+  );
 
 const initialState = {
   timelineFilter: TIMELINE_FILTER_RECEIVED,
@@ -479,13 +518,19 @@ export default function reducer(state = initialState, action) {
     case INVALIDATE_ALL_MESSAGES:
       return {
         ...state,
-        messagesCollections: allMessagesCollectionsReducer(state.messagesCollections, action),
+        messagesCollections: allMessagesCollectionsReducer(
+          state.messagesCollections,
+          action
+        ),
       };
     case REMOVE_FROM_COLLECTION:
       return {
         ...state,
         messagesById: messagesByIdReducer(state.messagesById, action),
-        messagesCollections: allMessagesCollectionsReducer(state.messagesCollections, action),
+        messagesCollections: allMessagesCollectionsReducer(
+          state.messagesCollections,
+          action
+        ),
       };
 
     default:

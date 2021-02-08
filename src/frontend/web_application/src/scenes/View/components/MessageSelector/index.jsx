@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withI18n, Trans } from '@lingui/react';
 import {
-  Checkbox, Spinner, Confirm, ActionBarButton,
+  Checkbox,
+  Spinner,
+  Confirm,
+  ActionBarButton,
 } from '../../../../components';
 
 import './style.scss';
@@ -10,7 +13,7 @@ import './style.scss';
 @withI18n()
 class MessageSelector extends Component {
   static propTypes = {
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     onToggleSelectAllMessages: PropTypes.func,
     onEditTags: PropTypes.func,
     onDeleteMessages: PropTypes.func,
@@ -22,9 +25,9 @@ class MessageSelector extends Component {
   };
 
   static defaultProps = {
-    onToggleSelectAllMessages: str => str,
-    onEditTags: str => str,
-    onDeleteMessages: str => str,
+    onToggleSelectAllMessages: (str) => str,
+    onEditTags: (str) => str,
+    onDeleteMessages: (str) => str,
     count: 0,
     totalCount: 0,
     indeterminate: false,
@@ -33,15 +36,15 @@ class MessageSelector extends Component {
 
   toggleCheckbox = () => {
     this.props.onToggleSelectAllMessages();
-  }
+  };
 
   handleEditTags = () => {
     this.props.onEditTags();
-  }
+  };
 
   handleDelete = () => {
     this.props.onDeleteMessages();
-  }
+  };
 
   renderDeleteButton() {
     const { i18n, count, isDeleting } = this.props;
@@ -49,9 +52,11 @@ class MessageSelector extends Component {
     if (count === 0) {
       return (
         <ActionBarButton
-          icon={isDeleting ? (<Spinner isLoading display="inline" />) : 'trash'}
+          icon={isDeleting ? <Spinner isLoading display="inline" /> : 'trash'}
           disabled
-          aria-label={i18n._('message-list.action.delete', null, { defaults: 'Delete selected' })}
+          aria-label={i18n._('message-list.action.delete', null, {
+            defaults: 'Delete selected',
+          })}
         />
       );
     }
@@ -59,13 +64,24 @@ class MessageSelector extends Component {
     return (
       <Confirm
         onConfirm={this.handleDelete}
-        title={(<Trans id="message-list.confirm-delete.title">Delete message(s)</Trans>)}
-        content={(<Trans id="message-list.confirm-delete.content">The deletion is permanent, are you sure you want to delete these messages?</Trans>)}
-        render={confirm => (
+        title={
+          <Trans id="message-list.confirm-delete.title">
+            Delete message(s)
+          </Trans>
+        }
+        content={
+          <Trans id="message-list.confirm-delete.content">
+            The deletion is permanent, are you sure you want to delete these
+            messages?
+          </Trans>
+        }
+        render={(confirm) => (
           <ActionBarButton
-            icon={isDeleting ? (<Spinner isLoading display="inline" />) : 'trash'}
+            icon={isDeleting ? <Spinner isLoading display="inline" /> : 'trash'}
             onClick={confirm}
-            aria-label={i18n._('message-list.action.delete', null, { defaults: 'Delete selected' })}
+            aria-label={i18n._('message-list.action.delete', null, {
+              defaults: 'Delete selected',
+            })}
           />
         )}
       />
@@ -74,7 +90,12 @@ class MessageSelector extends Component {
 
   render() {
     const {
-      i18n, count, totalCount, checked, isDeleting, indeterminate,
+      i18n,
+      count,
+      totalCount,
+      checked,
+      isDeleting,
+      indeterminate,
     } = this.props;
 
     return (
@@ -95,7 +116,9 @@ class MessageSelector extends Component {
         )}
         <span className="m-message-selector__checkbox">
           <Checkbox
-            label={i18n._('message-list.action.select_all', null, { defaults: 'Select/deselect all messages' })}
+            label={i18n._('message-list.action.select_all', null, {
+              defaults: 'Select/deselect all messages',
+            })}
             id="message-list-selector"
             checked={checked}
             indeterminate={indeterminate}

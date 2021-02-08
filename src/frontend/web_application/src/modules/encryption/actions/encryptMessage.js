@@ -1,8 +1,15 @@
-import { identitiesSelector } from '../../../modules/identity';
-import { getKeysForEmail, PUBLIC_KEY } from '../../../services/openpgp-keychain-repository';
+import { identitiesSelector } from '../../identity';
+import {
+  getKeysForEmail,
+  PUBLIC_KEY,
+} from '../../../services/openpgp-keychain-repository';
 import { getRecipientKeys } from './getRecipientKeys';
 import { encryptMessage as encryptMessageConcret } from '../../../services/encryption';
-import { encryptMessage as encryptMessageStart, encryptMessageSuccess, encryptMessageFail } from '../../../store/modules/encryption';
+import {
+  encryptMessage as encryptMessageStart,
+  encryptMessageSuccess,
+  encryptMessageFail,
+} from '../../../store/modules/encryption';
 
 export const encryptMessage = ({ message }) => async (dispatch, getState) => {
   try {
@@ -11,11 +18,14 @@ export const encryptMessage = ({ message }) => async (dispatch, getState) => {
     }
 
     if (message.attachments) {
-      throw new Error('Encryption for message with attachments is not supported yet');
+      throw new Error(
+        'Encryption for message with attachments is not supported yet'
+      );
     }
 
-    const identity = identitiesSelector(getState())
-      .find(curr => message.user_identities.includes(curr.identity_id));
+    const identity = identitiesSelector(getState()).find((curr) =>
+      message.user_identities.includes(curr.identity_id)
+    );
 
     // 1. we need to check all addresses to find keys.
     const [userKey, keys] = await Promise.all([
@@ -29,10 +39,10 @@ export const encryptMessage = ({ message }) => async (dispatch, getState) => {
 
     dispatch(encryptMessageStart({ message }));
     // 2. but there is no need for more than 1 key
-    const encryptedMessage = await encryptMessageConcret(
-      message,
-      [userKey[0].armor(), ...keys]
-    );
+    const encryptedMessage = await encryptMessageConcret(message, [
+      userKey[0].armor(),
+      ...keys,
+    ]);
 
     dispatch(encryptMessageSuccess({ message, encryptedMessage }));
 

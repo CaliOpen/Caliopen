@@ -10,8 +10,7 @@ class DeviceProvider extends Component {
     setDeviceGenerated: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-  };
+  static defaultProps = {};
 
   componentDidMount() {
     this.initializeClient();
@@ -24,12 +23,12 @@ class DeviceProvider extends Component {
       await this.generateAndHoldKeyPair();
       this.props.setDeviceGenerated(true);
     }
-  }
+  };
 
   generateAndHoldKeyPair = async () => {
     const keypair = await generate();
     save({ id: uuidV4(), keypair });
-  }
+  };
 
   render() {
     const { children } = this.props;

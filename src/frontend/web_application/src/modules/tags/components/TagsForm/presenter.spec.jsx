@@ -4,11 +4,11 @@ import TagsForm from './presenter';
 
 describe('component TagsForm', () => {
   const connectedProps = {
-    i18n: { _: id => id },
+    i18n: { _: (id) => id },
   };
 
   it('render', () => {
-    const noop = str => str;
+    const noop = (str) => str;
     const comp = shallow(
       <TagsForm search={noop} updateTags={noop} {...connectedProps} />
     );

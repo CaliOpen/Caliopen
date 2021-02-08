@@ -31,7 +31,10 @@ function viewByIdReducer(state, action) {
     case ADD_VIEW:
       return {
         ...state,
-        [action.payload.viewConfig.id]: viewReducer(state[action.payload.viewConfig.id], action),
+        [action.payload.viewConfig.id]: viewReducer(
+          state[action.payload.viewConfig.id],
+          action
+        ),
       };
     default:
       return state;

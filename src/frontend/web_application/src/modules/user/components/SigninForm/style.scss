@@ -2,10 +2,19 @@
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
 
 .s-signin {
-
-  &__action { line-height: $co-component__height; }
-  &__link { text-align: center; }
-  &__login-safe { background-color: map-get($context-palette, 'safe'); }
-  &__login-public { background-color: map-get($context-palette, 'public'); }
-  &__login-unsecure { background-color: map-get($context-palette, 'unsecure'); }
+  &__action {
+    line-height: $co-component__height;
+  }
+  &__link {
+    text-align: center;
+  }
+  &__login-safe {
+    background-color: map-get($context-palette, 'safe');
+  }
+  &__login-public {
+    background-color: map-get($context-palette, 'public');
+  }
+  &__login-unsecure {
+    background-color: map-get($context-palette, 'unsecure');
+  }
 }

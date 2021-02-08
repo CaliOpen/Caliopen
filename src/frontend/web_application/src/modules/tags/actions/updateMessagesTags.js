@@ -7,18 +7,27 @@ import { invalidateAll } from '../../../store/modules/message';
 
 const UPDATE_WAIT_TIME = 2 * 1000;
 
-const updateMessagesTagsConcrete = (i18n, messageIds, tags) => async (dispatch, getState) => {
-  const { message: { messagesById }, tag: { tags: userTags } } = getState();
-  const messages = messageIds.map(id => messagesById[id]);
+const updateMessagesTagsConcrete = (i18n, messageIds, tags) => async (
+  dispatch,
+  getState
+) => {
+  const {
+    message: { messagesById },
+    tag: { tags: userTags },
+  } = getState();
+  const messages = messageIds.map((id) => messagesById[id]);
   const tagNamesInCommon = getTagNamesInCommon(messages);
   const tagsInCommon = getCleanedTagCollection(userTags, tagNamesInCommon);
 
-  const deletedTags = tagsInCommon.filter(tag => !(new Set(tags)).has(tag));
-  const createdTags = tags.filter(tag => !(new Set(tagsInCommon)).has(tag));
+  const deletedTags = tagsInCommon.filter((tag) => !new Set(tags).has(tag));
+  const createdTags = tags.filter((tag) => !new Set(tagsInCommon).has(tag));
 
   const updateTagsColl = (message) => {
-    const tagsToSave = (message.tags ? getCleanedTagCollection(userTags, message.tags) : [])
-      .filter(tag => !(new Set(deletedTags)).has(tag))
+    const tagsToSave = (message.tags
+      ? getCleanedTagCollection(userTags, message.tags)
+      : []
+    )
+      .filter((tag) => !new Set(deletedTags).has(tag))
       .concat(createdTags);
 
     return tagsToSave;
@@ -29,18 +38,26 @@ const updateMessagesTagsConcrete = (i18n, messageIds, tags) => async (dispatch, 
     // before updating all other messages: it prevents to try to POST a new tag for each messages
     const firstMessage = messages.shift();
 
-    await dispatch(updateTagCollection(i18n, {
-      type: 'message',
-      entity: firstMessage,
-      tags: updateTagsColl(firstMessage),
-      lazy: true,
-    }));
-    await Promise.all(messages.map(message => dispatch(updateTagCollection(i18n, {
-      type: 'message',
-      entity: message,
-      tags: updateTagsColl(message),
-      lazy: true,
-    }))));
+    await dispatch(
+      updateTagCollection(i18n, {
+        type: 'message',
+        entity: firstMessage,
+        tags: updateTagsColl(firstMessage),
+        lazy: true,
+      })
+    );
+    await Promise.all(
+      messages.map((message) =>
+        dispatch(
+          updateTagCollection(i18n, {
+            type: 'message',
+            entity: message,
+            tags: updateTagsColl(message),
+            lazy: true,
+          })
+        )
+      )
+    );
 
     return dispatch(invalidateAll());
   } catch (e) {
@@ -50,26 +67,45 @@ const updateMessagesTagsConcrete = (i18n, messageIds, tags) => async (dispatch, 
   }
 };
 
-const createThrottled = (resolve, reject, dispatch, { i18n, messageIds, tags }) => throttle(
-  async () => {
-    try {
-      resolve(await dispatch(updateMessagesTagsConcrete(i18n, messageIds, tags)));
-    } catch (err) {
-      reject(err);
-    }
-  }, UPDATE_WAIT_TIME, { leading: false }
-);
+const createThrottled = (
+  resolve,
+  reject,
+  dispatch,
+  { i18n, messageIds, tags }
+) =>
+  throttle(
+    async () => {
+      try {
+        resolve(
+          await dispatch(updateMessagesTagsConcrete(i18n, messageIds, tags))
+        );
+      } catch (err) {
+        reject(err);
+      }
+    },
+    UPDATE_WAIT_TIME,
+    { leading: false }
+  );
 
 const throttleds = {};
 const sha1 = new JsSHA('SHA-1', 'TEXT');
-const getThrottleHash = messageIds => (messageIds.sort().reduce((sha, messageId) => {
-  sha.update(messageId);
+const getThrottleHash = (messageIds) =>
+  messageIds
+    .sort()
+    .reduce((sha, messageId) => {
+      sha.update(messageId);
 
-  return sha;
-}, sha1).getHash('HEX'));
+      return sha;
+    }, sha1)
+    .getHash('HEX');
 
-export const updateMessagesTags = (i18n, messageIds, tags, { withThrottle = true } = {}) => (
-  dispatch => new Promise(async (resolve, reject) => {
+export const updateMessagesTags = (
+  i18n,
+  messageIds,
+  tags,
+  { withThrottle = true } = {}
+) => (dispatch) =>
+  new Promise(async (resolve, reject) => {
     const hash = getThrottleHash(messageIds);
 
     if (throttleds[hash]) {
@@ -78,7 +114,9 @@ export const updateMessagesTags = (i18n, messageIds, tags, { withThrottle = true
 
     if (!withThrottle) {
       try {
-        const messageUpToDate = await dispatch(updateMessagesTagsConcrete(i18n, messageIds, tags));
+        const messageUpToDate = await dispatch(
+          updateMessagesTagsConcrete(i18n, messageIds, tags)
+        );
         resolve(messageUpToDate);
       } catch (err) {
         reject(err);
@@ -87,7 +125,10 @@ export const updateMessagesTags = (i18n, messageIds, tags, { withThrottle = true
       return;
     }
 
-    throttleds[hash] = createThrottled(resolve, reject, dispatch, { i18n, messageIds, tags });
+    throttleds[hash] = createThrottled(resolve, reject, dispatch, {
+      i18n,
+      messageIds,
+      tags,
+    });
     throttleds[hash]();
-  })
-);
+  });

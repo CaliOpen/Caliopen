@@ -1,1 +1,1 @@
-export const providerStateSelector = state => state.provider;
+export const providerStateSelector = (state) => state.provider;

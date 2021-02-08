@@ -132,10 +132,13 @@ export function updateDevice({ device, original }) {
 function devicesByIdReducer(state, action) {
   switch (action.type) {
     case REQUEST_DEVICES_SUCCESS:
-      return action.payload.data.devices.reduce((acc, device) => ({
-        ...acc,
-        [device.device_id]: device,
-      }), {});
+      return action.payload.data.devices.reduce(
+        (acc, device) => ({
+          ...acc,
+          [device.device_id]: device,
+        }),
+        {}
+      );
     default:
       return state;
   }
@@ -144,7 +147,7 @@ function devicesByIdReducer(state, action) {
 function devicesReducer(state, action) {
   switch (action.type) {
     case REQUEST_DEVICES_SUCCESS:
-      return action.payload.data.devices.map(device => device.device_id);
+      return action.payload.data.devices.map((device) => device.device_id);
     default:
       return state;
   }

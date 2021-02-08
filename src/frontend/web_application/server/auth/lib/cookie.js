@@ -14,21 +14,21 @@ const getCookieOptions = () => {
   return { ...COOKIE_OPTIONS, domain: hostname };
 };
 
-export const authenticate = (res, { user }) => new Promise((resolve, reject) => {
-  const { seal: { secret } } = getConfig();
+export const authenticate = (res, { user }) =>
+  new Promise((resolve, reject) => {
+    const {
+      seal: { secret },
+    } = getConfig();
 
-  encode(
-    user,
-    secret,
-    (err, sealed) => {
+    encode(user, secret, (err, sealed) => {
       if (err || !sealed) {
         return reject('Unexpected Error');
       }
       res.cookie(COOKIE_NAME, sealed, getCookieOptions());
 
       return resolve();
-    }
-  );
-});
+    });
+  });
 
-export const invalidate = res => res.clearCookie(COOKIE_NAME, getCookieOptions());
+export const invalidate = (res) =>
+  res.clearCookie(COOKIE_NAME, getCookieOptions());

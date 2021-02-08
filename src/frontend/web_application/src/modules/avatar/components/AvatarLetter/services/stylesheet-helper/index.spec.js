@@ -11,8 +11,7 @@ describe('Service Helper StylesheetHelper', () => {
     });
 
     it('make stylesheet class from non-standard letter', () => {
-      expect(getClassName('ß-Ligatur'))
-        .toEqual('m-letter--none');
+      expect(getClassName('ß-Ligatur')).toEqual('m-letter--none');
     });
   });
 });

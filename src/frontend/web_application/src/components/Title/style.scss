@@ -33,7 +33,7 @@ $m-title__height: $co-component__height !default;
     &:after {
       @include flex-grid-size;
       display: block;
-      content: "";
+      content: '';
       border-top: 2px solid #8dceec;
     }
   }

@@ -12,9 +12,13 @@ import MessageItem from './components/MessageItem';
 import MessageSelector from './components/MessageSelector';
 import './style.scss';
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  deleteMessage,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      deleteMessage,
+    },
+    dispatch
+  );
 const connecting = connect(null, mapDispatchToProps);
 
 @connecting
@@ -45,36 +49,38 @@ class View extends Component {
     this.setState((prevState) => {
       if (prevState.selectedMessages.includes(message)) {
         return {
-          selectedMessages: prevState.selectedMessages.filter(msg => msg !== message),
+          selectedMessages: prevState.selectedMessages.filter(
+            (msg) => msg !== message
+          ),
         };
       }
 
       return {
-        selectedMessages: [
-          ...prevState.selectedMessages,
-          message,
-        ],
+        selectedMessages: [...prevState.selectedMessages, message],
       };
     });
-  }
+  };
 
   handleToggleSelectAllMessages = () => {
     const { messages } = this.props;
 
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       selectedMessages: prevState.selectedMessages.length > 0 ? [] : messages,
     }));
-  }
+  };
 
   handleDeleteMessages = async () => {
     this.setState({ isDeleting: true });
     try {
-      await Promise.all(this.state.selectedMessages
-        .map(message => this.props.deleteMessage({ message })));
+      await Promise.all(
+        this.state.selectedMessages.map((message) =>
+          this.props.deleteMessage({ message })
+        )
+      );
     } finally {
       this.setState({ isDeleting: false, selectedMessages: [] });
     }
-  }
+  };
 
   renderActionBar() {
     const { isFetching, messages } = this.props;
@@ -83,26 +89,32 @@ class View extends Component {
     return (
       <ScrollDetector
         offset={136}
-        render={isSticky => (
+        render={(isSticky) => (
           <ActionBarWrapper isSticky={isSticky}>
             <ActionBar
               hr={false}
               isLoading={isFetching}
-              actionsNode={(
+              actionsNode={
                 <div className="s-view-action-bar">
                   <MessageSelector
                     count={nbSelectedMessages}
-                    checked={nbSelectedMessages > 0
-                      && nbSelectedMessages === messages.length}
+                    checked={
+                      nbSelectedMessages > 0 &&
+                      nbSelectedMessages === messages.length
+                    }
                     totalCount={messages.length}
-                    onToggleSelectAllMessages={this.handleToggleSelectAllMessages}
+                    onToggleSelectAllMessages={
+                      this.handleToggleSelectAllMessages
+                    }
                     onDeleteMessages={this.handleDeleteMessages}
                     isDeleting={this.state.isDeleting}
-                    indeterminate={nbSelectedMessages > 0
-                      && nbSelectedMessages < messages.length}
+                    indeterminate={
+                      nbSelectedMessages > 0 &&
+                      nbSelectedMessages < messages.length
+                    }
                   />
                 </div>
-              )}
+              }
             />
           </ActionBarWrapper>
         )}
@@ -117,7 +129,7 @@ class View extends Component {
       <div className={classnames(className)}>
         {this.renderActionBar()}
         <div>
-          {messages.map(message => (
+          {messages.map((message) => (
             <MessageItem
               key={message.message_id}
               message={message}

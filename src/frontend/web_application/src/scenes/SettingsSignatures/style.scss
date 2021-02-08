@@ -14,7 +14,11 @@
   }
 
   @include breakpoint(medium) {
-    &__menu { @include flex-grid-size(shrink); }
-    &__panel { @include flex-grid-size; }
+    &__menu {
+      @include flex-grid-size(shrink);
+    }
+    &__panel {
+      @include flex-grid-size;
+    }
   }
 }

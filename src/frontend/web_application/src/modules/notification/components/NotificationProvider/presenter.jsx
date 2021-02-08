@@ -30,16 +30,21 @@ class NotificationProvider extends Component {
   };
 
   componentDidMount() {
-    import('../../services/notification.worker.js').then(({ default: Worker }) => {
-      this.setState({
-        initialized: true,
-      }, () => {
-        this.worker = new Worker();
-        if (this.props.user) {
-          this.startWorker();
-        }
-      });
-    });
+    import('../../services/notification.worker.js').then(
+      ({ default: Worker }) => {
+        this.setState(
+          {
+            initialized: true,
+          },
+          () => {
+            this.worker = new Worker();
+            if (this.props.user) {
+              this.startWorker();
+            }
+          }
+        );
+      }
+    );
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -67,7 +72,7 @@ class NotificationProvider extends Component {
     }
 
     this.stopWorker();
-  }
+  };
 
   startWorker = () => {
     if (this.state.isWorking || !this.state.initialized) {
@@ -80,7 +85,7 @@ class NotificationProvider extends Component {
         this.handleWorkerResults(ev.data);
       });
     });
-  }
+  };
 
   stopWorker = () => {
     if (!this.state.isWorking || !this.state.initialized) {
@@ -89,7 +94,7 @@ class NotificationProvider extends Component {
     this.setState({ isWorking: false }, () => {
       this.worker.postMessage({ action: 'stop' });
     });
-  }
+  };
 
   updateLastNotifId = (lastNotif) => {
     this.worker.postMessage({
@@ -115,7 +120,7 @@ class NotificationProvider extends Component {
       default:
         break;
     }
-  }
+  };
 
   handleWorkerResults = (message) => {
     const { results } = message;
@@ -123,8 +128,10 @@ class NotificationProvider extends Component {
       return;
     }
     const { updateNotifications, notifications, setInitialized } = this.props;
-    const prevNotifIds = notifications.map(notif => notif.notif_id).sort();
-    const notifIds = results.notifications.map(notif => notif.notif_id).sort();
+    const prevNotifIds = notifications.map((notif) => notif.notif_id).sort();
+    const notifIds = results.notifications
+      .map((notif) => notif.notif_id)
+      .sort();
 
     if (!isEqual(prevNotifIds, notifIds)) {
       const lastNotification = [...results.notifications].pop();
@@ -134,7 +141,7 @@ class NotificationProvider extends Component {
       updateNotifications(results.notifications);
     }
     setInitialized();
-  }
+  };
 
   render() {
     const { children } = this.props;

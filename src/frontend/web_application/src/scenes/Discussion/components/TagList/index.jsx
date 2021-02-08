@@ -8,18 +8,22 @@ import { getTagLabelFromName, withTags } from '../../../../modules/tags';
 
 import './style.scss';
 
-const TagList = ({
-  className, i18n, tags: allTags, message,
-}) => {
+const TagList = ({ className, i18n, tags: allTags, message }) => {
   if (!message.tags || message.tags.length === 0) {
     return null;
   }
 
   return (
     <ul className={classnames(className, 'm-message-tags-list')}>
-      {message.tags.map(tag => (
+      {message.tags.map((tag) => (
         <li key={tag} className="s-mail-message__tag m-message-tags-list__tag">
-          <Badge to={`/search-results?term=${getTagLabelFromName(i18n, allTags, tag)}&doctype=message`}>
+          <Badge
+            to={`/search-results?term=${getTagLabelFromName(
+              i18n,
+              allTags,
+              tag
+            )}&doctype=message`}
+          >
             {getTagLabelFromName(i18n, allTags, tag)}
           </Badge>
         </li>
@@ -29,9 +33,11 @@ const TagList = ({
 };
 
 TagList.propTypes = {
-  i18n: PropTypes.shape({}).isRequired,
+  i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   className: PropTypes.string,
-  message: PropTypes.shape({}).isRequired,
+  message: PropTypes.shape({
+    tags: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
   tags: PropTypes.arrayOf(PropTypes.shape({})),
 };
 TagList.defaultProps = {
@@ -39,7 +45,4 @@ TagList.defaultProps = {
   tags: [],
 };
 
-export default compose(
-  withTags(),
-  withI18n()
-)(TagList);
+export default compose(withTags(), withI18n())(TagList);

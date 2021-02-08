@@ -44,15 +44,21 @@ $date-picker-text-color: $co-color__fg__text;
 
   .react-datepicker {
     &__navigation {
-      &--previous { border-right-color: $date-picker-text-color; }
-      &--next { border-left-color: $date-picker-text-color; }
+      &--previous {
+        border-right-color: $date-picker-text-color;
+      }
+      &--next {
+        border-left-color: $date-picker-text-color;
+      }
     }
 
     &__header {
       border: 0;
       background-color: $date-picker-header-bg;
 
-      * { background-color: $date-picker-header-bg; }
+      * {
+        background-color: $date-picker-header-bg;
+      }
 
       &__dropdown {
         margin-top: $co-margin / 3;

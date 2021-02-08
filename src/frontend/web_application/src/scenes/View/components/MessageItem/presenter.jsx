@@ -10,9 +10,7 @@ import { getTagLabel, getCleanedTagCollection } from '../../../../modules/tags';
 import { withUser } from '../../../../modules/user';
 
 import MessageDate from '../../../../components/MessageDate';
-import {
-  Badge, Link, Checkbox, Icon, TextBlock,
-} from '../../../../components';
+import { Badge, Link, Checkbox, Icon, TextBlock } from '../../../../components';
 
 import './style.scss';
 
@@ -21,7 +19,7 @@ import './style.scss';
 @withUser()
 class MessageItem extends Component {
   static propTypes = {
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     className: PropTypes.string,
     userState: PropTypes.shape({
       user: PropTypes.shape({}).isRequired,
@@ -44,72 +42,78 @@ class MessageItem extends Component {
     const { message, onToggleSelectMessage } = this.props;
 
     onToggleSelectMessage({ message });
-  }
+  };
 
   getParticipantsExceptUser = () => {
-    const { message, userState: { user } } = this.props;
+    const {
+      message,
+      userState: { user },
+    } = this.props;
 
-    return message.participants
-      .filter(participant => !(
-        participant.contact_ids && participant.contact_ids
-          .some(contactId => contactId === user.contact.contact_id)
-      ));
-  }
+    return message.participants.filter(
+      (participant) =>
+        !(
+          participant.contact_ids &&
+          participant.contact_ids.some(
+            (contactId) => contactId === user.contact.contact_id
+          )
+        )
+    );
+  };
 
   renderParticipants() {
     const participants = this.getParticipantsExceptUser();
 
-    return participants
-      .map((participant, i) => (
-        <Fragment key={participant.address}>
-          {i > 0 && ', '}
-          <ParticipantLabel participant={participant} />
-        </Fragment>
-      ));
+    return participants.map((participant, i) => (
+      <Fragment key={participant.address}>
+        {i > 0 && ', '}
+        <ParticipantLabel participant={participant} />
+      </Fragment>
+    ));
   }
 
   renderDate = () => {
-    const { message, settings: { default_locale: locale } } = this.props;
+    const {
+      message,
+      settings: { default_locale: locale },
+    } = this.props;
 
     return (
       <TextBlock>
-        {this.renderType()}
-        {' '}
+        {this.renderType()}{' '}
         <Moment locale={locale} element={MessageDate}>
           {message.date_sort}
         </Moment>
       </TextBlock>
     );
-  }
+  };
 
   renderTags() {
     const { userTags, message, i18n } = this.props;
 
-    return message.tags && (
-      <ul className="s-message-item__tags">
-        {getCleanedTagCollection(userTags, message.tags).map(tag => (
-          <li key={tag.name} className="s-message-item__tag"><Badge>{getTagLabel(i18n, tag)}</Badge></li>
-        ))}
-      </ul>
+    return (
+      message.tags && (
+        <ul className="s-message-item__tags">
+          {getCleanedTagCollection(userTags, message.tags).map((tag) => (
+            <li key={tag.name} className="s-message-item__tag">
+              <Badge>{getTagLabel(i18n, tag)}</Badge>
+            </li>
+          ))}
+        </ul>
+      )
     );
   }
 
   renderContent = () => {
     const { message } = this.props;
     const { attachments } = message;
-    const linkTo = message.parent_id || !message.is_draft ?
-      `/discussions/${message.discussion_id}#reply` :
-      `/messages/${message.message_id}`;
 
     return (
       <Link
-        className={classnames(
-          's-message-item__content',
-          {
-            's-message-item__content--draft': message.is_draft,
-          }
-        )}
-        to={linkTo}
+        className={classnames('s-message-item__content', {
+          's-message-item__content--draft': message.is_draft,
+        })}
+        to={`/messages/${message.message_id}`}
         noDecoration
       >
         <TextBlock className="s-message-item__participants">
@@ -117,16 +121,12 @@ class MessageItem extends Component {
         </TextBlock>
         <TextBlock className="s-message-item__title">
           {message.is_draft && (
-          <span className="s-message-item__draft-prefix">
-            <Trans id="timeline.draft-prefix">Draft in progress:</Trans>
-            {' '}
-          </span>
+            <span className="s-message-item__draft-prefix">
+              <Trans id="timeline.draft-prefix">Draft in progress:</Trans>{' '}
+            </span>
           )}
           {message.subject && (
-          <span className="s-message-item__subject">
-            {message.subject}
-            {' '}
-          </span>
+            <span className="s-message-item__subject">{message.subject} </span>
           )}
           <span className="s-message-item__excerpt">{message.excerpt}</span>
         </TextBlock>
@@ -138,65 +138,69 @@ class MessageItem extends Component {
         {this.renderTags()}
       </Link>
     );
-  }
+  };
 
   renderType = () => {
     const { i18n, message } = this.props;
     const typeTranslations = {
-      email: i18n._('message-list.message.protocol.email', null, { defaults: 'email' }),
+      email: i18n._('message-list.message.protocol.email', null, {
+        defaults: 'email',
+      }),
     };
 
     const messageType = message.type && typeTranslations[message.type];
 
-    return message.type && (
-      <span className="s-message-item__type">
-        <Icon type={message.type} spaced className="s-message-item__type-icon" />
-        <span className="s-message-item__type-label sr-only">
-          {messageType}
-          {' '}
-          <Trans id="message-list.message.received-on">received on</Trans>
+    return (
+      message.type && (
+        <span className="s-message-item__type">
+          <Icon
+            type={message.type}
+            spaced
+            className="s-message-item__type-icon"
+          />
+          <span className="s-message-item__type-label sr-only">
+            {messageType}{' '}
+            <Trans id="message-list.message.received-on">received on</Trans>
+          </span>
         </span>
-      </span>
+      )
     );
-  }
+  };
 
   render() {
     const {
-      className, i18n, message, isMessageSelected, isDeleting,
+      className,
+      i18n,
+      message,
+      isMessageSelected,
+      isDeleting,
     } = this.props;
 
     return (
       <div
-        className={classnames(
-          className,
-          's-message-item',
-          {
-            's-message-item--unread': message.is_unread,
-            's-message-item--draft': message.is_draft,
-            's-message-item--is-selected': isMessageSelected,
-            // TODO: define how to compute PIs for rendering
-            // 's-message-item--pi-super': pi.context >= 90,
-            // 's-message-item--pi-good': pi.context >= 50 && pi.context < 90,
-            // 's-message-item--pi-bad': pi.context >= 25 && pi.context < 50,
-            // 's-message-item--pi-ugly': pi.context >= 0 && pi.context < 25,
-          }
-        )}
+        className={classnames(className, 's-message-item', {
+          's-message-item--unread': message.is_unread,
+          's-message-item--draft': message.is_draft,
+          's-message-item--is-selected': isMessageSelected,
+          // TODO: define how to compute PIs for rendering
+          // 's-message-item--pi-super': pi.context >= 90,
+          // 's-message-item--pi-good': pi.context >= 50 && pi.context < 90,
+          // 's-message-item--pi-bad': pi.context >= 25 && pi.context < 50,
+          // 's-message-item--pi-ugly': pi.context >= 0 && pi.context < 25,
+        })}
       >
         <div className="s-message-item__col-avatar">
-          <AuthorAvatarLetter
-            size={SIZE_SMALL}
-            message={message}
-          />
+          <AuthorAvatarLetter size={SIZE_SMALL} message={message} />
         </div>
         <div className="s-message-item__col-content">
           {this.renderContent()}
         </div>
-        <div className="s-message-item__col-date">
-          {this.renderDate()}
-        </div>
+        <div className="s-message-item__col-date">{this.renderDate()}</div>
         <div className="s-message-item__col-select">
           <Checkbox
-            label={i18n._('message-list.action.select_single_message', null, { defaults: 'Select/deselect this message' })}
+            label={i18n._('message-list.action.select_single_message', null, {
+              defaults: 'Select/deselect this message',
+            })}
             onChange={this.onCheckboxChange}
             id={message.message_id}
             checked={isMessageSelected}

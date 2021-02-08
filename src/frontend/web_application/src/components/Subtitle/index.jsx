@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import './style.scss';
 
-const Subtitle = ({
-  children, actions, hr, className, ...props
-}) => (
-  <div className={classnames('m-subtitle', { 'm-subtitle--hr': hr }, className)} {...props}>
+const Subtitle = ({ children, actions, hr, className, ...props }) => (
+  <div
+    className={classnames('m-subtitle', { 'm-subtitle--hr': hr }, className)}
+    {...props}
+  >
     <h3 className="m-subtitle__text">{children}</h3>
-    { actions && <span className="m-subtitle__actions">{actions}</span> }
+    {actions && <span className="m-subtitle__actions">{actions}</span>}
   </div>
 );
 

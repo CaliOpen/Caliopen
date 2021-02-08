@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DownloadFileProgression = React.forwardRef(({ isFetching, value, max }, ref) => (
-  <div ref={ref}>
-    {isFetching && (<progress value={value} max={max} />)}
-  </div>
-));
+const DownloadFileProgression = React.forwardRef(
+  ({ isFetching, value, max }, ref) => (
+    <div ref={ref}>{isFetching && <progress value={value} max={max} />}</div>
+  )
+);
 
 DownloadFileProgression.propTypes = {
   isFetching: PropTypes.bool,

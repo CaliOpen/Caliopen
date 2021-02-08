@@ -14,7 +14,7 @@ class ImportContactForm extends Component {
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func,
     errors: PropTypes.shape({}),
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     hasImported: PropTypes.bool,
     isLoading: PropTypes.bool,
   };
@@ -34,13 +34,13 @@ class ImportContactForm extends Component {
     this.setState({
       file,
     });
-  }
+  };
 
   handleSubmitForm = (ev) => {
     ev.preventDefault();
     const { file } = this.state;
     this.props.onSubmit({ file });
-  }
+  };
 
   renderButtons() {
     const { onCancel, isLoading } = this.props;
@@ -62,7 +62,9 @@ class ImportContactForm extends Component {
             className="m-import-contact-form__button m-import-contact-form__button--right"
             type="submit"
             shape="plain"
-            icon={isLoading ? (<Spinner isLoading display="inline" />) : 'download'}
+            icon={
+              isLoading ? <Spinner isLoading display="inline" /> : 'download'
+            }
             disabled={isLoading}
           >
             <Trans id="import-contact.action.import">Import</Trans>
@@ -83,9 +85,7 @@ class ImportContactForm extends Component {
   }
 
   render() {
-    const {
-      i18n, hasImported, errors,
-    } = this.props;
+    const { i18n, hasImported, errors } = this.props;
 
     return (
       <form
@@ -98,13 +98,19 @@ class ImportContactForm extends Component {
           <InputFileGroup
             onInputChange={this.handleInputFileChange}
             errors={errors}
-            descr={i18n._('import-contact.form.descr', null, { defaults: 'You can import one .vcf or .vcard file.' })}
+            descr={i18n._('import-contact.form.descr', null, {
+              defaults: 'You can import one .vcf or .vcard file.',
+            })}
             fileTypes={VALID_EXT}
             maxSize={getMaxSize()}
           />
-        ) :
-          <p><Trans id="import-contact.form.success">Successfuly imported !</Trans></p>
-      }
+        ) : (
+          <p>
+            <Trans id="import-contact.form.success">
+              Successfuly imported !
+            </Trans>
+          </p>
+        )}
         {this.renderButtons()}
       </form>
     );

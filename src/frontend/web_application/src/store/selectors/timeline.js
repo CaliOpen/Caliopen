@@ -1,1 +1,1 @@
-export const timelineFilterSelector = state => state.message.timelineFilter;
+export const timelineFilterSelector = (state) => state.message.timelineFilter;

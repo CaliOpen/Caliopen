@@ -19,7 +19,9 @@ const catchError = (err, req, res, next) => {
   };
 
   if (req.accepts('html')) {
-    res.status(publicError.status).render('error.component', { error: publicError });
+    res
+      .status(publicError.status)
+      .render('error.component', { error: publicError });
 
     return;
   }
@@ -29,7 +31,6 @@ const catchError = (err, req, res, next) => {
 
     return;
   }
-
 
   next(err);
 };

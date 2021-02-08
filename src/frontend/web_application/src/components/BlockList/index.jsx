@@ -5,11 +5,11 @@ import './style.scss';
 
 const BlockList = ({ className, children, ...props }) => (
   <ul className={classnames('m-block-list', className)} {...props}>
-    {
-      children.map((comp, key) => (
-        <li className="m-block-list__item" key={key}>{comp}</li>
-      ))
-    }
+    {children.map((comp, key) => (
+      <li className="m-block-list__item" key={key}>
+        {comp}
+      </li>
+    ))}
   </ul>
 );
 

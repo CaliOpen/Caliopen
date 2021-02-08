@@ -1,10 +1,10 @@
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { withI18n } from '@lingui/react';
-import { CancelToken } from 'axios';
-import {
-  Button, TextBlock, FileSize, Icon,
-} from '../../../../components';
+// FIXME: why webpack ignores this ts lib?
+import { CancelToken } from 'axios/dist/axios';
+
+import { Button, TextBlock, FileSize, Icon } from '../../../../components';
 import getClient from '../../../../services/api-client';
 import DownloadFileProgression from '../DownloadFileProgression';
 import './style.scss';
@@ -15,8 +15,7 @@ class MessageAttachments extends Component {
     message: PropTypes.shape({}).isRequired,
   };
 
-  static defaultProps = {
-  };
+  static defaultProps = {};
 
   state = {
     downloads: {},
@@ -39,7 +38,7 @@ class MessageAttachments extends Component {
     }
 
     return this.downloadRefs[index].ref;
-  }
+  };
 
   sendFileToBrowser = (index, { data, filename, mime }) => {
     const blob = new Blob([data], { type: mime || 'application/octet-stream' });
@@ -52,13 +51,13 @@ class MessageAttachments extends Component {
     link.click();
     this.downloadRefs[index].ref.current.removeChild(link);
     window.URL.revokeObjectURL(blobURL);
-  }
+  };
 
   createHandleClickDownload = ({ messageId, index, filename }) => {
     const client = getClient();
 
     return async () => {
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         downloads: {
           ...prevState.downloads,
           [index]: {
@@ -66,32 +65,40 @@ class MessageAttachments extends Component {
           },
         },
       }));
-      const response = await client.get(`/api/v2/messages/${messageId}/attachments/${index}`, {
-        cancelToken: this.cancelTokenSource.token,
-        responseType: 'blob',
-        onDownloadProgress: ev => this.setState(prevState => ({
-          downloads: {
-            ...prevState.downloads,
-            [index]: {
-              progression: ev.loaded,
-              isFetching: ev.loaded < ev.total,
-            },
-          },
-        })),
-      });
+      const response = await client.get(
+        `/api/v2/messages/${messageId}/attachments/${index}`,
+        {
+          cancelToken: this.cancelTokenSource.token,
+          responseType: 'blob',
+          onDownloadProgress: (ev) =>
+            this.setState((prevState) => ({
+              downloads: {
+                ...prevState.downloads,
+                [index]: {
+                  progression: ev.loaded,
+                  isFetching: ev.loaded < ev.total,
+                },
+              },
+            })),
+        }
+      );
       this.sendFileToBrowser(index, { data: response.data, filename });
     };
-  }
+  };
 
   renderDownload({ attachment, index }) {
-    const { message: { message_id: messageId } } = this.props;
+    const {
+      message: { message_id: messageId },
+    } = this.props;
 
     return (
       <Button
         className="m-message-attachments__item"
         display="expanded"
         onClick={this.createHandleClickDownload({
-          messageId, index, filename: attachment.file_name,
+          messageId,
+          index,
+          filename: attachment.file_name,
         })}
       >
         <TextBlock className="m-message-attachments__name">
@@ -99,8 +106,14 @@ class MessageAttachments extends Component {
         </TextBlock>
         <DownloadFileProgression
           className="m-message-attachments__progression"
-          isFetching={this.state.downloads[index] && this.state.downloads[index].isFetching}
-          value={this.state.downloads[index] && this.state.downloads[index].progression}
+          isFetching={
+            this.state.downloads[index] &&
+            this.state.downloads[index].isFetching
+          }
+          value={
+            this.state.downloads[index] &&
+            this.state.downloads[index].progression
+          }
           max={attachment.size}
         />
         <TextBlock className="m-message-attachments__size">
@@ -114,7 +127,9 @@ class MessageAttachments extends Component {
   }
 
   render() {
-    const { message: { attachments } } = this.props;
+    const {
+      message: { attachments },
+    } = this.props;
 
     if (!attachments || attachments.length === 0) {
       return null;

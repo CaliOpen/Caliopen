@@ -1,16 +1,21 @@
 import { strToBase64 } from '../../services/encode-utils';
 
 export const REQUEST_PUBLIC_KEYS = 'co/public-key/REQUEST_PUBLIC_KEYS';
-export const REQUEST_PUBLIC_KEYS_SUCCESS = 'co/public-key/REQUEST_PUBLIC_KEYS_SUCCESS';
-export const REQUEST_PUBLIC_KEYS_FAIL = 'co/public-key/REQUEST_PUBLIC_KEYS_FAIL';
+export const REQUEST_PUBLIC_KEYS_SUCCESS =
+  'co/public-key/REQUEST_PUBLIC_KEYS_SUCCESS';
+export const REQUEST_PUBLIC_KEYS_FAIL =
+  'co/public-key/REQUEST_PUBLIC_KEYS_FAIL';
 export const CREATE_PUBLIC_KEY = 'co/public-key/CREATE_PUBLIC_KEYS';
-export const CREATE_PUBLIC_KEY_SUCCESS = 'co/public-key/CREATE_PUBLIC_KEYS_SUCCESS';
+export const CREATE_PUBLIC_KEY_SUCCESS =
+  'co/public-key/CREATE_PUBLIC_KEYS_SUCCESS';
 export const CREATE_PUBLIC_KEY_FAIL = 'co/public-key/CREATE_PUBLIC_KEYS_FAIL';
 export const UPDATE_PUBLIC_KEY = 'co/public-key/UPDATE_PUBLIC_KEYS';
-export const UPDATE_PUBLIC_KEY_SUCCESS = 'co/public-key/UPDATE_PUBLIC_KEYS_SUCCESS';
+export const UPDATE_PUBLIC_KEY_SUCCESS =
+  'co/public-key/UPDATE_PUBLIC_KEYS_SUCCESS';
 export const UPDATE_PUBLIC_KEY_FAIL = 'co/public-key/UPDATE_PUBLIC_KEYS_FAIL';
 export const DELETE_PUBLIC_KEY = 'co/public-key/DELETE_PUBLIC_KEYS';
-export const DELETE_PUBLIC_KEY_SUCCESS = 'co/public-key/DELETE_PUBLIC_KEYS_SUCCESS';
+export const DELETE_PUBLIC_KEY_SUCCESS =
+  'co/public-key/DELETE_PUBLIC_KEYS_SUCCESS';
 export const DELETE_PUBLIC_KEY_FAIL = 'co/public-key/DELETE_PUBLIC_KEYS_FAIL';
 
 export function requestPublicKeys({ contactId }) {
@@ -76,7 +81,8 @@ export function deletePublicKey({ contactId, publicKeyId }) {
 
 const initialState = {};
 
-const extractContactIdFromAction = action => action.meta.previousAction.payload.contactId;
+const extractContactIdFromAction = (action) =>
+  action.meta.previousAction.payload.contactId;
 
 const keyListReducer = (state = [], action = {}) => {
   const contactId = extractContactIdFromAction(action);

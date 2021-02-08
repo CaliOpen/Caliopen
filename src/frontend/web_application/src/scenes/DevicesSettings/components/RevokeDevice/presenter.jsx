@@ -21,12 +21,22 @@ class RevokeDevice extends Component {
 
   handleRevoke = async () => {
     const {
-      device, revokeDevice, notifySuccess, notifyError, clientDevice,
+      device,
+      revokeDevice,
+      notifySuccess,
+      notifyError,
+      clientDevice,
     } = this.props;
 
     try {
       await revokeDevice({ device });
-      notifySuccess({ message: (<Trans id="device.feedback.revoke_success">The device has been revoked</Trans>) });
+      notifySuccess({
+        message: (
+          <Trans id="device.feedback.revoke_success">
+            The device has been revoked
+          </Trans>
+        ),
+      });
       if (device.device_id === clientDevice.device_id) {
         signout();
       }

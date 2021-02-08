@@ -9,7 +9,13 @@ const cfg = {
       browserName: 'chrome',
       maxInstances: 1,
       chromeOptions: {
-        args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu', '--disable-extensions', 'lang=en-US'],
+        args: [
+          '--no-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-gpu',
+          '--disable-extensions',
+          'lang=en-US',
+        ],
         prefs: {
           intl: { accept_languages: 'en-US' },
         },
@@ -34,25 +40,32 @@ const cfg = {
     browser.ignoreSynchronization = true;
     browser.manage().window().setSize(1024, 768);
 
-    jasmine.getEnv().addReporter(new SpecReporter({
-      suite: {
-        displayNumber: true,
-      },
-      spec: {
-        displayErrorMessages: true,
-        displayFailed: true,
-        displayStacktrace: true,
-      },
-      // summary: {
-      //   displayErrorMessages: true,
-      //   displayStacktrace: true,
-      //   displaySuccessful: true,
-      //   displayFailed: true,
-      // },
-    }));
+    jasmine.getEnv().addReporter(
+      new SpecReporter({
+        suite: {
+          displayNumber: true,
+        },
+        spec: {
+          displayErrorMessages: true,
+          displayFailed: true,
+          displayStacktrace: true,
+        },
+        // summary: {
+        //   displayErrorMessages: true,
+        //   displayStacktrace: true,
+        //   displaySuccessful: true,
+        //   displayFailed: true,
+        // },
+      })
+    );
   },
   plugins: [
-    { package: 'protractor-console-plugin', failOnWarning: false, logWarnings: false, exclude: [/Warning:/] },
+    {
+      package: 'protractor-console-plugin',
+      failOnWarning: false,
+      logWarnings: false,
+      exclude: [/Warning:/],
+    },
   ],
   logLevel: 'INFO',
   debug: false,
@@ -63,7 +76,8 @@ if (process.env.SAUCE_USERNAME && process.env.SAUCE_ACCESS_KEY) {
 
   cfg.sauceUser = process.env.SAUCE_USERNAME;
   cfg.sauceKey = process.env.SAUCE_ACCESS_KEY;
-  cfg.sauceSeleniumAddress = process.env.SAUCE_ADDRESS + ':' + process.env.SAUCE_PORT + '/wd/hub';
+  cfg.sauceSeleniumAddress =
+    process.env.SAUCE_ADDRESS + ':' + process.env.SAUCE_PORT + '/wd/hub';
   cfg.sauceSeleniumUseHttp = true;
   const branch = process.env.DRONE_BRANCH;
   const prNumber = process.env.DRONE_PULL_REQUEST;

@@ -13,7 +13,7 @@ class InstallPromptConsumer extends Component {
 
     return (
       <InstallPromptContext.Consumer>
-        {value => render(value)}
+        {(value) => render(value)}
       </InstallPromptContext.Consumer>
     );
   }

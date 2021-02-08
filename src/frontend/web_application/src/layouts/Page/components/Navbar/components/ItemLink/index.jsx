@@ -17,7 +17,11 @@ class ItemLink extends PureComponent {
     const { className, ...props } = this.props;
 
     return (
-      <Link className={classnames('m-item-link', className)} noDecoration {...props} />
+      <Link
+        className={classnames('m-item-link', className)}
+        noDecoration
+        {...props}
+      />
     );
   }
 }

@@ -3,9 +3,52 @@ const webpack = require('webpack');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const clientOptions = require('../config/client.default.js');
+
+const isDev = process.env.NODE_ENV === 'development';
+
+const configureSrcTsLoader = ({ isNode } = { isNode: false }) => {
+  return {
+    module: {
+      rules: [
+        {
+          test: /(?<!\.worker)\.(j|t)sx?$/,
+          exclude: /node_modules/,
+          include: path.join(__dirname, '../src/'),
+          loader: 'ts-loader',
+        },
+        ...(isNode
+          ? [
+              {
+                test: /\.worker\.(t|j)s$/,
+                use: [{ loader: 'null-loader' }],
+              },
+            ]
+          : [
+              {
+                test: /\.worker\.(t|j)s$/,
+                exclude: /node_modules/,
+                use: [
+                  { loader: 'worker-loader' },
+                  {
+                    loader: 'ts-loader',
+                  },
+                  {
+                    loader: 'eslint-loader',
+                    options: {
+                      cache: true,
+                      failOnError: false,
+                    },
+                  },
+                ],
+              },
+            ]),
+      ],
+    },
+  };
+};
 
 const configureSrcBabelLoader = ({ isNode } = { isNode: false }) => {
   const presetEnvTarget = isNode ? { node: 'current' } : {};
@@ -20,7 +63,10 @@ const configureSrcBabelLoader = ({ isNode } = { isNode: false }) => {
           loader: 'babel-loader',
           options: {
             presets: [
-              ['@babel/preset-env', { modules: 'auto', targets: presetEnvTarget }],
+              [
+                '@babel/preset-env',
+                { modules: 'auto', targets: presetEnvTarget },
+              ],
               '@babel/preset-react',
             ],
             plugins: [
@@ -35,37 +81,47 @@ const configureSrcBabelLoader = ({ isNode } = { isNode: false }) => {
             ],
           },
         },
-        ...(isNode ? [{
-          test: /\.worker\.js$/,
-          use: [
-            { loader: 'null-loader' },
-          ],
-        }] : [{
-          test: /\.worker\.js$/,
-          exclude: /node_modules/,
-          use: [
-            { loader: 'worker-loader' },
-            {
-              loader: 'babel-loader',
-              options: {
-                presets: [
-                  ['@babel/preset-env', { modules: 'auto', targets: presetEnvTarget }],
-                ],
-                plugins: [
-                  ['@babel/plugin-proposal-class-properties', { loose: true }],
+        ...(isNode
+          ? [
+              {
+                test: /\.worker\.js$/,
+                use: [{ loader: 'null-loader' }],
+              },
+            ]
+          : [
+              {
+                test: /\.worker\.js$/,
+                exclude: /node_modules/,
+                use: [
+                  { loader: 'worker-loader' },
+                  {
+                    loader: 'babel-loader',
+                    options: {
+                      presets: [
+                        [
+                          '@babel/preset-env',
+                          { modules: 'auto', targets: presetEnvTarget },
+                        ],
+                      ],
+                      plugins: [
+                        [
+                          '@babel/plugin-proposal-class-properties',
+                          { loose: true },
+                        ],
+                      ],
+                    },
+                  },
+                  {
+                    loader: 'eslint-loader',
+                    options: {
+                      cache: true,
+                      options: { name: 'WorkerName.[hash].js' },
+                      failOnError: false,
+                    },
+                  },
                 ],
               },
-            },
-            {
-              loader: 'eslint-loader',
-              options: {
-                cache: true,
-                options: { name: 'WorkerName.[hash].js' },
-                failOnError: false,
-              },
-            },
-          ],
-        }]),
+            ]),
       ],
     },
   };
@@ -80,7 +136,7 @@ const configureStylesheet = () => {
       }),
       new OptimizeCssAssetsPlugin({ canPrint: false }),
       new MiniCssExtractPlugin({
-        filename: 'client.[hash].css',
+        filename: isDev ? 'client.css' : 'client.[hash].css',
       }),
     ],
     module: {
@@ -102,12 +158,20 @@ const configureStylesheet = () => {
               loader: 'sass-loader',
               options: {
                 sourceMap: false,
-                includePaths: [
-                  path.resolve(__dirname, '../src'),
-                  path.resolve(__dirname, '../node_modules/foundation-sites/scss'),
-                  path.resolve(__dirname, '../node_modules/font-awesome/scss'),
-                  path.resolve(__dirname, '../node_modules/react-redux-notify/src'),
-                ],
+                sassOptions: {
+                  includePaths: [
+                    path.resolve(__dirname, '../src'),
+                    // XXX: use tilde ~ instead of those includes https://webpack.js.org/loaders/sass-loader/#resolving-import-at-rules
+                    path.resolve(
+                      __dirname,
+                      '../node_modules/foundation-sites/scss'
+                    ),
+                    path.resolve(
+                      __dirname,
+                      '../node_modules/react-redux-notify/src'
+                    ),
+                  ],
+                },
               },
             },
           ],
@@ -125,7 +189,12 @@ const configureAssets = (outputPath = 'assets/') => ({
         use: [
           {
             loader: 'file-loader',
-            options: { hash: 'sha512', digest: 'hex', name: '[name].[ext]', outputPath },
+            options: {
+              hash: 'sha512',
+              digest: 'hex',
+              name: '[name].[ext]',
+              outputPath,
+            },
           },
           // XXX: disabled for now as it always output webp, which is not diplayed
           // by many browsers.
@@ -150,11 +219,47 @@ const configureAssets = (outputPath = 'assets/') => ({
           // },
         ],
       },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader', options: { mimetype: 'image/svg+xml', name: '[name].[ext]', outputPath } },
-      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader', options: { mimetype: 'application/font-woff', name: '[name].[ext]', outputPath } },
-      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader', options: { mimetype: 'application/font-woff', name: '[name].[ext]', outputPath } },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader', options: { mimetype: 'application/octet-stream', name: '[name].[ext]', outputPath } },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader', options: { name: '[name].[ext]', outputPath } },
+      {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file-loader',
+        options: {
+          mimetype: 'image/svg+xml',
+          name: '[name].[ext]',
+          outputPath,
+        },
+      },
+      {
+        test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file-loader',
+        options: {
+          mimetype: 'application/font-woff',
+          name: '[name].[ext]',
+          outputPath,
+        },
+      },
+      {
+        test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file-loader',
+        options: {
+          mimetype: 'application/font-woff',
+          name: '[name].[ext]',
+          outputPath,
+        },
+      },
+      {
+        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file-loader',
+        options: {
+          mimetype: 'application/octet-stream',
+          name: '[name].[ext]',
+          outputPath,
+        },
+      },
+      {
+        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file-loader',
+        options: { name: '[name].[ext]', outputPath },
+      },
     ],
   },
 });
@@ -228,13 +333,12 @@ const configureEnv = (buildTarget) => {
   });
 
   return {
-    plugins: [
-      new webpack.DefinePlugin(defined),
-    ],
+    plugins: [new webpack.DefinePlugin(defined)],
   };
 };
 
 module.exports = {
+  configureSrcTsLoader,
   configureSrcBabelLoader,
   configureStylesheet,
   configureAssets,

@@ -4,7 +4,7 @@ import { withI18n } from '@lingui/react';
 import { formValues } from 'redux-form';
 import Presenter from './presenter';
 
-const mapDispatchToProps = dispatch => bindActionCreators({ }, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
 export default compose(
   connect(null, mapDispatchToProps),

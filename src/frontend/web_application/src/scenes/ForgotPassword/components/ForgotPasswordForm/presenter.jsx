@@ -2,7 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Trans } from '@lingui/react';
 import {
-  Title, Link, Button, Icon, TextFieldGroup, FieldErrors, Fieldset, Legend, FormGrid, FormRow,
+  Title,
+  Link,
+  Button,
+  Icon,
+  TextFieldGroup,
+  FieldErrors,
+  Fieldset,
+  Legend,
+  FormGrid,
+  FormRow,
   FormColumn,
 } from '../../../../components';
 
@@ -13,7 +22,7 @@ class ForgotPasswordForm extends Component {
     errors: PropTypes.shape({}),
     onSubmit: PropTypes.func.isRequired,
     success: PropTypes.bool,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
   static defaultProps = {
@@ -29,19 +38,19 @@ class ForgotPasswordForm extends Component {
 
   handleInputChange = (event) => {
     const { name, value } = event.target;
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       formValues: {
         ...prevState.formValues,
         [name]: value,
       },
     }));
-  }
+  };
 
   handleSubmit = (ev) => {
     ev.preventDefault();
     const { formValues } = this.state;
     this.props.onSubmit({ formValues });
-  }
+  };
 
   render() {
     const { i18n, errors, success } = this.props;
@@ -63,17 +72,23 @@ class ForgotPasswordForm extends Component {
               )}
               {success ? (
                 <FormRow>
-                  <FormColumn rightSpace={false} bottomSpace className="m-forgot-password-form__success">
+                  <FormColumn
+                    rightSpace={false}
+                    bottomSpace
+                    className="m-forgot-password-form__success"
+                  >
                     <Icon type="check" rightSpaced />
-                    <Trans id="password.forgot-form.success">Done! You will receive an email shortly with instructions to reset your password.</Trans>
+                    <Trans id="password.forgot-form.success">
+                      Done! You will receive an email shortly with instructions
+                      to reset your password.
+                    </Trans>
                   </FormColumn>
-                  <FormColumn rightSpace={false} className="m-forgot-password-form__action" bottomSpace>
-                    <Link
-                      button
-                      plain
-                      expanded
-                      to="/auth/signin"
-                    >
+                  <FormColumn
+                    rightSpace={false}
+                    className="m-forgot-password-form__action"
+                    bottomSpace
+                  >
+                    <Link button plain expanded to="/auth/signin">
                       <Trans id="password.forgot-form.action.login">Ok</Trans>
                     </Link>
                   </FormColumn>
@@ -83,16 +98,24 @@ class ForgotPasswordForm extends Component {
                   <FormColumn rightSpace={false} bottomSpace>
                     <Legend>
                       <Trans id="password.forgot-form.instructions">
-                        Enter your username and we&apos;ll email instructions on how to reset your
-                        password.
+                        Enter your username and we&apos;ll email instructions on
+                        how to reset your password.
                       </Trans>
                     </Legend>
                   </FormColumn>
                   <FormColumn rightSpace={false} bottomSpace>
                     <TextFieldGroup
                       theme="contrasted"
-                      label={i18n._('password.forgot-form.username.label', null, { defaults: 'Username' })}
-                      placeholder={i18n._('password.forgot-form.username.placeholder', null, { defaults: 'Username' })}
+                      label={i18n._(
+                        'password.forgot-form.username.label',
+                        null,
+                        { defaults: 'Username' }
+                      )}
+                      placeholder={i18n._(
+                        'password.forgot-form.username.placeholder',
+                        null,
+                        { defaults: 'Username' }
+                      )}
                       name="username"
                       value={this.state.formValues.username}
                       errors={errors.username}
@@ -102,25 +125,38 @@ class ForgotPasswordForm extends Component {
                   <FormColumn rightSpace={false} bottomSpace>
                     <TextFieldGroup
                       theme="contrasted"
-                      label={i18n._('password.forgot-form.recovery_email.label', null, { defaults: 'Recovery email' })}
-                      placeholder={i18n._('password.forgot-form.recovery_email.placeholder', null, { defaults: 'Recovery email' })}
+                      label={i18n._(
+                        'password.forgot-form.recovery_email.label',
+                        null,
+                        { defaults: 'Recovery email' }
+                      )}
+                      placeholder={i18n._(
+                        'password.forgot-form.recovery_email.placeholder',
+                        null,
+                        { defaults: 'Recovery email' }
+                      )}
                       name="recovery_email"
                       value={this.state.formValues.recovery_email}
                       errors={errors.recovery_email}
                       onChange={this.handleInputChange}
                     />
                   </FormColumn>
-                  <FormColumn rightSpace={false} className="m-forgot-password-form__action" bottomSpace>
-                    <Button
-                      type="submit"
-                      display="expanded"
-                      shape="plain"
-                    >
+                  <FormColumn
+                    rightSpace={false}
+                    className="m-forgot-password-form__action"
+                    bottomSpace
+                  >
+                    <Button type="submit" display="expanded" shape="plain">
                       <Trans id="password.forgot-form.action.send">Send</Trans>
                     </Button>
                   </FormColumn>
-                  <FormColumn rightSpace={false} className="m-forgot-password-form__link">
-                    <Link to="/auth/signin"><Trans id="password.forgot-form.cancel">Cancel</Trans></Link>
+                  <FormColumn
+                    rightSpace={false}
+                    className="m-forgot-password-form__link"
+                  >
+                    <Link to="/auth/signin">
+                      <Trans id="password.forgot-form.cancel">Cancel</Trans>
+                    </Link>
                   </FormColumn>
                 </FormRow>
               )}

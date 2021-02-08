@@ -1,12 +1,17 @@
 $co-font-path: '../../fonts' !default;
 
 @mixin fontdef($FontPath, $FontPrefix, $FontVersion, $FontType) {
-  src:  url('#{$FontPath}/#{$FontType}/#{$FontPrefix}-#{$FontType}.eot?v=#{$FontVersion}');
-  src:  url('#{$FontPath}/#{$FontType}/#{$FontPrefix}-#{$FontType}.eot?#iefix&v=#{$FontVersion}') format('embedded-opentype'),
-        url('#{$FontPath}/#{$FontType}/#{$FontPrefix}-#{$FontType}.woff2?v=#{$FontVersion}') format('woff2'),
-        url('#{$FontPath}/#{$FontType}/#{$FontPrefix}-#{$FontType}.woff?v=#{$FontVersion}') format('woff'),
-        url('#{$FontPath}/#{$FontType}/#{$FontPrefix}-#{$FontType}.ttf?v=#{$FontVersion}') format('truetype'),
-        url('#{$FontPath}/#{$FontType}/#{$FontPrefix}-#{$FontType}.svg?v=#{$FontVersion}##{$FontType}') format('svg');
+  src: url('#{$FontPath}/#{$FontType}/#{$FontPrefix}-#{$FontType}.eot?v=#{$FontVersion}');
+  src: url('#{$FontPath}/#{$FontType}/#{$FontPrefix}-#{$FontType}.eot?#iefix&v=#{$FontVersion}')
+      format('embedded-opentype'),
+    url('#{$FontPath}/#{$FontType}/#{$FontPrefix}-#{$FontType}.woff2?v=#{$FontVersion}')
+      format('woff2'),
+    url('#{$FontPath}/#{$FontType}/#{$FontPrefix}-#{$FontType}.woff?v=#{$FontVersion}')
+      format('woff'),
+    url('#{$FontPath}/#{$FontType}/#{$FontPrefix}-#{$FontType}.ttf?v=#{$FontVersion}')
+      format('truetype'),
+    url('#{$FontPath}/#{$FontType}/#{$FontPrefix}-#{$FontType}.svg?v=#{$FontVersion}##{$FontType}')
+      format('svg');
 }
 
 // Open Sans
@@ -25,7 +30,12 @@ $OpenSansVersion: '1.1.0' !default;
 
 // Open Sans Semibold
 @font-face {
-  @include fontdef($OpenSansPath, $OpenSansPrefix, $OpenSansVersion, 'Semibold');
+  @include fontdef(
+    $OpenSansPath,
+    $OpenSansPrefix,
+    $OpenSansVersion,
+    'Semibold'
+  );
   font-family: $OpenSansTitle;
   font-style: normal;
   font-weight: 600;

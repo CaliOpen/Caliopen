@@ -19,7 +19,7 @@ function freezeStoreState(store) {
  * Middleware that prevents state from being mutated anywhere in the app.
  */
 export default function freezeState(store) {
-  return next => (action) => {
+  return (next) => (action) => {
     freezeStoreState(store);
     try {
       return next(action);

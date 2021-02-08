@@ -21,27 +21,31 @@ if (BUILD_TARGET !== 'server') {
 }
 
 if (BUILD_TARGET === 'server') {
-  // eslint-disable-next-line global-require
-  const { getSubRequestHeaders } = require('../../../server/api/lib/sub-request-manager');
+  const {
+    getSubRequestHeaders,
+  } = require('../../../server/api/lib/sub-request-manager'); // eslint-disable-line global-require
   headers = {
     ...headers,
     ...getSubRequestHeaders(),
   };
 }
 
-const buildClient = () => axios.create({
-  baseURL: getBaseUrl(),
-  responseType: 'json',
-  headers,
-  paramsSerializer: params => queryStringify(params, headers),
-  transformRequest: ([(data) => {
-    if (data instanceof UploadFileAsFormField) {
-      return data.toFormData();
-    }
+const buildClient = () =>
+  axios.create({
+    baseURL: getBaseUrl(),
+    responseType: 'json',
+    headers,
+    paramsSerializer: (params) => queryStringify(params, headers),
+    transformRequest: [
+      (data) => {
+        if (data instanceof UploadFileAsFormField) {
+          return data.toFormData();
+        }
 
-    return data;
-  }]).concat(axios.defaults.transformRequest),
-});
+        return data;
+      },
+    ].concat(axios.defaults.transformRequest),
+  });
 
 export const getUnsignedClient = () => {
   if (!client) {
@@ -111,3 +115,9 @@ export const tryCatchAxiosPromise = async (prom) => {
     return Promise.reject(handleClientResponseError(err));
   }
 };
+
+export function handleAxiosPromise(prom) {
+  return prom.then(handleClientResponseSuccess, (err) =>
+    Promise.reject(handleClientResponseError(err))
+  );
+}

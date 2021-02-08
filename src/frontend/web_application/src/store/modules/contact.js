@@ -17,8 +17,10 @@ export const DELETE_CONTACT = 'co/contact/DELETE_CONTACT';
 export const UPDATE_TAGS = 'co/contact/UPDATE_TAGS';
 export const UPDATE_TAGS_SUCCESS = 'co/contact/UPDATE_TAGS_SUCCESS';
 export const UPDATE_TAGS_FAIL = 'co/contact/UPDATE_TAGS_FAIL';
-export const REMOVE_MULTIPLE_FROM_COLLECTION = 'co/contact/REMOVE_MULTIPLE_FROM_COLLECTION';
-export const REQUEST_CONTACT_IDS_FOR_URI = 'co/contact/REQUEST_CONTACT_IDS_FOR_URI';
+export const REMOVE_MULTIPLE_FROM_COLLECTION =
+  'co/contact/REMOVE_MULTIPLE_FROM_COLLECTION';
+export const REQUEST_CONTACT_IDS_FOR_URI =
+  'co/contact/REQUEST_CONTACT_IDS_FOR_URI';
 
 const PROTOCOL_PREFIXES = {
   email: 'email',
@@ -149,36 +151,46 @@ export function requestContactIdsForURI({ protocol, address }) {
 function contactsByIdReducer(state = {}, action = {}) {
   switch (action.type) {
     case REQUEST_CONTACTS_SUCCESS:
-      return action.payload.data.contacts.reduce((previousState, contact) => ({
-        ...previousState,
-        [contact.contact_id]: contact,
-      }), state);
+      return action.payload.data.contacts.reduce(
+        (previousState, contact) => ({
+          ...previousState,
+          [contact.contact_id]: contact,
+        }),
+        state
+      );
     case REQUEST_CONTACT_SUCCESS:
       return {
         ...state,
         [action.payload.data.contact_id]: action.payload.data,
       };
     case REMOVE_MULTIPLE_FROM_COLLECTION:
-      return action.payload.contacts.reduce((prevState, contact) => ({
-        ...prevState,
-        [contact.contact_id]: undefined,
-      }), state);
+      return action.payload.contacts.reduce(
+        (prevState, contact) => ({
+          ...prevState,
+          [contact.contact_id]: undefined,
+        }),
+        state
+      );
     default:
       return state;
   }
 }
 
 const filterContactIds = ({ contactsIds, contacts }) => {
-  const contactIdsToRemove = contacts.map(contact => contact.contact_id);
+  const contactIdsToRemove = contacts.map((contact) => contact.contact_id);
 
-  return contactsIds.filter(contactId => !contactIdsToRemove.includes(contactId));
+  return contactsIds.filter(
+    (contactId) => !contactIdsToRemove.includes(contactId)
+  );
 };
 
 function contactListReducer(state = [], action = {}) {
   switch (action.type) {
     case REQUEST_CONTACTS_SUCCESS:
       return [...state]
-        .concat(action.payload.data.contacts.map(contact => contact.contact_id))
+        .concat(
+          action.payload.data.contacts.map((contact) => contact.contact_id)
+        )
         .reduce((prev, curr) => {
           if (prev.indexOf(curr) === -1) {
             prev.push(curr);
@@ -187,7 +199,10 @@ function contactListReducer(state = [], action = {}) {
           return prev;
         }, []);
     case REMOVE_MULTIPLE_FROM_COLLECTION:
-      return filterContactIds({ contactsIds: state, contacts: action.payload.contacts });
+      return filterContactIds({
+        contactsIds: state,
+        contacts: action.payload.contacts,
+      });
     default:
       return state;
   }
@@ -239,10 +254,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         isFetching: false,
-        contactsById: contactsByIdReducer(
-          state.contactsById,
-          action
-        ),
+        contactsById: contactsByIdReducer(state.contactsById, action),
       };
     case REMOVE_MULTIPLE_FROM_COLLECTION:
       return {

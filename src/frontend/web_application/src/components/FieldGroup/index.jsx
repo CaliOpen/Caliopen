@@ -19,18 +19,19 @@ class FieldGroup extends PureComponent {
     errors: [],
   };
 
-  state = {}
+  state = {};
 
   render() {
-    const {
-      className, children, errors, errorsClassname,
-    } = this.props;
+    const { className, children, errors, errorsClassname } = this.props;
 
     return (
       <div className={classnames('m-field-group', className)}>
         {children}
         {errors.length > 0 && (
-          <FieldErrors className={classnames('m-field-group__errors', errorsClassname)} errors={errors} />
+          <FieldErrors
+            className={classnames('m-field-group__errors', errorsClassname)}
+            errors={errors}
+          />
         )}
       </div>
     );

@@ -17,9 +17,7 @@ const toByteArray = (str) => {
   return byteArray;
 };
 
-const buildMessage = async ({
-  method, url, params, data,
-}) => {
+const buildMessage = async ({ method, url, params, data }) => {
   const sha256 = new SHA('SHA-256', 'ARRAYBUFFER');
   const methodBytes = toByteArray(method.toUpperCase());
   const builtURL = toByteArray(buildURL(url, params));

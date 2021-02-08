@@ -4,8 +4,16 @@ import { Field } from 'redux-form';
 import { Trans, withI18n } from '@lingui/react';
 import renderReduxField from '../../../../services/renderReduxField';
 import {
-  Button, Icon, FieldErrors, TextFieldGroup as TextFieldGroupBase,
-  SelectFieldGroup as SelectFieldGroupBase, Fieldset, Legend, FormGrid, FormRow, FormColumn,
+  Button,
+  Icon,
+  FieldErrors,
+  TextFieldGroup as TextFieldGroupBase,
+  SelectFieldGroup as SelectFieldGroupBase,
+  Fieldset,
+  Legend,
+  FormGrid,
+  FormRow,
+  FormColumn,
 } from '../../../../components';
 import './style.scss';
 
@@ -18,22 +26,26 @@ class EmailForm extends PureComponent {
   static propTypes = {
     errors: PropTypes.arrayOf(PropTypes.string),
     onDelete: PropTypes.func,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
   static defaultProps = {
     errors: [],
-    onDelete: () => {},
+    onDelete: () => {
+      // noop
+    },
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.initTranslations();
   }
 
   initTranslations() {
     const { i18n } = this.props;
     this.addressTypes = {
-      work: i18n._('contact.email_type.work', null, { defaults: 'Professional' }),
+      work: i18n._('contact.email_type.work', null, {
+        defaults: 'Professional',
+      }),
       home: i18n._('contact.email_type.home', null, { defaults: 'Personal' }),
       other: i18n._('contact.email_type.other', null, { defaults: 'Other' }),
     };
@@ -41,7 +53,7 @@ class EmailForm extends PureComponent {
 
   render() {
     const { i18n, errors = [], onDelete } = this.props;
-    const addressTypeOptions = EMAIL_TYPES.map(value => ({
+    const addressTypeOptions = EMAIL_TYPES.map((value) => ({
       value,
       label: this.addressTypes[value] || '',
     }));
@@ -53,15 +65,23 @@ class EmailForm extends PureComponent {
             <FormColumn size="shrink">
               <Legend>
                 <Icon type="envelope" rightSpaced />
-                <span className="m-email-form__legend"><Trans id="contact.email_form.legend">Email</Trans></span>
+                <span className="m-email-form__legend">
+                  <Trans id="contact.email_form.legend">Email</Trans>
+                </span>
               </Legend>
             </FormColumn>
-            {errors.length > 0 && (<FormColumn><FieldErrors errors={errors} /></FormColumn>)}
+            {errors.length > 0 && (
+              <FormColumn>
+                <FieldErrors errors={errors} />
+              </FormColumn>
+            )}
             <FormColumn size="shrink" bottomSpace>
               <Field
                 component={SelectFieldGroup}
                 name="type"
-                label={i18n._('contact.email_form.type.label', null, { defaults: 'Type' })}
+                label={i18n._('contact.email_form.type.label', null, {
+                  defaults: 'Type',
+                })}
                 showLabelforSr
                 options={addressTypeOptions}
               />
@@ -71,7 +91,9 @@ class EmailForm extends PureComponent {
                 component={TextFieldGroup}
                 name="address"
                 type="email"
-                label={i18n._('contact.email_form.address.label', null, { defaults: 'Address' })}
+                label={i18n._('contact.email_form.address.label', null, {
+                  defaults: 'Address',
+                })}
                 showLabelforSr
                 required
               />

@@ -5,7 +5,7 @@
   @include flex-grid-row($size: expand);
   align-items: center;
 
-  &__info  {
+  &__info {
     @include flex-grid-size(12);
     padding-right: $co-component__spacing;
     color: $co-color__primary;

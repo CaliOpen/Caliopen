@@ -5,7 +5,7 @@ export const REMOVE = 'co/notification/REMOVE';
 export function setInitialized() {
   return {
     type: SET_INITIALIZED,
-    payload: { },
+    payload: {},
   };
 }
 
@@ -34,9 +34,7 @@ const removeNotificationsReducer = (state, action) => {
 
   const notifs = new Set(action.payload.notifications);
 
-  return [
-    ...state.filter(notification => !notifs.has(notification)),
-  ];
+  return [...state.filter((notification) => !notifs.has(notification))];
 };
 
 const initialState = {
@@ -52,9 +50,7 @@ export default function reducer(state = initialState, action) {
     case UPDATE_ALL:
       return {
         ...state,
-        notifications: [
-          ...action.payload.notifications,
-        ],
+        notifications: [...action.payload.notifications],
       };
     case REMOVE:
       return {

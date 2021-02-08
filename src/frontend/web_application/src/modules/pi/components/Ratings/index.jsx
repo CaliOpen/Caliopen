@@ -4,22 +4,45 @@ import classnames from 'classnames';
 import { getAveragePI, PI_PROPERTIES } from '../../services/pi';
 import './style.scss';
 
-const Rating = ({
-  name, level, piMax, className, mini,
-}) => {
+const Rating = ({ name, level, piMax, className, mini }) => {
   const pi = level <= piMax ? level : piMax;
   const width = (pi / piMax) * 100;
   const style = { width: `${width}%` };
 
   return (
-    <div className={classnames('m-pi-ratings__item', { 'm-pi-ratings--mini__item': mini }, className)}>
-      <div className={classnames('m-pi-ratings__item-name', { 'm-pi-ratings--mini__item-name': mini })}>
+    <div
+      className={classnames(
+        'm-pi-ratings__item',
+        { 'm-pi-ratings--mini__item': mini },
+        className
+      )}
+    >
+      <div
+        className={classnames('m-pi-ratings__item-name', {
+          'm-pi-ratings--mini__item-name': mini,
+        })}
+      >
         {name}
       </div>
-      <div className={classnames('m-pi-ratings__item-level', { 'm-pi-ratings--mini__item-level': mini })}>
-        <div className={classnames('m-pi-ratings__item-level-bar', { 'm-pi-ratings--mini__item-level-bar': mini })} style={style} />
+      <div
+        className={classnames('m-pi-ratings__item-level', {
+          'm-pi-ratings--mini__item-level': mini,
+        })}
+      >
+        <div
+          className={classnames('m-pi-ratings__item-level-bar', {
+            'm-pi-ratings--mini__item-level-bar': mini,
+          })}
+          style={style}
+        />
       </div>
-      <div className={classnames('m-pi-ratings__item-level-label', { 'm-pi-ratings--mini__item-level-label': mini })}>{level}</div>
+      <div
+        className={classnames('m-pi-ratings__item-level-label', {
+          'm-pi-ratings--mini__item-level-label': mini,
+        })}
+      >
+        {level}
+      </div>
     </div>
   );
 };
@@ -37,14 +60,11 @@ Rating.defaultProps = {
   mini: false,
 };
 
-const Ratings = ({
-  pi, piMax, displayAveragePi, mini,
-}) => {
-  const ratingsClassName = classnames(
-    'm-pi-ratings',
-    { 'm-pi-ratings--mini': mini },
-  );
-  const title = PI_PROPERTIES.map(name => `${name}: ${pi[name]}`).join(',\n');
+const Ratings = ({ pi, piMax, displayAveragePi, mini }) => {
+  const ratingsClassName = classnames('m-pi-ratings', {
+    'm-pi-ratings--mini': mini,
+  });
+  const title = PI_PROPERTIES.map((name) => `${name}: ${pi[name]}`).join(',\n');
 
   return (
     <div className={ratingsClassName} title={title}>
@@ -57,7 +77,7 @@ const Ratings = ({
           mini={mini}
         />
       )}
-      {PI_PROPERTIES.map(name => (
+      {PI_PROPERTIES.map((name) => (
         <Rating
           name={name}
           level={pi[name] || 0}

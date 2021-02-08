@@ -13,7 +13,7 @@ class RoutingConsumer extends Component {
 
     return (
       <RoutingContext.Consumer>
-        {value => render(value)}
+        {(value) => render(value)}
       </RoutingContext.Consumer>
     );
   }

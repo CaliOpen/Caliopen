@@ -1,4 +1,3 @@
-
 @mixin o-triangle($position, $width, $color) {
   $border: $width solid $color;
 
@@ -25,5 +24,4 @@
     right: 100%;
     border-right: $border;
   }
-
 }

@@ -19,7 +19,8 @@ class DeviceInformation extends PureComponent {
 
   render() {
     const { device, isCurrentDevice } = this.props;
-    const deviceType = device.type && device.type !== 'other' ? device.type : 'question-circle';
+    const deviceType =
+      device.type && device.type !== 'other' ? device.type : 'question-circle';
 
     return (
       <div className="m-device-information">
@@ -33,7 +34,9 @@ class DeviceInformation extends PureComponent {
                 (<Trans id="device.current_device">Current device</Trans>)
               </TextBlock>
             )}
-            <TextBlock className="m-device-information__name">{device.name}</TextBlock>
+            <TextBlock className="m-device-information__name">
+              {device.name}
+            </TextBlock>
             {/* TODO: display connected status for device
             <span className="m-device-information__status">
               device.isConnected && (
@@ -44,7 +47,9 @@ class DeviceInformation extends PureComponent {
             </span>
           */}
           </div>
-          <span className="m-device-information__user-agent">{device.user_agent}</span>
+          <span className="m-device-information__user-agent">
+            {device.user_agent}
+          </span>
           {/* date insert: <Moment format="LLL" locale={locale}>{device.date_insert}</Moment><br />
           date created: <Moment format="LLL" locale={locale}>{device.last_seen}</Moment> */}
         </div>

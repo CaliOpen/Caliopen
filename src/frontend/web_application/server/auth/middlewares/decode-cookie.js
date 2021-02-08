@@ -3,7 +3,9 @@ import { COOKIE_NAME } from '../lib/cookie';
 import { getConfig } from '../../config';
 
 export const decodeCookieMiddleware = (req, res, next) => {
-  const { seal: { secret } } = getConfig();
+  const {
+    seal: { secret },
+  } = getConfig();
   const cookie = req.signedCookies && req.signedCookies[COOKIE_NAME];
 
   if (!cookie) {

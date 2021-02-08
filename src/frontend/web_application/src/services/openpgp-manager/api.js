@@ -89,10 +89,15 @@ export function validateKeyChainPair(publicKeyArmored, privateKeyArmored) {
     }
 
     if (!privateKey) {
-      errors = { ...errors, privateKeyArmored: [ERROR_UNABLE_READ_PRIVATE_KEY] };
+      errors = {
+        ...errors,
+        privateKeyArmored: [ERROR_UNABLE_READ_PRIVATE_KEY],
+      };
     }
 
-    if (publicKey && privateKey &&
+    if (
+      publicKey &&
+      privateKey &&
       publicKey.primaryKey.fingerprint !== privateKey.primaryKey.fingerprint
     ) {
       errors = { ...errors, global: [ERROR_FINGERPRINTS_NOT_MATCH] };

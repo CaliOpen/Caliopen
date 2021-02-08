@@ -13,4 +13,4 @@ export const toByteArray = (str) => {
   return byteArray;
 };
 
-export const strToBase64 = str => base64.fromByteArray(toByteArray(str));
+export const strToBase64 = (str) => base64.fromByteArray(toByteArray(str));

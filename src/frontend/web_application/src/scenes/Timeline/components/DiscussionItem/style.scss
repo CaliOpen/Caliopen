@@ -62,12 +62,12 @@ $s-discussion-item__spacing: 0.5rem;
 }
 
 .m-participants-icon {
-    flex: 0 0 auto;
-    margin: auto $s-discussion-item__spacing;
-    color: $co-color__contrast__text;
-    line-height: 2rem;
+  flex: 0 0 auto;
+  margin: auto $s-discussion-item__spacing;
+  color: $co-color__contrast__text;
+  line-height: 2rem;
 
-    .fa {
-        color: $co-color__contrast__text--lower;
-    }
+  .fa {
+    color: $co-color__contrast__text--lower;
+  }
 }

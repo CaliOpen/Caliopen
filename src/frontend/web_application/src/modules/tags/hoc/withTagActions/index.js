@@ -5,11 +5,15 @@ import { requestTags } from '../../actions/requestTags';
 import { updateTag } from '../../actions/updateTag';
 import { deleteTag } from '../../actions/deleteTag';
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  createTag,
-  requestTags,
-  updateTag,
-  deleteTag,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      createTag,
+      requestTags,
+      updateTag,
+      deleteTag,
+    },
+    dispatch
+  );
 
 export default () => compose(connect(null, mapDispatchToProps));

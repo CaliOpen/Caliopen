@@ -11,16 +11,12 @@ describe('component UserInfo', () => {
     name: 'Bender',
     contact: {
       title: 'Mr Bender',
-      emails: [
-        { address: 'bender@planetexpress.tld' },
-      ],
+      emails: [{ address: 'bender@planetexpress.tld' }],
     },
   };
 
   it('render', () => {
-    const comp = shallow(
-      <Presenter user={user} />
-    );
+    const comp = shallow(<Presenter user={user} />);
 
     expect(comp.find('.m-user-info__username').text()).toContain(user.name);
   });

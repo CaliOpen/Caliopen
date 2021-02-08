@@ -8,11 +8,17 @@ import Presenter from './presenter';
 const mapStateToProps = createSelector(
   [providerStateSelector],
   ({ isFetching, didInvalidate, providers }) => ({
-    isFetching, didInvalidate, providers /* FIXME sort */,
+    isFetching,
+    didInvalidate,
+    providers /* FIXME sort */,
   })
 );
-const mapDispatchToProps = dispatch => bindActionCreators({
-  requestProviders,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      requestProviders,
+    },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(Presenter);

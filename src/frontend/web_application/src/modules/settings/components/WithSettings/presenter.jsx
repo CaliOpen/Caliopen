@@ -22,18 +22,25 @@ class WithSettings extends Component {
 
   componentDidMount() {
     const {
-      settings, requestSettings, isInvalidated, isFetching, networkDisabled,
+      settings,
+      requestSettings,
+      isInvalidated,
+      isFetching,
+      networkDisabled,
     } = this.props;
 
-    if (!networkDisabled && (!settings || isInvalidated) && !isFetching && isAuthenticated()) {
+    if (
+      !networkDisabled &&
+      (!settings || isInvalidated) &&
+      !isFetching &&
+      isAuthenticated()
+    ) {
       requestSettings();
     }
   }
 
   render() {
-    const {
-      synced, render, settings, isFetching, didLostAuth,
-    } = this.props;
+    const { synced, render, settings, isFetching, didLostAuth } = this.props;
 
     if (synced && !settings) {
       return null;

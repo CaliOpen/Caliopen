@@ -19,9 +19,16 @@ class ScrollDetector extends Component {
 
   componentDidMount() {
     this.scrollDetection();
-    this.unsubscribeScrollEvent = addEventListener('scroll', throttle(() => {
-      this.scrollDetection();
-    }, 10, { leading: true, trailing: true }));
+    this.unsubscribeScrollEvent = addEventListener(
+      'scroll',
+      throttle(
+        () => {
+          this.scrollDetection();
+        },
+        10,
+        { leading: true, trailing: true }
+      )
+    );
   }
 
   componentWillUnmount() {
@@ -36,7 +43,7 @@ class ScrollDetector extends Component {
     if (this.state.isScrollDetected !== isScrollDetected) {
       this.setState({ isScrollDetected });
     }
-  }
+  };
 
   render() {
     const { render } = this.props;

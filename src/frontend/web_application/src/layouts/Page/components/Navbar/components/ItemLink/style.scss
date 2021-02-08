@@ -4,6 +4,10 @@
   display: inline-block;
   color: inherit;
 
-  &:hover   { color: $co-color__primary; }
-  &:active  { color: $co-color__primary--lower; }
+  &:hover {
+    color: $co-color__primary;
+  }
+  &:active {
+    color: $co-color__primary--lower;
+  }
 }

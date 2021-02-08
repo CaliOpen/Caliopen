@@ -1,19 +1,29 @@
 import { getPlainTextFromMime, mimeEncapsulate } from '../mime';
 
-export const [ERROR_NEED_PASSPHRASE, ERROR_WRONG_PASSPHRASE] = ['error_need_passphrase', 'error_wrong_passphrase'];
+export const [ERROR_NEED_PASSPHRASE, ERROR_WRONG_PASSPHRASE] = [
+  'error_need_passphrase',
+  'error_wrong_passphrase',
+];
 
 const DEFAULT_KEY_OPTIONS = { numBits: 4096 };
 
 const prepareKeys = async (openpgp, armoredKeys) => {
-  const disarmoredKeys = await Promise
-    .all(armoredKeys.map(armoredKey => openpgp.key.readArmored(armoredKey.key || armoredKey)));
+  const disarmoredKeys = await Promise.all(
+    armoredKeys.map((armoredKey) =>
+      openpgp.key.readArmored(armoredKey.key || armoredKey)
+    )
+  );
 
-  return disarmoredKeys.reduce((acc, disarmoredKey) => [...acc, ...disarmoredKey.keys], []);
+  return disarmoredKeys.reduce(
+    (acc, disarmoredKey) => [...acc, ...disarmoredKey.keys],
+    []
+  );
 };
 
-export const isMessageEncrypted = message => !!message.privacy_features
-  && message.privacy_features.message_encrypted === 'True'
-  && message.privacy_features.message_encryption_method === 'pgp';
+export const isMessageEncrypted = (message) =>
+  !!message.privacy_features &&
+  message.privacy_features.message_encrypted === 'True' &&
+  message.privacy_features.message_encryption_method === 'pgp';
 
 export const encryptMessage = async (message, keys) => {
   const openpgp = await import(/* webpackChunkName: "openpgp" */ 'openpgp');
@@ -57,9 +67,14 @@ export const generateKey = async (options) => {
   return openpgp.generateKey({ ...DEFAULT_KEY_OPTIONS, ...options });
 };
 
-export const getPublicKeyFromPrivateKey = async (privateKeyArmored, passphrase) => {
+export const getPublicKeyFromPrivateKey = async (
+  privateKeyArmored,
+  passphrase
+) => {
   const openpgp = await import(/* webpackChunkName: "openpgp" */ 'openpgp');
-  const { keys: [privateKey] } = await openpgp.key.readArmored(privateKeyArmored);
+  const {
+    keys: [privateKey],
+  } = await openpgp.key.readArmored(privateKeyArmored);
 
   if (!privateKey.isDecrypted()) {
     if (!passphrase) {

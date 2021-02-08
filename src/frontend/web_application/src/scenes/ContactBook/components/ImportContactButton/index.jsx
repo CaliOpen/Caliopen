@@ -10,7 +10,7 @@ class ImportContactButton extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     onUploadSuccess: PropTypes.func.isRequired,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
   static defaultProps = {
@@ -19,7 +19,7 @@ class ImportContactButton extends PureComponent {
 
   state = {
     isImportModalOpen: false,
-  }
+  };
 
   handleOpenImportModal = () => {
     this.setState({
@@ -39,8 +39,12 @@ class ImportContactButton extends PureComponent {
     return (
       <Modal
         isOpen={this.state.isImportModalOpen}
-        contentLabel={i18n._('import-contact.action.import_contacts', null, { defaults: 'Import contacts' })}
-        title={i18n._('import-contact.action.import_contacts', null, { defaults: 'Import contacts' })}
+        contentLabel={i18n._('import-contact.action.import_contacts', null, {
+          defaults: 'Import contacts',
+        })}
+        title={i18n._('import-contact.action.import_contacts', null, {
+          defaults: 'Import contacts',
+        })}
         onClose={this.handleCloseImportModal}
       >
         <ImportContact
@@ -49,7 +53,7 @@ class ImportContactButton extends PureComponent {
         />
       </Modal>
     );
-  }
+  };
 
   render() {
     const { className } = this.props;

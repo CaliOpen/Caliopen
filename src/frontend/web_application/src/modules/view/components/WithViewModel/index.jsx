@@ -9,12 +9,12 @@ class WithViewModel extends Component {
   static propTypes = {
     render: PropTypes.func.isRequired,
     viewId: PropTypes.string.isRequired,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
   getView = () => {
     const { i18n, viewId } = this.props;
-    const viewConfig = getConfig(i18n).find(cfg => cfg.id === viewId);
+    const viewConfig = getConfig(i18n).find((cfg) => cfg.id === viewId);
 
     if (!viewConfig) {
       throw new Error(`View not found "${viewId}"`);

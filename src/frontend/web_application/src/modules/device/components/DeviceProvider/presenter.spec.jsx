@@ -8,10 +8,9 @@ describe('device - DeviceProvider', () => {
   };
 
   it('render', () => {
-    const comp = shallow(
-      <DeviceProvider {...props} >Foo</DeviceProvider>,
-      { disableLifecycleMethods: true }
-    );
+    const comp = shallow(<DeviceProvider {...props}>Foo</DeviceProvider>, {
+      disableLifecycleMethods: true,
+    });
 
     expect(comp.text()).toEqual('Foo');
   });

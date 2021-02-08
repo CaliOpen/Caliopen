@@ -43,7 +43,11 @@ export default function reducer(state = initialState, action) {
     case REQUEST_SETTINGS:
       return { ...state, isFetching: true };
     case REQUEST_SETTINGS_FAIL:
-      return { ...state, isFetching: false, didLostAuth: action.error.response.status === 401 };
+      return {
+        ...state,
+        isFetching: false,
+        didLostAuth: action.error.response.status === 401,
+      };
     case REQUEST_SETTINGS_SUCCESS:
       return {
         ...state,

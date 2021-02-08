@@ -19,9 +19,7 @@ class WithContacts extends Component {
   state = {};
 
   componentDidMount() {
-    const {
-      isFetching, contacts, requestContacts, didInvalidate,
-    } = this.props;
+    const { isFetching, contacts, requestContacts, didInvalidate } = this.props;
 
     if (!isFetching && (contacts.length === 0 || didInvalidate)) {
       requestContacts();

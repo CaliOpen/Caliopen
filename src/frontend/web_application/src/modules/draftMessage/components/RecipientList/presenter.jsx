@@ -5,9 +5,15 @@ import classnames from 'classnames';
 import debounce from 'lodash.debounce';
 import { Trans } from '@lingui/react';
 import {
-  Dropdown, Button, Icon, VerticalMenu, VerticalMenuItem,
+  Dropdown,
+  Button,
+  Icon,
+  VerticalMenu,
+  VerticalMenuItem,
 } from '../../../../components';
-import protocolsConfig, { ASSOC_PROTOCOL_ICON } from '../../../../services/protocols-config';
+import protocolsConfig, {
+  ASSOC_PROTOCOL_ICON,
+} from '../../../../services/protocols-config';
 import { addEventListener } from '../../../../services/event-manager';
 import Recipient from '../Recipient';
 import { isValidRecipient } from '../../services/isValidRecipient';
@@ -28,7 +34,7 @@ export const KEY = {
 class RecipientList extends Component {
   static propTypes = {
     className: PropTypes.string,
-    internalId: PropTypes.string,
+    messageId: PropTypes.string,
     recipients: PropTypes.arrayOf(PropTypes.shape({})),
     onRecipientsChange: PropTypes.func.isRequired,
     setSearchTerms: PropTypes.func.isRequired,
@@ -39,7 +45,7 @@ class RecipientList extends Component {
 
   static defaultProps = {
     className: undefined,
-    internalId: undefined,
+    messageId: undefined,
     recipients: [],
     searchResults: [],
     identity: undefined,
@@ -51,34 +57,40 @@ class RecipientList extends Component {
     searchOpened: false,
   };
 
-  search = debounce(this.props.search, 1 * 1000, { leading: false, trailing: true });
+  search = debounce(this.props.search, 1 * 1000, {
+    leading: false,
+    trailing: true,
+  });
 
   handleRemoveRecipient = (participant) => {
     this.removeRecipient(participant);
   };
 
   handleSearchChange = (ev) => {
-    const { setSearchTerms, internalId } = this.props;
-    if (!internalId) {
+    const { setSearchTerms, messageId } = this.props;
+    if (!messageId) {
       return;
     }
 
-    this.setState({
-      searchTerms: ev.target.value,
-      searchOpened: true,
-    }, () => {
-      setSearchTerms({ internalId, searchTerms: this.state.searchTerms });
+    this.setState(
+      {
+        searchTerms: ev.target.value,
+        searchOpened: true,
+      },
+      () => {
+        setSearchTerms({ messageId, searchTerms: this.state.searchTerms });
 
-      if (this.state.searchTerms.length >= 3) {
-        return this.search({ terms: this.state.searchTerms });
+        if (this.state.searchTerms.length >= 3) {
+          return this.search({ terms: this.state.searchTerms });
+        }
+
+        if (!this.state.searchTerms.length) {
+          return this.resetSearch();
+        }
+
+        return undefined;
       }
-
-      if (!this.state.searchTerms.length) {
-        return this.resetSearch();
-      }
-
-      return undefined;
-    });
+    );
   };
 
   handleClickRecipientList = (ev) => {
@@ -105,7 +117,7 @@ class RecipientList extends Component {
 
       this.unsubscribeInputBlur();
     });
-  }
+  };
 
   handleSearchKeydown = (ev) => {
     const { which: keyCode, key } = ev;
@@ -115,18 +127,22 @@ class RecipientList extends Component {
       ev.stopPropagation();
     }
 
-    if (keyCode === KEY.UP &&
+    if (
+      keyCode === KEY.UP &&
       this.props.searchResults.length > 0 &&
-      this.state.activeSearchResultIndex > 0) {
-      this.setState(prevState => ({
+      this.state.activeSearchResultIndex > 0
+    ) {
+      this.setState((prevState) => ({
         activeSearchResultIndex: prevState.activeSearchResultIndex - 1,
       }));
     }
 
-    if (keyCode === KEY.DOWN &&
+    if (
+      keyCode === KEY.DOWN &&
       this.props.searchResults.length > 0 &&
-      this.state.activeSearchResultIndex < this.props.searchResults.length - 1) {
-      this.setState(prevState => ({
+      this.state.activeSearchResultIndex < this.props.searchResults.length - 1
+    ) {
+      this.setState((prevState) => ({
         activeSearchResultIndex: prevState.activeSearchResultIndex + 1,
       }));
     }
@@ -139,13 +155,14 @@ class RecipientList extends Component {
     }
 
     if (keyCode === KEY.ENTER && this.props.searchResults.length > 0) {
-      this.makeAddKnownParticipant(this.props.searchResults[this.state.activeSearchResultIndex])();
+      this.makeAddKnownParticipant(
+        this.props.searchResults[this.state.activeSearchResultIndex]
+      )();
       this.resetSearch();
     } else if (
-      (
-        [KEY.ENTER, KEY.TAB].indexOf(keyCode) !== -1 ||
-        [KEY.COMMA, KEY.SEMICOLON].indexOf(key) !== -1
-      ) && this.state.searchTerms.length > 0
+      ([KEY.ENTER, KEY.TAB].indexOf(keyCode) !== -1 ||
+        [KEY.COMMA, KEY.SEMICOLON].indexOf(key) !== -1) &&
+      this.state.searchTerms.length > 0
     ) {
       this.addUnknownParticipant(this.state.searchTerms);
       this.resetSearch();
@@ -155,19 +172,22 @@ class RecipientList extends Component {
     if ([KEY.COMMA, KEY.SEMICOLON].indexOf(key) !== -1) {
       ev.preventDefault();
     }
-  }
+  };
 
   focusSearch() {
     this.searchInputRef.focus();
   }
 
   addParticipant(participant) {
-    const compareParticipants = (a, b) => a.address === b.address && a.protocol === b.protocol;
+    const compareParticipants = (a, b) =>
+      a.address === b.address && a.protocol === b.protocol;
 
     const { recipients } = this.props;
     const nextRecipients = [
-      ...recipients
-        .filter(previousParticipant => !compareParticipants(previousParticipant, participant)),
+      ...recipients.filter(
+        (previousParticipant) =>
+          !compareParticipants(previousParticipant, participant)
+      ),
       participant,
     ];
 
@@ -178,38 +198,47 @@ class RecipientList extends Component {
   makeAddKnownParticipant(identity) {
     return () => {
       const { address, protocol, label } = identity;
-      this.addParticipant(new Participant({
-        address,
-        label: label || address,
-        contact_ids: identity.contact_id ? [identity.contact_id] : [],
-        protocol,
-      }));
+      this.addParticipant(
+        new Participant({
+          address,
+          label: label || address,
+          contact_ids: identity.contact_id ? [identity.contact_id] : [],
+          protocol,
+        })
+      );
     };
   }
 
   addUnknownParticipant(address) {
-    const getProtocol = search => Object.keys(protocolsConfig).reduce((previous, current) => {
-      if (!previous && protocolsConfig[current].default) {
-        return current;
-      }
+    const getProtocol = (search) =>
+      Object.keys(protocolsConfig).reduce((previous, current) => {
+        if (!previous && protocolsConfig[current].default) {
+          return current;
+        }
 
-      const { regexp } = protocolsConfig[current];
+        const { regexp } = protocolsConfig[current];
 
-      if (protocolsConfig[previous].default && regexp && regexp.test(search)) {
-        return current;
-      }
+        if (
+          protocolsConfig[previous].default &&
+          regexp &&
+          regexp.test(search)
+        ) {
+          return current;
+        }
 
-      return previous;
-    });
+        return previous;
+      });
 
     const { identity } = this.props;
     const protocol = identity ? identity.protocol : getProtocol(address);
 
-    this.addParticipant(new Participant({
-      address,
-      protocol,
-      label: address,
-    }));
+    this.addParticipant(
+      new Participant({
+        address,
+        protocol,
+        label: address,
+      })
+    );
   }
 
   eventuallyEditRecipient() {
@@ -236,15 +265,19 @@ class RecipientList extends Component {
 
   removeRecipient(participant) {
     const { recipients } = this.props;
-    const nextRecipients = recipients.filter(curr => curr !== participant);
+    const nextRecipients = recipients.filter((curr) => curr !== participant);
     this.props.onRecipientsChange(nextRecipients);
   }
 
   renderSearchResult(identity, index, results) {
     const isContact = identity.source === 'contact';
     // results are sorted by contact
-    const hasLabel = isContact &&
-      index === results.findIndex(result => result.contact_id === identity.contact_id);
+    const hasLabel =
+      isContact &&
+      index ===
+        results.findIndex(
+          (result) => result.contact_id === identity.contact_id
+        );
 
     const infoClassName = classnames({
       'm-recipient-list__search-result-info': hasLabel,
@@ -280,15 +313,15 @@ class RecipientList extends Component {
   render() {
     // useful ?
     const componentId = uuidV1();
-    const {
-      searchResults, className, identity, recipients,
-    } = this.props;
+    const { searchResults, className, identity, recipients } = this.props;
 
     return (
       <div
         id={componentId}
         onClick={this.handleClickRecipientList}
-        ref={(el) => { this.recipientListRef = el; }}
+        ref={(el) => {
+          this.recipientListRef = el;
+        }}
         role="presentation"
         className={classnames('m-recipient-list', className)}
       >
@@ -297,7 +330,7 @@ class RecipientList extends Component {
             <Trans id="messages.compose.form.to.label">To</Trans>
           </span>
         )}
-        {recipients.map(participant => (
+        {recipients.map((participant) => (
           <Recipient
             key={`${participant.address}_${participant.protocol}`}
             className="m-recipient-list__recipient"
@@ -308,7 +341,9 @@ class RecipientList extends Component {
         ))}
         <div className="m-recipient-list__search">
           <input
-            ref={(el) => { this.searchInputRef = el; }}
+            ref={(el) => {
+              this.searchInputRef = el;
+            }}
             className="m-recipient-list__search-input"
             onChange={this.handleSearchChange}
             value={this.state.searchTerms}
@@ -318,8 +353,10 @@ class RecipientList extends Component {
           />
           <Dropdown
             className="m-recipient-list__dropdown"
-            show={this.state.searchTerms ?
-              (searchResults.length > 0 && this.state.searchOpened) : false
+            show={
+              this.state.searchTerms
+                ? searchResults.length > 0 && this.state.searchOpened
+                : false
             }
             closeOnClick="doNotClose"
             isMenu

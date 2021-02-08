@@ -9,9 +9,7 @@ describe('component ImForm', () => {
       i18n: { _: (id, values) => id },
     };
 
-    const comp = shallow(
-      <ImForm {...props} />
-    ).dive();
+    const comp = shallow(<ImForm {...props} />).dive();
 
     expect(comp.text()).toEqual('<FormGrid />');
   });

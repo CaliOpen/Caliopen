@@ -1,5 +1,8 @@
 import {
-  isMessageFromUser, getRecipients, getRecipientsExceptUser, isUserRecipient,
+  isMessageFromUser,
+  getRecipients,
+  getRecipientsExceptUser,
+  isUserRecipient,
 } from './index';
 
 describe('message services', () => {
@@ -12,29 +15,35 @@ describe('message services', () => {
   describe('isMessageFromUser', () => {
     it('unknown contact', () => {
       const message = {
-        participants: [{
-          type: 'From',
-        }],
+        participants: [
+          {
+            type: 'From',
+          },
+        ],
       };
       expect(isMessageFromUser(message, user)).toEqual(false);
     });
 
     it('known contact', () => {
       const message = {
-        participants: [{
-          type: 'From',
-          contact_ids: ['whatever'],
-        }],
+        participants: [
+          {
+            type: 'From',
+            contact_ids: ['whatever'],
+          },
+        ],
       };
       expect(isMessageFromUser(message, user)).toEqual(false);
     });
 
     it('is actually the user', () => {
       const message = {
-        participants: [{
-          type: 'From',
-          contact_ids: ['john'],
-        }],
+        participants: [
+          {
+            type: 'From',
+            contact_ids: ['john'],
+          },
+        ],
       };
       expect(isMessageFromUser(message, user)).toEqual(true);
     });

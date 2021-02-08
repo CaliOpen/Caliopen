@@ -19,7 +19,10 @@ class ContactTitleField extends PureComponent {
 
   render() {
     const {
-      contact, contactDisplayFormat: format, className, onClick,
+      contact,
+      contactDisplayFormat: format,
+      className,
+      onClick,
     } = this.props;
 
     return (

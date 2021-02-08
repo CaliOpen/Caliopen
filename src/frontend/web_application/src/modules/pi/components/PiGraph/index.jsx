@@ -12,7 +12,7 @@ const Grid = ({ axeLength }) => {
         className="m-pi-graph__outline"
         points={outlinePoints.join(' ')}
       />
-      {axeCoordinates.map(p => (
+      {axeCoordinates.map((p) => (
         <line
           key={p.axeName}
           className="m-pi-graph__line"
@@ -35,10 +35,7 @@ const Polygon = ({ pi, axeLength }) => {
   const polygonPoints = calcPolygonPoints({ pi, axeLength });
 
   return (
-    <polygon
-      className="m-pi-graph__shape"
-      points={polygonPoints.join(' ')}
-    />
+    <polygon className="m-pi-graph__shape" points={polygonPoints.join(' ')} />
   );
 };
 
@@ -58,13 +55,8 @@ const PiGraph = ({ pi, gridWidth }) => {
       viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <Polygon
-        pi={pi}
-        axeLength={axeLength}
-      />
-      <Grid
-        axeLength={axeLength}
-      />
+      <Polygon pi={pi} axeLength={axeLength} />
+      <Grid axeLength={axeLength} />
     </svg>
   );
 };

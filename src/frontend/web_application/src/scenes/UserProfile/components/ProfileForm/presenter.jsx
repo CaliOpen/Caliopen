@@ -2,7 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import {
-  FieldErrors, TextFieldGroup as TextFieldGroupBase, FormGrid, FormRow, FormColumn,
+  FieldErrors,
+  TextFieldGroup as TextFieldGroupBase,
+  FormGrid,
+  FormRow,
+  FormColumn,
 } from '../../../../components';
 import renderReduxField from '../../../../services/renderReduxField';
 
@@ -12,13 +16,12 @@ class ProfileForm extends PureComponent {
   static propTypes = {
     errors: PropTypes.shape({}),
     editMode: PropTypes.bool.isRequired,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
   static defaultProps = {
     errors: {},
   };
-
 
   render() {
     const { errors, editMode, i18n } = this.props;
@@ -26,11 +29,11 @@ class ProfileForm extends PureComponent {
     return (
       <FormGrid className="s-profile-form">
         {errors.global && errors.global.length !== 0 && (
-        <FormRow>
-          <FormColumn bottomSpace>
-            <FieldErrors errors={errors.global} />
-          </FormColumn>
-        </FormRow>
+          <FormRow>
+            <FormColumn bottomSpace>
+              <FieldErrors errors={errors.global} />
+            </FormColumn>
+          </FormRow>
         )}
         {/* disables avatar managment on alpha
           <FormRow>
@@ -49,7 +52,9 @@ class ProfileForm extends PureComponent {
             <Field
               component={TextFieldGroup}
               name="name"
-              label={i18n._('user.profile.form.username.label', null, { defaults: 'Username' })}
+              label={i18n._('user.profile.form.username.label', null, {
+                defaults: 'Username',
+              })}
               disabled
             />
           </FormColumn>
@@ -57,7 +62,9 @@ class ProfileForm extends PureComponent {
             <Field
               component={TextFieldGroup}
               name="recovery_email"
-              label={i18n._('user.profile.form.recovery_email.label', null, { defaults: 'Recovery email' })}
+              label={i18n._('user.profile.form.recovery_email.label', null, {
+                defaults: 'Recovery email',
+              })}
               disabled
             />
           </FormColumn>
@@ -67,7 +74,9 @@ class ProfileForm extends PureComponent {
             <Field
               component={TextFieldGroup}
               name="contact.given_name"
-              label={i18n._('user.profile.form.given_name.label', null, { defaults: 'Given name' })}
+              label={i18n._('user.profile.form.given_name.label', null, {
+                defaults: 'Given name',
+              })}
               disabled={!editMode}
             />
           </FormColumn>
@@ -75,7 +84,9 @@ class ProfileForm extends PureComponent {
             <Field
               component={TextFieldGroup}
               name="contact.family_name"
-              label={i18n._('user.profile.form.family_name.label', null, { defaults: 'Family name' })}
+              label={i18n._('user.profile.form.family_name.label', null, {
+                defaults: 'Family name',
+              })}
               disabled={!editMode}
             />
           </FormColumn>

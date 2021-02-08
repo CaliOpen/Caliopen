@@ -11,9 +11,8 @@ $l-auth-page__header-space: (
   display: grid;
   grid-template-columns: 1fr;
   grid-template-areas:
-    "content"
-    "footer"
-  ;
+    'content'
+    'footer';
   min-height: 100vh;
 
   &__content {

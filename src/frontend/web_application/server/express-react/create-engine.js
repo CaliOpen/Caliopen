@@ -2,9 +2,11 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import template from '../../dist/server/template.html';
 
-const renderTemplate = markup => [
-  { key: '%MARKUP%', value: markup },
-].reduce((str, current) => str.replace(current.key, current.value), template);
+const renderTemplate = (markup) =>
+  [{ key: '%MARKUP%', value: markup }].reduce(
+    (str, current) => str.replace(current.key, current.value),
+    template
+  );
 
 /**
  * This engine uses react components, those are pre-compiled and given in the route argument e.g:

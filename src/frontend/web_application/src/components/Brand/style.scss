@@ -33,9 +33,8 @@
   }
 
   &__brand-name {
-    margin-left: .4rem;
+    margin-left: 0.4rem;
   }
-
 
   @include breakpoint(medium) {
     width: 100%;

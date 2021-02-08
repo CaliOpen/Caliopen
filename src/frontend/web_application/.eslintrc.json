@@ -1,6 +1,12 @@
 {
-  "extends": "airbnb",
-  "parser": "babel-eslint",
+  "extends": [
+    "airbnb",
+    "prettier",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "root": true,
   "env": {
     "browser": true,
@@ -9,40 +15,80 @@
     "jest": true,
     "protractor": true
   },
+  "settings": {
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx", ".d.ts"]
+  },
   "rules": {
-    "comma-dangle": ["error", "always-multiline"],
+    // usefull until UNSAFE_componentWill... is removed
+    "camelcase": "warn",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
     "import/no-cycle": ["error", { "maxDepth": 1 }],
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.spec.js", "**/*.spec.jsx"]}],
-    "import/no-useless-path-segments": "warn",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.spec.js",
+          "**/*.spec.jsx",
+          "**/*.spec.ts",
+          "**/*.spec.tsx"
+        ]
+      }
+    ],
     "import/prefer-default-export": 0,
-    "jsx-a11y/label-has-associated-control": ["error", {
-      "controlComponents": ["Field"]
-    }],
-    "jsx-a11y/label-has-for": [ "error", {
-      "components": [ "Label" ],
-      "required": {
-        "oneOf": [ "nesting", "id" ]
-      },
-      "allowChildren": false
-    }],
-    "jsx-a11y/anchor-is-valid": [ "warning", {
-      "components": [ "Link" ],
-      "specialLink": [ "to" ],
-      "aspects": [ "noHref", "invalidHref", "preferButton" ]
-    }],
-    "newline-before-return": "error",
-    "operator-linebreak": "off",
-    "object-property-newline": "off",
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "labelComponents": ["Label"],
+        "controlComponents": ["Field"]
+      }
+    ],
+    "jsx-a11y/anchor-is-valid": [
+      "warn",
+      {
+        "components": ["Link"],
+        "specialLink": ["to"],
+        "aspects": ["noHref", "invalidHref", "preferButton"]
+      }
+    ],
+    "react/jsx-filename-extension": [
+      "error",
+      { "extensions": [".jsx", ".tsx"] }
+    ],
+    "no-async-promise-executor": "warn",
     "react/destructuring-assignment": "off",
-    "react/jsx-one-expression-per-line": ["warn", { "allow": "single-child" }],
-    "react/no-array-index-key": 0,
-    "react/no-multi-comp": "warn",
-    "react/no-unescaped-entities": ["warn", { "forbid": [">", "\"", "'", "}"] }],
+    // useful until babel compile </> directly
+    "react/jsx-fragments": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/no-array-index-key": "off",
+    "react/no-unescaped-entities": [
+      "warn",
+      { "forbid": [">", "\"", "'", "}"] }
+    ],
     "react/no-unused-prop-types": "warn",
     "react/no-unused-state": "warn",
     "react/prefer-stateless-function": "warn",
+    "react/prop-types": "off",
     "react/require-default-props": "warn",
-    "prefer-promise-reject-errors": "warn"
+    "react/static-property-placement": ["warn", "static public field"],
+    "react/state-in-constructor": "off",
+    "prefer-promise-reject-errors": "warn",
+    // ---
+    //  compat prettier
+    "react/jsx-curly-newline": "off",
+    "react/jsx-indent": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-wrap-multilines": "off",
+    // ---
+    "@typescript-eslint/ban-ts-comment": "warn"
   },
   "globals": {
     "inject": true,

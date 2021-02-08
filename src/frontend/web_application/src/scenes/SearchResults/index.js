@@ -1,21 +1,24 @@
 import { createSelector } from 'reselect';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import {
-  search, loadMore, getKey, hasMore,
-} from '../../store/modules/search';
+import { search, loadMore, getKey, hasMore } from '../../store/modules/search';
 import { withSearchParams } from '../../modules/routing';
 import Presenter from './presenter';
 
-const searchSelector = state => state.search;
-const searchParamsSelector = (state, { searchParams: { term, doctype } }) => ({ term, doctype });
+const searchSelector = (state) => state.search;
+const searchParamsSelector = (state, { searchParams: { term, doctype } }) => ({
+  term,
+  doctype,
+});
 
 const mapStateToProps = createSelector(
   [searchParamsSelector, searchSelector],
   (searchParams, searchState) => {
     const { resultsByKey } = searchState;
     const { term, doctype } = searchParams;
-    const hasMoreByDoctype = doctype && { [doctype]: hasMore(term, doctype, searchState) };
+    const hasMoreByDoctype = doctype && {
+      [doctype]: hasMore(term, doctype, searchState),
+    };
 
     return {
       term,
@@ -26,12 +29,16 @@ const mapStateToProps = createSelector(
     };
   }
 );
-const mapDispatchToProps = dispatch => bindActionCreators({
-  search,
-  loadMore,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      search,
+      loadMore,
+    },
+    dispatch
+  );
 
 export default compose(
   withSearchParams(),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps)
 )(Presenter);

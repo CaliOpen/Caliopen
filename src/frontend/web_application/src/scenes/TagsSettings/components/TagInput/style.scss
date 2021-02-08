@@ -10,12 +10,18 @@
     @include flex-grid-size;
     line-height: $co-component__height;
     text-align: left;
-    &:hover { background: $co-color__fg__back;  }
+    &:hover {
+      background: $co-color__fg__back;
+    }
   }
-  &__input { @include flex-grid-size; }
+  &__input {
+    @include flex-grid-size;
+  }
   &__delete {
     @include flex-grid-size(shrink);
     line-height: $co-component__height;
   }
-  &__errors { @include flex-grid-column(12); }
+  &__errors {
+    @include flex-grid-column(12);
+  }
 }

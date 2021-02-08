@@ -18,15 +18,16 @@ import Presenter from './presenter';
 const providersSelector = (state) => {
   const { providers } = getModuleStateSelector('provider')(state);
 
-  return providers && providers.map(provider => provider.name);
+  return providers && providers.map((provider) => provider.name);
 };
 
 const mapStateToProps = createSelector(
   [identityStateSelector, identitiesSelector, providersSelector],
   (identityState, identities, providers) => ({
     isFetching: identityState.isFetching,
-    identities: [...identities]
-      .sort((a, b) => a.display_name.localeCompare(b.display_name)),
+    identities: [...identities].sort((a, b) =>
+      a.display_name.localeCompare(b.display_name)
+    ),
     providers,
   })
 );
@@ -39,12 +40,16 @@ const onIdentityChange = ({ identity }) => (dispatch) => {
   return dispatch(updateIdentity({ identity }));
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  requestRemoteIdentities,
-  onIdentityChange,
-  onIdentityDelete: deleteIdentity,
-  requestProviders,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      requestRemoteIdentities,
+      onIdentityChange,
+      onIdentityDelete: deleteIdentity,
+      requestProviders,
+    },
+    dispatch
+  );
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

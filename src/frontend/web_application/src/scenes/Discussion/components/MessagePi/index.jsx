@@ -16,7 +16,7 @@ import './style.scss';
 @withI18n()
 class MessagePi extends PureComponent {
   static propTypes = {
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     message: PropTypes.shape({}).isRequired,
     illustrate: PropTypes.bool,
     describe: PropTypes.bool,
@@ -47,7 +47,9 @@ class MessagePi extends PureComponent {
       return (
         <img
           src={simpleEnvelope}
-          alt={i18n._('message.img.simple-envelope', null, { defaults: 'This message is like a sealed envelop' })}
+          alt={i18n._('message.img.simple-envelope', null, {
+            defaults: 'This message is like a sealed envelop',
+          })}
         />
       );
     }
@@ -55,7 +57,9 @@ class MessagePi extends PureComponent {
     return (
       <img
         src={postalCard}
-        alt={i18n._('message.img.postal-card', null, { defaults: 'This message is like a postal card' })}
+        alt={i18n._('message.img.postal-card', null, {
+          defaults: 'This message is like a postal card',
+        })}
       />
     );
   };
@@ -69,19 +73,31 @@ class MessagePi extends PureComponent {
         <ul className="m-message-pi__types">
           <li className={getPiClass(message.pi_message.social)}>
             <TextBlock inline>
-              <Icon type={this.constructor.getIndexIconType(message.pi_message.social)} />
+              <Icon
+                type={this.constructor.getIndexIconType(
+                  message.pi_message.social
+                )}
+              />
               <Trans id="message.pi.comportment">Sender</Trans>
             </TextBlock>
           </li>
           <li className={getPiClass(message.pi_message.content)}>
             <TextBlock inline>
-              <Icon type={this.constructor.getIndexIconType(message.pi_message.content)} />
+              <Icon
+                type={this.constructor.getIndexIconType(
+                  message.pi_message.content
+                )}
+              />
               <Trans id="message.pi.context">Departure</Trans>
             </TextBlock>
           </li>
           <li className={getPiClass(message.pi_message.transport)}>
             <TextBlock inline>
-              <Icon type={this.constructor.getIndexIconType(message.pi_message.transport)} />
+              <Icon
+                type={this.constructor.getIndexIconType(
+                  message.pi_message.transport
+                )}
+              />
               <Trans id="message.pi.technic">Travel</Trans>
             </TextBlock>
           </li>
@@ -102,10 +118,7 @@ class MessagePi extends PureComponent {
       <p className="m-message-pi__metaphor">
         <Trans
           id={
-            isMessageEncrypted(message) ?
-              metaphors.encrypted
-              :
-              metaphors.plain
+            isMessageEncrypted(message) ? metaphors.encrypted : metaphors.plain
           }
         />
       </p>
@@ -121,29 +134,45 @@ class MessagePi extends PureComponent {
 
     const piAggregate = getAveragePIMessage({ message });
     const piClass = getPiClass(piAggregate);
-    const piValue = Number.isFinite(piAggregate) ? Math.round(piAggregate) : '?';
-    const progressMeterStyle = piAggregate ? {
-      width: `${piAggregate}%`,
-    } : {};
+    const piValue = Number.isFinite(piAggregate)
+      ? Math.round(piAggregate)
+      : '?';
+    const progressMeterStyle = piAggregate
+      ? {
+          width: `${piAggregate}%`,
+        }
+      : {};
 
     return (
       <div className="m-message-pi">
         {illustrate ? this.renderIllustration() : null}
-        <div className={classnames('m-message-pi__meter', { 'm-message-pi__meter--no-separator': !describe })}>
+        <div
+          className={classnames('m-message-pi__meter', {
+            'm-message-pi__meter--no-separator': !describe,
+          })}
+        >
           <div
-            className={classnames(['m-message-pi__progress', `m-message-pi__progress--${piClass}`])}
+            className={classnames([
+              'm-message-pi__progress',
+              `m-message-pi__progress--${piClass}`,
+            ])}
             role="progressbar"
             aria-valuenow={piAggregate}
             aria-valuemax="100"
             tabIndex="0"
           >
             <div
-              className={classnames('m-message-pi__progress-meter', `m-message-pi__progress-meter--${piClass}`)}
+              className={classnames(
+                'm-message-pi__progress-meter',
+                `m-message-pi__progress-meter--${piClass}`
+              )}
               style={progressMeterStyle}
             />
           </div>
           <div className="m-message-pi__numeric">
-            <span className="m-message-pi__numeric-legend"><Trans id="message.pi.label">Privacy index:</Trans></span>
+            <span className="m-message-pi__numeric-legend">
+              <Trans id="message.pi.label">Privacy index:</Trans>
+            </span>
             <span className="m-message-pi__numeric-value">{piValue}</span>
           </div>
         </div>

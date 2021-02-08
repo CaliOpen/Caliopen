@@ -1,9 +1,10 @@
+const path = require('path');
 const isDev = process.env.NODE_ENV === 'development';
 const mode = isDev ? 'development' : 'production';
 
 module.exports = {
   mode,
-  devtool: isDev ? 'eval' : 'source-map',
+  devtool: isDev ? 'eval-source-map' : 'source-map',
   entry: {
     app: [],
     vendor: [],
@@ -14,6 +15,10 @@ module.exports = {
     rules: [],
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    // to match paths in ts config
+    alias: {
+      src: path.resolve(__dirname, '../src'),
+    },
   },
 };

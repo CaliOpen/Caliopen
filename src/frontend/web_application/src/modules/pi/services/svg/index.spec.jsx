@@ -1,4 +1,9 @@
-import { calcGridCoordinates, calcPolygonPoints, calcXpoint, calcYpoint } from './';
+import {
+  calcGridCoordinates,
+  calcPolygonPoints,
+  calcXpoint,
+  calcYpoint,
+} from '.';
 
 describe('comp PiGraph > services > svg', () => {
   describe('calcGridCoordinates', () => {
@@ -17,9 +22,21 @@ describe('comp PiGraph > services > svg', () => {
           calcYpoint(100, -240, 100),
         ],
         axeCoordinates: [
-          { axeName: 'comportment', x: calcXpoint(100, 0, 100), y: calcYpoint(100, 0, 100) },
-          { axeName: 'technic', x: calcXpoint(100, -120, 100), y: calcYpoint(100, -120, 100) },
-          { axeName: 'context', x: calcXpoint(100, -240, 100), y: calcYpoint(100, -240, 100) },
+          {
+            axeName: 'comportment',
+            x: calcXpoint(100, 0, 100),
+            y: calcYpoint(100, 0, 100),
+          },
+          {
+            axeName: 'technic',
+            x: calcXpoint(100, -120, 100),
+            y: calcYpoint(100, -120, 100),
+          },
+          {
+            axeName: 'context',
+            x: calcXpoint(100, -240, 100),
+            y: calcYpoint(100, -240, 100),
+          },
         ],
       };
 

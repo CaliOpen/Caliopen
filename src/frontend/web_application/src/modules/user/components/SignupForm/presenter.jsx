@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withI18n } from '@lingui/react';
-import { withPush } from '../../../../modules/routing';
+import { withPush } from '../../../routing';
 // prevent cycling deps
-import withSettings from '../../../../modules/settings/hoc/withSettings';
-import { withDevice } from '../../../../modules/device';
+import withSettings from '../../../settings/hoc/withSettings';
+import { withDevice } from '../../../device';
 import { signup } from '../../services/signup';
 import SignupForm from './components/SignupForm';
-import formValidator, { getLocalizedErrors, ERR_UNABLE_TO_SIGNUP } from './form-validator';
+import formValidator, {
+  getLocalizedErrors,
+  ERR_UNABLE_TO_SIGNUP,
+} from './form-validator';
 
 @withSettings()
 @withI18n()
@@ -17,7 +20,7 @@ class Signup extends Component {
   static propTypes = {
     push: PropTypes.func.isRequired,
     settings: PropTypes.shape({}).isRequired,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     clientDevice: PropTypes.shape({}),
   };
 
@@ -39,7 +42,7 @@ class Signup extends Component {
       this.resetErrorsState('username');
       const { i18n } = this.props;
       formValidator.validate({ username }, i18n, 'username').catch((errors) => {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           errors: {
             ...prevState.errors,
             ...errors,
@@ -47,7 +50,7 @@ class Signup extends Component {
         }));
       });
     }
-  }
+  };
 
   handleFieldChange = (fieldname, value) => {
     switch (fieldname) {
@@ -59,7 +62,7 @@ class Signup extends Component {
           this.resetErrorsState(fieldname);
         }
     }
-  }
+  };
 
   handleFieldBlur = (fieldname, value) => {
     if (fieldname !== 'username') {
@@ -74,15 +77,17 @@ class Signup extends Component {
 
     const { i18n } = this.props;
 
-    formValidator.validate({ username: value }, i18n, 'usernameAvailability').catch((errors) => {
-      this.setState(prevState => ({
-        errors: {
-          ...prevState.errors,
-          ...errors,
-        },
-      }));
-    });
-  }
+    formValidator
+      .validate({ username: value }, i18n, 'usernameAvailability')
+      .catch((errors) => {
+        this.setState((prevState) => ({
+          errors: {
+            ...prevState.errors,
+            ...errors,
+          },
+        }));
+      });
+  };
 
   handleSignup = async (ev) => {
     const { clientDevice, i18n, settings } = this.props;
@@ -110,9 +115,8 @@ class Signup extends Component {
 
       return push('/');
     } catch (err) {
-      const isExpectedError = err.response &&
-        err.response.status >= 400 &&
-        err.response.status < 500;
+      const isExpectedError =
+        err.response && err.response.status >= 400 && err.response.status < 500;
 
       if (!isExpectedError) {
         throw err;
@@ -127,10 +131,10 @@ class Signup extends Component {
 
       return undefined;
     }
-  }
+  };
 
   resetErrorsState(fieldname) {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       errors: {
         ...prevState.errors,
         [fieldname]: [],

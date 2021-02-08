@@ -22,9 +22,10 @@ class ParticipantsIconLetter extends PureComponent {
 
     return (
       <div className={classnames(className, 'm-participants-icon')}>
-        {
-          <AvatarLetter className={classnames('m-participants-icon__letter', iconClass)} word={hasMore ? '+' : labels[0]} />
-        }
+        <AvatarLetter
+          className={classnames('m-participants-icon__letter', iconClass)}
+          word={hasMore ? '+' : labels[0]}
+        />
       </div>
     );
   }

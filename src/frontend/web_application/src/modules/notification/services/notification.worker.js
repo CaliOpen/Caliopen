@@ -8,7 +8,7 @@ const THROTTLE_DURATION = 40 * 1000;
 class Poller {
   client = getUnsignedClient();
 
-  intervalId = undefined
+  intervalId = undefined;
 
   notificationFilters = {};
 
@@ -26,22 +26,26 @@ class Poller {
         },
       };
     });
-  }
+  };
 
   stop = () => {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
-  }
+  };
 
   start = (device) => {
     self.postMessage({ status: 'active' });
     this.installInterceptor(device);
     this.intervalId = setInterval(async () => {
       try {
-        const params = Object.keys(this.notificationFilters).map(key => `${key}=${this.notificationFilters[key]}`).join('&');
+        const params = Object.keys(this.notificationFilters)
+          .map((key) => `${key}=${this.notificationFilters[key]}`)
+          .join('&');
         const queryString = params.length > 0 ? `?${params}` : '';
-        const { data: results } = await this.client.get(`/api/v2/notifications${queryString}`);
+        const { data: results } = await this.client.get(
+          `/api/v2/notifications${queryString}`
+        );
         self.postMessage({ results });
       } catch (err) {
         if (err.response.status === 401) {
@@ -59,7 +63,7 @@ class Poller {
         throw err;
       }
     }, THROTTLE_DURATION);
-  }
+  };
 
   handleStart = (message) => {
     if (message.action === 'start') {
@@ -77,13 +81,13 @@ class Poller {
     if (message.action === 'updateFilters') {
       this.notificationFilters = message.filters;
     }
-  }
+  };
 
   handleEvent = (event) => {
     this.handleStart(event.data);
     this.handleStop(event.data);
     this.handleUpdateNotificationFilters(event.data);
-  }
+  };
 }
 
 const poller = new Poller();

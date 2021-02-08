@@ -12,7 +12,7 @@ import './style.scss';
 @withTagSearched()
 class TagList extends Component {
   static propTypes = {
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     tagSearched: PropTypes.string,
   };
 
@@ -22,22 +22,28 @@ class TagList extends Component {
 
   state = {};
 
-  sortTags = (i18n, tags) => [...tags]
-    .sort((a, b) => getTagLabel(i18n, a).localeCompare(getTagLabel(i18n, b)));
+  sortTags = (i18n, tags) =>
+    [...tags].sort((a, b) =>
+      getTagLabel(i18n, a).localeCompare(getTagLabel(i18n, b))
+    );
 
   renderItem({ tagName, label }) {
     const { tagSearched } = this.props;
-    const tagClassName = classnames(
-      'm-tag-list__tag',
-      {
-        'm-tag-list__tag--active': tagSearched === tagName,
-      }
-    );
+    const tagClassName = classnames('m-tag-list__tag', {
+      'm-tag-list__tag--active': tagSearched === tagName,
+    });
 
     const param = tagName.length > 0 ? `?tag=${tagName}` : '';
 
     return (
-      <Link display="inline" noDecoration to={`/contacts${param}`} className={tagClassName}>{label}</Link>
+      <Link
+        display="inline"
+        noDecoration
+        to={`/contacts${param}`}
+        className={tagClassName}
+      >
+        {label}
+      </Link>
     );
   }
 
@@ -49,17 +55,22 @@ class TagList extends Component {
         <NavItem>
           {this.renderItem({
             tagName: '',
-            label: i18n._('tag_list.all_contacts', null, { defaults: 'All contacts' }),
+            label: i18n._('tag_list.all_contacts', null, {
+              defaults: 'All contacts',
+            }),
           })}
         </NavItem>
-        <WithTags render={userTags => this.sortTags(i18n, userTags).map(tag => (
-          <NavItem key={tag.name}>
-            {this.renderItem({
-              tagName: tag.name,
-              label: getTagLabel(i18n, tag),
-            })}
-          </NavItem>
-        ))}
+        <WithTags
+          render={(userTags) =>
+            this.sortTags(i18n, userTags).map((tag) => (
+              <NavItem key={tag.name}>
+                {this.renderItem({
+                  tagName: tag.name,
+                  label: getTagLabel(i18n, tag),
+                })}
+              </NavItem>
+            ))
+          }
         />
       </NavList>
     );

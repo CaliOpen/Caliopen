@@ -6,7 +6,9 @@ import { getConfig } from '../../config';
 const debug = createDebug('caliopen.web:app:api-query');
 
 export const query = (requestParams = {}, opts = {}) => {
-  const { api: { protocol, hostname, port, checkCertificate } } = getConfig();
+  const {
+    api: { protocol, hostname, port, checkCertificate },
+  } = getConfig();
   const params = {
     protocol: `${protocol}:`,
     hostname,
@@ -15,7 +17,7 @@ export const query = (requestParams = {}, opts = {}) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      ...requestParams.headers || {},
+      ...(requestParams.headers || {}),
     },
   };
 
@@ -60,14 +62,19 @@ export const query = (requestParams = {}, opts = {}) => {
       try {
         let responseBody = Buffer.concat(data).toString();
 
-        if (res.headers['content-type'] && res.headers['content-type'].indexOf('json') !== -1) {
+        if (
+          res.headers['content-type'] &&
+          res.headers['content-type'].indexOf('json') !== -1
+        ) {
           responseBody = JSON.parse(responseBody);
         }
 
         if (res && res.statusCode >= 200 && res.statusCode < 300) {
           options.success(responseBody);
         } else {
-          const error = new Error(`API Query Error ${res.statusCode} : ${res.statusMessage}`);
+          const error = new Error(
+            `API Query Error ${res.statusCode} : ${res.statusMessage}`
+          );
           error.status = res.statusCode;
           throw error;
         }
@@ -77,8 +84,8 @@ export const query = (requestParams = {}, opts = {}) => {
       }
     });
   })
-  .on('response', options.response)
-  .on('error', options.error);
+    .on('response', options.response)
+    .on('error', options.error);
 
   if (postData) {
     req.write(postData);

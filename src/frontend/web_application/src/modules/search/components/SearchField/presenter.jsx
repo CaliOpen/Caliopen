@@ -22,7 +22,7 @@ class SearchField extends Component {
     searchParams: PropTypes.shape({
       term: PropTypes.string,
     }).isRequired,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
   static defaultProps = {
@@ -33,8 +33,10 @@ class SearchField extends Component {
     term: '',
   };
 
-  componentWillMount() {
-    const { searchParams: { term = '' } } = this.props;
+  UNSAFE_componentWillMount() {
+    const {
+      searchParams: { term = '' },
+    } = this.props;
 
     this.setState({
       term,
@@ -43,9 +45,11 @@ class SearchField extends Component {
 
   handleSubmit = (ev) => {
     ev.preventDefault();
-    const { history: { push } } = this.props;
+    const {
+      history: { push },
+    } = this.props;
     push(`${SEARCH_PATH}?term=${this.state.term}`);
-  }
+  };
 
   handleInputChange = (event) => {
     const { target } = event;
@@ -55,19 +59,25 @@ class SearchField extends Component {
     this.setState({
       [name]: value,
     });
-  }
+  };
 
   render() {
     const { i18n, className } = this.props;
 
     return (
       <div className={classnames('m-search-field', className)}>
-        <form action="/search-results" method="get" onSubmit={this.handleSubmit}>
+        <form
+          action="/search-results"
+          method="get"
+          onSubmit={this.handleSubmit}
+        >
           <InputText
             name="term"
             onChange={this.handleInputChange}
             value={this.state.term}
-            placeholder={i18n._('header.menu.search', null, { defaults: 'Search' })}
+            placeholder={i18n._('header.menu.search', null, {
+              defaults: 'Search',
+            })}
             className="m-search-field__search-input"
           />
           <Button

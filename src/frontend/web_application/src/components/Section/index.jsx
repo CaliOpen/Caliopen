@@ -29,7 +29,14 @@ class Section extends PureComponent {
 
   render() {
     const {
-      title, titleProps, descr, children, hasSeparator, className, borderContext, shape,
+      title,
+      titleProps,
+      descr,
+      children,
+      hasSeparator,
+      className,
+      borderContext,
+      shape,
     } = this.props;
 
     const borderModifier = borderContext && {
@@ -45,10 +52,21 @@ class Section extends PureComponent {
     };
 
     return (
-      <section className={classnames('m-section', modifiers, borderModifier, className)}>
+      <section
+        className={classnames(
+          'm-section',
+          modifiers,
+          borderModifier,
+          className
+        )}
+      >
         {(title || descr) && (
           <header className="m-section__header">
-            {title && <Title className="m-section__title" {...titleProps}>{title}</Title>}
+            {title && (
+              <Title className="m-section__title" {...titleProps}>
+                {title}
+              </Title>
+            )}
             {descr && <p className="m-section__descr">{descr}</p>}
           </header>
         )}

@@ -14,7 +14,12 @@ class InstallPromptProvider extends Component {
   }
 
   render() {
-    return (<InstallPromptContext.Provider value={this.state.defferedPrompt} {...this.props} />);
+    return (
+      <InstallPromptContext.Provider
+        value={this.state.defferedPrompt}
+        {...this.props}
+      />
+    );
   }
 }
 

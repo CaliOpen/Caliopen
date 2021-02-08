@@ -1,9 +1,9 @@
 export class View {
-  id
+  id;
 
-  condition
+  condition;
 
-  label
+  label;
 
   isFetching = false;
 
@@ -15,7 +15,7 @@ export class View {
     const { propertyName, value } = this.condition;
 
     return message && message[propertyName] === value;
-  }
+  };
 
   getRequestParams = () => {
     const { propertyName, value } = this.condition;
@@ -23,5 +23,5 @@ export class View {
     return {
       [propertyName]: value,
     };
-  }
+  };
 }

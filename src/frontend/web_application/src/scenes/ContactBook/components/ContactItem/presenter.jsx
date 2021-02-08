@@ -5,7 +5,13 @@ import { Trans, withI18n } from '@lingui/react';
 import { ContactAvatarLetter, SIZE_MEDIUM } from '../../../../modules/avatar';
 import { getCleanedTagCollection, getTagLabel } from '../../../../modules/tags';
 import {
-  Button, Link, TextBlock, Icon, Checkbox, Badge, PlaceholderBlock,
+  Button,
+  Link,
+  TextBlock,
+  Icon,
+  Checkbox,
+  Badge,
+  PlaceholderBlock,
 } from '../../../../components';
 import { formatName } from '../../../../services/contact';
 import './style.scss';
@@ -53,36 +59,34 @@ const getAddress = ({ attrName, attr }) => {
   }
 };
 
-const getMainAddresses = ({ contact }) => ['emails', 'phones', 'identities', 'ims'].reduce((acc, attrName) => {
-  if (acc.length === 2) {
-    return acc;
-  }
-
-  if (!contact[attrName]) {
-    return acc;
-  }
-
-  const mainAddress = contact[attrName].reduce((attrAcc, attr) => {
-    if (!attrAcc) {
-      return getAddress({ attrName, attr });
+const getMainAddresses = ({ contact }) =>
+  ['emails', 'phones', 'identities', 'ims'].reduce((acc, attrName) => {
+    if (acc.length === 2) {
+      return acc;
     }
 
-    if (attr.is_primary) {
-      return getAddress({ attrName, attr });
+    if (!contact[attrName]) {
+      return acc;
     }
 
-    return attrAcc;
-  }, undefined);
+    const mainAddress = contact[attrName].reduce((attrAcc, attr) => {
+      if (!attrAcc) {
+        return getAddress({ attrName, attr });
+      }
 
-  if (!mainAddress) {
-    return acc;
-  }
+      if (attr.is_primary) {
+        return getAddress({ attrName, attr });
+      }
 
-  return [
-    ...acc,
-    mainAddress,
-  ];
-}, []);
+      return attrAcc;
+    }, undefined);
+
+    if (!mainAddress) {
+      return acc;
+    }
+
+    return [...acc, mainAddress];
+  }, []);
 
 @withI18n()
 class ContactItem extends PureComponent {
@@ -94,14 +98,16 @@ class ContactItem extends PureComponent {
     onClickContact: PropTypes.func,
     isContactSelected: PropTypes.bool,
     selectDisabled: PropTypes.bool,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     tags: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   };
 
   static defaultProps = {
     contact: undefined,
     className: undefined,
-    onSelectEntity: () => {},
+    onSelectEntity: () => {
+      // noop
+    },
     onClickContact: undefined,
     isContactSelected: false,
     selectDisabled: false,
@@ -112,13 +118,13 @@ class ContactItem extends PureComponent {
     const { checked } = ev.target;
 
     onSelectEntity(checked ? 'add' : 'remove', contact.contact_id);
-  }
+  };
 
   handleClickContact = () => {
     const { contact, onClickContact } = this.props;
 
     onClickContact({ contact });
-  }
+  };
 
   renderPlaceholder() {
     const { className } = this.props;
@@ -139,9 +145,7 @@ class ContactItem extends PureComponent {
         <div className="m-contact-item__info">
           <PlaceholderBlock />
         </div>
-        <div className="m-contact-item__select">
-          &nbsp;
-        </div>
+        <div className="m-contact-item__select">&nbsp;</div>
       </div>
     );
   }
@@ -149,9 +153,14 @@ class ContactItem extends PureComponent {
   renderTags() {
     const { tags, contact, i18n } = this.props;
 
-    return contact.tags && getCleanedTagCollection(tags, contact.tags).map(tag => (
-      <Badge key={tag.name} rightSpaced>{getTagLabel(i18n, tag)}</Badge>
-    ));
+    return (
+      contact.tags &&
+      getCleanedTagCollection(tags, contact.tags).map((tag) => (
+        <Badge key={tag.name} rightSpaced>
+          {getTagLabel(i18n, tag)}
+        </Badge>
+      ))
+    );
   }
 
   renderClickable(props) {
@@ -166,7 +175,11 @@ class ContactItem extends PureComponent {
 
   render() {
     const {
-      contact, contactDisplayFormat: format, className, isContactSelected, selectDisabled,
+      contact,
+      contactDisplayFormat: format,
+      className,
+      isContactSelected,
+      selectDisabled,
     } = this.props;
 
     if (!contact) {
@@ -192,35 +205,40 @@ class ContactItem extends PureComponent {
               </div>
               <div className="m-contact-item__contact">
                 <TextBlock className="m-contact-item__name">
-                  {contact.name_prefix && (<span className="m-contact-item__contact-prefix">{contact.name_prefix}</span>)}
-                  <span className="m-contact-item__contact-title">{contactTitle}</span>
+                  {contact.name_prefix && (
+                    <span className="m-contact-item__contact-prefix">
+                      {contact.name_prefix}
+                    </span>
+                  )}
+                  <span className="m-contact-item__contact-title">
+                    {contactTitle}
+                  </span>
                   {contact.name_suffix && (
                     <span className="m-contact-item__contact-suffix">
-,
-                      {contact.name_suffix}
+                      ,{contact.name_suffix}
                     </span>
                   )}
                 </TextBlock>
-                <div className="m-contact-item__tags">
-                  {this.renderTags()}
-                </div>
+                <div className="m-contact-item__tags">{this.renderTags()}</div>
               </div>
             </Fragment>
           ),
         })}
         <div className="m-contact-item__info">
-          {mainAddresses.map(address => (
+          {mainAddresses.map((address) => (
             <TextBlock key={address.identifier}>
-              <Icon type={address.type} />
-              {' '}
-              {address.identifier}
+              <Icon type={address.type} /> {address.identifier}
             </TextBlock>
           ))}
         </div>
         <TextBlock className="m-contact-item__select">
           {!selectDisabled && (
             <Checkbox
-              label={<Trans id="contact-book.action.select">Select the contact</Trans>}
+              label={
+                <Trans id="contact-book.action.select">
+                  Select the contact
+                </Trans>
+              }
               showLabelforSr
               onChange={this.onCheckboxChange}
               checked={isContactSelected}

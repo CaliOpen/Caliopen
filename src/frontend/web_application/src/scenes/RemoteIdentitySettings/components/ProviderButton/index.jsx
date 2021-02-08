@@ -19,7 +19,10 @@ class ProviderButton extends PureComponent {
     const { className, children, ...props } = this.props;
 
     return (
-      <RawButton className={classnames(className, 'm-provider-button')} {...props}>
+      <RawButton
+        className={classnames(className, 'm-provider-button')}
+        {...props}
+      >
         {children}
       </RawButton>
     );

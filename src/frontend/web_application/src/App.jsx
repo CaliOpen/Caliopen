@@ -24,7 +24,8 @@ class App extends Component {
     config: {},
   };
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     if (this.props.config) {
       initConfig(this.props.config);
     }
@@ -38,7 +39,7 @@ class App extends Component {
         <Provider store={store}>
           <WithSettings
             networkDisabled
-            render={settings => (
+            render={(settings) => (
               <I18nLoader locale={settings.default_locale}>
                 <ErrorBoundary>
                   <RoutingProvider settings={settings}>

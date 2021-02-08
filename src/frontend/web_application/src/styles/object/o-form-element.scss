@@ -40,19 +40,22 @@
   appearance: none;
 }
 
-
 @mixin o-form-element-placeholder($color) {
   // ::placeholder
-  &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  &::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
     color: rgba($color, 0.8);
   }
-  &::-moz-placeholder { /* Firefox 19+ */
+  &::-moz-placeholder {
+    /* Firefox 19+ */
     color: rgba($color, 0.8);
   }
-  &:-ms-input-placeholder { /* IE 10+ */
+  &:-ms-input-placeholder {
+    /* IE 10+ */
     color: rgba($color, 0.8);
   }
-  &:-moz-placeholder { /* Firefox 18- */
+  &:-moz-placeholder {
+    /* Firefox 18- */
     color: rgba($color, 0.8);
   }
 }
@@ -60,7 +63,6 @@
 @mixin o-form-element--decorated {
   min-height: $co-component__height;
   padding: $co-component__spacing;
-
 }
 
 @mixin o-form-element--dark {
@@ -75,7 +77,9 @@
     color: $co-color__contrast__text;
   }
 
-  &:disabled { background: $co-color__contrast__back--high; }
+  &:disabled {
+    background: $co-color__contrast__back--high;
+  }
 }
 
 @mixin o-form-element--light {

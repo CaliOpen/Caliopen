@@ -6,7 +6,7 @@ const withTags = () => (WrappedComponent) => {
     render() {
       return (
         <WithTagsBase
-          render={tags => (<WrappedComponent tags={tags} {...this.props} />)}
+          render={(tags) => <WrappedComponent tags={tags} {...this.props} />}
         />
       );
     }

@@ -18,5 +18,5 @@ const getEC = () => {
 };
 
 export const generate = () => getEC().genKeyPair();
-export const getKeypair = priv => getEC().keyFromPrivate(priv, 'hex');
+export const getKeypair = (priv) => getEC().keyFromPrivate(priv, 'hex');
 export const sign = (keypair, hash) => keypair.sign(hash);

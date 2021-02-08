@@ -22,16 +22,20 @@ class DiscussionItem extends PureComponent {
       last_message_id: PropTypes.string.isRequired,
       unread_count: PropTypes.number.isRequired,
       pi: PropTypes.shape({}),
-      participants: PropTypes.arrayOf(PropTypes.shape({ protocol: PropTypes.string })),
+      participants: PropTypes.arrayOf(
+        PropTypes.shape({ protocol: PropTypes.string })
+      ),
     }).isRequired,
-    // i18n: PropTypes.shape({}).isRequired,
+    // i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     onSelectDiscussion: PropTypes.func.isRequired,
     isDiscussionSelected: PropTypes.bool.isRequired,
     // isDeleting: PropTypes.bool.isRequired,
     user: PropTypes.shape({
-      contact: PropTypes.shape({ contact_id: PropTypes.string.isRequired }).isRequired,
+      contact: PropTypes.shape({ contact_id: PropTypes.string.isRequired })
+        .isRequired,
     }).isRequired,
-    settings: PropTypes.shape({ default_locale: PropTypes.string.isRequired }).isRequired,
+    settings: PropTypes.shape({ default_locale: PropTypes.string.isRequired })
+      .isRequired,
   };
 
   static defaultProps = {
@@ -48,46 +52,68 @@ class DiscussionItem extends PureComponent {
   getParticipantsExceptUser = () => {
     const { discussion } = this.props;
 
-    const participants = discussion.participants
-      .filter(participant => !(
-        participant.contact_ids && participant.contact_ids
-          .some(contactId => contactId === this.props.user.contact.contact_id)
-      ));
+    const participants = discussion.participants.filter(
+      (participant) =>
+        !(
+          participant.contact_ids &&
+          participant.contact_ids.some(
+            (contactId) => contactId === this.props.user.contact.contact_id
+          )
+        )
+    );
 
-    return participants.length > 0 ?
-      participants : [discussion.participants[0]];
-  }
+    return participants.length > 0
+      ? participants
+      : [discussion.participants[0]];
+  };
 
   renderMessageSubject = (discussion) => {
-    const { last_message_subject: lastMessageSubject, unread_count: unreadCount } = discussion;
+    const {
+      last_message_subject: lastMessageSubject,
+      unread_count: unreadCount,
+    } = discussion;
 
     if (lastMessageSubject) {
       return (
-        <TextBlock className={classnames('s-discussion-item-content__subject', { 's-discussion-item-content__subject--unread': unreadCount > 0 })}>{lastMessageSubject}</TextBlock>
+        <TextBlock
+          className={classnames('s-discussion-item-content__subject', {
+            's-discussion-item-content__subject--unread': unreadCount > 0,
+          })}
+        >
+          {lastMessageSubject}
+        </TextBlock>
       );
     }
 
     return null;
-  }
+  };
 
   renderParticipants() {
-    const { discussion: { discussion_id: discussionId } } = this.props;
+    const {
+      discussion: { discussion_id: discussionId },
+    } = this.props;
     const participants = this.getParticipantsExceptUser();
 
-    return participants
-      .map((participant, i) => (
-        <Fragment key={`${participant.address}-${participant.type}-${participant.protocol}-${discussionId}`}>
-          {i > 0 && ', '}
-          <ParticipantLabel participant={participant} />
-        </Fragment>
-      ));
+    return participants.map((participant, i) => (
+      <Fragment
+        key={`${participant.address}-${participant.type}-${participant.protocol}-${discussionId}`}
+      >
+        {i > 0 && ', '}
+        <ParticipantLabel participant={participant} />
+      </Fragment>
+    ));
   }
 
   render() {
     const { settings, className } = this.props;
     const {
-      excerpt, discussion_id: discussionId, total_count: total, date_update: date,
-      last_message_id: lastMessageId, unread_count: unreadCount, pi,
+      excerpt,
+      discussion_id: discussionId,
+      total_count: total,
+      date_update: date,
+      last_message_id: lastMessageId,
+      unread_count: unreadCount,
+      pi,
     } = this.props.discussion;
 
     // XXX: discussion does not support pi_message yet
@@ -111,18 +137,35 @@ class DiscussionItem extends PureComponent {
         )}
       >
         <div className="s-discussion-item__col-avatar">
-          <ParticipantsIconLetter labels={participants.map(participant => participant.label)} />
+          <ParticipantsIconLetter
+            labels={participants.map((participant) => participant.label)}
+          />
         </div>
         <div className="s-discussion-item__col-content">
-          <Link to={`/discussions/${discussionId}#${lastMessageId}`} noDecoration className="s-discussion-item-content">
-            <TextBlock className="s-discussion-item-content__participants">{this.renderParticipants()}</TextBlock>
+          <Link
+            to={`/discussions/${discussionId}#${lastMessageId}`}
+            noDecoration
+            className="s-discussion-item-content"
+          >
+            <TextBlock className="s-discussion-item-content__participants">
+              {this.renderParticipants()}
+            </TextBlock>
             {this.renderMessageSubject(this.props.discussion)}
             <TextBlock className="s-discussion-item-content__excerpt">
               {excerpt}
             </TextBlock>
-            <span className="s-discussion-item-content__protocol"><Icon type={iconProtocol} /></span>
+            <span className="s-discussion-item-content__protocol">
+              <Icon type={iconProtocol} />
+            </span>
             <TextBlock className="s-discussion-item-content__date">
-              <Moment fromNow locale={settings.default_locale} titleFormat="LLLL" withTitle>{date}</Moment>
+              <Moment
+                fromNow
+                locale={settings.default_locale}
+                titleFormat="LLLL"
+                withTitle
+              >
+                {date}
+              </Moment>
             </TextBlock>
           </Link>
         </div>

@@ -1,7 +1,7 @@
 import React, { createRef } from 'react';
 import { shallow, mount } from 'enzyme';
-import Dropdown, { withDropdownControl } from './';
-import { Button } from '../';
+import Dropdown, { withDropdownControl } from '.';
+import { Button } from '..';
 
 const DropdownControl = withDropdownControl(Button);
 
@@ -13,17 +13,16 @@ describe('component DropdownControl > id', () => {
       <DropdownControl ref={controlRef}>bar</DropdownControl>
     );
 
-    expect(comp.matchesElement(<Button ref={controlRef}>bar</Button>)).toEqual(true);
+    expect(comp.matchesElement(<Button ref={controlRef}>bar</Button>)).toEqual(
+      true
+    );
   });
 });
-
 
 describe('component Dropdown', () => {
   xit('should be open', () => {
     // when prop 'show' is true, dropdown should be open
-    const comp = shallow(
-      <Dropdown show>bar</Dropdown>
-    );
+    const comp = shallow(<Dropdown show>bar</Dropdown>);
 
     expect(comp.state().isOpen).toEqual(true);
   });
@@ -31,9 +30,7 @@ describe('component Dropdown', () => {
   xit('should have no offset', () => {
     // when dropdown is open and there's no dropdownControl,
     // offset should always be null
-    const comp = shallow(
-      <Dropdown show>bar</Dropdown>
-    );
+    const comp = shallow(<Dropdown show>bar</Dropdown>);
 
     const passForwardRef = comp.find('Dropdown').dive().render();
 

@@ -13,12 +13,13 @@ export const withReplace = () => (C) => {
 
     render() {
       const {
-        history: { replace }, match, location, ...props
+        history: { replace },
+        match,
+        location,
+        ...props
       } = this.props;
 
-      return (
-        <C replace={replace} {...props} />
-      );
+      return <C replace={replace} {...props} />;
     }
   }
 

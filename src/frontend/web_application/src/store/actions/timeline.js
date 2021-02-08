@@ -1,6 +1,10 @@
 import {
-  TIMELINE_FILTER_ALL, TIMELINE_FILTER_RECEIVED, TIMELINE_FILTER_SENT, TIMELINE_FILTER_DRAFT,
-  setTimelineFilter, requestMessages,
+  TIMELINE_FILTER_ALL,
+  TIMELINE_FILTER_RECEIVED,
+  TIMELINE_FILTER_SENT,
+  TIMELINE_FILTER_DRAFT,
+  setTimelineFilter,
+  requestMessages,
 } from '../modules/message';
 
 const getQuery = (type) => {
@@ -17,7 +21,7 @@ const getQuery = (type) => {
   }
 };
 
-export const filterTimeline = type => (dispatch) => {
+export const filterTimeline = (type) => (dispatch) => {
   dispatch(setTimelineFilter(type));
 
   return dispatch(requestMessages('timeline', type, getQuery(type)));

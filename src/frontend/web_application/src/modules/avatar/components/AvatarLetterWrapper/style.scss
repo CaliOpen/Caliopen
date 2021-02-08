@@ -18,11 +18,20 @@
 
   @include m-avatar--size(medium);
 
-  &--small  { @include m-avatar--size(small);  }
-  &--medium { @include m-avatar--size(medium); }
-  &--large  { @include m-avatar--size(large);  }
-  &--xlarge { @include m-avatar--size(xlarge); }
+  &--small {
+    @include m-avatar--size(small);
+  }
+  &--medium {
+    @include m-avatar--size(medium);
+  }
+  &--large {
+    @include m-avatar--size(large);
+  }
+  &--xlarge {
+    @include m-avatar--size(xlarge);
+  }
 
-  &--round  { border-radius: 50%}
-
+  &--round {
+    border-radius: 50%;
+  }
 }

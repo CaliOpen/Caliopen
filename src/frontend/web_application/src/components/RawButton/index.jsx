@@ -14,14 +14,18 @@ class RawButton extends PureComponent {
   };
 
   render() {
-    const {
-      children, type, innerRef, ...buttonProps
-    } = this.props;
+    const { children, type, innerRef, ...buttonProps } = this.props;
 
     // this rules does not understand vars (2019-04-05)
-    // eslint-disable-next-line react/button-has-type
-    return (<button type={type} {...buttonProps} ref={innerRef}>{children}</button>);
+    return (
+      // eslint-disable-next-line react/button-has-type
+      <button type={type} {...buttonProps} ref={innerRef}>
+        {children}
+      </button>
+    );
   }
 }
 
-export default forwardRef((props, ref) => (<RawButton {...props} innerRef={ref} />));
+export default forwardRef((props, ref) => (
+  <RawButton {...props} innerRef={ref} />
+));

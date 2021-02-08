@@ -5,7 +5,9 @@ import './styles.scss';
 
 const ActionBarWrapper = ({ isSticky, className, ...props }) => (
   <div
-    className={classnames(className, 'm-action-bar-wrapper', { 'm-action-bar-wrapper--sticky': isSticky })}
+    className={classnames(className, 'm-action-bar-wrapper', {
+      'm-action-bar-wrapper--sticky': isSticky,
+    })}
     {...props}
   />
 );

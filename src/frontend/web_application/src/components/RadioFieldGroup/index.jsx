@@ -7,7 +7,10 @@ import FieldGroup from '../FieldGroup';
 
 import './style.scss';
 
-const alphaNumPropType = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
+const alphaNumPropType = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.number,
+]);
 
 class RadioFieldGroup extends PureComponent {
   static propTypes = {
@@ -25,7 +28,7 @@ class RadioFieldGroup extends PureComponent {
     options: [],
     errors: [],
     className: undefined,
-  }
+  };
 
   renderOption = (option, key) => {
     const id = uuidV1();
@@ -41,18 +44,22 @@ class RadioFieldGroup extends PureComponent {
           checked={value === option.value}
           value={option.value}
           onChange={onChange}
-        />
-        {' '}
-        <Label className="m-radio-field-group__label" htmlFor={id}>{option.label}</Label>
+        />{' '}
+        <Label className="m-radio-field-group__label" htmlFor={id}>
+          {option.label}
+        </Label>
       </div>
     );
-  }
+  };
 
   render() {
     const { options, errors, className } = this.props;
 
     return (
-      <FieldGroup errors={errors} className={classnames('m-radio-field-group', className)}>
+      <FieldGroup
+        errors={errors}
+        className={classnames('m-radio-field-group', className)}
+      >
         {options.length > 0 && options.map(this.renderOption)}
       </FieldGroup>
     );

@@ -13,12 +13,13 @@ export const withRouteParams = () => (C) => {
 
     render() {
       const {
-        history, match: { params }, location, ...props
+        history,
+        match: { params },
+        location,
+        ...props
       } = this.props;
 
-      return (
-        <C routeParams={params} {...props} />
-      );
+      return <C routeParams={params} {...props} />;
     }
   }
 

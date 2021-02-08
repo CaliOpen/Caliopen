@@ -7,14 +7,19 @@ import { settingsStateSelector } from '../../../../store/selectors/settings';
 
 const mapStateToProps = createSelector(
   [settingsStateSelector],
-  ({
-    settings, isFetching, isInvalidated, didLostAuth,
-  }) => ({
-    settings, isFetching, isInvalidated, didLostAuth,
+  ({ settings, isFetching, isInvalidated, didLostAuth }) => ({
+    settings,
+    isFetching,
+    isInvalidated,
+    didLostAuth,
   })
 );
-const mapDispatchToProps = dispatch => bindActionCreators({
-  requestSettings,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      requestSettings,
+    },
+    dispatch
+  );
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(Presenter);

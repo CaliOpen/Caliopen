@@ -21,25 +21,36 @@ class TextareaFieldGroup extends PureComponent {
   static defaultProps = {
     showLabelForSR: false,
     errors: [],
-    onChange: str => str,
+    onChange: (str) => str,
     className: undefined,
     inputProps: {},
   };
 
   render() {
     const {
-      label, errors, onChange, className, inputProps, showLabelForSR,
+      label,
+      errors,
+      onChange,
+      className,
+      inputProps,
+      showLabelForSR,
     } = this.props;
     const id = uuidV1();
 
     return (
-      <FieldGroup className={classnames('m-textarea-field-group', className)} errors={errors}>
-        <Label htmlFor={id} className={classnames('m-textarea-field-group__label', { 'sr-only': showLabelForSR })}>{label}</Label>
-        <Textarea
-          id={id}
-          onChange={onChange}
-          {...inputProps}
-        />
+      <FieldGroup
+        className={classnames('m-textarea-field-group', className)}
+        errors={errors}
+      >
+        <Label
+          htmlFor={id}
+          className={classnames('m-textarea-field-group__label', {
+            'sr-only': showLabelForSR,
+          })}
+        >
+          {label}
+        </Label>
+        <Textarea id={id} onChange={onChange} {...inputProps} />
       </FieldGroup>
     );
   }

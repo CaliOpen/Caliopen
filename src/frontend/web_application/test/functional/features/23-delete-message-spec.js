@@ -13,7 +13,8 @@ describe('Delete message', () => {
     await home();
   });
 
-  const clickBtnInModal = btnText => element(by.cssContainingText('.m-modal button', btnText)).click();
+  const clickBtnInModal = (btnText) =>
+    element(by.cssContainingText('.m-modal button', btnText)).click();
 
   it('Delete message one by one', async () => {
     const discussion1Selector = by.cssContainingText(
@@ -24,9 +25,13 @@ describe('Delete message', () => {
     const message2ToDel = 'last message to remove individually';
     const deleteAMessage = async (messageText) => {
       const messageElem = element(by.cssContainingText('article', messageText));
-      await messageElem.element(by.cssContainingText('.m-message-action-container__action', 'Delete')).click();
+      await messageElem
+        .element(
+          by.cssContainingText('.m-message-action-container__action', 'Delete')
+        )
+        .click();
 
-      return clickBtnInModal('Yes I\'m sure');
+      return clickBtnInModal("Yes I'm sure");
     };
 
     // await filter('All');
@@ -35,7 +40,9 @@ describe('Delete message', () => {
     await browser.wait(EC.presenceOf($('article')), 5 * 1000);
     await deleteAMessage(message1ToDel);
     await browser.wait(EC.presenceOf($('article')), 5 * 1000);
-    expect(element(by.cssContainingText('article', message1ToDel)).isPresent()).toBe(false);
+    expect(
+      element(by.cssContainingText('article', message1ToDel)).isPresent()
+    ).toBe(false);
     await deleteAMessage(message2ToDel);
     await browser.wait(EC.presenceOf($('.s-timeline')), 5 * 1000);
   });
@@ -47,12 +54,17 @@ describe('Delete message', () => {
     );
 
     // await filter('All');
-    await browser.wait(EC.presenceOf($('.s-timeline .s-discussion-item')), 5 * 1000);
+    await browser.wait(
+      EC.presenceOf($('.s-timeline .s-discussion-item')),
+      5 * 1000
+    );
     await element(discussionSelector).click();
     await browser.wait(EC.presenceOf($('.m-message-list__action')), 5 * 1000);
     await browser.executeScript('window.scrollTo(0,0);');
-    await element(by.cssContainingText('.m-message-list__action', 'Delete')).click();
-    await clickBtnInModal('Yes I\'m sure');
+    await element(
+      by.cssContainingText('.m-message-list__action', 'Delete')
+    ).click();
+    await clickBtnInModal("Yes I'm sure");
     await browser.wait(EC.presenceOf($('.s-timeline')), 5 * 1000);
   });
 });

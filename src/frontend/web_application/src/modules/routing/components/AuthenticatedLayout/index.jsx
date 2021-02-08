@@ -23,7 +23,8 @@ class AuthenticatedLayout extends Component {
   };
 
   state = {
-    initialized: !!this.props.user && !!this.props.settings && !this.props.isFetching,
+    initialized:
+      !!this.props.user && !!this.props.settings && !this.props.isFetching,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -38,21 +39,21 @@ class AuthenticatedLayout extends Component {
 
   render() {
     const {
-      user, settings, children, location: { pathname }, didLostAuth,
+      user,
+      settings,
+      children,
+      location: { pathname },
+      didLostAuth,
     } = this.props;
 
     const redirectRequired = !isAuthenticated();
 
     if (redirectRequired && pathname === '/') {
-      return (
-        <Redirect push to="/about" />
-      );
+      return <Redirect push to="/about" />;
     }
 
     if (didLostAuth || redirectRequired) {
-      return (
-        <Redirect push to={`/auth/signin?redirect=${pathname}`} />
-      );
+      return <Redirect push to={`/auth/signin?redirect=${pathname}`} />;
     }
 
     const appLoadProps = {
@@ -62,7 +63,7 @@ class AuthenticatedLayout extends Component {
       children,
     };
 
-    return (<AppLoader {...appLoadProps} />);
+    return <AppLoader {...appLoadProps} />;
   }
 }
 

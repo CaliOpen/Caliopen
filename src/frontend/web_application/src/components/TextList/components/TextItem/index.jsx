@@ -11,9 +11,7 @@ const TextItem = ({ className, large, ...props }) => {
     className
   );
 
-  return (
-    <li className={itemClassName} {...props} />
-  );
+  return <li className={itemClassName} {...props} />;
 };
 
 TextItem.propTypes = {

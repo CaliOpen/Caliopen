@@ -10,23 +10,20 @@ import ItemButton from '../ItemButton';
 
 class SearchTab extends Tab {
   render() {
-    const {
-      className,
-      isActive,
-      tab,
-      routeConfig,
-    } = this.props;
+    const { className, isActive, tab, routeConfig } = this.props;
 
     const searchParams = new URLSearchParams(tab.location.search);
 
-    const label = routeConfig.tab.renderLabel({ term: searchParams.get('term') });
+    const label = routeConfig.tab.renderLabel({
+      term: searchParams.get('term'),
+    });
 
     return (
       <NavbarItem
         className={classnames('m-tab', className)}
         active={isActive}
         color="secondary"
-        contentChildren={(
+        contentChildren={
           <ItemLink
             to={getTabUrl(tab.location)}
             title={label}
@@ -35,8 +32,14 @@ class SearchTab extends Tab {
             <Icon className="m-tab__icon" type={routeConfig.tab.icon} />
             {label}
           </ItemLink>
-        )}
-        actionChildren={<ItemButton onClick={this.handleRemove} icon="remove" className="m-tab__action" />}
+        }
+        actionChildren={
+          <ItemButton
+            onClick={this.handleRemove}
+            icon="remove"
+            className="m-tab__action"
+          />
+        }
       />
     );
   }

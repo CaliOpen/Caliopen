@@ -13,7 +13,8 @@
     @include flex-grid-size(expand);
   }
 
-  &__user-menu, &__take-a-tour {
+  &__user-menu,
+  &__take-a-tour {
     @include flex-grid-size(shrink);
   }
 
@@ -21,7 +22,7 @@
     display: inline-block;
     vertical-align: middle;
     height: 29px;
-    margin-left: .25rem;
+    margin-left: 0.25rem;
 
     @include breakpoint(medium) {
       margin-left: 0;

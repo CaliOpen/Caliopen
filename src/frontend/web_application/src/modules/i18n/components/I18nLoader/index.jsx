@@ -20,19 +20,21 @@ class I18nLoader extends Component {
     const catalog = require(`../../../../../locale/${language}/messages.js`);
 
     return catalog;
-  }
+  };
 
   static getCatalog = async (language) => {
-    const catalog = await import(/* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */`../../../../../locale/${language}/messages.js`);
+    const catalog = await import(
+      /* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */ `../../../../../locale/${language}/messages.js`
+    );
 
     return catalog;
-  }
+  };
 
   state = {
     catalogs: {},
-  }
+  };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const language = this.getLanguageFromProps(this.props);
     const catalog = this.constructor.getCatalogSync(language);
 
@@ -53,7 +55,10 @@ class I18nLoader extends Component {
     const language = this.getLanguageFromProps(nextProps);
     const { catalogs } = nextState;
 
-    if (language !== this.getLanguageFromProps(this.props) && !catalogs[language]) {
+    if (
+      language !== this.getLanguageFromProps(this.props) &&
+      !catalogs[language]
+    ) {
       this.updateCatalog(language);
 
       return false;
@@ -62,18 +67,18 @@ class I18nLoader extends Component {
     return true;
   }
 
-  getLanguageFromProps = props => getLanguage(getBestLocale([props.locale]));
+  getLanguageFromProps = (props) => getLanguage(getBestLocale([props.locale]));
 
   updateCatalog = async (language) => {
     const catalog = await this.constructor.getCatalog(language);
 
-    this.setState(state => ({
+    this.setState((state) => ({
       catalogs: {
         ...state.catalogs,
         [language]: catalog,
       },
     }));
-  }
+  };
 
   render() {
     const { children } = this.props;

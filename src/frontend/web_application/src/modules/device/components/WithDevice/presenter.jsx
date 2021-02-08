@@ -18,7 +18,7 @@ class WithDevice extends Component {
     this.initialize();
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     this.initialize();
   }
 
@@ -37,13 +37,13 @@ class WithDevice extends Component {
     const keypair = getKeypair(priv);
     const clientDevice = getPublicDevice({ id, keypair });
     await this.setState({ clientDevice, initialized: true });
-  }
+  };
 
   requestDevice = () => {
     const { requestDevice } = this.props;
 
     return requestDevice({ deviceId: this.state.clientDevice.device_id });
-  }
+  };
 
   render() {
     const { render } = this.props;

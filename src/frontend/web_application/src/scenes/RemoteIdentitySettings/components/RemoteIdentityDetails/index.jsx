@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Trans } from '@lingui/macro'; // eslint-disable-line import/no-extraneous-dependencies
+import { Trans } from '@lingui/react';
 import {
-  Callout, CheckboxFieldGroup, FormGrid, FormRow, FormColumn,
+  Callout,
+  CheckboxFieldGroup,
+  FormGrid,
+  FormRow,
+  FormColumn,
 } from '../../../../components';
 import LastConnection from '../LastConnection';
 import Status from '../Status';
@@ -29,12 +33,10 @@ class RemoteIdentityDetails extends Component {
     const { checked } = event.target;
 
     this.props.onToggleActivate(checked);
-  }
+  };
 
   render() {
-    const {
-      className, remoteIdentity, active, errors,
-    } = this.props;
+    const { className, remoteIdentity, active, errors } = this.props;
 
     if (!remoteIdentity.identity_id) {
       return null;
@@ -44,16 +46,21 @@ class RemoteIdentityDetails extends Component {
       <FormGrid className={classnames(className)}>
         <FormRow>
           <FormColumn bottomSpace>
-            <Trans id="remote_identity.last_connection">
-              Last connection:
-              <LastConnection lastCheck={remoteIdentity.last_check} />
-            </Trans>
+            <Trans
+              id="remote_identity.last_connection"
+              defaults="Last connection: <0/>"
+              components={[
+                <LastConnection lastCheck={remoteIdentity.last_check} />,
+              ]}
+            />
           </FormColumn>
         </FormRow>
         {remoteIdentity.infos.lastFetchError && (
           <FormRow>
             <FormColumn bottomSpace>
-              <Callout color="alert">{remoteIdentity.infos.lastFetchError}</Callout>
+              <Callout color="alert">
+                {remoteIdentity.infos.lastFetchError}
+              </Callout>
             </FormColumn>
           </FormRow>
         )}

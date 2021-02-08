@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import './style.scss';
 
-export const Separator = () => (
-  <li className="m-vertical-menu__separator" />
-);
+export const Separator = () => <li className="m-vertical-menu__separator" />;
 
 export const VerticalMenuItem = ({ children, className, ...props }) => {
   const itemProps = {
@@ -13,9 +11,7 @@ export const VerticalMenuItem = ({ children, className, ...props }) => {
     className: classnames('m-vertical-menu__item', className),
   };
 
-  return (
-    <li {...itemProps}>{children}</li>
-  );
+  return <li {...itemProps}>{children}</li>;
 };
 
 VerticalMenuItem.propTypes = {
@@ -26,7 +22,7 @@ VerticalMenuItem.defaultProps = {
   className: undefined,
 };
 
-export const VerticalMenuTextItem = props => (
+export const VerticalMenuTextItem = (props) => (
   <VerticalMenuItem {...props} className="m-vertical-menu__item-content" />
 );
 
@@ -41,6 +37,5 @@ VerticalMenu.propTypes = {
 VerticalMenu.defaultProps = {
   className: undefined,
 };
-
 
 export default VerticalMenu;

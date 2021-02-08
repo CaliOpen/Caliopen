@@ -9,13 +9,15 @@ class MenuBar extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,
-    navLinks: PropTypes.arrayOf(PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      label: PropTypes.node.isRequired,
-      title: PropTypes.string,
-      isActive: PropTypes.bool,
-      to: PropTypes.string.isRequired,
-    })),
+    navLinks: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        label: PropTypes.node.isRequired,
+        title: PropTypes.string,
+        isActive: PropTypes.bool,
+        to: PropTypes.string.isRequired,
+      })
+    ),
   };
 
   static defaultProps = {
@@ -26,23 +28,27 @@ class MenuBar extends PureComponent {
 
   render() {
     const { className, navLinks, children } = this.props;
-    const menuBarClassName = classnames(
-      'm-menu-bar',
-      className,
-    );
+    const menuBarClassName = classnames('m-menu-bar', className);
 
     return (
       <div className={menuBarClassName}>
         {navLinks && (
           <NavList className="m-menu-bar__navlist">
-            {navLinks.map(link => (
+            {navLinks.map((link) => (
               <NavItem active={link.isActive} large key={link.key}>
-                <Link display="button" noDecoration title={link.title} to={link.to}>{link.label}</Link>
+                <Link
+                  display="button"
+                  noDecoration
+                  title={link.title}
+                  to={link.to}
+                >
+                  {link.label}
+                </Link>
               </NavItem>
             ))}
           </NavList>
         )}
-        { !navLinks && children }
+        {!navLinks && children}
       </div>
     );
   }

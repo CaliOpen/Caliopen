@@ -7,14 +7,19 @@ import { userStateSelector } from '../../selectors/userStateSelector';
 
 const mapStateToProps = createSelector(
   [userStateSelector],
-  ({
-    user, isFetching, didInvalidate, didLostAuth,
-  }) => ({
-    user, isFetching, didInvalidate, didLostAuth,
+  ({ user, isFetching, didInvalidate, didLostAuth }) => ({
+    user,
+    isFetching,
+    didInvalidate,
+    didLostAuth,
   })
 );
-const mapDispatchToProps = dispatch => bindActionCreators({
-  getUser,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      getUser,
+    },
+    dispatch
+  );
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(Presenter);

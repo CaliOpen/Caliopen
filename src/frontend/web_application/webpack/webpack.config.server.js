@@ -22,15 +22,28 @@ const base = {
   },
   externals: [
     (context, request, callback) => {
-      if ([
-        'body-parser', 'cookie-parser', 'debug', 'express', 'express-http-proxy', 'iron', 'locale',
-        'serve-favicon', 'config/server.defaults.js', 'argv', 'winston', 'winston-syslog',
-        'lingui-react', 'lingui-i18n',
-      ].some(module => module === request)) {
+      if (
+        [
+          'body-parser',
+          'cookie-parser',
+          'debug',
+          'express',
+          'express-http-proxy',
+          'iron',
+          'locale',
+          'serve-favicon',
+          'config/server.defaults.js',
+          'argv',
+          'winston',
+          'winston-syslog',
+          'lingui-react',
+          'lingui-i18n',
+        ].some((module) => module === request)
+      ) {
         return callback(null, `commonjs ${request}`);
       }
 
-      if (['locale/.*'].some(module => (new RegExp(module)).test(request))) {
+      if (['locale/.*'].some((module) => new RegExp(module).test(request))) {
         return callback(null, `commonjs ${request}`);
       }
 
@@ -50,9 +63,7 @@ const base = {
         include: path.join(__dirname, '../server/'),
         loader: 'babel-loader',
         options: {
-          plugins: [
-            '@babel/plugin-proposal-object-rest-spread',
-          ],
+          plugins: ['@babel/plugin-proposal-object-rest-spread'],
         },
       },
       {
@@ -61,12 +72,8 @@ const base = {
         include: path.join(__dirname, '../server/'),
         loader: 'babel-loader',
         options: {
-          presets: [
-            '@babel/preset-react',
-          ],
-          plugins: [
-            '@babel/plugin-proposal-object-rest-spread',
-          ],
+          presets: ['@babel/preset-react'],
+          plugins: ['@babel/plugin-proposal-object-rest-spread'],
         },
       },
       { test: /\.html$/, loader: 'raw-loader' },
@@ -87,7 +94,8 @@ const base = {
 const config = webpackMerge(
   common,
   configs.configureEnv('server'),
-  configs.configureSrcBabelLoader({ isNode: true }),
+  // configs.configureSrcBabelLoader({ isNode: true }),
+  configs.configureSrcTsLoader({ isNode: true }),
   configs.configureAssets(),
   base
 );

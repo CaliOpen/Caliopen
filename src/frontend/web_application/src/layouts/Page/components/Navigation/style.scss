@@ -5,7 +5,7 @@
 
   &::after {
     display: block;
-    content: " ";
+    content: ' ';
     position: relative;
     top: $pi-border__size * -1;
     z-index: 1;
@@ -21,7 +21,7 @@
     }
   }
   &__compose-btn {
-    padding: 0 .5rem;
+    padding: 0 0.5rem;
     color: white;
   }
 }

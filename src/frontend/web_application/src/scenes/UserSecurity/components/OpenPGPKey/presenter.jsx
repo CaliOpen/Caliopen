@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Trans, withI18n } from '@lingui/react';
 import Moment from 'react-moment';
-import {
-  Button, Spinner, Icon, Link,
-} from '../../../../components';
+import { Button, Spinner, Icon, Link } from '../../../../components';
 import getPGPManager from '../../../../services/openpgp-manager';
 import { strToBase64 } from '../../../../services/encode-utils';
 
@@ -12,8 +10,14 @@ import './style.scss';
 
 async function generateStateFromProps({ props, getKeyFromASCII, keyStatuses }) {
   const publicKey = await getKeyFromASCII(props.publicKeyArmored);
-  const { primaryKey: { created, algorithm } } = publicKey;
-  const { user: { userId: { userid: userId } } } = await publicKey.getPrimaryUser();
+  const {
+    primaryKey: { created, algorithm },
+  } = publicKey;
+  const {
+    user: {
+      userId: { userid: userId },
+    },
+  } = await publicKey.getPrimaryUser();
   const { expirationTime } = await publicKey.getExpirationTime();
   const { bits: bitSize } = await publicKey.primaryKey.getAlgorithmInfo();
 
@@ -26,9 +30,11 @@ async function generateStateFromProps({ props, getKeyFromASCII, keyStatuses }) {
       userId,
       expirationTime,
       bitSize,
-      userIds: publicKey.users.map(user => user.userId.userid),
-      keyStatus: Object.keys(keyStatuses)
-        .find(statusLiteral => keyStatuses[statusLiteral] === publicKey.verifyPrimaryKey()),
+      userIds: publicKey.users.map((user) => user.userId.userid),
+      keyStatus: Object.keys(keyStatuses).find(
+        (statusLiteral) =>
+          keyStatuses[statusLiteral] === publicKey.verifyPrimaryKey()
+      ),
     },
   };
 }
@@ -36,7 +42,7 @@ async function generateStateFromProps({ props, getKeyFromASCII, keyStatuses }) {
 @withI18n()
 class OpenPGPKey extends Component {
   static propTypes = {
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     locale: PropTypes.string,
     children: PropTypes.node,
     privateKeyArmored: PropTypes.string,
@@ -49,7 +55,9 @@ class OpenPGPKey extends Component {
     children: undefined,
     privateKeyArmored: undefined,
     editMode: false,
-    onDeleteKey: () => {},
+    onDeleteKey: () => {
+      // noop
+    },
   };
 
   constructor(props) {
@@ -57,8 +65,7 @@ class OpenPGPKey extends Component {
     this.state = {
       showDetails: false,
       isLoading: true,
-      openpgpKey: {
-      },
+      openpgpKey: {},
     };
 
     this.toggleDetails = this.toggleDetails.bind(this);
@@ -66,45 +73,66 @@ class OpenPGPKey extends Component {
   }
 
   componentDidMount() {
-    getPGPManager()
-      .then(async ({ getKeyFromASCII, module: { enums: { keyStatus: keyStatuses } } }) => (
-        this.setState(await generateStateFromProps({
-          props: this.props, getKeyFromASCII, keyStatuses,
-        }))
-      ));
+    getPGPManager().then(
+      async ({
+        getKeyFromASCII,
+        module: {
+          enums: { keyStatus: keyStatuses },
+        },
+      }) =>
+        this.setState(
+          await generateStateFromProps({
+            props: this.props,
+            getKeyFromASCII,
+            keyStatuses,
+          })
+        )
+    );
   }
 
-  componentWillReceiveProps(newProps) {
-    getPGPManager()
-      .then(async ({ getKeyFromASCII, module: { enums: { keyStatus: keyStatuses } } }) => (
-        this.setState(await generateStateFromProps({
-          props: newProps, getKeyFromASCII, keyStatuses,
-        }))
-      ));
+  UNSAFE_componentWillReceiveProps(newProps) {
+    getPGPManager().then(
+      async ({
+        getKeyFromASCII,
+        module: {
+          enums: { keyStatus: keyStatuses },
+        },
+      }) =>
+        this.setState(
+          await generateStateFromProps({
+            props: newProps,
+            getKeyFromASCII,
+            keyStatuses,
+          })
+        )
+    );
   }
 
-  getPrivateKeyDataUrl = () => `data:application/x-pgp;base64,${strToBase64(this.props.privateKeyArmored)}`;
+  getPrivateKeyDataUrl = () =>
+    `data:application/x-pgp;base64,${strToBase64(
+      this.props.privateKeyArmored
+    )}`;
 
   handleDeleteKey() {
     this.props.onDeleteKey({ fingerprint: this.state.openpgpKey.fingerprint });
   }
 
   toggleDetails() {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       showDetails: !prevState.showDetails,
     }));
   }
 
   render() {
-    const {
-      i18n, locale, children, editMode,
-    } = this.props;
+    const { i18n, locale, children, editMode } = this.props;
     const openpgpStatuses = {
       invalid: i18n._('openpgp.status.invalid', null, { defaults: 'Invalid' }),
       expired: i18n._('openpgp.status.expired', null, { defaults: 'Expired' }),
       revoked: i18n._('openpgp.status.revoked', null, { defaults: 'Revoked' }),
       valid: i18n._('openpgp.status.valid', null, { defaults: 'Valid' }),
-      no_self_cert: i18n._('openpgp.status.no_self_cert', null, { defaults: 'No self cert' }),
+      no_self_cert: i18n._('openpgp.status.no_self_cert', null, {
+        defaults: 'No self cert',
+      }),
     };
 
     return (
@@ -112,7 +140,10 @@ class OpenPGPKey extends Component {
         <div className="m-openpgp-key__main">
           <Spinner isLoading={this.state.isLoading} />
           <div className="m-openpgp-key__icon">{children}</div>
-          <div className="m-openpgp-key__fingerprint">{this.state.openpgpKey.fingerprint && this.state.openpgpKey.fingerprint.toUpperCase()}</div>
+          <div className="m-openpgp-key__fingerprint">
+            {this.state.openpgpKey.fingerprint &&
+              this.state.openpgpKey.fingerprint.toUpperCase()}
+          </div>
 
           <div className="m-openpgp-key__actions">
             <Link
@@ -121,14 +152,18 @@ class OpenPGPKey extends Component {
               href={this.getPrivateKeyDataUrl()}
               download="private-key.asc"
             >
-              <Trans id="openpgp-key.download">Save and keep in a safe place.</Trans>
+              <Trans id="openpgp-key.download">
+                Save and keep in a safe place.
+              </Trans>
               {' '}
               <Icon type="download" />
             </Link>
             {editMode && (
               <Button color="alert" onClick={this.handleDeleteKey}>
                 <Icon type="remove" />
-                <span className="show-for-sr"><Trans id="openpgp.action.remove-key">Remove</Trans></span>
+                <span className="show-for-sr">
+                  <Trans id="openpgp.action.remove-key">Remove</Trans>
+                </span>
               </Button>
             )}
           </div>
@@ -139,20 +174,23 @@ class OpenPGPKey extends Component {
             <span>{this.state.openpgpKey.userId}</span>
             {' '}
             {this.state.openpgpKey.created && (
-              <Moment format="ll" locale={locale}>{this.state.openpgpKey.created}</Moment>
+              <Moment format="ll" locale={locale}>
+                {this.state.openpgpKey.created}
+              </Moment>
             )}
             {' '}
-            {this.state.openpgpKey.expirationTime
-                && this.state.openpgpKey.expirationTime.length
-                && (
-                  <span>
-                    {'/ '}
-                    <Moment format="LL" locale={locale}>{this.state.openpgpKey.expirationTime}</Moment>
-                  </span>
-                )
-            }
+            {this.state.openpgpKey.expirationTime &&
+              this.state.openpgpKey.expirationTime.length && (
+                <span>
+                  {'/ '}
+                  <Moment format="LL" locale={locale}>
+                    {this.state.openpgpKey.expirationTime}
+                  </Moment>
+                </span>
+              )}
             {' '}
-            {this.state.openpgpKey.keyStatus && openpgpStatuses[this.state.openpgpKey.keyStatus]}
+            {this.state.openpgpKey.keyStatus &&
+              openpgpStatuses[this.state.openpgpKey.keyStatus]}
           </div>
         )}
       </div>

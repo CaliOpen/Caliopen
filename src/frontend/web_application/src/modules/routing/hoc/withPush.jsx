@@ -13,12 +13,13 @@ export const withPush = () => (C) => {
 
     render() {
       const {
-        history: { push }, match, location, ...props
+        history: { push },
+        match,
+        location,
+        ...props
       } = this.props;
 
-      return (
-        <C push={push} {...props} />
-      );
+      return <C push={push} {...props} />;
     }
   }
 

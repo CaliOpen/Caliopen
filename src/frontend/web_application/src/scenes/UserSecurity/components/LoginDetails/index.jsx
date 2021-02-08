@@ -8,7 +8,7 @@ import './style.scss';
 @withI18n()
 class LoginDetails extends Component {
   static propTypes = {
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     user: PropTypes.shape({}).isRequired,
   };
 
@@ -25,7 +25,9 @@ class LoginDetails extends Component {
 
     return (
       <div className="m-login-details">
-        <TextBlock className="m-login-details__title"><Trans id="login.details.title">Login:</Trans></TextBlock>
+        <TextBlock className="m-login-details__title">
+          <Trans id="login.details.title">Login:</Trans>
+        </TextBlock>
         <TextFieldGroup
           className="m-login-details__input"
           value={user && user.name}

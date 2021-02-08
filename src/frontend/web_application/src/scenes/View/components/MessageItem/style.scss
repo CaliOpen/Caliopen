@@ -86,7 +86,9 @@ $s-message-item__pi-width: 7px;
     color: $co-color__fg__text--higher;
     font-weight: 400;
 
-    &--draft { font-style: italic; }
+    &--draft {
+      font-style: italic;
+    }
   }
 
   &__participants {
@@ -100,7 +102,9 @@ $s-message-item__pi-width: 7px;
     margin-right: $co-component__spacing;
   }
 
-  &__subject { color: $co-color__fg__text--low; }
+  &__subject {
+    color: $co-color__fg__text--low;
+  }
   &__file {
     @include flex-grid-column(shrink);
   }

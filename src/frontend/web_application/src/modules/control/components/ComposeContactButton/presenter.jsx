@@ -17,14 +17,21 @@ class ComposeContactButton extends PureComponent {
     this.props.notify({
       message: 'Compose to contact is not yet implemented.',
     });
-  }
+  };
 
   render() {
     const { className } = this.props;
 
     return (
-      <Button shape="plain" onClick={this.handleEventAction} icon="comment-o" className={className}>
-        <Trans id="call-to-action.action.compose_contact">Compose to this contact</Trans>
+      <Button
+        shape="plain"
+        onClick={this.handleEventAction}
+        icon="comment-o"
+        className={className}
+      >
+        <Trans id="call-to-action.action.compose_contact">
+          Compose to this contact
+        </Trans>
       </Button>
     );
   }

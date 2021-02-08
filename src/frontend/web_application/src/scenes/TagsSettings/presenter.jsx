@@ -15,11 +15,10 @@ class TagsSettings extends Component {
     createTag: PropTypes.func.isRequired,
     updateTag: PropTypes.func.isRequired,
     deleteTag: PropTypes.func.isRequired,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
-  static defaultProps = {
-  };
+  static defaultProps = {};
 
   state = {
     createErrors: [],
@@ -27,7 +26,8 @@ class TagsSettings extends Component {
     searchTerms: '',
   };
 
-  handleSearchChange = searchTerms => this.setState({ searchTerms, createErrors: [] });
+  handleSearchChange = (searchTerms) =>
+    this.setState({ searchTerms, createErrors: [] });
 
   handleCreateTag = async (searchTerms) => {
     if (searchTerms.length > 0) {
@@ -38,13 +38,18 @@ class TagsSettings extends Component {
         await requestTags();
       } catch (err) {
         this.setState({
-          createErrors: [(<Trans id="settings.tag.form.error.create_fail">Unable to create the tag. A tag with the same id may already exist.</Trans>)],
+          createErrors: [
+            <Trans id="settings.tag.form.error.create_fail">
+              Unable to create the tag. A tag with the same id may already
+              exist.
+            </Trans>,
+          ],
         });
       }
     }
 
     return undefined;
-  }
+  };
 
   handleUpdateTag = async ({ original, tag }) => {
     this.setState({
@@ -62,11 +67,11 @@ class TagsSettings extends Component {
     } catch (errors) {
       this.setState({
         tagErrors: {
-          [original.name]: errors.map(err => err.message),
+          [original.name]: errors.map((err) => err.message),
         },
       });
     }
-  }
+  };
 
   handleDeleteTag = async ({ tag }) => {
     this.setState({
@@ -81,21 +86,25 @@ class TagsSettings extends Component {
     } catch (errors) {
       this.setState({
         tagErrors: {
-          [tag.name]: errors.map(err => err.message),
+          [tag.name]: errors.map((err) => err.message),
         },
       });
     }
-  }
+  };
 
   render() {
     const { i18n } = this.props;
 
     return (
-      <WithTags render={
-        userTags => (
+      <WithTags
+        render={(userTags) => (
           <div className="s-tags-settings">
             <div className="s-tags-settings__create">
-              <Section title={i18n._('settings.tags.title.create', null, { defaults: 'Create new tag' })}>
+              <Section
+                title={i18n._('settings.tags.title.create', null, {
+                  defaults: 'Create new tag',
+                })}
+              >
                 <TagSearch
                   onChange={this.handleSearchChange}
                   errors={this.state.createErrors}
@@ -105,8 +114,12 @@ class TagsSettings extends Component {
               </Section>
             </div>
             <div className="s-tags-settings__tags">
-              <Section title={i18n._('settings.tags.title', null, { defaults: 'Tags' })}>
-                {userTags.map(tag => (
+              <Section
+                title={i18n._('settings.tags.title', null, {
+                  defaults: 'Tags',
+                })}
+              >
+                {userTags.map((tag) => (
                   <TagInput
                     key={tag.name}
                     tag={tag}

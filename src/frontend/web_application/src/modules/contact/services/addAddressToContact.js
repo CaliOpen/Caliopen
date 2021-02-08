@@ -1,14 +1,15 @@
-import { PROTOCOL_EMAIL, PROTOCOL_TWITTER, PROTOCOL_MASTODON } from '../../remoteIdentity';
+import {
+  PROTOCOL_EMAIL,
+  PROTOCOL_TWITTER,
+  PROTOCOL_MASTODON,
+} from '../../remoteIdentity';
 
 export const addAddressToContact = (contact, { address, protocol }) => {
   switch (protocol) {
     case PROTOCOL_EMAIL:
       return {
         ...contact,
-        emails: [
-          ...(contact.emails ? contact.emails : []),
-          { address },
-        ],
+        emails: [...(contact.emails ? contact.emails : []), { address }],
       };
     case PROTOCOL_TWITTER:
     case PROTOCOL_MASTODON:
@@ -27,14 +28,21 @@ export const addAddressToContact = (contact, { address, protocol }) => {
 export const addAddressesToContact = (contact, addresses) => {
   const emails = [
     ...(contact.emails ? contact.emails : []),
-    ...addresses.filter(address => address.protocol === PROTOCOL_EMAIL)
-      .map(address => ({ address: address.email })),
+    ...addresses
+      .filter((address) => address.protocol === PROTOCOL_EMAIL)
+      .map((address) => ({ address: address.email })),
   ];
 
   const identities = [
     ...(contact.identities ? contact.identities : []),
-    ...addresses.filter(address => [PROTOCOL_TWITTER, PROTOCOL_MASTODON].includes(address.protocol))
-      .map(address => ({ address: address.identifier, type: address.protocol })),
+    ...addresses
+      .filter((address) =>
+        [PROTOCOL_TWITTER, PROTOCOL_MASTODON].includes(address.protocol)
+      )
+      .map((address) => ({
+        address: address.identifier,
+        type: address.protocol,
+      })),
   ];
 
   return {

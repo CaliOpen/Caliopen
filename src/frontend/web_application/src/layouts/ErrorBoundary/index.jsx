@@ -8,7 +8,7 @@ import './style.scss';
 class ErrorBoundary extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-  }
+  };
 
   state = { error: null, errorInfo: null };
 
@@ -30,16 +30,23 @@ ${this.state.errorInfo && this.state.errorInfo.componentStack}
 \`\`\`
     `;
     const params = {
-      title: this.state.error ? this.state.error.toString() : 'undefined catched error',
+      title: this.state.error
+        ? this.state.error.toString()
+        : 'undefined catched error',
       category: 'bugs',
       tags: 'BSOD',
       body: stackTrace,
     };
-    const esc = typeof encodeURIComponent !== 'undefined' ? encodeURIComponent : str => str;
-    const queryString = Object.keys(params).map(key => `${key}=${esc(params[key])}`).join('&');
+    const esc =
+      typeof encodeURIComponent !== 'undefined'
+        ? encodeURIComponent
+        : (str) => str;
+    const queryString = Object.keys(params)
+      .map((key) => `${key}=${esc(params[key])}`)
+      .join('&');
 
     return `https://feedback.caliopen.org/new-topic?${queryString}`;
-  }
+  };
 
   render() {
     if (this.state.errorInfo) {
@@ -52,7 +59,9 @@ ${this.state.errorInfo && this.state.errorInfo.componentStack}
               <Brand className="l-error-boundary__brand" theme="low" />
             </header>
             <section className="l-error-boundary__body">
-              <h2><Trans id="error-boundary.title">Something went wrong.</Trans></h2>
+              <h2>
+                <Trans id="error-boundary.title">Something went wrong.</Trans>
+              </h2>
               <div className="l-error-boundary__description">
                 <Trans
                   id="error-boundary.description"
@@ -61,7 +70,11 @@ ${this.state.errorInfo && this.state.errorInfo.componentStack}
                     <p />,
                     <p />,
                     <p />,
-                    <Link href="https://feedback.caliopen.org" target="_blank" rel="noreferrer noopener" />,
+                    <Link
+                      href="https://feedback.caliopen.org"
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    />,
                   ]}
                 />
               </div>
@@ -71,15 +84,22 @@ ${this.state.errorInfo && this.state.errorInfo.componentStack}
                   target="_blank"
                   rel="noreferrer noopener"
                 >
-                  <Trans id="error-boundary.send-feedback">Send us a feedback</Trans>
+                  <Trans id="error-boundary.send-feedback">
+                    Send us a feedback
+                  </Trans>
                 </Link>
               </div>
               <div>
                 <Link href="/" button plain>
-                  <Trans id="error-boundary.back-to-home">Go back to home</Trans>
+                  <Trans id="error-boundary.back-to-home">
+                    Go back to home
+                  </Trans>
                 </Link>
               </div>
-              <details className="l-error-boundary__error-details" style={{ whiteSpace: 'pre-wrap' }}>
+              <details
+                className="l-error-boundary__error-details"
+                style={{ whiteSpace: 'pre-wrap' }}
+              >
                 {this.state.error && this.state.error.toString()}
                 <br />
                 {this.state.errorInfo.componentStack}

@@ -5,13 +5,25 @@ import classnames from 'classnames';
 import { Trans, withI18n } from '@lingui/react';
 import ContactList from './components/ContactList';
 import {
-  PageTitle, Spinner, Button, ActionBarWrapper, ActionBar, Checkbox, SidebarLayout, NavList,
-  NavItem, Confirm, Modal,
+  PageTitle,
+  Spinner,
+  Button,
+  ActionBarWrapper,
+  ActionBar,
+  Checkbox,
+  SidebarLayout,
+  NavList,
+  NavItem,
+  Confirm,
+  Modal,
 } from '../../components';
 import { withPush } from '../../modules/routing';
 import { withScrollManager, ScrollDetector } from '../../modules/scroll';
 import {
-  withTags, TagsForm, getCleanedTagCollection, getTagNamesInCommon,
+  withTags,
+  TagsForm,
+  getCleanedTagCollection,
+  getTagNamesInCommon,
 } from '../../modules/tags';
 import TagList from './components/TagList';
 import ImportContactButton from './components/ImportContactButton';
@@ -31,7 +43,9 @@ function getFilteredContacts(contactList, tag) {
     return contactList;
   }
 
-  return contactList.filter(contact => contact.tags && contact.tags.includes(tag));
+  return contactList.filter(
+    (contact) => contact.tags && contact.tags.includes(tag)
+  );
 }
 
 @withTags()
@@ -53,7 +67,7 @@ class ContactBook extends Component {
     isFetching: PropTypes.bool,
     didInvalidate: PropTypes.bool,
     hasMore: PropTypes.bool,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
   static defaultProps = {
@@ -77,7 +91,7 @@ class ContactBook extends Component {
     this.props.requestContacts();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.didInvalidate && !nextProps.isFetching) {
       this.props.requestContacts();
     }
@@ -85,97 +99,103 @@ class ContactBook extends Component {
 
   onSelectEntity = (type, id) => {
     if (type === 'add') {
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         ...prevState,
         selectedEntitiesIds: [...prevState.selectedEntitiesIds, id],
       }));
     }
 
     if (type === 'remove') {
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         ...prevState,
-        selectedEntitiesIds: [...prevState.selectedEntitiesIds].filter(item => item !== id),
+        selectedEntitiesIds: [...prevState.selectedEntitiesIds].filter(
+          (item) => item !== id
+        ),
       }));
     }
-  }
+  };
 
   onSelectAllEntities = (checked) => {
     const { contacts, tagSearched } = this.props;
-    const contactIds = getFilteredContacts(contacts, tagSearched)
-      .map(({ contact_id: contactId }) => contactId);
+    const contactIds = getFilteredContacts(contacts, tagSearched).map(
+      ({ contact_id: contactId }) => contactId
+    );
 
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       selectedEntitiesIds: checked ? contactIds : [],
     }));
-  }
+  };
 
   loadMore = () => {
     this.props.loadMoreContacts();
-  }
+  };
 
   handleSelectAllEntitiesChange = (ev) => {
     const { checked } = ev.target;
     this.onSelectAllEntities(checked);
-  }
+  };
 
   handleDeleteContacts = async () => {
     const { contacts, deleteContacts } = this.props;
     const selectedContactIds = new Set(this.state.selectedEntitiesIds);
 
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       isDeleting: true,
     }));
 
     await deleteContacts({
-      contacts: contacts.filter(contact => selectedContactIds.has(contact.contact_id)),
+      contacts: contacts.filter((contact) =>
+        selectedContactIds.has(contact.contact_id)
+      ),
     });
 
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       selectedEntitiesIds: [],
       isDeleting: false,
     }));
-  }
+  };
 
   handleClickAddContact = () => {
     this.props.push('/new-contact');
-  }
+  };
 
   handleClickEditGroups = () => {
     this.props.push('/settings/tags');
-  }
+  };
 
   handleUploadSuccess = () => {
     this.props.requestContacts();
   };
 
   handleOpenTags = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       isTagModalOpen: true,
     }));
-  }
+  };
 
   handleCloseTags = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       isTagModalOpen: false,
     }));
-  }
+  };
 
   handleTagsChange = ({ tags }) => {
     const { updateContactTags, i18n } = this.props;
 
     return updateContactTags(i18n, this.state.selectedEntitiesIds, tags);
-  }
+  };
 
   renderTagsModal = () => {
     const { contacts, tags: userTags, i18n } = this.props;
     const selectedEntitiesIds = new Set(this.state.selectedEntitiesIds);
-    const selectedEntities = contacts
-      .filter(contact => selectedEntitiesIds.has(contact.contact_id));
+    const selectedEntities = contacts.filter((contact) =>
+      selectedEntitiesIds.has(contact.contact_id)
+    );
 
     const tagNamesInCommon = getTagNamesInCommon(selectedEntities);
     const tagsInCommon = getCleanedTagCollection(userTags, tagNamesInCommon);
@@ -185,9 +205,7 @@ class ContactBook extends Component {
         id="tags.header.title"
         defaults={'Tags <0>(Total: {nb})</0>'}
         values={{ nb: tagsInCommon.length }}
-        components={[
-          (<span className="m-tags-form__count" />),
-        ]}
+        components={[<span className="m-tags-form__count" />]}
       />
     );
 
@@ -199,7 +217,9 @@ class ContactBook extends Component {
         onClose={this.handleCloseTags}
       >
         {selectedEntities.length > 1 && (
-          <Trans id="tags.common_tags_applied">Common tags applied to the current selection:</Trans>
+          <Trans id="tags.common_tags_applied">
+            Common tags applied to the current selection:
+          </Trans>
         )}
         <TagsForm
           userTags={userTags}
@@ -208,12 +228,10 @@ class ContactBook extends Component {
         />
       </Modal>
     );
-  }
+  };
 
   renderActionBar() {
-    const {
-      isFetching, contacts,
-    } = this.props;
+    const { isFetching, contacts } = this.props;
 
     const count = this.state.selectedEntitiesIds.length;
     const totalCount = contacts.length;
@@ -221,11 +239,11 @@ class ContactBook extends Component {
     return (
       <ScrollDetector
         offset={136}
-        render={isSticky => (
+        render={(isSticky) => (
           <ActionBarWrapper isSticky={isSticky}>
             <ActionBar
               isLoading={isFetching}
-              actionsNode={(
+              actionsNode={
                 <div className="s-contact-book-menu">
                   {count > 0 && (
                     <Fragment>
@@ -238,30 +256,38 @@ class ContactBook extends Component {
                       </span>
                       <Confirm
                         onConfirm={this.handleDeleteContacts}
-                        title={(
+                        title={
                           <Trans
                             id="contact-book.confirm-delete.title"
                             value={count}
                             defaults="{count, plural, one {Delete contact} other {Delete contacts}}"
                           />
-                        )}
-                        content={(
+                        }
+                        content={
                           <Trans
                             id="contact-book.confirm-delete.content"
                             value={count}
                             defaults="{count, plural, one { The deletion is permanent, are you sure you want to delete this contact? } other { The deletion is permanent, are you sure you want to delete these contacts? }}"
                           />
-                        )}
-                        render={confirm => (
+                        }
+                        render={(confirm) => (
                           <Button
                             className="s-contact-book-menu__action-btn"
                             display="inline"
                             noDecoration
-                            icon={this.state.isDeleting ? (<Spinner isLoading display="inline" />) : 'trash'}
+                            icon={
+                              this.state.isDeleting ? (
+                                <Spinner isLoading display="inline" />
+                              ) : (
+                                'trash'
+                              )
+                            }
                             onClick={confirm}
                             disabled={this.state.isDeleting}
                           >
-                            <Trans id="contact-book.action.delete">Delete</Trans>
+                            <Trans id="contact-book.action.delete">
+                              Delete
+                            </Trans>
                           </Button>
                         )}
                       />
@@ -272,7 +298,9 @@ class ContactBook extends Component {
                         icon="tag"
                         onClick={this.handleOpenTags}
                       >
-                        <Trans id="contact-book.action.manage-tags">Manage tags</Trans>
+                        <Trans id="contact-book.action.manage-tags">
+                          Manage tags
+                        </Trans>
                       </Button>
                       {this.state.isTagModalOpen && this.renderTagsModal()}
                       {/* <Button
@@ -285,17 +313,26 @@ class ContactBook extends Component {
                       </Button> */}
                     </Fragment>
                   )}
-                  <div className={classnames('s-contact-book-menu__select-all', { 's-contact-book-menu__select-all--label-hidden': count > 0 })}>
+                  <div
+                    className={classnames('s-contact-book-menu__select-all', {
+                      's-contact-book-menu__select-all--label-hidden':
+                        count > 0,
+                    })}
+                  >
                     <Checkbox
                       checked={count > 0 && count === totalCount}
                       indeterminate={count > 0 && count < totalCount}
                       onChange={this.handleSelectAllEntitiesChange}
-                      label={<Trans id="contact-book.action.select-all">Select all contacts</Trans>}
+                      label={
+                        <Trans id="contact-book.action.select-all">
+                          Select all contacts
+                        </Trans>
+                      }
                       showLabelforSr={count > 0}
                     />
                   </div>
                 </div>
-              )}
+              }
             />
           </ActionBarWrapper>
         )}
@@ -304,9 +341,7 @@ class ContactBook extends Component {
   }
 
   renderContacts() {
-    const {
-      contacts, userContact, hasMore, tagSearched,
-    } = this.props;
+    const { contacts, userContact, hasMore, tagSearched } = this.props;
 
     return (
       <Fragment>
@@ -333,13 +368,17 @@ class ContactBook extends Component {
 
     return (
       <div className="s-contact-book">
-        <PageTitle title={i18n._('header.menu.contacts', null, { defaults: 'Contacts' })} />
+        <PageTitle
+          title={i18n._('header.menu.contacts', null, { defaults: 'Contacts' })}
+        />
         {this.renderActionBar()}
         <SidebarLayout
-          sidebar={(
+          sidebar={
             <div className="s-contact-book__sidebar">
               <div>
-                <h2 className="s-contact-book__tags-title"><Trans id="contact-book.contacts.title">Contacts</Trans></h2>
+                <h2 className="s-contact-book__tags-title">
+                  <Trans id="contact-book.contacts.title">Contacts</Trans>
+                </h2>
                 <NavList dir="vertical">
                   <NavItem>
                     <Button
@@ -361,7 +400,9 @@ class ContactBook extends Component {
                 </NavList>
               </div>
               <div>
-                <h2 className="s-contact-book__tags-title"><Trans id="contact-book.groups.title">Groups</Trans></h2>
+                <h2 className="s-contact-book__tags-title">
+                  <Trans id="contact-book.groups.title">Groups</Trans>
+                </h2>
                 <TagList />
                 <NavList dir="vertical">
                   <NavItem>
@@ -372,13 +413,15 @@ class ContactBook extends Component {
                       display="block"
                       onClick={this.handleClickEditGroups}
                     >
-                      <Trans id="contact-book.tags.action.edit-groups">Edit groups</Trans>
+                      <Trans id="contact-book.tags.action.edit-groups">
+                        Edit groups
+                      </Trans>
                     </Button>
                   </NavItem>
                 </NavList>
               </div>
             </div>
-          )}
+          }
         >
           {this.renderContacts()}
         </SidebarLayout>

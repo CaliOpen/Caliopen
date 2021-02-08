@@ -31,14 +31,16 @@ class Highlights extends Component {
     }
 
     return Array.from(new Set(term.trim().split(' ')));
-  }
+  };
 
   parseHighlight = (terms, highlight) => {
     if (!terms.length) {
       return [highlight];
     }
 
-    const escapedTerms = terms.map(term => term.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'));
+    const escapedTerms = terms.map((term) =>
+      term.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+    );
     const termRegExp = RegExp(`(${escapedTerms.join('|')})`, 'gi');
     const parts = [];
     let results;
@@ -51,7 +53,9 @@ class Highlights extends Component {
       prevIndex = termRegExp.lastIndex;
       endIndex = results.index + results[0].length;
       parts.push(removeTagInString(prefix));
-      parts.push(<b className="s-search-results-highlights__term">{results[0]}</b>);
+      parts.push(
+        <b className="s-search-results-highlights__term">{results[0]}</b>
+      );
     }
 
     if (endIndex < highlight.length) {
@@ -59,7 +63,7 @@ class Highlights extends Component {
     }
 
     return parts;
-  }
+  };
 
   render() {
     const { highlights } = this.props;

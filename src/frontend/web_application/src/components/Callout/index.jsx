@@ -26,11 +26,7 @@ class Callout extends PureComponent {
       'm-callout--alert': color === 'alert',
     });
 
-    return (
-      <div className={calloutClassName}>
-        {children}
-      </div>
-    );
+    return <div className={calloutClassName}>{children}</div>;
   }
 }
 

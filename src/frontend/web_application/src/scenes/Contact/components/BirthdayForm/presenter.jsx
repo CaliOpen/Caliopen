@@ -4,15 +4,22 @@ import { Trans } from '@lingui/react';
 import { Field } from 'redux-form';
 import renderReduxField from '../../../../services/renderReduxField';
 import {
-  Button, Icon, FieldErrors, DatePickerGroup as DatePickerGroupBase, Fieldset, Legend, FormGrid,
-  FormRow, FormColumn,
+  Button,
+  Icon,
+  FieldErrors,
+  DatePickerGroup as DatePickerGroupBase,
+  Fieldset,
+  Legend,
+  FormGrid,
+  FormRow,
+  FormColumn,
 } from '../../../../components';
 
 const DatePickerGroup = renderReduxField(DatePickerGroupBase);
 
 class BirthdayForm extends PureComponent {
   static propTypes = {
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     form: PropTypes.string.isRequired,
     changeField: PropTypes.func.isRequired,
     errors: PropTypes.arrayOf(PropTypes.shape({})),
@@ -50,10 +57,16 @@ class BirthdayForm extends PureComponent {
             <FormColumn size="shrink">
               <Legend>
                 <Icon type="envelope" rightSpaced />
-                <span className="m-email-form__legend"><Trans id="contact.email_form.legend">Email</Trans></span>
+                <span className="m-email-form__legend">
+                  <Trans id="contact.email_form.legend">Email</Trans>
+                </span>
               </Legend>
             </FormColumn>
-            {errors.length > 0 && (<FormColumn><FieldErrors errors={errors} /></FormColumn>)}
+            {errors.length > 0 && (
+              <FormColumn>
+                <FieldErrors errors={errors} />
+              </FormColumn>
+            )}
             <FormColumn size="shrink" bottomSpace>
               {/* // prevent selecting dates after today
                   // see https://github.com/Hacker0x01/react-datepicker */}
@@ -63,7 +76,9 @@ class BirthdayForm extends PureComponent {
                 id="contact-form-birthday"
                 className="m-contact-profile-form__birthday"
                 inputClassName="m-contact-profile-form__birthday-input"
-                label={i18n._('contact_profile.form.birthday.label', null, { defaults: 'Birthday' })}
+                label={i18n._('contact_profile.form.birthday.label', null, {
+                  defaults: 'Birthday',
+                })}
                 onDateChange={this.handleBirthdayChanges}
                 showMonthDropdown
                 showYearDropdown

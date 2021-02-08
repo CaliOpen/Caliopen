@@ -6,7 +6,8 @@ $m-badge__font-size: ($m-badge__height / 2) !default;
 $m-badge__padding: ($m-badge__height - $m-badge__font-size) / 2;
 $m-badge--large__height: $co-component__height !default;
 $m-badge--large__font-size: $co-font__size !default;
-$m-badge--large__padding: ($m-badge--large__height - $m-badge--large__font-size) / 2;
+$m-badge--large__padding: ($m-badge--large__height - $m-badge--large__font-size) /
+  2;
 
 .m-badge {
   $baseName: &;

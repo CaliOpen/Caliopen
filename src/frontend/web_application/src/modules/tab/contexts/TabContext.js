@@ -2,5 +2,13 @@ import { createContext } from 'react';
 
 export const TabContext = createContext({
   tabs: [],
-  removeTab: () => {},
+  removeTab: ({ tab }) => {
+    // noop
+  },
+  updateTab: () => {
+    // noop
+  },
+  getCurrentTab: () => {
+    // noop
+  },
 });

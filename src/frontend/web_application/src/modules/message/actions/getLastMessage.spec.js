@@ -5,7 +5,7 @@ import thunkMiddleware from '../../../store/middlewares/thunk-middleware';
 
 const mockStore = configureMockStore([promiseMiddleware, thunkMiddleware]);
 jest.mock('./fetchMessages', () => ({
-  fetchMessages: params => (dispatch) => {
+  fetchMessages: (params) => (dispatch) => {
     dispatch({ type: 'FETCH_MESSAGES', payload: params });
 
     const lastMessageDate = new Date(2018, 1, 1);
@@ -22,7 +22,7 @@ jest.mock('./fetchMessages', () => ({
           {
             message_id: 'c',
             discussion_id: '01',
-            date_sort: new Date(lastMessageDate - (2 * 60 * 60 * 1000)),
+            date_sort: new Date(lastMessageDate - 2 * 60 * 60 * 1000),
           },
         ]);
       default:
@@ -47,7 +47,7 @@ describe('message module - actions - getLastMessage', () => {
           a: {
             message_id: 'a',
             discussion_id: '02',
-            date_sort: new Date(now - (2 * 60 * 60 * 1000)),
+            date_sort: new Date(now - 2 * 60 * 60 * 1000),
           },
           b: {
             message_id: 'b',
@@ -58,8 +58,7 @@ describe('message module - actions - getLastMessage', () => {
       },
     });
 
-    const expectedActions = [
-    ];
+    const expectedActions = [];
     const action = getLastMessage({ discussionId: '02' });
 
     const result = await store.dispatch(action);
@@ -82,7 +81,7 @@ describe('message module - actions - getLastMessage', () => {
           a: {
             message_id: 'a',
             discussion_id: '02',
-            date_sort: new Date(now - (2 * 60 * 60 * 1000)),
+            date_sort: new Date(now - 2 * 60 * 60 * 1000),
           },
           b: {
             message_id: 'b',
@@ -94,7 +93,10 @@ describe('message module - actions - getLastMessage', () => {
     });
 
     const expectedActions = [
-      { type: 'FETCH_MESSAGES', payload: { discussion_id: '01', is_draft: false, limit: 1 } },
+      {
+        type: 'FETCH_MESSAGES',
+        payload: { discussion_id: '01', is_draft: false, limit: 1 },
+      },
     ];
     const action = getLastMessage({ discussionId: '01' });
 
@@ -123,7 +125,7 @@ describe('message module - actions - getLastMessage', () => {
           a: {
             message_id: 'a',
             discussion_id: '02',
-            date_sort: new Date(now - (2 * 60 * 60 * 1000)),
+            date_sort: new Date(now - 2 * 60 * 60 * 1000),
           },
           b: {
             message_id: 'b',
@@ -135,7 +137,10 @@ describe('message module - actions - getLastMessage', () => {
     });
 
     const expectedActions = [
-      { type: 'FETCH_MESSAGES', payload: { discussion_id: '03', is_draft: false, limit: 1 } },
+      {
+        type: 'FETCH_MESSAGES',
+        payload: { discussion_id: '03', is_draft: false, limit: 1 },
+      },
     ];
     const action = getLastMessage({ discussionId: '03' });
 

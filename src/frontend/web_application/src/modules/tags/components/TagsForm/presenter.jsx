@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { Trans } from '@lingui/react';
 import isequal from 'lodash.isequal';
 import {
-  Button, Icon, Dropdown, VerticalMenu, VerticalMenuItem,
+  Button,
+  Icon,
+  Dropdown,
+  VerticalMenu,
+  VerticalMenuItem,
 } from '../../../../components';
 import { getTagLabel } from '../..';
 import TagItem from '../TagItem';
@@ -17,7 +21,7 @@ class TagsForm extends Component {
     userTags: PropTypes.arrayOf(PropTypes.shape({})),
     tags: PropTypes.arrayOf(PropTypes.shape({})),
     updateTags: PropTypes.func.isRequired,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
   static defaultProps = {
@@ -45,10 +49,13 @@ class TagsForm extends Component {
   static getAvailableTags({ userTags, tags }) {
     const tagSet = new Set(tags);
 
-    return userTags.filter(tag => !tagSet.has(tag));
+    return userTags.filter((tag) => !tagSet.has(tag));
   }
 
-  state = this.constructor.generateStateFromProps(this.props, this.constructor.initialState);
+  state = this.constructor.generateStateFromProps(
+    this.props,
+    this.constructor.initialState
+  );
 
   dropdownElement = createRef();
 
@@ -57,7 +64,10 @@ class TagsForm extends Component {
       const { target } = ev;
       ev.preventDefault();
 
-      if (target !== this.dropdownElement.current && target !== this.inpputSearchElement) {
+      if (
+        target !== this.dropdownElement.current &&
+        target !== this.inpputSearchElement
+      ) {
         this.setState({ searchHasFocus: false });
       }
     });
@@ -65,12 +75,15 @@ class TagsForm extends Component {
 
   componentDidUpdate(prevProps) {
     const propNames = ['tags'];
-    const hasChanged = propNames
-      .some(propName => !isequal(this.props[propName], prevProps[propName]));
+    const hasChanged = propNames.some(
+      (propName) => !isequal(this.props[propName], prevProps[propName])
+    );
 
     if (hasChanged) {
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(prevState => this.constructor.generateStateFromProps(this.props, prevState));
+      this.setState((prevState) =>
+        this.constructor.generateStateFromProps(this.props, prevState)
+      );
     }
   }
 
@@ -82,7 +95,11 @@ class TagsForm extends Component {
     } catch (errors) {
       // TODO: the error should given by the backend (and translated)
       this.setState({
-        errors: [(<Trans id="settings.tag.form.error.create_fail">Unable to create the tag. A tag with the same id may already exist.</Trans>)],
+        errors: [
+          <Trans id="settings.tag.form.error.create_fail">
+            Unable to create the tag. A tag with the same id may already exist.
+          </Trans>,
+        ],
         isTagCollectionUpdating: false,
       });
 
@@ -91,15 +108,16 @@ class TagsForm extends Component {
     this.setState({ isTagCollectionUpdating: false });
 
     return undefined;
-  }
+  };
 
   handleSearchChange = async (searchTerms) => {
     const { i18n, userTags } = this.props;
     if (searchTerms === '') {
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         searchTerms,
-        foundTags:
-          this.constructor.getAvailableTags({ userTags, tags: prevState.tags }).slice(0, 20),
+        foundTags: this.constructor
+          .getAvailableTags({ userTags, tags: prevState.tags })
+          .slice(0, 20),
         errors: [],
       }));
 
@@ -107,34 +125,39 @@ class TagsForm extends Component {
     }
 
     this.setState(async (prevState) => {
-      const foundTags = await searchTags(i18n, this.constructor.getAvailableTags({
-        userTags, tags: prevState.tags,
-      }), searchTerms);
+      const foundTags = await searchTags(
+        i18n,
+        this.constructor.getAvailableTags({
+          userTags,
+          tags: prevState.tags,
+        }),
+        searchTerms
+      );
 
       return { searchTerms, foundTags, errors: [] };
     });
-  }
+  };
 
   handleSearchFocus = () => {
     const { userTags } = this.props;
     if (this.state.searchTerms === '') {
-      this.setState(prevState => ({
-        foundTags: this.constructor.getAvailableTags({
-          userTags, tags: prevState.tags,
-        }).slice(0, 20),
+      this.setState((prevState) => ({
+        foundTags: this.constructor
+          .getAvailableTags({
+            userTags,
+            tags: prevState.tags,
+          })
+          .slice(0, 20),
         searchHasFocus: true,
       }));
     }
-  }
+  };
 
   handleAddNewTag = async (terms) => {
     if (terms.length > 0) {
       this.setState(
-        prevState => ({
-          tags: [
-            ...prevState.tags,
-            { label: terms },
-          ],
+        (prevState) => ({
+          tags: [...prevState.tags, { label: terms }],
         }),
         async () => {
           await this.updateTags();
@@ -142,29 +165,26 @@ class TagsForm extends Component {
         }
       );
     }
-  }
+  };
 
-  createHandleAddTag = tag => async () => {
+  createHandleAddTag = (tag) => async () => {
     this.handleSearchChange('');
     this.setState(
-      prevState => ({
-        tags: [
-          ...prevState.tags,
-          tag,
-        ],
+      (prevState) => ({
+        tags: [...prevState.tags, tag],
       }),
       async () => {
         await this.updateTags();
       }
     );
-  }
+  };
 
   handleDeleteTag = ({ tag }) => {
     this.setState(
-      prevState => ({ tags: prevState.tags.filter(item => item !== tag) }),
+      (prevState) => ({ tags: prevState.tags.filter((item) => item !== tag) }),
       () => this.updateTags()
     );
-  }
+  };
 
   render() {
     const { i18n } = this.props;
@@ -172,11 +192,14 @@ class TagsForm extends Component {
     return (
       <div className="m-tags-form">
         <div className="m-tags-form__section">
-          {
-            this.state.tags.length > 0 && this.state.tags.map(tag => (
-              <TagItem tag={tag} key={tag.name} onDelete={this.handleDeleteTag} />
-            ))
-          }
+          {this.state.tags.length > 0 &&
+            this.state.tags.map((tag) => (
+              <TagItem
+                tag={tag}
+                key={tag.name}
+                onDelete={this.handleDeleteTag}
+              />
+            ))}
         </div>
 
         <div className="m-tags-form__section">
@@ -186,7 +209,9 @@ class TagsForm extends Component {
             input={{
               onChange: this.handleSearchChange,
               onFocus: this.handleSearchFocus,
-              inputRef: (el) => { this.inpputSearchElement = el; },
+              inputRef: (el) => {
+                this.inpputSearchElement = el;
+              },
             }}
             onSubmit={this.handleAddNewTag}
           />
@@ -197,7 +222,7 @@ class TagsForm extends Component {
             closeOnClick="doNotClose"
           >
             <VerticalMenu>
-              {this.state.foundTags.map(tag => (
+              {this.state.foundTags.map((tag) => (
                 <VerticalMenuItem key={tag.name}>
                   <Button
                     className="m-tags-form__found-tag"
@@ -205,8 +230,9 @@ class TagsForm extends Component {
                     shape="plain"
                     onClick={this.createHandleAddTag(tag)}
                   >
-                    <span className="m-tags-form__found-tag-text">{getTagLabel(i18n, tag)}</span>
-                    {' '}
+                    <span className="m-tags-form__found-tag-text">
+                      {getTagLabel(i18n, tag)}
+                    </span>{' '}
                     <Icon type="plus" />
                   </Button>
                 </VerticalMenuItem>

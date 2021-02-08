@@ -14,25 +14,46 @@ describe('Discussions', () => {
   });
 
   it('List', async () => {
-    await browser.wait(EC.presenceOf($('.s-timeline .s-discussion-item')), 5 * 1000);
-    expect(element.all(by.css('.s-discussion-item__message_excerpt')).first().getText())
-      .toContain('Fry! Stay back! He\'s too powerful!');
+    await browser.wait(
+      EC.presenceOf($('.s-timeline .s-discussion-item')),
+      5 * 1000
+    );
+    expect(
+      element
+        .all(by.css('.s-discussion-item__message_excerpt'))
+        .first()
+        .getText()
+    ).toContain("Fry! Stay back! He's too powerful!");
     expect(element.all(by.css('.s-discussion-item')).count()).toEqual(6);
-    expect(element(by.cssContainingText('.s-timeline__load-more', 'Load more')).isPresent())
-      .toBe(false);
+    expect(
+      element(
+        by.cssContainingText('.s-timeline__load-more', 'Load more')
+      ).isPresent()
+    ).toBe(false);
   });
 
   describe('Thread', () => {
     it('Render and listed contacts describe the thread', async () => {
       // await filter('All');
-      await browser.wait(EC.presenceOf($('.s-timeline .s-discussion-item')), 5 * 1000);
-      element(by.cssContainingText(
-        '.s-discussion-item__message_excerpt',
-        'Fry! Stay back! He\'s too powerful!'
-      )).click();
+      await browser.wait(
+        EC.presenceOf($('.s-timeline .s-discussion-item')),
+        5 * 1000
+      );
+      element(
+        by.cssContainingText(
+          '.s-discussion-item__message_excerpt',
+          "Fry! Stay back! He's too powerful!"
+        )
+      ).click();
 
-      expect(element(by.cssContainingText('.m-navbar-item--is-active .m-navbar-item__content', 'zoidberg')).isPresent())
-        .toEqual(true);
+      expect(
+        element(
+          by.cssContainingText(
+            '.m-navbar-item--is-active .m-navbar-item__content',
+            'zoidberg'
+          )
+        ).isPresent()
+      ).toEqual(true);
     });
   });
 });

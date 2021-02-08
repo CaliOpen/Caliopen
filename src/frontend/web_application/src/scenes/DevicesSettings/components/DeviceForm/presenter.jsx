@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { Trans } from '@lingui/react';
 // import classnames from 'classnames';
 import {
-  Button, FormGrid, FormRow, FormColumn, TextFieldGroup, SelectFieldGroup,
+  Button,
+  FormGrid,
+  FormRow,
+  FormColumn,
+  TextFieldGroup,
+  SelectFieldGroup,
 } from '../../../../components';
 import './style.scss';
 
@@ -13,7 +18,16 @@ class DeviceForm extends Component {
     onChange: PropTypes.func.isRequired,
     notifyError: PropTypes.func.isRequired,
     notifySuccess: PropTypes.func.isRequired,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
+  };
+
+  static initialState = {
+    initialized: false,
+    device: {
+      name: '',
+      type: '',
+      // locations: [],
+    },
   };
 
   static generateStateFromProps(props, prevState) {
@@ -26,36 +40,34 @@ class DeviceForm extends Component {
     };
   }
 
-  static initialState = {
-    initialized: false,
-    device: {
-      name: '',
-      type: '',
-      // locations: [],
-    },
-  };
-
-  state = this.constructor.generateStateFromProps(this.props, this.constructor.initialState);
+  state = this.constructor.generateStateFromProps(
+    this.props,
+    this.constructor.initialState
+  );
 
   componentDidUpdate(prevProps) {
     const propNames = ['device'];
-    const hasChanged = propNames.some(propName => this.props[propName] !== prevProps[propName]);
+    const hasChanged = propNames.some(
+      (propName) => this.props[propName] !== prevProps[propName]
+    );
 
     if (!this.state.initialized && hasChanged) {
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(prevState => this.constructor.generateStateFromProps(this.props, prevState));
+      this.setState((prevState) =>
+        this.constructor.generateStateFromProps(this.props, prevState)
+      );
     }
   }
 
   handleFieldChange = (ev) => {
     const { name, value } = ev.target;
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       device: {
         ...prevState.device,
         [name]: value,
       },
     }));
-  }
+  };
 
   // handleLocationsChange = (locations) => {
   //   this.setState(prevState => ({
@@ -82,21 +94,47 @@ class DeviceForm extends Component {
     const { onChange, notifyError, notifySuccess } = this.props;
     event.preventDefault();
     try {
-      await onChange({ device: this.state.device, original: this.props.device });
-      notifySuccess({ message: (<Trans id="device.feedback.save_success">The device has been saved</Trans>) });
+      await onChange({
+        device: this.state.device,
+        original: this.props.device,
+      });
+      notifySuccess({
+        message: (
+          <Trans id="device.feedback.save_success">
+            The device has been saved
+          </Trans>
+        ),
+      });
     } catch (errors) {
       errors.forEach(({ message }) => notifyError({ message }));
     }
-  }
+  };
 
   render() {
     const { i18n } = this.props;
     const deviceTypes = [
-      { value: 'desktop', label: i18n._('device.type.desktop', null, { defaults: 'Desktop' }) },
-      { value: 'laptop', label: i18n._('device.type.laptop', null, { defaults: 'Laptop' }) },
-      { value: 'smartphone', label: i18n._('device.type.smartphone', null, { defaults: 'Smartphone' }) },
-      { value: 'tablet', label: i18n._('device.type.tablet', null, { defaults: 'Tablet' }) },
-      { value: 'other', label: i18n._('device.type.other', null, { defaults: 'Other' }) },
+      {
+        value: 'desktop',
+        label: i18n._('device.type.desktop', null, { defaults: 'Desktop' }),
+      },
+      {
+        value: 'laptop',
+        label: i18n._('device.type.laptop', null, { defaults: 'Laptop' }),
+      },
+      {
+        value: 'smartphone',
+        label: i18n._('device.type.smartphone', null, {
+          defaults: 'Smartphone',
+        }),
+      },
+      {
+        value: 'tablet',
+        label: i18n._('device.type.tablet', null, { defaults: 'Tablet' }),
+      },
+      {
+        value: 'other',
+        label: i18n._('device.type.other', null, { defaults: 'Other' }),
+      },
     ];
     // const locationTypes = [
     //   { label: i18n._('device.location.type.unknown', null, { defaults: 'Unknown' }), value:
@@ -150,7 +188,9 @@ class DeviceForm extends Component {
           <FormRow>
             <FormColumn bottomSpace rightSpace={false}>
               <TextFieldGroup
-                label={i18n._('device.manage_form.name.label', null, { defaults: 'Name:' })}
+                label={i18n._('device.manage_form.name.label', null, {
+                  defaults: 'Name:',
+                })}
                 name="name"
                 id="device-name"
                 value={this.state.device.name}
@@ -180,7 +220,9 @@ class DeviceForm extends Component {
             <FormColumn rightSpace={false} bottomSpace>
               <SelectFieldGroup
                 className="m-device-form__type"
-                label={i18n._('device.manage_form.type.label', null, { defaults: 'Type:' })}
+                label={i18n._('device.manage_form.type.label', null, {
+                  defaults: 'Type:',
+                })}
                 name="type"
                 id="device-type"
                 value={this.state.device.type}
@@ -192,7 +234,11 @@ class DeviceForm extends Component {
           </FormRow>
           <FormRow>
             <FormColumn>
-              <Button shape="plain" type="submit"><Trans id="device.action.save_changes">Save modifications</Trans></Button>
+              <Button shape="plain" type="submit">
+                <Trans id="device.action.save_changes">
+                  Save modifications
+                </Trans>
+              </Button>
             </FormColumn>
           </FormRow>
         </form>

@@ -11,9 +11,7 @@ describe('component DefList', () => {
       ],
     };
 
-    const comp = shallow(
-      <Presenter {...props} />
-    );
+    const comp = shallow(<Presenter {...props} />);
 
     expect(comp.find('dt').first().text()).toEqual('A');
     expect(comp.find('dt').length).toEqual(2);

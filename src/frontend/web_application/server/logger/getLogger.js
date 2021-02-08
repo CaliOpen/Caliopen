@@ -8,7 +8,9 @@ const stdFormat = winston.format.combine(
   winston.format.timestamp(),
   winston.format.align(),
   winston.format.label({ label: LOGGER_CATEGORY }),
-  winston.format.printf(info => `${info.timestamp} ${info.level} ${info.label} - ${info.message}`),
+  winston.format.printf(
+    (info) => `${info.timestamp} ${info.level} ${info.label} - ${info.message}`
+  )
 );
 
 let logger;
@@ -23,14 +25,16 @@ export const getLogger = () => {
         new winston.transports.Console({
           format: stdFormat,
         }),
-        ...(enableSyslog ? [
-          new Syslog({
-            app_name: LOGGER_CATEGORY,
-            facility: 'user',
-            protocol: 'unix',
-            path: '/dev/log',
-          }),
-        ] : []),
+        ...(enableSyslog
+          ? [
+              new Syslog({
+                app_name: LOGGER_CATEGORY,
+                facility: 'user',
+                protocol: 'unix',
+                path: '/dev/log',
+              }),
+            ]
+          : []),
       ],
       levels: winston.config.syslog.levels,
     });

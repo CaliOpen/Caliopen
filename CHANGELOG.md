@@ -1,10 +1,21 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+and this project adheres to
+[Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Changed
+
+- re-enable Take a Tour.
+- update internal frontend dependencies.
+
+### Fixed
+
+- Openpgp form when only one identity.
 
 ## [0.23.1] 2019-09-17
 
@@ -40,7 +51,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Upload PGP keys using files rather than textboxes.
-- Notifications : output bach operations (external identities fetches for ex.) into one notification
+- Notifications : output bach operations (external identities fetches for ex.)
+  into one notification
 
 ### Fixed
 
@@ -54,7 +66,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-- Always link participant to contact in a draft when contact exists (ensure message can be encrypted)
+- Always link participant to contact in a draft when contact exists (ensure
+  message can be encrypted)
 - Validate body cannot be empty for a Twitter DM.
 - Upload user's public key when adding a private key.
 - Discussion has unread message button.
@@ -66,9 +79,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - On quick reply, «Enter» will not send draft anymore, it must be CTRL+Enter.
 - Quick reply is now multilines.
 - Use message's excerpt in search results instead of garbled highlights
-- Move vcard file import route on apiv2 to use contact uniqueness and lookups principles
+- Move vcard file import route on apiv2 to use contact uniqueness and lookups
+  principles
 - Re-enable import contacts via vcard file.
-- New messages notification is not displayed anymore, it is now automatically loaded.
+- New messages notification is not displayed anymore, it is now automatically
+  loaded.
 - Send button icon in advanced form.
 - Disable «Take a tour» which is not working properly
 - Disable the send button on quick draft when empty (thanks Sebbaz).
@@ -89,9 +104,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Many encoding issues during mail delivery
 - Participants algorithm edge case
 - Discussion last message sort better
-- Index user contact without alias using a workaround to bad core/mixin classes design
+- Index user contact without alias using a workaround to bad core/mixin classes
+  design
 - Addresses emails parsing failed sometimes with strange values
-- Process better invalid or missing data and encoding problems in incoming message
+- Process better invalid or missing data and encoding problems in incoming
+  message
 - Signout wasn't effective
 
 ## [0.20.0] 2019-05-15
@@ -101,7 +118,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Validation of twitter username in contact edition
 - Address (and protocol) selection in a 1-to-1 discussion
 - Activate links in plain text messages.
-- Handle client crashes and provide a link to report an issue on https://feedback.caliopen.org
+- Handle client crashes and provide a link to report an issue on
+  https://feedback.caliopen.org
 
 ### Changed
 
@@ -110,7 +128,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - In a draft, switch identity will change the protocol of all recipients as well
 - Disable contact import
 - Do not display private key details, allow "download" instead.
-- Providers buttons are available according to backend configuration (api: `/api/v2/providers`)
+- Providers buttons are available according to backend configuration (api:
+  `/api/v2/providers`)
 
 ### Fixed
 
@@ -142,7 +161,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- Attachments visibility, it displays a warning if the message has been encrypted
+- Attachments visibility, it displays a warning if the message has been
+  encrypted
 
 ## [0.18.0] 2019-04-23
 
@@ -166,7 +186,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - End to end PGP encryption/decryption.
-- When user adds an external account, external identity is added to user's contact card
+- When user adds an external account, external identity is added to user's
+  contact card
 - Test for imap worker, twitter worker and identities worker
 - Actions for instant messages (delete, reply …) and tag list where missing
 - PWA: add to home screen
@@ -180,14 +201,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Better responsiveness on small screens for timeline & discussion & logo
 - Better responsiveness on small screens for dropdowns
 - inversion en/fr for some translations
-- BSOD on draft view in case there is no author (for example after remote identity deletion)
+- BSOD on draft view in case there is no author (for example after remote
+  identity deletion)
 - Last messages not visible in case the discussion has been openned
 - Sync contact associated to the user when editing in the contact book
 - Accept only Private Key in user account
 
 ### Changed
 
-- Remove device's locations field (IP definition) that wasn't saved and has no effects for now
+- Remove device's locations field (IP definition) that wasn't saved and has no
+  effects for now
 
 ## [0.16.0] 2019-02-25
 
@@ -241,7 +264,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - When an user authenticate we issue a device.login event
 - Add a contact from a discussion
-- Privacy Policy page available at https://alpha.caliopen.org/privacy-policy.html
+- Privacy Policy page available at
+  https://alpha.caliopen.org/privacy-policy.html
 
 ### Fixed
 
@@ -277,7 +301,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Timeline colors
-
 
 ## [0.13.2] 2018-12-11
 
@@ -353,18 +376,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- Share an index for many users, scalibility of elasticsearch does not work using old scheme
-
+- Share an index for many users, scalibility of elasticsearch does not work
+  using old scheme
 
 ### Added
 
-- Add an email or a social identity to a contact trigger PGP key discovery process
+- Add an email or a social identity to a contact trigger PGP key discovery
+  process
 - A connection is possible per device
 
 ### Changed
 
 - prevent invalidation of whole discussion during scroll
-- LocalIdentities and RemoteIdentities have been merged into a new UserIdentity object
+- LocalIdentities and RemoteIdentities have been merged into a new UserIdentity
+  object
 - group discussion by list or all participants
 - API output more informations on discussions
 
@@ -378,7 +403,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - load more doesn't load correctly when filter has been changed
-- prevent signin until JS is fully loaded, previously a json shows up with informations about a fake device.
+- prevent signin until JS is fully loaded, previously a json shows up with
+  informations about a fake device.
 - unlock correctly syncing state after a fetch failure
 - safer parsing of email with ',' or '\r' character
 
@@ -416,16 +442,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - optimization, prevent timeline to fetch multiple times the API
-- Internal email delivery is more reliable, with better error handling, reporting and logging.
+- Internal email delivery is more reliable, with better error handling,
+  reporting and logging.
 - scroll better on messages list
 
 ### Fixed
 
-- scrolls to specific message, and restore scroll positions when navigating between tabs.
+- scrolls to specific message, and restore scroll positions when navigating
+  between tabs.
 - change parent of a draft has no effects
 - sort messages of a discussion
 - discussion might not be up to date after creating a draft
-- sending two consecutives messages was failing when the second message is saved before clicking on the send button.
+- sending two consecutives messages was failing when the second message is saved
+  before clicking on the send button.
 - contact lookup can reference a deleted contact, don't fail
 
 ## [0.10.1] 2018-05-18
@@ -442,13 +471,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - Confirmation is asked before deleting a message, a discussion or a contact
-- Messages have new computed property : `date_sort`. Messages' list is sorted on.
+- Messages have new computed property : `date_sort`. Messages' list is sorted
+  on.
 - Basic support of new message's notifications
 - Poller and worker for IMAP remote identities fetch in backend
 
 ### Changed
 
-- in mobile view, draft form can toggle with an excerpt to not use half of the screen
+- in mobile view, draft form can toggle with an excerpt to not use half of the
+  screen
 - Power to the not found unicorn
 
 ### Fixed
@@ -481,8 +512,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Device management first part: declare new device with an ecdsa key
 - Backend notification base principle with a related API
 
-
 ### Changed
+
 - Refactor vcard parsing logic to get more informations
 - Contacts API are now v2
 - Authenticate with a context and a device (known or a new one to declare)
@@ -546,7 +577,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - Reset password
-- do not force phone nnumber normalization, accept everything and try to normalize
+- do not force phone nnumber normalization, accept everything and try to
+  normalize
 - permit to set contact title on user input, do not compute it strictly
 
 ### Changed
@@ -578,7 +610,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- In a draft to edit last recipient, pressing backspace does not remove last letter
+- In a draft to edit last recipient, pressing backspace does not remove last
+  letter
 - In a draft, click outside of recipient list add a recipient
 - Unmarshal nested empty structures in go objects.
 - Save updated password strength after password modification
@@ -590,7 +623,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - unmarshal nested empty structures in go objects
 - ancestors_id always an array, even empty
 - save a draft notify correctly
-
 
 ## [0.5.3] 2017-11-02
 
@@ -649,7 +681,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - API for full-text searches on messages & contacts
 - Compute importance level v0 for inbound messages
 
-
 ### Changed
 
 - Improve `PATCH` API
@@ -664,8 +695,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.3.0] 2017-08-31
 
 ### Added
-- A python package caliopen_pi to group all logic related to privacy index compute
-- Add route `GET /v2/contacts/{contact_id}/identities` to search & retrieve identities from a contact.
+
+- A python package caliopen_pi to group all logic related to privacy index
+  compute
+- Add route `GET /v2/contacts/{contact_id}/identities` to search & retrieve
+  identities from a contact.
 - New scene components related to Settings layout
 - New Importance Level range slider in tabs & alt navigation
 - In compose, add subject input field when recipient uses an email
@@ -677,9 +711,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - HTML body is sanitized before output to frontend.
 - MailMessages's subject decoded to always output an UTF-8 string.
 - Index operations return after index has been fully updated
-- API /v1/discussions returns messages ordered by last_messsage date_insert field.
+- API /v1/discussions returns messages ordered by last_messsage date_insert
+  field.
 
 ### Changed
+
 - Rename <Account...> layout and related scenes to <User...>
 - Display notification if contact update failed
 - support TAB for adding a participant to a discussion
@@ -689,10 +725,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Cross-browser `<select>` element styles.
 - Refactor caliopen_main package for cleaner namespaces.
 - Move tags API to V2. CRUD operations are now on routes /v2/tags
-- Discussions creation from ingress messages are build from messages' external references.
-- ingress & egress JSON payload are double validated by our API instead of only relying on swagger.
+- Discussions creation from ingress messages are build from messages' external
+  references.
+- ingress & egress JSON payload are double validated by our API instead of only
+  relying on swagger.
 
 ### Fixed
+
 - Bad wording for message update failures
 - Blink when composing a new message
 - Inconsistent date format string across stack
@@ -701,17 +740,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Elasticsearch inconsistent mapping
 
 ## [0.2.1] - 2017-07-04
+
 ### Added
+
 - GET /identities/remotes/<identifier> route to fix issue #383
 - add a docker compose for staging platform
 
 ## [0.2.0] - 2017-07-02
+
 ### Added
+
 - Participants suggestion API
 - Basic user remote identities API
 - API for attachment management during draft composition
 - Backend for outbound email message build with attachements
-- Basic privacy features extraction and pi computation when processing inbound email
+- Basic privacy features extraction and pi computation when processing inbound
+  email
 - PI attribute added to user, public_key, contact, message entities
 - Contact vcard import API and client implementation
 - Contact book plugged with API
@@ -722,8 +766,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Basic import of a contact book
 - Add piwik, the analytics plateform for the alpha testing purpose
 
-
 ### Changed
+
 - Remove any cassandra counters and secondary index usage
 - Replace cassandra with scylladb in development stack
 - Upgrade elasticsearch from 2.4 version to 5.x ones
@@ -731,9 +775,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Infinite scroll on the lists
 - Display real contact book (previous was fake)
 
-
 ## [0.1.0] - 2017-05-07
+
 ### Added
+
 - Initial release
 - Basic inbound email processing using NATS as message queue broker
 - Contact API

@@ -29,11 +29,18 @@ describe('contact services', () => {
     };
 
     it('extract a simple property', () => {
-      expect(contactService.formatName({ contact, format: 'title' })).toEqual(contact.title);
+      expect(contactService.formatName({ contact, format: 'title' })).toEqual(
+        contact.title
+      );
     });
 
     it('extract properties separated by a comma', () => {
-      expect(contactService.formatName({ contact, format: 'given_name, family_name' })).toEqual('John Doe');
+      expect(
+        contactService.formatName({
+          contact,
+          format: 'given_name, family_name',
+        })
+      ).toEqual('John Doe');
     });
   });
 });

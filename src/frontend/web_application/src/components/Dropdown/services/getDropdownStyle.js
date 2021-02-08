@@ -2,7 +2,10 @@ const HEADER__HEIGHT = 42;
 
 // FIXME: how to calc when there is no controlElement?
 export const getDropdownStyle = ({
-  alignRight = false, controlElement, dropdownElement, win = window,
+  alignRight = false,
+  controlElement,
+  dropdownElement,
+  win = window,
 }) => {
   const controlRect = controlElement.getBoundingClientRect();
   const dropdownRect = dropdownElement.getBoundingClientRect();
@@ -17,8 +20,8 @@ export const getDropdownStyle = ({
   // to its relative parent
   const initLeft = controlRect.left - dropdownRect.left;
   const initTop = controlRect.top - dropdownRect.top;
-  const isAlignRight = alignRight && (initLeft + offsetLeftWhenRightAligned >= 0);
-  const isTouchingRight = (initLeft + dropdownRect.width) >= (winWidth + winX);
+  const isAlignRight = alignRight && initLeft + offsetLeftWhenRightAligned >= 0;
+  const isTouchingRight = initLeft + dropdownRect.width >= winWidth + winX;
   const isTouchingLeft = controlRect.right - dropdownRect.width < 0;
 
   const isFullWidth = dropdownRect.width > winWidth;

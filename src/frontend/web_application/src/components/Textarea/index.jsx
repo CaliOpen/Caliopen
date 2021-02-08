@@ -16,13 +16,15 @@ class Textarea extends PureComponent {
   };
 
   render() {
-    const {
-      className, expanded, ...props
-    } = this.props;
+    const { className, expanded, ...props } = this.props;
 
     return (
       <textarea
-        className={classnames('m-textarea', { 'm-textarea--expanded': expanded }, className)}
+        className={classnames(
+          'm-textarea',
+          { 'm-textarea--expanded': expanded },
+          className
+        )}
         {...props}
       />
     );

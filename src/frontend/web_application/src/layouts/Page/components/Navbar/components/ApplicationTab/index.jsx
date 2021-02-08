@@ -12,9 +12,7 @@ class ApplicationTab extends Tab {
     const {
       className,
       isActive,
-      tab: {
-        location,
-      },
+      tab: { location },
       routeConfig,
     } = this.props;
 
@@ -23,11 +21,14 @@ class ApplicationTab extends Tab {
         className={classnames('m-application-tab', className)}
         active={isActive}
         color="contrasted"
-        contentChildren={(
-          <ItemLink to={getTabUrl(location)} title={routeConfig.tab.renderLabel()}>
+        contentChildren={
+          <ItemLink
+            to={getTabUrl(location)}
+            title={routeConfig.tab.renderLabel()}
+          >
             <Icon type={routeConfig.tab.icon} />
           </ItemLink>
-        )}
+        }
       />
     );
   }

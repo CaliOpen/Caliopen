@@ -4,7 +4,7 @@
 .s-contact-main-title {
   display: grid;
   grid-template-columns: auto auto 1fr;
-  grid-template-areas: "avatar name" "pi orga";
+  grid-template-areas: 'avatar name' 'pi orga';
 
   &__avatar {
     grid-area: avatar;
@@ -36,7 +36,7 @@
 
   @include breakpoint(medium) {
     & {
-      grid-template-areas: "avatar name name" "avatar pi orga";
+      grid-template-areas: 'avatar name name' 'avatar pi orga';
     }
   }
 }

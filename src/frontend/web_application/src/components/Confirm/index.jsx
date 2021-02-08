@@ -23,8 +23,12 @@ class Confirm extends PureComponent {
   };
 
   static defaultProps = {
-    onCancel: () => {},
-    onClose: () => {},
+    onCancel: () => {
+      // noop
+    },
+    onClose: () => {
+      // noop
+    },
     className: undefined,
     title: undefined,
     content: undefined,
@@ -44,23 +48,28 @@ class Confirm extends PureComponent {
   handleClose = () => {
     const { onClose } = this.props;
 
-    this.setState({
-      isModalOpen: false,
-    }, () => {
-      onClose();
-    });
-  }
+    this.setState(
+      {
+        isModalOpen: false,
+      },
+      () => {
+        onClose();
+      }
+    );
+  };
 
   handleCancel = () => {
     const { onCancel } = this.props;
 
-    this.setState({
-      isModalOpen: false,
-    }, () => {
-      onCancel();
-    });
-  }
-
+    this.setState(
+      {
+        isModalOpen: false,
+      },
+      () => {
+        onCancel();
+      }
+    );
+  };
 
   handleConfirm = async () => {
     const { onConfirm } = this.props;
@@ -75,12 +84,14 @@ class Confirm extends PureComponent {
       // the developer should display an error
       // FIXME: does this capture an error and doesn't make the dev aware of this error ?
     }
-  }
+  };
 
   renderModal() {
     const { title, content, confirmButtonContent } = this.props;
 
-    const confirmBtn = confirmButtonContent || (<Trans id="confirm.action.confirm">Yes I&apos;m sure</Trans>);
+    const confirmBtn = confirmButtonContent || (
+      <Trans id="confirm.action.confirm">Yes I&apos;m sure</Trans>
+    );
 
     return (
       <Modal
@@ -90,9 +101,12 @@ class Confirm extends PureComponent {
       >
         {content}
         <div className="m-confirm__actions">
-          <Button shape="plain" onClick={this.handleCancel}><Trans id="confirm.action.cancel">Cancel</Trans></Button>
-          {' '}
-          <Button shape="plain" color="alert" onClick={this.handleConfirm}>{confirmBtn}</Button>
+          <Button shape="plain" onClick={this.handleCancel}>
+            <Trans id="confirm.action.cancel">Cancel</Trans>
+          </Button>{' '}
+          <Button shape="plain" color="alert" onClick={this.handleConfirm}>
+            {confirmBtn}
+          </Button>
         </div>
       </Modal>
     );

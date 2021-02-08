@@ -47,5 +47,5 @@
 html {
   @include breakpoint(large) {
     font-size: 88%; // ~14px
-  };
+  }
 }

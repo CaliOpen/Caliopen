@@ -33,7 +33,7 @@ $m-contact-list__nav-alpha-color--active: #9a9a9a;
     margin-right: map_get($co-margin_, 'xsmall');
     margin-left: map_get($co-margin_, 'xsmall');
     // usefull for anchor position without incidences
-    padding-top: rem-calc($co-component__height + .5rem);
+    padding-top: rem-calc($co-component__height + 0.5rem);
     color: $m-contact-list__nav-alpha-color--active;
   }
 
@@ -58,12 +58,12 @@ $m-contact-list__nav-alpha-color--active: #9a9a9a;
       margin-right: map_get($co-margin_, 'medium');
       margin-left: map_get($co-margin_, 'medium');
     }
-  };
+  }
 
   @include breakpoint(large) {
     &__contact {
       margin-right: map_get($co-margin_, 'xlarge');
       margin-left: map_get($co-margin_, 'xlarge');
     }
-  };
+  }
 }

@@ -6,14 +6,14 @@ Please refer to global documentation on [readthedocs](http://caliopen.readthedoc
 
 This subtree is meant for building and serving CaliOpen frontend.
 
-* serving html, js and static files
-* build web application
-* build or run desktop applications
-* build or run mobile devices applications
+- serving html, js and static files
+- build web application
+- build or run desktop applications
+- build or run mobile devices applications
 
 ## Prerequisite
 
-* [yarn](https://yarnpkg.com/en/docs/install)
+- [yarn](https://yarnpkg.com/en/docs/install)
 
 _(make sure you have an up-to-date version)_
 
@@ -73,9 +73,20 @@ All the things related to react follows [this guide](https://medium.com/@alexmng
 
 Each build target has its folder:
 
-* server (the web server providing html pages thanks to SSR and the javascript browser client)
-* electron (for linux, macos and windows)
+- server (the web server providing html pages thanks to SSR and the javascript browser client)
+- electron (for linux, macos and windows)
 
 The `index.html` is generated using webpack and a `template`.
 
 And each target has its `webpack` config.
+
+## Code quality
+
+In order to make sure the code is relatively valid and consistent, some linting and formating checks are done on CI.
+You can run `yarn lint` to check if valid before sending a pull request.
+To fix automatically your code, run those 2 commands (or use eslint and prettier in your dev env):
+
+```
+yarn lint:js --fix
+yarn prettier --write .
+```

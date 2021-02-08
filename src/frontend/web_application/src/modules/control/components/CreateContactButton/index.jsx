@@ -17,14 +17,21 @@ class ComposeContactButton extends PureComponent {
 
   handleClick = () => {
     this.props.push('/new-contact');
-  }
+  };
 
   render() {
     const { className } = this.props;
 
     return (
-      <Button shape="plain" onClick={this.handleClick} className={className} icon="user">
-        <Trans id="call-to-action.action.create_contact">Create a contact</Trans>
+      <Button
+        shape="plain"
+        onClick={this.handleClick}
+        className={className}
+        icon="user"
+      >
+        <Trans id="call-to-action.action.create_contact">
+          Create a contact
+        </Trans>
       </Button>
     );
   }

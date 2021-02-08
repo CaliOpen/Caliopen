@@ -3,15 +3,22 @@
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
 
 .m-address-form {
-  &__select { // TODO: insert a wrapper to select to fit new SelectFieldGroup architecture
+  &__select {
+    // TODO: insert a wrapper to select to fit new SelectFieldGroup architecture
     @include o-form-element;
     @include o-form-element--light;
   }
 
-  &__col-button { @include flex-grid-size(shrink); }
-  &__button { margin-left: map_get($co-form__spacing, 'medium'); }
+  &__col-button {
+    @include flex-grid-size(shrink);
+  }
+  &__button {
+    margin-left: map_get($co-form__spacing, 'medium');
+  }
 
   @include breakpoint(medium) {
-    &__button { margin-left: 0; }
+    &__button {
+      margin-left: 0;
+    }
   }
 }

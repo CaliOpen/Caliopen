@@ -2,7 +2,6 @@
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
 @import '../../../../styles/object/o-avatar';
 
-
 @mixin m-user-profile-info--horizontal {
   &__avatar-wrapper {
     @include flex-grid-size(shrink);
@@ -91,6 +90,5 @@
     &__avatar-wrapper {
       text-align: center;
     }
-
   }
 }

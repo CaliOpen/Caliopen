@@ -2,7 +2,6 @@
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
 
 .m-password-form {
-
   &__row {
     align-items: flex-end;
     margin-bottom: map-get($co-form__spacing, 'large');
@@ -13,8 +12,12 @@
     font-size: $co-font__size--small;
   }
 
-  &__action { line-height: $co-component__height; }
-  &__strength { margin-top: map-get($co-form__spacing, 'small'); }
+  &__action {
+    line-height: $co-component__height;
+  }
+  &__strength {
+    margin-top: map-get($co-form__spacing, 'small');
+  }
 
   @include breakpoint(medium) {
     &__tip {
@@ -22,5 +25,4 @@
       height: $co-component__height;
     }
   }
-
 }

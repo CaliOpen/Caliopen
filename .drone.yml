@@ -66,7 +66,7 @@ pipeline:
 
   test-frontend:
     group: test
-    image: node:8
+    image: node:12
     when:
       branch: [ develop, master ]
       event: [ pull_request ]

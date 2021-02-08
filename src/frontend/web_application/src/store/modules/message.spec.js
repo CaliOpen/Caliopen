@@ -27,7 +27,7 @@ describe('ducks module message', () => {
               didInvalidate: false,
               messages: [],
               total: 0,
-              request: { },
+              request: {},
             },
           },
         },
@@ -71,7 +71,11 @@ describe('ducks module message', () => {
         ...reducer(undefined, { type: '@@INIT' }),
         messagesById: {
           a0: { body: 'already here', discussion_id: 'a001', message_id: 'a0' },
-          a1: { body: 'already here 2', discussion_id: 'a002', message_id: 'a1' },
+          a1: {
+            body: 'already here 2',
+            discussion_id: 'a002',
+            message_id: 'a1',
+          },
         },
         messagesCollections: {
           timeline: {
@@ -159,7 +163,17 @@ describe('ducks module message', () => {
               messages: [message],
             },
           },
-          meta: { previousAction: { type: module.REQUEST_MESSAGES, payload: { type: 'timeline', key: '0', discussionId: 'a', request: { foo: 'bar' } } } },
+          meta: {
+            previousAction: {
+              type: module.REQUEST_MESSAGES,
+              payload: {
+                type: 'timeline',
+                key: '0',
+                discussionId: 'a',
+                request: { foo: 'bar' },
+              },
+            },
+          },
         };
         expect(reducer(initialState, action)).toEqual({
           ...initialState,
@@ -212,7 +226,17 @@ describe('ducks module message', () => {
               messages: [message],
             },
           },
-          meta: { previousAction: { type: module.REQUEST_MESSAGES, payload: { type: 'timeline', key: '0', discussionId: 'a', request: { foo: 'bar' } } } },
+          meta: {
+            previousAction: {
+              type: module.REQUEST_MESSAGES,
+              payload: {
+                type: 'timeline',
+                key: '0',
+                discussionId: 'a',
+                request: { foo: 'bar' },
+              },
+            },
+          },
         };
         expect(reducer(initialState, action)).toEqual({
           ...initialState,

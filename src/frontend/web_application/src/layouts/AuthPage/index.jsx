@@ -15,11 +15,12 @@ const AuthPage = ({ children }) => {
         </header>
         <section className="l-auth-page__form">{children}</section>
         <footer className="l-auth-page__footer">
-          {motd && (
-            <div>{motd}</div>
-          )}
+          {motd && <div>{motd}</div>}
           <div>
-            {version} - Be good. - <a href="/privacy-policy.html" target="_blank">Privacy Policy</a>
+            {version} - Be good. -{' '}
+            <a href="/privacy-policy.html" target="_blank">
+              Privacy Policy
+            </a>
           </div>
         </footer>
       </div>

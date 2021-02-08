@@ -6,22 +6,25 @@ const { authenticate, invalidate } = require('../lib/cookie');
 const createLoginRouting = (router) => {
   const target = getApiHost();
 
-  router.post('/signin', proxy(target, {
-    proxyReqPathResolver: () => '/api/v1/authentications',
-    userResDecorator: async (proxyRes, proxyResData, userReq, userRes) => {
-      if (proxyRes.statusCode >= 200 && proxyRes.statusCode < 400) {
-        const { device, ...user } = JSON.parse(proxyResData.toString('utf8'));
+  router.post(
+    '/signin',
+    proxy(target, {
+      proxyReqPathResolver: () => '/api/v1/authentications',
+      userResDecorator: async (proxyRes, proxyResData, userReq, userRes) => {
+        if (proxyRes.statusCode >= 200 && proxyRes.statusCode < 400) {
+          const { device, ...user } = JSON.parse(proxyResData.toString('utf8'));
 
-        // according to the doc, cookie manipulation.should not be done in userResDecorator but
-        // possible since userRes is pass as a reference
-        await authenticate(userRes, { user });
+          // according to the doc, cookie manipulation.should not be done in userResDecorator but
+          // possible since userRes is pass as a reference
+          await authenticate(userRes, { user });
 
-        return JSON.stringify({ device });
-      }
+          return JSON.stringify({ device });
+        }
 
-      return proxyResData;
-    },
-  }));
+        return proxyResData;
+      },
+    })
+  );
 
   router.get('/signout', (req, res) => {
     invalidate(res);

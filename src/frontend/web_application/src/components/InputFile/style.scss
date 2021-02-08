@@ -5,7 +5,6 @@
 @import '../../styles/vendor/bootstrap_foundation-sites';
 
 .m-input-file {
-
   &__input {
     @include o-hidden-element--input-file;
   }

@@ -1,5 +1,13 @@
-import { getParticipantsAddresses, getParticipantsContactIds, getRecipients } from '../../../services/message';
-import { filterKeysByAddress, checkEachAddressHasKey, getStoredKeys } from '../services/keyring/remoteKeys';
+import {
+  getParticipantsAddresses,
+  getParticipantsContactIds,
+  getRecipients,
+} from '../../../services/message';
+import {
+  filterKeysByAddress,
+  checkEachAddressHasKey,
+  getStoredKeys,
+} from '../services/keyring/remoteKeys';
 import { fetchRemoteKeys } from './fetchRemoteKeys';
 
 export const getRecipientKeys = ({ message }) => async (dispatch, getState) => {
@@ -7,13 +15,19 @@ export const getRecipientKeys = ({ message }) => async (dispatch, getState) => {
   const allContactIds = getParticipantsContactIds({ participants: recipients });
   const allAddresses = getParticipantsAddresses({ participants: recipients });
 
-  const { keys: cachedKeys, missingKeysContactIds } = getStoredKeys(getState(), allContactIds);
-  const fetchedKeys = (await dispatch(fetchRemoteKeys(missingKeysContactIds))) || [];
+  const { keys: cachedKeys, missingKeysContactIds } = getStoredKeys(
+    getState(),
+    allContactIds
+  );
+  const fetchedKeys =
+    (await dispatch(fetchRemoteKeys(missingKeysContactIds))) || [];
 
   // filter out unnecessary public keys.
   const filteredKeys = filterKeysByAddress(
-    [...cachedKeys,
-      ...(fetchedKeys.reduce((acc, key) => [...acc, ...key.pubkeys], []))],
+    [
+      ...cachedKeys,
+      ...fetchedKeys.reduce((acc, key) => [...acc, ...key.pubkeys], []),
+    ],
     allAddresses
   );
 

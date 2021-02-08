@@ -18,7 +18,7 @@ class TagFieldGroup extends Component {
     terms: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
     input: PropTypes.shape({}),
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     isFetching: PropTypes.bool,
     errors: PropTypes.arrayOf(PropTypes.node),
   };
@@ -34,20 +34,26 @@ class TagFieldGroup extends Component {
     terms: '',
   };
 
-  componentWillMount() {
-    this.setState(prevState => generateStateFromProps(this.props, prevState));
+  UNSAFE_componentWillMount() {
+    this.setState((prevState) => generateStateFromProps(this.props, prevState));
   }
 
-  componentWillReceiveProps(newProps) {
-    this.setState(prevState => generateStateFromProps(newProps, prevState));
+  UNSAFE_componentWillReceiveProps(newProps) {
+    this.setState((prevState) => generateStateFromProps(newProps, prevState));
   }
 
   handleChange = (ev) => {
-    const { input: { onChange = () => {} } } = this.props;
+    const {
+      input: {
+        onChange = () => {
+          // noop
+        },
+      },
+    } = this.props;
     const terms = ev.target.value;
     this.setState({ terms });
     onChange(terms);
-  }
+  };
 
   handleSubmit = () => {
     if (this.state.terms.length === 0) {
@@ -55,18 +61,18 @@ class TagFieldGroup extends Component {
     }
 
     this.props.onSubmit(this.state.terms);
-  }
+  };
 
   render() {
-    const {
-      i18n, isFetching, errors, input,
-    } = this.props;
+    const { i18n, isFetching, errors, input } = this.props;
 
     const inputProps = {
       ...input,
       className: classnames(input.className, 'm-tags-search__input'),
       label: i18n._('tags.form.search.label', null, { defaults: 'Search' }),
-      placeholder: i18n._('tags.form.search.placeholder', null, { defaults: 'Search a tag ...' }),
+      placeholder: i18n._('tags.form.search.placeholder', null, {
+        defaults: 'Search a tag ...',
+      }),
       onChange: this.handleChange,
       showLabelforSr: true,
       errors,
@@ -82,7 +88,7 @@ class TagFieldGroup extends Component {
         />
         <Button
           className="m-tags-search__button"
-          icon={isFetching ? (<Spinner isLoading display="inline" />) : 'plus'}
+          icon={isFetching ? <Spinner isLoading display="inline" /> : 'plus'}
           disabled={isFetching}
           onClick={this.handleSubmit}
           aria-label={i18n._('tags.action.add', null, { defaults: 'Add' })}

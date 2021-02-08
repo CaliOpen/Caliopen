@@ -11,9 +11,7 @@ describe('component Device RevokeDevice', () => {
       notifySuccess: jest.fn(),
     };
 
-    const comp = mount(
-      <Presenter {...props} />
-    );
+    const comp = mount(<Presenter {...props} />);
 
     expect(comp.find('Button').length).toEqual(1);
   });

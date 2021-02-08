@@ -1,4 +1,7 @@
-import { updateRemoteIdentity as updateRemoteIdentityBase, requestRemoteIdentity } from '../../../store/modules/remote-identity';
+import {
+  updateRemoteIdentity as updateRemoteIdentityBase,
+  requestRemoteIdentity,
+} from '../../../store/modules/remote-identity';
 import { tryCatchAxiosAction } from '../../../services/api-client';
 import { identitySelector } from '../selectors/identitySelector';
 
@@ -7,12 +10,18 @@ export const updateIdentity = ({ identity }) => async (dispatch, getState) => {
   const original = identitySelector(getState(), { identityId });
 
   try {
-    await tryCatchAxiosAction(() => dispatch(updateRemoteIdentityBase({
-      remoteIdentity: identity, original,
-    })));
+    await tryCatchAxiosAction(() =>
+      dispatch(
+        updateRemoteIdentityBase({
+          remoteIdentity: identity,
+          original,
+        })
+      )
+    );
 
-    const remoteIdentityUpToDate =
-      await tryCatchAxiosAction(() => dispatch(requestRemoteIdentity({ identityId })));
+    const remoteIdentityUpToDate = await tryCatchAxiosAction(() =>
+      dispatch(requestRemoteIdentity({ identityId }))
+    );
 
     return remoteIdentityUpToDate;
   } catch (err) {

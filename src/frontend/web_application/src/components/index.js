@@ -1,4 +1,8 @@
-export { default as ActionBar, ActionBarButton, ActionBarWrapper } from './ActionBar';
+export {
+  default as ActionBar,
+  ActionBarButton,
+  ActionBarWrapper,
+} from './ActionBar';
 export { default as AppLoader } from './AppLoader';
 export { default as Badge } from './Badge';
 export { default as Button } from './Button';
@@ -26,7 +30,11 @@ export { default as Subtitle } from './Subtitle';
 export { default as TextBlock } from './TextBlock';
 export { default as TextList, TextItem } from './TextList';
 export { default as Title } from './Title';
-export { default as VerticalMenu, VerticalMenuItem, Separator } from './VerticalMenu';
+export {
+  default as VerticalMenu,
+  VerticalMenuItem,
+  Separator,
+} from './VerticalMenu';
 
 // Forms
 export { default as AdvancedSelectFieldGroup } from './AdvancedSelectFieldGroup';

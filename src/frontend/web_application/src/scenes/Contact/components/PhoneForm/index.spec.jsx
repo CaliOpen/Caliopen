@@ -9,9 +9,7 @@ describe('component PhoneForm', () => {
       onDelete: jest.fn(),
     };
 
-    const comp = shallow(
-      <PhoneForm {...props} />
-    ).dive();
+    const comp = shallow(<PhoneForm {...props} />).dive();
 
     expect(comp.text()).toEqual('<FormGrid />');
   });

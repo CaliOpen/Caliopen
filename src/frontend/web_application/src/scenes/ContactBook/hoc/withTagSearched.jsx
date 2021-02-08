@@ -10,11 +10,12 @@ export const withTagSearched = () => (C) => {
     };
 
     render() {
-      const { searchParams: { tag = '' }, ...props } = this.props;
+      const {
+        searchParams: { tag = '' },
+        ...props
+      } = this.props;
 
-      return (
-        <C tagSearched={tag} {...props} />
-      );
+      return <C tagSearched={tag} {...props} />;
     }
   }
 

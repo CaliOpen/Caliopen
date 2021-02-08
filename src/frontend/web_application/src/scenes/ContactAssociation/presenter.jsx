@@ -14,7 +14,7 @@ import './contact-association.scss';
 @withI18n()
 class ContactAssociation extends Component {
   static propTypes = {
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     loadMoreContacts: PropTypes.func.isRequired,
     requestContacts: PropTypes.func.isRequired,
     didInvalidate: PropTypes.bool.isRequired,
@@ -58,38 +58,48 @@ class ContactAssociation extends Component {
 
   handleClickContact = ({ contact }) => {
     const {
-      push, closeTab, currentTab,
-      match: { params: { address, protocol } }, searchParams: { label },
+      push,
+      closeTab,
+      currentTab,
+      match: {
+        params: { address, protocol },
+      },
+      searchParams: { label },
     } = this.props;
 
-    push(`/contacts/${contact.contact_id}/edit?address=${address}&protocol=${protocol}&label=${label}`);
+    push(
+      `/contacts/${contact.contact_id}/edit?address=${address}&protocol=${protocol}&label=${label}`
+    );
     closeTab(currentTab);
-  }
+  };
 
   handleClickNewContact = () => {
     const {
-      push, closeTab, currentTab,
-      match: { params: { address, protocol } }, searchParams: { label },
+      push,
+      closeTab,
+      currentTab,
+      match: {
+        params: { address, protocol },
+      },
+      searchParams: { label },
     } = this.props;
 
     push(`/new-contact?address=${address}&protocol=${protocol}&label=${label}`);
     closeTab(currentTab);
-  }
+  };
 
   loadMore = () => {
     this.props.loadMoreContacts();
-  }
+  };
 
   renderActionBar() {
-    const {
-      isFetching,
-    } = this.props;
+    const { isFetching } = this.props;
 
     return (
       <ActionBar
         hr={false}
         isLoading={isFetching}
-        actionsNode={(
+        actionsNode={
           <div className="s-contact-book-menu s-contact-association__action-bar">
             <Button
               className="s-contact-book-menu__action-btn"
@@ -98,18 +108,18 @@ class ContactAssociation extends Component {
               icon="plus"
               onClick={this.handleClickNewContact}
             >
-              <Trans id="contact-association.action.add-new-contact">Add new contact</Trans>
+              <Trans id="contact-association.action.add-new-contact">
+                Add new contact
+              </Trans>
             </Button>
           </div>
-        )}
+        }
       />
     );
   }
 
   renderContacts() {
-    const {
-      contacts, userContact, hasMore,
-    } = this.props;
+    const { contacts, userContact, hasMore } = this.props;
 
     return (
       <Fragment>
@@ -135,7 +145,11 @@ class ContactAssociation extends Component {
 
     return (
       <div className="s-contact-association">
-        <PageTitle title={i18n._('header.menu.contact-association', null, { defaults: 'Contact association' })} />
+        <PageTitle
+          title={i18n._('header.menu.contact-association', null, {
+            defaults: 'Contact association',
+          })}
+        />
         {this.renderActionBar()}
         {this.renderContacts()}
       </div>

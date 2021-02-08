@@ -9,27 +9,24 @@ import NavbarItem from '../NavbarItem';
 import ItemLink from '../ItemLink';
 import ItemButton from '../ItemButton';
 
-const contactState = state => state.contact;
+const contactState = (state) => state.contact;
 const tabSelector = (state, props) => props.tab;
 const routeConfigSelector = (state, props) => props.routeConfig;
 
 const mapStateToProps = createSelector(
   [contactState, tabSelector, routeConfigSelector],
   (discussionState, tab, routeConfig) => ({
-    contact: discussionState.contactsById[tab.getMatch({ routeConfig }).params.contactId],
+    contact:
+      discussionState.contactsById[
+        tab.getMatch({ routeConfig }).params.contactId
+      ],
   })
 );
 
 @connect(mapStateToProps)
 class ContactTab extends Tab {
   render() {
-    const {
-      className,
-      isActive,
-      tab,
-      contact,
-      routeConfig,
-    } = this.props;
+    const { className, isActive, tab, contact, routeConfig } = this.props;
 
     const label = routeConfig.tab.renderLabel({ contact });
 
@@ -37,7 +34,7 @@ class ContactTab extends Tab {
       <NavbarItem
         className={classnames('m-tab', className)}
         active={isActive}
-        contentChildren={(
+        contentChildren={
           <ItemLink
             to={getTabUrl(tab.location)}
             title={label}
@@ -46,8 +43,14 @@ class ContactTab extends Tab {
             <Icon type="address-book" className="m-tab__icon" rightSpaced />
             {label}
           </ItemLink>
-        )}
-        actionChildren={<ItemButton onClick={this.handleRemove} icon="remove" className="m-tab__action" />}
+        }
+        actionChildren={
+          <ItemButton
+            onClick={this.handleRemove}
+            icon="remove"
+            className="m-tab__action"
+          />
+        }
       />
     );
   }

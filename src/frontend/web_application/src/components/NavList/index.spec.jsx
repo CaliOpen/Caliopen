@@ -1,15 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import NavList, { NavItem } from './';
+import NavList, { NavItem } from '.';
 
 describe('component NavList', () => {
   it('render', () => {
     const comp = shallow(
       <NavList>
-        {[
-          <NavItem key="0">Foo</NavItem>,
-          <NavItem key="1">Bar</NavItem>,
-        ]}
+        {[<NavItem key="0">Foo</NavItem>, <NavItem key="1">Bar</NavItem>]}
       </NavList>
     );
 

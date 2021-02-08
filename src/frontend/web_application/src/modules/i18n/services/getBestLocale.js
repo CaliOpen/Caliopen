@@ -11,8 +11,9 @@ export const getBestLocale = (locales = []) => {
       return locale;
     }
 
-    const currentLocale = AVAILABLE_LOCALES
-      .find(availableLang => locale.startsWith(getLanguage(availableLang)));
+    const currentLocale = AVAILABLE_LOCALES.find((availableLang) =>
+      locale.startsWith(getLanguage(availableLang))
+    );
 
     if (currentLocale) {
       return currentLocale;

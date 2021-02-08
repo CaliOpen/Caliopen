@@ -2,7 +2,7 @@
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
 
 /* XXX add a margin when MailMessage is followed by MailMessage */
-.m-instant-message +.s-mail-message {
+.m-instant-message + .s-mail-message {
   margin-top: 2rem;
 }
 
@@ -11,11 +11,10 @@
   grid-template-columns: 1fr;
   grid-template-rows: auto;
   grid-template-areas:
-    "details"
-    "info"
-    "container"
-    "actions"
-  ;
+    'details'
+    'info'
+    'container'
+    'actions';
   margin-bottom: 1rem;
   background-color: #ffffff;
 
@@ -48,7 +47,8 @@
     margin-top: $co-component__spacing;
   }
 
-  &__participants, &__tags {
+  &__participants,
+  &__tags {
     display: none;
   }
 
@@ -73,7 +73,8 @@
     text-align: right;
   }
 
-  &__content, &__subject {
+  &__content,
+  &__subject {
     padding: $co-component__spacing;
     border-bottom: 1px solid #f9f9f9;
     color: #515151;
@@ -100,10 +101,9 @@
     grid-template-columns: 13rem 1fr;
     grid-template-rows: $co-component__height auto $co-component__height;
     grid-template-areas:
-      "info details"
-      "info container"
-      "info actions"
-    ;
+      'info details'
+      'info container'
+      'info actions';
 
     &__info {
       float: left;
@@ -117,22 +117,26 @@
       align-self: center;
     }
 
-    &__participants, &__tags {
+    &__participants,
+    &__tags {
       display: block;
     }
 
-    &__participants-from, &__participants-to {
+    &__participants-from,
+    &__participants-to {
       overflow: hidden;
       text-overflow: ellipsis;
       font-size: $co-font__size--small;
 
-      a, a:visited {
+      a,
+      a:visited {
         color: #515151;
         font-weight: 600;
       }
     }
 
-    &__content, &__subject {
+    &__content,
+    &__subject {
       margin-right: 6rem;
       margin-left: 6rem;
     }

@@ -57,7 +57,8 @@
     }
   }
 
-  &__purpose {}
+  &__purpose {
+  }
   &__purpose-signup {
     margin-top: map_get($co-margin_, large);
   }

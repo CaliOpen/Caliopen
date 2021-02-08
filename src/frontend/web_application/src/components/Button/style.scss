@@ -6,7 +6,9 @@
   @include o-clickable;
   text-align: left;
 
-  &__text { margin-left: $co-margin / 4; }
+  &__text {
+    margin-left: $co-margin / 4;
+  }
 
   &--center {
     text-align: center;
@@ -66,7 +68,6 @@
         }
       }
     }
-
   }
 
   &--active {
@@ -84,12 +85,15 @@
     }
 
     &--icon-only {
-      .m-button__text { display: none; }
+      .m-button__text {
+        display: none;
+      }
     }
 
     &--text-only {
-      .m-button__icon { display: none; }
+      .m-button__icon {
+        display: none;
+      }
     }
   }
-
 }

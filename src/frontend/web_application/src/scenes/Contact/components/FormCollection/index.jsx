@@ -2,9 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Trans } from '@lingui/react';
 import { FieldArray, FormSection } from 'redux-form';
-import {
-  Button, FormGrid, FormRow, FormColumn,
-} from '../../../../components';
+import { Button, FormGrid, FormRow, FormColumn } from '../../../../components';
 import TextList, { TextItem } from '../../../../components/TextList';
 
 class FormCollection extends PureComponent {
@@ -25,9 +23,7 @@ class FormCollection extends PureComponent {
   };
 
   renderForms = ({ fields }) => {
-    const {
-      component, showAdd, addButtonLabel, defaultValues,
-    } = this.props;
+    const { component, showAdd, addButtonLabel, defaultValues } = this.props;
     const addLabel = addButtonLabel || (
       <Trans id="contact.action.add_new_field">Add new</Trans>
     );
@@ -46,7 +42,11 @@ class FormCollection extends PureComponent {
             <FormGrid>
               <FormRow>
                 <FormColumn>
-                  <Button icon="plus" shape="plain" onClick={() => fields.push({ ...defaultValues })}>
+                  <Button
+                    icon="plus"
+                    shape="plain"
+                    onClick={() => fields.push({ ...defaultValues })}
+                  >
                     {addLabel}
                   </Button>
                 </FormColumn>
@@ -62,7 +62,11 @@ class FormCollection extends PureComponent {
     const { propertyName, validate } = this.props;
 
     return (
-      <FieldArray name={propertyName} component={this.renderForms} validate={validate} />
+      <FieldArray
+        name={propertyName}
+        component={this.renderForms}
+        validate={validate}
+      />
     );
   }
 }

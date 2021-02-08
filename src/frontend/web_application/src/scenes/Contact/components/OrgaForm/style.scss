@@ -2,10 +2,16 @@
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
 
 .m-orga-form {
-  &__col-button { @include flex-grid-size(shrink); }
-  &__button { margin-left: map_get($co-form__spacing, 'medium'); }
+  &__col-button {
+    @include flex-grid-size(shrink);
+  }
+  &__button {
+    margin-left: map_get($co-form__spacing, 'medium');
+  }
 
   @include breakpoint(medium) {
-    &__button { margin-left: 0; }
+    &__button {
+      margin-left: 0;
+    }
   }
 }

@@ -18,20 +18,20 @@ export class Identity {
     Object.assign(this, props);
   }
 
-  display_name
+  display_name;
 
-  credentials = {}
+  credentials = {};
 
-  identifier
+  identifier;
 
-  infos = {}
+  infos = {};
 
   // FIXME: backend doen't have this info for now: usefull for remoteIdentForm display
-  provider
+  provider;
 
-  protocol
+  protocol;
 
-  status = REMOTE_IDENTITY_STATUS_INACTIVE
+  status = REMOTE_IDENTITY_STATUS_INACTIVE;
 
-  type = IDENTITY_TYPE_REMOTE
+  type = IDENTITY_TYPE_REMOTE;
 }

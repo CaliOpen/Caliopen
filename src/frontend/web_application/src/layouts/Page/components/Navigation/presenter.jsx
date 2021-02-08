@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import HorizontalScroll from '../HorizontalScroll';
 import {
-  Tab, NavbarItem, ApplicationTab, DiscussionTab, ContactAssociationTab, ContactTab, SearchTab,
+  Tab,
+  NavbarItem,
+  ApplicationTab,
+  DiscussionTab,
+  ContactAssociationTab,
+  ContactTab,
+  SearchTab,
 } from '../Navbar/components';
 import { Button, Icon } from '../../../../components';
 import { Tab as TabModel, withCurrentTab } from '../../../../modules/tab';
@@ -29,15 +35,19 @@ class Navigation extends Component {
     isSticky: false,
   };
 
-  getTabIdentifier = ({ pathname, search, hash }) => `${pathname}${search}${hash}`;
+  getTabIdentifier = ({ pathname, search, hash }) =>
+    `${pathname}${search}${hash}`;
 
   handleClickCompose = () => {
     this.props.push('/compose');
-  }
+  };
 
   renderTab({ tab }) {
     const { removeTab, routes, currentTab } = this.props;
-    const routeConfig = findTabbableRouteConfig({ pathname: tab.location.pathname, routes });
+    const routeConfig = findTabbableRouteConfig({
+      pathname: tab.location.pathname,
+      routes,
+    });
     const isActive = currentTab === tab;
 
     switch (routeConfig.tab.type) {
@@ -104,20 +114,26 @@ class Navigation extends Component {
   }
 
   render() {
-    const {
-      tabs, className, isSticky,
-    } = this.props;
+    const { tabs, className, isSticky } = this.props;
     const subscribedState = { tabs, isSticky };
 
     return (
       <div className={classnames('l-navigation', className)}>
         <HorizontalScroll subscribedState={subscribedState}>
-          {tabs.map(tab => this.renderTab({ tab }))}
-          <NavbarItem key="compose-button" className={classnames('l-navigation__compose-item', { 'l-navigation__compose-item--sticky': isSticky })}>
-            <Button onClick={this.handleClickCompose} shape="plain" display="expanded" className="l-navigation__compose-btn">
-              <Icon type="pencil" />
-              {' '}
-              <Icon type="plus" />
+          {tabs.map((tab) => this.renderTab({ tab }))}
+          <NavbarItem
+            key="compose-button"
+            className={classnames('l-navigation__compose-item', {
+              'l-navigation__compose-item--sticky': isSticky,
+            })}
+          >
+            <Button
+              onClick={this.handleClickCompose}
+              shape="plain"
+              display="expanded"
+              className="l-navigation__compose-btn"
+            >
+              <Icon type="pencil" /> <Icon type="plus" />
             </Button>
           </NavbarItem>
         </HorizontalScroll>

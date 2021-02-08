@@ -5,7 +5,7 @@ import { withI18n } from '@lingui/react';
 import { arrayPush, autofill } from 'redux-form';
 import Presenter from './presenter';
 
-const formSelector = state => state.form;
+const formSelector = (state) => state.form;
 const formNameSelector = (state, ownProps) => ownProps.form;
 
 const mapStateToProps = createSelector(
@@ -14,10 +14,14 @@ const mapStateToProps = createSelector(
     formValues: formState[formName].values,
   })
 );
-const mapDispatchToProps = dispatch => bindActionCreators({
-  addFieldToCollection: arrayPush,
-  changeField: autofill,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      addFieldToCollection: arrayPush,
+      changeField: autofill,
+    },
+    dispatch
+  );
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

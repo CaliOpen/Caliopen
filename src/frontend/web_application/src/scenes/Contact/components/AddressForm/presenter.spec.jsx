@@ -1,6 +1,6 @@
 // import React from 'react';
 // import { shallow } from 'enzyme';
-// import AddressForm from './';
+// import AddressForm from '.';
 
 describe('component AddressForm', () => {
   it('init form', () => {

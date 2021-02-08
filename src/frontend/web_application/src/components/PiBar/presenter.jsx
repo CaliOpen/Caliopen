@@ -4,7 +4,6 @@ import classnames from 'classnames';
 import Icon from '../Icon';
 import './style.scss';
 
-
 const PiBar = ({ level, className }) => {
   const classNameModifiers = {
     disabled: 'm-pi-bar--disabled',

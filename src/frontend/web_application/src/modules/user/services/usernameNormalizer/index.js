@@ -1,1 +1,1 @@
-export const usernameNormalizer = username => username.trim();
+export const usernameNormalizer = (username) => username.trim();

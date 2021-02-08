@@ -38,15 +38,14 @@ $co-radio-size: 14px;
       background: $co-color__primary--low;
     }
 
-
     &:checked {
-       position: relative;
+      position: relative;
 
-       &:before {
-         display: block;
-         top: 1px;
-         bottom: 1px;
-       }
+      &:before {
+        display: block;
+        top: 1px;
+        bottom: 1px;
+      }
     }
   }
 }

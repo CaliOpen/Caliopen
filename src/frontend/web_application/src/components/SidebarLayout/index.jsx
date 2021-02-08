@@ -22,13 +22,21 @@ class SidebarLayout extends PureComponent {
 
   render() {
     const {
-      className, sidebarClassName, panelClassName, sidebar, children,
+      className,
+      sidebarClassName,
+      panelClassName,
+      sidebar,
+      children,
     } = this.props;
 
     return (
       <div className={classnames(className, 'm-sidebar-layout')}>
-        <div className={classnames(sidebarClassName, 'm-sidebar-layout__left')}>{sidebar}</div>
-        <div className={classnames(panelClassName, 'm-sidebar-layout__panel')}>{children}</div>
+        <div className={classnames(sidebarClassName, 'm-sidebar-layout__left')}>
+          {sidebar}
+        </div>
+        <div className={classnames(panelClassName, 'm-sidebar-layout__panel')}>
+          {children}
+        </div>
       </div>
     );
   }

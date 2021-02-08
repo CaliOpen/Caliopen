@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import TextareaFieldGroup from './';
+import TextareaFieldGroup from '.';
 
 describe('component TextareaFieldGroup', () => {
   it('should render', () => {
@@ -11,9 +11,7 @@ describe('component TextareaFieldGroup', () => {
       },
     };
 
-    const comp = shallow(
-      <TextareaFieldGroup {...props} />
-    );
+    const comp = shallow(<TextareaFieldGroup {...props} />);
 
     expect(comp.find('FieldGroup').length).toEqual(1);
     expect(comp.find('Textarea').length).toEqual(1);

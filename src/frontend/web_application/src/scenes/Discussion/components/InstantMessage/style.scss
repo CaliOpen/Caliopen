@@ -2,7 +2,7 @@
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
 
 /* XXX: add a margin if message is on top of the list */
-.m-message-list__load-more +.m-instant-message {
+.m-message-list__load-more + .m-instant-message {
   margin-top: 1rem;
 }
 

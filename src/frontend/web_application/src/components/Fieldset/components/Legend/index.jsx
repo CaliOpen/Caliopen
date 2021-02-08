@@ -15,7 +15,10 @@ export class Legend extends PureComponent {
     const { className, ...props } = this.props;
 
     return (
-      <legend className={classnames('m-fieldset__legend', className)} {...props} />
+      <legend
+        className={classnames('m-fieldset__legend', className)}
+        {...props}
+      />
     );
   }
 }

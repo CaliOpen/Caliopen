@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { withI18n } from '@lingui/react';
 import {
-  ActionBarButton, Link, Icon, Dropdown, withDropdownControl, VerticalMenu, VerticalMenuItem,
+  ActionBarButton,
+  Link,
+  Icon,
+  Dropdown,
+  withDropdownControl,
+  VerticalMenu,
+  VerticalMenuItem,
   TextBlock,
 } from '../../../../components';
 import { getParticipantsExceptUser } from '../../../../services/message';
@@ -18,7 +24,7 @@ const DropdownControl = withDropdownControl(ActionBarButton);
 class AddParticipantsToContactBook extends Component {
   static propTypes = {
     className: PropTypes.string,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     userState: PropTypes.shape({
       user: PropTypes.shape({}),
     }).isRequired,
@@ -37,11 +43,15 @@ class AddParticipantsToContactBook extends Component {
   dropdownControlRef = createRef();
 
   getUnknownParticipants = () => {
-    const { message, userState: { user } } = this.props;
+    const {
+      message,
+      userState: { user },
+    } = this.props;
 
-    return getParticipantsExceptUser(message, user)
-      .filter(participant => !participant.contact_ids);
-  }
+    return getParticipantsExceptUser(message, user).filter(
+      (participant) => !participant.contact_ids
+    );
+  };
 
   render() {
     const { i18n, className } = this.props;
@@ -58,11 +68,11 @@ class AddParticipantsToContactBook extends Component {
           display="inline"
           noDecoration
           className={classnames(className)}
-          title={i18n._('message.action.add-participant-to-contacts', null, { defaults: 'Add a participant to the contact book' })}
+          title={i18n._('message.action.add-participant-to-contacts', null, {
+            defaults: 'Add a participant to the contact book',
+          })}
         >
-          <Icon type="address-book" />
-          {' '}
-          <Icon type="plus" />
+          <Icon type="address-book" /> <Icon type="plus" />
         </DropdownControl>
         <Dropdown
           dropdownControlRef={this.dropdownControlRef}
@@ -70,7 +80,7 @@ class AddParticipantsToContactBook extends Component {
           className="m-add-participants-dropdown"
         >
           <VerticalMenu>
-            {participants.map(participant => (
+            {participants.map((participant) => (
               <VerticalMenuItem
                 key={`${participant.protocol}_${participant.address}`}
                 className="m-dropdown-unknown-participants__participant"
@@ -79,13 +89,17 @@ class AddParticipantsToContactBook extends Component {
                   button
                   expanded
                   to={`/contact-association/${participant.protocol}/${participant.address}?label=${participant.label}`}
-                  title={i18n._('message.action.add-to-contacts', null, { defaults: 'Add to contact book' })}
+                  title={i18n._('message.action.add-to-contacts', null, {
+                    defaults: 'Add to contact book',
+                  })}
                 >
-                  <TextBlock inline className="m-add-participants-dropdown__label">{participant.label}</TextBlock>
-                  {' '}
-                  <Icon type="address-book" />
-                  {' '}
-                  <Icon type="plus" />
+                  <TextBlock
+                    inline
+                    className="m-add-participants-dropdown__label"
+                  >
+                    {participant.label}
+                  </TextBlock>{' '}
+                  <Icon type="address-book" /> <Icon type="plus" />
                 </Link>
               </VerticalMenuItem>
             ))}

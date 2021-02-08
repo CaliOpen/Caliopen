@@ -5,18 +5,25 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { requestDevices as requestDevicesBase } from '../../actions/requestDevices';
 
-const deviceStateSelector = state => state.device;
-const devicesSelector = createSelector(
-  deviceStateSelector,
-  deviceState => deviceState.devices.map(id => deviceState.devicesById[id])
+const deviceStateSelector = (state) => state.device;
+const devicesSelector = createSelector(deviceStateSelector, (deviceState) =>
+  deviceState.devices.map((id) => deviceState.devicesById[id])
 );
 const mapStateToProps = createSelector(
   [deviceStateSelector, devicesSelector],
-  ({ didInvalidate, isFetching }, devices) => ({ devices, didInvalidate, isFetching })
+  ({ didInvalidate, isFetching }, devices) => ({
+    devices,
+    didInvalidate,
+    isFetching,
+  })
 );
-const mapDispatchToProps = dispatch => bindActionCreators({
-  requestDevices: requestDevicesBase,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      requestDevices: requestDevicesBase,
+    },
+    dispatch
+  );
 
 export const withDevices = () => (WrappedComponent) => {
   class WithDevices extends Component {
@@ -35,19 +42,15 @@ export const withDevices = () => (WrappedComponent) => {
 
     state = {};
 
-    componentWillMount() {
-      const {
-        isFetching, devices, didInvalidate, requestDevices,
-      } = this.props;
+    UNSAFE_componentWillMount() {
+      const { isFetching, devices, didInvalidate, requestDevices } = this.props;
       if (!isFetching && (devices.length === 0 || didInvalidate)) {
         requestDevices();
       }
     }
 
-    componentWillReceiveProps(nextProps) {
-      const {
-        isFetching, devices, didInvalidate, requestDevices,
-      } = nextProps;
+    UNSAFE_componentWillReceiveProps(nextProps) {
+      const { isFetching, devices, didInvalidate, requestDevices } = nextProps;
       if (!isFetching && (devices.length === 0 || didInvalidate)) {
         requestDevices();
       }
@@ -55,7 +58,11 @@ export const withDevices = () => (WrappedComponent) => {
 
     render() {
       const {
-        devices, requestDevices, isFetching, didInvalidate, ...props
+        devices,
+        requestDevices,
+        isFetching,
+        didInvalidate,
+        ...props
       } = this.props;
 
       const devicesProps = {
@@ -65,9 +72,7 @@ export const withDevices = () => (WrappedComponent) => {
         isFetching,
       };
 
-      return (
-        <WrappedComponent devicesProps={devicesProps} {...props} />
-      );
+      return <WrappedComponent devicesProps={devicesProps} {...props} />;
     }
   }
 

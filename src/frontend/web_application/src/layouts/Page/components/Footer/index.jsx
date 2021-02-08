@@ -28,7 +28,10 @@ class Footer extends PureComponent {
 
         <Brand className="l-footer__brand" theme="low" />
         <div className="l-footer__release">
-          {version} - Be good. - <a href="/privacy-policy.html" target="_blank">Privacy Policy</a>
+          {version} - Be good. -{' '}
+          <a href="/privacy-policy.html" target="_blank">
+            Privacy Policy
+          </a>
         </div>
       </div>
     );

@@ -9,12 +9,15 @@ import { getLogger } from './logger';
 
 const logger = getLogger();
 
-const { options: { config: configPath } } = argv
+const {
+  options: { config: configPath },
+} = argv
   .option([
     {
       name: 'config',
       type: 'path',
-      description: 'the file to set Caliopen options. See config/server.default.js for default options. This can be a regular js or a json file, cf. README.md.',
+      description:
+        'the file to set Caliopen options. See config/server.default.js for default options. This can be a regular js or a json file, cf. README.md.',
       example: 'server --config=~/caliopen.webserver.json',
     },
   ])
@@ -30,7 +33,9 @@ if (configPath) {
 }
 
 const server = http.createServer(getApp());
-const { webServer: { port, hostname } } = getConfig();
+const {
+  webServer: { port, hostname },
+} = getConfig();
 const params = [
   port,
   ...(hostname ? [hostname] : []),

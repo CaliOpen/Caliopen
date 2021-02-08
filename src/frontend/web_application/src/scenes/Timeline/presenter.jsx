@@ -5,7 +5,12 @@ import isEqual from 'lodash.isequal';
 import { Trans } from '@lingui/react';
 import { withScrollManager, ScrollDetector } from '../../modules/scroll';
 import {
-  Button, InfiniteScroll, ActionBarWrapper, ActionBar, CheckboxFieldGroup, PlaceholderBlock,
+  Button,
+  InfiniteScroll,
+  ActionBarWrapper,
+  ActionBar,
+  CheckboxFieldGroup,
+  PlaceholderBlock,
   TextBlock,
 } from '../../components';
 import DiscussionItem from './components/DiscussionItem';
@@ -79,23 +84,24 @@ class Timeline extends Component {
     );
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.loadDiscussions(nextProps);
   }
 
   onSelectDiscussion = (type, discussionId) => {
     if (type === 'add') {
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         ...prevState,
         selectedDiscussions: [...prevState.selectedDiscussions, discussionId],
       }));
     }
 
     if (type === 'remove') {
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         ...prevState,
-        selectedDiscussions: [...prevState.selectedDiscussions]
-          .filter(item => item !== discussionId),
+        selectedDiscussions: [...prevState.selectedDiscussions].filter(
+          (item) => item !== discussionId
+        ),
       }));
     }
   };
@@ -104,33 +110,32 @@ class Timeline extends Component {
     if (type === 'select') {
       const { discussions } = this.props;
 
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         ...prevState,
-        selectedDiscussions:
-            discussions.map(discussion => discussion.discussion_id),
+        selectedDiscussions: discussions.map(
+          (discussion) => discussion.discussion_id
+        ),
       }));
     }
 
     if (type === 'unselect') {
-      this.setState(prevState => ({ ...prevState, selectedDiscussions: [] }));
+      this.setState((prevState) => ({ ...prevState, selectedDiscussions: [] }));
     }
   };
 
   loadDiscussions = async (props, force = false) => {
-    const {
-      requestDiscussions, isFetching, didInvalidate,
-    } = props;
+    const { requestDiscussions, isFetching, didInvalidate } = props;
     if ((!this.state.initialized || force || didInvalidate) && !isFetching) {
       // "initialized" is not well named,
       // we consider it "initialized" as soon as we start fetching messages to prevent multiple
       // fetchs because setState would be applied at the very end after multiple
-      // componentWillReceiveProps
+      // UNSAFE_componentWillReceiveProps
       this.setState({ initialized: true });
       requestDiscussions();
     }
 
     return Promise.resolve();
-  }
+  };
 
   loadMore = () => {
     if (this.props.hasMore) {
@@ -141,21 +146,21 @@ class Timeline extends Component {
   handleToggleShowSpam = () => {
     const { filterImportance, importanceRange } = this.props;
 
-    const nextRange = isEqual(importanceRange, FILTER_RANGE_DEFAULT) ?
-      FILTER_RANGE_ALL :
-      FILTER_RANGE_DEFAULT;
+    const nextRange = isEqual(importanceRange, FILTER_RANGE_DEFAULT)
+      ? FILTER_RANGE_ALL
+      : FILTER_RANGE_DEFAULT;
 
     filterImportance(nextRange);
-  }
+  };
 
-  makeHandleClickClearNotifications = cb => () => {
+  makeHandleClickClearNotifications = (cb) => () => {
     this.loadDiscussions(this.props, true);
     cb();
-  }
+  };
 
   renderPlaceholder = () => (
     <ul className="s-timeline__discussion-list">
-      {[1, 2, 3, 4, 5].map(n => (
+      {[1, 2, 3, 4, 5].map((n) => (
         <PlaceholderBlock key={n} className="s-timeline__discussion" />
       ))}
     </ul>
@@ -171,7 +176,7 @@ class Timeline extends Component {
 
     return (
       <ul className="s-timeline__discussion-list">
-        {discussions.map(discussion => (
+        {discussions.map((discussion) => (
           <DiscussionItem
             key={discussion.discussion_id}
             className="s-timeline__discussion"
@@ -179,7 +184,9 @@ class Timeline extends Component {
             discussion={discussion}
             onSelectDiscussion={this.onSelectDiscussion}
             onSelectAllDiscussions={this.onSelectAllDiscussions}
-            isDiscussionSelected={selectedDiscussions.includes(discussion.discussion_id)}
+            isDiscussionSelected={selectedDiscussions.includes(
+              discussion.discussion_id
+            )}
             settings={settings}
           />
         ))}
@@ -195,19 +202,23 @@ class Timeline extends Component {
     return (
       <ScrollDetector
         offset={136}
-        render={isSticky => (
+        render={(isSticky) => (
           <ActionBarWrapper isSticky={isSticky}>
             <ActionBar
               hr={false}
               isLoading={isFetching}
-              actionsNode={(
+              actionsNode={
                 <div className="s-timeline-action-bar">
                   <TextBlock>
                     <CheckboxFieldGroup
                       className="s-timeline-action-bar__filters"
                       displaySwitch
                       showTextLabel
-                      label={(<Trans id="timeline.action.display-spam">Show spam</Trans>)}
+                      label={
+                        <Trans id="timeline.action.display-spam">
+                          Show spam
+                        </Trans>
+                      }
                       onChange={this.handleToggleShowSpam}
                       checked={hasSpam}
                     />
@@ -226,7 +237,7 @@ class Timeline extends Component {
                           />
                   */}
                 </div>
-              )}
+              }
             />
           </ActionBarWrapper>
         )}
@@ -242,14 +253,14 @@ class Timeline extends Component {
         <section className="s-timeline">
           {this.renderActionBar()}
           <InfiniteScroll onReachBottom={this.loadMore}>
-            <Fragment>
-              {this.renderDiscussions()}
-            </Fragment>
+            <Fragment>{this.renderDiscussions()}</Fragment>
           </InfiniteScroll>
         </section>
         {hasMore && (
           <div className="s-timeline__load-more">
-            <Button shape="hollow" onClick={this.loadMore}><Trans id="general.action.load_more">Load more</Trans></Button>
+            <Button shape="hollow" onClick={this.loadMore}>
+              <Trans id="general.action.load_more">Load more</Trans>
+            </Button>
           </div>
         )}
       </Fragment>

@@ -13,61 +13,80 @@ $co-pi-width: (
   mini-ratings: 1rem,
 );
 $co-pi-height: (
-  progressbar: .25rem,
+  progressbar: 0.25rem,
 );
 
-$co-radius: .2rem;
+$co-radius: 0.2rem;
 
 // TODO refactor
-$co-margin: 1.5rem; //24px
+//24px
+$co-margin: 1.5rem;
 $co-margin_: (
-  xsmall:  .625rem,   // 10px
-  small:   1rem,     // 16px
-  medium:  1.5rem,   // 24px
-  large:   2.625rem, // 42px
-  xlarge:  5rem,     // 80px
+  // 10px
+    xsmall: 0.625rem,
+  // 16px
+    small: 1rem,
+  // 24px
+    medium: 1.5rem,
+  // 42px
+    large: 2.625rem,
+  // 80px
+    xlarge: 5rem
 );
 
 $co-font__size: 1rem;
-$co-font__size--xsmall: .75rem;
-$co-font__size--small: .875rem;
+$co-font__size--xsmall: 0.75rem;
+$co-font__size--small: 0.875rem;
 $co-font__size--large: 1.5rem;
 
 $co-font__line-height: 1.4rem;
 
 $co-component__height: 2.625rem;
 $co-component__height--large: 3.5rem;
-$co-component__spacing: .5rem;
+$co-component__spacing: 0.5rem;
 
 $co-form__width: (
-  small:  10rem,  // 160 px
-  medium: 13rem,  // 208 px
-  large:  16rem,  // 256 px
-  xlarge: 23.75rem,  // 380 px
+  // 160 px
+    small: 10rem,
+  // 208 px
+    medium: 13rem,
+  // 256 px
+    large: 16rem,
+  // 380 px
+    xlarge: 23.75rem
 );
 
 $co-form__height: (
-  small:  1.5rem,   // 24 px
-  medium: 2.25rem,  // 36 px
-  large:  3rem      // 48 px
+  // 24 px
+    small: 1.5rem,
+  // 36 px
+    medium: 2.25rem,
+  // 48 px
+    large: 3rem
 );
 
 $co-form__spacing: (
-  xsmall: .25rem, // 4 px
-  small: .625rem, // 10 px
-  medium: .9375rem, // 15 px
-  large:  1.5625rem, // 25 px
-  xlarge:  2.625rem, // 42px
+  // 4 px
+    xsmall: 0.25rem,
+  // 10 px
+    small: 0.625rem,
+  // 15 px
+    medium: 0.9375rem,
+  // 25 px
+    large: 1.5625rem,
+  // 42px
+    xlarge: 2.625rem
 );
 
 $co-grid__gutter: $co-margin;
 $co-grid__gutter--small: 20px;
 
-$co-animation__clickable-transition: background-color .1s ease-out, color .1s ease-out !default;
-$co-animation__box-transition: box-shadow .15s, border-color .15s ease-in-out !default;
-$co-animation__margin-transition: margin .15s, padding .15s ease !default;
-$co-animation__width-transition: width .15s ease-in-out !default;
-$co-animation__height-transition: height,max-height .15s ease-in-out !default;
+$co-animation__clickable-transition: background-color 0.1s ease-out,
+  color 0.1s ease-out !default;
+$co-animation__box-transition: box-shadow 0.15s, border-color 0.15s ease-in-out !default;
+$co-animation__margin-transition: margin 0.15s, padding 0.15s ease !default;
+$co-animation__width-transition: width 0.15s ease-in-out !default;
+$co-animation__height-transition: height, max-height 0.15s ease-in-out !default;
 
 $l-z-index__navbar-shadow: -1;
 $l-z-index__dropdown: 1;

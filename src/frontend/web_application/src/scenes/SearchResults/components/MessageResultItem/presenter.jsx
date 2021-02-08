@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Moment from 'react-moment';
 import { Trans } from '@lingui/react';
-import { WithTags, getTagLabel, getCleanedTagCollection } from '../../../../modules/tags';
+import {
+  WithTags,
+  getTagLabel,
+  getCleanedTagCollection,
+} from '../../../../modules/tags';
 import MessageDate from '../../../../components/MessageDate';
 import { AuthorAvatarLetter, SIZE_SMALL } from '../../../../modules/avatar';
-import {
-  Badge, Link, Icon, TextBlock,
-} from '../../../../components';
+import { Badge, Link, Icon, TextBlock } from '../../../../components';
 import { renderParticipant } from '../../../../services/message';
 import Highlights from '../Highlights';
 
@@ -16,7 +18,7 @@ import './style.scss';
 
 class MessageResultItem extends PureComponent {
   static propTypes = {
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     message: PropTypes.shape({}).isRequired,
     term: PropTypes.string.isRequired,
     highlights: PropTypes.shape({}),
@@ -28,12 +30,15 @@ class MessageResultItem extends PureComponent {
   };
 
   renderAuthor() {
-    const { message: { participants }, term } = this.props;
-    const author = participants.find(participant => participant.type === 'From');
-
-    return (
-      <Highlights term={term} highlights={renderParticipant(author)} />
+    const {
+      message: { participants },
+      term,
+    } = this.props;
+    const author = participants.find(
+      (participant) => participant.type === 'From'
     );
+
+    return <Highlights term={term} highlights={renderParticipant(author)} />;
   }
 
   renderTags() {
@@ -44,12 +49,17 @@ class MessageResultItem extends PureComponent {
     }
 
     return (
-      <WithTags render={userTags => getCleanedTagCollection(userTags, message.tags).map(tag => (
-        <span key={tag.name}>
-          {' '}
-          <Badge className="s-message-result-item__tag">{getTagLabel(i18n, tag)}</Badge>
-        </span>
-      ))}
+      <WithTags
+        render={(userTags) =>
+          getCleanedTagCollection(userTags, message.tags).map((tag) => (
+            <span key={tag.name}>
+              {' '}
+              <Badge className="s-message-result-item__tag">
+                {getTagLabel(i18n, tag)}
+              </Badge>
+            </span>
+          ))
+        }
       />
     );
   }
@@ -66,21 +76,15 @@ class MessageResultItem extends PureComponent {
 
   render() {
     const { message, locale, term } = this.props;
-    const resultItemClassNames = classnames(
-      's-message-result-item',
-      {
-        's-message-result-item--unread': message.is_unread,
-        's-message-result-item--draft': message.is_draft,
-      }
-    );
+    const resultItemClassNames = classnames('s-message-result-item', {
+      's-message-result-item--unread': message.is_unread,
+      's-message-result-item--draft': message.is_draft,
+    });
 
-    const topicClassNames = classnames(
-      's-message-result-item__topic',
-      {
-        's-message-result-item__topic--unread': message.is_unread,
-        's-message-result-item__topic--draft': message.is_draft,
-      }
-    );
+    const topicClassNames = classnames('s-message-result-item__topic', {
+      's-message-result-item__topic--unread': message.is_unread,
+      's-message-result-item__topic--draft': message.is_draft,
+    });
 
     return (
       <Link
@@ -97,11 +101,12 @@ class MessageResultItem extends PureComponent {
             {this.renderAuthor()}
           </span>
           <span className={topicClassNames}>
-            {message.attachments && message.attachments.length > 0 && <Icon type="paperclip" spaced />}
+            {message.attachments && message.attachments.length > 0 && (
+              <Icon type="paperclip" spaced />
+            )}
             {message.is_draft && (
               <span className="s-message-result-item__draft-prefix">
-                <Trans id="timeline.draft-prefix">Draft in progress:</Trans>
-                {' '}
+                <Trans id="timeline.draft-prefix">Draft in progress:</Trans>{' '}
               </span>
             )}
             {message.subject && (

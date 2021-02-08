@@ -12,7 +12,4 @@ const mapStateToProps = createSelector(
   })
 );
 
-export default compose(
-  withI18n(),
-  connect(mapStateToProps)
-)(Presenter);
+export default compose(withI18n(), connect(mapStateToProps))(Presenter);

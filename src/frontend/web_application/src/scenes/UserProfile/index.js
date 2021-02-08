@@ -9,24 +9,30 @@ import { requestUser, updateUser } from '../../store/modules/user';
 import { updateContact } from '../../store/modules/contact';
 import Presenter from './presenter';
 
-const userSelector = state => state.user;
+const userSelector = (state) => state.user;
 const contactIdSelector = (state, ownProps) => ownProps.match.params.contactId;
 
 const mapStateToProps = createSelector(
   [userSelector, contactIdSelector],
-  userState => ({
+  (userState) => ({
     isFetching: userState.isFetching,
     initialValues: userState.user,
   })
 );
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  requestUser,
-  updateUser,
-  onSubmit: (values, disp, props) => updateContact({
-    contact: values.contact, original: props.initialValues.contact,
-  }),
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      requestUser,
+      updateUser,
+      onSubmit: (values, disp, props) =>
+        updateContact({
+          contact: values.contact,
+          original: props.initialValues.contact,
+        }),
+    },
+    dispatch
+  );
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import Presenter from './presenter';
 
 jest.mock('../../../../modules/userNotify', () => ({
-  withNotification: () => noop => noop,
+  withNotification: () => (noop) => noop,
 }));
 
 describe('component Device VerifyDevice', () => {

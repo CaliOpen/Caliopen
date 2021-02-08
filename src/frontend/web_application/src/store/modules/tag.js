@@ -52,7 +52,6 @@ export function requestTag({ name }) {
   };
 }
 
-
 export function deleteTag({ tag }) {
   return {
     type: REMOVE_TAG,

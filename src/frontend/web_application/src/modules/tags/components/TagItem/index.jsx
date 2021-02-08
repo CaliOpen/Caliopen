@@ -11,7 +11,7 @@ class TagItem extends Component {
   static propTypes = {
     tag: PropTypes.shape({}).isRequired,
     onDelete: PropTypes.func.isRequired,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
   state = {

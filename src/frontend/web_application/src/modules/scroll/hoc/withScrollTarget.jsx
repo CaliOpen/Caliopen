@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { scrollTop } from '../services/scrollTop';
 import { getViewPortTop } from '../services/getViewPortTop';
 
-export const withScrollTarget = ({ namespace = 'scrollTarget' } = {}) => (Component) => {
+export const withScrollTarget = ({ namespace = 'scrollTarget' } = {}) => (
+  Component
+) => {
   class ScrollTarget extends PureComponent {
     static propTypes = {
       scrollToMe: PropTypes.func,
@@ -11,7 +13,7 @@ export const withScrollTarget = ({ namespace = 'scrollTarget' } = {}) => (Compon
 
     static defaultProps = {
       scrollToMe: undefined,
-    }
+    };
 
     state = { alreadyScrolledContext: undefined };
 
@@ -21,7 +23,7 @@ export const withScrollTarget = ({ namespace = 'scrollTarget' } = {}) => (Compon
 
     getRef = (ref) => {
       this.element = ref;
-    }
+    };
 
     scroll = () => {
       if (!this.props.scrollToMe || !this.element) return;
@@ -34,7 +36,7 @@ export const withScrollTarget = ({ namespace = 'scrollTarget' } = {}) => (Compon
 
         this.setState({ alreadyScrolledContext: scrollContext });
       }
-    }
+    };
 
     render() {
       const injected = {
@@ -43,7 +45,7 @@ export const withScrollTarget = ({ namespace = 'scrollTarget' } = {}) => (Compon
         },
       };
 
-      return (<Component {...injected} {...this.props} />);
+      return <Component {...injected} {...this.props} />;
     }
   }
 

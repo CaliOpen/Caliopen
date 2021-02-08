@@ -29,7 +29,7 @@ class CheckboxFieldGroup extends PureComponent {
     errors: [],
   };
 
-  state = {}
+  state = {};
 
   render() {
     const {
@@ -55,7 +55,10 @@ class CheckboxFieldGroup extends PureComponent {
         {showTextLabel && (
           <Label
             htmlFor={checkboxId}
-            className={classnames('m-checkbox-field-group__label', labelClassname)}
+            className={classnames(
+              'm-checkbox-field-group__label',
+              labelClassname
+            )}
           >
             {label}
           </Label>
@@ -64,7 +67,10 @@ class CheckboxFieldGroup extends PureComponent {
     );
 
     return (
-      <FieldGroup errors={errors} className={classnames('m-checkbox-field-group', className)}>
+      <FieldGroup
+        errors={errors}
+        className={classnames('m-checkbox-field-group', className)}
+      >
         {displaySwitch ? renderSwitch() : renderCheckbox()}
       </FieldGroup>
     );

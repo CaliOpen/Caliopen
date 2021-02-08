@@ -4,12 +4,11 @@ plugins:
 
 # Rule Configuration
 rules:
-
   # Allow a bigger nesting depth max in waiting of:
   # https://github.com/sasstools/sass-lint/issues/603
   max-nesting-depth:
     - 3
-    - severity: "warning"
+    - severity: 'warning'
 
   # Name Formats
   #
@@ -35,7 +34,7 @@ rules:
   #
   selector-max-class:
     - 1
-    - severity: "warning"
+    - severity: 'warning'
 
   # Property sort order, inspired from SMACCS
   # https://github.com/sasstools/sass-lint/blob/develop/lib/config/property-sort-orders/smacss.yml

@@ -1,4 +1,4 @@
-export default () => next => (action) => {
+export default () => (next) => (action) => {
   try {
     return next(action);
   } catch (err) {

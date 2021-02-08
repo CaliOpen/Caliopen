@@ -10,7 +10,7 @@ const renderComponent = (C, className) => {
     className: classnames(className, originalClassName),
   };
 
-  return (<C.type {...componentProps} />);
+  return <C.type {...componentProps} />;
 };
 
 class NavbarItem extends PureComponent {
@@ -36,7 +36,13 @@ class NavbarItem extends PureComponent {
 
   render() {
     const {
-      className, active, contentChildren, actionChildren, children, color, ...props
+      className,
+      active,
+      contentChildren,
+      actionChildren,
+      children,
+      color,
+      ...props
     } = this.props;
 
     const navbarItemProps = {
@@ -50,8 +56,10 @@ class NavbarItem extends PureComponent {
 
     return (
       <div {...navbarItemProps}>
-        {contentChildren && renderComponent(contentChildren, 'm-navbar-item__content')}
-        {actionChildren && renderComponent(actionChildren, 'm-navbar-item__action')}
+        {contentChildren &&
+          renderComponent(contentChildren, 'm-navbar-item__content')}
+        {actionChildren &&
+          renderComponent(actionChildren, 'm-navbar-item__action')}
         {children}
       </div>
     );

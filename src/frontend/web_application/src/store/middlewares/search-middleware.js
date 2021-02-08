@@ -11,7 +11,7 @@ const loadMoreHandler = ({ store, action }) => {
   store.dispatch(search({ term, doctype }, { offset }));
 };
 
-export default store => next => (action) => {
+export default (store) => (next) => (action) => {
   const result = next(action);
 
   loadMoreHandler({ store, action });

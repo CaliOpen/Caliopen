@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import Presenter from './presenter';
 
 describe('scene - ResetPassword', () => {
-  const i18n = { _: id => id };
+  const i18n = { _: (id) => id };
 
   it('render', () => {
     const comp = shallow(

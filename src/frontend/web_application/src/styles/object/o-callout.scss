@@ -20,8 +20,16 @@
 @mixin o-callout {
   @include o-callout-base;
 
-  &--success { @include o-callout--color($co-color__success); }
-  &--info    { @include o-callout--color($co-color__info); }
-  &--warning { @include o-callout--color($co-color__warning); }
-  &--alert   { @include o-callout--color($co-color__alert); }
+  &--success {
+    @include o-callout--color($co-color__success);
+  }
+  &--info {
+    @include o-callout--color($co-color__info);
+  }
+  &--warning {
+    @include o-callout--color($co-color__warning);
+  }
+  &--alert {
+    @include o-callout--color($co-color__alert);
+  }
 }

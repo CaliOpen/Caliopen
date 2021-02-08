@@ -5,7 +5,8 @@ import './style.scss';
 
 class Label extends PureComponent {
   static propTypes = {
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
+      .isRequired,
     htmlFor: PropTypes.string.isRequired,
     className: PropTypes.string,
   };
@@ -14,22 +15,15 @@ class Label extends PureComponent {
     className: null,
   };
 
-  state = {}
+  state = {};
 
   render() {
     const { className, htmlFor, children } = this.props;
-    const labelClassName = classnames(
-      'm-label',
-      className
-    );
-
+    const labelClassName = classnames('m-label', className);
 
     return (
-      <label
-        htmlFor={htmlFor}
-        className={labelClassName}
-      >
-        { children }
+      <label htmlFor={htmlFor} className={labelClassName}>
+        {children}
       </label>
     );
   }

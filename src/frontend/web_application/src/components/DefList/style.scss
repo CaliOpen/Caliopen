@@ -9,7 +9,8 @@
 
   &__def {
     margin-bottom: map-get($co-form__spacing, 'large');
-    padding: map-get($co-form__spacing, 'xsmall') map-get($co-form__spacing, 'small');
+    padding: map-get($co-form__spacing, 'xsmall')
+      map-get($co-form__spacing, 'small');
     border: 1px solid $co-color__fg__border--lower;
     color: $co-color__fg__text;
   }

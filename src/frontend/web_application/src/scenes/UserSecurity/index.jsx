@@ -7,22 +7,23 @@ import { withUser } from '../../hoc/user';
 import { requestUser } from '../../store/modules/user';
 import Presenter from './presenter';
 
-const userSelector = state => state.user;
+const userSelector = (state) => state.user;
 
-const mapStateToProps = createSelector(
-  [userSelector],
-  userState => ({
-    isFetching: userState.isFetching,
-  })
-);
+const mapStateToProps = createSelector([userSelector], (userState) => ({
+  isFetching: userState.isFetching,
+}));
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  requestUser,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      requestUser,
+    },
+    dispatch
+  );
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withI18n(),
   withUser(),
-  withNotification(),
+  withNotification()
 )(Presenter);

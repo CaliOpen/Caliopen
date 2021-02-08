@@ -1,10 +1,17 @@
 // https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/mixins/_gradients.scss
-@mixin u-gradient-striped($color: rgba(255, 255, 255, .15), $angle: 45deg, $size: 4px) {
+@mixin u-gradient-striped(
+  $color: rgba(255, 255, 255, 0.15),
+  $angle: 45deg,
+  $size: 4px
+) {
   background-image: linear-gradient(
     $angle,
-    $color 25%, transparent 25%,
-    transparent 50%, $color 50%,
-    $color 75%, transparent 75%,
+    $color 25%,
+    transparent 25%,
+    transparent 50%,
+    $color 50%,
+    $color 75%,
+    transparent 75%,
     transparent
   );
   background-size: $size $size;

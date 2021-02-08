@@ -30,7 +30,7 @@ describe('component DropdownControl - getDropdownStyle', () => {
     };
 
     expect(getDropdownStyle(props)).toEqual({
-      left: (80 + 10) - 50,
+      left: 80 + 10 - 50,
       top: 20,
       position: 'absolute',
     });
@@ -81,7 +81,7 @@ describe('component DropdownControl - getDropdownStyle', () => {
       };
 
       expect(getDropdownStyle(props)).toEqual({
-        left: (50 + 10) - 30,
+        left: 50 + 10 - 30,
         top: 20,
         position: 'absolute',
       });
@@ -170,7 +170,7 @@ describe('component DropdownControl - getDropdownStyle', () => {
     };
 
     expect(getDropdownStyle(props)).toEqual({
-      left: (80 + 10) - 50,
+      left: 80 + 10 - 50,
       top: 20,
       position: 'absolute',
     });

@@ -17,14 +17,15 @@ export const withSearchParams = () => (C) => {
 
       const paramsIterator = new URLSearchParams(location.search);
 
-      const searchParams = Array.from(paramsIterator).reduce((acc, keyVal) => ({
-        ...acc,
-        [keyVal[0]]: keyVal[1],
-      }), {});
-
-      return (
-        <C searchParams={searchParams} {...props} />
+      const searchParams = Array.from(paramsIterator).reduce(
+        (acc, keyVal) => ({
+          ...acc,
+          [keyVal[0]]: keyVal[1],
+        }),
+        {}
       );
+
+      return <C searchParams={searchParams} {...props} />;
     }
   }
 

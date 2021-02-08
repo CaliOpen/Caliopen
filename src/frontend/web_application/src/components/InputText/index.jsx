@@ -22,11 +22,17 @@ class InputText extends PureComponent {
     inputRef: undefined,
   };
 
-  state = {}
+  state = {};
 
   render() {
     const {
-      expanded, theme, bottomSpace, className, hasError, inputRef, ...props
+      expanded,
+      theme,
+      bottomSpace,
+      className,
+      hasError,
+      inputRef,
+      ...props
     } = this.props;
     const inputTextClassName = classnames(
       'm-input-text',
@@ -40,7 +46,6 @@ class InputText extends PureComponent {
       },
       className
     );
-
 
     return (
       <input

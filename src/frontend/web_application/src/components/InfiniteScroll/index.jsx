@@ -17,13 +17,21 @@ class InfiniteScroll extends Component {
   };
 
   componentDidMount() {
-    this.unesubscribeScrollEvent = addEventListener('scroll', throttle(() => {
-      const scrollSize = window.scrollY || document.documentElement.scrollTop;
-      const { scrollHeight, clientHeight } = document.documentElement;
-      if (scrollHeight - (clientHeight + scrollSize) <= FOOTER_HEIGHT) {
-        this.props.onReachBottom();
-      }
-    }, THROTTLE_INTERVAL, { leading: true, trailing: false }));
+    this.unesubscribeScrollEvent = addEventListener(
+      'scroll',
+      throttle(
+        () => {
+          const scrollSize =
+            window.scrollY || document.documentElement.scrollTop;
+          const { scrollHeight, clientHeight } = document.documentElement;
+          if (scrollHeight - (clientHeight + scrollSize) <= FOOTER_HEIGHT) {
+            this.props.onReachBottom();
+          }
+        },
+        THROTTLE_INTERVAL,
+        { leading: true, trailing: false }
+      )
+    );
   }
 
   componentWillUnmount() {

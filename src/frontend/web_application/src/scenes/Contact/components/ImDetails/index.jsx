@@ -7,7 +7,7 @@ import { Icon } from '../../../../components';
 class ImDetails extends Component {
   static propTypes = {
     im: PropTypes.shape({}).isRequired,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
   constructor(props) {
@@ -25,16 +25,15 @@ class ImDetails extends Component {
   }
 
   render() {
-    const {
-      im,
-    } = this.props;
+    const { im } = this.props;
 
     return (
       <span className="m-im-details">
         <Icon rightSpaced type="comment" />
-        {im.address}
-        {' '}
-        <small><em>{this.imTypesTranslations[im.type]}</em></small>
+        {im.address}{' '}
+        <small>
+          <em>{this.imTypesTranslations[im.type]}</em>
+        </small>
       </span>
     );
   }

@@ -14,7 +14,7 @@ class RemoteIdentitySettings extends Component {
     onIdentityChange: PropTypes.func.isRequired,
     onIdentityDelete: PropTypes.func.isRequired,
     identities: PropTypes.arrayOf(PropTypes.shape({})),
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     notifyError: PropTypes.func.isRequired,
     notifySuccess: PropTypes.func.isRequired,
   };
@@ -33,35 +33,38 @@ class RemoteIdentitySettings extends Component {
     const { onIdentityChange } = this.props;
 
     return onIdentityChange(...params);
-  }
+  };
 
   handleDelete = async (...params) => {
     const { onIdentityDelete } = this.props;
 
     return onIdentityDelete(...params);
-  }
+  };
 
   handleError = (error) => {
     // TODO : better error handling
-    console.log(error);
+    // console.log(error);
     let errorMessage;
     if (error.data && error.data.errors && error.data.errors.length > 0) {
       errorMessage = error.data.errors[0].message;
     } else {
-      errorMessage = 'new identity failed. See console for error';
+      errorMessage = this.props.i18n._(
+        'new identity failed. See console for error'
+      );
     }
-    const { i18n, notifyError } = this.props;
-    notifyError({ message: i18n._('', null, { defaults: errorMessage }) });
-  }
+    const { notifyError } = this.props;
+
+    notifyError({ message: errorMessage });
+  };
 
   handleClear = () => {
     this.props.requestRemoteIdentities();
-  }
+  };
 
   handleCreate = async (...params) => {
     await this.handleChange(...params);
     this.handleClear();
-  }
+  };
 
   renderIdentity(identity) {
     return (
@@ -96,10 +99,7 @@ class RemoteIdentitySettings extends Component {
           />
         </div>
         <Fragment>
-          {
-            identities
-              .map(identity => this.renderIdentity(identity))
-          }
+          {identities.map((identity) => this.renderIdentity(identity))}
         </Fragment>
       </div>
     );

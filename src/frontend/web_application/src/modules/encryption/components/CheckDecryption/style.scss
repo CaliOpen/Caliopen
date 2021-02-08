@@ -1,8 +1,7 @@
 @import '../../../../styles/common';
 @import '../../../../styles/util/breakpoint';
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
-$fa-font-path: '../../../../../node_modules/font-awesome/fonts';
-@import 'font-awesome';
+@import '../../../../styles/vendor/bootstrap_font-awesome';
 
 .m-check-decryption {
   position: fixed;
@@ -20,7 +19,7 @@ $fa-font-path: '../../../../../node_modules/font-awesome/fonts';
     width: 2.5rem;
     margin: 1rem - map_get($co-margin_, 'xsmall');
     margin-right: 1rem;
-    padding: .375rem .125rem;
+    padding: 0.375rem 0.125rem;
     border-radius: 1.25rem;
     background-color: $co-color__primary;
     color: $co-color__contrast__text;
@@ -34,10 +33,12 @@ $fa-font-path: '../../../../../node_modules/font-awesome/fonts';
   overflow: hidden;
 
   @include breakpoint(medium) {
-    max-width: $co-site-width - map_get($co-page-container-paddings, 'medium') * 2;
+    max-width: $co-site-width - map_get($co-page-container-paddings, 'medium') *
+      2;
   }
 
   @include breakpoint(xlarge) {
-    max-width: $co-site-width - map_get($co-page-container-paddings, 'xlarge') * 2;
+    max-width: $co-site-width - map_get($co-page-container-paddings, 'xlarge') *
+      2;
   }
 }

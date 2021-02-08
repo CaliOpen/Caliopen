@@ -20,11 +20,16 @@ describe('Scroll on Timeline and Discussion', () => {
 
   it('Reaches targets and goes back home', async () => {
     // await filter('All');
-    await browser.wait(EC.presenceOf($('.s-timeline .s-discussion-item')), 5 * 1000);
-    await element(by.cssContainingText(
-      '.s-discussion-item__message_excerpt',
-      'Moi, je verrais plutôt les champignons'
-    )).click();
+    await browser.wait(
+      EC.presenceOf($('.s-timeline .s-discussion-item')),
+      5 * 1000
+    );
+    await element(
+      by.cssContainingText(
+        '.s-discussion-item__message_excerpt',
+        'Moi, je verrais plutôt les champignons'
+      )
+    ).click();
     await browser.wait(EC.presenceOf($('article')), 5 * 1000);
     const scrollYD = await browser.executeScript(() => window.scrollY);
     expect(scrollYD).toBeGreaterThan(0);

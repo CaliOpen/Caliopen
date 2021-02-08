@@ -14,8 +14,12 @@ const mapStateToProps = createSelector(
     isInvalidated,
   })
 );
-const mapDispatchToProps = dispatch => bindActionCreators({
-  requestTags,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      requestTags,
+    },
+    dispatch
+  );
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(Presenter);

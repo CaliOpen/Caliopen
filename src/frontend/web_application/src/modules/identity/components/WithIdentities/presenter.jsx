@@ -17,10 +17,7 @@ class WithIdentities extends Component {
   };
 
   componentDidMount() {
-    const {
-      remoteIsFetching, getIdentities,
-      localIsFetching,
-    } = this.props;
+    const { remoteIsFetching, getIdentities, localIsFetching } = this.props;
 
     if (!remoteIsFetching && !localIsFetching) {
       getIdentities();
@@ -28,11 +25,16 @@ class WithIdentities extends Component {
   }
 
   render() {
+    console.warn('DEPRECATED: useIdentities instead');
+
     const {
-      render, identities, remoteIsFetching, localIsFetching,
+      render,
+      identities,
+      remoteIsFetching,
+      localIsFetching,
     } = this.props;
 
-    const isFetching = (remoteIsFetching || localIsFetching);
+    const isFetching = remoteIsFetching || localIsFetching;
 
     return render({ identities, isFetching });
   }

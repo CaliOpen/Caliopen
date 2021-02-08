@@ -21,7 +21,7 @@ class Checkbox extends Component {
     className: undefined,
   };
 
-  state = {}
+  state = {};
 
   componentDidMount() {
     // apply the indeterminate attribute of the real checkbox element
@@ -36,7 +36,12 @@ class Checkbox extends Component {
 
   render() {
     const {
-      id, label, showLabelforSr, indeterminate, className, ...inputProps
+      id,
+      label,
+      showLabelforSr,
+      indeterminate,
+      className,
+      ...inputProps
     } = this.props;
 
     return (
@@ -44,7 +49,9 @@ class Checkbox extends Component {
         <input
           type="checkbox"
           className="m-checkbox__input"
-          ref={(el) => { this.selector = el; }}
+          ref={(el) => {
+            this.selector = el;
+          }}
           id={id}
           {...inputProps}
         />

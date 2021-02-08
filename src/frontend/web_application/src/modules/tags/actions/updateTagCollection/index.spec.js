@@ -1,5 +1,5 @@
 import configureMockStore from 'redux-mock-store';
-import { updateTagCollection } from './';
+import { updateTagCollection } from '.';
 import promiseMiddleware from '../../../../store/middlewares/promise-middleware';
 import thunkMiddleware from '../../../../store/middlewares/thunk-middleware';
 
@@ -14,14 +14,20 @@ jest.mock('../requestTags', () => ({
   requestTags: () => (dispatch) => {
     dispatch({ type: 'requestTags' });
 
-    return [{ label: 'Foo', name: 'foo' }, { label: 'Bar', name: 'bar' }, { label: 'FooBar', name: 'foobar' }];
+    return [
+      { label: 'Foo', name: 'foo' },
+      { label: 'Bar', name: 'bar' },
+      { label: 'FooBar', name: 'foobar' },
+    ];
   },
 }));
 jest.mock('../../../../store/modules/message', () => ({
   requestMessage: () => (dispatch) => {
     dispatch({ type: 'requestMessage' });
 
-    return Promise.resolve({ payload: { data: { tags: [{ label: 'Foo', name: 'foo' }] } } });
+    return Promise.resolve({
+      payload: { data: { tags: [{ label: 'Foo', name: 'foo' }] } },
+    });
   },
   updateTags: ({ message, tags }) => (dispatch) => {
     dispatch({ type: 'updateTags', payload: { message, tags } });
@@ -33,23 +39,37 @@ jest.mock('../../../../store/modules/message', () => ({
 const mockStore = configureMockStore([promiseMiddleware, thunkMiddleware]);
 
 describe('modules tags - actions - updateTagCollection', () => {
-  it('create a new tag then patch message\'s tags', () => {
+  it("create a new tag then patch message's tags", () => {
     const store = mockStore({
       tag: {
-        tags: [{ label: 'Foo', name: 'foo' }, { label: 'Bar', name: 'bar' }],
+        tags: [
+          { label: 'Foo', name: 'foo' },
+          { label: 'Bar', name: 'bar' },
+        ],
       },
     });
 
-    const i18n = { _: id => id };
+    const i18n = { _: (id) => id };
     const message = { tags: [{ label: 'Foo', name: 'foo' }] };
-    const tags = [{ label: 'Foo', name: 'foo' }, { label: 'Bar' }, { label: 'FooBar' }];
+    const tags = [
+      { label: 'Foo', name: 'foo' },
+      { label: 'Bar' },
+      { label: 'FooBar' },
+    ];
     const expectedActions = [
       { type: 'createTag', payload: { label: 'FooBar' } },
       { type: 'requestTags' },
-      { type: 'updateTags', payload: { message, tags: ['foo', 'bar', 'foobar'] } },
+      {
+        type: 'updateTags',
+        payload: { message, tags: ['foo', 'bar', 'foobar'] },
+      },
       { type: 'requestMessage' },
     ];
-    const action = updateTagCollection(i18n, { type: 'message', entity: message, tags });
+    const action = updateTagCollection(i18n, {
+      type: 'message',
+      entity: message,
+      tags,
+    });
 
     return store.dispatch(action).then(() => {
       expect(store.getActions()).toEqual(expectedActions);

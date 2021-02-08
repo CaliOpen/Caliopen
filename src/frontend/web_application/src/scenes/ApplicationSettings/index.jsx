@@ -8,23 +8,29 @@ import Presenter from './presenter';
 import { requestSettings, updateSettings } from '../../store/modules/settings';
 import { settingsSelector } from '../../store/selectors/settings';
 
-const mapStateToProps = createSelector(
-  [settingsSelector],
-  settings => ({
-    initialValues: settings,
-  })
-);
+const mapStateToProps = createSelector([settingsSelector], (settings) => ({
+  initialValues: settings,
+}));
 
-const normalizeValues = values => ({
+const normalizeValues = (values) => ({
   ...values,
-  notification_delay_disappear: Number.parseInt(values.notification_delay_disappear, 10),
+  notification_delay_disappear: Number.parseInt(
+    values.notification_delay_disappear,
+    10
+  ),
 });
-const mapDispatchToProps = dispatch => bindActionCreators({
-  requestSettings,
-  onSubmit: (values, disp, props) => updateSettings({
-    settings: normalizeValues(values), original: props.initialValues,
-  }),
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      requestSettings,
+      onSubmit: (values, disp, props) =>
+        updateSettings({
+          settings: normalizeValues(values),
+          original: props.initialValues,
+        }),
+    },
+    dispatch
+  );
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

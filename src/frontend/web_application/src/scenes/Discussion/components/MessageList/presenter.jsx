@@ -20,7 +20,7 @@ class MessageList extends Component {
     isFetching: PropTypes.bool.isRequired,
     onMessageRead: PropTypes.func.isRequired,
     onMessageUnread: PropTypes.func.isRequired,
-    onMessageDelete: PropTypes.func.isRequired,
+    onDeleteMessageSuccess: PropTypes.func.isRequired,
     user: PropTypes.shape({}),
     hash: PropTypes.string,
     settings: PropTypes.shape({}).isRequired,
@@ -43,34 +43,49 @@ class MessageList extends Component {
 
   renderPlaceholder = () => (
     <div className="m-message-list">
-      {[1, 2, 3].map(n => (
+      {[1, 2, 3].map((n) => (
         <PlaceholderBlock key={n} className="m-message-list__placeholder" />
       ))}
     </div>
   );
 
   renderLoadMore() {
-    const {
-      hasMore, loadMore, isFetching,
-    } = this.props;
+    const { hasMore, loadMore, isFetching } = this.props;
 
-    return loadMore && !isFetching && hasMore && (
-      <Button shape="hollow" onClick={loadMore} className="m-message-list__load-more">
-        <Trans id="general.action.load_more">Load more</Trans>
-      </Button>
+    return (
+      loadMore &&
+      !isFetching &&
+      hasMore && (
+        <Button
+          shape="hollow"
+          onClick={loadMore}
+          className="m-message-list__load-more"
+        >
+          <Trans id="general.action.load_more">Load more</Trans>
+        </Button>
+      )
     );
   }
 
   renderList() {
     const {
-      messages, onMessageRead, onMessageUnread, onMessageDelete,
-      hash, scrollToTarget, user, settings,
+      messages,
+      onMessageRead,
+      onMessageUnread,
+      onMessageDelete,
+      hash,
+      scrollToTarget,
+      user,
+      settings,
+      onDeleteMessageSuccess,
     } = this.props;
 
     return messages.reduce((acc, message) => {
       const result = [...acc];
       if (
-        message.pi_message && message.protocol !== 'email' && acc.length > 0 &&
+        message.pi_message &&
+        message.protocol !== 'email' &&
+        acc.length > 0 &&
         this.findMessageBefore(message).protocol !== message.protocol
       ) {
         result.push(
@@ -84,25 +99,25 @@ class MessageList extends Component {
         );
       }
 
-      result.push(<Message
-        onMessageRead={onMessageRead}
-        onMessageUnread={onMessageUnread}
-        onMessageDelete={onMessageDelete}
-        message={message}
-        key={message.message_id}
-        scrollToMe={message.message_id === hash ? scrollToTarget : undefined}
-        user={user}
-        settings={settings}
-      />);
+      result.push(
+        <Message
+          onMessageRead={onMessageRead}
+          onMessageUnread={onMessageUnread}
+          onDeleteMessageSuccess={onDeleteMessageSuccess}
+          message={message}
+          key={message.message_id}
+          scrollToMe={message.message_id === hash ? scrollToTarget : undefined}
+          user={user}
+          settings={settings}
+        />
+      );
 
       return result;
     }, []);
   }
 
   render() {
-    const {
-      isFetching, messages,
-    } = this.props;
+    const { isFetching, messages } = this.props;
 
     if (isFetching && messages.length === 0) {
       return this.renderPlaceholder();
@@ -110,9 +125,7 @@ class MessageList extends Component {
 
     return (
       <div className="m-message-list">
-        <div className="m-message-list__load-more">
-          {this.renderLoadMore()}
-        </div>
+        <div className="m-message-list__load-more">{this.renderLoadMore()}</div>
         {this.renderList()}
         <CheckDecryption messages={messages} />
       </div>

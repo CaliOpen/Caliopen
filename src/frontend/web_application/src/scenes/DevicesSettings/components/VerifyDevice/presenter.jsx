@@ -14,7 +14,7 @@ class VerifyDevice extends Component {
 
   state = {
     sending: false,
-  }
+  };
 
   handleVerify = async () => {
     const { device, onVerifyDevice, notifySuccess } = this.props;
@@ -22,7 +22,12 @@ class VerifyDevice extends Component {
     try {
       await onVerifyDevice({ device });
       notifySuccess({
-        message: (<Trans id="device.feedback.send-validation-success">An email has been sent to your backup email in order to verify the device.</Trans>),
+        message: (
+          <Trans id="device.feedback.send-validation-success">
+            An email has been sent to your backup email in order to verify the
+            device.
+          </Trans>
+        ),
       });
     } catch (e) {
       // continue to the next handler
@@ -35,7 +40,9 @@ class VerifyDevice extends Component {
   render() {
     return (
       <Button
-        icon={this.state.sending ? (<Spinner isLoading display="inline" />) : 'check'}
+        icon={
+          this.state.sending ? <Spinner isLoading display="inline" /> : 'check'
+        }
         shape="plain"
         className="m-device-verify__button"
         onClick={this.handleVerify}

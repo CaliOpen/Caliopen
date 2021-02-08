@@ -2,12 +2,12 @@ import { encryptMessage, isMessageEncrypted } from './index';
 
 jest.mock('openpgp', () => ({
   key: {
-    readArmored: async a => ({ keys: [a] }),
+    readArmored: async (a) => ({ keys: [a] }),
   },
   message: {
-    fromText: a => a,
+    fromText: (a) => a,
   },
-  encrypt: async options => ({
+  encrypt: async (options) => ({
     data: options.publicKeys.join(', '),
   }),
 }));

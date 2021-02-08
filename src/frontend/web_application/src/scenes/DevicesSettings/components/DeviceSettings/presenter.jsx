@@ -30,16 +30,14 @@ class DeviceSettings extends Component {
       return null;
     }
 
-    return (
-      <VerifyDevice device={device} />
-    );
+    return <VerifyDevice device={device} />;
   }
 
   renderRevokeDevice() {
     const { device, isCurrentDeviceVerified, isCurrentDevice } = this.props;
 
     if (isCurrentDeviceVerified || isCurrentDevice) {
-      return (<RevokeDevice device={device} />);
+      return <RevokeDevice device={device} />;
     }
 
     return null;
@@ -47,16 +45,15 @@ class DeviceSettings extends Component {
 
   render() {
     const { device, isCurrentDevice } = this.props;
-    const borderContext = (device.status === STATUS_VERIFIED) ? 'safe' : 'disabled';
+    const borderContext =
+      device.status === STATUS_VERIFIED ? 'safe' : 'disabled';
 
     return (
       <Section borderContext={borderContext}>
         <DeviceInformation device={device} isCurrentDevice={isCurrentDevice} />
         <DeviceForm device={device} />
         <div>
-          {this.renderVerifyDevice()}
-          {' '}
-          {this.renderRevokeDevice()}
+          {this.renderVerifyDevice()} {this.renderRevokeDevice()}
         </div>
       </Section>
     );

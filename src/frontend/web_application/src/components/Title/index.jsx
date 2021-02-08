@@ -23,21 +23,29 @@ class Title extends PureComponent {
 
   render() {
     const {
-      children, actions, hr, caps, size, className, ...props
+      children,
+      actions,
+      hr,
+      caps,
+      size,
+      className,
+      ...props
     } = this.props;
 
-    const titleClassName = classnames('m-title', {
-      'm-title--hr': hr,
-      'm-title--caps': caps,
-      'm-title--large': size === 'large',
-    }, className);
+    const titleClassName = classnames(
+      'm-title',
+      {
+        'm-title--hr': hr,
+        'm-title--caps': caps,
+        'm-title--large': size === 'large',
+      },
+      className
+    );
 
     return (
       <div className={titleClassName} {...props}>
         <h2 className="m-title__text">{children}</h2>
-        {actions && (
-          <span className="m-title__actions">{actions}</span>
-        )}
+        {actions && <span className="m-title__actions">{actions}</span>}
       </div>
     );
   }

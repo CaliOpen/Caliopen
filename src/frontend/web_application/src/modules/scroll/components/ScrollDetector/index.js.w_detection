@@ -1,0 +1,78 @@
+import { Component } from 'react';
+import PropTypes from 'prop-types';
+import throttle from 'lodash.throttle';
+import { addEventListener } from '../../../../services/event-manager';
+
+class ScrollDetector extends Component {
+  static propTypes = {
+    render: PropTypes.func.isRequired,
+    // start scroll detection after this offset, ex: detected if scrollY is higher than offset
+    offset: PropTypes.number,
+    // when set, this also gives the values before and after each scroll
+    minScrollBeforeDetection: PropTypes.number,
+  };
+
+  static defaultProps = {
+    offset: 0,
+    minScrollBeforeDetection: undefined,
+  };
+
+  state = {
+    isScrollDetected: false,
+    scrollSize: 0,
+    prevScrollSize: 0,
+  };
+
+  componentDidMount() {
+    this.scrollDetection();
+    this.unsubscribeScrollEvent = addEventListener('scroll', throttle(() => {
+      this.scrollDetection();
+    }, 10, { leading: true, trailing: true }));
+  }
+
+ componentWillUnmount() {
+    this.unsubscribeScrollEvent();
+  }
+
+  scrollDetection = () => {
+    const { offset, minScrollBeforeDetection } = this.props;
+    const scrollSize = window.scrollY || document.documentElement.scrollTop;
+    const isScrollDetected = scrollSize > offset;
+
+    if (this.state.isScrollDetected !== isScrollDetected) {
+      this.setState({ isScrollDetected });
+    }
+
+    // not working
+    if (!!minScrollBeforeDetection && isScrollDetected) {
+      this.setState((prevState) => {
+        if (
+          prevState.scrollSize + minScrollBeforeDetection < scrollSize ||
+          prevState.scrollSize - minScrollBeforeDetection > scrollSize
+        ) {
+          return { scrollSize, prevScrollSize: prevState.scrollSize };
+        }
+
+        return {};
+      });
+    }
+  }
+
+  saveScrollSize = () => this.setState(prevState => ({ prevScrollSize: prevState.scrollSize }));
+
+  render() {
+    const { render, minScrollBeforeDetection } = this.props;
+
+    const { isScrollDetected, scrollSize, prevScrollSize } = this.state;
+
+    if (!minScrollBeforeDetection) {
+      return render(isScrollDetected);
+    }
+
+    return render(isScrollDetected, {
+      scrollSize, prevScrollSize, saveScrollSize: this.saveScrollSize,
+    });
+  }
+}
+
+export default ScrollDetector;

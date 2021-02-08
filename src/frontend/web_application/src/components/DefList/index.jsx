@@ -5,19 +5,23 @@ import './style.scss';
 
 const DefList = ({ className, definitions }) => {
   const nodes = definitions.reduce((prev, definition) => {
-    prev.push(<dt className="m-def-list__title" key={prev.length + 1}>{definition.title}</dt>);
+    prev.push(
+      <dt className="m-def-list__title" key={prev.length + 1}>
+        {definition.title}
+      </dt>
+    );
     definition.descriptions.forEach((description) => {
-      prev.push(<dd className="m-def-list__def" key={prev.length + 1}>{description}</dd>);
+      prev.push(
+        <dd className="m-def-list__def" key={prev.length + 1}>
+          {description}
+        </dd>
+      );
     });
 
     return prev;
   }, []);
 
-  return (
-    <dl className={classnames('m-def-list', className)}>
-      {nodes}
-    </dl>
-  );
+  return <dl className={classnames('m-def-list', className)}>{nodes}</dl>;
 };
 
 DefList.propTypes = {

@@ -7,13 +7,20 @@ import { View, WithViewModel, requestMessages } from '../../modules/view';
 import { withRouteParams } from '../../modules/routing';
 import { getModuleStateSelector } from '../../store/selectors/getModuleStateSelector';
 
-const withViewModel = () => C => withRouteParams()(({ routeParams: { viewId }, ...props }) => (
-  <WithViewModel viewId={viewId} render={({ view }) => (<C view={view} {...props} />)} />
-));
+const withViewModel = () => (C) =>
+  withRouteParams()(({ routeParams: { viewId }, ...props }) => (
+    <WithViewModel
+      viewId={viewId}
+      render={({ view }) => <C view={view} {...props} />}
+    />
+  ));
 
 const viewModelSelector = (state, { view }) => view;
 
-const viewSelector = createSelector([viewModelSelector, getModuleStateSelector('view')], (viewModel, { viewById }) => viewById[viewModel.id]);
+const viewSelector = createSelector(
+  [viewModelSelector, getModuleStateSelector('view')],
+  (viewModel, { viewById }) => viewById[viewModel.id]
+);
 
 const mapStateToProps = createSelector(
   [viewModelSelector, getModuleStateSelector('message'), viewSelector],
@@ -21,15 +28,19 @@ const mapStateToProps = createSelector(
     view,
     isFetching: viewState && viewState.isFetching,
     messages: Object.keys(messagesById)
-      .map(messageId => messagesById[messageId])
-      .filter(message => view.has({ message }))
-      .sort((a, b) => ((new Date(a.date_sort)) - (new Date(b.date_sort))) * -1),
+      .map((messageId) => messagesById[messageId])
+      .filter((message) => view.has({ message }))
+      .sort((a, b) => (new Date(a.date_sort) - new Date(b.date_sort)) * -1),
   })
 );
 
-const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
-  requestMessages: requestMessages.bind(null, { view: ownProps.view }),
-}, dispatch);
+const mapDispatchToProps = (dispatch, ownProps) =>
+  bindActionCreators(
+    {
+      requestMessages: requestMessages.bind(null, { view: ownProps.view }),
+    },
+    dispatch
+  );
 
 const connecting = compose(
   withViewModel(),
@@ -49,7 +60,7 @@ export const withCurrentView = () => (C) => {
     static defaultProps = {
       messages: [],
       isFetching: false,
-    }
+    };
 
     componentDidMount() {
       this.fetchMessages();
@@ -65,12 +76,10 @@ export const withCurrentView = () => (C) => {
       if (!isFetching) {
         this.props.requestMessages({ view });
       }
-    }
+    };
 
     render() {
-      const {
-        view, messages, isFetching, ...props
-      } = this.props;
+      const { view, messages, isFetching, ...props } = this.props;
 
       const withProps = {
         view,
@@ -78,9 +87,7 @@ export const withCurrentView = () => (C) => {
         isFetching,
       };
 
-      return (
-        <C {...withProps} {...props} />
-      );
+      return <C {...withProps} {...props} />;
     }
   }
 

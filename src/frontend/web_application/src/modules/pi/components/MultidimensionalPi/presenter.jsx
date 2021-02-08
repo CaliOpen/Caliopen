@@ -10,9 +10,7 @@ import './style.scss';
 const PI_MAX = 100; // max value for PI levels
 const DropdownControl = withDropdownControl(Button);
 
-const MultidimensionalPi = ({
-  pi, displayAveragePi, className, mini,
-}) => {
+const MultidimensionalPi = ({ pi, displayAveragePi, className, mini }) => {
   const gridWidth = PI_MAX * 2;
   const dropdownControlRef = createRef();
 
@@ -20,12 +18,12 @@ const MultidimensionalPi = ({
     <div className={classnames('m-multidimensional-pi', className)}>
       {mini ? (
         <div className="m-multidimensional-pi__mini-pi">
-          <DropdownControl ref={dropdownControlRef} display="inline" className="m-multidimensional-pi__toggle-mini-pi">
-            <Ratings
-              pi={pi}
-              piMax={PI_MAX}
-              mini
-            />
+          <DropdownControl
+            ref={dropdownControlRef}
+            display="inline"
+            className="m-multidimensional-pi__toggle-mini-pi"
+          >
+            <Ratings pi={pi} piMax={PI_MAX} mini />
           </DropdownControl>
 
           <Dropdown
@@ -43,20 +41,10 @@ const MultidimensionalPi = ({
         </div>
       ) : (
         <div>
-          <PiGraph
-            gridWidth={gridWidth}
-            piMax={PI_MAX}
-            pi={pi}
-          />
-          <Ratings
-            pi={pi}
-            piMax={PI_MAX}
-            displayAveragePi={displayAveragePi}
-          />
+          <PiGraph gridWidth={gridWidth} piMax={PI_MAX} pi={pi} />
+          <Ratings pi={pi} piMax={PI_MAX} displayAveragePi={displayAveragePi} />
         </div>
-      )
-    }
-
+      )}
     </div>
   );
 };

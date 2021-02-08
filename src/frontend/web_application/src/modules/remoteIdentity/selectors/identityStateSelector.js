@@ -1,1 +1,1 @@
-export const identityStateSelector = state => state.remoteIdentity;
+export const identityStateSelector = (state) => state.remoteIdentity;

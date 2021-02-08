@@ -1,6 +1,6 @@
 import base64 from 'base64-js';
 import { ec as EC } from 'elliptic';
-import { getSignatureHeaders } from './';
+import { getSignatureHeaders } from '.';
 import { CURVE_TYPE } from '../ecdsa';
 import UploadFileAsFormField from '../../../file/services/uploadFileAsFormField';
 
@@ -20,11 +20,19 @@ describe('HTTP Request signature headers', () => {
 
   it('Creates a verifiable signature from URL', async () => {
     const req = { method: 'get', url: '/run/to/the/hills' };
-    const hash = '11ef093b532721968d7d7f7123bf498379f9455695fc7ec4d8bf4d98ab230c3c';
+    const hash =
+      '11ef093b532721968d7d7f7123bf498379f9455695fc7ec4d8bf4d98ab230c3c';
 
     const signatureHeaders = await getSignatureHeaders(req);
-    expect(signatureHeaders['X-Caliopen-Device-ID']).toEqual('THIS-IS-NOT-A-DEVICE');
-    expect(publicKey.verify(hash, base64.toByteArray(signatureHeaders['X-Caliopen-Device-Signature']))).toBe(true);
+    expect(signatureHeaders['X-Caliopen-Device-ID']).toEqual(
+      'THIS-IS-NOT-A-DEVICE'
+    );
+    expect(
+      publicKey.verify(
+        hash,
+        base64.toByteArray(signatureHeaders['X-Caliopen-Device-Signature'])
+      )
+    ).toBe(true);
   });
 
   it('Creates a signature from URL + params', async () => {
@@ -36,18 +44,48 @@ describe('HTTP Request signature headers', () => {
         for: 'your life',
       },
     };
-    const hash = '9119e04a31dbd4ec86a666e932e9d0102497e31bbff273e4802f08ad38a0b7f6';
+    const hash =
+      '9119e04a31dbd4ec86a666e932e9d0102497e31bbff273e4802f08ad38a0b7f6';
 
     const signatureHeaders = await getSignatureHeaders(req);
-    expect(signatureHeaders['X-Caliopen-Device-ID']).toEqual('THIS-IS-NOT-A-DEVICE');
-    expect(publicKey.verify(hash, base64.toByteArray(signatureHeaders['X-Caliopen-Device-Signature']))).toBe(true);
+    expect(signatureHeaders['X-Caliopen-Device-ID']).toEqual(
+      'THIS-IS-NOT-A-DEVICE'
+    );
+    expect(
+      publicKey.verify(
+        hash,
+        base64.toByteArray(signatureHeaders['X-Caliopen-Device-Signature'])
+      )
+    ).toBe(true);
   });
 
   it('Creates a signature from URL + file', async () => {
     const file = new UploadFileAsFormField(
-      new Blob([0x004D, 0x0065, 0x0072, 0x0064, 0x0065, 0x0020, 0x001F, 0x0020, 0x0063,
-        0x0065, 0x006C, 0x0075, 0x0069, 0x0020, 0x0071, 0x0075, 0x0069, 0x0020,
-        0x006C, 0x0069, 0x0072, 0x0061, 0x002E]),
+      new Blob([
+        0x004d,
+        0x0065,
+        0x0072,
+        0x0064,
+        0x0065,
+        0x0020,
+        0x001f,
+        0x0020,
+        0x0063,
+        0x0065,
+        0x006c,
+        0x0075,
+        0x0069,
+        0x0020,
+        0x0071,
+        0x0075,
+        0x0069,
+        0x0020,
+        0x006c,
+        0x0069,
+        0x0072,
+        0x0061,
+        0x002e,
+      ]),
       'attachment'
     );
     const req = {
@@ -55,10 +93,18 @@ describe('HTTP Request signature headers', () => {
       url: '/run',
       data: file,
     };
-    const hash = 'eca6dce65e7cd2f48d880700ebcfcbf1903be7891bc0750546e48217f9911c4a';
+    const hash =
+      'eca6dce65e7cd2f48d880700ebcfcbf1903be7891bc0750546e48217f9911c4a';
 
     const signatureHeaders = await getSignatureHeaders(req);
-    expect(signatureHeaders['X-Caliopen-Device-ID']).toEqual('THIS-IS-NOT-A-DEVICE');
-    expect(publicKey.verify(hash, base64.toByteArray(signatureHeaders['X-Caliopen-Device-Signature']))).toBe(true);
+    expect(signatureHeaders['X-Caliopen-Device-ID']).toEqual(
+      'THIS-IS-NOT-A-DEVICE'
+    );
+    expect(
+      publicKey.verify(
+        hash,
+        base64.toByteArray(signatureHeaders['X-Caliopen-Device-Signature'])
+      )
+    ).toBe(true);
   });
 });

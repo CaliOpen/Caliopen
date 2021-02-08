@@ -7,7 +7,6 @@ $bar-height: 3px;
 $bar-margin: 7px;
 
 .m-pi-bar {
-
   &__graph {
     @include flex-grid-row;
   }
@@ -35,7 +34,6 @@ $bar-margin: 7px;
     height: $bar-height;
     background-color: $co-color__fg__text--lower;
   }
-
 
   @each $level, $color in $privacy-palette {
     &--#{$level} {

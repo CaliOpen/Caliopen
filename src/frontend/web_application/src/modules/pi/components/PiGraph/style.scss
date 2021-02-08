@@ -11,14 +11,14 @@ $gridColor: $co-color__fg__back--lower;
 
   &__line {
     stroke: $gridColor;
-    stroke-width: .7;
+    stroke-width: 0.7;
     fill: none;
   }
 
   &__outline {
     fill: transparent;
     stroke: $gridColor;
-    stroke-width: .7;
+    stroke-width: 0.7;
   }
 
   &__shape {

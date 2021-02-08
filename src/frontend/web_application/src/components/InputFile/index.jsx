@@ -10,18 +10,23 @@ import Icon from '../Icon';
 
 import './style.scss';
 
-const InputFile = ({
-  onChange, className, accept, errors, multiple,
-  id,
-}) => {
+const InputFile = ({ onChange, className, accept, errors, multiple, id }) => {
   const actualId = id || uuidV1();
 
   return (
     <div className={classnames('m-input-file', className)}>
       <Label htmlFor={actualId} className="m-input-file__label">
-        <Button className="m-input-file__label__button" icon="plus" shape="plain" />
-        <span className="m-input-file__label__text"><Trans id="input-file.add_a_file.label">Add a file</Trans></span>
-        <span className="m-input-file__label__icon"><Icon type="folder" /></span>
+        <Button
+          className="m-input-file__label__button"
+          icon="plus"
+          shape="plain"
+        />
+        <span className="m-input-file__label__text">
+          <Trans id="input-file.add_a_file.label">Add a file</Trans>
+        </span>
+        <span className="m-input-file__label__icon">
+          <Icon type="folder" />
+        </span>
         <input
           id={actualId}
           type="file"
@@ -32,7 +37,7 @@ const InputFile = ({
           multiple={multiple}
         />
       </Label>
-      { errors.length > 0 && <FieldErrors errors={errors} /> }
+      {errors.length > 0 && <FieldErrors errors={errors} />}
     </div>
   );
 };

@@ -9,7 +9,9 @@ const mapStateToProps = createSelector(
   [participantSelector, getModuleStateSelector('contact')],
   (participant, contactState) => ({
     // a participant can be associated to only one participant
-    contact: participant.contact_ids && contactState.contactsById[participant.contact_ids[0]],
+    contact:
+      participant.contact_ids &&
+      contactState.contactsById[participant.contact_ids[0]],
   })
 );
 

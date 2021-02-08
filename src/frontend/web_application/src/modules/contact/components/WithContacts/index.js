@@ -7,17 +7,19 @@ import { requestContacts } from '../../../../store/modules/contact';
 
 const mapStateToProps = createSelector(
   [contactStateSelector],
-  ({
-    contacts, contactsById, isFetching, didInvalidate,
-  }) => ({
-    contacts: contacts.map(contactId => contactsById[contactId]),
+  ({ contacts, contactsById, isFetching, didInvalidate }) => ({
+    contacts: contacts.map((contactId) => contactsById[contactId]),
     isFetching,
     didInvalidate,
   })
 );
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  requestContacts,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      requestContacts,
+    },
+    dispatch
+  );
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(Presenter);

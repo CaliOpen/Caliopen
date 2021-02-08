@@ -11,7 +11,9 @@ export const initConfig = (forceDefaults) => {
 export const getConfig = () => config;
 
 export const getApiHost = () => {
-  const { api: { hostname, port, protocol } } = getConfig();
+  const {
+    api: { hostname, port, protocol },
+  } = getConfig();
 
   return `${protocol}://${hostname}:${port}`;
 };

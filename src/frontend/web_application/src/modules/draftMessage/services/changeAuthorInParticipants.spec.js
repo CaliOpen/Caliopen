@@ -13,14 +13,26 @@ describe('modules draftMessage - service - changeAuthorInParticipants', () => {
       };
       const participants = [
         {
-          address: 'fry@planet-express.tld', contact_ids: ['user-contact'], protocol: 'email', type: 'To',
+          address: 'fry@planet-express.tld',
+          contact_ids: ['user-contact'],
+          protocol: 'email',
+          type: 'To',
         },
         {
-          address: 'zoidberg@planet-express.tld', contact_ids: ['t2'], protocol: 'email', type: 'To',
+          address: 'zoidberg@planet-express.tld',
+          contact_ids: ['t2'],
+          protocol: 'email',
+          type: 'To',
         },
-        { address: 'leela@planet-express.tld', protocol: 'email', type: 'From' },
+        {
+          address: 'leela@planet-express.tld',
+          protocol: 'email',
+          type: 'From',
+        },
       ];
-      expect(changeAuthorInParticipants({ participants, user, identity })).toEqual(participants);
+      expect(
+        changeAuthorInParticipants({ participants, user, identity })
+      ).toEqual(participants);
     });
 
     it('changes the author using the identity (an other recipient is associated to the user)', () => {
@@ -30,14 +42,22 @@ describe('modules draftMessage - service - changeAuthorInParticipants', () => {
       };
       const participants = [
         {
-          address: 'fry@planet-express.tld', contact_ids: ['user-contact'], protocol: 'email', type: 'From',
+          address: 'fry@planet-express.tld',
+          contact_ids: ['user-contact'],
+          protocol: 'email',
+          type: 'From',
         },
         {
-          address: 'zoidberg@planet-express.tld', contact_ids: ['t2'], protocol: 'email', type: 'To',
+          address: 'zoidberg@planet-express.tld',
+          contact_ids: ['t2'],
+          protocol: 'email',
+          type: 'To',
         },
         { address: 'leela@planet-express.tld', protocol: 'email', type: 'To' },
       ];
-      expect(changeAuthorInParticipants({ participants, user, identity })).toEqual([
+      expect(
+        changeAuthorInParticipants({ participants, user, identity })
+      ).toEqual([
         { ...participants[0], type: 'To' },
         participants[1],
         { ...participants[2], type: 'From' },
@@ -51,14 +71,22 @@ describe('modules draftMessage - service - changeAuthorInParticipants', () => {
 
       const participants = [
         {
-          address: 'fry@planet-express.tld', contact_ids: ['user-contact'], protocol: 'email', type: 'From',
+          address: 'fry@planet-express.tld',
+          contact_ids: ['user-contact'],
+          protocol: 'email',
+          type: 'From',
         },
         {
-          address: 'zoidberg@planet-express.tld', contact_ids: ['t2'], protocol: 'email', type: 'To',
+          address: 'zoidberg@planet-express.tld',
+          contact_ids: ['t2'],
+          protocol: 'email',
+          type: 'To',
         },
         { address: 'leela@planet-express.tld', protocol: 'email', type: 'To' },
       ];
-      expect(changeAuthorInParticipants({ participants, user, identity })).toEqual(participants);
+      expect(
+        changeAuthorInParticipants({ participants, user, identity })
+      ).toEqual(participants);
     });
 
     it('changes the author using the user', () => {
@@ -66,14 +94,22 @@ describe('modules draftMessage - service - changeAuthorInParticipants', () => {
 
       const participants = [
         {
-          address: 'zoidberg@planet-express.tld', contact_ids: ['t2'], protocol: 'email', type: 'From',
+          address: 'zoidberg@planet-express.tld',
+          contact_ids: ['t2'],
+          protocol: 'email',
+          type: 'From',
         },
         {
-          address: 'fry@planet-express.tld', contact_ids: ['user-contact'], protocol: 'email', type: 'To',
+          address: 'fry@planet-express.tld',
+          contact_ids: ['user-contact'],
+          protocol: 'email',
+          type: 'To',
         },
         { address: 'leela@planet-express.tld', protocol: 'email', type: 'To' },
       ];
-      expect(changeAuthorInParticipants({ participants, user, identity })).toEqual([
+      expect(
+        changeAuthorInParticipants({ participants, user, identity })
+      ).toEqual([
         { ...participants[0], type: 'To' },
         { ...participants[1], type: 'From' },
         participants[2],
@@ -91,11 +127,16 @@ describe('modules draftMessage - service - changeAuthorInParticipants', () => {
       const participants = [
         { address: 'fry@old-address.example', protocol: 'email', type: 'To' },
         {
-          address: 'zoidberg@planet-express.tld', contact_ids: ['t2'], protocol: 'email', type: 'From',
+          address: 'zoidberg@planet-express.tld',
+          contact_ids: ['t2'],
+          protocol: 'email',
+          type: 'From',
         },
         { address: 'leela@planet-express.tld', protocol: 'email', type: 'To' },
       ];
-      expect(changeAuthorInParticipants({ participants, user, identity })).toEqual([
+      expect(
+        changeAuthorInParticipants({ participants, user, identity })
+      ).toEqual([
         participants[0],
         { ...participants[1], type: 'To' },
         participants[2],
@@ -106,7 +147,9 @@ describe('modules draftMessage - service - changeAuthorInParticipants', () => {
       const identity = undefined;
 
       const participants = undefined;
-      expect(changeAuthorInParticipants({ participants, user, identity })).toEqual(participants);
+      expect(
+        changeAuthorInParticipants({ participants, user, identity })
+      ).toEqual(participants);
     });
   });
 });

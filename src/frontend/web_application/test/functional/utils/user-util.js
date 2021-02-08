@@ -14,9 +14,14 @@ module.exports = {
     await element(by.css('input[name=password]')).sendKeys(passwordKeys);
     await element(by.cssContainingText('button[type=submit]', 'Login')).click();
 
-    return browser.wait(EC.presenceOf(element(by.css('.l-header__brand'))), 5 * 1000);
+    return browser.wait(
+      EC.presenceOf(element(by.css('.l-header__brand'))),
+      5 * 1000
+    );
   },
-  signout: () => { browser.get('/auth/signout'); },
+  signout: () => {
+    browser.get('/auth/signout');
+  },
   showAccount: async (pageName) => {
     const userMenu = element(by.css('.l-header__user-menu'));
     userMenu.element(by.css('.m-button')).click();
@@ -26,18 +31,28 @@ module.exports = {
     const result = await browser.wait(EC.urlContains('user/profile'), 5 * 1000);
 
     if (pageName) {
-      return element(by.cssContainingText('.l-user .m-nav-list .m-link', pageName)).click();
+      return element(
+        by.cssContainingText('.l-user .m-nav-list .m-link', pageName)
+      ).click();
     }
 
     return result;
   },
-  showSettings: (pageName = null) => element(by.css('.m-user-menu .m-button')).click()
-    .then(() => element(by.cssContainingText('.m-user-menu .m-link', 'Settings')).click())
-    .then(() => {
-      if (!pageName) {
-        return undefined;
-      }
+  showSettings: (pageName = null) =>
+    element(by.css('.m-user-menu .m-button'))
+      .click()
+      .then(() =>
+        element(
+          by.cssContainingText('.m-user-menu .m-link', 'Settings')
+        ).click()
+      )
+      .then(() => {
+        if (!pageName) {
+          return undefined;
+        }
 
-      return element(by.cssContainingText('.l-settings .m-nav-list .m-link', pageName)).click();
-    }),
+        return element(
+          by.cssContainingText('.l-settings .m-nav-list .m-link', pageName)
+        ).click();
+      }),
 };

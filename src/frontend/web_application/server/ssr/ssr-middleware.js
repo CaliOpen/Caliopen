@@ -18,22 +18,39 @@ const logger = getLogger();
  */
 function getMarkup({ store, context, location }) {
   try {
-    const {
-      protocol, hostname, port, maxBodySize,
-    } = getConfig();
+    const { protocol, hostname, port, maxBodySize } = getConfig();
     const config = { protocol, hostname, port };
-    const hasSSR = process.env.HAS_SSR !== false && process.env.HAS_SSR !== 'false';
-    const markup = !hasSSR ? '' : ReactDOMServer.renderToString(React.createElement(Bootstrap, {
-      context, location, store, config,
-    }));
+    const hasSSR =
+      process.env.HAS_SSR !== false && process.env.HAS_SSR !== 'false';
+    const markup = !hasSSR
+      ? ''
+      : ReactDOMServer.renderToString(
+          React.createElement(Bootstrap, {
+            context,
+            location,
+            store,
+            config,
+          })
+        );
     const documentTitle = DocumentTitle.rewind();
     const initialState = store.getState();
 
     return [
       { key: '</title>', value: `${documentTitle}</title>` },
-      { key: '</head>', value: `<script>window.__STORE__ = ${serialize(initialState)};window.__INSTANCE_CONFIG__ = ${serialize({ hostname, maxBodySize })}</script></head>` },
+      {
+        key: '</head>',
+        value: `<script>window.__STORE__ = ${serialize(
+          initialState
+        )};window.__INSTANCE_CONFIG__ = ${serialize({
+          hostname,
+          maxBodySize,
+        })}</script></head>`,
+      },
       { key: '%MARKUP%', value: markup },
-    ].reduce((str, current) => str.replace(current.key, current.value), template);
+    ].reduce(
+      (str, current) => str.replace(current.key, current.value),
+      template
+    );
   } catch (e) {
     logger.error('Unable to render markup:', e);
 
@@ -46,9 +63,9 @@ function applyUserToGlobal(req) {
 }
 
 function applyUserLocaleToGlobal(req) {
-  const locales = (new locale.Locales(req.headers['accept-language'])).toJSON();
+  const locales = new locale.Locales(req.headers['accept-language']).toJSON();
 
-  global.USER_LOCALES = locales.map(loc => loc.code);
+  global.USER_LOCALES = locales.map((loc) => loc.code);
 }
 
 export default (req, res, next) => {

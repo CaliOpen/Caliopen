@@ -14,9 +14,7 @@ $color-weak: map_get($caliopen-palette, 'alert');
 $color-moderate: map_get($caliopen-palette, 'warning');
 $color-strong: map_get($caliopen-palette, 'success');
 
-
 .m-password-strength {
-
   &__graph {
     @include flex-grid-row($size: expand);
   }
@@ -71,5 +69,4 @@ $color-strong: map_get($caliopen-palette, 'success');
     font-weight: 700;
     text-transform: uppercase;
   }
-
 }

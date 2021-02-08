@@ -22,7 +22,9 @@
   }
 
   @include breakpoint(medium) {
-    &__pi { @include flex-grid-size(4); }
+    &__pi {
+      @include flex-grid-size(4);
+    }
 
     &__info {
       @include flex-grid-column(8);

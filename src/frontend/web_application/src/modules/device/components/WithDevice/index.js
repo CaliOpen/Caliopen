@@ -10,8 +10,12 @@ const mapStateToProps = createSelector(
   ({ isGenerated }) => ({ isGenerated })
 );
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  requestDevice,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      requestDevice,
+    },
+    dispatch
+  );
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(Presenter);

@@ -14,21 +14,20 @@ const DO_NOT_CLOSE = 'doNotClose';
 export const withDropdownControl = (WrappedComponent) => {
   const WithDropdownControl = (props, ref) => {
     if (!ref) {
-      throw new Error(`a ref is mandatory for a dropdown controller created with "${WrappedComponent.displayName || WrappedComponent.name || 'Component'}"`);
+      throw new Error(
+        `a ref is mandatory for a dropdown controller created with "${
+          WrappedComponent.displayName || WrappedComponent.name || 'Component'
+        }"`
+      );
     }
 
-    return (
-      <WrappedComponent
-        role="button"
-        tabIndex="0"
-        ref={ref}
-        {...props}
-      />
-    );
+    return <WrappedComponent role="button" tabIndex="0" ref={ref} {...props} />;
   };
 
   // does this work since it is a forwarded component
-  WithDropdownControl.displayName = `WithDropdownControl(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+  WithDropdownControl.displayName = `WithDropdownControl(${
+    WrappedComponent.displayName || WrappedComponent.name || 'Component'
+  })`;
 
   return forwardRef(WithDropdownControl);
 };
@@ -39,12 +38,20 @@ class Dropdown extends Component {
     alignRight: PropTypes.bool, // force align right
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
     className: PropTypes.string,
-    closeOnClick: PropTypes.oneOf([CLOSE_ON_CLICK_ALL, CLOSE_ON_CLICK_EXCEPT_SELF, DO_NOT_CLOSE]),
+    closeOnClick: PropTypes.oneOf([
+      CLOSE_ON_CLICK_ALL,
+      CLOSE_ON_CLICK_EXCEPT_SELF,
+      DO_NOT_CLOSE,
+    ]),
     closeOnScroll: PropTypes.bool, // should Dropdown close on windows scroll ?
     isMenu: PropTypes.bool,
     onToggle: PropTypes.func,
     innerRef: PropTypes.shape({ current: PropTypes.shape({}) }),
-    dropdownControlRef: PropTypes.shape({ current: PropTypes.shape({}) }),
+    dropdownControlRef: PropTypes.shape({
+      current: PropTypes.shape({
+        contains: PropTypes.func,
+      }),
+    }),
     show: PropTypes.bool,
     displayFirstLayer: PropTypes.bool,
   };
@@ -57,7 +64,7 @@ class Dropdown extends Component {
     closeOnClick: CLOSE_ON_CLICK_EXCEPT_SELF,
     closeOnScroll: false,
     isMenu: false,
-    onToggle: str => str,
+    onToggle: (str) => str,
     show: false,
     innerRef: undefined,
     dropdownControlRef: undefined,
@@ -88,10 +95,13 @@ class Dropdown extends Component {
       this.unsubscribeClickEvent = addEventListener('click', (ev) => {
         const { target } = ev;
 
-        const dropdownClick = this.dropdownRef.current === target ||
+        const dropdownClick =
+          this.dropdownRef.current === target ||
           this.dropdownRef.current.contains(target);
-        const controlClick = dropdownControlRef &&
-          (dropdownControlRef.current === target || dropdownControlRef.current.contains(target));
+        const controlClick =
+          dropdownControlRef &&
+          (dropdownControlRef.current === target ||
+            dropdownControlRef.current.contains(target));
 
         if (controlClick) {
           this.handleToggleVisibility({ show: !this.state.isOpen });
@@ -99,7 +109,12 @@ class Dropdown extends Component {
           return;
         }
 
-        if (this.props.closeOnClick === CLOSE_ON_CLICK_EXCEPT_SELF && dropdownClick) { return; }
+        if (
+          this.props.closeOnClick === CLOSE_ON_CLICK_EXCEPT_SELF &&
+          dropdownClick
+        ) {
+          return;
+        }
 
         this.handleToggleVisibility({ show: false });
       });
@@ -111,14 +126,25 @@ class Dropdown extends Component {
       this.handleToggleVisibility({ show: false });
     });
 
-    this.unsubscribeScrollEvent = this.props.closeOnScroll ? addEventListener('scroll', throttle(() => {
-      const scrollSize = window.scrollY;
-      const closeDropdown = scrollSize > 10;
+    this.unsubscribeScrollEvent = this.props.closeOnScroll
+      ? addEventListener(
+          'scroll',
+          throttle(
+            () => {
+              const scrollSize = window.scrollY;
+              const closeDropdown = scrollSize > 10;
 
-      if (closeDropdown) {
-        this.handleToggleVisibility({ show: false });
-      }
-    }, 100, { leading: true, trailing: true })) : () => {};
+              if (closeDropdown) {
+                this.handleToggleVisibility({ show: false });
+              }
+            },
+            100,
+            { leading: true, trailing: true }
+          )
+        )
+      : () => {
+          // noop
+        };
   }
 
   componentDidUpdate(prevProps) {
@@ -148,31 +174,32 @@ class Dropdown extends Component {
     // FIXME: when no dropdownControl declared, it should calc position according to ??? position
     // may be a relativeRef which is optionnal?
     // relativeRef = relativeRef || dropdownControlRef;
-    return dropdownControlRef ?
-      getDropdownStyle({
-        alignRight,
-        controlElement: dropdownControlRef.current,
-        dropdownElement: this.dropdownRef.current,
-      }) :
-      this.constructor.defaultDropdownStyle;
-  }
+    return dropdownControlRef
+      ? getDropdownStyle({
+          alignRight,
+          controlElement: dropdownControlRef.current,
+          dropdownElement: this.dropdownRef.current,
+        })
+      : this.constructor.defaultDropdownStyle;
+  };
 
   handleToggleVisibility = ({ show }) => {
     if (show === this.state.isOpen) {
       return;
     }
-    this.setState({
-      dropdownStyle: this.getStyles({ show }),
-      isOpen: show,
-    }, () => {
-      this.props.onToggle(this.state.isOpen);
-    });
-  }
+    this.setState(
+      {
+        dropdownStyle: this.getStyles({ show }),
+        isOpen: show,
+      },
+      () => {
+        this.props.onToggle(this.state.isOpen);
+      }
+    );
+  };
 
   render() {
-    const {
-      id, className, children, isMenu, displayFirstLayer,
-    } = this.props;
+    const { id, className, children, isMenu, displayFirstLayer } = this.props;
 
     const dropdownProps = {
       id,
@@ -181,7 +208,7 @@ class Dropdown extends Component {
         { 'm-dropdown--is-open': this.state.isOpen },
         { 'm-dropdown--is-menu': isMenu },
         { 'm-dropdown--display-first-layer': displayFirstLayer },
-        className,
+        className
       ),
       tabIndex: 0,
       role: 'presentation',
@@ -196,4 +223,6 @@ class Dropdown extends Component {
   }
 }
 
-export default forwardRef((props, ref) => <Dropdown {...props} innerRef={ref} />);
+export default forwardRef((props, ref) => (
+  <Dropdown {...props} innerRef={ref} />
+));

@@ -10,7 +10,7 @@ import UploadFileAsFormField from '../../../../modules/file/services/uploadFileA
 @withNotification()
 class ImportContact extends Component {
   static propTypes = {
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     onCancel: PropTypes.func,
     onUploadSuccess: PropTypes.func,
     notifySuccess: PropTypes.func.isRequired,
@@ -19,8 +19,10 @@ class ImportContact extends Component {
 
   static defaultProps = {
     onCancel: null,
-    onUploadSuccess: () => {},
-  }
+    onUploadSuccess: () => {
+      // noop
+    },
+  };
 
   state = {
     errors: {},
@@ -32,32 +34,53 @@ class ImportContact extends Component {
     const data = new UploadFileAsFormField(file, 'file');
 
     this.setState({ isLoading: true });
-    getClient().post('/api/v2/imports', data)
+    getClient()
+      .post('/api/v2/imports', data)
       .then(this.handleImportContactSuccess, this.handleImportContactError)
       .then(() => this.setState({ isLoading: false }));
-  }
+  };
 
   handleImportContactSuccess = () => {
     this.setState({ hasImported: true }, () => {
       const { onUploadSuccess, notifySuccess, i18n } = this.props;
-      notifySuccess({ message: i18n._('import-contact.feedback.successfull', null, { defaults: 'Contacts successfully imported' }), duration: 0 });
+      notifySuccess({
+        message: i18n._('import-contact.feedback.successfull', null, {
+          defaults: 'Contacts successfully imported',
+        }),
+        duration: 0,
+      });
       onUploadSuccess();
     });
-  }
+  };
 
   handleImportContactError = ({ response }) => {
     const { notifyError, i18n } = this.props;
 
     if (response.status === 400) {
-      return notifyError({ message: i18n._('import-contact.feedback.error-file', null, { defaults: 'This file cannot be used to import contacts' }), duration: 0 });
+      return notifyError({
+        message: i18n._('import-contact.feedback.error-file', null, {
+          defaults: 'This file cannot be used to import contacts',
+        }),
+        duration: 0,
+      });
     }
 
     if (response.status === 422) {
-      return notifyError({ message: i18n._('import-contact.feedback.error-contact', null, { defaults: 'The file is valid but new contacts cannot be created' }), duration: 0 });
+      return notifyError({
+        message: i18n._('import-contact.feedback.error-contact', null, {
+          defaults: 'The file is valid but new contacts cannot be created',
+        }),
+        duration: 0,
+      });
     }
 
-    return notifyError({ message: i18n._('import-contact.feedback.unexpected-error', null, { defaults: 'An unexpected error occured.' }), duration: 0 });
-  }
+    return notifyError({
+      message: i18n._('import-contact.feedback.unexpected-error', null, {
+        defaults: 'An unexpected error occured.',
+      }),
+      duration: 0,
+    });
+  };
 
   render() {
     const { onCancel } = this.props;

@@ -3,7 +3,6 @@
 @import '../../../../../../styles/object/o-callout';
 @import '../../../../../../styles/object/o-clickable';
 
-
 .s-signup {
   &__user {
     color: $co-color__fg__text--high;
@@ -19,7 +18,9 @@
     font-size: $co-font__size--small;
   }
 
-  &__action { line-height: $co-component__height; }
+  &__action {
+    line-height: $co-component__height;
+  }
 
   &__modal {
     width: 100%;
@@ -33,7 +34,9 @@
     @include o-callout--color($co-color__info);
   }
 
-  &__privacy-checkbox { margin-top: $co-margin; }
+  &__privacy-checkbox {
+    margin-top: $co-margin;
+  }
 
   &__link {
     text-align: center;

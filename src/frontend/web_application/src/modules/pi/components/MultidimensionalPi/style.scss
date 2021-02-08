@@ -2,7 +2,6 @@
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
 @import '../../../../styles/object/o-triangle';
 
-
 .m-multidimensional-pi {
   &__mini-pi {
     display: flex;
@@ -16,7 +15,6 @@
     padding: 0;
   }
 
-
   &__mini-graph {
     width: map-get($co-pi-width, 'ratings');
     padding: $co-component__spacing;
@@ -24,8 +22,8 @@
     box-shadow: $co-shadow;
 
     &::before {
-      @include o-triangle('top', .5rem, $co-color__fg__back);
-      left: .5rem;
+      @include o-triangle('top', 0.5rem, $co-color__fg__back);
+      left: 0.5rem;
     }
   }
 }

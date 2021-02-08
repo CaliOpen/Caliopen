@@ -78,4 +78,4 @@ def resync_shard_index(**kwargs):
             user.save()
         resync_user(user)
         cpt += 1
-    log.info('Sync {0} users into shards'.format(cpt, shard_id))
+    log.info('Sync {0} users into shards'.format(cpt))

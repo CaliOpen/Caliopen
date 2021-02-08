@@ -16,7 +16,8 @@ class HorizontalScroll extends Component {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node.isRequired,
-    subscribedState: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.array]).isRequired,
+    subscribedState: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.array])
+      .isRequired,
   };
 
   static defaultProps = {
@@ -27,7 +28,7 @@ class HorizontalScroll extends Component {
     hasNavigationSliders: false,
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.container = null;
     this.visibleZone = null;
   }
@@ -35,23 +36,32 @@ class HorizontalScroll extends Component {
   componentDidMount() {
     let containerWidth;
     let visibleZoneWidth;
-    this.handleZoneSizesChange = throttle(() => {
-      if (
-        containerWidth !== this.container.clientWidth ||
-        visibleZoneWidth !== this.visibleZone.clientWidth
-      ) {
-        containerWidth = this.container.clientWidth;
-        visibleZoneWidth = this.visibleZone.clientWidth;
-        this.displayNavigationsliders({ containerWidth, visibleZoneWidth });
-      }
-    }, 1000, { leading: true, trailing: true });
+    this.handleZoneSizesChange = throttle(
+      () => {
+        if (
+          containerWidth !== this.container.clientWidth ||
+          visibleZoneWidth !== this.visibleZone.clientWidth
+        ) {
+          containerWidth = this.container.clientWidth;
+          visibleZoneWidth = this.visibleZone.clientWidth;
+          this.displayNavigationsliders({ containerWidth, visibleZoneWidth });
+        }
+      },
+      1000,
+      { leading: true, trailing: true }
+    );
 
-    this.unsubscribeResizeEvent = addEventListener('resize', this.handleZoneSizesChange);
+    this.unsubscribeResizeEvent = addEventListener(
+      'resize',
+      this.handleZoneSizesChange
+    );
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.subscribedState !== nextProps.subscribedState ||
-      this.state.hasNavigationSliders !== nextState.hasNavigationSliders;
+    return (
+      this.props.subscribedState !== nextProps.subscribedState ||
+      this.state.hasNavigationSliders !== nextState.hasNavigationSliders
+    );
   }
 
   componentDidUpdate() {
@@ -62,17 +72,20 @@ class HorizontalScroll extends Component {
     this.unsubscribeResizeEvent();
   }
 
-  setRef = name => (element) => {
+  setRef = (name) => (element) => {
     this[name] = element;
-  }
+  };
 
   getDistance = (velocity) => {
-    const remain = (velocity === VELOCITY_RIGHT) ?
-      (this.container.clientWidth + this.container.offsetLeft) - this.visibleZone.clientWidth :
-      -1 * this.container.offsetLeft;
+    const remain =
+      velocity === VELOCITY_RIGHT
+        ? this.container.clientWidth +
+          this.container.offsetLeft -
+          this.visibleZone.clientWidth
+        : -1 * this.container.offsetLeft;
 
     return velocity * Math.min(STEP_SIZE, Math.max(remain, 0));
-  }
+  };
 
   displayNavigationsliders = ({ containerWidth, visibleZoneWidth }) => {
     const hasNavigationSliders = containerWidth > visibleZoneWidth;
@@ -84,46 +97,60 @@ class HorizontalScroll extends Component {
         }
       });
     }
-  }
+  };
 
   resetContainerPosition = () => {
     this.container.style.left = 0;
-  }
+  };
 
   moveContainer = (velocity) => {
     const distance = this.getDistance(velocity);
     if (distance) {
-      this.container.style.left = `${this.container.offsetLeft + distance}${SIZE_UNIT}`;
+      this.container.style.left = `${
+        this.container.offsetLeft + distance
+      }${SIZE_UNIT}`;
     }
-  }
+  };
 
   handleLeftTrigger = () => {
     this.moveContainer(VELOCITY_LEFT);
-  }
+  };
 
   handleRightTrigger = () => {
     this.moveContainer(VELOCITY_RIGHT);
-  }
+  };
 
   render() {
     const { className, children } = this.props;
 
     return (
       <div className={classnames(className, 'm-horizontal-scroll')}>
-        <div className="m-horizontal-scroll__visible-zone" ref={this.setRef('visibleZone')}>
-          <div className="m-menu m-horizontal-scroll__container" ref={this.setRef('container')}>
+        <div
+          className="m-horizontal-scroll__visible-zone"
+          ref={this.setRef('visibleZone')}
+        >
+          <div
+            className="m-menu m-horizontal-scroll__container"
+            ref={this.setRef('container')}
+          >
             {children}
           </div>
         </div>
         {this.state.hasNavigationSliders && (
           <Fragment>
             <NavbarItem className="scroll-anchor-item">
-              <Button onClick={this.handleLeftTrigger} className="m-horizontal-scroll__anchor scroll-anchor--left">
+              <Button
+                onClick={this.handleLeftTrigger}
+                className="m-horizontal-scroll__anchor scroll-anchor--left"
+              >
                 <Icon type="arrow-left" />
               </Button>
             </NavbarItem>
             <NavbarItem className="scroll-anchor-item">
-              <Button onClick={this.handleRightTrigger} className="m-horizontal-scroll__anchor scroll-anchor--right">
+              <Button
+                onClick={this.handleRightTrigger}
+                className="m-horizontal-scroll__anchor scroll-anchor--right"
+              >
                 <Icon type="arrow-right" />
               </Button>
             </NavbarItem>

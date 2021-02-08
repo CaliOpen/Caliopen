@@ -4,11 +4,19 @@
 @mixin input-text {
   @include o-form-element;
 
-  &--dark { @include o-form-element--dark; }
-  &--light { @include o-form-element--light; }
-  &--contrasted { @include o-form-element--contrasted; }
+  &--dark {
+    @include o-form-element--dark;
+  }
+  &--light {
+    @include o-form-element--light;
+  }
+  &--contrasted {
+    @include o-form-element--contrasted;
+  }
 
-  &--expanded { width: 100%; }
+  &--expanded {
+    width: 100%;
+  }
 
   &--error {
     box-shadow: inset 0 0 0 1px $co-color__alert;
@@ -18,7 +26,11 @@
       color: $co-color__fg__text;
     }
   }
-  &--bottom-space { margin: 0 0 map-get($co-form__spacing, 'medium'); }
+  &--bottom-space {
+    margin: 0 0 map-get($co-form__spacing, 'medium');
+  }
 }
 
-.m-input-text { @include input-text; }
+.m-input-text {
+  @include input-text;
+}

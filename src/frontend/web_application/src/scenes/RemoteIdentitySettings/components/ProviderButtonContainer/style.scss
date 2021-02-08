@@ -3,7 +3,7 @@
 
 .m-provider-button-container {
   @include flex-grid-row($size: expand);
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
 
   &__button {
     @include flex-grid-size(4);

@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-const Layout = ({ className, ...props }) => <span className={classnames(className)} {...props} />;
+const Layout = ({ className, ...props }) => (
+  <span className={classnames(className)} {...props} />
+);
 Layout.propTypes = {
   className: PropTypes.string,
 };
@@ -43,7 +45,9 @@ class ParticipantLabel extends PureComponent {
       );
     }
 
-    return (<Layout className={className}>{this.renderParticipantLabel()}</Layout>);
+    return (
+      <Layout className={className}>{this.renderParticipantLabel()}</Layout>
+    );
   }
 }
 

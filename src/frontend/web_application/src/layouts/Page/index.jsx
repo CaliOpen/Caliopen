@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Trans } from '@lingui/react';
 import {
-  Brand, Link, Button, withDropdownControl, Dropdown, VerticalMenu, VerticalMenuItem, Icon,
+  Brand,
+  Link,
+  Button,
+  withDropdownControl,
+  Dropdown,
+  VerticalMenu,
+  VerticalMenuItem,
+  Icon,
 } from '../../components';
 import { BackgroundImage } from '../../modules/pi';
 import { TabProvider } from '../../modules/tab';
@@ -14,7 +21,7 @@ import InstallButton from './components/InstallButton';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import NotificationCenter from './components/NotificationCenter';
-// import TakeATour from './components/TakeATour';
+import TakeATour from './components/TakeATour';
 import PageContainer from '../PageContainer';
 import './style.scss';
 import './header.scss';
@@ -53,7 +60,9 @@ class Page extends Component {
           </div> */}
           <div className="l-header">
             <PageContainer className="l-header__container">
-              <Link to="/" className="l-header__brand-link"><Brand className="l-header__brand" responsive /></Link>
+              <Link to="/" className="l-header__brand-link">
+                <Brand className="l-header__brand" responsive />
+              </Link>
               {/* <div className="l-header__notif-menu"><Button href="#"><Icon type="bell"
               /></Button></div> */}
               <div className="l-header__take-a-tour">
@@ -62,8 +71,14 @@ class Page extends Component {
                   icon="info-circle"
                   display="inline-block"
                 >
-                  <span className="l-header__button-label"><Trans id="header.help.menu">Help & info</Trans></span>
-                  <Icon type={this.state.isDropdownHelpOpen ? 'caret-up' : 'caret-down'} />
+                  <span className="l-header__button-label">
+                    <Trans id="header.help.menu">Help & info</Trans>
+                  </span>
+                  <Icon
+                    type={
+                      this.state.isDropdownHelpOpen ? 'caret-up' : 'caret-down'
+                    }
+                  />
                 </DropdownControl>
                 <Dropdown
                   dropdownControlRef={this.dropdownControlRef}
@@ -76,25 +91,51 @@ class Page extends Component {
                 >
                   <VerticalMenu>
                     {/* FIXME: unable to get the router outside of the App */}
-                    {/* <VerticalMenuItem><TakeATour /></VerticalMenuItem> */}
                     <VerticalMenuItem>
-                      <Link button expanded href="https://github.com/CaliOpen/Caliopen/blob/master/CHANGELOG.md" target="_blank">
-                        <Trans id="header.help.last-changes">Last changes</Trans>
+                      <TakeATour />
+                    </VerticalMenuItem>
+                    <VerticalMenuItem>
+                      <Link
+                        button
+                        expanded
+                        href="https://github.com/CaliOpen/Caliopen/blob/master/CHANGELOG.md"
+                        target="_blank"
+                      >
+                        <Trans id="header.help.last-changes">
+                          Last changes
+                        </Trans>
                       </Link>
                     </VerticalMenuItem>
                     <VerticalMenuItem>
-                      <Link button expanded href="https://feedback.caliopen.org/t/questions-frequemment-posees-frequently-asked-questions/162" target="_blank">
+                      <Link
+                        button
+                        expanded
+                        href="https://feedback.caliopen.org/t/questions-frequemment-posees-frequently-asked-questions/162"
+                        target="_blank"
+                      >
                         <Trans id="header.help.faq">FAQ [fr]</Trans>
                       </Link>
                     </VerticalMenuItem>
                     <VerticalMenuItem>
-                      <Link button expanded href="https://feedback.caliopen.org" target="_blank">
+                      <Link
+                        button
+                        expanded
+                        href="https://feedback.caliopen.org"
+                        target="_blank"
+                      >
                         <Trans id="header.help.feedback">Feedback</Trans>
                       </Link>
                     </VerticalMenuItem>
                     <VerticalMenuItem>
-                      <Link button expanded href="/privacy-policy.html" target="_blank">
-                        <Trans id="header.help.privacy-policy">Privacy Policy</Trans>
+                      <Link
+                        button
+                        expanded
+                        href="/privacy-policy.html"
+                        target="_blank"
+                      >
+                        <Trans id="header.help.privacy-policy">
+                          Privacy Policy
+                        </Trans>
                       </Link>
                     </VerticalMenuItem>
                     <InstallButton />
@@ -113,9 +154,13 @@ class Page extends Component {
 
           <ScrollDetector
             offset={136}
-            render={isSticky => (
+            render={(isSticky) => (
               <div className="l-navbar">
-                <div className={classnames('l-navbar__wrapper', { 'l-navbar__wrapper--sticky': isSticky })}>
+                <div
+                  className={classnames('l-navbar__wrapper', {
+                    'l-navbar__wrapper--sticky': isSticky,
+                  })}
+                >
                   <PageContainer>
                     <Navigation isSticky={isSticky} />
                   </PageContainer>
@@ -124,9 +169,7 @@ class Page extends Component {
             )}
           />
 
-          <PageContainer>
-            {children}
-          </PageContainer>
+          <PageContainer>{children}</PageContainer>
 
           <PageContainer>
             <Footer />

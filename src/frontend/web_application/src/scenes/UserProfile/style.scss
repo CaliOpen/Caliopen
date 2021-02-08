@@ -17,16 +17,21 @@
     float: right;
   }
 
-
-
   @include breakpoint(medium) {
-    &__info { @include flex-grid-size(4); }
-    &__details { @include flex-grid-size(8); }
-
+    &__info {
+      @include flex-grid-size(4);
+    }
+    &__details {
+      @include flex-grid-size(8);
+    }
   }
 
   @include breakpoint(large) {
-    &__info { @include flex-grid-size(3); }
-    &__details { @include flex-grid-size(9); }
+    &__info {
+      @include flex-grid-size(3);
+    }
+    &__details {
+      @include flex-grid-size(9);
+    }
   }
 }

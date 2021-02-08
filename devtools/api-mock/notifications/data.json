@@ -1,40 +1,44 @@
 {
-  "total": 5,
+  "total": 4,
   "notifications": [
     {
-      "body": "{ \"emailReceived\": \"1aaa-bbbb-0001\"}",
-      "emitter": "smtp",
+      "emitter": "imap_worker",
       "notif_id": "aaaa-bbbb-0001",
-      "type": "event",
-      "user_id": "u-john-01"
+      "type": "new_message",
+      "body": {
+        "size": 666
+      }
     },
     {
-      "body": "{ \"emailReceived\": \"1aaa-bbbb-0002\"}",
-      "emitter": "smtp",
+      "emitter": "imap_worker",
       "notif_id": "aaaa-bbbb-0002",
-      "type": "event",
-      "user_id": "u-john-01"
+      "type": "new_message",
+      "body": {
+        "size": 1,
+        "elements": [
+          { "body": { "message_id": "1aaa-bbbb-0001", "discussion_id": "" } }
+        ]
+      }
     },
     {
-      "body": "{ \"emailReceived\": \"1aaa-bbbb-0003\"}",
-      "emitter": "smtp",
-      "notif_id": "aaaa-bbbb-0003",
-      "type": "event",
-      "user_id": "u-john-01"
-    },
-    {
-      "body": "success",
       "emitter": "contacts",
-      "notif_id": "aaaa-bbbb-0004",
+      "notif_id": "aaaa-bbbb-0003",
+      "body": "success",
       "type": "event",
       "user_id": "u-john-01"
     },
     {
-      "body": "{ \"emailReceived\": \"1aaa-bbbb-0005\"}",
-      "emitter": "smtp",
-      "notif_id": "aaaa-bbbb-0005",
-      "type": "event",
-      "user_id": "u-john-01"
+      "emitter": "imap_worker",
+      "notif_id": "aaaa-bbbb-0004",
+      "type": "new_message",
+      "body": {
+        "size": 3,
+        "elements": [
+          { "body": { "message_id": "1aaa-bbbb-0002", "discussion_id": "" } },
+          { "body": { "message_id": "1aaa-bbbb-0003", "discussion_id": "" } },
+          { "body": { "message_id": "1aaa-bbbb-0005", "discussion_id": "" } }
+        ]
+      }
     }
   ]
 }

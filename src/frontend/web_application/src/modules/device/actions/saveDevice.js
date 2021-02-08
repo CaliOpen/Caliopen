@@ -1,4 +1,8 @@
-import { createDevice, updateDevice, invalidate } from '../../../store/modules/device';
+import {
+  createDevice,
+  updateDevice,
+  invalidate,
+} from '../../../store/modules/device';
 import { tryCatchAxiosPromise } from '../../../services/api-client';
 
 export const saveDevice = ({ device, original }) => async (dispatch) => {
@@ -7,7 +11,9 @@ export const saveDevice = ({ device, original }) => async (dispatch) => {
   if (!original) {
     result = await tryCatchAxiosPromise(dispatch(createDevice({ device })));
   } else {
-    result = await tryCatchAxiosPromise(dispatch(updateDevice({ device, original })));
+    result = await tryCatchAxiosPromise(
+      dispatch(updateDevice({ device, original }))
+    );
   }
   dispatch(invalidate());
 

@@ -7,7 +7,8 @@ export const withAuthenticatedProps = () => (C) => {
     renderComponent({
       settings,
       isSettingsFetching,
-      user, isUserFetching,
+      user,
+      isUserFetching,
       didLostAuthSettings,
       didLostAuthUser,
     }) {
@@ -28,22 +29,20 @@ export const withAuthenticatedProps = () => (C) => {
     render() {
       return (
         <WithSettings
-          render={
-            (settings, isSettingsFetching, didLostAuthSettings) => (
-              <WithUser
-                render={
-                  (user, isUserFetching, didLostAuthUser) => this.renderComponent({
-                    settings,
-                    isSettingsFetching,
-                    user,
-                    isUserFetching,
-                    didLostAuthSettings,
-                    didLostAuthUser,
-                  })
-                }
-              />
-            )
-          }
+          render={(settings, isSettingsFetching, didLostAuthSettings) => (
+            <WithUser
+              render={(user, isUserFetching, didLostAuthUser) =>
+                this.renderComponent({
+                  settings,
+                  isSettingsFetching,
+                  user,
+                  isUserFetching,
+                  didLostAuthSettings,
+                  didLostAuthUser,
+                })
+              }
+            />
+          )}
         />
       );
     }

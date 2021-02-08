@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withI18n, Trans, Plural } from '@lingui/react';
-import {
-  Checkbox, Button, Spinner, Confirm,
-} from '../../../../components';
+import { Checkbox, Button, Spinner, Confirm } from '../../../../components';
 
 import './style.scss';
 
 @withI18n()
 class DiscussionSelector extends Component {
   static propTypes = {
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     onSelectAllDiscussions: PropTypes.func,
     onEditTags: PropTypes.func,
     onDeleteDiscussions: PropTypes.func,
@@ -22,9 +20,9 @@ class DiscussionSelector extends Component {
   };
 
   static defaultProps = {
-    onSelectAllDiscussions: str => str,
-    onEditTags: str => str,
-    onDeleteDiscussions: str => str,
+    onSelectAllDiscussions: (str) => str,
+    onEditTags: (str) => str,
+    onDeleteDiscussions: (str) => str,
     count: 0,
     totalCount: 0,
     indeterminate: false,
@@ -34,15 +32,15 @@ class DiscussionSelector extends Component {
   toggleCheckbox = (ev) => {
     const { checked } = ev.target;
     this.props.onSelectAllDiscussions(checked ? 'select' : 'unselect');
-  }
+  };
 
   handleEditTags = () => {
     this.props.onEditTags();
-  }
+  };
 
   handleDelete = () => {
     this.props.onDeleteDiscussions();
-  }
+  };
 
   renderDeleteButton() {
     const { i18n, count, isDeleting } = this.props;
@@ -50,9 +48,11 @@ class DiscussionSelector extends Component {
     if (count === 0) {
       return (
         <Button
-          icon={isDeleting ? (<Spinner isLoading display="inline" />) : 'trash'}
+          icon={isDeleting ? <Spinner isLoading display="inline" /> : 'trash'}
           disabled
-          aria-label={i18n._('timeline.action.delete', null, { defaults: 'Delete selected' })}
+          aria-label={i18n._('timeline.action.delete', null, {
+            defaults: 'Delete selected',
+          })}
         />
       );
     }
@@ -60,13 +60,22 @@ class DiscussionSelector extends Component {
     return (
       <Confirm
         onConfirm={this.handleDelete}
-        title={(<Trans id="timeline.confirm-delete.title">Delete discussion(s)</Trans>)}
-        content={(<Trans id="timeline.confirm-delete.content">The deletion is permanent, are you sure you want to delete these discussions ?</Trans>)}
-        render={confirm => (
+        title={
+          <Trans id="timeline.confirm-delete.title">Delete discussion(s)</Trans>
+        }
+        content={
+          <Trans id="timeline.confirm-delete.content">
+            The deletion is permanent, are you sure you want to delete these
+            discussions ?
+          </Trans>
+        }
+        render={(confirm) => (
           <Button
-            icon={isDeleting ? (<Spinner isLoading display="inline" />) : 'trash'}
+            icon={isDeleting ? <Spinner isLoading display="inline" /> : 'trash'}
             onClick={confirm}
-            aria-label={i18n._('timeline.action.delete', null, { defaults: 'Delete selected' })}
+            aria-label={i18n._('timeline.action.delete', null, {
+              defaults: 'Delete selected',
+            })}
           />
         )}
       />
@@ -75,7 +84,12 @@ class DiscussionSelector extends Component {
 
   render() {
     const {
-      i18n, count, totalCount, checked, isDeleting, indeterminate,
+      i18n,
+      count,
+      totalCount,
+      checked,
+      isDeleting,
+      indeterminate,
     } = this.props;
 
     return (
@@ -85,8 +99,16 @@ class DiscussionSelector extends Component {
             <Plural
               id="timeline.discussions.selected"
               value={{ count, totalCount }}
-              one={(<Trans>{count}/{totalCount} discussion:</Trans>)}
-              other={(<Trans>{count}/{totalCount} discussions:</Trans>)}
+              one={
+                <Trans>
+                  {count}/{totalCount} discussion:
+                </Trans>
+              }
+              other={
+                <Trans>
+                  {count}/{totalCount} discussions:
+                </Trans>
+              }
             />
           </span>
         )}
@@ -104,7 +126,9 @@ class DiscussionSelector extends Component {
           */}
         <span className="m-discussion-selector__checkbox">
           <Checkbox
-            label={i18n._('message-list.action.select_all_discussions', null, { defaults: 'Select/deselect all discussions' })}
+            label={i18n._('message-list.action.select_all_discussions', null, {
+              defaults: 'Select/deselect all discussions',
+            })}
             id="discussion-selector"
             checked={checked}
             indeterminate={indeterminate}

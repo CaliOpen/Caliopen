@@ -10,15 +10,16 @@ const SYSTEM_TAGS = {
   [TAG_SPAM]: i18nMark('tags.label.spam'),
 };
 
-export const getCleanedTagCollection = (tags, names) => tags
-  .filter(tag => names.includes(tag.name));
+export const getCleanedTagCollection = (tags, names) =>
+  tags.filter((tag) => names.includes(tag.name));
 
-export const getTag = (tags, name) => tags.find(item => item.name === name);
+export const getTag = (tags, name) => tags.find((item) => item.name === name);
 
 export const getTagLabel = (i18n, tag) => {
   if (!tag.label) {
-    return SYSTEM_TAGS[tag.name] ?
-      i18n._(SYSTEM_TAGS[tag.name], null, { defaults: tag.name }) : tag.name;
+    return SYSTEM_TAGS[tag.name]
+      ? i18n._(SYSTEM_TAGS[tag.name], null, { defaults: tag.name })
+      : tag.name;
   }
 
   return tag.label;

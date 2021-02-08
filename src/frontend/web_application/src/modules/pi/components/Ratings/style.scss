@@ -1,7 +1,7 @@
 @import '../../../../styles/common';
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
 
-$mini-pi-bar__height:  6px;
+$mini-pi-bar__height: 6px;
 $mini-pi-bar__margin: 1px;
 $mini-pi__height: 3 * ($mini-pi-bar__height + ($mini-pi-bar__margin * 2));
 
@@ -39,7 +39,7 @@ $mini-pi__height: 3 * ($mini-pi-bar__height + ($mini-pi-bar__margin * 2));
 
   &__item-level-bar {
     height: $co-component__height / 3;
-    transition: .5s width;
+    transition: 0.5s width;
     background: $co-color__privacy;
     line-height: $co-component__height / 3;
   }

@@ -2,9 +2,13 @@
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
 
 .m-add-form-field-form {
-  &__col-button { @include flex-grid-size(shrink); }
+  &__col-button {
+    @include flex-grid-size(shrink);
+  }
 
   @include breakpoint(medium) {
-    &__legend { display: none; }
+    &__legend {
+      display: none;
+    }
   }
 }

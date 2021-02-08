@@ -2,9 +2,8 @@
 import React from 'react';
 // extends https://github.com/elrumordelaluz/reactour/blob/master/src/TourPortal.js
 import TourPortalBase from 'reactour/dist/TourPortal';
-import {
-  Navigation, Dot, SvgMask, Controls,
-} from 'reactour/dist/components';
+import { Trans } from '@lingui/react';
+import { Navigation, Dot, SvgMask, Controls } from 'reactour/dist/components';
 import cn from 'classnames';
 import Guide from '../Guide';
 import { Button } from '../../../../../../components';
@@ -70,7 +69,9 @@ class TourPortal extends TourPortalBase {
           <div
             role="button"
             tabIndex={-1}
-            ref={(c) => { this.mask = c; }}
+            ref={(c) => {
+              this.mask = c;
+            }}
             onClick={this.maskClickHandler}
             onKeyPress={this.maskClickHandler}
             className={cn(CN.mask.base, {
@@ -92,9 +93,7 @@ class TourPortal extends TourPortalBase {
                   ? !steps[current].stepInteraction
                   : disableInteraction
               }
-              disableInteractionClassName={`${
-                CN.mask.disableInteraction
-              } ${highlightedMaskClassName}`}
+              disableInteractionClassName={`${CN.mask.disableInteraction} ${highlightedMaskClassName}`}
             />
           </div>
           <Guide
@@ -123,15 +122,19 @@ class TourPortal extends TourPortalBase {
             {showNumber && (
               // overide Badge with className
               <div className="m-tour-portal__badge">
-                {typeof badgeContent === 'function' ?
-                  badgeContent(current + 1, steps.length)
+                {typeof badgeContent === 'function'
+                  ? badgeContent(current + 1, steps.length)
                   : current + 1}
               </div>
             )}
             {/* append close section */}
             {showCloseButton && (
               <div className="m-tour-portal__close">
-                <Button onClick={onRequestClose} icon="remove"><span className="show-for-sr">{onRequestClose}</span></Button>
+                <Button onClick={onRequestClose} icon="remove">
+                  <span className="show-for-sr">
+                    <Trans id="take-a-tour.action.close">Close</Trans>
+                  </span>
+                </Button>
               </div>
             )}
             {/* add className */}
@@ -139,10 +142,10 @@ class TourPortal extends TourPortalBase {
               {steps[current] &&
                 (typeof steps[current].content === 'function'
                   ? steps[current].content({
-                    goTo: this.gotoStep,
-                    inDOM,
-                    step: current + 1,
-                  })
+                      goTo: this.gotoStep,
+                      inDOM,
+                      step: current + 1,
+                    })
                   : steps[current].content)}
             </div>
             <div className="m-tour-portal__controls">
@@ -152,7 +155,9 @@ class TourPortal extends TourPortalBase {
                     // replace SvgArrow components by simple Buttons
                     <Button
                       onClick={
-                        typeof prevStep === 'function' ? prevStep : this.prevStep
+                        typeof prevStep === 'function'
+                          ? prevStep
+                          : this.prevStep
                       }
                       disabled={current === 0}
                     >
@@ -182,10 +187,12 @@ class TourPortal extends TourPortalBase {
                         current === steps.length - 1
                           ? lastStepNextButton
                             ? onRequestClose
-                            : () => {}
+                            : () => {
+                                // noop
+                              }
                           : typeof nextStep === 'function'
-                            ? nextStep
-                            : this.nextStep
+                          ? nextStep
+                          : this.nextStep
                       }
                       disabled={
                         !lastStepNextButton && current === steps.length - 1
@@ -194,9 +201,8 @@ class TourPortal extends TourPortalBase {
                       {lastStepNextButton && current === steps.length - 1
                         ? lastStepNextButton
                         : nextButton
-                          ? nextButton
-                          : null
-                      }
+                        ? nextButton
+                        : null}
                     </Button>
                   )}
                 </Controls>
@@ -208,7 +214,7 @@ class TourPortal extends TourPortalBase {
       );
     }
 
-    return (<div />);
+    return <div />;
   }
 }
 

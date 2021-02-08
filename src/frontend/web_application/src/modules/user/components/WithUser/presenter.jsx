@@ -19,9 +19,7 @@ class WithUser extends Component {
   };
 
   componentDidMount() {
-    const {
-      user, getUser, didInvalidate, isFetching,
-    } = this.props;
+    const { user, getUser, didInvalidate, isFetching } = this.props;
 
     if ((!user || didInvalidate) && !isFetching && isAuthenticated()) {
       getUser();
@@ -29,9 +27,7 @@ class WithUser extends Component {
   }
 
   render() {
-    const {
-      render, user, isFetching, synced, didLostAuth,
-    } = this.props;
+    const { render, user, isFetching, synced, didLostAuth } = this.props;
 
     if (synced && !user) {
       return null;

@@ -2,13 +2,17 @@
   "env": {
     "test": {
       "presets": [
-        ["@babel/preset-env", { "modules": "auto", "targets": { "node": "current" } }],
-        "@babel/preset-react"
+        [
+          "@babel/preset-env",
+          { "modules": "auto", "targets": { "node": "current" } }
+        ],
+        "@babel/preset-react",
+        "@babel/preset-typescript"
       ],
       "plugins": [
         "babel-plugin-dynamic-import-node",
         ["@babel/plugin-proposal-decorators", { "legacy": true }],
-        ["@babel/plugin-proposal-class-properties", { "loose": true }],
+        ["@babel/plugin-proposal-class-properties", { "loose": true }]
       ]
     }
   }

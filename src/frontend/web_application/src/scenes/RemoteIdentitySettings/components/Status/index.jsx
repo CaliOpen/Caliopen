@@ -10,8 +10,8 @@ class Status extends PureComponent {
   render() {
     const { status } = this.props;
     const statusLabels = {
-      active: (<Trans id="remote_identity.status.active">Enabled</Trans>),
-      inactive: (<Trans id="remote_identity.status.inactive">Disabled</Trans>),
+      active: <Trans id="remote_identity.status.active">Enabled</Trans>,
+      inactive: <Trans id="remote_identity.status.inactive">Disabled</Trans>,
     };
 
     return statusLabels[status];

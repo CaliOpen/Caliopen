@@ -12,7 +12,13 @@ export const SIZE_XXLARGE = 'xxlarge';
 class AvatarLetterWrapper extends PureComponent {
   static propTypes = {
     children: PropTypes.shape({}),
-    size: PropTypes.oneOf([SIZE_SMALL, SIZE_MEDIUM, SIZE_LARGE, SIZE_XLARGE, SIZE_XXLARGE]),
+    size: PropTypes.oneOf([
+      SIZE_SMALL,
+      SIZE_MEDIUM,
+      SIZE_LARGE,
+      SIZE_XLARGE,
+      SIZE_XXLARGE,
+    ]),
     isRound: PropTypes.bool,
     className: PropTypes.string,
   };
@@ -25,10 +31,10 @@ class AvatarLetterWrapper extends PureComponent {
   };
 
   render() {
-    const {
-      children, className, size, isRound, ...props
-    } = this.props;
-    const classNameShape = classnames({ 'm-avatar-letter-wrapper--round': isRound });
+    const { children, className, size, isRound, ...props } = this.props;
+    const classNameShape = classnames({
+      'm-avatar-letter-wrapper--round': isRound,
+    });
     const classNameModifiers = {
       [SIZE_SMALL]: 'm-avatar-letter-wrapper--small',
       [SIZE_MEDIUM]: 'm-avatar-letter-wrapper--medium',
@@ -37,7 +43,9 @@ class AvatarLetterWrapper extends PureComponent {
       [SIZE_XXLARGE]: 'm-avatar-letter-wrapper--xxlarge',
     };
     const classNameSize = classNameModifiers[size];
-    const letterClassNameSize = classNameSize ? `${classNameSize}__letter` : null;
+    const letterClassNameSize = classNameSize
+      ? `${classNameSize}__letter`
+      : null;
     const avatarLetter = React.Children.map(children, (child) => {
       const childProps = {
         ...child.props,
@@ -48,18 +56,16 @@ class AvatarLetterWrapper extends PureComponent {
         ),
       };
 
-      return (
-        <child.type {...childProps} />
-      );
+      return <child.type {...childProps} />;
     });
 
     return (
-      <div className={
-        classnames(
+      <div
+        className={classnames(
           'm-avatar-letter-wrapper',
           className,
           classNameSize,
-          classNameShape,
+          classNameShape
         )}
       >
         {avatarLetter}

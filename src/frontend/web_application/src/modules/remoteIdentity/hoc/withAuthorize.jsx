@@ -9,31 +9,21 @@ export const withAuthorize = () => (C) => {
     static propTypes = {
       initPopup: PropTypes.func.isRequired,
       authorizePopup: PropTypes.func.isRequired,
-    }
+    };
 
     authorize = async ({ providerName, identifier }) => {
-      const {
-        initPopup, authorizePopup,
-      } = this.props;
+      const { initPopup, authorizePopup } = this.props;
 
-      try {
-        const provider = await getProvider({ providerName, identifier });
-        initPopup({ providerName });
+      const provider = await getProvider({ providerName, identifier });
+      initPopup({ providerName });
 
-        return authorizePopup({ provider });
-      } catch (e) {
-        throw e;
-      }
-    }
+      return authorizePopup({ provider });
+    };
 
     render() {
-      const {
-        initPopup, authorizePopup, ...props
-      } = this.props;
+      const { initPopup, authorizePopup, ...props } = this.props;
 
-      return (
-        <C authorize={this.authorize} {...props} />
-      );
+      return <C authorize={this.authorize} {...props} />;
     }
   }
 

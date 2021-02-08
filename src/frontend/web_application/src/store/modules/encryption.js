@@ -49,7 +49,6 @@ export function setPassphraseSuccess({ fingerprint }) {
   };
 }
 
-
 export function resetPassphrase({ fingerprint }) {
   return {
     type: RESET_PASSPHRASE,

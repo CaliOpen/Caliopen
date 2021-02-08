@@ -2,11 +2,11 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withI18n } from '@lingui/react';
 import isEqual from 'lodash.isequal';
-import { withSettings } from '../../../../modules/settings';
+import { withSettings } from '../../../settings';
 import { notify as browserNotify } from '../../../../services/browser-notification';
 
-const getNbNewMessages = notifications => notifications
-  .reduce((acc, notif) => acc + notif.body.size, 0);
+const getNbNewMessages = (notifications) =>
+  notifications.reduce((acc, notif) => acc + notif.body.size, 0);
 
 @withI18n()
 @withSettings()
@@ -45,7 +45,11 @@ class MessageNotificationHandler extends Component {
       return;
     }
 
-    const { invalidateDiscussions, invalidateCollections, initialized } = this.props;
+    const {
+      invalidateDiscussions,
+      invalidateCollections,
+      initialized,
+    } = this.props;
 
     if (initialized) {
       invalidateDiscussions();
@@ -63,7 +67,7 @@ class MessageNotificationHandler extends Component {
         }),
       });
     }
-  }
+  };
 
   render() {
     return null;

@@ -2,7 +2,11 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Section, Icon } from '../../../../components';
 import {
-  PROVIDER_EMAIL, PROVIDER_GMAIL, PROVIDER_TWITTER, PROVIDER_MASTODON, ProviderIcon,
+  PROVIDER_EMAIL,
+  PROVIDER_GMAIL,
+  PROVIDER_TWITTER,
+  PROVIDER_MASTODON,
+  ProviderIcon,
 } from '../../../../modules/remoteIdentity';
 import RemoteIdentityEmail from '../RemoteIdentityEmail';
 import RemoteIdentityOauth from '../RemoteIdentityOauth';
@@ -26,7 +30,7 @@ class RemoteIdentity extends Component {
       remoteIdentity,
     } = this.props;
 
-    const renderComponent = C => (
+    const renderComponent = (C) => (
       <C
         key={remoteIdentity.identity_id || 'new'}
         remoteIdentity={remoteIdentity}
@@ -49,11 +53,16 @@ class RemoteIdentity extends Component {
 
   renderIcon = (remoteIdentity) => {
     if (!remoteIdentity.infos.provider) {
-      return (<Icon type="email" rightSpaced />);
+      return <Icon type="email" rightSpaced />;
     }
 
-    return (<ProviderIcon className="m-remote-identity__provider-logo" providerName={remoteIdentity.infos.provider} />);
-  }
+    return (
+      <ProviderIcon
+        className="m-remote-identity__provider-logo"
+        providerName={remoteIdentity.infos.provider}
+      />
+    );
+  };
 
   renderTitle() {
     const { remoteIdentity } = this.props;
@@ -68,14 +77,12 @@ class RemoteIdentity extends Component {
   }
 
   render() {
-    const remoteIdentity = this.props.remoteIdentity || this.state.newRemoteIdentity;
+    const remoteIdentity =
+      this.props.remoteIdentity || this.state.newRemoteIdentity;
     const context = remoteIdentity.status === 'active' ? 'safe' : 'disabled';
 
     return (
-      <Section
-        title={this.renderTitle(remoteIdentity)}
-        borderContext={context}
-      >
+      <Section title={this.renderTitle(remoteIdentity)} borderContext={context}>
         {this.renderType()}
       </Section>
     );

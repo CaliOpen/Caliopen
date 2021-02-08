@@ -1,1 +1,1 @@
-export const deviceStateSelector = state => state.device;
+export const deviceStateSelector = (state) => state.device;

@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import { Trans } from '@lingui/react';
 import TextList, { TextItem } from '../../../../components/TextList';
 import {
-  Button, Icon, SelectFieldGroup, FormGrid, FormRow, FormColumn, Legend,
+  Button,
+  Icon,
+  SelectFieldGroup,
+  FormGrid,
+  FormRow,
+  FormColumn,
+  Legend,
 } from '../../../../components';
 import './style.scss';
 
@@ -13,11 +19,10 @@ class AddFormFieldForm extends Component {
     addFieldToCollection: PropTypes.func.isRequired,
     changeField: PropTypes.func.isRequired,
     // formValues: PropTypes.shape({}).isRequired,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
-  static defaultProps = {
-  };
+  static defaultProps = {};
 
   state = {
     formType: 'emails',
@@ -28,7 +33,7 @@ class AddFormFieldForm extends Component {
     this.setState({
       formType: value,
     });
-  }
+  };
 
   handleAddForm = () => {
     const { form, addFieldToCollection, changeField } = this.props;
@@ -38,7 +43,7 @@ class AddFormFieldForm extends Component {
     }
 
     return addFieldToCollection(form, `${this.state.formType}`, {});
-  }
+  };
 
   render() {
     const { i18n } = this.props;
@@ -48,19 +53,27 @@ class AddFormFieldForm extends Component {
 
     const typeOptions = [
       {
-        label: i18n._('contact.form-selector.email_form.label', null, { defaults: 'Email' }),
+        label: i18n._('contact.form-selector.email_form.label', null, {
+          defaults: 'Email',
+        }),
         value: 'emails',
       },
       {
-        label: i18n._('contact.form-selector.phone_form.label', null, { defaults: 'Phone' }),
+        label: i18n._('contact.form-selector.phone_form.label', null, {
+          defaults: 'Phone',
+        }),
         value: 'phones',
       },
       {
-        label: i18n._('contact.form-selector.im_form.label', null, { defaults: 'IM' }),
+        label: i18n._('contact.form-selector.im_form.label', null, {
+          defaults: 'IM',
+        }),
         value: 'ims',
       },
       {
-        label: i18n._('contact.form-selector.address_form.label', null, { defaults: 'Address' }),
+        label: i18n._('contact.form-selector.address_form.label', null, {
+          defaults: 'Address',
+        }),
         value: 'addresses',
       },
       // ...(hasBirthday ? [] : [{
@@ -83,7 +96,9 @@ class AddFormFieldForm extends Component {
                 <Legend>
                   <Icon type="crosshairs" rightSpaced />
                   <span className="m-add-form-field-form__legend">
-                    <Trans id="contact.form-selector.add_new_field.label">Add a new field</Trans>
+                    <Trans id="contact.form-selector.add_new_field.label">
+                      Add a new field
+                    </Trans>
                   </span>
                 </Legend>
               </FormColumn>
@@ -94,10 +109,17 @@ class AddFormFieldForm extends Component {
                   value={this.state.formType}
                   options={typeOptions}
                   showLabelforSr
-                  label={i18n._('contact.form-selector.add_new_field.label', null, { defaults: 'Add a new field' })}
+                  label={i18n._(
+                    'contact.form-selector.add_new_field.label',
+                    null,
+                    { defaults: 'Add a new field' }
+                  )}
                 />
               </FormColumn>
-              <FormColumn size="shrink" className="m-add-form-field-form__col-button">
+              <FormColumn
+                size="shrink"
+                className="m-add-form-field-form__col-button"
+              >
                 <Button icon="plus" shape="plain" onClick={this.handleAddForm}>
                   <Trans id="contact.action.add_new_field">Add new</Trans>
                 </Button>

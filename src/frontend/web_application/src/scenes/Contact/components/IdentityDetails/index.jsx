@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from '../../../../components';
 
-
 class IdentityDetails extends PureComponent {
   static propTypes = {
     identity: PropTypes.shape({}),

@@ -12,7 +12,15 @@ class SearchResults extends PureComponent {
       search: PropTypes.string.isRequired,
     }).isRequired,
     term: PropTypes.string,
-    searchResultsPreview: PropTypes.shape({}),
+    searchResultsPreview: PropTypes.shape({
+      total: PropTypes.number,
+      contact_hits: PropTypes.shape({
+        total: PropTypes.number,
+      }),
+      messages_hits: PropTypes.shape({
+        total: PropTypes.number,
+      }),
+    }),
     children: PropTypes.node,
   };
 
@@ -33,10 +41,7 @@ class SearchResults extends PureComponent {
   render() {
     const {
       children,
-      location: {
-        pathname,
-        search,
-      },
+      location: { pathname, search },
       term,
       searchResultsPreview: {
         total,
@@ -50,22 +55,36 @@ class SearchResults extends PureComponent {
     const navLinks = [
       {
         key: 'search-results.all',
-        label: (<Trans id="search-results.all" values={{ total }}>All ({total})</Trans>),
+        label: (
+          <Trans id="search-results.all" values={{ total }}>
+            All ({total})
+          </Trans>
+        ),
         to: `/search-results?term=${term}`,
       },
       {
         key: 'search-results.messages',
-        label: (<Trans id="search-results.messages" values={{ nbMessages }}>Messages ({nbMessages})</Trans>),
+        label: (
+          <Trans id="search-results.messages" values={{ nbMessages }}>
+            Messages ({nbMessages})
+          </Trans>
+        ),
         to: `/search-results?term=${term}&doctype=message`,
       },
       {
         key: 'search-results.contacts',
-        label: (<Trans id="search-results.contacts" values={{ nbContacts }}>Contacts ({nbContacts})</Trans>),
+        label: (
+          <Trans id="search-results.contacts" values={{ nbContacts }}>
+            Contacts ({nbContacts})
+          </Trans>
+        ),
         to: `/search-results?term=${term}&doctype=contact`,
       },
-    ].map(link => ({
+    ].map((link) => ({
       ...link,
-      isActive: matchPath(location, { path: link.to, exact: false, strict: false }) && true,
+      isActive:
+        matchPath(location, { path: link.to, exact: false, strict: false }) &&
+        true,
     }));
 
     return (

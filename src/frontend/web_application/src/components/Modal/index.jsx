@@ -17,7 +17,9 @@ class Modal extends Component {
     className: undefined,
     title: undefined,
     children: undefined,
-    onClose: () => {},
+    onClose: () => {
+      // noop
+    },
   };
 
   componentDidMount() {
@@ -25,9 +27,7 @@ class Modal extends Component {
   }
 
   render() {
-    const {
-      className, title, children, onClose, ...props
-    } = this.props;
+    const { className, title, children, onClose, ...props } = this.props;
 
     return (
       <ReactModal
@@ -36,14 +36,10 @@ class Modal extends Component {
         {...props}
       >
         <header className="m-modal__header">
-          {title && (
-            <div className="m-modal__title">{title}</div>
-          )}
+          {title && <div className="m-modal__title">{title}</div>}
           <Button className="m-modal__close" onClick={onClose} icon="remove" />
         </header>
-        <div className="m-modal__content">
-          {children}
-        </div>
+        <div className="m-modal__content">{children}</div>
       </ReactModal>
     );
   }

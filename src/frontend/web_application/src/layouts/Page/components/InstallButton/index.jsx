@@ -11,8 +11,7 @@ class InstallButton extends Component {
     notifySuccess: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-  };
+  static defaultProps = {};
 
   state = {
     isInstalled: false,
@@ -26,7 +25,11 @@ class InstallButton extends Component {
 
     if (outcome === 'accepted') {
       notifySuccess({
-        message: (<Trans id="pwa.feedback.install-success">Caliopen has been installed on your device.</Trans>),
+        message: (
+          <Trans id="pwa.feedback.install-success">
+            Caliopen has been installed on your device.
+          </Trans>
+        ),
       });
       this.setState({ isInstalled: true });
     }

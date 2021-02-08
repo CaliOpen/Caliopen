@@ -15,7 +15,8 @@
     font-size: $co-font__size--large;
     font-weight: 700;
 
-    &::before { // unicorn
+    &::before {
+      // unicorn
       display: block;
       content: ' ';
       position: absolute;
@@ -24,11 +25,43 @@
       width: 4px;
       height: 4px;
       margin-left: -38px; // minus (approx. width of unicorn's shadow / 2)
-      box-shadow: 12px 4px 0 #ffeb3b, 24px 4px 0 #ff0000, 28px 4px 0 #ff0000, 32px 4px 0 #ff0000, 16px 8px 0 #ffeb3b, 20px 8px 0 #ff0000, 24px 8px 0 #ff0000, 28px 8px 0 #ffc107, 32px 8px 0 #ffc107, 36px 8px 0 #c8efff, 20px 12px 0 #ffeb3b, 24px 12px 0 #c8efff, 28px 12px 0 #000000, 32px 12px 0 #c8efff, 36px 12px 0 #03a9f4, 68px 12px 0 #03a9f4, 72px 12px 0 #ff0000, 16px 16px 0 #c8efff, 20px 16px 0 #c8efff, 24px 16px 0 #c8efff, 28px 16px 0 #c8efff, 32px 16px 0 #c8efff, 36px 16px 0 #3f51b5, 40px 16px 0 #3f51b5, 64px 16px 0 #3f51b5, 68px 16px 0 #ffc107, 72px 16px 0 #ff0000, 76px 16px 0 #ffeb3b, 12px 20px 0 #c8efff, 16px 20px 0 #c8efff, 20px 20px 0 #c8efff, 24px 20px 0 #c8efff, 28px 20px 0 #c8efff, 32px 20px 0 #c8efff, 36px 20px 0 #3f51b5, 40px 20px 0 #9c27b0, 60px 20px 0 #9c27b0, 64px 20px 0 #3f51b5, 12px 24px 0 #c8efff, 16px 24px 0 #c8efff, 24px 24px 0 #c8efff, 28px 24px 0 #c8efff, 32px 24px 0 #c8efff, 36px 24px 0 #9c27b0, 40px 24px 0 #9c27b0, 44px 24px 0 #9c27b0, 56px 24px 0 #9c27b0, 60px 24px 0 #9c27b0, 24px 28px 0 #c8efff, 28px 28px 0 #c8efff, 32px 28px 0 #c8efff, 36px 28px 0 #c8efff, 40px 28px 0 #c8efff, 44px 28px 0 #c8efff, 48px 28px 0 #c8efff, 52px 28px 0 #c8efff, 56px 28px 0 #c8efff, 20px 32px 0 #c8efff, 24px 32px 0 #c8efff, 28px 32px 0 #c8efff, 32px 32px 0 #c8efff, 36px 32px 0 #c8efff, 40px 32px 0 #c8efff, 44px 32px 0 #c8efff, 48px 32px 0 #c8efff, 52px 32px 0 #c8efff, 56px 32px 0 #c8efff, 12px 36px 0 #c8efff, 16px 36px 0 #c8efff, 20px 36px 0 #c8efff, 24px 36px 0 #c8efff, 28px 36px 0 #c8efff, 32px 36px 0 #c8efff, 36px 36px 0 #c8efff, 40px 36px 0 #c8efff, 44px 36px 0 #c8efff, 48px 36px 0 #c8efff, 52px 36px 0 #c8efff, 12px 40px 0 #c8efff, 24px 40px 0 #c8efff, 44px 40px 0 #c8efff, 48px 40px 0 #c8efff, 52px 40px 0 #c8efff, 12px 44px 0 #c8efff, 16px 44px 0 #c8efff, 24px 44px 0 #c8efff, 48px 44px 0 #c8efff, 52px 44px 0 #c8efff, 56px 44px 0 #c8efff, 24px 48px 0 #c8efff, 56px 48px 0 #c8efff, 24px 52px 0 #c8efff, 56px 52px 0 #c8efff;
+      box-shadow: 12px 4px 0 #ffeb3b, 24px 4px 0 #ff0000, 28px 4px 0 #ff0000,
+        32px 4px 0 #ff0000, 16px 8px 0 #ffeb3b, 20px 8px 0 #ff0000,
+        24px 8px 0 #ff0000, 28px 8px 0 #ffc107, 32px 8px 0 #ffc107,
+        36px 8px 0 #c8efff, 20px 12px 0 #ffeb3b, 24px 12px 0 #c8efff,
+        28px 12px 0 #000000, 32px 12px 0 #c8efff, 36px 12px 0 #03a9f4,
+        68px 12px 0 #03a9f4, 72px 12px 0 #ff0000, 16px 16px 0 #c8efff,
+        20px 16px 0 #c8efff, 24px 16px 0 #c8efff, 28px 16px 0 #c8efff,
+        32px 16px 0 #c8efff, 36px 16px 0 #3f51b5, 40px 16px 0 #3f51b5,
+        64px 16px 0 #3f51b5, 68px 16px 0 #ffc107, 72px 16px 0 #ff0000,
+        76px 16px 0 #ffeb3b, 12px 20px 0 #c8efff, 16px 20px 0 #c8efff,
+        20px 20px 0 #c8efff, 24px 20px 0 #c8efff, 28px 20px 0 #c8efff,
+        32px 20px 0 #c8efff, 36px 20px 0 #3f51b5, 40px 20px 0 #9c27b0,
+        60px 20px 0 #9c27b0, 64px 20px 0 #3f51b5, 12px 24px 0 #c8efff,
+        16px 24px 0 #c8efff, 24px 24px 0 #c8efff, 28px 24px 0 #c8efff,
+        32px 24px 0 #c8efff, 36px 24px 0 #9c27b0, 40px 24px 0 #9c27b0,
+        44px 24px 0 #9c27b0, 56px 24px 0 #9c27b0, 60px 24px 0 #9c27b0,
+        24px 28px 0 #c8efff, 28px 28px 0 #c8efff, 32px 28px 0 #c8efff,
+        36px 28px 0 #c8efff, 40px 28px 0 #c8efff, 44px 28px 0 #c8efff,
+        48px 28px 0 #c8efff, 52px 28px 0 #c8efff, 56px 28px 0 #c8efff,
+        20px 32px 0 #c8efff, 24px 32px 0 #c8efff, 28px 32px 0 #c8efff,
+        32px 32px 0 #c8efff, 36px 32px 0 #c8efff, 40px 32px 0 #c8efff,
+        44px 32px 0 #c8efff, 48px 32px 0 #c8efff, 52px 32px 0 #c8efff,
+        56px 32px 0 #c8efff, 12px 36px 0 #c8efff, 16px 36px 0 #c8efff,
+        20px 36px 0 #c8efff, 24px 36px 0 #c8efff, 28px 36px 0 #c8efff,
+        32px 36px 0 #c8efff, 36px 36px 0 #c8efff, 40px 36px 0 #c8efff,
+        44px 36px 0 #c8efff, 48px 36px 0 #c8efff, 52px 36px 0 #c8efff,
+        12px 40px 0 #c8efff, 24px 40px 0 #c8efff, 44px 40px 0 #c8efff,
+        48px 40px 0 #c8efff, 52px 40px 0 #c8efff, 12px 44px 0 #c8efff,
+        16px 44px 0 #c8efff, 24px 44px 0 #c8efff, 48px 44px 0 #c8efff,
+        52px 44px 0 #c8efff, 56px 44px 0 #c8efff, 24px 48px 0 #c8efff,
+        56px 48px 0 #c8efff, 24px 52px 0 #c8efff, 56px 52px 0 #c8efff;
     }
   }
 
-  &__thanks { color: $co-color__fg__text--high; }
+  &__thanks {
+    color: $co-color__fg__text--high;
+  }
 
   &__ascii-short,
   &__ascii {

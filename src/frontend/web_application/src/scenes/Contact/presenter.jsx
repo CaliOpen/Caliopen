@@ -10,15 +10,32 @@ import { ScrollDetector } from '../../modules/scroll';
 import { withSettings } from '../../modules/settings';
 import { withCloseTab, withCurrentTab } from '../../modules/tab';
 import {
-  ManageEntityTags, getTagLabel, getCleanedTagCollection, withTags,
+  ManageEntityTags,
+  getTagLabel,
+  getCleanedTagCollection,
+  withTags,
 } from '../../modules/tags';
 import { withNotification } from '../../modules/userNotify';
 import fetchLocation from '../../services/api-location';
 import { formatName } from '../../services/contact';
 import ContactProfileForm from './components/ContactProfileForm';
 import {
-  ActionBarWrapper, ActionBar, ActionBarButton, Badge, Button, Confirm, Icon, Link, Modal,
-  PageTitle, PlaceholderBlock, Spinner, TextBlock, TextList, TextItem, Title,
+  ActionBarWrapper,
+  ActionBar,
+  ActionBarButton,
+  Badge,
+  Button,
+  Confirm,
+  Icon,
+  Link,
+  Modal,
+  PageTitle,
+  PlaceholderBlock,
+  Spinner,
+  TextBlock,
+  TextList,
+  TextItem,
+  Title,
 } from '../../components';
 import FormCollection from './components/FormCollection';
 import EmailForm from './components/EmailForm';
@@ -39,7 +56,8 @@ import AddressDetails from './components/AddressDetails';
 import IdentityDetails from './components/IdentityDetails';
 import BirthdayDetails from './components/BirthdayDetails';
 import {
-  handleContactSaveErrors, CONTACT_ERROR_ADDRESS_UNICITY_CONSTRAINT,
+  handleContactSaveErrors,
+  CONTACT_ERROR_ADDRESS_UNICITY_CONSTRAINT,
 } from './services/handleContactSaveErrors';
 
 import './style.scss';
@@ -55,7 +73,7 @@ import './contact-main-title.scss';
 @withSettings()
 class Contact extends Component {
   static propTypes = {
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     notifyError: PropTypes.func.isRequired,
     requestContact: PropTypes.func.isRequired,
     createContact: PropTypes.func.isRequired,
@@ -98,30 +116,32 @@ class Contact extends Component {
   componentDidMount() {
     const { contactId, requestContact } = this.props;
     if (contactId) {
-      requestContact(contactId).then(() => this.setState({ isFetching: false }));
+      requestContact(contactId).then(() =>
+        this.setState({ isFetching: false })
+      );
     }
   }
 
   handleOpenTags = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       isTagModalOpen: true,
     }));
-  }
+  };
 
   handleCloseTags = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       isTagModalOpen: false,
     }));
-  }
+  };
 
   handleClickEditContact = () => {
     const { push, contactId, reset } = this.props;
 
     reset();
     push(`/contacts/${contactId}/edit`);
-  }
+  };
 
   handleCancel = () => {
     const { contactId, closeTab, currentTab } = this.props;
@@ -132,24 +152,27 @@ class Contact extends Component {
     }
 
     this.props.push(`/contacts/${contactId}`);
-  }
+  };
 
   handleDelete = () => {
     const {
-      contactId, push, closeTab, invalidateContacts, currentTab,
+      contactId,
+      push,
+      closeTab,
+      invalidateContacts,
+      currentTab,
     } = this.props;
     this.setState({ isFetching: true });
-    this.props.deleteContact({ contactId })
+    this.props
+      .deleteContact({ contactId })
       .then(() => invalidateContacts())
       .then(() => this.setState({ isFetching: false }))
       .then(() => push('/contacts'))
       .then(() => closeTab(currentTab));
-  }
+  };
 
   createOrUpdateAction = async ({ contact, original }) => {
-    const {
-      updateContact, createContact,
-    } = this.props;
+    const { updateContact, createContact } = this.props;
     if (contact.contact_id) {
       return updateContact({ contact, original });
     }
@@ -163,14 +186,22 @@ class Contact extends Component {
 
   handleSubmit = async (ev) => {
     const {
-      handleSubmit, contactId, notifyError, contact: original,
-      push, closeTab, currentTab,
+      handleSubmit,
+      contactId,
+      notifyError,
+      contact: original,
+      push,
+      closeTab,
+      currentTab,
     } = this.props;
     this.setState({ isSaving: true });
 
     const contact = await handleSubmit(ev);
     try {
-      const contactUpToDate = await this.createOrUpdateAction({ contact, original });
+      const contactUpToDate = await this.createOrUpdateAction({
+        contact,
+        original,
+      });
       this.setState({ isSaving: false });
 
       if (contactId) {
@@ -186,10 +217,13 @@ class Contact extends Component {
         const { getContact } = this.props;
         const contactErrors = handleContactSaveErrors(err);
         const contactIdsToGet = contactErrors
-          .filter(contactErr => contactErr.type === CONTACT_ERROR_ADDRESS_UNICITY_CONSTRAINT)
-          .map(contactErr => contactErr.ownerContactId);
+          .filter(
+            (contactErr) =>
+              contactErr.type === CONTACT_ERROR_ADDRESS_UNICITY_CONSTRAINT
+          )
+          .map((contactErr) => contactErr.ownerContactId);
         const contactsUsed = await Promise.all(
-          contactIdsToGet.map(ctId => getContact({ contactId: ctId }))
+          contactIdsToGet.map((ctId) => getContact({ contactId: ctId }))
         );
         const contactsById = contactsUsed.reduce(
           (acc, curr) => ({ ...acc, [curr.contact_id]: curr }),
@@ -205,9 +239,13 @@ class Contact extends Component {
                   <p key={`${contactErr.type}_${contactErr.address}`}>
                     <Trans
                       id="contact.feedback.unable_to_save_address_already_used"
-                      defaults="The address &quot;{address}&quot; belongs to <0>{name}</0>. You can remove it from that contact before using it here."
+                      defaults='The address "{address}" belongs to <0>{name}</0>. You can remove it from that contact before using it here.'
                       values={{
-                        name: (contactsById[contactErr.ownerContactId] && contactsById[contactErr.ownerContactId].given_name) || '?',
+                        name:
+                          (contactsById[contactErr.ownerContactId] &&
+                            contactsById[contactErr.ownerContactId]
+                              .given_name) ||
+                          '?',
                         address: contactErr.address,
                       }}
                       components={[
@@ -219,7 +257,9 @@ class Contact extends Component {
               default:
                 return (
                   <p key={index}>
-                    <Trans id="contact.feedback.unable_to_save">Unable to save the contact</Trans>
+                    <Trans id="contact.feedback.unable_to_save">
+                      Unable to save the contact
+                    </Trans>
                   </p>
                 );
             }
@@ -227,13 +267,13 @@ class Contact extends Component {
         });
       });
     }
-  }
+  };
 
   handleTagsChange = async ({ tags }) => {
     const { updateTagCollection, i18n, contact: entity } = this.props;
 
     return updateTagCollection(i18n, { type: 'contact', entity, tags });
-  }
+  };
 
   renderTagsModal = () => {
     const { contact, i18n } = this.props;
@@ -243,9 +283,7 @@ class Contact extends Component {
         id="tags.header.title"
         defaults={'Tags <0>(Total: {nb})</0>'}
         values={{ nb }}
-        components={[
-          (<span className="m-tags-form__count" />),
-        ]}
+        components={[<span className="m-tags-form__count" />]}
       />
     );
 
@@ -259,37 +297,56 @@ class Contact extends Component {
         <ManageEntityTags entity={contact} onChange={this.handleTagsChange} />
       </Modal>
     );
-  }
+  };
 
   renderActionBar() {
     const { contactId, user, submitting } = this.props;
-    const contactIsUser = contactId && user && user.contact.contact_id === contactId;
-    const hasActivity = submitting || this.state.isFetching || this.state.isSaving;
+    const contactIsUser =
+      contactId && user && user.contact.contact_id === contactId;
+    const hasActivity =
+      submitting || this.state.isFetching || this.state.isSaving;
 
     return (
       <ScrollDetector
         offset={136}
-        render={isSticky => (
+        render={(isSticky) => (
           <ActionBarWrapper isSticky={isSticky}>
             <ActionBar
               hr={false}
               isLoading={hasActivity}
-              actionsNode={(
+              actionsNode={
                 <div className="s-contact-action-bar">
                   <Trans id="contact.action-bar.label">Contact:</Trans>
                   {!contactIsUser && contactId && (
                     <Confirm
                       onConfirm={this.handleDelete}
-                      title={(<Trans id="contact.confirm-delete.title">Delete the contact</Trans>)}
-                      content={(<Trans id="contact.confirm-delete.content">The deletion is permanent, are you sure you want to delete this contact ?</Trans>)}
-                      render={confirm => (
+                      title={
+                        <Trans id="contact.confirm-delete.title">
+                          Delete the contact
+                        </Trans>
+                      }
+                      content={
+                        <Trans id="contact.confirm-delete.content">
+                          The deletion is permanent, are you sure you want to
+                          delete this contact ?
+                        </Trans>
+                      }
+                      render={(confirm) => (
                         <ActionBarButton
                           onClick={confirm}
                           display="inline"
-                          icon={this.state.isDeleting ? (<Spinner isLoading display="inline" />) : 'trash'}
+                          icon={
+                            this.state.isDeleting ? (
+                              <Spinner isLoading display="inline" />
+                            ) : (
+                              'trash'
+                            )
+                          }
                           noDecoration
                         >
-                          <Trans id="contact.action.delete_contact">Delete</Trans>
+                          <Trans id="contact.action.delete_contact">
+                            Delete
+                          </Trans>
                         </ActionBarButton>
                       )}
                     />
@@ -307,7 +364,9 @@ class Contact extends Component {
                           noDecoration
                           icon="list-ul"
                         >
-                          <Trans id="contact.action.edit_contact">Edit contact</Trans>
+                          <Trans id="contact.action.edit_contact">
+                            Edit contact
+                          </Trans>
                         </ActionBarButton>
                       )}
                     />
@@ -330,7 +389,7 @@ class Contact extends Component {
                     </ActionBarButton>
                   */}
                 </div>
-              )}
+              }
             />
           </ActionBarWrapper>
         )}
@@ -341,23 +400,32 @@ class Contact extends Component {
   renderTags() {
     const { tags, contact, i18n } = this.props;
 
-    return contact && contact.tags && (
-      <div className="s-contact__tags">
-        {getCleanedTagCollection(tags, contact.tags).map(tag => (
-          <Badge
-            key={tag.name}
-            rightSpaced
-            to={`/search-results?term=${getTagLabel(i18n, tag)}&doctype=contact`}
-          >
-            {getTagLabel(i18n, tag)}
-          </Badge>
-        ))}
-      </div>
+    return (
+      contact &&
+      contact.tags && (
+        <div className="s-contact__tags">
+          {getCleanedTagCollection(tags, contact.tags).map((tag) => (
+            <Badge
+              key={tag.name}
+              rightSpaced
+              to={`/search-results?term=${getTagLabel(
+                i18n,
+                tag
+              )}&doctype=contact`}
+            >
+              {getTagLabel(i18n, tag)}
+            </Badge>
+          ))}
+        </div>
+      )
     );
   }
 
   renderMainTitle() {
-    const { contact, settings: { contact_display_format: format } } = this.props;
+    const {
+      contact,
+      settings: { contact_display_format: format },
+    } = this.props;
     const { organizations = [] } = contact;
     const averagePI = contact.pi ? getAveragePI(contact.pi) : ' - ';
 
@@ -374,18 +442,13 @@ class Contact extends Component {
           {formatName({ contact, format })}
         </div>
 
-        <div className="s-contact-main-title__pi">
-          {averagePI}
-        </div>
+        <div className="s-contact-main-title__pi">{averagePI}</div>
 
         {organizations.length > 0 && (
           <TextBlock className="s-contact-main-title__organizations">
             <Icon type="building" rightSpaced />
-            <Trans id="contact.organizations">
-              Organizations:
-            </Trans>
-            {' '}
-            {organizations.map(orga => (
+            <Trans id="contact.organizations">Organizations:</Trans>{' '}
+            {organizations.map((orga) => (
               <OrgaDetails key={orga.organization_id} organization={orga} />
             ))}
           </TextBlock>
@@ -395,49 +458,48 @@ class Contact extends Component {
     );
   }
 
-  renderEmail = email => (
+  renderEmail = (email) => (
     <TextItem className="s-contact__detail" key={email.email_id}>
       <EmailDetails email={email} />
     </TextItem>
   );
 
-  renderPhone = phone => (
+  renderPhone = (phone) => (
     <TextItem className="s-contact__detail" key={phone.phone_id}>
       <PhoneDetails phone={phone} />
     </TextItem>
   );
 
-  renderIm = im => (
+  renderIm = (im) => (
     <TextItem className="s-contact__detail" key={im.im_id}>
       <ImDetails im={im} />
     </TextItem>
   );
 
-  renderAddress = address => (
+  renderAddress = (address) => (
     <TextItem className="s-contact__detail" key={address.address_id}>
       <AddressDetails address={address} />
     </TextItem>
   );
 
-  renderIdentity = identity => (
+  renderIdentity = (identity) => (
     <TextItem className="s-contact__detail">
       <IdentityDetails identity={identity} />
     </TextItem>
   );
 
-  renderBirthday = birthday => (
+  renderBirthday = (birthday) => (
     <TextItem className="s-contact__detail" key={birthday}>
-      <BirthdayDetails
-        birthday={birthday}
-      />
+      <BirthdayDetails birthday={birthday} />
     </TextItem>
   );
 
   renderContactDetails() {
     const { contact } = this.props;
 
-    const emails = contact.emails ?
-      [...contact.emails].sort((a, b) => a.address.localeCompare(b.address)) : [];
+    const emails = contact.emails
+      ? [...contact.emails].sort((a, b) => a.address.localeCompare(b.address))
+      : [];
     const {
       identities = [],
       ims = [],
@@ -447,23 +509,29 @@ class Contact extends Component {
     } = contact;
 
     const restOfDetails = [
-      ...identities.map(identity => this.renderIdentity(identity)),
-      ...ims.map(detail => this.renderIm(detail)),
-      ...addresses.map(detail => this.renderAddress(detail)),
-      ...(infos ? [this.renderBirthday(infos.birthday ? infos.birthday : '')] : []),
+      ...identities.map((identity) => this.renderIdentity(identity)),
+      ...ims.map((detail) => this.renderIm(detail)),
+      ...addresses.map((detail) => this.renderAddress(detail)),
+      ...(infos
+        ? [this.renderBirthday(infos.birthday ? infos.birthday : '')]
+        : []),
     ];
 
     return (
       <Fragment>
-        <Title hr><Trans id="contact.contact-details.title">Contact details</Trans></Title>
+        <Title hr>
+          <Trans id="contact.contact-details.title">Contact details</Trans>
+        </Title>
         <TextList className="s-contact__details-group">
-          {emails.map(email => this.renderEmail(email))}
+          {emails.map((email) => this.renderEmail(email))}
         </TextList>
         <TextList className="s-contact__details-group">
-          {phones.map(phone => this.renderPhone(phone))}
+          {phones.map((phone) => this.renderPhone(phone))}
         </TextList>
         <TextList className="s-contact__details-group">
-          {restOfDetails.map((C, key) => <C.type {...C.props} key={key} />)}
+          {restOfDetails.map((C, key) => (
+            <C.type {...C.props} key={key} />
+          ))}
         </TextList>
       </Fragment>
     );
@@ -474,7 +542,9 @@ class Contact extends Component {
 
     return (
       <Fragment>
-        <Title hr><Trans id="contact.keys.title">Public keys</Trans></Title>
+        <Title hr>
+          <Trans id="contact.keys.title">Public keys</Trans>
+        </Title>
         <PublicKeyList contactId={contactId} />
       </Fragment>
     );
@@ -482,7 +552,9 @@ class Contact extends Component {
 
   renderLastMessages = () => (
     <Fragment>
-      <Title hr><Trans id="contact.last-messages.title">Last messages</Trans></Title>
+      <Title hr>
+        <Trans id="contact.last-messages.title">Last messages</Trans>
+      </Title>
     </Fragment>
   );
 
@@ -505,7 +577,7 @@ class Contact extends Component {
         <Button
           type="submit"
           responsive="icon-only"
-          icon={hasActivity ? (<Spinner isLoading display="inline" />) : 'check'}
+          icon={hasActivity ? <Spinner isLoading display="inline" /> : 'check'}
           className="s-contact__action"
           shape="plain"
           disabled={hasActivity || !valid}
@@ -514,7 +586,7 @@ class Contact extends Component {
         </Button>
       </div>
     );
-  }
+  };
 
   renderEditMode() {
     const { form, contact } = this.props;
@@ -523,28 +595,58 @@ class Contact extends Component {
     return (
       <div className="s-contact__form">
         <form onSubmit={this.handleSubmit} method="post">
-          <Title hr><Trans id="contact.edit_contact.title">Edit the contact</Trans></Title>
+          <Title hr>
+            <Trans id="contact.edit_contact.title">Edit the contact</Trans>
+          </Title>
           <ContactProfileForm form={form} isNew={!contact.contact_id} />
           <div>
-            <Title hr><Trans id="contact.contact-details.title">Contact details</Trans></Title>
-            <FormCollection component={(<EmailForm />)} propertyName="emails" showAdd={false} />
-            <FormCollection component={(<PhoneForm />)} propertyName="phones" showAdd={false} />
-            <FormCollection component={(<ImForm />)} propertyName="ims" showAdd={false} />
-            <FormCollection component={(<AddressForm />)} propertyName="addresses" showAdd={false} />
+            <Title hr>
+              <Trans id="contact.contact-details.title">Contact details</Trans>
+            </Title>
+            <FormCollection
+              component={<EmailForm />}
+              propertyName="emails"
+              showAdd={false}
+            />
+            <FormCollection
+              component={<PhoneForm />}
+              propertyName="phones"
+              showAdd={false}
+            />
+            <FormCollection
+              component={<ImForm />}
+              propertyName="ims"
+              showAdd={false}
+            />
+            <FormCollection
+              component={<AddressForm />}
+              propertyName="addresses"
+              showAdd={false}
+            />
             {/* {hasBirthday && (<BirthdayForm form={form} />)} */}
             <AddFormFieldForm form={form} />
           </div>
-          <Title hr><Trans id="contact.organization">Organization</Trans></Title>
+          <Title hr>
+            <Trans id="contact.organization">Organization</Trans>
+          </Title>
           <FormCollection
-            component={(<OrgaForm />)}
+            component={<OrgaForm />}
             propertyName="organizations"
-            addButtonLabel={<Trans id="contact.action.add-organization">Add an organization</Trans>}
+            addButtonLabel={
+              <Trans id="contact.action.add-organization">
+                Add an organization
+              </Trans>
+            }
           />
-          <Title hr><Trans id="contact.identities">Identities</Trans></Title>
+          <Title hr>
+            <Trans id="contact.identities">Identities</Trans>
+          </Title>
           <FormCollection
-            component={(<IdentityForm />)}
+            component={<IdentityForm />}
             propertyName="identities"
-            addButtonLabel={<Trans id="contact.action.add-identity">Add an identity</Trans>}
+            addButtonLabel={
+              <Trans id="contact.action.add-identity">Add an identity</Trans>
+            }
             defaultValues={{ type: IDENTITY_TYPE_TWITTER }}
           />
           {this.renderEditBar()}
@@ -559,14 +661,22 @@ class Contact extends Component {
       <ActionBar
         className="s-contact-action-bar"
         isFetching
-        actionsNode={(
+        actionsNode={
           <Fragment>
-            <PlaceholderBlock shape="line" display="inline-block" width="small" />
-:
+            <PlaceholderBlock
+              shape="line"
+              display="inline-block"
+              width="small"
+            />
+            :
             <PlaceholderBlock shape="line" display="inline-block" />
-            <PlaceholderBlock shape="line" display="inline-block" width="large" />
+            <PlaceholderBlock
+              shape="line"
+              display="inline-block"
+              width="large"
+            />
           </Fragment>
-        )}
+        }
       />
       <div className="s-contact__tags">
         <PlaceholderBlock shape="line" display="inline-block" width="small" />
@@ -585,11 +695,31 @@ class Contact extends Component {
         </div>
       </div>
       <div className="s-contact__contact-details">
-        <Title hr><PlaceholderBlock shape="line" display="inline-block" width="large" /></Title>
+        <Title hr>
+          <PlaceholderBlock shape="line" display="inline-block" width="large" />
+        </Title>
         <TextList className="s-contact__details-group">
-          <TextItem><PlaceholderBlock shape="line" display="inline-block" width="xlarge" /></TextItem>
-          <TextItem><PlaceholderBlock shape="line" display="inline-block" width="xlarge" /></TextItem>
-          <TextItem><PlaceholderBlock shape="line" display="inline-block" width="xlarge" /></TextItem>
+          <TextItem>
+            <PlaceholderBlock
+              shape="line"
+              display="inline-block"
+              width="xlarge"
+            />
+          </TextItem>
+          <TextItem>
+            <PlaceholderBlock
+              shape="line"
+              display="inline-block"
+              width="xlarge"
+            />
+          </TextItem>
+          <TextItem>
+            <PlaceholderBlock
+              shape="line"
+              display="inline-block"
+              width="xlarge"
+            />
+          </TextItem>
         </TextList>
       </div>
     </div>
@@ -609,14 +739,8 @@ class Contact extends Component {
 
         {this.renderTags()}
         <Switch>
-          <Route
-            path={/.*\/edit/}
-            render={() => this.renderEditMode()}
-          />
-          <Route
-            path="/new-contact"
-            render={() => this.renderEditMode()}
-          />
+          <Route path={/.*\/edit/} render={() => this.renderEditMode()} />
+          <Route path="/new-contact" render={() => this.renderEditMode()} />
           <Route
             render={() => (
               <Fragment>
@@ -626,9 +750,7 @@ class Contact extends Component {
                 <div className="s-contact__contact-details">
                   {this.renderContactDetails()}
                 </div>
-                <div className="s-contact__keys">
-                  {this.renderKeys()}
-                </div>
+                <div className="s-contact__keys">{this.renderKeys()}</div>
                 {/* <div className="s-contact__last-messages">
                   {this.renderLastMessages()}
                 </div> */}

@@ -6,10 +6,9 @@ $s-discussion-item__spacing: 0.5rem;
 .s-discussion-item-content {
   display: grid;
   grid-template-areas:
-    "participants participants participants protocol"
-    "subject subject date date"
-    "excerpt excerpt excerpt excerpt"
-  ;
+    'participants participants participants protocol'
+    'subject subject date date'
+    'excerpt excerpt excerpt excerpt';
   grid-template-columns: auto auto auto 1fr;
   min-height: $co-component__height;
   color: $co-color__fg__text--higher;
@@ -19,9 +18,8 @@ $s-discussion-item__spacing: 0.5rem;
 
   @include breakpoint(medium) {
     grid-template-areas:
-      "participants participants protocol date"
-      "subject excerpt excerpt excerpt"
-    ;
+      'participants participants protocol date'
+      'subject excerpt excerpt excerpt';
     grid-template-columns: auto auto 1fr auto;
   }
 
@@ -50,7 +48,7 @@ $s-discussion-item__spacing: 0.5rem;
     grid-area: protocol;
     margin-left: $s-discussion-item__spacing;
     text-align: right;
- }
+  }
 
   &__date {
     grid-area: date;

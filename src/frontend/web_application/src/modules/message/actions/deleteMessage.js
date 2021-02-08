@@ -1,5 +1,13 @@
-import { deleteMessage as deleteMessageBase, removeFromCollection, invalidateAll } from '../../../store/modules/message';
-import { requestDiscussion, removeDiscussionFromCollection, invalidate } from '../../../store/modules/discussion';
+import {
+  deleteMessage as deleteMessageBase,
+  removeFromCollection,
+  invalidateAll,
+} from '../../../store/modules/message';
+import {
+  requestDiscussion,
+  removeDiscussionFromCollection,
+  invalidate,
+} from '../../../store/modules/discussion';
 import { tryCatchAxiosAction } from '../../../services/api-client';
 
 export const deleteMessage = ({ message }) => async (dispatch) => {
@@ -11,16 +19,24 @@ export const deleteMessage = ({ message }) => async (dispatch) => {
 
     if (message.discussion_id) {
       try {
-        const discussion = await tryCatchAxiosAction(() => (
+        const discussion = await tryCatchAxiosAction(() =>
           dispatch(requestDiscussion({ discussionId: message.discussion_id }))
-        ));
+        );
 
         // 1/2 Discussion is not removed when we get 404
-        dispatch(removeDiscussionFromCollection({ discussionId: discussion.discussion_id }));
+        dispatch(
+          removeDiscussionFromCollection({
+            discussionId: discussion.discussion_id,
+          })
+        );
       } catch (apiErrors) {
         if (Array.isArray(apiErrors) && apiErrors[0].code === 404) {
           // 2/2 But it should since it does not exists (anymore)
-          dispatch(removeDiscussionFromCollection({ discussionId: message.discussion_id }));
+          dispatch(
+            removeDiscussionFromCollection({
+              discussionId: message.discussion_id,
+            })
+          );
         } else if (!Array.isArray(apiErrors) || apiErrors[0].code !== 404) {
           throw apiErrors;
         }

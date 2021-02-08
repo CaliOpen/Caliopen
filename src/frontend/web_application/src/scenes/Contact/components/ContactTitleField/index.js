@@ -4,7 +4,8 @@ import { getFormValues } from 'redux-form';
 import Presenter from './presenter';
 import { settingsSelector } from '../../../../store/selectors/settings';
 
-const formValuesSelector = (state, ownProps) => getFormValues(ownProps.form)(state);
+const formValuesSelector = (state, ownProps) =>
+  getFormValues(ownProps.form)(state);
 
 const mapStateToProps = createSelector(
   [settingsSelector, formValuesSelector],

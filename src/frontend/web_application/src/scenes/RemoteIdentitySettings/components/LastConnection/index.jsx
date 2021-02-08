@@ -8,7 +8,8 @@ import { withSettings } from '../../../../modules/settings';
 class lastConnection extends PureComponent {
   static propTypes = {
     lastCheck: PropTypes.string,
-    settings: PropTypes.shape({ default_locale: PropTypes.string.isRequired }).isRequired,
+    settings: PropTypes.shape({ default_locale: PropTypes.string.isRequired })
+      .isRequired,
   };
 
   static defaultProps = {
@@ -16,15 +17,20 @@ class lastConnection extends PureComponent {
   };
 
   render() {
-    const { lastCheck, settings: { default_locale: locale } } = this.props;
+    const {
+      lastCheck,
+      settings: { default_locale: locale },
+    } = this.props;
 
     if (lastCheck && lastCheck.length) {
-      return (<Moment fromNow locale={locale}>{lastCheck}</Moment>);
+      return (
+        <Moment fromNow locale={locale}>
+          {lastCheck}
+        </Moment>
+      );
     }
 
-    return (
-      <Trans id="remote_identity.last_connection.never">Never</Trans>
-    );
+    return <Trans id="remote_identity.last_connection.never">Never</Trans>;
   }
 }
 

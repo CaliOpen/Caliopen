@@ -32,7 +32,16 @@ class Link extends PureComponent {
 
   render() {
     const {
-      children, href, noDecoration, className, button, badge, expanded, active, plain, target,
+      children,
+      href,
+      noDecoration,
+      className,
+      button,
+      badge,
+      expanded,
+      active,
+      plain,
+      target,
       ...props
     } = this.props;
 
@@ -41,22 +50,22 @@ class Link extends PureComponent {
       target,
       // https://mathiasbynens.github.io/rel-noopener/
       rel: target && 'noopener noreferrer',
-      className: classnames(
-        className,
-        'm-link',
-        {
-          'm-link--button': button,
-          'm-link--badge': badge,
-          'm-link--plain': plain,
-          'm-link--expanded': expanded,
-          'm-link--text': !button && !noDecoration,
-          'm-link--active': active,
-        }
-      ),
+      className: classnames(className, 'm-link', {
+        'm-link--button': button,
+        'm-link--badge': badge,
+        'm-link--plain': plain,
+        'm-link--expanded': expanded,
+        'm-link--text': !button && !noDecoration,
+        'm-link--active': active,
+      }),
     };
 
     if (href) {
-      return <a href={href} {...linkProps}>{children}</a>;
+      return (
+        <a href={href} {...linkProps}>
+          {children}
+        </a>
+      );
     }
 
     return <BaseLink {...linkProps}>{children}</BaseLink>;

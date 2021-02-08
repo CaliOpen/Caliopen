@@ -9,8 +9,12 @@ class OrgaDetails extends PureComponent {
 
   render() {
     const { organization } = this.props;
-    const department = organization.department ? ` (${organization.department})` : '';
-    let organizationDescription = `${(organization.job_description || organization.name)} ${department}`;
+    const department = organization.department
+      ? ` (${organization.department})`
+      : '';
+    let organizationDescription = `${
+      organization.job_description || organization.name
+    } ${department}`;
 
     if (organization.job_description && organization.name) {
       const { job_description: jobDesc, name: orgaName } = organization;
@@ -24,12 +28,7 @@ class OrgaDetails extends PureComponent {
             department,
           }}
         >
-          {jobDesc}
-          {' '}
-at
-          {orgaName}
-          {' '}
-          {department}
+          {jobDesc} at {orgaName} {department}
         </Trans>
       );
     }

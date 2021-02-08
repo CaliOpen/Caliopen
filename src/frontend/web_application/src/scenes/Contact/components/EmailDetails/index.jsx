@@ -7,7 +7,7 @@ import { Icon } from '../../../../components';
 class EmailDetails extends Component {
   static propTypes = {
     email: PropTypes.shape({}).isRequired,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
   constructor(props) {
@@ -18,7 +18,9 @@ class EmailDetails extends Component {
   initTranslations() {
     const { i18n } = this.props;
     this.emailTypesTranslations = {
-      work: i18n._('contact.email_type.work', null, { defaults: 'Professional' }),
+      work: i18n._('contact.email_type.work', null, {
+        defaults: 'Professional',
+      }),
       home: i18n._('contact.email_type.home', null, { defaults: 'Personal' }),
       other: i18n._('contact.email_type.other', null, { defaults: 'Other' }),
     };
@@ -27,16 +29,21 @@ class EmailDetails extends Component {
   render() {
     const { email, i18n } = this.props;
 
-    const address = !email.is_primary ?
-      email.address :
-      (<strong title={i18n._('contact.primary', null, { defaults: 'Primary' })}>{email.address}</strong>);
+    const address = !email.is_primary ? (
+      email.address
+    ) : (
+      <strong title={i18n._('contact.primary', null, { defaults: 'Primary' })}>
+        {email.address}
+      </strong>
+    );
 
     return (
       <span className="m-email-details">
         <Icon rightSpaced type="envelope" />
-        {address}
-        {' '}
-        <small><em>{this.emailTypesTranslations[email.type]}</em></small>
+        {address}{' '}
+        <small>
+          <em>{this.emailTypesTranslations[email.type]}</em>
+        </small>
       </span>
     );
   }

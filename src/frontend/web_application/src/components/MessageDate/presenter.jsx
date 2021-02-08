@@ -27,16 +27,13 @@ class MessageDate extends PureComponent {
       case diffYear >= 1:
         return dateTime.format('YYYY'); // 2017
     }
-  }
+  };
 
   render() {
     const { dateTime } = this.props;
 
     return (
-      <time
-        title={dateTime.format('LLL')}
-        dateTime={dateTime.format('')}
-      >
+      <time title={dateTime.format('LLL')} dateTime={dateTime.format('')}>
         <span className="m-message-date__date">{this.renderDate()}</span>
       </time>
     );

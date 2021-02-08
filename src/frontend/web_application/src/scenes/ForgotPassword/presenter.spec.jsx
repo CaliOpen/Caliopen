@@ -4,7 +4,7 @@ import Presenter from './presenter';
 
 describe('scene - ForgotPassword', () => {
   const props = {
-    i18n: { _: str => str },
+    i18n: { _: (str) => str },
   };
 
   it('render', () => {

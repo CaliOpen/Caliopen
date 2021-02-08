@@ -5,16 +5,18 @@ import { invalidate } from '../../../../store/modules/discussion';
 import { messageNotificationsSelector } from '../../selectors/messageNotificationsSelector';
 import Presenter from './presenter';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   notifications: messageNotificationsSelector(state),
   initialized: state.notification.initialized,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  invalidateCollections: invalidateAll,
-  invalidateDiscussions: invalidate,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      invalidateCollections: invalidateAll,
+      invalidateDiscussions: invalidate,
+    },
+    dispatch
+  );
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-)(Presenter);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(Presenter);

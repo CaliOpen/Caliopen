@@ -6,5 +6,6 @@ export class Tab {
     this.scrollY = scrollY;
   }
 
-  getMatch = ({ routeConfig }) => matchPath(this.location.pathname, routeConfig)
+  getMatch = ({ routeConfig }) =>
+    matchPath(this.location.pathname, routeConfig);
 }

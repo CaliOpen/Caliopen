@@ -23,9 +23,7 @@ class PlaceholderBlock extends PureComponent {
   };
 
   render() {
-    const {
-      className, shape, display, size, width, ...props
-    } = this.props;
+    const { className, shape, display, size, width, ...props } = this.props;
     const modifiers = {
       // 'm-placeholder-block--round': shape === 'round',
       'm-placeholder-block--line': shape === 'line',
@@ -41,7 +39,10 @@ class PlaceholderBlock extends PureComponent {
     };
 
     return (
-      <div className={classnames(className, 'm-placeholder-block', modifiers)} {...props} />
+      <div
+        className={classnames(className, 'm-placeholder-block', modifiers)}
+        {...props}
+      />
     );
   }
 }

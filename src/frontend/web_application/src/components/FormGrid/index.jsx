@@ -4,21 +4,28 @@ import classnames from 'classnames';
 import './style.scss';
 
 export const FormColumn = ({
-  className, bottomSpace, size, fluid, rightSpace, ...props
+  className,
+  bottomSpace,
+  size,
+  fluid,
+  rightSpace,
+  ...props
 }) => {
-  const colClassName = classnames('m-form-grid__column', {
-    'm-form-grid__column--fluid': fluid,
-    'm-form-grid__column--bottom-space': bottomSpace,
-    'm-form-grid__column--shrink': size === 'shrink',
-    'm-form-grid__column--small': size === 'small',
-    'm-form-grid__column--medium': size === 'medium',
-    'm-form-grid__column--large': size === 'large',
-    'm-form-grid__column--right-space': rightSpace,
-  }, className);
-
-  return (
-    <div className={colClassName} {...props} />
+  const colClassName = classnames(
+    'm-form-grid__column',
+    {
+      'm-form-grid__column--fluid': fluid,
+      'm-form-grid__column--bottom-space': bottomSpace,
+      'm-form-grid__column--shrink': size === 'shrink',
+      'm-form-grid__column--small': size === 'small',
+      'm-form-grid__column--medium': size === 'medium',
+      'm-form-grid__column--large': size === 'large',
+      'm-form-grid__column--right-space': rightSpace,
+    },
+    className
   );
+
+  return <div className={colClassName} {...props} />;
 };
 
 FormColumn.propTypes = {
@@ -37,13 +44,15 @@ FormColumn.defaultProps = {
 };
 
 export const FormRow = ({ className, reverse, ...props }) => {
-  const rowClassName = classnames('m-form-grid__row', {
-    'm-form-grid__row--reverse': reverse,
-  }, className);
-
-  return (
-    <div className={rowClassName} {...props} />
+  const rowClassName = classnames(
+    'm-form-grid__row',
+    {
+      'm-form-grid__row--reverse': reverse,
+    },
+    className
   );
+
+  return <div className={rowClassName} {...props} />;
 };
 
 FormRow.propTypes = {

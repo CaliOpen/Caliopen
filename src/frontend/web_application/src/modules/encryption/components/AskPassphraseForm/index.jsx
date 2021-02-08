@@ -4,16 +4,20 @@ import { connect } from 'react-redux';
 import { Trans, withI18n } from '@lingui/react';
 import classNames from 'classnames';
 import {
-  FieldErrors, TextFieldGroup, Button, FormGrid, FormRow, FormColumn,
+  FieldErrors,
+  TextFieldGroup,
+  Button,
+  FormGrid,
+  FormRow,
+  FormColumn,
 } from '../../../../components';
 import { setPassphrase } from '../../../../store/modules/encryption';
 
 import './style.scss';
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onSubmit: passphrase => (
-    dispatch(setPassphrase({ passphrase, fingerprint: ownProps.fingerprint }))
-  ),
+  onSubmit: (passphrase) =>
+    dispatch(setPassphrase({ passphrase, fingerprint: ownProps.fingerprint })),
 });
 
 const mapStateToProps = (state, ownProps) => ({
@@ -29,13 +33,13 @@ class AskPassphraseForm extends Component {
     onSubmit: PropTypes.func.isRequired,
     className: PropTypes.string,
     error: PropTypes.string,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
   static defaultProps = {
     className: '',
     error: undefined,
-  }
+  };
 
   state = {
     passphrase: '',
@@ -46,40 +50,49 @@ class AskPassphraseForm extends Component {
 
     switch (message) {
       case 'Incorrect key passphrase':
-        return i18n._('encryption.ask-passphrase.error.invalid-passphrase', null, 'Invalid passphrase');
+        return i18n._(
+          'encryption.ask-passphrase.error.invalid-passphrase',
+          null,
+          'Invalid passphrase'
+        );
       default:
-        return i18n._('encrytion.ask-passphrase.error.unknown', null, 'Unknown error');
+        return i18n._(
+          'encrytion.ask-passphrase.error.unknown',
+          null,
+          'Unknown error'
+        );
     }
-  }
+  };
 
-  handleChange = event => this.setState({ passphrase: event.target.value });
+  handleChange = (event) => this.setState({ passphrase: event.target.value });
 
   handleSubmit = (event) => {
     const { onSubmit } = this.props;
 
     onSubmit(this.state.passphrase);
     event.preventDefault();
-  }
+  };
 
   render() {
-    const {
-      error, className, fingerprint, numberMessages,
-    } = this.props;
+    const { error, className, fingerprint, numberMessages } = this.props;
 
     return (
       <FormGrid className={classNames(className, 'm-ask-passphrase')}>
         <form onSubmit={this.handleSubmit}>
-          <Trans id="encryption.ask-passphrase.explain" values={{ fingerprint: fingerprint.toUpperCase(), numberMessages }}>
-            Please enter passphrase for key {`${fingerprint}`} to unlock {`${numberMessages}`} messages.
+          <Trans
+            id="encryption.ask-passphrase.explain"
+            values={{ fingerprint: fingerprint.toUpperCase(), numberMessages }}
+          >
+            Please enter passphrase for key {`${fingerprint}`} to unlock{' '}
+            {`${numberMessages}`} messages.
           </Trans>
-          {
-            error && (
-              <FormRow>
-                <FormColumn>
-                  <FieldErrors errors={[this.getErrorId(error)]} />
-                </FormColumn>
-              </FormRow>
-            )}
+          {error && (
+            <FormRow>
+              <FormColumn>
+                <FieldErrors errors={[this.getErrorId(error)]} />
+              </FormColumn>
+            </FormRow>
+          )}
           <FormRow>
             <FormColumn>
               {

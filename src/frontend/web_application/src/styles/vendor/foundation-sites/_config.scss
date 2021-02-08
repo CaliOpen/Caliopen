@@ -61,7 +61,8 @@ $foundation-palette: $caliopen-palette;
 // $white: #fefefe;
 $body-background: $co-color__bg__back;
 $body-font-color: $co-color__fg__text;
-$body-font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
+$body-font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Roboto, Arial,
+  sans-serif;
 // $body-antialiased: true;
 // $global-margin: 1rem;
 // $global-padding: 1rem;
@@ -78,13 +79,13 @@ $body-font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Roboto, Arial, sans
 // --------------
 
 $breakpoints: (
-   small: 0,
-   medium-small: 380px,
-   medium: 640px,
-   large: 1024px,
-   xlarge: 1200px,
-   xxlarge: 1440px,
- );
+  small: 0,
+  medium-small: 380px,
+  medium: 640px,
+  large: 1024px,
+  xlarge: 1200px,
+  xxlarge: 1440px,
+);
 // $breakpoint-classes: (small medium large);
 
 // 3. The Grid

@@ -1,7 +1,8 @@
 @import '../common';
 
-$l-navigation-item__border-width: .25rem;
-$l-navigation__height: $co-component__height + 2 * $l-navigation-item__border-width;
+$l-navigation-item__border-width: 0.25rem;
+$l-navigation__height: $co-component__height + 2 *
+  $l-navigation-item__border-width;
 
 @mixin o-navigation-wrapper {
   z-index: $l-z-index__navbar;

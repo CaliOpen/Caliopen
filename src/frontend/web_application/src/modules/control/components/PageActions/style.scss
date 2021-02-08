@@ -1,8 +1,7 @@
 @import '../../../../styles/common';
 @import '../../../../styles/util/flex-grid';
 
-
-.m-page-actions{
+.m-page-actions {
   @include flex-grid-row;
 
   &__action-btns {

@@ -3,13 +3,17 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Trans, withI18n } from '@lingui/react';
 import { Confirm, Button } from '../../../../components';
-import { REMOTE_IDENTITY_STATUS_ACTIVE, REMOTE_IDENTITY_STATUS_INACTIVE, Identity } from '../../../../modules/remoteIdentity';
+import {
+  REMOTE_IDENTITY_STATUS_ACTIVE,
+  REMOTE_IDENTITY_STATUS_INACTIVE,
+  Identity,
+} from '../../../../modules/remoteIdentity';
 import RemoteIdentityDetails from '../RemoteIdentityDetails';
 
 @withI18n()
 class RemoteIdentitOauth extends Component {
   static propTypes = {
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     className: PropTypes.string,
     remoteIdentity: PropTypes.shape({}).isRequired,
     onChange: PropTypes.func.isRequired,
@@ -27,20 +31,17 @@ class RemoteIdentitOauth extends Component {
     },
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState(this.getStateFromProps());
   }
 
   getStateFromProps = () => {
     const {
-      remoteIdentity: {
-        identifier,
-        status,
-      },
+      remoteIdentity: { identifier, status },
     } = this.props;
-    const active = status ?
-      status === REMOTE_IDENTITY_STATUS_ACTIVE :
-      this.state.remoteIdentity.active;
+    const active = status
+      ? status === REMOTE_IDENTITY_STATUS_ACTIVE
+      : this.state.remoteIdentity.active;
 
     return {
       remoteIdentity: {
@@ -49,14 +50,11 @@ class RemoteIdentitOauth extends Component {
         active,
       },
     };
-  }
+  };
 
   getIdentityFromState = () => {
     const {
-      remoteIdentity: {
-        identifier,
-        active,
-      },
+      remoteIdentity: { identifier, active },
     } = this.state;
     const { remoteIdentity } = this.props;
 
@@ -64,37 +62,55 @@ class RemoteIdentitOauth extends Component {
       ...remoteIdentity,
       identifier,
       display_name: identifier,
-      status: active ? REMOTE_IDENTITY_STATUS_ACTIVE : REMOTE_IDENTITY_STATUS_INACTIVE,
+      status: active
+        ? REMOTE_IDENTITY_STATUS_ACTIVE
+        : REMOTE_IDENTITY_STATUS_INACTIVE,
     });
-  }
+  };
 
   handleDelete = () => {
     const { remoteIdentity, onDelete } = this.props;
 
     onDelete({ identity: remoteIdentity });
-  }
+  };
 
   handleActivate = (active) => {
-    this.setState(prevState => ({
-      remoteIdentity: {
-        ...prevState.remoteIdentity,
-        active,
-      },
-    }), () => {
-      const identity = this.getIdentityFromState();
-      this.props.onChange({ identity });
-    });
-  }
+    this.setState(
+      (prevState) => ({
+        remoteIdentity: {
+          ...prevState.remoteIdentity,
+          active,
+        },
+      }),
+      () => {
+        const identity = this.getIdentityFromState();
+        this.props.onChange({ identity });
+      }
+    );
+  };
 
   renderActions() {
     return (
       <div>
         <Confirm
-          title={<Trans id="remote_identity.confirm-delete.title">Delete the external account</Trans>}
-          content={<Trans id="remote_identity.confirm-delete.content">The external account will deactivated then deleted.</Trans>}
+          title={
+            <Trans id="remote_identity.confirm-delete.title">
+              Delete the external account
+            </Trans>
+          }
+          content={
+            <Trans id="remote_identity.confirm-delete.content">
+              The external account will deactivated then deleted.
+            </Trans>
+          }
           onConfirm={this.handleDelete}
-          render={confirm => (
-            <Button onClick={confirm} shape="plain" color="alert" className="m-remote-identity-email__action">
+          render={(confirm) => (
+            <Button
+              onClick={confirm}
+              shape="plain"
+              color="alert"
+              className="m-remote-identity-email__action"
+            >
               <Trans id="remote_identity.action.delete">Delete</Trans>
             </Button>
           )}

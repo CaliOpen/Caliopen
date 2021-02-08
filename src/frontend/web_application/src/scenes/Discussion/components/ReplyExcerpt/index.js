@@ -5,18 +5,20 @@ import { withI18n } from '@lingui/react';
 import { createMessageCollectionStateSelector } from '../../../../store/selectors/message';
 import Presenter from './presenter';
 
-const messageDraftSelector = state => state.draftMessage.draftsByInternalId;
+const messageDraftSelector = (state) => state.draftMessage.draftsByMessageId;
 const discussionIdSelector = (state, ownProps) => ownProps.discussionId;
-const internalIdSelector = (state, ownProps) => ownProps.internalId;
-const messageCollectionStateSelector = createMessageCollectionStateSelector(() => 'discussion', discussionIdSelector);
+// FIXME: no mnessageId: use withdraft instead
+const messageIdSelector = (state, ownProps) => ownProps.messageId;
+const messageCollectionStateSelector = createMessageCollectionStateSelector(
+  () => 'discussion',
+  discussionIdSelector
+);
 
 const mapStateToProps = createSelector(
-  [
-    messageDraftSelector, internalIdSelector, messageCollectionStateSelector,
-  ],
-  (drafts, internalId, { messages }) => {
-    const message = messages && messages.find(item => item.is_draft === true);
-    const draft = drafts[internalId] || message;
+  [messageDraftSelector, messageIdSelector, messageCollectionStateSelector],
+  (drafts, messageId, { messages }) => {
+    const message = messages && messages.find((item) => item.is_draft === true);
+    const draft = drafts[messageId] || message;
 
     return {
       draft,
@@ -24,7 +26,4 @@ const mapStateToProps = createSelector(
   }
 );
 
-export default compose(
-  connect(mapStateToProps),
-  withI18n()
-)(Presenter);
+export default compose(connect(mapStateToProps), withI18n())(Presenter);

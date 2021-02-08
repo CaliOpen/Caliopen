@@ -12,9 +12,7 @@ describe('message module - services - findUserParticipant', () => {
   });
 
   it('has not the participant', async () => {
-    const participants = [
-      { address: 'foo@bar.tld' },
-    ];
+    const participants = [{ address: 'foo@bar.tld' }];
     expect(findUserParticipant({ participants, user })).toBeUndefined();
   });
 
@@ -23,6 +21,8 @@ describe('message module - services - findUserParticipant', () => {
       { address: 'foo@bar.tld' },
       { address: 'abc@bar.tld', contact_ids: ['abc'] },
     ];
-    expect(findUserParticipant({ participants, user })).toEqual(participants[1]);
+    expect(findUserParticipant({ participants, user })).toEqual(
+      participants[1]
+    );
   });
 });

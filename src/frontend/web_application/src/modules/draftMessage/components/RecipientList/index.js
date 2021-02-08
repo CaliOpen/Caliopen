@@ -6,29 +6,30 @@ import { requestParticipantSuggestions } from '../../actions/requestParticipantS
 import { setRecipientSearchTerms } from '../../../../store/modules/draft-message';
 import { getKey } from '../../../../store/modules/participant-suggestions';
 
-const findRecipient = (recipients, { address, protocol }) => recipients
-  .find(recipient => recipient.address === address && recipient.protocol === protocol);
+const findRecipient = (recipients, { address, protocol }) =>
+  recipients.find(
+    (recipient) =>
+      recipient.address === address && recipient.protocol === protocol
+  );
 
-const searchTermsSelector = (state, ownProps) => state.draftMessage
-  .recipientSearchTermsByInternalId[ownProps.internalId];
+const searchTermsSelector = (state, ownProps) =>
+  state.draftMessage.recipientSearchTermsByMessageId[ownProps.messageId];
 
-const participantSuggestionsSelector = state => state.participantSuggestions;
+const participantSuggestionsSelector = (state) => state.participantSuggestions;
 
 const recipientsSelector = (state, ownProps) => ownProps.recipients || [];
 
 const mapStateToProps = createSelector(
-  [
-    participantSuggestionsSelector,
-    searchTermsSelector,
-    recipientsSelector,
-  ],
+  [participantSuggestionsSelector, searchTermsSelector, recipientsSelector],
   (participantSuggestions, searchTerms, recipients) => {
     const { isFetching, resultsByKey } = participantSuggestions;
-    const searchResults = (
-      searchTerms &&
-      resultsByKey[getKey(searchTerms)] &&
-      resultsByKey[getKey(searchTerms)].filter(identity => !findRecipient(recipients, identity))
-    ) || [];
+    const searchResults =
+      (searchTerms &&
+        resultsByKey[getKey(searchTerms)] &&
+        resultsByKey[getKey(searchTerms)].filter(
+          (identity) => !findRecipient(recipients, identity)
+        )) ||
+      [];
 
     return {
       isFetching,
@@ -38,9 +39,13 @@ const mapStateToProps = createSelector(
   }
 );
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  setSearchTerms: setRecipientSearchTerms,
-  search: requestParticipantSuggestions,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      setSearchTerms: setRecipientSearchTerms,
+      search: requestParticipantSuggestions,
+    },
+    dispatch
+  );
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(Presenter);

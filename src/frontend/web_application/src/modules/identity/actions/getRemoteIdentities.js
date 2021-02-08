@@ -5,12 +5,16 @@ export const getRemoteIdentities = () => async (dispatch, getState) => {
   const { remoteIdentities, didInvalidate } = remoteIdentityState;
 
   if (remoteIdentities.length > 0 && !didInvalidate) {
-    return remoteIdentities.map(identityId => remoteIdentityState.remoteIdentitiesById[identityId]);
+    return remoteIdentities.map(
+      (identityId) => remoteIdentityState.remoteIdentitiesById[identityId]
+    );
   }
 
   await dispatch(requestRemoteIdentities());
 
   remoteIdentityState = getState().remoteIdentity;
 
-  return remoteIdentities.map(identityId => remoteIdentityState.remoteIdentitiesById[identityId]);
+  return remoteIdentities.map(
+    (identityId) => remoteIdentityState.remoteIdentitiesById[identityId]
+  );
 };

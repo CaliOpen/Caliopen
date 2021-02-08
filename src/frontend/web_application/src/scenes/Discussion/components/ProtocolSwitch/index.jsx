@@ -10,7 +10,8 @@ class ProtocolSwitch extends PureComponent {
     newProtocol: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
     pi: PropTypes.number.isRequired,
-    settings: PropTypes.shape({ default_locale: PropTypes.string.isRequired }).isRequired,
+    settings: PropTypes.shape({ default_locale: PropTypes.string.isRequired })
+      .isRequired,
   };
 
   protocolIcon = (protocol) => {
@@ -28,19 +29,24 @@ class ProtocolSwitch extends PureComponent {
       default:
         return 'comment';
     }
-  }
+  };
 
   render() {
     const {
-      pi, newProtocol, date, settings: { default_locale: locale },
+      pi,
+      newProtocol,
+      date,
+      settings: { default_locale: locale },
     } = this.props;
 
     return (
       <div className={`m-protocol-switch ${getPiClass(pi)}`}>
         <div className="m-protocol-switch__bar" />
         <i className={`fa fa-${this.protocolIcon(newProtocol)}`} />
-&nbsp;
-        <Moment fromNow locale={locale}>{date}</Moment>
+        &nbsp;
+        <Moment fromNow locale={locale}>
+          {date}
+        </Moment>
       </div>
     );
   }

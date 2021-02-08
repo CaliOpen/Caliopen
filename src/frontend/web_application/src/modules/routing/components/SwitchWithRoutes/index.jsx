@@ -14,20 +14,26 @@ class SwitchWithRoutes extends Component {
   getChildrenConfig = ({ routes, component: C, path }) => {
     switch (true) {
       case C && routes && routes.length > 0:
-        return { render: () => (<C><SwitchWithRoutes routes={routes} /></C>) };
+        return {
+          render: () => (
+            <C>
+              <SwitchWithRoutes routes={routes} />
+            </C>
+          ),
+        };
       case routes && routes.length > 0:
-        return { render: () => (<SwitchWithRoutes routes={routes} />) };
+        return { render: () => <SwitchWithRoutes routes={routes} /> };
       case C && true:
         return { component: C };
       default:
-        throw new Error(`no routes nor component property specified for the route: ${path}`);
+        throw new Error(
+          `no routes nor component property specified for the route: ${path}`
+        );
     }
-  }
+  };
 
   renderRoute = (i, routeConfig) => {
-    const {
-      path, exact, strict, redirect,
-    } = routeConfig;
+    const { path, exact, strict, redirect } = routeConfig;
 
     const config = {
       path,
@@ -36,11 +42,17 @@ class SwitchWithRoutes extends Component {
     };
 
     if (redirect) {
-      return (<Route key={i} {...config}><Redirect to={redirect} /></Route>);
+      return (
+        <Route key={i} {...config}>
+          <Redirect to={redirect} />
+        </Route>
+      );
     }
 
-    return (<Route key={i} {...config} {...this.getChildrenConfig(routeConfig)} />);
-  }
+    return (
+      <Route key={i} {...config} {...this.getChildrenConfig(routeConfig)} />
+    );
+  };
 
   render() {
     const { routes } = this.props;

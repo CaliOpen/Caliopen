@@ -7,7 +7,7 @@ import { Icon } from '../../../../components';
 class PhoneDetails extends Component {
   static propTypes = {
     phone: PropTypes.shape({}).isRequired,
-    i18n: PropTypes.shape({}).isRequired,
+    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
   constructor(props) {
@@ -18,7 +18,9 @@ class PhoneDetails extends Component {
   initTranslations() {
     const { i18n } = this.props;
     this.typeTranslations = {
-      work: i18n._('contact.phone_type.work', null, { defaults: 'Professional' }),
+      work: i18n._('contact.phone_type.work', null, {
+        defaults: 'Professional',
+      }),
       home: i18n._('contact.phone_type.home', null, { defaults: 'Personal' }),
       other: i18n._('contact.phone_type.other', null, { defaults: 'Other' }),
     };
@@ -30,9 +32,12 @@ class PhoneDetails extends Component {
     return (
       <span className="m-phone-details">
         <Icon rightSpaced type="phone" />
-        {phone.number}
-        {' '}
-        {phone.type && <small><em>{this.typeTranslations[phone.type]}</em></small>}
+        {phone.number}{' '}
+        {phone.type && (
+          <small>
+            <em>{this.typeTranslations[phone.type]}</em>
+          </small>
+        )}
       </span>
     );
   }

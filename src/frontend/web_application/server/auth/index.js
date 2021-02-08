@@ -5,7 +5,9 @@ import { decodeCookieMiddleware } from './middlewares';
 import { getConfig } from '../config';
 
 export default (app) => {
-  const { cookie: { secret } } = getConfig();
+  const {
+    cookie: { secret },
+  } = getConfig();
   app.use(cookieParser(secret));
   app.use('/auth', bodyParser.json());
   app.use('/auth', bodyParser.urlencoded({ extended: false }));

@@ -4,7 +4,7 @@ import Recipient from './presenter';
 
 describe('component Recipient', () => {
   const props = {
-    i18n: { _: id => id },
+    i18n: { _: (id) => id },
   };
 
   it('render', () => {
@@ -12,9 +12,7 @@ describe('component Recipient', () => {
       address: 'foo@bar.tld',
       label: 'foobar',
     };
-    const comp = shallow(
-      <Recipient participant={participant} {...props} />
-    );
+    const comp = shallow(<Recipient participant={participant} {...props} />);
 
     expect(comp.find('Badge').length).toEqual(1);
   });

@@ -15,7 +15,10 @@ export function search({ term, doctype }, options = {}) {
       request: {
         url: '/api/v2/search',
         params: {
-          term, doctype, limit, ...options,
+          term,
+          doctype,
+          limit,
+          ...options,
         },
       },
     },
@@ -39,7 +42,9 @@ const getHitKey = (doctype) => {
     case 'contact':
       return 'contact_hits';
     default:
-      throw new Error('doctype is unknown and must be one of "message" or "contact"');
+      throw new Error(
+        'doctype is unknown and must be one of "message" or "contact"'
+      );
   }
 };
 
@@ -67,7 +72,11 @@ export const hasMore = (term, doctype, state) => {
 };
 
 export const getNextOffset = (term, doctype, state) => {
-  const { [`${doctype}s`]: entities } = getDoctypeResultHits(term, doctype, state);
+  const { [`${doctype}s`]: entities } = getDoctypeResultHits(
+    term,
+    doctype,
+    state
+  );
 
   return entities.length;
 };
@@ -82,13 +91,13 @@ function hitUpdater(hit = {}, payload) {
   return {
     ...hit,
     total,
-    ...Object.keys(doctypes).reduce((acc, doctype) => ({
-      ...acc,
-      [doctype]: [
-        ...(hit[doctype] ? hit[doctype] : []),
-        ...payload[doctype],
-      ],
-    }), {}),
+    ...Object.keys(doctypes).reduce(
+      (acc, doctype) => ({
+        ...acc,
+        [doctype]: [...(hit[doctype] ? hit[doctype] : []), ...payload[doctype]],
+      }),
+      {}
+    ),
   };
 }
 
@@ -98,10 +107,13 @@ function hitsUpdater(results = {}, payload) {
   return {
     ...results,
     total,
-    ...Object.keys(hits).reduce((acc, hitName) => ({
-      ...acc,
-      [hitName]: hitUpdater(results[hitName], hits[hitName]),
-    }), {}),
+    ...Object.keys(hits).reduce(
+      (acc, hitName) => ({
+        ...acc,
+        [hitName]: hitUpdater(results[hitName], hits[hitName]),
+      }),
+      {}
+    ),
   };
 }
 
@@ -117,12 +129,17 @@ export default function reducer(state = initialState, action) {
           [getKey(
             action.meta.previousAction.payload.term,
             action.meta.previousAction.payload.doctype
-          )]: (action.meta.previousAction.payload.request.params.offset) ?
-            hitsUpdater(state.resultsByKey[getKey(
-              action.meta.previousAction.payload.term,
-              action.meta.previousAction.payload.doctype
-            )], action.payload.data) :
-            action.payload.data,
+          )]: action.meta.previousAction.payload.request.params.offset
+            ? hitsUpdater(
+                state.resultsByKey[
+                  getKey(
+                    action.meta.previousAction.payload.term,
+                    action.meta.previousAction.payload.doctype
+                  )
+                ],
+                action.payload.data
+              )
+            : action.payload.data,
         },
       };
     default:
