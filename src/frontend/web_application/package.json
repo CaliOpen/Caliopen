@@ -99,7 +99,7 @@
     "redux-form": "^8.3.5",
     "reselect": "^4.0.0",
     "scroll": "^3.0.1",
-    "serialize-javascript": "^3.0.0",
+    "serialize-javascript": "^3.1.0",
     "serve-favicon": "^2.5.0",
     "styled-components": "5.1.0",
     "utf8": "^3.0.0",
