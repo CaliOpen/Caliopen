@@ -6,6 +6,8 @@
 FROM public-registry.caliopen.org/caliopen_python
 MAINTAINER Caliopen
 
+RUN apk -U upgrade
+
 # Add local backend source directory in container filesystem
 COPY . /srv/caliopen/src/backend
 
