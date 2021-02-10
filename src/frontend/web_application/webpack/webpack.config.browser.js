@@ -1,5 +1,5 @@
 const path = require('path');
-const webpackMerge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const OfflinePlugin = require('offline-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const configs = require('./config.js');
@@ -51,23 +51,24 @@ const configurePWA = () => ({
       ],
       ios: true,
     }),
-    new OfflinePlugin({
-      appShell: '/about',
-      responseStrategy: 'network-first',
-      externals: [
-        '/',
-        // disable caching of authenticated routes since the plugin tries to preload its
-        // '/api/v1/me',
-        // '/api/v1/settings',
-      ],
-      excludes: ['**/*.worker.js'],
-      relativePaths: false,
-      ServiceWorker: {
-        output: 'offline.worker.js',
-        navigationPreload: false,
-        events: true,
-      },
-    }),
+    // FIXME: disabled, webpak5 no supported: https://github.com/NekR/offline-plugin/issues/491
+    // new OfflinePlugin({
+    //   appShell: '/about',
+    //   responseStrategy: 'network-first',
+    //   externals: [
+    //     '/',
+    //     // disable caching of authenticated routes since the plugin tries to preload its
+    //     // '/api/v1/me',
+    //     // '/api/v1/settings',
+    //   ],
+    //   excludes: ['**/*.worker.js'],
+    //   relativePaths: false,
+    //   ServiceWorker: {
+    //     output: 'offline.worker.js',
+    //     navigationPreload: false,
+    //     events: true,
+    //   },
+    // }),
   ],
 });
 
@@ -99,7 +100,7 @@ const configureDevServer = () => {
   };
 };
 
-const config = webpackMerge(
+const config = merge(
   common,
   configs.configureSrcTsLoader(),
   // configs.configureSrcBabelLoader(),
