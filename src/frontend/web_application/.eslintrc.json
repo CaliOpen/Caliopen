@@ -16,6 +16,7 @@
     "protractor": true
   },
   "settings": {
+    "import/resolver": { "typescript": {} },
     "import/extensions": [".js", ".jsx", ".ts", ".tsx", ".d.ts"]
   },
   "rules": {
