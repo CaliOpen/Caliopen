@@ -14,12 +14,12 @@ import {
   deleteMessage,
 } from 'src/modules/message';
 import { ManageEntityTags, updateTagCollection } from 'src/modules/tags';
-import InstantMessage from './InstantMessage';
-import MailMessage from './MailMessage';
 import { Router } from 'react-router-dom';
 import { reply } from 'src/modules/draftMessage';
 import { useSettings } from 'src/modules/settings';
 import { useScrollToMe } from 'src/modules/scroll';
+import MailMessage from './MailMessage';
+import InstantMessage from './InstantMessage';
 
 interface Props {
   message: MessageClass;
@@ -55,11 +55,9 @@ function Message({
     }
   };
 
-  const handleTagsChange = async ({ tags }) => {
-    return dispatch(
+  const handleTagsChange = async ({ tags }) => dispatch(
       updateTagCollection(i18n, { type: 'message', entity: message, tags })
     );
-  };
 
   const handleOpenTags = () => {
     setTagModalOpen(true);

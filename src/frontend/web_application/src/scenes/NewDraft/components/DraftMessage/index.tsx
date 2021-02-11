@@ -46,9 +46,9 @@ import { notifyError } from 'src/modules/userNotify';
 import { messageEncryptionStatusSelector } from 'src/modules/encryption/selectors/message';
 import { IIdentity } from 'src/modules/identity/types';
 import { isMessageEncrypted } from 'src/services/encryption';
+import { useAvailableIdentities } from 'src/modules/draftIdentity';
 import IdentitySelector from './components/IdentitySelector';
 import Recipients from './components/Recipients';
-import { useAvailableIdentities } from 'src/modules/draftIdentity';
 import './draft-message-advanced.scss';
 import './draft-message-placeholder.scss';
 
@@ -275,7 +275,7 @@ function DraftMessage(props: DraftMessageProps) {
   const handleDeleteAttachement = (attachment) =>
     dispatch(deleteAttachement(draftMessageFormData, attachment));
   const handleDelete = async () => {
-    await dispatch(onDeleteMessage({ message: message }));
+    await dispatch(onDeleteMessage({ message }));
 
     onDeleteMessageSuccessfull();
   };

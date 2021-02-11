@@ -6,6 +6,8 @@ import { compose } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useCurrentTab, useCloseTab } from 'src/modules/tab';
+import { IDraftMessageFormData } from 'src/modules/draftMessage/types';
+import { useScrollToMe } from 'src/modules/scroll';
 import {
   Button,
   Spinner,
@@ -42,8 +44,6 @@ import { getModuleStateSelector } from '../../../../store/selectors/getModuleSta
 
 import ToggleAdvancedFormButton from './components/ToggleAdvancedFormButton';
 import './draft-message-quick.scss';
-import { IDraftMessageFormData } from 'src/modules/draftMessage/types';
-import { useScrollToMe } from 'src/modules/scroll';
 import { useAvailableIdentities } from 'src/modules/draftIdentity';
 
 export const KEY = {
@@ -136,7 +136,7 @@ function QuickDraftForm({
       return null;
     }
 
-    const recipients = draftMessage.recipients;
+    const {recipients} = draftMessage;
 
     if (!recipients) {
       return '';

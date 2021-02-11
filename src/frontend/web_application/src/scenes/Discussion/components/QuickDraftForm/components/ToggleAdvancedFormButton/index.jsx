@@ -8,8 +8,7 @@ const ToggleAdvancedFormButton = ({
   i18n,
   handleToggleAdvancedForm,
   hasActivity,
-}) => {
-  return (
+}) => (
     <Button
       display="expanded"
       shape="plain"
@@ -28,7 +27,6 @@ const ToggleAdvancedFormButton = ({
       <Icon type="caret-down" />
     </Button>
   );
-};
 
 ToggleAdvancedFormButton.propTypes = {
   i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,

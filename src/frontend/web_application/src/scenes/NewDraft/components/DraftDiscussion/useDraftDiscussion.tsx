@@ -5,10 +5,10 @@ import bytesToUuid from 'uuid/lib/bytesToUuid';
 import { getModuleStateSelector } from 'src/store/selectors/getModuleStateSelector';
 import { createMessageCollectionStateSelector } from 'src/store/selectors/message';
 import { draftMessageSelector } from 'src/modules/draftMessage';
-import { requestDiscussionIdForParticipants } from 'src/modules/discussion';
-import { requestDiscussion } from 'src/modules/message';
-import { discussionSelector as discussionSelectorBase } from '../../../../modules/discussion';
-import { getMessage } from '../../../../modules/message';
+import { requestDiscussionIdForParticipants , discussionSelector as discussionSelectorBase } from 'src/modules/discussion';
+import { requestDiscussion , getMessage } from 'src/modules/message';
+
+
 
 const getParticipantsHash = ({ participants }) => {
   if (participants.length === 0) {
@@ -41,7 +41,7 @@ const discussionIdSelector = (state, messageId: string) => {
   const discussionId =
     discussionState.discussionByParticipantsHash[
       getParticipantsHash({
-        participants: participants,
+        participants,
       })
     ]?.discussionId;
 

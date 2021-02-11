@@ -9,13 +9,20 @@ export class DraftMessageFormData implements IDraftMessageFormData {
   }
 
   message_id: string = uuidv4();
+
   discussion_id?: string;
+
   subject?: string = '';
-  body: string = '';
+
+  body = '';
+
   parent_id?: string;
+
   recipients: Array<Recipient> = [];
+
   // FIXME: Keep a copy of participants because of a bug backend side: the indenty is duplicated (from and to in participant) in draft. So it defeats discussion id selection on advanced draft form
   participants: Array<Participant> = [];
+
   identity_id: string;
 }
 

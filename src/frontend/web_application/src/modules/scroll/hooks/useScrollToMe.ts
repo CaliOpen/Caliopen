@@ -15,7 +15,7 @@ interface Options {
  *
  * @param {string} me corresponding hash to handle
  */
-export function useScrollToMe(me: String, { focusable }: Options = {}) {
+export function useScrollToMe(me: string, { focusable }: Options = {}) {
   const { hash } = useLocation();
   const ref = React.useRef<any>();
 
