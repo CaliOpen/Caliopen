@@ -14,5 +14,5 @@
     "allowJs": true, // allow a partial TypeScript and JavaScript codebase
     "experimentalDecorators": true
   },
-  "include": ["./src/"]
+  "include": ["./server", "./src/"]
 }
