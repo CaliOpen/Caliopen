@@ -7,6 +7,7 @@ import Bootstrap from './components/Bootstrap';
 import configureStore from '../../src/store/configure-store';
 import { getUserLocales } from '../../src/modules/i18n';
 import { getDefaultSettings } from '../../src/modules/settings';
+import { initConfig } from '../../src/services/config';
 import template from '../../dist/server/template.html';
 import { getConfig } from '../config';
 import { initialState as initialStateSettings } from '../../src/store/modules/settings';
@@ -20,6 +21,7 @@ function getMarkup({ store, context, location }) {
   try {
     const { protocol, hostname, port, maxBodySize } = getConfig();
     const config = { protocol, hostname, port };
+    initConfig(config);
     const hasSSR =
       process.env.HAS_SSR !== false && process.env.HAS_SSR !== 'false';
     const markup = !hasSSR
