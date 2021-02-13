@@ -26,6 +26,7 @@ function NewDraft(props: NewDraftProps) {
 
   React.useEffect(() => {
     if (messageId) {
+      // @ts-ignore
       dispatch(getMessage({ messageId })).then(
         (message) => {
           if (!message.is_draft) {

@@ -47,6 +47,7 @@
   "dependencies": {
     "@babel/runtime": "^7.12.13",
     "@lingui/react": "^2.9.1",
+    "@reduxjs/toolkit": "^1.5.0",
     "argv": "^0.0.2",
     "async-validator": "^3.2.4",
     "axios": "^0.20.0",

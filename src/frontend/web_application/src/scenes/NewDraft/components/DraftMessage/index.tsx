@@ -51,10 +51,11 @@ import IdentitySelector from './components/IdentitySelector';
 import Recipients from './components/Recipients';
 import './draft-message-advanced.scss';
 import './draft-message-placeholder.scss';
+import { RootState } from 'src/store/reducer';
 
 function useDraftMessage(messageId: string): DraftMessageFormData | undefined {
   const dispatch = useDispatch();
-  const draftMessage = useSelector((state) =>
+  const draftMessage = useSelector((state: RootState) =>
     draftMessageSelector(state, messageId)
   );
   React.useEffect(() => {
@@ -288,6 +289,7 @@ function DraftMessage(props: DraftMessageProps) {
     try {
       const message = await dispatch(onSendDraft(draftMessageFormData));
 
+      // @ts-ignore
       onSent(message);
       setIsSending(false);
     } catch (err) {
