@@ -47,12 +47,13 @@ export const store = configureStore(
   devTools
 );
 
-PWAOfflineInstall({
-  onUpdateReady: () => {
-    // Tells to new SW to take control immediately
-    applyUpdate();
-  },
-});
+// Disabled since offline plugin is not compat with webpack 5
+// PWAOfflineInstall({
+//   onUpdateReady: () => {
+//     // Tells to new SW to take control immediately
+//     applyUpdate();
+//   },
+// });
 const rootEl = document.getElementById('root');
 ReactDOM.hydrate(
   <Router history={getHistory()}>
