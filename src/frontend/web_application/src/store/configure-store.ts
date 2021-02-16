@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, ConfigureStoreOptions } from '@reduxjs/toolkit';
 import rootReducer, { RootState } from './reducer';
 import axiosMiddleware from './middlewares/axios-middleware';
 import encryptionMiddleware from './middlewares/encryption-middleware';
@@ -20,8 +20,10 @@ const middlewares = [
   searchMiddleware,
 ];
 
-function configureAppStore(preloadedState?: RootState) {
-  return configureStore({
+type PreloadedState = ConfigureStoreOptions<RootState>['preloadedState'];
+
+function configureAppStore(preloadedState?: PreloadedState) {
+  return configureStore<RootState>({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

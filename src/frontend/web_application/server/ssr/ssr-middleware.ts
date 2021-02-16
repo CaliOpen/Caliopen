@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
+import * as React from 'react';
+import { renderToString } from 'react-dom/server';
 import DocumentTitle from 'react-document-title';
 import serialize from 'serialize-javascript';
 import locale from 'locale';
@@ -8,10 +8,21 @@ import configureStore from '../../src/store/configure-store';
 import { getUserLocales } from '../../src/modules/i18n';
 import { getDefaultSettings } from '../../src/modules/settings';
 import { initConfig } from '../../src/services/config';
+// @ts-ignore
 import template from '../../dist/server/template.html';
 import { getConfig } from '../config';
 import { initialState as initialStateSettings } from '../../src/store/modules/settings';
 import { getLogger } from '../logger';
+import { RootState } from 'src/store/reducer';
+
+declare global {
+  namespace NodeJS {
+    interface Global {
+      user: any;
+      USER_LOCALES: string[];
+    }
+  }
+}
 
 const logger = getLogger();
 /**
@@ -23,15 +34,14 @@ function getMarkup({ store, context, location }) {
     const config = { protocol, hostname, port };
     initConfig(config);
     const hasSSR =
-      process.env.HAS_SSR !== false && process.env.HAS_SSR !== 'false';
+      process.env.HAS_SSR === undefined || process.env.HAS_SSR === 'true';
     const markup = !hasSSR
       ? ''
-      : ReactDOMServer.renderToString(
+      : renderToString(
           React.createElement(Bootstrap, {
             context,
             location,
             store,
-            config,
           })
         );
     const documentTitle = DocumentTitle.rewind();
@@ -73,15 +83,16 @@ function applyUserLocaleToGlobal(req) {
 export default (req, res, next) => {
   applyUserToGlobal(req);
   applyUserLocaleToGlobal(req);
-  const initialState = {
+  const initialState: Partial<RootState> = {
     settings: {
       ...initialStateSettings,
       settings: getDefaultSettings(getUserLocales()),
     },
   };
 
+  // @ts-ignore: partial
   const store = configureStore(initialState);
-  const context = {};
+  var context: { url?: string; action?: string } = {};
 
   const html = getMarkup({ store, location: req.url, context });
 
