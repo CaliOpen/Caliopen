@@ -92,10 +92,10 @@ const configureDevServer = () => {
           target: 'http://localhost:4001',
         },
       },
-      watchOptions: {
-        aggregateTimeout: 300,
-        poll: 1000,
-      },
+    },
+    watchOptions: {
+      aggregateTimeout: 300,
+      poll: 1000,
     },
   };
 };

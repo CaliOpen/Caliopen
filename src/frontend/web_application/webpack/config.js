@@ -264,6 +264,17 @@ const configureAssets = (outputPath = 'assets/') => ({
   },
 });
 
+const configureNoAssets = () => ({
+  module: {
+    rules: [
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        loader: 'null-loader',
+      },
+    ],
+  },
+});
+
 const configureVendorSplit = () => ({
   entry: {
     vendor: [
@@ -342,6 +353,7 @@ module.exports = {
   configureSrcBabelLoader,
   configureStylesheet,
   configureAssets,
+  configureNoAssets,
   configureVendorSplit,
   configureHTMLTemplate,
   configureEnv,
