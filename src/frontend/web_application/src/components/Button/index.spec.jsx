@@ -1,15 +1,15 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Button from '.';
 
 describe('component Button', () => {
   it('should render', () => {
     const handleClick = jest.fn();
 
-    const comp = mount(<Button onClick={handleClick}>Foo</Button>);
+    render(<Button onClick={handleClick}>Foo</Button>);
 
-    expect(comp.text()).toEqual('Foo');
-    comp.simulate('click');
+    userEvent.click(screen.getByText('Foo'));
     expect(handleClick).toHaveBeenCalled();
   });
 });
