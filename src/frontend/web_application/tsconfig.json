@@ -7,7 +7,8 @@
     "moduleResolution": "Node",
     "baseUrl": ".",
     "paths": {
-      "src": ["src"]
+      "src": ["src"],
+      "test": ["test"],
     },
     "jsx": "react", // use typescript to transpile jsx to js
     "target": "es5", // specify ECMAScript target version

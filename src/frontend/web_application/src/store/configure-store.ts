@@ -20,11 +20,14 @@ const middlewares = [
   searchMiddleware,
 ];
 
-function configureAppStore(preloadedState: RootState) {
+function configureAppStore(preloadedState?: RootState) {
   return configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().prepend(...middlewares),
+      getDefaultMiddleware({
+        // prevent non serializable error on axios actions (only msw?)
+        serializableCheck: false,
+      }).prepend(...middlewares),
     preloadedState,
   });
 }
