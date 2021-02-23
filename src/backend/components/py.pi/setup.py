@@ -18,6 +18,7 @@ requires = [
     'schematics',
     'pgpy',
     'user-agents',
+    'maxminddb<2',
     'geoip2==3.0.0',
 ]
 

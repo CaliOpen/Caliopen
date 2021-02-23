@@ -21,7 +21,7 @@ requires = [
     'regex',
     'zope.interface',
     'vobject',
-    'minio',
+    'minio<5',
 ]
 
 if (os.path.isfile('./requirements.deps')):
