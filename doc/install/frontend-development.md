@@ -48,7 +48,7 @@ docker-compose run cli import -e dev@caliopen.local -f mbox -p devtools/fixtures
 Finally start the stack
 
 ```
-docker-compose up -d frontend broker api apiv1
+docker-compose up -d frontend lmtpd apiv2 apiv1
 ```
 
 **NB** : for now, outgoing emails are caught by a local smtp server for testing purpose.
