@@ -6,6 +6,8 @@ import { compose } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useCurrentTab, useCloseTab } from 'src/modules/tab';
+import { IDraftMessageFormData } from 'src/modules/draftMessage/types';
+import { useScrollToMe } from 'src/modules/scroll';
 import {
   Button,
   Spinner,
@@ -14,7 +16,6 @@ import {
   PlaceholderBlock,
 } from '../../../../components';
 
-import { withContacts } from '../../../../modules/contact';
 import {
   LockedMessage,
   messageEncryptionStatusSelector,
@@ -26,11 +27,7 @@ import {
   validate,
   sendDraft,
 } from '../../../../modules/draftMessage';
-import { filterIdentities } from '../../../../modules/draftMessage/services/filterIdentities';
-import { identitiesSelector } from '../../../../modules/identity';
 import { messageSelector } from '../../../../modules/message';
-import { withPush } from '../../../../modules/routing';
-import { userSelector } from '../../../../modules/user';
 import { notifyError } from '../../../../modules/userNotify';
 
 import { isMessageEncrypted } from '../../../../services/encryption';
@@ -38,21 +35,22 @@ import {
   STATUS_DECRYPTED,
   STATUS_ERROR,
 } from '../../../../store/modules/encryption';
-import { getModuleStateSelector } from '../../../../store/selectors/getModuleStateSelector';
 
 import ToggleAdvancedFormButton from './components/ToggleAdvancedFormButton';
 import './draft-message-quick.scss';
-import { IDraftMessageFormData } from 'src/modules/draftMessage/types';
-import { useScrollToMe } from 'src/modules/scroll';
 import { useAvailableIdentities } from 'src/modules/draftIdentity';
+import { RootState } from 'src/store/reducer';
+import { AppDispatch } from 'src/types';
 
 export const KEY = {
   ENTER: 13,
 };
 
-function useDraftMessage(discussionId): undefined | IDraftMessageFormData {
+function useDraftMessage(
+  discussionId: string
+): undefined | IDraftMessageFormData {
   const dispatch = useDispatch();
-  const draftMessage = useSelector((state) =>
+  const draftMessage = useSelector((state: RootState) =>
     discussionDraftSelector(state, discussionId)
   );
   React.useEffect(() => {
@@ -136,7 +134,7 @@ function QuickDraftForm({
       return null;
     }
 
-    const recipients = draftMessage.recipients;
+    const { recipients } = draftMessage;
 
     if (!recipients) {
       return '';
@@ -198,7 +196,8 @@ function QuickDraftForm({
           withThrottle: false,
         })
       );
-      const message = await dispatch(sendDraft(savedMessage));
+      // @ts-ignore: probably related to middlewares typings
+      await dispatch(sendDraft(savedMessage));
 
       setIsSending(false);
     } catch (err) {

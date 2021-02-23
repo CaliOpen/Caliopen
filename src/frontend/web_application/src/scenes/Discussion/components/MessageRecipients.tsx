@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { withI18n } from '@lingui/react';
 import { I18n } from '@lingui/core';
+import { useUser } from 'src/modules/user';
+import { Message } from 'src/modules/message';
 import {
   getRecipients,
   getRecipientsExceptUser,
   isUserRecipient,
 } from '../../../services/message';
-import { useUser } from 'src/modules/user';
-import { Message } from 'src/modules/message';
 
 interface Props {
   message: Message;

@@ -1,7 +1,7 @@
+import { Message } from 'src/modules/message';
 import { postActions, requestMessage } from '../../../store/modules/message';
 import { messagesByIdSelector } from '../../../store/selectors/message';
 import { clearDraft } from '../../../store/modules/draft-message';
-import { Message } from 'src/modules/message';
 
 export const sendDraft = (draft: Message) => async (
   dispatch,

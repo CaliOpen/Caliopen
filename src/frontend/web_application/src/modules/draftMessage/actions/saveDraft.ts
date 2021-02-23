@@ -1,4 +1,5 @@
 import throttle from 'lodash.throttle';
+import { IDraftMessagePayload } from 'src/modules/message/types';
 import { calcSyncDraft } from '../services/calcSyncDraft';
 import { updateMessage } from '../../../store/actions/message';
 import { createMessage, getMessage, Message } from '../../message';
@@ -8,7 +9,6 @@ import {
 } from '../../../store/modules/draft-message';
 import { consolidateParticipants } from './consolidateParticipants';
 import { mapDraftMessageFormDataToMessage } from '../models';
-import { IDraftMessagePayload } from 'src/modules/message/types';
 import { IDraftMessageFormData } from '../types';
 
 const UPDATE_WAIT_TIME = 5 * 1000;

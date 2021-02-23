@@ -3,7 +3,7 @@ import notifyReducer from 'react-redux-notify';
 import { reducer as formReducer } from 'redux-form';
 import contactReducer from './modules/contact';
 import deviceReducer from './modules/device';
-import discussionReducer from './modules/discussion.ts';
+import discussionReducer from './modules/discussion';
 import draftMessageReducer from './modules/draft-message';
 import i18nReducer from './modules/i18n';
 import importanceLevelReducer from './modules/importance-level';
@@ -44,5 +44,7 @@ const reducer = combineReducers({
   view: viewReducer,
   encryption: encryptionReducer,
 });
+
+export type RootState = ReturnType<typeof reducer>;
 
 export default reducer;

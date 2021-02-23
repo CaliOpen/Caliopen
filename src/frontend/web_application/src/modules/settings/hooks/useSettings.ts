@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { settingsSelector } from '../selectors/settings';
 import { requestSettings } from 'src/store/modules/settings';
 import { isAuthenticated } from 'src/modules/user';
+import { settingsSelector } from '../selectors/settings';
 
 interface Settings {
   [key: string]: any;

@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Trans } from '@lingui/react';
 import { useDispatch } from 'react-redux';
+import { editDraft } from 'src/store/modules/draft-message';
 import { Icon } from '../../../../../components';
 import { getIconType } from '../../../../../services/protocols-config';
 import RecipientList from '../../../../../modules/draftMessage/components/RecipientList';
 import { DraftMessageFormData } from '../../../../../modules/draftMessage';
 import RecipientSelector from '../../../../../modules/draftMessage/components/RecipientSelector';
 import Recipient from '../../../../../modules/draftMessage/components/Recipient/presenter';
-import { editDraft } from 'src/store/modules/draft-message';
 
 interface RecipientsProps {
   draftMessage: DraftMessageFormData;
@@ -26,14 +26,12 @@ export default function Recipients({
       (ident) => ident.identity_id === draftMessage.identity_id
     );
 
-    const handleRecipientsChange = (recipients) => {
-      return dispatch(
+    const handleRecipientsChange = (recipients) => dispatch(
         editDraft({
           ...draftMessage,
           recipients,
         })
       );
-    };
 
     return (
       <RecipientList

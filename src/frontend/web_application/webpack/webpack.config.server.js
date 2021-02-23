@@ -1,5 +1,5 @@
 const path = require('path');
-const webpackMerge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const { WatchIgnorePlugin } = require('webpack');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const configs = require('./config.js');
@@ -83,15 +83,15 @@ const base = {
     minimize: false,
   },
   plugins: [
-    new WatchIgnorePlugin([
-      path.join(__dirname, '../src/'),
-      path.join(__dirname, '../locale/'),
-    ]),
+    // new WatchIgnorePlugin([
+    //   path.join(__dirname, '../src/'),
+    //   path.join(__dirname, '../locale/'),
+    // ]),
     ...(isDev ? [new HardSourceWebpackPlugin()] : []),
   ],
 };
 
-const config = webpackMerge(
+const config = merge(
   common,
   configs.configureEnv('server'),
   // configs.configureSrcBabelLoader({ isNode: true }),
