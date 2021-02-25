@@ -6,7 +6,7 @@ import { withI18n } from '@lingui/react';
 import { withNotification } from '../../modules/userNotify';
 import { withUser } from '../../hoc/user';
 import { requestUser, updateUser } from '../../store/modules/user';
-import { updateContact } from '../../store/modules/contact';
+import { updateContact } from 'src/modules/contact/store/reducer';
 import Presenter from './presenter';
 
 const userSelector = (state) => state.user;

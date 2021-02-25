@@ -3,7 +3,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Presenter from './presenter';
 import { contactStateSelector } from '../../../../store/selectors/contact';
-import { requestContacts } from '../../../../store/modules/contact';
+import { requestContacts } from 'src/modules/contact/store/reducer';
 
 const mapStateToProps = createSelector(
   [contactStateSelector],

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import notifyReducer from 'react-redux-notify';
 import { reducer as formReducer } from 'redux-form';
-import contactReducer from './modules/contact';
+import contactReducer from 'src/modules/contact/store/reducer';
 import deviceReducer from './modules/device';
 import discussionReducer from './modules/discussion';
 import draftMessageReducer from './modules/draft-message';

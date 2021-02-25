@@ -2,7 +2,7 @@ import {
   deleteContact as deleteContactBase,
   invalidate,
   removeMultipleFromCollection,
-} from '../../../store/modules/contact';
+} from '../store/reducer';
 
 export const deleteContacts = ({ contacts }) => async (dispatch) => {
   try {

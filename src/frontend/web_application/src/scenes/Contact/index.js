@@ -7,7 +7,7 @@ import {
   createContact,
   deleteContact,
   invalidate as invalidateContacts,
-} from '../../store/modules/contact';
+} from 'src/modules/contact/store/reducer';
 import { requestUser } from '../../store/modules/user';
 import {
   addAddressToContact,

@@ -3,7 +3,6 @@ import rootReducer, { RootState } from './reducer';
 import axiosMiddleware from './middlewares/axios-middleware';
 import encryptionMiddleware from './middlewares/encryption-middleware';
 import decryptionMiddleware from './middlewares/decryption-middleware';
-import contactMiddleware from './middlewares/contacts-middleware';
 import discussionMiddleware from './middlewares/discussions-middleware';
 import importanceLevelMiddleware from './middlewares/importance-level-middleware';
 import messageMiddleware from './middlewares/messages-middleware';
@@ -13,7 +12,6 @@ const middlewares = [
   encryptionMiddleware,
   axiosMiddleware,
   decryptionMiddleware,
-  contactMiddleware,
   discussionMiddleware,
   importanceLevelMiddleware,
   messageMiddleware,
@@ -23,7 +21,7 @@ const middlewares = [
 type PreloadedState = ConfigureStoreOptions<RootState>['preloadedState'];
 
 function configureAppStore(preloadedState?: PreloadedState) {
-  return configureStore<RootState>({
+  return configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

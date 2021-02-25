@@ -1,7 +1,7 @@
 import {
   updateContact as updateContactBase,
   requestContact,
-} from '../../../store/modules/contact';
+} from '../store/reducer';
 import { requestUser } from '../../../store/modules/user';
 import { userSelector } from '../../user';
 

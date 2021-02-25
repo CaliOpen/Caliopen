@@ -3,7 +3,7 @@ import JsSHA from 'jssha';
 import { updateTagCollection } from './updateTagCollection';
 import { getTagNamesInCommon } from '../services/getTagNamesInCommon';
 import { getCleanedTagCollection } from '../services/getTagLabel';
-import { invalidate } from '../../../store/modules/contact';
+import { invalidate } from 'src/modules/contact/store/reducer';
 
 const UPDATE_WAIT_TIME = 2 * 1000;
 

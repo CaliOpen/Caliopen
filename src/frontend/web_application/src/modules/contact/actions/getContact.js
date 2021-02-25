@@ -1,4 +1,4 @@
-import { requestContact } from '../../../store/modules/contact';
+import { requestContact } from '../store/reducer';
 import { contactSelector } from '../selectors/contactSelector';
 
 export const getContact = ({ contactId }) => async (dispatch, getState) => {

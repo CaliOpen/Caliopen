@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { contactStateSelector } from 'src/store/selectors/contact';
-import { requestContacts } from 'src/store/modules/contact';
+import { requestContacts } from '../store/reducer';
 import { contactsSelector } from '../selectors/contactSelector';
 
 export function useContacts() {

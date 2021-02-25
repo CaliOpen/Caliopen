@@ -1,4 +1,6 @@
-import calcObjectForPatch from '../../services/api-patch';
+import { PagerParams, AxiosActionPayload } from 'src/types';
+import calcObjectForPatch from 'src/services/api-patch';
+import { ContactPayload } from '../types';
 
 export const REQUEST_CONTACTS = 'co/contact/REQUEST_CONTACTS';
 export const REQUEST_CONTACTS_SUCCESS = 'co/contact/REQUEST_CONTACTS_SUCCESS';
@@ -22,13 +24,77 @@ export const REMOVE_MULTIPLE_FROM_COLLECTION =
 export const REQUEST_CONTACT_IDS_FOR_URI =
   'co/contact/REQUEST_CONTACT_IDS_FOR_URI';
 
+// Actions --------------------------------------
+interface RequestContactsAction {
+  type: typeof REQUEST_CONTACTS;
+  payload: AxiosActionPayload<PagerParams>;
+}
+
+interface RequestContactsSuccessAction {
+  type: typeof REQUEST_CONTACTS_SUCCESS;
+  payload: {
+    data: {
+      contacts: ContactPayload[];
+      total: number;
+    };
+  };
+}
+
+interface RequestContactAction {
+  type: typeof REQUEST_CONTACT;
+  payload: AxiosActionPayload<undefined>;
+}
+
+interface RequestContactSuccessAction {
+  type: typeof REQUEST_CONTACT_SUCCESS;
+  payload: {
+    data: ContactPayload;
+  };
+}
+
+interface RemoveMultipleFromCollectionAction {
+  type: typeof REMOVE_MULTIPLE_FROM_COLLECTION;
+  payload: {
+    contacts: ContactPayload[];
+  };
+}
+
+interface InvalidateAction {
+  type: typeof INVALIDATE_CONTACTS;
+  payload: {};
+}
+
+type ContactAction =
+  | RequestContactsAction
+  | RequestContactsSuccessAction
+  | RequestContactAction
+  | RequestContactSuccessAction
+  | RemoveMultipleFromCollectionAction
+  | InvalidateAction;
+//  ---------------------------------------------
+
+// State ----------------------------------------
+interface ContactState {
+  isFetching: boolean;
+  didInvalidate: boolean;
+  contactsById: {
+    [id: string]: ContactPayload;
+  };
+  contacts: string[];
+  total: number;
+}
+// ----------------------------------------------
+
 const PROTOCOL_PREFIXES = {
   email: 'email',
   twitter: 'twitter',
   mastodon: 'mastodon',
 };
 
-export function requestContacts(params = {}) {
+type RequestContactParams = PagerParams;
+export function requestContacts(
+  params: RequestContactParams = {}
+): RequestContactsAction {
   const { offset = 0, limit = 1000 } = params;
 
   return {
@@ -42,14 +108,7 @@ export function requestContacts(params = {}) {
   };
 }
 
-export function loadMoreContacts() {
-  return {
-    type: LOAD_MORE_CONTACTS,
-    payload: {},
-  };
-}
-
-export function requestContact(contactId) {
+export function requestContact(contactId): RequestContactAction {
   return {
     type: REQUEST_CONTACT,
     payload: {
@@ -148,7 +207,12 @@ export function requestContactIdsForURI({ protocol, address }) {
   };
 }
 
-function contactsByIdReducer(state = {}, action = {}) {
+type ContactsByReducerAction =
+  | RequestContactsSuccessAction
+  | RequestContactSuccessAction
+  | RemoveMultipleFromCollectionAction;
+
+function contactsByIdReducer(state = {}, action: ContactsByReducerAction) {
   switch (action.type) {
     case REQUEST_CONTACTS_SUCCESS:
       return action.payload.data.contacts.reduce(
@@ -176,7 +240,10 @@ function contactsByIdReducer(state = {}, action = {}) {
   }
 }
 
-const filterContactIds = ({ contactsIds, contacts }) => {
+const filterContactIds = (
+  contactsIds: string[],
+  contacts: ContactPayload[]
+) => {
   const contactIdsToRemove = contacts.map((contact) => contact.contact_id);
 
   return contactsIds.filter(
@@ -184,14 +251,20 @@ const filterContactIds = ({ contactsIds, contacts }) => {
   );
 };
 
-function contactListReducer(state = [], action = {}) {
+type ContactListReducerAction =
+  | RequestContactsSuccessAction
+  | RemoveMultipleFromCollectionAction;
+function contactListReducer(
+  state: string[] = [],
+  action: ContactListReducerAction
+) {
   switch (action.type) {
     case REQUEST_CONTACTS_SUCCESS:
       return [...state]
         .concat(
           action.payload.data.contacts.map((contact) => contact.contact_id)
         )
-        .reduce((prev, curr) => {
+        .reduce((prev: string[], curr: string) => {
           if (prev.indexOf(curr) === -1) {
             prev.push(curr);
           }
@@ -199,24 +272,21 @@ function contactListReducer(state = [], action = {}) {
           return prev;
         }, []);
     case REMOVE_MULTIPLE_FROM_COLLECTION:
-      return filterContactIds({
-        contactsIds: state,
-        contacts: action.payload.contacts,
-      });
+      return filterContactIds(state, action.payload.contacts);
     default:
       return state;
   }
 }
 
-export function getNextOffset(state) {
+export function getNextOffset(state: ContactState) {
   return state.contacts.length;
 }
 
-export function hasMore(state) {
+export function hasMore(state: ContactState) {
   return state.total > state.contacts.length;
 }
 
-const initialState = {
+const initialState: ContactState = {
   isFetching: false,
   didInvalidate: false,
   contactsById: {},
@@ -224,7 +294,10 @@ const initialState = {
   total: 0,
 };
 
-export default function reducer(state = initialState, action) {
+export default function reducer(
+  state: ContactState = initialState,
+  action: ContactAction
+): ContactState {
   switch (action.type) {
     case REQUEST_CONTACTS:
       return { ...state, isFetching: true };
