@@ -103,7 +103,6 @@ const configureDevServer = () => {
 const config = merge(
   common,
   configs.configureSrcTsLoader(),
-  // configs.configureSrcBabelLoader(),
   configs.configureStylesheet(),
   configs.configureAssets(),
   configs.configureVendorSplit(),

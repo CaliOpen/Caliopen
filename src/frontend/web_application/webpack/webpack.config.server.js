@@ -58,23 +58,10 @@ const base = {
         loader: 'null-loader',
       },
       {
-        test: /\.js$/,
+        test: /\.(j|t)sx?$/,
         exclude: /node_modules/,
         include: path.join(__dirname, '../server/'),
-        loader: 'babel-loader',
-        options: {
-          plugins: ['@babel/plugin-proposal-object-rest-spread'],
-        },
-      },
-      {
-        test: /\.jsx$/,
-        exclude: /node_modules/,
-        include: path.join(__dirname, '../server/'),
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-react'],
-          plugins: ['@babel/plugin-proposal-object-rest-spread'],
-        },
+        loader: 'ts-loader',
       },
       { test: /\.html$/, loader: 'raw-loader' },
     ],
@@ -94,7 +81,6 @@ const base = {
 const config = merge(
   common,
   configs.configureEnv('server'),
-  // configs.configureSrcBabelLoader({ isNode: true }),
   configs.configureSrcTsLoader({ isNode: true }),
   configs.configureAssets(),
   base
