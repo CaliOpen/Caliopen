@@ -13,3 +13,5 @@ export * from './services/findTabbableRouteConfig';
 export * from './services/flattenRouteConfig';
 export * from './services/getRouterHistory';
 export * from './services/signout';
+export * from './services/getSearchParams';
+export * from './hooks/useSearchParams';
