@@ -16,7 +16,7 @@ import remoteIdentityReducer from './modules/remote-identity';
 import searchReducer from './modules/search';
 import settingsReducer from './modules/settings';
 import tagReducer from './modules/tag';
-import userReducer from './modules/user';
+import userReducer from 'src/modules/user/store/reducer';
 import publicKeyReducer from './modules/public-key';
 import viewReducer from './modules/view';
 import encryptionReducer from './modules/encryption';

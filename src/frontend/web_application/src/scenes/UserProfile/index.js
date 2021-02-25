@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withI18n } from '@lingui/react';
 import { withNotification } from '../../modules/userNotify';
-import { withUser } from '../../hoc/user';
-import { requestUser, updateUser } from '../../store/modules/user';
+import { withUser } from 'src/modules/user';
+import { requestUser, updateUser } from 'src/modules/user/store/reducer';
 import { updateContact } from 'src/modules/contact/store/reducer';
 import Presenter from './presenter';
 

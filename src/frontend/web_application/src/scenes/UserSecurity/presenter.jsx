@@ -12,13 +12,9 @@ class UserSecurity extends Component {
   static propTypes = {
     i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
     requestUser: PropTypes.func.isRequired,
-    user: PropTypes.shape({}),
+    userState: PropTypes.shape({ user: PropTypes.shape({}) }).isRequired,
     notifySuccess: PropTypes.func.isRequired,
     notifyError: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    user: undefined,
   };
 
   state = {
@@ -75,7 +71,10 @@ class UserSecurity extends Component {
   };
 
   render() {
-    const { i18n, user } = this.props;
+    const {
+      i18n,
+      userState: { user },
+    } = this.props;
 
     return (
       <div className="s-user-account-security">

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { requestUser } from 'src/store/modules/user';
+import { requestUser } from '../store/reducer';
 import { userStateSelector } from '../selectors/userStateSelector';
 import { isAuthenticated } from '../services/isAuthenticated';
 
