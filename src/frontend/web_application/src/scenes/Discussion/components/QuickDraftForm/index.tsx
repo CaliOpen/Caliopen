@@ -307,7 +307,6 @@ function QuickDraftForm({
           >
             <Button
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
               type="submit"
               display="expanded"
               shape="plain"

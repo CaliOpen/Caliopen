@@ -397,7 +397,6 @@ function DraftMessage(props: DraftMessageProps) {
               </Trans>
             }
             render={(confirm) => (
-              // @ts-ignore
               <Button
                 onClick={confirm}
                 icon="trash"
@@ -409,7 +408,6 @@ function DraftMessage(props: DraftMessageProps) {
             )}
           />
         )}
-        {/* @ts-ignore */}
         <Button
           shape="plain"
           className={classnames(
