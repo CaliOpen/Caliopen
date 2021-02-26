@@ -30,5 +30,5 @@ export function useUser() {
     }
   }, [shouldFetch, dispatch, authenticated]);
 
-  return user;
+  return { isFetching, didLostAuth, user };
 }

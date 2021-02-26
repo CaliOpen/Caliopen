@@ -14,7 +14,7 @@ export function useAvailableIdentities(
 ) {
   const dispatch = useDispatch();
   const { identities } = useIdentities();
-  const user = useUser();
+  const { user } = useUser();
   const { contacts } = useContacts();
   const parentMessage = useSelector((state) =>
     messageSelector(state, { messageId: draft?.parent_id })

@@ -15,7 +15,7 @@ interface Props {
   i18n: I18n;
 }
 function MessageRecipients({ message, shorten = false, i18n }: Props) {
-  const user = useUser();
+  const { user } = useUser();
 
   const getRecipientsLabels = (recipients) => {
     if (!recipients) return [];
