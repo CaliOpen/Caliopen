@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import notifyReducer from 'react-redux-notify';
 import { reducer as formReducer } from 'redux-form';
-import contactReducer from 'src/modules/contact/store/reducer';
+import { store as contactStore } from 'src/modules/contact';
 import deviceReducer from './modules/device';
 import discussionReducer from './modules/discussion';
 import draftMessageReducer from './modules/draft-message';
@@ -16,14 +16,14 @@ import remoteIdentityReducer from './modules/remote-identity';
 import searchReducer from './modules/search';
 import settingsReducer from './modules/settings';
 import tagReducer from './modules/tag';
-import userReducer from 'src/modules/user/store/reducer';
+import { store as userStore } from 'src/modules/user';
 import publicKeyReducer from './modules/public-key';
 import viewReducer from './modules/view';
 import encryptionReducer from './modules/encryption';
 
 const reducer = combineReducers({
   notifications: notifyReducer,
-  contact: contactReducer,
+  contact: contactStore.reducer,
   device: deviceReducer,
   discussion: discussionReducer,
   draftMessage: draftMessageReducer,
@@ -38,7 +38,7 @@ const reducer = combineReducers({
   search: searchReducer,
   settings: settingsReducer,
   tag: tagReducer,
-  user: userReducer,
+  user: userStore.reducer,
   form: formReducer,
   publicKey: publicKeyReducer,
   view: viewReducer,

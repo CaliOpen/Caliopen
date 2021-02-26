@@ -103,7 +103,7 @@ const initialState: UserState = {
   user: undefined,
 };
 
-export default function reducer(
+export function reducer(
   state: UserState = initialState,
   action: UserAction
 ): UserState {

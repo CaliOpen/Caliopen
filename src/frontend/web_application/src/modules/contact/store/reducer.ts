@@ -294,7 +294,7 @@ const initialState: ContactState = {
   total: 0,
 };
 
-export default function reducer(
+export function reducer(
   state: ContactState = initialState,
   action: ContactAction
 ): ContactState {

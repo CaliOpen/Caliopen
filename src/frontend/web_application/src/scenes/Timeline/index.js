@@ -11,7 +11,7 @@ import { getUser } from '../../modules/user/actions/getUser';
 import { withContacts } from '../../modules/contact';
 
 import Presenter from './presenter';
-import { userStateSelector } from 'src/modules/user';
+import { stateSelector as userStateSelector } from 'src/modules/user';
 
 const discussionStateSelector = (state) => state.discussion;
 

@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { requestUser } from '../store/reducer';
-import { userStateSelector } from '../selectors/userStateSelector';
+import { stateSelector } from '../store/selectors';
 import { isAuthenticated } from '../services/isAuthenticated';
 
-type User = any;
-
 const shouldFetchSelector = (state) => {
-  const { user, isFetching, didInvalidate } = userStateSelector(state);
+  const { user, isFetching, didInvalidate } = stateSelector(state);
 
   return (!user || didInvalidate) && !isFetching;
 };
@@ -17,12 +15,12 @@ const getUser = () => async (dispatch, getState) => {
     await dispatch(requestUser());
   }
 
-  return userStateSelector(getState()).user;
+  return stateSelector(getState()).user;
 };
 
-export function useUser(): void | User {
+export function useUser() {
   const dispatch = useDispatch();
-  const { user } = useSelector(userStateSelector);
+  const { user, didLostAuth, isFetching } = useSelector(stateSelector);
   const shouldFetch = useSelector(shouldFetchSelector);
   const authenticated = isAuthenticated();
 
