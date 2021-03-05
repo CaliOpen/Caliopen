@@ -1,5 +1,5 @@
 import { tryCatchAxiosAction } from '../../../services/api-client';
-import { requestUser } from '../../../store/modules/user';
+import { requestUser } from '../store/reducer';
 import { userSelector } from '../selectors/userSelector';
 
 export const getUser = () => async (dispatch, getState) => {

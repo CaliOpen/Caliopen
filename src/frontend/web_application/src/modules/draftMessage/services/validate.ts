@@ -1,5 +1,5 @@
-import type { IDraftMessageFormData } from '../types';
 import type { I18n } from '@lingui/core';
+import type { IDraftMessageFormData } from '../types';
 import { getIdentityProtocol } from './getIdentityProtocol';
 import { PROTOCOL_MASTODON, PROTOCOL_TWITTER } from '../../message';
 

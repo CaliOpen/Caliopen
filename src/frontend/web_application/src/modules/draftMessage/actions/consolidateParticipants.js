@@ -1,4 +1,4 @@
-import { requestContactIdsForURI } from '../../../store/modules/contact';
+import { requestContactIdsForURI } from 'src/modules/contact/store/reducer';
 import { tryCatchAxiosAction } from '../../../services/api-client';
 
 const consolidateParticipant = (participant) => async (dispatch) => ({

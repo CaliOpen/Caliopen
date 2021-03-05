@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import { userSelector } from 'src/modules/user';
 import {
   loadMore,
   invalidate,
@@ -16,7 +17,6 @@ import {
 } from '../../modules/message';
 import { reply, draftMessagesSelector } from '../../modules/draftMessage';
 import { createMessageCollectionStateSelector } from '../../store/selectors/message';
-import { UserSelector } from '../../store/selectors/user';
 import { withTags, updateTagCollection } from '../../modules/tags';
 import { getUser } from '../../modules/user/actions/getUser';
 import { withPush } from '../../modules/routing/hoc/withPush';
@@ -110,7 +110,7 @@ const mapStateToProps = createSelector(
     messageByIdSelector,
     discussionStateSelector,
     discussionIdSelector,
-    UserSelector,
+    userSelector,
     messageCollectionStateSelector,
     draftMessageSelector,
   ],

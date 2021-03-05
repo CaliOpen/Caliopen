@@ -4,12 +4,8 @@ import { connect } from 'react-redux';
 import { deleteContacts } from '../../modules/contact';
 import { withUser } from '../../modules/user';
 import { updateContactTags } from '../../modules/tags';
-
-import {
-  requestContacts,
-  loadMoreContacts,
-  hasMore,
-} from '../../store/modules/contact';
+import { loadMoreContacts } from 'src/modules/contact';
+import { requestContacts, hasMore } from 'src/modules/contact/store/reducer';
 import Presenter from './presenter';
 
 const contactStateSelector = (state) => state.contact;

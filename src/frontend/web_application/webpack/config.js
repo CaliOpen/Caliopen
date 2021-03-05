@@ -50,83 +50,6 @@ const configureSrcTsLoader = ({ isNode } = { isNode: false }) => {
   };
 };
 
-const configureSrcBabelLoader = ({ isNode } = { isNode: false }) => {
-  const presetEnvTarget = isNode ? { node: 'current' } : {};
-
-  return {
-    module: {
-      rules: [
-        {
-          test: /(?<!\.worker)\.jsx?$/,
-          exclude: /node_modules/,
-          include: path.join(__dirname, '../src/'),
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              [
-                '@babel/preset-env',
-                { modules: 'auto', targets: presetEnvTarget },
-              ],
-              '@babel/preset-react',
-            ],
-            plugins: [
-              '@babel/plugin-proposal-object-rest-spread',
-              ['@babel/plugin-proposal-decorators', { legacy: true }],
-              ['@babel/plugin-proposal-class-properties', { loose: true }],
-              '@babel/plugin-syntax-dynamic-import',
-              'babel-plugin-macros',
-              '@babel/plugin-proposal-export-default-from',
-              '@babel/plugin-proposal-export-namespace-from',
-              '@babel/plugin-transform-runtime',
-            ],
-          },
-        },
-        ...(isNode
-          ? [
-              {
-                test: /\.worker\.js$/,
-                use: [{ loader: 'null-loader' }],
-              },
-            ]
-          : [
-              {
-                test: /\.worker\.js$/,
-                exclude: /node_modules/,
-                use: [
-                  { loader: 'worker-loader' },
-                  {
-                    loader: 'babel-loader',
-                    options: {
-                      presets: [
-                        [
-                          '@babel/preset-env',
-                          { modules: 'auto', targets: presetEnvTarget },
-                        ],
-                      ],
-                      plugins: [
-                        [
-                          '@babel/plugin-proposal-class-properties',
-                          { loose: true },
-                        ],
-                      ],
-                    },
-                  },
-                  {
-                    loader: 'eslint-loader',
-                    options: {
-                      cache: true,
-                      options: { name: 'WorkerName.[hash].js' },
-                      failOnError: false,
-                    },
-                  },
-                ],
-              },
-            ]),
-      ],
-    },
-  };
-};
-
 const configureStylesheet = () => {
   return {
     plugins: [
@@ -264,6 +187,17 @@ const configureAssets = (outputPath = 'assets/') => ({
   },
 });
 
+const configureNoAssets = () => ({
+  module: {
+    rules: [
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        loader: 'null-loader',
+      },
+    ],
+  },
+});
+
 const configureVendorSplit = () => ({
   entry: {
     vendor: [
@@ -339,9 +273,9 @@ const configureEnv = (buildTarget) => {
 
 module.exports = {
   configureSrcTsLoader,
-  configureSrcBabelLoader,
   configureStylesheet,
   configureAssets,
+  configureNoAssets,
   configureVendorSplit,
   configureHTMLTemplate,
   configureEnv,

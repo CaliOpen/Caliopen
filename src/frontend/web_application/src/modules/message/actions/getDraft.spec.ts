@@ -1,15 +1,15 @@
 import configureMockStore from 'redux-mock-store';
+import { getDefaultMiddleware } from '@reduxjs/toolkit';
 import { getDraft } from './getDraft';
-import promiseMiddleware from '../../../store/middlewares/promise-middleware';
-import thunkMiddleware from '../../../store/middlewares/thunk-middleware';
 
-const mockStore = configureMockStore([promiseMiddleware, thunkMiddleware]);
+const mockStore = configureMockStore(getDefaultMiddleware());
 
 describe('message module - actions - getDraft', () => {
   it('getDraft from store', async () => {
     const now = new Date();
     const store = mockStore({
       message: {
+        timelineFilter: '',
         messagesCollections: {
           discussion: {
             '02': {

@@ -22,7 +22,7 @@ const logger = winston.createLogger({
 
 let caliopen;
 const compiler = webpack(config);
-compiler.apply(new webpack.ProgressPlugin({ profile: true }));
+new webpack.ProgressPlugin({ profile: true }).apply(compiler)
 
 const start = () => {
   const watching = compiler.watch({

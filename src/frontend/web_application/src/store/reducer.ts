@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import notifyReducer from 'react-redux-notify';
 import { reducer as formReducer } from 'redux-form';
-import contactReducer from './modules/contact';
+import contactReducer from 'src/modules/contact/store/reducer';
 import deviceReducer from './modules/device';
-import discussionReducer from './modules/discussion.ts';
+import discussionReducer from './modules/discussion';
 import draftMessageReducer from './modules/draft-message';
 import i18nReducer from './modules/i18n';
 import importanceLevelReducer from './modules/importance-level';
@@ -16,7 +16,7 @@ import remoteIdentityReducer from './modules/remote-identity';
 import searchReducer from './modules/search';
 import settingsReducer from './modules/settings';
 import tagReducer from './modules/tag';
-import userReducer from './modules/user';
+import userReducer from 'src/modules/user/store/reducer';
 import publicKeyReducer from './modules/public-key';
 import viewReducer from './modules/view';
 import encryptionReducer from './modules/encryption';
@@ -44,5 +44,7 @@ const reducer = combineReducers({
   view: viewReducer,
   encryption: encryptionReducer,
 });
+
+export type RootState = ReturnType<typeof reducer>;
 
 export default reducer;

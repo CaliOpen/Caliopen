@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withI18n } from '@lingui/react';
 import isEqual from 'lodash.isequal';
-import { withUser } from '../../../../hoc/user';
+import { withUser } from 'src/modules/user';
 import MessageNotificationHandler from '../MessageNotificationHandler';
 import { getConfig } from '../../../device/services/storage';
 import { signout } from '../../../routing';
@@ -15,13 +15,12 @@ class NotificationProvider extends Component {
     updateNotifications: PropTypes.func.isRequired,
     setInitialized: PropTypes.func.isRequired,
     notifications: PropTypes.arrayOf(PropTypes.shape({})),
-    user: PropTypes.shape({}),
+    userState: PropTypes.shape({ user: PropTypes.shape({}) }).isRequired,
   };
 
   static defaultProps = {
     children: null,
     notifications: [],
-    user: undefined,
   };
 
   state = {
@@ -48,8 +47,8 @@ class NotificationProvider extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.user !== this.props.user) {
-      this.toggleWorker(!!this.props.user);
+    if (prevProps.userState.user !== this.props.userState.user) {
+      this.toggleWorker(!!this.props.userState.user);
     }
 
     if (prevState.isWorking === true && this.state.isWorking === false) {

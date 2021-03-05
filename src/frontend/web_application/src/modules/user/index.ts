@@ -1,6 +1,7 @@
 export * from './actions/getUser';
 export * from './hoc/withUser';
 export * from './selectors/userSelector';
+export * from './selectors/userStateSelector';
 export * from './services/usernameNormalizer';
 export * from './services/signup';
 export * from './services/isAuthenticated';

@@ -1,8 +1,8 @@
 import {
   updateContact as updateContactBase,
   requestContact,
-} from '../../../store/modules/contact';
-import { requestUser } from '../../../store/modules/user';
+} from '../store/reducer';
+import { requestUser } from 'src/modules/user/store/reducer';
 import { userSelector } from '../../user';
 
 export const updateContact = ({ contact, original }) => async (

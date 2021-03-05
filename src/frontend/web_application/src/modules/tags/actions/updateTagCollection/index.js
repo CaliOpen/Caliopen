@@ -6,7 +6,7 @@ import {
 import {
   requestContact,
   updateTags as updateContactTags,
-} from '../../../../store/modules/contact';
+} from 'src/modules/contact/store/reducer';
 import { tryCatchAxiosPromise } from '../../../../services/api-client';
 import { requestTags } from '../requestTags';
 import { createTag } from '../createTag';

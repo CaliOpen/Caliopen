@@ -18,7 +18,8 @@ requires = [
     'schematics',
     'pgpy',
     'user-agents',
-    'geoip2',
+    'maxminddb<2',
+    'geoip2==3.0.0',
 ]
 
 if (os.path.isfile('./requirements.deps')):

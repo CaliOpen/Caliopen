@@ -44,9 +44,10 @@
     min-width: 5rem;
 
     // not sure about that
-    &:not():first-of-type {
-      margin-left: map_get($co-margin_, 'xsmall');
-    }
+    // FIXME: fail to compile with sass-dart
+    // &:not():first-of-type {
+    //   margin-left: map_get($co-margin_, 'xsmall');
+    // }
   }
 
   &--w-small {

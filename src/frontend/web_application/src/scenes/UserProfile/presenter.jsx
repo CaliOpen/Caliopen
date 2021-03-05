@@ -24,11 +24,7 @@ class UserProfile extends Component {
     notifyError: PropTypes.func.isRequired,
     notifySuccess: PropTypes.func.isRequired,
     i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
-    user: PropTypes.shape({}),
-  };
-
-  static defaultProps = {
-    user: undefined,
+    userState: PropTypes.shape({ user: PropTypes.shape({}) }).isRequired,
   };
 
   state = {
@@ -187,7 +183,10 @@ class UserProfile extends Component {
   };
 
   render() {
-    const { user, i18n } = this.props;
+    const {
+      userState: { user },
+      i18n,
+    } = this.props;
 
     return (
       <div className="s-user-profile">

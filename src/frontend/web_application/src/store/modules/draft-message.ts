@@ -176,7 +176,7 @@ const initialState: State = {
   draftActivityByMessageId: {},
 };
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state = initialState, action): State {
   switch (action.type) {
     case CREATE_DRAFT:
       return {

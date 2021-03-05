@@ -7,8 +7,8 @@ import {
   createContact,
   deleteContact,
   invalidate as invalidateContacts,
-} from '../../store/modules/contact';
-import { requestUser } from '../../store/modules/user';
+} from 'src/modules/contact/store/reducer';
+import { requestUser } from 'src/modules/user/store/reducer';
 import {
   addAddressToContact,
   updateContact,

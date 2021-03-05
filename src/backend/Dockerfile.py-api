@@ -6,6 +6,8 @@
 FROM public-registry.caliopen.org/caliopen_python
 MAINTAINER Caliopen
 
+RUN apk -U upgrade
+
 RUN apk add nginx linux-headers supervisor
 RUN pip install gunicorn paste
 

@@ -1,25 +1,19 @@
 import { createSelector } from 'reselect';
-import { State } from 'src/store/modules/draft-message';
-import { createMessageCollectionStateSelector } from '../../../store/selectors/message';
-import { DraftMessageFormData } from '../models';
-
-interface FullState {
-  draftMessage: State;
-}
+import { RootState } from 'src/store/reducer';
 
 export const draftMessagesSelector = createSelector(
-  (state: FullState) => state.draftMessage,
+  (state: RootState) => state.draftMessage,
   (draftMessageState) =>
     Object.keys(draftMessageState.draftsByMessageId).map(
       (messageid) => draftMessageState.draftsByMessageId[messageid]
     )
 );
 
-export const draftMessageSelector = (state: FullState, messageId: string) =>
+export const draftMessageSelector = (state: RootState, messageId: string) =>
   state.draftMessage.draftsByMessageId[messageId];
 
 export function discussionDraftSelector(
-  state: FullState,
+  state: RootState,
   discussionId: string
 ) {
   return Object.keys(state.draftMessage.draftsByMessageId)

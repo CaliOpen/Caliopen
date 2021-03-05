@@ -17,15 +17,6 @@ import { getConfig } from './services/config';
 
 let devTools;
 
-if (CALIOPEN_ENV === 'development') {
-  devTools =
-    window.__REDUX_DEVTOOLS_EXTENSION__ &&
-    window.__REDUX_DEVTOOLS_EXTENSION__({
-      trace: true,
-      traceLimit: 25,
-    });
-}
-
 const locales = getUserLocales();
 const settings = getDefaultSettings(locales);
 const getHistory = () => {
@@ -45,7 +36,8 @@ const getHistory = () => {
   return history;
 };
 
-const store = configureStore(
+// XXX: exported for typing
+export const store = configureStore(
   {
     settings: {
       ...initialStateSettings,
@@ -55,12 +47,13 @@ const store = configureStore(
   devTools
 );
 
-PWAOfflineInstall({
-  onUpdateReady: () => {
-    // Tells to new SW to take control immediately
-    applyUpdate();
-  },
-});
+// Disabled since offline plugin is not compat with webpack 5
+// PWAOfflineInstall({
+//   onUpdateReady: () => {
+//     // Tells to new SW to take control immediately
+//     applyUpdate();
+//   },
+// });
 const rootEl = document.getElementById('root');
 ReactDOM.hydrate(
   <Router history={getHistory()}>

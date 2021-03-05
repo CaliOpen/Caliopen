@@ -4,9 +4,8 @@ import Icon from '../Icon';
 import RawButton from '../RawButton';
 import './style.scss';
 
-interface Props {
+interface Props extends React.ComponentProps<'button'> {
   className?: string;
-  children?: React.ReactChildren;
   shape?: 'plain' | 'hollow';
   icon?: React.ReactElement | string;
   display?: 'inline' | 'inline-block' | 'block' | 'expanded';
@@ -16,7 +15,7 @@ interface Props {
   noDecoration?: boolean;
   disabled?: boolean;
   center?: boolean;
-  innerRef: React.RefObject<any>;
+  innerRef: React.ForwardedRef<any>;
 }
 function Button({
   children,
@@ -89,7 +88,7 @@ function Button({
   );
 }
 
-export default React.forwardRef((props, ref) => (
-  // @ts-ignore: innerRef
+type ButtonProps = Omit<Props, 'innerRef'>;
+export default React.forwardRef<typeof Button, ButtonProps>((props, ref) => (
   <Button {...props} innerRef={ref} />
 ));
