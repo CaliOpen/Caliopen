@@ -310,9 +310,7 @@ function QuickDraftForm({
               type="submit"
               display="expanded"
               shape="plain"
-              icon={
-                isSending ? <Spinner loading display="block" /> : 'paper-plane'
-              }
+              icon={isSending ? <Spinner isLoading /> : 'paper-plane'}
               title={i18n._('draft-message.action.send', undefined, {
                 defaults: 'Send',
               })}

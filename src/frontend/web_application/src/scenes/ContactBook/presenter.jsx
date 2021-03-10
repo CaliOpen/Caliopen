@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 // unable to use @lingui/macro due to a miss-interpolated value in Plural component
 import { Trans, withI18n } from '@lingui/react';
-import ContactList from './components/ContactList';
+import { ContactList } from 'src/modules/contact';
 import {
   PageTitle,
   Spinner,
@@ -24,19 +24,13 @@ import {
   TagsForm,
   getCleanedTagCollection,
   getTagNamesInCommon,
+  DEFAULT_SORT_DIR,
 } from '../../modules/tags';
 import TagList from './components/TagList';
 import ImportContactButton from './components/ImportContactButton';
 import { withTagSearched } from './hoc/withTagSearched';
 import './style.scss';
 import './contact-book-menu.scss';
-
-export const SORT_VIEW_GIVEN_NAME = 'given_name';
-export const SORT_VIEW_FAMILY_NAME = 'family_name';
-export const SORT_VIEW_TITLE = 'title';
-export const DEFAULT_SORT_VIEW = SORT_VIEW_GIVEN_NAME;
-
-export const DEFAULT_SORT_DIR = 'ASC';
 
 function getFilteredContacts(contactList, tag) {
   if (tag === '') {
@@ -346,8 +340,6 @@ class ContactBook extends Component {
     return (
       <Fragment>
         <ContactList
-          contacts={getFilteredContacts(contacts, tagSearched)}
-          userContact={userContact}
           sortDir={this.state.sortDir}
           onSelectEntity={this.onSelectEntity}
           selectedContactsIds={this.state.selectedEntitiesIds}
