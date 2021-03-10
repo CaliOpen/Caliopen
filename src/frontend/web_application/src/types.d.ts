@@ -31,4 +31,11 @@ export type PatchPayload<E extends { [key: string]: any } = {}> = Partial<E> & {
   current_state: Partial<E>;
 };
 
+export type ResourceStatus =
+  | 'idle'
+  | 'pending'
+  | 'resolved'
+  | 'rejected'
+  | 'invalidated';
+
 //  ---------------------------------------------
