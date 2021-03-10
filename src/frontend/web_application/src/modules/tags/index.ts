@@ -1,0 +1,17 @@
+export { default as ManageEntityTags } from './components/ManageEntityTags';
+export { default as TagItem } from './components/TagItem';
+export { default as TagFieldGroup } from './components/TagFieldGroup';
+export { default as TagsForm } from './components/TagsForm';
+export { default as WithTags } from './components/WithTags';
+export { default as withTagActions } from './hoc/withTagActions';
+export { default as withTags } from './hoc/withTags';
+export * from './hooks/useTags';
+export { requestTags } from './actions/requestTags';
+export { updateTag } from './actions/updateTag';
+export * from './actions/updateTagCollection';
+export * from './actions/updateMessagesTags';
+export * from './actions/updateContactTags';
+export * from './services/getTagLabel';
+export * from './services/getTagNamesInCommon';
+export * from './services/searchTags';
+export * as store from './store';

@@ -1,7 +1,4 @@
-import {
-  updateTag as updateTagBase,
-  invalidate,
-} from '../../../../store/modules/tag';
+import { updateTag as updateTagBase, invalidate } from '../../store/reducer';
 import { tryCatchAxiosPromise } from '../../../../services/api-client';
 
 export const updateTag = ({ tag, original }) => async (dispatch) => {

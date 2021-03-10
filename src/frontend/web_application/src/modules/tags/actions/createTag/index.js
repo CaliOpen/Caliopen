@@ -1,7 +1,4 @@
-import {
-  createTag as createTagBase,
-  invalidate,
-} from '../../../../store/modules/tag';
+import { createTag as createTagBase, invalidate } from '../../store/reducer';
 import { tryCatchAxiosPromise } from '../../../../services/api-client';
 
 export const createTag = (tag) => async (dispatch) => {

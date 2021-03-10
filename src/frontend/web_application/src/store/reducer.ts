@@ -15,7 +15,7 @@ import providerReducer from './modules/provider';
 import remoteIdentityReducer from './modules/remote-identity';
 import searchReducer from './modules/search';
 import settingsReducer from './modules/settings';
-import tagReducer from './modules/tag';
+import { store as tagStore } from 'src/modules/tags';
 import { store as userStore } from 'src/modules/user';
 import publicKeyReducer from './modules/public-key';
 import viewReducer from './modules/view';
@@ -37,7 +37,7 @@ const reducer = combineReducers({
   remoteIdentity: remoteIdentityReducer,
   search: searchReducer,
   settings: settingsReducer,
-  tag: tagReducer,
+  tag: tagStore.reducer,
   user: userStore.reducer,
   form: formReducer,
   publicKey: publicKeyReducer,
