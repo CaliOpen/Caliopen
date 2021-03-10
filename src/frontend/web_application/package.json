@@ -157,6 +157,7 @@
     "eslint-import-resolver-typescript": "^2.3.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest-dom": "^3.6.5",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.22.0",
     "expose-loader": "^2.0.0",
@@ -212,7 +213,15 @@
   },
   "jest": {
     "setupFilesAfterEnv": [
-      "<rootDir>/test/unit/setup.js"
+      "<rootDir>/test/unit/setup.ts"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "jsx",
+      "ts",
+      "tsx",
+      "d.ts"
     ],
     "moduleNameMapper": {
       "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",

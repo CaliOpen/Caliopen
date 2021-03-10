@@ -13,7 +13,11 @@
     "jsx": "react", // use typescript to transpile jsx to js
     "target": "es5", // specify ECMAScript target version
     "allowJs": true, // allow a partial TypeScript and JavaScript codebase
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    // config to import fixtures in tests
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
+    // ---
   },
-  "include": ["./server", "./src/"]
+  "include": ["./server", "./src/", "./test/unit/setup.ts"]
 }

@@ -3,10 +3,11 @@
     "airbnb",
     "prettier",
     "plugin:@typescript-eslint/recommended",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
+    "plugin:jest-dom/recommended"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "jest-dom"],
   "root": true,
   "env": {
     "browser": true,
