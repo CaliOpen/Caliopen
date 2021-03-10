@@ -22,6 +22,7 @@ export { default as Modal } from './Modal';
 export { default as NavList, NavItem } from './NavList';
 export { default as PageTitle } from './PageTitle';
 export { default as PlaceholderBlock } from './PlaceholderBlock';
+export { default as PlaceholderList } from './PlaceholderList';
 export { default as RawButton } from './RawButton';
 export { default as Section } from './Section';
 export { default as SidebarLayout } from './SidebarLayout';
