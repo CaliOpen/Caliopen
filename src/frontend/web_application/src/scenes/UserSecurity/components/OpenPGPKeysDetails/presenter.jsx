@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Trans } from '@lingui/react';
+import getPGPManager from 'src/services/openpgp-manager';
 import { Icon, Button } from '../../../../components';
 import {
   getPrimaryKeysByFingerprint,
   saveKey,
   deleteKey,
 } from '../../../../services/openpgp-keychain-repository';
-import {
-  generateKey,
-  getPublicKeyFromPrivateKey,
-} from '../../../../services/encryption';
+import { getPublicKeyFromPrivateKey } from '../../../../services/encryption';
 import OpenPGPKey from '../OpenPGPKey';
 import OpenPGPKeyForm from '../OpenPGPKeyForm';
 import './style.scss';
@@ -154,7 +152,13 @@ class OpenPGPKeysDetails extends Component {
       numbits: 4096,
     };
 
-    const { privateKeyArmored, publicKeyArmored } = await generateKey(options);
+    const manager = await getPGPManager();
+
+    const { privateKeyArmored, publicKeyArmored } = await manager.generateKey(
+      user.contact.given_name,
+      this.state.generateForm.email,
+      this.state.generateForm.passphrase
+    );
     const error = await saveKey(publicKeyArmored, privateKeyArmored);
     const newState = error ? {} : { isFormLoading: false, importForm: {} };
 

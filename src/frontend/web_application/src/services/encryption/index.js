@@ -1,3 +1,5 @@
+// TODO: refactor with src/services/openpgp-manager/api
+
 import { getPlainTextFromMime, mimeEncapsulate } from '../mime';
 
 export const [ERROR_NEED_PASSPHRASE, ERROR_WRONG_PASSPHRASE] = [
@@ -59,12 +61,6 @@ export const decryptMessage = async (message, keys) => {
   const decryptedMessage = { ...message, body: getPlainTextFromMime({ body }) };
 
   return decryptedMessage;
-};
-
-export const generateKey = async (options) => {
-  const openpgp = await import(/* webpackChunkName: "openpgp" */ 'openpgp');
-
-  return openpgp.generateKey({ ...DEFAULT_KEY_OPTIONS, ...options });
 };
 
 export const getPublicKeyFromPrivateKey = async (
