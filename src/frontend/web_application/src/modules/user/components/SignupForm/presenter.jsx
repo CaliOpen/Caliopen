@@ -12,6 +12,7 @@ import formValidator, {
   ERR_UNABLE_TO_SIGNUP,
 } from './form-validator';
 
+// totally useless: settings aren't fetch until authenticated
 @withSettings()
 @withI18n()
 @withDevice()

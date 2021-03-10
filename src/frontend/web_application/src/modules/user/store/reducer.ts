@@ -1,4 +1,8 @@
-import { AxiosActionPayload, AxiosActionError } from 'src/types';
+import {
+  AxiosActionPayload,
+  AxiosActionError,
+  ResourceStatus,
+} from 'src/types';
 import calcObjectForPatch from 'src/services/api-patch';
 import { UserPatchPayload, UserPayload } from '../types';
 import {} from 'redux-axios-middleware';
@@ -45,8 +49,12 @@ type UserAction =
 
 // State ----------------------------------------
 interface UserState {
+  initialized: boolean;
+  status: ResourceStatus;
+  // @deprecated
   isFetching: boolean;
   didInvalidate: boolean;
+  // ---
   didLostAuth: boolean;
   user: undefined | UserPayload;
 }
@@ -97,6 +105,8 @@ export function updateUser(
 // }
 
 const initialState: UserState = {
+  initialized: false,
+  status: 'idle',
   isFetching: false,
   didInvalidate: false,
   didLostAuth: false,
@@ -109,23 +119,26 @@ export function reducer(
 ): UserState {
   switch (action.type) {
     case REQUEST_USER:
-      return { ...state, isFetching: true };
+      return { ...state, status: 'pending', isFetching: true };
     case REQUEST_USER_FAIL:
       return {
         ...state,
+        status: 'rejected',
         isFetching: false,
         didLostAuth: action.error.response?.status === 401,
       };
     case REQUEST_USER_SUCCESS:
       return {
         ...state,
+        initialized: true,
+        status: 'resolved',
         isFetching: false,
         didInvalidate: false,
         user: action.payload.data,
         didLostAuth: false,
       };
     case INVALIDATE_USER:
-      return { ...state, didInvalidate: true };
+      return { ...state, status: 'invalidated', didInvalidate: true };
     default:
       return state;
   }
