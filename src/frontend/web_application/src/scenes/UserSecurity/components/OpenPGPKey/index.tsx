@@ -31,6 +31,7 @@ async function generateStateFromProps({ props, getKeyFromASCII, keyStatuses }) {
       expirationTime,
       bitSize,
       userIds: publicKey.users.map((user) => user.userId.userid),
+      // FIXME keyStatuses IS UNDEF
       keyStatus: Object.keys(keyStatuses).find(
         (statusLiteral) =>
           keyStatuses[statusLiteral] === publicKey.verifyPrimaryKey()
