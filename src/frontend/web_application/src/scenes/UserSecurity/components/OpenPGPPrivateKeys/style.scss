@@ -7,8 +7,15 @@
     @include o-callout--color($co-color__info);
   }
 
+  &__switch-mode-btns {
+    display: inline-block;
+    margin-top: $co-margin;
+    line-height: $co-component__height;
+  }
+
   &__keys,
-  &__form {
+  &__form,
+  &__toggle-edit {
     margin-top: $co-margin;
   }
 }

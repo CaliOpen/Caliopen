@@ -24,16 +24,14 @@ export const updatePublicKey = (contact, publicKeyArmored) => async (
   );
 
   if (existingKey) {
-    const publicKeyObject = {
-      ...existingKey,
-      key: publicKeyArmored,
-    };
-
     return dispatch(
       updatePublicKeyBase({
         contactId: contact.contact_id,
-        publicKeyObject,
-        existingKey,
+        publicKey: {
+          ...existingKey,
+          key: publicKeyArmored,
+        },
+        original: existingKey,
       })
     );
   }
