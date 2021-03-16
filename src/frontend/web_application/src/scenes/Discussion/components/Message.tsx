@@ -107,6 +107,7 @@ function Message({
             onMessageRead={handleReadMessage}
             onMessageUnread={handleUnreadMessage}
             onReply={handleReplyMessage}
+            isLocked={isLocked}
           />
         ) : (
           <InstantMessage
