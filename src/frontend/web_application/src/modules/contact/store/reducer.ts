@@ -1,4 +1,4 @@
-import { PagerParams, AxiosActionPayload } from 'src/types';
+import { PagerParams, AxiosActionPayload, ResourceStatus } from 'src/types';
 import calcObjectForPatch from 'src/services/api-patch';
 import { ContactPayload } from '../types';
 
@@ -25,6 +25,8 @@ export const REQUEST_CONTACT_IDS_FOR_URI =
   'co/contact/REQUEST_CONTACT_IDS_FOR_URI';
 
 // Actions --------------------------------------
+// TODO: type axios middleware success/fail actions and extends it
+
 interface RequestContactsAction {
   type: typeof REQUEST_CONTACTS;
   payload: AxiosActionPayload<PagerParams>;
@@ -38,6 +40,10 @@ interface RequestContactsSuccessAction {
       total: number;
     };
   };
+}
+interface RequestContactsFailAction {
+  type: typeof REQUEST_CONTACTS_FAIL;
+  error: any;
 }
 
 interface RequestContactAction {
@@ -67,6 +73,7 @@ interface InvalidateAction {
 type ContactAction =
   | RequestContactsAction
   | RequestContactsSuccessAction
+  | RequestContactsFailAction
   | RequestContactAction
   | RequestContactSuccessAction
   | RemoveMultipleFromCollectionAction
@@ -75,8 +82,12 @@ type ContactAction =
 
 // State ----------------------------------------
 interface ContactState {
+  initialized: boolean;
+  status: ResourceStatus;
+  // @deprected: use status instead
   isFetching: boolean;
   didInvalidate: boolean;
+  // ---
   contactsById: {
     [id: string]: ContactPayload;
   };
@@ -287,6 +298,8 @@ export function hasMore(state: ContactState) {
 }
 
 const initialState: ContactState = {
+  initialized: false,
+  status: 'idle',
   isFetching: false,
   didInvalidate: false,
   contactsById: {},
@@ -294,16 +307,18 @@ const initialState: ContactState = {
   total: 0,
 };
 
-export default function reducer(
+export function reducer(
   state: ContactState = initialState,
   action: ContactAction
 ): ContactState {
   switch (action.type) {
     case REQUEST_CONTACTS:
-      return { ...state, isFetching: true };
+      return { ...state, status: 'pending', isFetching: true };
     case REQUEST_CONTACTS_SUCCESS:
       return {
         ...state,
+        initialized: true,
+        status: 'resolved',
         isFetching: false,
         didInvalidate: false,
         contacts: contactListReducer(
@@ -316,22 +331,31 @@ export default function reducer(
         ),
         total: action.payload.data.total,
       };
+    case REQUEST_CONTACTS_FAIL:
+      return {
+        ...state,
+        status: 'rejected',
+      };
     case INVALIDATE_CONTACTS:
       return { ...state, didInvalidate: true };
     case REQUEST_CONTACT:
       return {
         ...state,
+        status: 'pending',
         isFetching: true,
       };
     case REQUEST_CONTACT_SUCCESS:
       return {
         ...state,
+        status: 'resolved',
         isFetching: false,
         contactsById: contactsByIdReducer(state.contactsById, action),
       };
     case REMOVE_MULTIPLE_FROM_COLLECTION:
       return {
         ...state,
+        status: 'invalidated',
+        didInvalidate: true,
         contacts: contactListReducer(state.contacts, action),
         contactsById: contactsByIdReducer(state.contactsById, action),
         total: state.total - action.payload.contacts.length,

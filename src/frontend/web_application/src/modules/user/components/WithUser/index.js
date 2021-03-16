@@ -3,10 +3,10 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Presenter from './presenter';
 import { getUser } from '../../actions/getUser';
-import { userStateSelector } from '../../selectors/userStateSelector';
+import { stateSelector } from '../../store/selectors';
 
 const mapStateToProps = createSelector(
-  [userStateSelector],
+  [stateSelector],
   ({ user, isFetching, didInvalidate, didLostAuth }) => ({
     user,
     isFetching,

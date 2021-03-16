@@ -1,0 +1,612 @@
+[
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "c-john-01",
+    "date_insert": "2016-05-09T15:01:42.381000",
+    "identities": [],
+    "user_id": "u-john-01",
+    "title": "John",
+    "additional_name": "",
+    "organizations": [],
+    "ims": [],
+    "given_name": "John Dœuf",
+    "deleted": 0,
+    "pi": { "technic": 87, "context": 45, "comportment": 25 },
+    "tags": ["me"],
+    "infos": {
+      "birthday": "2016-05-09T15:01:42.11600"
+    },
+    "emails": [
+      {
+        "email_id": "me-email",
+        "is_primary": 0,
+        "address": "john@caliopen.local",
+        "type": "home"
+      }
+    ],
+    "family_name": "Dœuf",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "92d3727a-eefc-4537-b879-85f1c9d197bb",
+    "date_insert": "2016-05-09T15:01:42.381000",
+    "identities": [],
+    "user_id": "u-john-01",
+    "title": "Bender",
+    "additional_name": "",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Bender Bending",
+    "deleted": 0,
+    "pi": { "technic": 87, "context": 45, "comportment": 25 },
+    "tags": ["robot", "planet-express"],
+    "infos": {
+      "birthday": "2016-05-09T15:01:42.11600"
+    },
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-00000001",
+        "is_primary": 0,
+        "address": "bender@caliopen.local",
+        "type": "other"
+      }
+    ],
+    "family_name": "Rodriguez",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "0ba2e346-e4f8-4c45-9adc-eeb1d42fuie0",
+    "date_insert": "2016-05-09T15:01:43.381000",
+    "identities": [],
+    "user_id": "344489c3-fc63-4e41-b490-5f4dd317aa51",
+    "title": "Zoidberg",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Zoidberg",
+    "name_prefix": "Dr",
+    "deleted": 0,
+    "pi": { "technic": 50, "context": 45, "comportment": 25 },
+    "tags": ["robot", "INPORTANT"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-00000002",
+        "is_primary": 0,
+        "address": "zoidberg@caliopen.local",
+        "type": "other"
+      },
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-00000003",
+        "is_primary": 0,
+        "address": "zoidberg@planet-express.tld",
+        "type": "work"
+      }
+    ],
+    "family_name": "Zoidberg",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "19c3ui42-e3ba-46e7-984f-4c3e8de11c05",
+    "date_insert": "2016-05-09T15:01:40.034000",
+    "identities": [],
+    "user_id": "344489c3-tref-4e41-b490-5f4dd317aa52",
+    "title": "Leela",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Leela",
+    "deleted": 0,
+    "pi": { "technic": 87, "context": 20, "comportment": 25 },
+    "tags": ["planet-express"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-00000100",
+        "is_primary": 0,
+        "address": "leela@john.doe",
+        "type": "other"
+      }
+    ],
+    "family_name": "Turanga",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "92d3907a-eeui-4537-b229-85f1c9d197bb",
+    "date_insert": "2016-05-09T15:01:42.381000",
+    "identities": [],
+    "user_id": "344489c3-fc63-4e41-b490-5f4dd1234553",
+    "title": "Fry",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Philip J.",
+    "deleted": 0,
+    "pi": { "technic": 87, "context": 45, "comportment": 35 },
+    "tags": ["humans", "planet-express"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-00002001",
+        "is_primary": 0,
+        "address": "fry@caliopen.local",
+        "type": "other"
+      }
+    ],
+    "family_name": "Fry",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "0ba2e346-e4f8-4c45-999c-eeb1d42f07e0",
+    "date_insert": "2016-05-09T15:01:43.381000",
+    "identities": [],
+    "user_id": "344489c3-gtpu-4e41-b490-5f4dd317aa54",
+    "title": "Amy",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Amy",
+    "deleted": 0,
+    "pi": { "technic": 45, "context": 34, "comportment": 25 },
+    "tags": ["humans", "planet-express"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-00000022",
+        "is_primary": 0,
+        "address": "amy@caliopen.local",
+        "type": "other"
+      }
+    ],
+    "family_name": "Wong",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "19c3ce42-e3ba-46e7-902f-4cui8de11c05",
+    "date_insert": "2016-05-09T15:01:40.034000",
+    "identities": [],
+    "user_id": "344489c3-hyzc-4e41-b490-5f4dd317aa55",
+    "title": "Farnsworth",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Hubert J.",
+    "name_prefix": "Prof.",
+    "deleted": 0,
+    "pi": { "technic": 46, "context": 45, "comportment": 87 },
+    "tags": ["humans", "planet-express"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-00000120",
+        "is_primary": 0,
+        "address": "professor@planet.express",
+        "type": "other"
+      }
+    ],
+    "family_name": "Farnsworth",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "9ui3907a-eefc-4537-b229-85f1c9d197bb",
+    "date_insert": "2016-05-09T15:01:42.381000",
+    "identities": [],
+    "user_id": "344489c3-bjsq-4e41-b490-5f4dd317aa53",
+    "title": "Lrrr",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Lrrr",
+    "name_prefix": "Emperor",
+    "deleted": 0,
+    "pi": { "technic": 87, "context": 20, "comportment": 50 },
+    "tags": ["aliens"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-02000001",
+        "is_primary": 0,
+        "address": "lrrr@caliopen.local",
+        "type": "other"
+      }
+    ],
+    "family_name": "",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "98o3907a-eefc-6724-bv28-85f1c9d197bb",
+    "date_insert": "2016-05-09T15:01:42.381000",
+    "identities": [],
+    "user_id": "344489c3-olds-4e41-b490-5f4dd317aa53",
+    "title": "Stephen Hawking",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Stephen",
+    "name_prefix": "Dr",
+    "deleted": 0,
+    "pi": { "technic": 10, "context": 15, "comportment": 25 },
+    "tags": ["humans"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-20020001",
+        "is_primary": 0,
+        "address": "stephen@caliopen.local",
+        "type": "other"
+      }
+    ],
+    "family_name": "Hawking",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "0327707a-eefc-6724-bv28-85f1c9d197bb",
+    "date_insert": "2016-05-09T15:01:42.381000",
+    "identities": [],
+    "user_id": "355489c3-olds-4e41-b490-5f4dd317aa53",
+    "title": "Kif",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Kif",
+    "deleted": 0,
+    "pi": { "technic": 4, "context": 24, "comportment": 25 },
+    "tags": ["aliens", "planet-express", "amphibians"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "0327707a-4398-4bd4-9bd5-20020001",
+        "is_primary": 0,
+        "address": "kroker@caliopen.local",
+        "type": "other"
+      }
+    ],
+    "family_name": "Kroker",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "5488707a-eefc-6724-bv28-85f1c9d197bb",
+    "date_insert": "2016-05-09T15:01:42.381000",
+    "identities": [],
+    "user_id": "356489c3-olds-4e41-b490-5f4dd317aa53",
+    "title": "Zapp Brannigan",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Zapp",
+    "deleted": 0,
+    "pi": { "technic": 41, "context": 15, "comportment": 25 },
+    "tags": ["humans"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "5488707a-4398-4bd4-9bd5-20020001",
+        "is_primary": 0,
+        "address": "zapp@caliopen.local",
+        "type": "other"
+      }
+    ],
+    "family_name": "Brannigan",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "19c3ce42-e3ba-46e7-902f-4cui8d",
+    "date_insert": "2016-05-09T15:01:40.034000",
+    "identities": [],
+    "user_id": "340089c3-hyzc-4e41-b490-5f4dd317a",
+    "title": "Elzar",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Elzar",
+    "name_prefix": "Chef",
+    "deleted": 0,
+    "pi": { "technic": 48, "context": 45, "comportment": 25 },
+    "tags": ["aliens"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-00000120",
+        "is_primary": 0,
+        "address": "francine@doop",
+        "type": "other"
+      }
+    ],
+    "family_name": "",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "a3ce42-e3ba-46e7-902f-4cfdsfsui8d",
+    "date_insert": "d016-05-09T15:01:40.034000",
+    "identities": [],
+    "user_id": "40489c3-hyzc-4e41-b490-5f4dd317a",
+    "title": "Scruffy",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Scruffy",
+    "deleted": 0,
+    "pi": { "technic": 87, "context": 45, "comportment": 35 },
+    "tags": ["humans", "planet-express"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-00000120",
+        "is_primary": 0,
+        "address": "algore@caliopen.local",
+        "type": "other"
+      }
+    ],
+    "family_name": "Scruffington",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "a3ce42-e3ba-46e7-dfsd902f-4cui8d",
+    "date_insert": "d016-05-09T15:01:40.034000",
+    "identities": [],
+    "user_id": "04489c3-hyzc-4e41-b490-5f4dd317a",
+    "title": "Hermès",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Hermès",
+    "deleted": 0,
+    "pi": { "technic": 87, "context": 70, "comportment": 95 },
+    "tags": ["humans", "planet-express"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-00000120",
+        "is_primary": 0,
+        "address": "Conrad@caliopen.local",
+        "type": "other"
+      }
+    ],
+    "family_name": "Conrad",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "92d3727a-eefc-4537-b879-85f1c7bb",
+    "date_insert": "2016-05-09T15:01:42.381000",
+    "identities": [],
+    "user_id": "u-john-01",
+    "title": "Flexo",
+    "additional_name": "",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Flexo",
+    "deleted": 0,
+    "pi": { "technic": 48, "context": 56, "comportment": 32 },
+    "tags": ["robot"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-00900001",
+        "is_primary": 0,
+        "address": "flexo@caliopen.local",
+        "type": "other"
+      }
+    ],
+    "family_name": "",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "0ba2e346-e4f8-4c45-9adc-eeb1die0",
+    "date_insert": "2016-05-09T15:01:43.381000",
+    "identities": [],
+    "user_id": "344489c3-fc63-4e41-b490-5f4dd317aa51",
+    "title": "Calculon",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Antonio",
+    "name_prefix": "",
+    "deleted": 0,
+    "pi": { "technic": 10, "context": 15, "comportment": 12 },
+    "tags": ["robot"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-90000002",
+        "is_primary": 0,
+        "address": "calc@caliopen.local",
+        "type": "other"
+      }
+    ],
+    "family_name": "Calculon",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "19c3ui42-e3ba-46e7-984f-4c3e8c05",
+    "date_insert": "2016-05-09T15:01:40.034000",
+    "identities": [],
+    "user_id": "344489c3-tref-4e41-b490-5f4dd317aa52",
+    "title": "Mom",
+    "organizations": [],
+    "ims": [],
+    "given_name": "",
+    "deleted": 0,
+    "pi": { "technic": 56, "context": 35, "comportment": 7 },
+    "tags": ["humans"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-00900100",
+        "is_primary": 0,
+        "address": "mom@john.doe",
+        "type": "other"
+      }
+    ],
+    "family_name": "Mom",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "92d3907a-eeui-4537-b229-85f197bb",
+    "date_insert": "2016-05-09T15:01:42.381000",
+    "identities": [],
+    "user_id": "344489c3-fc63-4e41-b490-5f4dd1234553",
+    "title": "Morbo the Annihilator",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Morbo",
+    "deleted": 0,
+    "pi": { "technic": 41, "context": 45, "comportment": 7 },
+    "tags": ["aliens"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-00002901",
+        "is_primary": 0,
+        "address": "morbo@caliopen.local",
+        "type": "other"
+      }
+    ],
+    "family_name": "",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "0ba2e346-e4f8-4c45-999c-eeb107e0",
+    "date_insert": "2016-05-09T15:01:43.381000",
+    "identities": [],
+    "user_id": "344489c3-gtpu-4e41-b490-5f4dd317aa54",
+    "title": "Panucci",
+    "organizations": [],
+    "ims": [],
+    "given_name": "",
+    "name_prefix": "Mr.",
+    "deleted": 0,
+    "pi": { "technic": 20, "context": 45, "comportment": 75 },
+    "tags": ["humans"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-00900022",
+        "is_primary": 0,
+        "address": "Panucci@caliopen.local",
+        "type": "other"
+      }
+    ],
+    "family_name": "Panucci",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "19c3ce42-e3ba-46e7-902f-4cuie11c05",
+    "date_insert": "2016-05-09T15:01:40.034000",
+    "identities": [],
+    "user_id": "344489c3-hyzc-4e41-b490-5f4dd317aa55",
+    "title": "Nibbler",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Nibbler",
+    "name_prefix": "Lord",
+    "deleted": 0,
+    "pi": { "technic": 65, "context": 45, "comportment": 25 },
+    "tags": ["aliens", "planet-express"],
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-0009120",
+        "is_primary": 0,
+        "address": "nib@planet.express",
+        "type": "other"
+      }
+    ],
+    "family_name": "",
+    "avatar": "avatar.png",
+    "public_keys": []
+  },
+  {
+    "addresses": [],
+    "privacy_features": {},
+    "phones": [],
+    "contact_id": "9ui3907a-eefc-4537-b229-f1c9d19b",
+    "date_insert": "2016-05-09T15:01:42.381000",
+    "identities": [],
+    "user_id": "344489c3-bjsq-4e41-b490-5f4dd317aa53",
+    "title": "Hypnotoad",
+    "organizations": [],
+    "ims": [],
+    "given_name": "Hypnotoad",
+    "name_prefix": "",
+    "tags": ["amphibians", "aliens"],
+    "deleted": 0,
+    "pi": { "technic": 87, "context": 75, "comportment": 25 },
+    "infos": {},
+    "emails": [
+      {
+        "email_id": "93f03145-4398-4bd4-9bd5-02000901",
+        "is_primary": 0,
+        "address": "Hypnotoad@caliopen.local",
+        "type": "other"
+      }
+    ],
+    "family_name": "",
+    "avatar": "avatar.png",
+    "public_keys": []
+  }
+]

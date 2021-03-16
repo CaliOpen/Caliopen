@@ -1,25 +1,25 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { contactStateSelector } from 'src/store/selectors/contact';
+import { shouldFetchSelector, stateSelector } from '../store/selectors';
 import { requestContacts } from '../store/reducer';
 import { contactsSelector } from '../selectors/contactSelector';
 
 export function useContacts() {
   const dispatch = useDispatch();
 
-  const state = useSelector(contactStateSelector);
-  const { isFetching, contacts: contactIds, didInvalidate } = state;
+  const { initialized, status } = useSelector(stateSelector);
+  const shouldFetch = useSelector(shouldFetchSelector);
   const contacts = useSelector(contactsSelector);
 
   React.useEffect(() => {
-    if (!isFetching && (contactIds.length === 0 || didInvalidate)) {
+    if (shouldFetch) {
       dispatch(requestContacts());
     }
-  }, []);
+  }, [shouldFetch]);
 
   return {
-    isFetching,
-    didInvalidate,
+    initialized,
+    status,
     contacts,
   };
 }

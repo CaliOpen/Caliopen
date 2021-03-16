@@ -2,11 +2,10 @@ import { createSelector } from 'reselect';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Presenter from './presenter';
-import { contactStateSelector } from '../../../../store/selectors/contact';
-import { requestContacts } from 'src/modules/contact/store/reducer';
+import { stateSelector, requestContacts } from '../../store';
 
 const mapStateToProps = createSelector(
-  [contactStateSelector],
+  [stateSelector],
   ({ contacts, contactsById, isFetching, didInvalidate }) => ({
     contacts: contacts.map((contactId) => contactsById[contactId]),
     isFetching,

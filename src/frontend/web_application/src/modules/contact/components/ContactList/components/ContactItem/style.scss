@@ -1,4 +1,4 @@
-@import '../../../../styles/vendor/bootstrap_foundation-sites';
+@import 'src/styles/vendor/bootstrap_foundation-sites';
 
 .m-contact-item {
   @include flex-grid-row($size: expanded);

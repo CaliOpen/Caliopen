@@ -1,0 +1,44 @@
+[
+  {
+    "name": "INBOX",
+    "type": "system"
+  },
+  {
+    "name": "IMPORTANT",
+    "type": "system"
+  },
+  {
+    "name": "SPAM",
+    "type": "system"
+  },
+  {
+    "name": "foobar",
+    "label": "Foobar",
+    "type": "user"
+  },
+  {
+    "name": "planet-express",
+    "label": "Planet Express",
+    "type": "user"
+  },
+  {
+    "name": "humans",
+    "label": "Humans",
+    "type": "user"
+  },
+  {
+    "name": "aliens",
+    "label": "Aliens",
+    "type": "user"
+  },
+  {
+    "name": "amphibians",
+    "label": "Amphibians",
+    "type": "user"
+  },
+  {
+    "name": "robot",
+    "label": "Robot",
+    "type": "user"
+  }
+]

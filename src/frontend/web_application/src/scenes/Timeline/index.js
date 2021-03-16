@@ -11,12 +11,12 @@ import { getUser } from '../../modules/user/actions/getUser';
 import { withContacts } from '../../modules/contact';
 
 import Presenter from './presenter';
-import { userStateSelector } from 'src/modules/user';
+import { store } from 'src/modules/user';
 
 const discussionStateSelector = (state) => state.discussion;
 
 const mapStateToProps = createSelector(
-  [discussionStateSelector, userStateSelector],
+  [discussionStateSelector, store.stateSelector],
   (discussionState, userState) => ({
     discussions: discussionState.discussions
       .map((id) => discussionState.discussionsById[id])

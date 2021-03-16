@@ -2,12 +2,13 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { requestTags } from '../../actions/requestTags';
-import { tagSelector } from '../../../../store/selectors/tag';
+import { stateSelector } from '../../store/selectors';
 
 import Presenter from './presenter';
 
+// FIXME
 const mapStateToProps = createSelector(
-  [tagSelector],
+  [stateSelector],
   ({ tags, isFetching, isInvalidated }) => ({
     tags,
     isFetching,

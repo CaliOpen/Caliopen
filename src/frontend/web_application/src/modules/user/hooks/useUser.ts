@@ -1,36 +1,20 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { requestUser } from '../store/reducer';
-import { userStateSelector } from '../selectors/userStateSelector';
+import { shouldFetchSelector, stateSelector } from '../store/selectors';
 import { isAuthenticated } from '../services/isAuthenticated';
 
-type User = any;
-
-const shouldFetchSelector = (state) => {
-  const { user, isFetching, didInvalidate } = userStateSelector(state);
-
-  return (!user || didInvalidate) && !isFetching;
-};
-
-const getUser = () => async (dispatch, getState) => {
-  if (shouldFetchSelector(getState())) {
-    await dispatch(requestUser());
-  }
-
-  return userStateSelector(getState()).user;
-};
-
-export function useUser(): void | User {
+export function useUser() {
   const dispatch = useDispatch();
-  const { user } = useSelector(userStateSelector);
+  const { user, didLostAuth, status, initialized } = useSelector(stateSelector);
   const shouldFetch = useSelector(shouldFetchSelector);
   const authenticated = isAuthenticated();
 
   React.useEffect(() => {
     if (shouldFetch && authenticated) {
-      dispatch(getUser());
+      dispatch(requestUser());
     }
   }, [shouldFetch, dispatch, authenticated]);
 
-  return user;
+  return { initialized, status, didLostAuth, user };
 }
