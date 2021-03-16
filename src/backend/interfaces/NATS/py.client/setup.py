@@ -16,7 +16,7 @@ with open(os.path.join(*([here] + name.split('.') + ['__init__.py']))) as v_file
     version = re.compile(r".*__version__ = '(.*?)'", re.S).match(v_file.read()).group(1)
 
 requires = [
-    'nats-client==0.5.6',
+    'nats-client<0.8',
     'tornado==4.2',]
 
 if (os.path.isfile('./requirements.deps')):
