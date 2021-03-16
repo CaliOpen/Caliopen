@@ -1,202 +1,177 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Trans, withI18n } from '@lingui/react';
+import * as React from 'react';
+import { Trans, withI18n, withI18nProps } from '@lingui/react';
 import Moment from 'react-moment';
-import { Button, Spinner, Icon, Link } from '../../../../components';
-import getPGPManager from '../../../../services/openpgp-manager';
-import { strToBase64 } from '../../../../services/encode-utils';
-
+import classnames from 'classnames';
+import { useSelector } from 'react-redux';
+import { key, enums } from 'openpgp'; // XXX: is this included in the main bundle?
+import { Button, Spinner, Icon, Link } from 'src/components';
+import getPGPManager from 'src/services/openpgp-manager';
+import { strToBase64 } from 'src/services/encode-utils';
+import { RootState } from 'src/store/reducer';
 import './style.scss';
 
-async function generateStateFromProps({ props, getKeyFromASCII, keyStatuses }) {
-  const publicKey = await getKeyFromASCII(props.publicKeyArmored);
-  const {
-    primaryKey: { created, algorithm },
-  } = publicKey;
+interface KeyDetails {
+  fingerprint: string;
+  created: Date;
+  userId: string;
+  expirationTime: string;
+  algorithm: string;
+  bitSize: number;
+  userIds: string[];
+  keyStatus: enums.keyStatus;
+}
+async function getKeyDetails(publicKey: key.Key): Promise<KeyDetails> {
   const {
     user: {
       userId: { userid: userId },
     },
   } = await publicKey.getPrimaryUser();
+
   const { expirationTime } = await publicKey.getExpirationTime();
-  const { bits: bitSize } = await publicKey.primaryKey.getAlgorithmInfo();
+  const {
+    // @ts-ignore: the given key is deduced from the documentation
+    bits: bitSize,
+    // @ts-ignore
+    algorithm,
+  } = await publicKey.primaryKey.getAlgorithmInfo();
+  const keyStatus = await publicKey.verifyPrimaryKey();
 
   return {
-    isLoading: false,
-    openpgpKey: {
-      fingerprint: publicKey.getFingerprint(),
-      created,
-      algorithm,
-      userId,
-      expirationTime,
-      bitSize,
-      userIds: publicKey.users.map((user) => user.userId.userid),
-      // FIXME keyStatuses IS UNDEF
-      keyStatus: Object.keys(keyStatuses).find(
-        (statusLiteral) =>
-          keyStatuses[statusLiteral] === publicKey.verifyPrimaryKey()
-      ),
-    },
+    fingerprint: publicKey.getFingerprint(),
+    created: publicKey.primaryKey.getCreationTime(),
+    userId,
+    expirationTime,
+    algorithm,
+    bitSize,
+    userIds: publicKey.getUserIds(),
+    keyStatus,
   };
 }
 
-@withI18n()
-class OpenPGPKey extends Component {
-  static propTypes = {
-    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
-    locale: PropTypes.string,
-    children: PropTypes.node,
-    privateKeyArmored: PropTypes.string,
-    editMode: PropTypes.bool,
-    onDeleteKey: PropTypes.func,
+interface Props extends withI18nProps {
+  className: string;
+  publicKeyArmored: string;
+  privateKeyArmored: string;
+  editMode: boolean;
+  onDeleteKey: (fingerprint: string) => void;
+}
+function OpenPGPKey({
+  className,
+  publicKeyArmored,
+  privateKeyArmored,
+  onDeleteKey,
+  i18n,
+  editMode = false,
+}: Props) {
+  const [keyDetails, setKeyDetails] = React.useState<KeyDetails>();
+  const [loading, setIsLoading] = React.useState<boolean>(false);
+  const locale = useSelector<RootState, string>((state) => state.i18n.locale);
+
+  React.useEffect(() => {
+    setIsLoading(true);
+    getPGPManager().then(async ({ getKeyFromASCII }) => {
+      const pubKey = await getKeyFromASCII(publicKeyArmored);
+
+      pubKey && setKeyDetails(await getKeyDetails(pubKey));
+      setIsLoading(false);
+    });
+  }, [publicKeyArmored]);
+
+  const privateKeyDataUrl = `data:application/x-pgp;base64,${strToBase64(
+    privateKeyArmored
+  )}`;
+
+  const handleDeleteKey = () => {
+    if (!keyDetails) {
+      return;
+    }
+
+    onDeleteKey(keyDetails.fingerprint);
   };
 
-  static defaultProps = {
-    locale: undefined,
-    children: undefined,
-    privateKeyArmored: undefined,
-    editMode: false,
-    onDeleteKey: () => {
-      // noop
-    },
+  const openpgpStatuses = {
+    invalid: i18n._('openpgp.status.invalid', undefined, {
+      defaults: 'Invalid',
+    }),
+    expired: i18n._('openpgp.status.expired', undefined, {
+      defaults: 'Expired',
+    }),
+    revoked: i18n._('openpgp.status.revoked', undefined, {
+      defaults: 'Revoked',
+    }),
+    valid: i18n._('openpgp.status.valid', undefined, { defaults: 'Valid' }),
+    no_self_cert: i18n._('openpgp.status.no_self_cert', undefined, {
+      defaults: 'No self cert',
+    }),
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      showDetails: false,
-      isLoading: true,
-      openpgpKey: {},
-    };
+  return (
+    <div className={classnames(['m-openpgp-key', className])}>
+      <div className="m-openpgp-key__main">
+        <Spinner isLoading={loading} />
+        {keyDetails && (
+          <>
+            <div className="m-openpgp-key__icon">
+              {/* @ts-ignore */}
+              <Icon type="key" />
+            </div>
+            <div className="m-openpgp-key__fingerprint">
+              {keyDetails.fingerprint.toUpperCase()}
+            </div>
 
-    this.toggleDetails = this.toggleDetails.bind(this);
-    this.handleDeleteKey = this.handleDeleteKey.bind(this);
-  }
-
-  componentDidMount() {
-    getPGPManager().then(
-      async ({
-        getKeyFromASCII,
-        module: {
-          enums: { keyStatus: keyStatuses },
-        },
-      }) =>
-        this.setState(
-          await generateStateFromProps({
-            props: this.props,
-            getKeyFromASCII,
-            keyStatuses,
-          })
-        )
-    );
-  }
-
-  UNSAFE_componentWillReceiveProps(newProps) {
-    getPGPManager().then(
-      async ({
-        getKeyFromASCII,
-        module: {
-          enums: { keyStatus: keyStatuses },
-        },
-      }) =>
-        this.setState(
-          await generateStateFromProps({
-            props: newProps,
-            getKeyFromASCII,
-            keyStatuses,
-          })
-        )
-    );
-  }
-
-  getPrivateKeyDataUrl = () =>
-    `data:application/x-pgp;base64,${strToBase64(
-      this.props.privateKeyArmored
-    )}`;
-
-  handleDeleteKey() {
-    this.props.onDeleteKey({ fingerprint: this.state.openpgpKey.fingerprint });
-  }
-
-  toggleDetails() {
-    this.setState((prevState) => ({
-      showDetails: !prevState.showDetails,
-    }));
-  }
-
-  render() {
-    const { i18n, locale, children, editMode } = this.props;
-    const openpgpStatuses = {
-      invalid: i18n._('openpgp.status.invalid', null, { defaults: 'Invalid' }),
-      expired: i18n._('openpgp.status.expired', null, { defaults: 'Expired' }),
-      revoked: i18n._('openpgp.status.revoked', null, { defaults: 'Revoked' }),
-      valid: i18n._('openpgp.status.valid', null, { defaults: 'Valid' }),
-      no_self_cert: i18n._('openpgp.status.no_self_cert', null, {
-        defaults: 'No self cert',
-      }),
-    };
-
-    return (
-      <div className="m-openpgp-key">
-        <div className="m-openpgp-key__main">
-          <Spinner isLoading={this.state.isLoading} />
-          <div className="m-openpgp-key__icon">{children}</div>
-          <div className="m-openpgp-key__fingerprint">
-            {this.state.openpgpKey.fingerprint &&
-              this.state.openpgpKey.fingerprint.toUpperCase()}
-          </div>
-
-          <div className="m-openpgp-key__actions">
-            <Link
-              button
-              plain
-              href={this.getPrivateKeyDataUrl()}
-              download="private-key.asc"
-            >
-              <Trans id="openpgp-key.download">
-                Save and keep in a safe place.
-              </Trans>
-              {' '}
-              <Icon type="download" />
-            </Link>
-            {editMode && (
-              <Button color="alert" onClick={this.handleDeleteKey}>
-                <Icon type="remove" />
-                <span className="show-for-sr">
-                  <Trans id="openpgp.action.remove-key">Remove</Trans>
-                </span>
-              </Button>
-            )}
-          </div>
-        </div>
-
-        {!this.state.showDetails && (
-          <div className="m-openpgp-key__summary">
-            <span>{this.state.openpgpKey.userId}</span>
-            {' '}
-            {this.state.openpgpKey.created && (
-              <Moment format="ll" locale={locale}>
-                {this.state.openpgpKey.created}
-              </Moment>
-            )}
-            {' '}
-            {this.state.openpgpKey.expirationTime &&
-              this.state.openpgpKey.expirationTime.length && (
-                <span>
-                  {'/ '}
-                  <Moment format="LL" locale={locale}>
-                    {this.state.openpgpKey.expirationTime}
-                  </Moment>
-                </span>
+            <div className="m-openpgp-key__actions">
+              <Link
+                button
+                plain
+                href={privateKeyDataUrl}
+                download="private-key.asc"
+              >
+                <Trans id="openpgp-key.download">
+                  Save and keep in a safe place.
+                </Trans>
+                {' '}
+                {/* @ts-ignore */}
+                <Icon type="download" />
+              </Link>
+              {editMode && (
+                // @ts-ignore
+                <Button color="alert" onClick={handleDeleteKey}>
+                  {/* @ts-ignore */}
+                  <Icon type="remove" />
+                  <span className="show-for-sr">
+                    <Trans id="openpgp.action.remove-key">Remove</Trans>
+                  </span>
+                </Button>
               )}
-            {' '}
-            {this.state.openpgpKey.keyStatus &&
-              openpgpStatuses[this.state.openpgpKey.keyStatus]}
-          </div>
+            </div>
+          </>
         )}
       </div>
-    );
-  }
+
+      {keyDetails && (
+        <div className="m-openpgp-key__summary">
+          <span>{keyDetails?.userIds}</span>
+          {' '}
+          {keyDetails?.created && (
+            <Moment format="ll" locale={locale}>
+              {keyDetails.created}
+            </Moment>
+          )}
+          {' '}
+          {keyDetails.expirationTime && keyDetails.expirationTime.length && (
+            <span>
+              {'/ '}
+              <Moment format="LL" locale={locale}>
+                {keyDetails.expirationTime}
+              </Moment>
+            </span>
+          )}
+          {' '}
+          {keyDetails.keyStatus && openpgpStatuses[keyDetails.keyStatus]}
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default OpenPGPKey;
+export default withI18n()(OpenPGPKey);

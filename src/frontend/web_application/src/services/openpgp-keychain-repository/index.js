@@ -72,7 +72,11 @@ export async function saveKey(publicKeyArmored, privateKeyArmored) {
 
   const error = await keyring.store();
 
-  return error;
+  if (error) {
+    throw new Error(error);
+  }
+
+  return;
 }
 
 export async function deleteKey(fingerprint) {

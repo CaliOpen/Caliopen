@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import getClient from '../../services/api-client';
-import OpenPGPKeysDetails from './components/OpenPGPKeysDetails';
+import OpenPGPPrivateKeys from './components/OpenPGPPrivateKeys';
 import { PageTitle, Section } from '../../components';
 import PasswordDetails from './components/PasswordDetails';
 import LoginDetails from './components/LoginDetails';
@@ -113,7 +113,7 @@ class UserSecurity extends Component {
             defaults: 'PGP private keys',
           })}
         >
-          <OpenPGPKeysDetails user={user} />
+          <OpenPGPPrivateKeys />
         </Section>
       </div>
     );

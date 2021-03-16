@@ -50,8 +50,20 @@ export function createPublicKey({ contactId, publicKey }) {
 }
 
 export function updatePublicKey({ contactId, publicKey, original }) {
-  const { publicKeyId, label } = publicKey;
-  const data = { label, current_state: original };
+  const { key_id, label } = publicKey;
+
+  if (label === original.label) {
+    // Nothing to update
+    return Promise.resolve();
+  }
+
+  // XXX: anything else except label to update?
+  const data = {
+    label,
+    current_state: {
+      label: original.label,
+    },
+  };
 
   return {
     type: UPDATE_PUBLIC_KEY,
@@ -59,7 +71,7 @@ export function updatePublicKey({ contactId, publicKey, original }) {
       contactId,
       request: {
         method: 'patch',
-        url: `/api/v2/contacts/${contactId}/publickeys/${publicKeyId}`,
+        url: `/api/v2/contacts/${contactId}/publickeys/${key_id}`,
         data,
       },
     },

@@ -1,0 +1,11 @@
+@import '../../../styles/common';
+
+.m-account-openpgp-form {
+  &__container {
+    margin-top: $co-margin;
+  }
+
+  &__field-group {
+    margin-bottom: $co-margin;
+  }
+}

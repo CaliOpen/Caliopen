@@ -47,6 +47,7 @@ class InputFileGroup extends Component {
       .then((validatedFiles) => {
         this.setState({ files: validatedFiles });
 
+        // XXX: input file should always provide array: on unset or on set
         if (!multiple) {
           return onInputChange(validatedFiles[0]);
         }
@@ -116,8 +117,8 @@ class InputFileGroup extends Component {
         {descr && <p>{descr}</p>}
 
         {this.state.files.length > 0 ? (
-          this.state.files.map((file) => (
-            <File file={file} onRemove={this.resetForm} />
+          this.state.files.map((file, i) => (
+            <File key={i} file={file} onRemove={this.resetForm} />
           ))
         ) : (
           <InputFile

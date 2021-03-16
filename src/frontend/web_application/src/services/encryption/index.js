@@ -1,6 +1,7 @@
 // TODO: refactor with src/services/openpgp-manager/api
 
 import { getPlainTextFromMime, mimeEncapsulate } from '../mime';
+import { ERROR_UNABLE_READ_PRIVATE_KEY } from '../openpgp-manager';
 
 export const [ERROR_NEED_PASSPHRASE, ERROR_WRONG_PASSPHRASE] = [
   'error_need_passphrase',
@@ -71,6 +72,10 @@ export const getPublicKeyFromPrivateKey = async (
   const {
     keys: [privateKey],
   } = await openpgp.key.readArmored(privateKeyArmored);
+
+  if (!privateKey) {
+    throw new Error(ERROR_UNABLE_READ_PRIVATE_KEY);
+  }
 
   if (!privateKey.isDecrypted()) {
     if (!passphrase) {
