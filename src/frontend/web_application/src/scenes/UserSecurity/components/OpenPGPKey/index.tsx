@@ -150,7 +150,7 @@ function OpenPGPKey({
 
       {keyDetails && (
         <div className="m-openpgp-key__summary">
-          <span>{keyDetails?.userIds}</span>
+          <span>{keyDetails?.userIds.join(', ')}</span>
           {' '}
           {keyDetails?.created && (
             <Moment format="ll" locale={locale}>
