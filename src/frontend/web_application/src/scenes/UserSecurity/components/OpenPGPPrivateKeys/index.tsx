@@ -19,8 +19,16 @@ const FORM_TYPE_GENERATE = 'generate';
 const FORM_TYPE_IMPORT = 'import';
 type FormType = typeof FORM_TYPE_GENERATE | typeof FORM_TYPE_IMPORT;
 
+// cf. getPrimaryKeysByFingerprint
+type KeysByFingerPrint = {
+  [fingerprint: string]: {
+    publicKeyArmored?: string;
+    privateKeyArmored?: string;
+  };
+};
+
 function OpenPGPPrivateKeys() {
-  const [keys, setKeys] = React.useState();
+  const [keys, setKeys] = React.useState<KeysByFingerPrint>();
   const [editMode, setEditMode] = React.useState(false);
   const [formType, setFormType] = React.useState<FormType>(FORM_TYPE_GENERATE);
 
@@ -61,8 +69,8 @@ function OpenPGPPrivateKeys() {
         <OpenPGPKey
           key={fingerprint}
           className="m-account-openpgp__keys"
-          publicKeyArmored={key.publicKeyArmored}
-          privateKeyArmored={key.privateKeyArmored}
+          publicKeyArmored={key.publicKeyArmored || ''}
+          privateKeyArmored={key.privateKeyArmored || ''}
           editMode={editMode}
           onDeleteKey={handleDeleteKey}
         />

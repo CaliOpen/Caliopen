@@ -12,8 +12,7 @@
     "organizations": [],
     "ims": [],
     "given_name": "John Dœuf",
-    "deleted": 0,
-    "pi": { "technic": 87, "context": 45, "comportment": 25 },
+    "pi": { "technic": 87, "context": 45, "comportment": 25, "version": 0 },
     "tags": ["me"],
     "infos": {
       "birthday": "2016-05-09T15:01:42.11600"
@@ -43,8 +42,7 @@
     "organizations": [],
     "ims": [],
     "given_name": "Bender Bending",
-    "deleted": 0,
-    "pi": { "technic": 87, "context": 45, "comportment": 25 },
+    "pi": { "technic": 87, "context": 45, "comportment": 25, "version": 0 },
     "tags": ["robot", "planet-express"],
     "infos": {
       "birthday": "2016-05-09T15:01:42.11600"
@@ -74,8 +72,7 @@
     "ims": [],
     "given_name": "Zoidberg",
     "name_prefix": "Dr",
-    "deleted": 0,
-    "pi": { "technic": 50, "context": 45, "comportment": 25 },
+    "pi": { "technic": 50, "context": 45, "comportment": 25, "version": 0 },
     "tags": ["robot", "INPORTANT"],
     "infos": {},
     "emails": [
@@ -108,8 +105,7 @@
     "organizations": [],
     "ims": [],
     "given_name": "Leela",
-    "deleted": 0,
-    "pi": { "technic": 87, "context": 20, "comportment": 25 },
+    "pi": { "technic": 87, "context": 20, "comportment": 25, "version": 0 },
     "tags": ["planet-express"],
     "infos": {},
     "emails": [
@@ -136,8 +132,7 @@
     "organizations": [],
     "ims": [],
     "given_name": "Philip J.",
-    "deleted": 0,
-    "pi": { "technic": 87, "context": 45, "comportment": 35 },
+    "pi": { "technic": 87, "context": 45, "comportment": 35, "version": 0 },
     "tags": ["humans", "planet-express"],
     "infos": {},
     "emails": [
@@ -164,8 +159,7 @@
     "organizations": [],
     "ims": [],
     "given_name": "Amy",
-    "deleted": 0,
-    "pi": { "technic": 45, "context": 34, "comportment": 25 },
+    "pi": { "technic": 45, "context": 34, "comportment": 25, "version": 0 },
     "tags": ["humans", "planet-express"],
     "infos": {},
     "emails": [
@@ -193,8 +187,7 @@
     "ims": [],
     "given_name": "Hubert J.",
     "name_prefix": "Prof.",
-    "deleted": 0,
-    "pi": { "technic": 46, "context": 45, "comportment": 87 },
+    "pi": { "technic": 46, "context": 45, "comportment": 87, "version": 0 },
     "tags": ["humans", "planet-express"],
     "infos": {},
     "emails": [
@@ -222,8 +215,7 @@
     "ims": [],
     "given_name": "Lrrr",
     "name_prefix": "Emperor",
-    "deleted": 0,
-    "pi": { "technic": 87, "context": 20, "comportment": 50 },
+    "pi": { "technic": 87, "context": 20, "comportment": 50, "version": 0 },
     "tags": ["aliens"],
     "infos": {},
     "emails": [
@@ -251,8 +243,7 @@
     "ims": [],
     "given_name": "Stephen",
     "name_prefix": "Dr",
-    "deleted": 0,
-    "pi": { "technic": 10, "context": 15, "comportment": 25 },
+    "pi": { "technic": 10, "context": 15, "comportment": 25, "version": 0 },
     "tags": ["humans"],
     "infos": {},
     "emails": [
@@ -279,8 +270,7 @@
     "organizations": [],
     "ims": [],
     "given_name": "Kif",
-    "deleted": 0,
-    "pi": { "technic": 4, "context": 24, "comportment": 25 },
+    "pi": { "technic": 4, "context": 24, "comportment": 25, "version": 0 },
     "tags": ["aliens", "planet-express", "amphibians"],
     "infos": {},
     "emails": [
@@ -307,8 +297,7 @@
     "organizations": [],
     "ims": [],
     "given_name": "Zapp",
-    "deleted": 0,
-    "pi": { "technic": 41, "context": 15, "comportment": 25 },
+    "pi": { "technic": 41, "context": 15, "comportment": 25, "version": 0 },
     "tags": ["humans"],
     "infos": {},
     "emails": [
@@ -336,8 +325,7 @@
     "ims": [],
     "given_name": "Elzar",
     "name_prefix": "Chef",
-    "deleted": 0,
-    "pi": { "technic": 48, "context": 45, "comportment": 25 },
+    "pi": { "technic": 48, "context": 45, "comportment": 25, "version": 0 },
     "tags": ["aliens"],
     "infos": {},
     "emails": [
@@ -364,8 +352,7 @@
     "organizations": [],
     "ims": [],
     "given_name": "Scruffy",
-    "deleted": 0,
-    "pi": { "technic": 87, "context": 45, "comportment": 35 },
+    "pi": { "technic": 87, "context": 45, "comportment": 35, "version": 0 },
     "tags": ["humans", "planet-express"],
     "infos": {},
     "emails": [
@@ -392,8 +379,7 @@
     "organizations": [],
     "ims": [],
     "given_name": "Hermès",
-    "deleted": 0,
-    "pi": { "technic": 87, "context": 70, "comportment": 95 },
+    "pi": { "technic": 87, "context": 70, "comportment": 95, "version": 0 },
     "tags": ["humans", "planet-express"],
     "infos": {},
     "emails": [
@@ -421,8 +407,7 @@
     "organizations": [],
     "ims": [],
     "given_name": "Flexo",
-    "deleted": 0,
-    "pi": { "technic": 48, "context": 56, "comportment": 32 },
+    "pi": { "technic": 48, "context": 56, "comportment": 32, "version": 0 },
     "tags": ["robot"],
     "infos": {},
     "emails": [
@@ -450,8 +435,7 @@
     "ims": [],
     "given_name": "Antonio",
     "name_prefix": "",
-    "deleted": 0,
-    "pi": { "technic": 10, "context": 15, "comportment": 12 },
+    "pi": { "technic": 10, "context": 15, "comportment": 12, "version": 0 },
     "tags": ["robot"],
     "infos": {},
     "emails": [
@@ -478,8 +462,7 @@
     "organizations": [],
     "ims": [],
     "given_name": "",
-    "deleted": 0,
-    "pi": { "technic": 56, "context": 35, "comportment": 7 },
+    "pi": { "technic": 56, "context": 35, "comportment": 7, "version": 0 },
     "tags": ["humans"],
     "infos": {},
     "emails": [
@@ -506,8 +489,7 @@
     "organizations": [],
     "ims": [],
     "given_name": "Morbo",
-    "deleted": 0,
-    "pi": { "technic": 41, "context": 45, "comportment": 7 },
+    "pi": { "technic": 41, "context": 45, "comportment": 7, "version": 0 },
     "tags": ["aliens"],
     "infos": {},
     "emails": [
@@ -535,8 +517,7 @@
     "ims": [],
     "given_name": "",
     "name_prefix": "Mr.",
-    "deleted": 0,
-    "pi": { "technic": 20, "context": 45, "comportment": 75 },
+    "pi": { "technic": 20, "context": 45, "comportment": 75, "version": 0 },
     "tags": ["humans"],
     "infos": {},
     "emails": [
@@ -564,8 +545,7 @@
     "ims": [],
     "given_name": "Nibbler",
     "name_prefix": "Lord",
-    "deleted": 0,
-    "pi": { "technic": 65, "context": 45, "comportment": 25 },
+    "pi": { "technic": 65, "context": 45, "comportment": 25, "version": 0 },
     "tags": ["aliens", "planet-express"],
     "infos": {},
     "emails": [
@@ -594,8 +574,7 @@
     "given_name": "Hypnotoad",
     "name_prefix": "",
     "tags": ["amphibians", "aliens"],
-    "deleted": 0,
-    "pi": { "technic": 87, "context": 75, "comportment": 25 },
+    "pi": { "technic": 87, "context": 75, "comportment": 25, "version": 0 },
     "infos": {},
     "emails": [
       {

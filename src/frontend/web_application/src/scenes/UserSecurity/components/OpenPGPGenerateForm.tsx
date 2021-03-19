@@ -39,12 +39,13 @@ function OpenPGPGenerateForm({ i18n, cancel, onSuccess }: Props) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [errors, setErrors] = React.useState<undefined | string[]>();
 
-  const user = useUser();
+  const { user } = useUser();
 
-  const emailOptions = user?.contact.emails.map((email) => ({
-    label: email.address,
-    value: email.address,
-  }));
+  const emailOptions =
+    user?.contact.emails?.map((email) => ({
+      label: email.address,
+      value: email.address,
+    })) || [];
 
   const errorsLabels = {};
 
@@ -63,6 +64,9 @@ function OpenPGPGenerateForm({ i18n, cancel, onSuccess }: Props) {
 
   const handleGenerateSubmit = async (event) => {
     event.preventDefault();
+    if (!user) {
+      return;
+    }
     setIsLoading(true);
     const { passphrase, email } = generateValues;
     const manager = await getPGPManager();
