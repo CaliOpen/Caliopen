@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { rest } from 'msw';
 import { AllProviders } from 'test/providers';
 import { server } from 'test/server';
-import { user } from 'test/msw-handlers/user';
+import { generateUser } from 'test/fixtures/user';
 import { settings } from 'test/msw-handlers/settings';
 import WithUser from '../WithUser';
 import UserInfo from './index';
@@ -18,6 +18,7 @@ const Comp = () => (
 );
 
 describe('component UserInfo', () => {
+  const user = generateUser();
   beforeEach(() => {
     server.use(
       rest.get('/api/v1/me', (req, res, ctx) => {
@@ -37,6 +38,6 @@ describe('component UserInfo', () => {
     // TODO: rm (after using hooks)
     //  Force re-render due to With<Thing> fetching
     await waitFor(() => screen.findByText('loading'));
-    await waitFor(() => screen.findByText(user.name));
+    await waitFor(() => screen.findByText(user.name || 'fail'));
   });
 });

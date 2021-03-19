@@ -63,7 +63,7 @@ function OpenPGPImportForm({ i18n, cancel, onSuccess }: Props) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [errors, setErrors] = React.useState<Errors>({});
 
-  const user = useUser();
+  const { user } = useUser();
 
   const errorsLabels = {
     [ERROR_REQUIRED]: i18n._(
@@ -120,6 +120,10 @@ function OpenPGPImportForm({ i18n, cancel, onSuccess }: Props) {
     event.preventDefault();
 
     const errors = validate(importValues);
+
+    if (!user) {
+      return;
+    }
 
     if (errors) {
       setErrors(errors);
