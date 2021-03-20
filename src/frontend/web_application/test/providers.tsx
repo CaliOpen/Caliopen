@@ -20,10 +20,11 @@ const store = configureAppStore(initialState);
 
 export function AllProviders({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    // id=root required for modals
+    <div id="root">
       <StaticRouter>
         <Provider store={store}>{children}</Provider>
       </StaticRouter>
-    </>
+    </div>
   );
 }
