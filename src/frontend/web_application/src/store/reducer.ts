@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import notifyReducer from 'react-redux-notify';
 import { reducer as formReducer } from 'redux-form';
+import { entitiesReducer, queriesReducer } from 'redux-query';
 import { store as contactStore } from 'src/modules/contact';
 import deviceReducer from './modules/device';
 import discussionReducer from './modules/discussion';
@@ -43,6 +44,9 @@ const reducer = combineReducers({
   publicKey: publicKeyReducer,
   view: viewReducer,
   encryption: encryptionReducer,
+  // redux-query
+  entities: entitiesReducer,
+  queries: queriesReducer,
 });
 
 export type RootState = ReturnType<typeof reducer>;
