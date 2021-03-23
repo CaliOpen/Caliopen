@@ -16,9 +16,8 @@ const initialState = {
   },
 };
 
-const store = configureAppStore(initialState);
-
 export function AllProviders({ children }: { children: React.ReactNode }) {
+  const store = configureAppStore(initialState);
   return (
     // id=root required for modals
     <div id="root">
