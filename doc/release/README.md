@@ -52,10 +52,8 @@ vi registry.conf
 
 # Note: It's excluded from git objects in .gitignore file.
 
-# Define environment variables for version and application to deploy
-
+# Define environment variable for version to deploy
 export CALIOPEN_VERSION=X.Y.Z
-export APP_NAME=<package>
 ```
 
 ### Build and publish
@@ -66,7 +64,7 @@ This will build the container related to the given application and publish it on
 
 ```
 cd devtools
-make master
+make master APP_NAME=<name of app to deploy>
 ```
 
 ## 3. Deploy
