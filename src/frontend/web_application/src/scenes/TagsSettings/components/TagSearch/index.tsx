@@ -1,91 +1,73 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withI18n } from '@lingui/react';
-import { Button, Spinner } from '../../../../components';
-import TextFieldGroup from '../../../../components/TextFieldGroup';
+import * as React from 'react';
+import { Trans, withI18n, withI18nProps } from '@lingui/react';
+import { Button, Spinner } from 'src/components';
+import TextFieldGroup from 'src/components/TextFieldGroup';
 
 import './style.scss';
+import { useDispatch } from 'react-redux';
+import { createTag } from 'src/modules/tags';
+import { isPending } from '@reduxjs/toolkit';
 
-function generateStateFromProps({ terms }) {
-  return {
-    terms,
-  };
+interface Props extends withI18nProps {
+  onCreateSuccess: () => void;
 }
+function TagSearch({ i18n, onCreateSuccess }: Props) {
+  const dispatch = useDispatch();
+  const [terms, setTerms] = React.useState('');
+  const [pending, setPending] = React.useState(false);
+  const [tagErrors, setTagErrors] = React.useState<React.ReactNode[]>([]);
 
-@withI18n()
-class TagSearch extends Component {
-  static propTypes = {
-    terms: PropTypes.string,
-    onSubmit: PropTypes.func.isRequired,
-    onChange: PropTypes.func,
-    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
-    isFetching: PropTypes.bool,
-    errors: PropTypes.arrayOf(PropTypes.node),
+  const handleChange = (ev) => {
+    setTerms(ev.target.value);
+    setTagErrors([]);
   };
 
-  static defaultProps = {
-    terms: '',
-    onChange: () => {
-      // noop
-    },
-    isFetching: false,
-    errors: [],
-  };
-
-  state = {
-    terms: '',
-  };
-
-  UNSAFE_componentWillMount() {
-    this.setState((prevState) => generateStateFromProps(this.props, prevState));
-  }
-
-  UNSAFE_componentWillReceiveProps(newProps) {
-    this.setState((prevState) => generateStateFromProps(newProps, prevState));
-  }
-
-  handleChange = (ev) => {
-    const terms = ev.target.value;
-    this.setState({ terms });
-    this.props.onChange(terms);
-  };
-
-  handleSubmit = () => {
-    if (this.state.terms.length === 0) {
+  const handleSubmit = async () => {
+    if (terms.length === 0) {
       return;
     }
+    setPending(true);
 
-    this.props.onSubmit(this.state.terms);
+    try {
+      await dispatch(createTag({ label: terms }));
+      setTerms('');
+      onCreateSuccess();
+    } catch (err) {
+      setTagErrors([
+        <Trans id="settings.tag.form.error.create_fail">
+          Unable to create the tag. A tag with the same id may already exist.
+        </Trans>,
+      ]);
+    }
+    setPending(false);
   };
 
-  render() {
-    const { i18n, isFetching, errors } = this.props;
-
-    return (
-      <div className="m-add-tag">
-        <TextFieldGroup
-          name="terms"
-          value={this.state.terms}
-          className="m-add-tag__input"
-          label={i18n._('tags.form.add.label', null, { defaults: 'Add a tag' })}
-          placeholder={i18n._('tags.form.add.placeholder', null, {
-            defaults: 'New tag ...',
-          })}
-          onChange={this.handleChange}
-          showLabelforSr
-          errors={errors}
-        />
-        <Button
-          className="m-add-tag__button"
-          icon={isFetching ? <Spinner isLoading display="inline" /> : 'plus'}
-          disabled={isFetching}
-          shape="plain"
-          onClick={this.handleSubmit}
-          aria-label={i18n._('tags.action.add', null, { defaults: 'Add' })}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className="m-add-tag">
+      <TextFieldGroup
+        name="terms"
+        value={terms}
+        className="m-add-tag__input"
+        label={i18n._('tags.form.add.label', undefined, {
+          defaults: 'Add a tag',
+        })}
+        placeholder={i18n._('tags.form.add.placeholder', undefined, {
+          defaults: 'New tag ...',
+        })}
+        onChange={handleChange}
+        showLabelforSr
+        errors={tagErrors}
+      />
+      <Button
+        className="m-add-tag__button"
+        icon={pending ? <Spinner isLoading display="inline" /> : 'plus'}
+        disabled={pending}
+        shape="plain"
+        onClick={handleSubmit}
+        aria-label={i18n._('tags.action.add', undefined, { defaults: 'Add' })}
+      />
+    </div>
+  );
 }
 
-export default TagSearch;
+export default withI18n()(TagSearch);

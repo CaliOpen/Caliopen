@@ -141,6 +141,7 @@ export function reducer(
     case REQUEST_TAGS_SUCCESS:
       return {
         ...state,
+        initialized: true,
         status: 'resolved',
         tags: action.payload.data.tags,
         total: action.payload.data.total,

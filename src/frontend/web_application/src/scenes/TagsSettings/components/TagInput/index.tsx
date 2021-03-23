@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { getTagLabel } from '../../../../modules/tags';
+import * as React from 'react';
+import { withI18n, withI18nProps } from '@lingui/react';
+import { useDispatch } from 'react-redux';
+import { getTagLabel, updateTag, deleteTag } from 'src/modules/tags';
+import { TagPayload } from 'src/modules/tags/types';
 import {
   Button,
   Icon,
@@ -8,78 +10,67 @@ import {
   FormGrid,
   FieldErrors,
   TextFieldGroup,
-} from '../../../../components';
+} from 'src/components';
 import './style.scss';
 
 const TAG_TYPE_USER = 'user';
 
-function generateStateFromProps(props) {
-  return {
-    tag: {
-      ...props.tag,
-      label: props.tag.label || getTagLabel(props.i18n, props.tag),
-    },
-  };
+interface Props extends withI18nProps {
+  tag: TagPayload;
+  onUpdateSuccess: () => void;
+  onDeleteSuccess: () => void;
 }
 
-class TagInput extends Component {
-  static propTypes = {
-    i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
-    tag: PropTypes.shape({}).isRequired,
-    onUpdateTag: PropTypes.func.isRequired,
-    onDeleteTag: PropTypes.func.isRequired,
-    errors: PropTypes.arrayOf(PropTypes.node),
+function TagInput({ i18n, tag, onUpdateSuccess, onDeleteSuccess }: Props) {
+  const dispatch = useDispatch();
+
+  const [tagLabel, setTagLabel] = React.useState(tag.label);
+  const [edit, setEdit] = React.useState(false);
+  const [pending, setPending] = React.useState(false);
+  const [tagErrors, setTagErrors] = React.useState<string[]>([]);
+
+  const handleChange = (ev) => {
+    setTagLabel(ev.target.value);
+    setTagErrors([]);
   };
 
-  static defaultProps = {
-    errors: [],
+  const handleClickTag = () => {
+    setEdit(true);
   };
 
-  state = {
-    tag: {},
-    edit: false,
-    isFetching: false,
+  const handleUpdateTag = async () => {
+    setPending(true);
+    try {
+      await dispatch(
+        updateTag({
+          original: tag,
+          tag: {
+            ...tag,
+            label: tagLabel,
+          },
+        })
+      );
+    } catch (errors) {
+      setTagErrors(errors.map((err) => err.message));
+    }
+
+    setPending(false);
+    setEdit(false);
+    onUpdateSuccess();
   };
 
-  UNSAFE_componentWillMount() {
-    this.setState(generateStateFromProps(this.props));
-  }
-
-  UNSAFE_componentWillReceiveProps(newProps) {
-    this.setState(generateStateFromProps(newProps));
-  }
-
-  handleChange = (ev) => {
-    const label = ev.target.value;
-
-    this.setState((prevState) => ({
-      tag: { ...prevState.tag, label },
-    }));
+  const handleDeleteTag = async () => {
+    setPending(true);
+    try {
+      await deleteTag({ tag });
+    } catch (errors) {
+      setTagErrors(errors.map((err) => err.message));
+    }
+    setPending(false);
+    onDeleteSuccess();
   };
 
-  handleClickTag = () => {
-    this.setState((prevState) => ({
-      edit: !prevState.edit,
-    }));
-  };
-
-  handleUpdateTag = async () => {
-    const { onUpdateTag, tag: original } = this.props;
-    this.setState({ isFetching: true });
-    await onUpdateTag({ original, tag: this.state.tag });
-    this.setState({ isFetching: false, edit: false });
-  };
-
-  handleDeleteTag = async () => {
-    const { onDeleteTag, tag } = this.props;
-    this.setState({ isFetching: true });
-    await onDeleteTag({ tag });
-    this.setState({ isFetching: false });
-  };
-
-  renderForm() {
-    const { tag, errors, i18n } = this.props;
-
+  if (edit) {
     return (
       <FormGrid className="m-tag-input">
         <TextFieldGroup
@@ -87,70 +78,47 @@ class TagInput extends Component {
           className="m-tag-input__input"
           label={tag.name}
           placeholder={getTagLabel(i18n, tag)}
-          value={this.state.tag.label}
-          onChange={this.handleChange}
+          value={tagLabel}
+          onChange={handleChange}
           showLabelforSr
           autoFocus
-          errors={errors}
+          errors={tagErrors}
         />
         <Button
-          onClick={this.handleUpdateTag}
-          aria-label={i18n._('settings.tag.action.save-tag', null, {
+          onClick={handleUpdateTag}
+          aria-label={i18n._('settings.tag.action.save-tag', undefined, {
             defaults: 'Save',
           })}
-          icon={
-            this.state.isFetching ? (
-              <Spinner isLoading display="inline" />
-            ) : (
-              'check'
-            )
-          }
-          disabled={this.state.isFetching}
+          icon={pending ? <Spinner isLoading display="inline" /> : 'check'}
+          disabled={pending}
         />
       </FormGrid>
     );
   }
 
-  renderButton() {
-    const { errors, tag, i18n } = this.props;
-
-    return (
-      <FormGrid className="m-tag-input">
-        <Button className="m-tag-input__button" onClick={this.handleClickTag}>
-          <span className="m-tag-input__text">{getTagLabel(i18n, tag)}</span>
-          <Icon className="m-tag-input__icon" type="edit" spaced />
-        </Button>
-        {tag.type === TAG_TYPE_USER && (
-          <Button
-            className="m-tag-input__delete"
-            aria-label={i18n._('settings.tags.action.delete', null, {
-              defaults: 'Delete',
-            })}
-            disabled={this.state.isFetching}
-            onClick={this.handleDeleteTag}
-            icon={
-              this.state.isFetching ? (
-                <Spinner isLoading display="inline" />
-              ) : (
-                'remove'
-              )
-            }
-          />
-        )}
-        {errors && (
-          <FieldErrors errors={errors} className="m-tag-input__errors" />
-        )}
-      </FormGrid>
-    );
-  }
-
-  render() {
-    if (this.state.edit) {
-      return this.renderForm();
-    }
-
-    return this.renderButton();
-  }
+  return (
+    <FormGrid className="m-tag-input">
+      <Button className="m-tag-input__button" onClick={handleClickTag}>
+        <span className="m-tag-input__text">{getTagLabel(i18n, tag)}</span>
+        {/* @ts-ignore */}
+        <Icon className="m-tag-input__icon" type="edit" spaced />
+      </Button>
+      {tag.type === TAG_TYPE_USER && (
+        <Button
+          className="m-tag-input__delete"
+          aria-label={i18n._('settings.tags.action.delete', undefined, {
+            defaults: 'Delete',
+          })}
+          disabled={pending}
+          onClick={handleDeleteTag}
+          icon={pending ? <Spinner isLoading display="inline" /> : 'remove'}
+        />
+      )}
+      {tagErrors && (
+        <FieldErrors errors={tagErrors} className="m-tag-input__errors" />
+      )}
+    </FormGrid>
+  );
 }
 
-export default TagInput;
+export default withI18n()(TagInput);
