@@ -10,7 +10,7 @@ import RoutingProvider from './modules/routing/components/RoutingProvider';
 import { PageTitle } from './components';
 import { NotificationProvider } from './modules/notification';
 import ErrorBoundary from './layouts/ErrorBoundary';
-import { getQueries } from './store/configure-store';
+import { getQueries } from './store/middlewares/redux-query-middleware';
 import './app.scss';
 
 export interface AppProps {

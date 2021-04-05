@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { withI18n, withI18nProps } from '@lingui/react';
+import { Trans, withI18n, withI18nProps } from '@lingui/react';
 import { useDispatch } from 'react-redux';
 import { useTags } from 'src/modules/tags';
 import { invalidate } from 'src/modules/tags/store';
@@ -13,8 +13,11 @@ interface Props extends withI18nProps {}
 function TagsSettings({ i18n }: Props) {
   const dispatch = useDispatch();
 
-  const { tags, status, initialized } = useTags();
+  const { tags, isPending, initialized } = useTags();
+  // const { tags, status, initialized } = useTags();
 
+  // FIXME: how mutation will impact other resource?
+  // how to invalidate contacts, discussions …?
   const handleInvalidate = () => {
     dispatch(invalidate());
   };
@@ -36,18 +39,22 @@ function TagsSettings({ i18n }: Props) {
             defaults: 'Tags',
           })}
         >
-          {!initialized && status !== 'rejected' ? (
-            <Spinner isLoading />
-          ) : (
-            tags.map((tag) => (
+          {!initialized && <Spinner isLoading />}
+
+          {initialized && (status || 0) >= 400 && (
+            <Trans>An error occurred</Trans>
+          )}
+
+          {initialized &&
+            (status || 0) < 400 &&
+            tags?.map((tag) => (
               <TagInput
                 key={tag.name}
                 tag={tag}
                 onUpdateSuccess={handleInvalidate}
                 onDeleteSuccess={handleInvalidate}
               />
-            ))
-          )}
+            ))}
         </Section>
       </div>
     </div>

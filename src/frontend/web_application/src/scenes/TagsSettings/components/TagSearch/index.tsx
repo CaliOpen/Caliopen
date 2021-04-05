@@ -6,7 +6,6 @@ import TextFieldGroup from 'src/components/TextFieldGroup';
 import './style.scss';
 import { useDispatch } from 'react-redux';
 import { createTag } from 'src/modules/tags';
-import { isPending } from '@reduxjs/toolkit';
 
 interface Props extends withI18nProps {
   onCreateSuccess: () => void;

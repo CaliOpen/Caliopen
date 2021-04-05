@@ -1,14 +1,17 @@
-import axios from 'axios';
+import axios, { AxiosTransformer, AxiosInstance } from 'axios';
 import { getBaseUrl } from '../config';
 import { importanceLevelHeader } from '../importance-level';
-import { queryStringify } from '../../modules/routing';
-import { getSignatureHeaders } from '../../modules/device/services/signature';
-import UploadFileAsFormField from '../../modules/file/services/uploadFileAsFormField';
+import { queryStringify } from 'src/modules/routing';
+import { getSignatureHeaders } from 'src/modules/device/services/signature';
+import UploadFileAsFormField from 'src/modules/file/services/uploadFileAsFormField';
 
-let client;
-let signingClient;
+interface AppHeaders {
+  [key: string]: string;
+}
+let client: AxiosInstance;
+let signingClient: AxiosInstance;
 
-let headers = {
+let headers: AppHeaders = {
   ...importanceLevelHeader,
   'X-Caliopen-PI': '0;100',
 };
@@ -35,7 +38,7 @@ const buildClient = () =>
     baseURL: getBaseUrl(),
     responseType: 'json',
     headers,
-    paramsSerializer: (params) => queryStringify(params, headers),
+    paramsSerializer: (params) => queryStringify(params),
     transformRequest: [
       (data) => {
         if (data instanceof UploadFileAsFormField) {
@@ -44,7 +47,8 @@ const buildClient = () =>
 
         return data;
       },
-    ].concat(axios.defaults.transformRequest),
+      ...(axios.defaults.transformRequest as AxiosTransformer[]),
+    ],
   });
 
 export const getUnsignedClient = () => {
@@ -75,6 +79,7 @@ export default function getClient() {
   return signingClient;
 }
 
+// TODO mv or delete: useless or related to redux
 export const handleClientResponseSuccess = (response) => {
   if (!response || !response.payload) {
     throw new Error('Not an axios success Promise');

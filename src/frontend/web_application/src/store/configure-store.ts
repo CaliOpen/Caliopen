@@ -1,6 +1,4 @@
 import { configureStore, ConfigureStoreOptions } from '@reduxjs/toolkit';
-import { queryMiddleware } from 'redux-query';
-import superagentInterface from 'redux-query-interface-superagent';
 import rootReducer, { RootState } from './reducer';
 import axiosMiddleware from './middlewares/axios-middleware';
 import encryptionMiddleware from './middlewares/encryption-middleware';
@@ -9,9 +7,7 @@ import discussionMiddleware from './middlewares/discussions-middleware';
 import importanceLevelMiddleware from './middlewares/importance-level-middleware';
 import messageMiddleware from './middlewares/messages-middleware';
 import searchMiddleware from './middlewares/search-middleware';
-
-export const getQueries = (state) => state.queries;
-export const getEntities = (state) => state.entities;
+import reduxQueryMiddleware from './middlewares/redux-query-middleware';
 
 const middlewares = [
   encryptionMiddleware,
@@ -21,7 +17,7 @@ const middlewares = [
   importanceLevelMiddleware,
   messageMiddleware,
   searchMiddleware,
-  queryMiddleware(superagentInterface, getQueries, getEntities),
+  reduxQueryMiddleware,
 ];
 
 type PreloadedState = ConfigureStoreOptions<RootState>['preloadedState'];
