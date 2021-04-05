@@ -23,7 +23,7 @@ RUN pip install -e .
 
 ## Container specific installation part
 RUN pip install tornado==4.2
-RUN pip install nats-client
+RUN pip install nats-client>=0.8.4
 
 # Install python backend packages in develop mode
 WORKDIR /srv/caliopen/src/backend/interfaces/NATS/py.client
