@@ -243,7 +243,7 @@ func (rest *RESTfacility) DeleteUserIdentity(userId, identityId string) Caliopen
 		order := RemoteIDNatsMessage{
 			IdentityId: userIdentity.Id.String(),
 			Order:      "delete",
-			Protocol:   "twitter",
+			Protocol:   userIdentity.Protocol,
 			UserId:     userIdentity.UserId.String(),
 		}
 		jorder, jerr := json.Marshal(order)
