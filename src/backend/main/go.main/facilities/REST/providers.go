@@ -10,7 +10,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/dghubble/oauth1"
 	twitterOAuth1 "github.com/dghubble/oauth1/twitter"
-	"github.com/mattn/go-mastodon"
+	"github.com/CaliOpen/go-mastodon"
 	"github.com/satori/go.uuid"
 	"golang.org/x/oauth2"
 	googleApi "google.golang.org/api/oauth2/v2"

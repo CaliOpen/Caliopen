@@ -631,10 +631,10 @@
 			"revisionTime": "2017-03-22T23:44:13Z"
 		},
 		{
-			"checksumSHA1": "SorUp0umrUD+RysCWDWsAhacI8s=",
-			"path": "github.com/mattn/go-mastodon",
-			"revision": "26fcedc8aa4e6a848c040df59ed2e24237ef0121",
-			"revisionTime": "2019-06-21T17:12:04Z"
+			"checksumSHA1": "U6lX43KDDlNOn+Z0Yyww+ZzHfFo=",
+			"path": "github.com/CaliOpen/go-mastodon",
+			"revision": "d67754b1fa60e44d231771b6c177c91fb995e53e",
+			"revisionTime": "2021-04-15T12:38:00Z"
 		},
 		{
 			"checksumSHA1": "+C5xtTR8XG1rwSVunPPRANfYolY=",

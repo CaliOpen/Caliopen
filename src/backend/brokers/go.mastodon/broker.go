@@ -9,7 +9,7 @@ import (
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.backends"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.main/facilities/Notifications"
 	log "github.com/Sirupsen/logrus"
-	"github.com/mattn/go-mastodon"
+	"github.com/CaliOpen/go-mastodon"
 	"github.com/nats-io/go-nats"
 )
 

@@ -9,7 +9,7 @@ import (
 	"fmt"
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	log "github.com/Sirupsen/logrus"
-	"github.com/mattn/go-mastodon"
+	"github.com/CaliOpen/go-mastodon"
 	"github.com/pkg/errors"
 	"github.com/satori/go.uuid"
 	"strings"
