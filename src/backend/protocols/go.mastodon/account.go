@@ -17,7 +17,7 @@ import (
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.main/facilities/Notifications"
 	log "github.com/Sirupsen/logrus"
-	'github.com/mattn/go-mastodon"
+	"github.com/mattn/go-mastodon"
 	"strings"
 )
 
