@@ -47,7 +47,8 @@
   "dependencies": {
     "@babel/runtime": "^7.12.13",
     "@lingui/react": "^2.9.1",
-    "@reduxjs/toolkit": "^1.5.0",
+    "@reduxjs/toolkit": "^1.5.1",
+    "@rtk-incubator/rtk-query": "^0.3.0",
     "argv": "^0.0.2",
     "async-validator": "^3.2.4",
     "axios": "^0.20.0",
@@ -64,6 +65,7 @@
     "foundation-sites": "~6.3.0",
     "history": "^4.10.1",
     "iron": "4.0.5",
+    "isomorphic-fetch": "^3.0.0",
     "jquery": "^3.5.0",
     "jssha": "^2.3.1",
     "linkifyjs": "^2.1.9",

@@ -13,7 +13,11 @@ const base = {
     __dirname: true,
     __filename: true,
   },
-  entry: ['@babel/polyfill', path.join(__dirname, '../server/index.js')],
+  entry: [
+    '@babel/polyfill',
+    'isomorphic-fetch',
+    path.join(__dirname, '../server/index.js'),
+  ],
   output: {
     path: path.join(__dirname, '../dist/server/'),
     filename: 'index.js',

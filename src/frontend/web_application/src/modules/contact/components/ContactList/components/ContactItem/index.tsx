@@ -2,11 +2,8 @@ import * as React from 'react';
 import classnames from 'classnames';
 import { Trans, withI18n, withI18nProps } from '@lingui/react';
 import { ContactAvatarLetter, SIZE_MEDIUM } from 'src/modules/avatar';
-import {
-  getCleanedTagCollection,
-  getTagLabel,
-  useTags,
-} from 'src/modules/tags';
+import { getCleanedTagCollection, getTagLabel } from 'src/modules/tags';
+import { useGetTagsQuery } from 'src/modules/tags/store';
 import { Button, Link, TextBlock, Icon, Checkbox, Badge } from 'src/components';
 import { formatName } from 'src/services/contact';
 import { ContactPayload } from 'src/modules/contact/types';
@@ -102,7 +99,7 @@ function ContactItem({
   selectDisabled,
   i18n,
 }: Props) {
-  const { tags } = useTags();
+  const { data: tags = [] } = useGetTagsQuery();
   const { contact_display_format } = useSettings();
 
   const onCheckboxChange = (ev) => {

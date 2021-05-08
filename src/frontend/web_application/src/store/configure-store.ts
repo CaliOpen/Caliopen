@@ -7,10 +7,12 @@ import discussionMiddleware from './middlewares/discussions-middleware';
 import importanceLevelMiddleware from './middlewares/importance-level-middleware';
 import messageMiddleware from './middlewares/messages-middleware';
 import searchMiddleware from './middlewares/search-middleware';
+import { tagsApi } from 'src/modules/tags/store';
 
 const middlewares = [
-  encryptionMiddleware,
+  tagsApi.middleware,
   axiosMiddleware,
+  encryptionMiddleware,
   decryptionMiddleware,
   discussionMiddleware,
   importanceLevelMiddleware,

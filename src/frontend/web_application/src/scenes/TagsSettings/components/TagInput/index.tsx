@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { withI18n, withI18nProps } from '@lingui/react';
-import { useDispatch } from 'react-redux';
-import { getTagLabel, updateTag, deleteTag } from 'src/modules/tags';
+import { getTagLabel } from 'src/modules/tags';
 import { TagPayload } from 'src/modules/tags/types';
 import {
   Button,
@@ -11,23 +10,27 @@ import {
   FieldErrors,
   TextFieldGroup,
 } from 'src/components';
+import {
+  useUpdateTagMutation,
+  useDeleteTagMutation,
+} from 'src/modules/tags/store';
+
 import './style.scss';
 
 const TAG_TYPE_USER = 'user';
 
 interface Props extends withI18nProps {
   tag: TagPayload;
-  onUpdateSuccess: () => void;
-  onDeleteSuccess: () => void;
 }
 
-function TagInput({ i18n, tag, onUpdateSuccess, onDeleteSuccess }: Props) {
-  const dispatch = useDispatch();
-
+function TagInput({ i18n, tag }: Props) {
   const [tagLabel, setTagLabel] = React.useState(tag.label);
   const [edit, setEdit] = React.useState(false);
-  const [pending, setPending] = React.useState(false);
   const [tagErrors, setTagErrors] = React.useState<string[]>([]);
+  const [updateTag, updateMeta] = useUpdateTagMutation();
+  const [deleteTag, deleteMeta] = useDeleteTagMutation();
+
+  const pending = updateMeta.isLoading || deleteMeta.isLoading;
 
   const handleChange = (ev) => {
     setTagLabel(ev.target.value);
@@ -39,35 +42,31 @@ function TagInput({ i18n, tag, onUpdateSuccess, onDeleteSuccess }: Props) {
   };
 
   const handleUpdateTag = async () => {
-    setPending(true);
+    if (tag.label === tagLabel) {
+      setEdit(false);
+      return;
+    }
+
     try {
-      await dispatch(
-        updateTag({
-          original: tag,
-          tag: {
-            ...tag,
-            label: tagLabel,
-          },
-        })
-      );
+      await updateTag({
+        original: tag,
+        tag: {
+          ...tag,
+          label: tagLabel,
+        },
+      }).unwrap();
+      setEdit(false);
     } catch (errors) {
       setTagErrors(errors.map((err) => err.message));
     }
-
-    setPending(false);
-    setEdit(false);
-    onUpdateSuccess();
   };
 
   const handleDeleteTag = async () => {
-    setPending(true);
     try {
-      await deleteTag({ tag });
+      await deleteTag(tag).unwrap();
     } catch (errors) {
       setTagErrors(errors.map((err) => err.message));
     }
-    setPending(false);
-    onDeleteSuccess();
   };
 
   if (edit) {

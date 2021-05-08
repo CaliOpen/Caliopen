@@ -4,18 +4,14 @@ import { Button, Spinner } from 'src/components';
 import TextFieldGroup from 'src/components/TextFieldGroup';
 
 import './style.scss';
-import { useDispatch } from 'react-redux';
-import { createTag } from 'src/modules/tags';
-import { isPending } from '@reduxjs/toolkit';
+import { useCreateTagMutation } from 'src/modules/tags/store';
 
-interface Props extends withI18nProps {
-  onCreateSuccess: () => void;
-}
-function TagSearch({ i18n, onCreateSuccess }: Props) {
-  const dispatch = useDispatch();
+interface Props extends withI18nProps {}
+function TagSearch({ i18n }: Props) {
   const [terms, setTerms] = React.useState('');
-  const [pending, setPending] = React.useState(false);
   const [tagErrors, setTagErrors] = React.useState<React.ReactNode[]>([]);
+  const [createTag, meta] = useCreateTagMutation();
+  const { isLoading: pending } = meta;
 
   const handleChange = (ev) => {
     setTerms(ev.target.value);
@@ -26,20 +22,26 @@ function TagSearch({ i18n, onCreateSuccess }: Props) {
     if (terms.length === 0) {
       return;
     }
-    setPending(true);
 
     try {
-      await dispatch(createTag({ label: terms }));
+      const res = await createTag({ label: terms }).unwrap();
+
       setTerms('');
-      onCreateSuccess();
     } catch (err) {
-      setTagErrors([
-        <Trans id="settings.tag.form.error.create_fail">
-          Unable to create the tag. A tag with the same id may already exist.
-        </Trans>,
-      ]);
+      if (err.data?.errors?.some((item) => item.code === 5)) {
+        setTagErrors([
+          <Trans id="settings.tag.form.error.create_fail">
+            Unable to create the tag. A tag with the same id already exist.
+          </Trans>,
+        ]);
+      } else {
+        setTagErrors([
+          <Trans id="settings.tag.form.error.create_fail_unexpected">
+            Unable to create the tag. An unexpected error occured.
+          </Trans>,
+        ]);
+      }
     }
-    setPending(false);
   };
 
   return (

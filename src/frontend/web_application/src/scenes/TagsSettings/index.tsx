@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { withI18n, withI18nProps } from '@lingui/react';
-import { useDispatch } from 'react-redux';
-import { useTags } from 'src/modules/tags';
-import { invalidate } from 'src/modules/tags/store';
+import { useGetTagsQuery } from 'src/modules/tags/store';
 import { Section, Spinner } from 'src/components';
 import TagSearch from './components/TagSearch';
 import TagInput from './components/TagInput';
@@ -11,13 +9,8 @@ import './style.scss';
 interface Props extends withI18nProps {}
 
 function TagsSettings({ i18n }: Props) {
-  const dispatch = useDispatch();
-
-  const { tags, status, initialized } = useTags();
-
-  const handleInvalidate = () => {
-    dispatch(invalidate());
-  };
+  const res = useGetTagsQuery();
+  const tags = res.data?.tags || [];
 
   return (
     <div className="s-tags-settings">
@@ -27,7 +20,7 @@ function TagsSettings({ i18n }: Props) {
             defaults: 'Create new tag',
           })}
         >
-          <TagSearch onCreateSuccess={handleInvalidate} />
+          <TagSearch />
         </Section>
       </div>
       <div className="s-tags-settings__tags">
@@ -36,17 +29,10 @@ function TagsSettings({ i18n }: Props) {
             defaults: 'Tags',
           })}
         >
-          {!initialized && status !== 'rejected' ? (
+          {res.isLoading ? (
             <Spinner isLoading />
           ) : (
-            tags.map((tag) => (
-              <TagInput
-                key={tag.name}
-                tag={tag}
-                onUpdateSuccess={handleInvalidate}
-                onDeleteSuccess={handleInvalidate}
-              />
-            ))
+            tags.map((tag) => <TagInput key={tag.name} tag={tag} />)
           )}
         </Section>
       </div>

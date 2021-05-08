@@ -8,9 +8,10 @@ import {
   updateTags as updateContactTags,
 } from 'src/modules/contact/store/reducer';
 import { tryCatchAxiosPromise } from '../../../../services/api-client';
-import { requestTags } from '../requestTags';
-import { createTag } from '../createTag';
 import { getTagLabel } from '../../services/getTagLabel';
+import { tagsApi } from '../../store';
+import { AppDispatch } from 'src/types';
+import { TagCommon } from '../../types';
 
 const getUpdateAction = (type) => {
   switch (type) {
@@ -26,6 +27,7 @@ const getUpdateAction = (type) => {
 export const updateTags = (type, entity, { tags }) => (dispatch) => {
   const action = getUpdateAction(type);
 
+  // @ts-ignore: cf. store typing
   return tryCatchAxiosPromise(dispatch(action({ [type]: entity, tags })));
 };
 
@@ -34,11 +36,16 @@ const getTagFromLabel = (i18n, tags, label) =>
     (tag) => getTagLabel(i18n, tag).toLowerCase() === label.toLowerCase()
   );
 
-const createMissingTags = (i18n, tagCollection) => async (
-  dispatch,
+const createMissingTags = (i18n, tagCollection: TagCommon[]) => async (
+  dispatch: AppDispatch,
   getState
 ) => {
-  const { tags: userTags } = getState().tag;
+  // @ts-ignore: cf. reducer typing
+  const { data: { tags: userTags } = { tags: [] } } = await dispatch(
+    // @ts-ignore: cf.axios-middleware typing
+    tagsApi.endpoints.getTags.initiate()
+  );
+
   const knownLabels = userTags.map((tag) =>
     getTagLabel(i18n, tag).toLowerCase()
   );
@@ -52,9 +59,13 @@ const createMissingTags = (i18n, tagCollection) => async (
     return userTags;
   }
 
-  await Promise.all(newTags.map((tag) => dispatch(createTag(tag))));
+  await Promise.all(
+    // @ts-ignore: cf.axios-middleware typing
+    newTags.map((tag) => dispatch(tagsApi.endpoints.createTag.initiate(tag)))
+  );
 
-  return dispatch(requestTags());
+  // @ts-ignore: cf.axios-middleware typing
+  return dispatch(tagsApi.endpoints.getTags.initiate());
 };
 
 const getRequestEntityAct = (type) => {
@@ -71,8 +82,15 @@ const getRequestEntityAct = (type) => {
 export const updateTagCollection = (
   i18n,
   { type, entity, tags: tagCollection, lazy = false }
-) => async (dispatch) => {
-  const upToDateTags = await dispatch(createMissingTags(i18n, tagCollection));
+) => async (dispatch: AppDispatch) => {
+  // @ts-ignore: cf.axios-middleware typing
+  await dispatch(createMissingTags(i18n, tagCollection));
+  // @ts-ignore: cf. reducer typing
+  const { data: { tags: upToDateTags } = { tags: [] } } = await dispatch(
+    // @ts-ignore: cf.axios-middleware typing
+    tagsApi.endpoints.getTags.initiate()
+  );
+
   const normalizedTags = tagCollection.reduce(
     (acc, tag) => [
       ...acc,
@@ -81,7 +99,6 @@ export const updateTagCollection = (
     []
   );
   const tagNames = normalizedTags.map((tag) => tag.name);
-
   if (
     !isEqual(
       entity.tags,
@@ -89,11 +106,11 @@ export const updateTagCollection = (
     )
   ) {
     await dispatch(
+      // @ts-ignore: cf.axios-middleware typing
       updateTags(type, entity, {
         tags: tagNames,
       })
     );
-
     if (lazy) {
       return {
         ...entity,
@@ -101,9 +118,7 @@ export const updateTagCollection = (
       };
     }
     const request = getRequestEntityAct(type);
-
     return tryCatchAxiosPromise(dispatch(request(entity[`${type}_id`])));
   }
-
   return entity;
 };
