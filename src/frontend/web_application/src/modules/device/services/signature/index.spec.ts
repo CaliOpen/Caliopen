@@ -62,29 +62,31 @@ describe('HTTP Request signature headers', () => {
   it('Creates a signature from URL + file', async () => {
     const file = new UploadFileAsFormField(
       new Blob([
-        0x004d,
-        0x0065,
-        0x0072,
-        0x0064,
-        0x0065,
-        0x0020,
-        0x001f,
-        0x0020,
-        0x0063,
-        0x0065,
-        0x006c,
-        0x0075,
-        0x0069,
-        0x0020,
-        0x0071,
-        0x0075,
-        0x0069,
-        0x0020,
-        0x006c,
-        0x0069,
-        0x0072,
-        0x0061,
-        0x002e,
+        new Uint8Array([
+          0x004d,
+          0x0065,
+          0x0072,
+          0x0064,
+          0x0065,
+          0x0020,
+          0x001f,
+          0x0020,
+          0x0063,
+          0x0065,
+          0x006c,
+          0x0075,
+          0x0069,
+          0x0020,
+          0x0071,
+          0x0075,
+          0x0069,
+          0x0020,
+          0x006c,
+          0x0069,
+          0x0072,
+          0x0061,
+          0x002e,
+        ]),
       ]),
       'attachment'
     );
@@ -94,9 +96,10 @@ describe('HTTP Request signature headers', () => {
       data: file,
     };
     const hash =
-      'eca6dce65e7cd2f48d880700ebcfcbf1903be7891bc0750546e48217f9911c4a';
+      '19806d4340f7db759bb7710b0d3344b597121b989197cc006c3b350cdb5c74d0';
 
     const signatureHeaders = await getSignatureHeaders(req);
+
     expect(signatureHeaders['X-Caliopen-Device-ID']).toEqual(
       'THIS-IS-NOT-A-DEVICE'
     );

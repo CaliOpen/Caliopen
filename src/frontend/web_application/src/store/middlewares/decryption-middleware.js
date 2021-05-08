@@ -60,7 +60,7 @@ const setPassphrase = ({ fingerprint }) => (dispatch, getState) => {
   setTimeout(() => dispatch(resetPassphrase({ fingerprint })), 12000000);
 };
 
-export default (store) => (next) => async (action) => {
+export default (store) => (next) => (action) => {
   switch (action.type) {
     // FIXME: this does not exist anymore, is it syncDraft now? (but it is a draftFormData now)
     // What is the algo: fetch draft > decrypt draft > store draft form data > edit draft > encrypt draft > save ?

@@ -6,6 +6,18 @@ import { buildURL } from '../../../routing';
 import { readAsArrayBuffer } from '../../../file/services';
 import UploadFileAsFormField from '../../../file/services/uploadFileAsFormField';
 
+// XXX: generated from usage
+interface Request {
+  method: string;
+  url: string;
+  params?: Record<string, any>;
+  data?: any;
+}
+interface Device {
+  id: string;
+  priv: string;
+}
+
 // see : https://jsperf.com/string-to-uint8array
 const toByteArray = (str) => {
   const byteArray = new Uint8Array(str.length);
@@ -17,7 +29,7 @@ const toByteArray = (str) => {
   return byteArray;
 };
 
-const buildMessage = async ({ method, url, params, data }) => {
+const buildMessage = async ({ method, url, params, data }: Request) => {
   const sha256 = new SHA('SHA-256', 'ARRAYBUFFER');
   const methodBytes = toByteArray(method.toUpperCase());
   const builtURL = toByteArray(buildURL(url, params));
@@ -38,13 +50,19 @@ const buildMessage = async ({ method, url, params, data }) => {
   return sha256.getHash('HEX');
 };
 
-export const signRequest = async (req, privateKey) => {
+export const signRequest = async (
+  req: Request,
+  privateKey: string
+): Promise<string> => {
   const message = await buildMessage(req);
 
   return base64.fromByteArray(sign(getKeypair(privateKey), message).toDER());
 };
 
-export const getSignatureHeaders = async (req, device) => {
+export const getSignatureHeaders = async (
+  req: Request,
+  device?: Device
+): Promise<Record<string, string>> => {
   const { id, priv } = device || getConfig();
   const signature = await signRequest(req, priv);
 
