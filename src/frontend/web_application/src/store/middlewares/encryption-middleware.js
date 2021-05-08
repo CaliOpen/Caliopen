@@ -17,42 +17,49 @@ const modifyActionWithMessage = ({ action, message }) => {
   }
 };
 
-export default (store) => (next) => async (action) => {
+export default (store) => (next) => (action) => {
+  if (action.type !== CREATE_MESSAGE) {
+    return next(action);
+  }
+
   if (![CREATE_MESSAGE, UPDATE_MESSAGE].includes(action.type)) {
     return next(action);
   }
 
   const { message } = action.payload;
-  const encryptedMessage = await store.dispatch(encryptMessage({ message }));
 
-  if (encryptedMessage) {
+  return (async () => {
+    const encryptedMessage = await store.dispatch(encryptMessage({ message }));
+
+    if (encryptedMessage) {
+      return next(
+        modifyActionWithMessage({
+          action,
+          message: {
+            ...encryptedMessage,
+            privacy_features: {
+              ...encryptedMessage.privacy_features,
+              message_encrypted: 'True',
+              message_encryption_method: 'pgp',
+            },
+          },
+        })
+      );
+    }
+
     return next(
       modifyActionWithMessage({
         action,
         message: {
-          ...encryptedMessage,
-          privacy_features: {
-            ...encryptedMessage.privacy_features,
-            message_encrypted: 'True',
-            message_encryption_method: 'pgp',
-          },
+          ...message,
+          privacy_features: !message.privacy_features
+            ? message.privacy_features
+            : {
+                ...message.privacy_features,
+                message_encrypted: 'False',
+              },
         },
       })
     );
-  }
-
-  return next(
-    modifyActionWithMessage({
-      action,
-      message: {
-        ...message,
-        privacy_features: !message.privacy_features
-          ? message.privacy_features
-          : {
-              ...message.privacy_features,
-              message_encrypted: 'False',
-            },
-      },
-    })
-  );
+  })();
 };

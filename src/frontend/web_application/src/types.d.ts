@@ -1,10 +1,10 @@
 import { AxiosError } from 'axios';
 
-import { store } from '.';
+import configureAppStore from './store/configure-store';
 
 // redux ----------------------------------------
 
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = ReturnType<typeof configureAppStore>['dispatch'];
 
 export interface AxiosActionPayload<P = any, D = any> {
   request: {
