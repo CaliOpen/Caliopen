@@ -8,6 +8,8 @@ export { default as withTags } from './hoc/withTags';
 export * from './hooks/useTags';
 export { requestTags } from './actions/requestTags';
 export { updateTag } from './actions/updateTag';
+export * from './actions/createTag';
+export * from './actions/deleteTag';
 export * from './actions/updateTagCollection';
 export * from './actions/updateMessagesTags';
 export * from './actions/updateContactTags';

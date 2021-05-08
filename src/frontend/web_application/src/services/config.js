@@ -23,7 +23,6 @@ const getBaseUrl = () => {
 
   throw new Error(`Unsupported build target "${BUILD_TARGET}"`);
 };
-const getAPIBaseUrl = () => `${getBaseUrl()}/api`;
 
 const getMaxSize = () => {
   const { maxBodySize } = getConfig();
@@ -35,4 +34,4 @@ const getMaxSize = () => {
   return Number(numberSize);
 };
 
-export { getBaseUrl, getAPIBaseUrl, initConfig, getConfig, getMaxSize };
+export { getBaseUrl, initConfig, getConfig, getMaxSize };
