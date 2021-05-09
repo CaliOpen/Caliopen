@@ -2,7 +2,7 @@ import { requestContact } from '../store/reducer';
 import { contactSelector } from '../selectors/contactSelector';
 
 export const getContact = ({ contactId }) => async (dispatch, getState) => {
-  const contact = contactSelector(getState(), { contactId });
+  const contact = contactSelector(getState(), contactId);
 
   if (contact) {
     return contact;
@@ -10,5 +10,5 @@ export const getContact = ({ contactId }) => async (dispatch, getState) => {
 
   await dispatch(requestContact(contactId));
 
-  return contactSelector(getState(), { contactId });
+  return contactSelector(getState(), contactId);
 };

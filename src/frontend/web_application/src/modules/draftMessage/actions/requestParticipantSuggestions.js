@@ -123,8 +123,9 @@ export const requestParticipantSuggestions = ({ terms, context }) => async (
   const contactIds = getContactIdsFromSuggestions(axiosResponse.payload.data);
 
   const contacts = await dispatch(getContacts({ contactIds }));
+
   const results = sortResults({
-    contactSuggestions: extractSuggsFromContacts(contacts),
+    contactSuggestions: extractSuggsFromContacts(contacts.filter(Boolean)),
     rawSuggestions: axiosResponse.payload.data,
   });
 
