@@ -97,7 +97,7 @@ function QuickDraftForm({
 
   const availableIdentities = useAvailableIdentities(draftMessage);
 
-  const draftEncryption = useSelector(
+  const draftEncryption = useSelector<RootState>(
     (state) =>
       draftMessage &&
       messageEncryptionStatusSelector(state, draftMessage.message_id)
@@ -106,8 +106,10 @@ function QuickDraftForm({
 
   const isLocked =
     isEncrypted &&
+    // @ts-ignore
     ![STATUS_DECRYPTED, STATUS_ERROR].includes(draftEncryption.status);
   const encryptionEnabled =
+    // @ts-ignore
     isEncrypted && draftEncryption.status === STATUS_DECRYPTED;
 
   const handleChange = (ev) => {

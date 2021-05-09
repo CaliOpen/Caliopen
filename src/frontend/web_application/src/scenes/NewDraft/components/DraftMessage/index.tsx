@@ -192,7 +192,7 @@ function DraftMessage(props: DraftMessageProps) {
   const identity = availableIdentities.find(
     (ident) => ident.identity_id === draftMessageFormData?.identity_id
   );
-  const draftEncryption = useSelector((state) =>
+  const draftEncryption = useSelector((state: RootState) =>
     messageEncryptionStatusSelector(state, messageId)
   );
 
