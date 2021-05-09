@@ -20,6 +20,7 @@ import { useSettings } from 'src/modules/settings';
 import { useScrollToMe } from 'src/modules/scroll';
 import MailMessage from './MailMessage';
 import InstantMessage from './InstantMessage';
+import { RootState } from 'src/store/reducer';
 
 interface Props {
   message: MessageClass;
@@ -42,12 +43,16 @@ function Message({
   const [isTagModalOpen, setTagModalOpen] = React.useState(false);
 
   const settings = useSettings();
-  const encryptionStatus = useSelector((state) =>
+  const encryptionStatus = useSelector<RootState>((state) =>
     messageEncryptionStatusSelector(state, message.message_id)
   );
+  // @ts-ignore
   const isDecrypted = encryptionStatus?.status === STATUS_DECRYPTED;
-  const isLocked = isMessageEncrypted(message) && !isDecrypted;
+  const hasEncryption = isMessageEncrypted(message);
+  const isLocked = hasEncryption && !isDecrypted;
   const isMail = !message.protocol || message.protocol === 'email';
+  // @ts-ignore
+  const decryptedMessage = encryptionStatus?.decryptedMessage;
 
   const onVisibilityChange = (isVisible) => {
     if (!isLocked && isVisible && message.is_unread) {
@@ -55,7 +60,8 @@ function Message({
     }
   };
 
-  const handleTagsChange = async ({ tags }) => dispatch(
+  const handleTagsChange = async ({ tags }) =>
+    dispatch(
       updateTagCollection(i18n, { type: 'message', entity: message, tags })
     );
 
@@ -98,7 +104,7 @@ function Message({
         {isMail ? (
           <MailMessage
             forwardedRef={ref}
-            message={message}
+            message={hasEncryption && !isLocked ? decryptedMessage : message}
             settings={settings}
             onOpenTags={handleOpenTags}
             onCloseTags={handleCloseTags}
@@ -112,7 +118,7 @@ function Message({
         ) : (
           <InstantMessage
             forwardedRef={ref}
-            message={message}
+            message={hasEncryption && !isLocked ? decryptedMessage : message}
             onOpenTags={handleOpenTags}
             onCloseTags={handleCloseTags}
             onTagsChange={handleTagsChange}
