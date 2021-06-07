@@ -55,6 +55,7 @@ class TextFieldGroup extends PureComponent {
       className,
       showLabelforSr,
       display,
+      innerRef,
       ...inputProps
     } = this.props;
 
@@ -87,7 +88,8 @@ class TextFieldGroup extends PureComponent {
           className={inputClassName}
           expanded={expanded}
           hasError={hasError}
-          {...inputProps}
+          inputProps={inputProps}
+          ref={innerRef}
         />
       </FieldGroup>
     );
