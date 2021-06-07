@@ -1,9 +1,8 @@
 import configureMockStore from 'redux-mock-store';
 import { getLastMessage } from './getLastMessage';
-import promiseMiddleware from '../../../store/middlewares/promise-middleware';
-import thunkMiddleware from '../../../store/middlewares/thunk-middleware';
+import { getDefaultMiddleware } from '@reduxjs/toolkit';
 
-const mockStore = configureMockStore([promiseMiddleware, thunkMiddleware]);
+const mockStore = configureMockStore(getDefaultMiddleware());
 jest.mock('./fetchMessages', () => ({
   fetchMessages: (params) => (dispatch) => {
     dispatch({ type: 'FETCH_MESSAGES', payload: params });
