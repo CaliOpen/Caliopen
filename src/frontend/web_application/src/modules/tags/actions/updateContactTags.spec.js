@@ -1,7 +1,6 @@
 import configureMockStore from 'redux-mock-store';
+import { getDefaultMiddleware } from '@reduxjs/toolkit';
 import { updateContactTags } from './updateContactTags';
-import promiseMiddleware from '../../../store/middlewares/promise-middleware';
-import thunkMiddleware from '../../../store/middlewares/thunk-middleware';
 
 jest.mock('./updateTagCollection', () => ({
   updateTagCollection: (
@@ -17,7 +16,7 @@ jest.mock('./updateTagCollection', () => ({
     return Promise.resolve({ ...entity, tags });
   },
 }));
-jest.mock('../../../store/modules/contact', () => ({
+jest.mock('src/modules/contact/store/reducer', () => ({
   invalidate: () => (dispatch) => {
     dispatch({ type: 'invalidate' });
 
@@ -27,7 +26,7 @@ jest.mock('../../../store/modules/contact', () => ({
   },
 }));
 
-const mockStore = configureMockStore([promiseMiddleware, thunkMiddleware]);
+const mockStore = configureMockStore(getDefaultMiddleware());
 
 describe('modules tags - actions - updateContactTags', () => {
   it('updates tag collection for each contact then invalidate', () => {

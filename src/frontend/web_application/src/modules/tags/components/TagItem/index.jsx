@@ -22,7 +22,7 @@ class TagItem extends Component {
     const { onDelete, tag } = this.props;
 
     this.setState({ isTagCollectionUpdating: true });
-    await onDelete({ tag });
+    await onDelete(tag);
     this.setState({ isTagCollectionUpdating: false });
   };
 
