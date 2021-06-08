@@ -21,11 +21,11 @@ class ManageEntityTags extends PureComponent {
       <WithTags
         render={(tags) => (
           <TagsForm
-            userTags={tags}
-            tags={
+            tagCollection={
               !entity || !entity.tags
                 ? []
-                : getCleanedTagCollection(tags, entity.tags)
+                : // XXX: useful? may be pass entity.tags directly
+                  getCleanedTagCollection(tags, entity.tags)
             }
             updateTags={onChange}
           />

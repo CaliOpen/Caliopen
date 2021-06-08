@@ -98,6 +98,11 @@
 @mixin o-clickable--plain {
   background-color: $co-color__primary;
   color: $co-color__clickable-text--contrasted;
+
+  &:hover:disabled {
+    // force initial color
+    color: $co-color__clickable-text--contrasted;
+  }
 }
 
 @mixin o-clickable--active-text {

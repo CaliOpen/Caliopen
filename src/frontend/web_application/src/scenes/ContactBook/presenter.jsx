@@ -178,10 +178,12 @@ class ContactBook extends Component {
     }));
   };
 
-  handleTagsChange = ({ tags }) => {
+  handleTagsChange = (tags) => {
     const { updateContactTags, i18n } = this.props;
 
-    return updateContactTags(i18n, this.state.selectedEntitiesIds, tags);
+    return updateContactTags(i18n, this.state.selectedEntitiesIds, tags, {
+      withThrottle: false,
+    });
   };
 
   renderTagsModal = () => {
@@ -192,6 +194,7 @@ class ContactBook extends Component {
     );
 
     const tagNamesInCommon = getTagNamesInCommon(selectedEntities);
+
     const tagsInCommon = getCleanedTagCollection(userTags, tagNamesInCommon);
 
     const title = (
@@ -210,14 +213,14 @@ class ContactBook extends Component {
         title={title}
         onClose={this.handleCloseTags}
       >
-        {selectedEntities.length > 1 && (
+        {tagNamesInCommon.length > 1 && (
           <Trans id="tags.common_tags_applied">
             Common tags applied to the current selection:
           </Trans>
         )}
+
         <TagsForm
-          userTags={userTags}
-          tags={tagsInCommon}
+          tagCollection={tagsInCommon}
           updateTags={this.handleTagsChange}
         />
       </Modal>

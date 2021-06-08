@@ -49,8 +49,10 @@
 
         &:hover,
         &:focus {
-          background-color: $color-hover;
-          color: $co-color__clickable-text--contrasted;
+          &:not(:disabled) {
+            background-color: $color-hover;
+            color: $co-color__clickable-text--contrasted;
+          }
         }
       }
     }

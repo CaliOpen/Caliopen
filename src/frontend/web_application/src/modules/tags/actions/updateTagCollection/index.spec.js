@@ -1,7 +1,6 @@
 import configureMockStore from 'redux-mock-store';
+import { getDefaultMiddleware } from '@reduxjs/toolkit';
 import { updateTagCollection } from '.';
-import promiseMiddleware from '../../../../store/middlewares/promise-middleware';
-import thunkMiddleware from '../../../../store/middlewares/thunk-middleware';
 
 jest.mock('../createTag', () => ({
   createTag: ({ label }) => (dispatch) => {
@@ -36,7 +35,7 @@ jest.mock('../../../../store/modules/message', () => ({
   },
 }));
 
-const mockStore = configureMockStore([promiseMiddleware, thunkMiddleware]);
+const mockStore = configureMockStore(getDefaultMiddleware());
 
 describe('modules tags - actions - updateTagCollection', () => {
   it("create a new tag then patch message's tags", () => {

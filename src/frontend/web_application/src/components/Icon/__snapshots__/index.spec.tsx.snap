@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component Icon render 1`] = `
+<div>
+  <i
+    class="fa fa-edit"
+  />
+</div>
+`;

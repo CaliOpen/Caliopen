@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import classnames from 'classnames';
 
 import './style.scss';
@@ -82,6 +81,8 @@ export const typeAssoc = {
   'window-maximize': 'fa fa-window-maximize',
 };
 
+type Type = keyof typeof typeAssoc;
+
 const svgGlyphs = {
   mastodon: (
     <svg
@@ -95,17 +96,32 @@ const svgGlyphs = {
   ),
 };
 
-const renderSvg = (type, iconProps) => {
+const SvgIcon = ({ type, iconProps }) => {
   const markup = svgGlyphs[type];
 
   return <span {...iconProps}>{markup}</span>;
 };
 
-const Icon = ({ className, type, spaced, rightSpaced, ...props }) => {
+interface IconProps {
+  className?: string;
+  type: Type;
+  spaced?: boolean;
+  rightSpaced?: boolean;
+  [key: string]: any;
+}
+
+const Icon = ({
+  className,
+  type,
+  spaced = false,
+  rightSpaced = false,
+  ...props
+}: IconProps) => {
   // eslint-disable-next-line no-console
-  const typeClassName =
-    typeAssoc[type] ||
+  if (!typeAssoc[type]) {
     console.error(`The type "${type}" is not a valid Icon component type`);
+  }
+  const typeClassName = typeAssoc[type] || typeAssoc['question'];
   const isSVG = typeClassName.startsWith('svg');
   const iconProps = {
     ...props,
@@ -116,20 +132,11 @@ const Icon = ({ className, type, spaced, rightSpaced, ...props }) => {
     }),
   };
 
-  return isSVG ? renderSvg(type, iconProps) : <i {...iconProps} />;
-};
-
-Icon.propTypes = {
-  className: PropTypes.string,
-  type: PropTypes.string,
-  spaced: PropTypes.bool,
-  rightSpaced: PropTypes.bool,
-};
-Icon.defaultProps = {
-  className: undefined,
-  type: undefined,
-  spaced: false,
-  rightSpaced: false,
+  return isSVG ? (
+    <SvgIcon type={type} iconProps={iconProps} />
+  ) : (
+    <i {...iconProps} />
+  );
 };
 
 export default Icon;

@@ -1,6 +1,5 @@
 import configureMockStore from 'redux-mock-store';
-import promiseMiddleware from '../../../store/middlewares/promise-middleware';
-import thunkMiddleware from '../../../store/middlewares/thunk-middleware';
+import { getDefaultMiddleware } from '@reduxjs/toolkit';
 import { requestParticipantSuggestions } from './requestParticipantSuggestions';
 
 jest.mock('../../../store/modules/participant-suggestions', () => ({
@@ -16,7 +15,7 @@ jest.mock('../../../store/modules/participant-suggestions', () => ({
   }),
 }));
 
-const mockStore = configureMockStore([promiseMiddleware, thunkMiddleware]);
+const mockStore = configureMockStore(getDefaultMiddleware());
 
 describe('modules draftMessage - actions - requestParticipantSuggestions', () => {
   it('suggests', async () => {

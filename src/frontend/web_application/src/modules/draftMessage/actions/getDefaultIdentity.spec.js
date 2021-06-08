@@ -1,9 +1,8 @@
 import configureMockStore from 'redux-mock-store';
-import promiseMiddleware from '../../../store/middlewares/promise-middleware';
-import thunkMiddleware from '../../../store/middlewares/thunk-middleware';
+import { getDefaultMiddleware } from '@reduxjs/toolkit';
 import { getDefaultIdentity } from './getDefaultIdentity';
 
-const mockStore = configureMockStore([promiseMiddleware, thunkMiddleware]);
+const mockStore = configureMockStore(getDefaultMiddleware());
 
 describe('modules identity - actions - getDefaultIdentity', () => {
   const localIdentity = {

@@ -1,12 +1,20 @@
+import { CSSProperties } from 'react';
+
 const HEADER__HEIGHT = 42;
 
+interface GetDropdownStyleProps {
+  alignRight?: boolean;
+  controlElement: HTMLElement;
+  dropdownElement: HTMLElement;
+  win?: Window;
+}
 // FIXME: how to calc when there is no controlElement?
 export const getDropdownStyle = ({
   alignRight = false,
   controlElement,
   dropdownElement,
   win = window,
-}) => {
+}: GetDropdownStyleProps): CSSProperties => {
   const controlRect = controlElement.getBoundingClientRect();
   const dropdownRect = dropdownElement.getBoundingClientRect();
 
@@ -28,26 +36,26 @@ export const getDropdownStyle = ({
   const isFullHeight = dropdownRect.height > winHeight;
 
   let position = 'absolute';
-  let height;
-  let width;
-  let top = initTop + controlRect.height;
-  let left = initLeft;
+  let height: undefined | string;
+  let width: undefined | string;
+  let top: string = `${initTop + controlRect.height}px`;
+  let left: string = `${initLeft}px`;
 
   switch (true) {
     case isFullWidth || (isTouchingLeft && isTouchingRight):
-      left = winX;
+      left = `${winX}px`;
       width = '100%';
       break;
     case (isAlignRight || isTouchingRight) && !isFullWidth:
-      left = initLeft + offsetLeftWhenRightAligned;
+      left = `${initLeft + offsetLeftWhenRightAligned}px`;
       break;
     default:
   }
 
   if (isFullHeight) {
     position = 'fixed';
-    height = winHeight - HEADER__HEIGHT;
-    top = winY + HEADER__HEIGHT;
+    height = `${winHeight - HEADER__HEIGHT}px`;
+    top = `${winY + HEADER__HEIGHT}px`;
   }
 
   const offset = {
@@ -56,7 +64,7 @@ export const getDropdownStyle = ({
     position,
     height,
     width,
-  };
+  } as React.CSSProperties; // XXX: workaround position incompatible type
 
   return offset;
 };
