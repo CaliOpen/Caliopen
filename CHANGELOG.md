@@ -8,10 +8,19 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Fixed
+
+- tag management
+- login form
+
+## [0.24.0] 2021-03-02
+
 ### Changed
 
 - re-enable Take a Tour.
 - update internal frontend dependencies.
+- Edit advanced draft in its specific page.
+- update dependencies
 
 ### Fixed
 
