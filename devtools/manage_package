@@ -182,10 +182,10 @@ def process_package_version(config, opts, package, lang, repo, tag=False):
         raise Exception('Language {} not managed'.format(lang))
 
     if update == 0:
+        repo.index.add([file])
         if tag:
             log.info('Creating tag {}'.format(tag_name))
             repo.create_tag(tag_name)
-        repo.index.add([file])
     else:
         raise Exception('Invalid return value when updating package version')
     return update
