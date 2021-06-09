@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.24.1] 2021-06-09
+
 ### Fixed
 
 - tag management
