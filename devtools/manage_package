@@ -15,6 +15,7 @@ import re
 import subprocess as sp
 import argparse
 import logging
+import datetime
 
 import yaml
 import json
@@ -29,6 +30,7 @@ PY_UPDATE_CMD = """perl -pi -e "s/__version__ = '.*/__version__ = '{version}'/" 
 GO_UPDATE_CMD = """perl -pi -e "s/__version__ = \\".*/__version__ = \\"{version}\\"/" {file}"""
 JS_UPDATE_CMD = "cd {dir}; npm version {version}"
 
+CHANGELOG_UPDATE_CMD = sed -i '/## \[Unreleased\]/a ## [{version}] {date}' {file}"
 
 #
 # Method duplicated with make_release ones ...
@@ -89,6 +91,18 @@ def check_versions(current, new):
         raise Exception('Current version {} and new expected one {} mismatch'.
                         format(current, new))
 
+
+#
+# Methods for files with version
+#
+
+def process_changelog_version(dir, version):
+    today = datetime.datetime.now()
+
+    changelog_file = '{}/CHANGELOG.md'.format(dir)
+    cmd = CHANGELOG_UPDATE_CMD.format(version=version, file=changelog_file, date=today.strftime('%Y-%m-%d'))
+    log.debug('Will execute {}'.format(cmd))
+    return sp.call(cmd, shell=True), changelog_file
 
 #
 # Methods for package management
@@ -158,6 +172,8 @@ def create_package_version(config, opts):
 def process_package_version(config, opts, package, lang, repo, tag=False):
     """Process package to update version."""
     basedir = get_repository_directory(config)
+    process_changelog_version(basedir, opts.version)
+
     print('###### %r' % package)
     tag_name = '{}-{}'.format(package['name'], opts.version)
     pkg_dir = '{}/{}'.format(basedir, package['path'])
