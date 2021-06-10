@@ -71,9 +71,9 @@ const updateTagCollection = (
     })
   );
 
-  const userContact = userSelector(getState()).contact;
+  const userContact = userSelector(getState())?.contact;
 
-  if (userContact.contact_id === entity.contact_id) {
+  if (userContact?.contact_id === entity.contact_id) {
     dispatch(requestUser());
   }
 

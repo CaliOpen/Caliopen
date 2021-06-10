@@ -26,7 +26,7 @@ function DraftDiscussion({ messageId, className }: Props) {
       (participant) =>
         !user ||
         !(participant.contact_ids || EMPTY_ARRAY).some(
-          (contactId) => contactId === user.contact.contact_id
+          (contactId) => contactId === user?.contact.contact_id
         )
     )
     .map((participant) => participant.label)

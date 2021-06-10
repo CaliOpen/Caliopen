@@ -57,7 +57,7 @@ class DiscussionItem extends PureComponent {
         !(
           participant.contact_ids &&
           participant.contact_ids.some(
-            (contactId) => contactId === this.props.user.contact.contact_id
+            (contactId) => contactId === this.props.user?.contact.contact_id
           )
         )
     );

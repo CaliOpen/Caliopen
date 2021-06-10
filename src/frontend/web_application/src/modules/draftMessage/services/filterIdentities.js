@@ -8,7 +8,7 @@ const getParticipantsContactsExceptUser = ({ contacts, participants, user }) =>
     }
 
     const contactIds = participant.contact_ids.filter(
-      (contactId) => contactId !== user.contact.contact_id
+      (contactId) => contactId !== user?.contact.contact_id
     );
 
     if (contactIds.length === 0) {

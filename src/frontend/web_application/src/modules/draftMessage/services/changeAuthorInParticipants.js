@@ -2,7 +2,7 @@ import { getIdentityProtocol } from './getIdentityProtocol';
 
 const isUserParticipant = ({ user, participant }) =>
   participant.contact_ids &&
-  participant.contact_ids.includes(user.contact.contact_id);
+  participant.contact_ids.includes(user?.contact.contact_id);
 
 const isIdentityParticipant = ({ identity, participant }) =>
   identity.identifier === participant.address &&

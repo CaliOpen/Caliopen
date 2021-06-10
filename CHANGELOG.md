@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Fixed
+
+- client BSOD: Make sure user is loaded before accessing to the contact.
+
 ## [0.24.1] 2021-06-09
 
 ### Fixed
