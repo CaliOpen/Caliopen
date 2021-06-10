@@ -4,15 +4,15 @@ Things to do for a new release...
 
 ## 1. Prepare
 
-* Merge all the things in `master` branch
+- Merge all the things in `master` branch
   ```
   git checkout develop && git pull
   git checkout master && git pull
   git merge develop
   ```
-* Make sure `CHANGELOG.md` is up to date according to http://keepachangelog.com (and don't forget **to add the version you want to release**, it is not automated, keep semver notation of the version e.g `0.24.0`)
-* Stash or commit if you have changes
-* Change the version of caliopen packages (python and virtualenv are required):
+- Make sure `CHANGELOG.md` is up to date according to http://keepachangelog.com
+- Stash or commit if you have changes
+- Change the version of caliopen packages (python and virtualenv are required):
 
   ```bash
   cd devtools
@@ -25,16 +25,18 @@ Things to do for a new release...
   ./manage_package --conf ./packages.yaml create_version all 0.18.1
   deactivate
   ```
-* Add a tag for the release, the tag will be signed and annoted:
+
+- Add a tag for the release, the tag will be signed and annoted:
   ```
   git tag -a -s release-0.18.0
   ```
-* Publish the release on github:
+- Publish the release on github:
   ```
   git push
   git push origin release-0.18.0
   ```
-* Create a new release https://github.com/CaliOpen/Caliopen/releases/new and specify the tag name you've just published e.g. `release-0.18.0`
+- Create a new release https://github.com/CaliOpen/Caliopen/releases/new and
+  specify the tag name you've just published e.g. `release-0.18.0`
 
 ## 2. Build images & Publish
 
@@ -58,7 +60,9 @@ export CALIOPEN_VERSION=X.Y.Z
 
 ### Build and publish
 
-This will build the container related to the given application and publish it on the docker images registry using 2 tags:
+This will build the container related to the given application and publish it on
+the docker images registry using 2 tags:
+
 - `${APP_NAME}/latest`
 - `${APP_NAME}/${CALIOPEN_VERSION}`
 
