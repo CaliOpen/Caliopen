@@ -30,7 +30,7 @@ PY_UPDATE_CMD = """perl -pi -e "s/__version__ = '.*/__version__ = '{version}'/" 
 GO_UPDATE_CMD = """perl -pi -e "s/__version__ = \\".*/__version__ = \\"{version}\\"/" {file}"""
 JS_UPDATE_CMD = "cd {dir}; npm version {version}"
 
-CHANGELOG_UPDATE_CMD = sed -i '/## \[Unreleased\]/a ## [{version}] {date}' {file}"
+CHANGELOG_UPDATE_CMD = "sed -i '/## \[Unreleased\]/a ## [{version}] {date}' {file}"
 
 #
 # Method duplicated with make_release ones ...
@@ -149,6 +149,7 @@ def create_package_version(config, opts):
     """Update one package or all to a new version."""
     basedir = get_repository_directory(config)
     repo = get_repository(basedir)
+
     if not opts.no_check:
         assert not repo.is_dirty(), 'Current head is dirty'
 
@@ -157,29 +158,38 @@ def create_package_version(config, opts):
         for lang, packages in all_packages.items():
             for package in packages:
                 process_package_version(config, opts, package,
-                                        lang, repo, tag=False)
+                                        lang, repo)
         tag_name = 'packages-{}'.format(opts.version)
-        log.info('Creating tag {}'.format(tag_name))
-        repo.create_tag(tag_name)
     else:
         lang, package = find_package(config, opts.package)
-        process_package_version(config, opts, package, lang, repo, tag=True)
-    repo.index.commit('Version {} for package {}'.
-                      format(opts.version, opts.package))
-    repo.index.write_tree()
+        process_package_version(config, opts, package, lang, repo)
+        tag_name = '{}-{}'.format(package['name'], opts.version)
 
+    if not tag_name:
+        raise Exception('Tag name is not set')
 
-def process_package_version(config, opts, package, lang, repo, tag=False):
-    """Process package to update version."""
-    basedir = get_repository_directory(config)
-    process_changelog_version(basedir, opts.version)
+    update, file = process_changelog_version(basedir, opts.version)
+    if update == 0:
+        repo.index.add([file])
 
-    print('###### %r' % package)
-    tag_name = '{}-{}'.format(package['name'], opts.version)
-    pkg_dir = '{}/{}'.format(basedir, package['path'])
 
     if not opts.no_check:
         assert tag_name not in repo.tags, 'Tag {} exists'.format(opts.version)
+
+    repo.index.commit('Version {} for package {}'.
+                      format(opts.version, opts.package))
+    log.info('Creating tag {}'.format(tag_name))
+    repo.create_tag(tag_name)
+
+    repo.index.write_tree()
+
+
+def process_package_version(config, opts, package, lang, repo):
+    """Process package to update version."""
+    basedir = get_repository_directory(config)
+
+    print('###### %r' % package)
+    pkg_dir = '{}/{}'.format(basedir, package['path'])
 
     if lang == 'python':
         current = get_python_version(package, pkg_dir)
@@ -199,9 +209,6 @@ def process_package_version(config, opts, package, lang, repo, tag=False):
 
     if update == 0:
         repo.index.add([file])
-        if tag:
-            log.info('Creating tag {}'.format(tag_name))
-            repo.create_tag(tag_name)
     else:
         raise Exception('Invalid return value when updating package version')
     return update
