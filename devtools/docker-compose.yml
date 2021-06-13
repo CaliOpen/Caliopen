@@ -131,6 +131,20 @@ services:
     environment:
       CALIOPEN_API_HOSTNAME: proxyapi
 
+  frontend_dev:
+    build:
+      context: ../src/frontend/web_application
+      dockerfile: Dockerfile.dev
+    image: caliopen_frontend_dev
+    ports:
+      - "4000:4000"
+    depends_on:
+      - proxyapi
+    environment:
+      CALIOPEN_API_HOSTNAME: proxyapi
+    volumes:
+      - ../src/frontend/web_application:/srv/caliopen/frontend
+
   # Broker
   lmtpd:
     build:
