@@ -7,10 +7,14 @@ export const validate = ({
   draftMessage,
   i18n,
   availableIdentities,
+  options = {
+    ignoreBody: false,
+  },
 }: {
   draftMessage: IDraftMessageFormData;
   i18n: I18n;
   availableIdentities: any[];
+  options?: { ignoreBody: boolean };
 }): string[] => {
   const identity = availableIdentities.find(
     (ident) => ident.identity_id === draftMessage.identity_id
@@ -45,6 +49,7 @@ export const validate = ({
   }
 
   if (
+    !options.ignoreBody &&
     (protocol === PROTOCOL_TWITTER || protocol === PROTOCOL_MASTODON) &&
     draftMessage.body.length === 0
   ) {

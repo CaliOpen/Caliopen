@@ -252,7 +252,12 @@ function QuickDraftForm({
     );
   }
 
-  const errors = validate({ draftMessage, i18n, availableIdentities });
+  const errors = validate({
+    draftMessage,
+    i18n,
+    availableIdentities,
+    options: { ignoreBody: true },
+  });
   if (errors.length) {
     return (
       <div className="m-quickdraft-errors" ref={innerRef}>
