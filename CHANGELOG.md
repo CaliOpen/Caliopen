@@ -25,6 +25,7 @@ and this project adheres to
 
 - tag management
 - login form
+- Mastodon DM handling
 
 ## [0.24.0] 2021-03-02
 
