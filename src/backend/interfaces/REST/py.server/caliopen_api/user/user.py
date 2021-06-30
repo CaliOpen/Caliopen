@@ -8,9 +8,6 @@ import datetime
 from pyramid.security import NO_PERMISSION_REQUIRED
 from cornice.resource import resource, view
 
-import tornado.ioloop
-import tornado.gen
-from nats.io import Client as Nats
 import json
 
 from ..base.context import DefaultContext
@@ -254,19 +251,3 @@ class MeUserAPI(Api):
         user_id = self.request.authenticated_userid.user_id
         user = User.get(user_id)
         return ReturnUser.build(user).serialize()
-
-
-@tornado.gen.coroutine
-def notify_new_user(user, config):
-    client = Nats()
-    server = 'nats://{}:{}'.format(config['host'], config['port'])
-    opts = {"servers": [server]}
-    yield client.connect(**opts)
-    notif = {
-        'message': 'created',
-        'user_name': '{0}'.format(user.name),
-        'user_id': '{0}'.format(user.user_id)
-    }
-    yield client.publish('userAction', json.dumps(notif))
-    yield client.flush()
-    log.info("New user notification sent on NATS for {0}".format(user.user_id))

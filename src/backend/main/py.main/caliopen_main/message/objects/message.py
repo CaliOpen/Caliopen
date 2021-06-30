@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """Caliopen message object classes."""
-from __future__ import absolute_import, print_function, unicode_literals
 
 from caliopen_main.common.objects.base import ObjectIndexable
 
-import uuid
+from uuid import UUID
 import datetime
 import pytz
 import json
@@ -43,22 +42,22 @@ class Message(ObjectIndexable):
         'date_delete': datetime.datetime,
         'date_insert': datetime.datetime,
         'date_sort': datetime.datetime,
-        'discussion_id': types.StringType,
+        'discussion_id': str,
         'external_references': ExternalReferences,
-        'importance_level': types.IntType,
-        'is_answered': types.BooleanType,
-        'is_draft': types.BooleanType,
-        'is_unread': types.BooleanType,
-        'is_received': types.BooleanType,
+        'importance_level': int,
+        'is_answered': bool,
+        'is_draft': bool,
+        'is_unread': bool,
+        'is_received': bool,
         'message_id': UUID,
         'parent_id': UUID,
         'participants': [Participant],
         'privacy_features': dict,
         'pi': PIObject,
         'raw_msg_id': UUID,
-        'subject': types.StringType,
-        'tags': [types.StringType],
-        'protocol': types.StringType,
+        'subject': str,
+        'tags': [str],
+        'protocol': str,
         'user_id': UUID,
         'user_identities': [UUID],
     }

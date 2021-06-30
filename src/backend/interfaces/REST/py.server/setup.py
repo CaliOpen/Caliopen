@@ -18,7 +18,7 @@ with open(
         v_file.read()).group(1)
 
 requires = [
-    'pyramid',
+    'pyramid<2.0',
     'pyramid_jinja2',
     'redis==2.10.6',  # Enforce this version, version >= 3.0.0 break setex
     'pyramid_kvs==0.3.0',
@@ -28,6 +28,9 @@ requires = [
     'pyramid-swagger',
     'rfc3987',
     'rfc3339',
+    'gunicorn',
+    'ecdsa',
+    'asn1crypto',
     ]
 
 tests_require = ['nose', 'coverage']

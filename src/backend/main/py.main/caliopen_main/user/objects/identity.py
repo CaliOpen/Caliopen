@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Caliopen message object classes."""
-from __future__ import absolute_import, print_function, unicode_literals
 
 import types
 import datetime
@@ -20,14 +19,14 @@ class UserIdentity(ObjectUser):
 
     _attrs = {
         'credentials': Credentials,
-        'display_name': types.StringType,
-        'identifier': types.StringType,  # for example: me@caliopen.org
+        'display_name': str,
+        'identifier': str,  # for example: me@caliopen.org
         'identity_id': UUID,
-        'infos': types.DictionaryType,
+        'infos': dict,
         'last_check': datetime.datetime,
-        'protocol': types.StringType,  # for example: smtp, imap, mastodon
-        'status': types.StringType,  # for example : active, inactive, deleted
-        'type': types.StringType,  # for example : local, remote
+        'protocol': str,  # for example: smtp, imap, mastodon
+        'status': str,  # for example : active, inactive, deleted
+        'type': str,  # for example : local, remote
         'user_id': UUID
     }
 

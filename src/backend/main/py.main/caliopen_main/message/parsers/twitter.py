@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 import pytz
 
-import zope.interface
+from zope.interface import implementer
 
 from caliopen_main.common.interfaces import (IMessageParser, IParticipantParser)
 from caliopen_main.common.helpers.normalize import clean_twitter_address
@@ -13,12 +13,11 @@ from caliopen_main.common.helpers.normalize import clean_twitter_address
 log = logging.getLogger(__name__)
 
 
+@implementer(IMessageParser)
 class TwitterDM(object):
     """
     Twitter direct message structure
     """
-
-    zope.interface.implements(IMessageParser)
 
     recipient_headers = ['From', 'To']
     message_protocol = 'twitter'
@@ -84,12 +83,11 @@ class TwitterDM(object):
         return {}
 
 
+@implementer((IParticipantParser))
 class TwitterParticipant(object):
     """
     Twitter sender and recipient parser
     """
-
-    zope.interface.implements(IParticipantParser)
 
     def __init__(self, type, screen_name):
         """Parse a twitter address and create a participant."""

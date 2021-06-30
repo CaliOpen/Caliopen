@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """Caliopen message object classes."""
-from __future__ import absolute_import, print_function, unicode_literals
 
-import uuid
+from uuid import UUID
 
 from caliopen_main.common.objects.base import ObjectJsonDictifiable
 from caliopen_main.participant.store.participant import \
@@ -14,12 +13,12 @@ class Participant(ObjectJsonDictifiable):
     """participant's attributes, nested within message object"""
 
     _attrs = {
-        'address': types.StringType,
+        'address': str,
         'contact_ids': [UUID],
-        'label': types.StringType,
+        'label': str,
         'participant_id': UUID,
-        'protocol': types.StringType,
-        'type': types.StringType
+        'protocol': str,
+        'type': str
     }
 
     _model_class = ModelParticipant

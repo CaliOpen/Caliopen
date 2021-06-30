@@ -4,7 +4,7 @@ import logging
 import json
 import dateutil.parser
 
-import zope.interface
+from zope.interface import implementer
 
 from caliopen_main.common.interfaces import (IMessageParser, IParticipantParser)
 from caliopen_main.common.helpers.normalize import parse_mastodon_url
@@ -12,12 +12,11 @@ from caliopen_main.common.helpers.normalize import parse_mastodon_url
 log = logging.getLogger(__name__)
 
 
+@implementer(IMessageParser)
 class MastodonStatus(object):
     """
     Mastodon status structure
     """
-
-    zope.interface.implements(IMessageParser)
 
     message_protocol = 'mastodon'
     warnings = []
@@ -88,12 +87,11 @@ class MastodonStatus(object):
         return {}
 
 
+@implementer((IParticipantParser))
 class MastodonParticipant(object):
     """
     Mastodon sender and recipient parser
     """
-
-    zope.interface.implements(IParticipantParser)
 
     def __init__(self, type, url):
         """Parse a mastodon address and create a participant."""

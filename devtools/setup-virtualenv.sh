@@ -22,9 +22,9 @@ fi
 pip install regex
 
 # Install github version of fasttext not pip version really too old
-pip install git+https://github.com/facebookresearch/fastText.git
+# pip install git+https://github.com/facebookresearch/fastText.git
 
-COMPONENTS="main/py.storage components/py.pgp components/py.pi components/py.data components/py.tag main/py.main interfaces/REST/py.server tools/py.doc interfaces/NATS/py.client tools/py.CLI tools/py.ML"
+COMPONENTS="main/py.storage components/py.pgp components/py.pi main/py.main interfaces/REST/py.server tools/py.doc interfaces/NATS/py.client tools/py.CLI tools/py.ML"
 
 for comp in ${COMPONENTS}:
 do

@@ -13,13 +13,13 @@ class MessageAttachment(ObjectJsonDictifiable):
     """Attachment's attributes, nested within message object."""
 
     _attrs = {
-        'content_type': types.StringType,
-        'file_name': types.SliceType,
-        'is_inline': types.BooleanType,
-        'size': types.IntType,
+        'content_type': str,
+        'file_name': str,
+        'is_inline': bool,
+        'size': int,
         'temp_id': UUID,
-        'url': types.StringType,
-        'mime_boundary': types.StringType
+        'url': str,
+        'mime_boundary': str
     }
 
     _model_class = ModelMessageAttachment
