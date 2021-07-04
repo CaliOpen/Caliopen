@@ -38,20 +38,13 @@ describe('ContactAssociation', () => {
       })
     );
   });
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-  // This test is unstable for some reasons :/
   it('render', async () => {
     render(<ContactAssociation />, { wrapper: AllProviders });
-
     await waitForElementToBeRemoved(
-      screen.getByRole('list', { name: 'Contact list is loading.' })
+      screen.getByRole('list', { name: 'Contact list is loading.' }),
+      { timeout: 1000 }
     );
-
     const expectedName = `${contacts[0].given_name} ${contacts[0].family_name}`;
-
-    // trigger another render because of multiple fetches?
-    expect(await screen.findByText(expectedName)).toBeVisible();
-  }, 100000); // TIMEOUT
+    expect(screen.getByText(expectedName)).toBeVisible();
+  });
 });

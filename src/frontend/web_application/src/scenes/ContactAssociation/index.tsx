@@ -34,7 +34,6 @@ interface Props extends withI18nProps {}
 function ContactAssociation({ i18n }: Props) {
   const dispatch = useDispatch();
   const isLoading = useSelector(ContactListUtility.isLoadingSelector);
-
   const closeTab = useCloseTab();
   const currentTab = useCurrentTab();
   const { push } = useHistory();

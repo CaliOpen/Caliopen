@@ -15,7 +15,9 @@ beforeAll(() => {
     hash: 'a-hash',
     curve: 'whatever',
   });
-  server.listen();
+  server.listen({
+    onUnhandledRequest: 'warn',
+  });
 });
 afterEach(() => {
   server.resetHandlers();

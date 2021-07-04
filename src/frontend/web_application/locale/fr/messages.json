@@ -257,7 +257,7 @@
   "messages.compose.action.remove-recipient": "Supprimer le ou la destinataire",
   "messages.compose.form.body.label": "Message...",
   "messages.compose.form.subject.label": "Sujet",
-  "messages.compose.form.to.label": "À",
+  "messages.compose.form.to.label": "À :",
   "messages.participants.and_x_others": "{first} et {number, plural, one {# autre} other {# autres}}",
   "new-device-info.i-understand": "Je comprends",
   "new-device-info.learn-more": "En savoir plus",
