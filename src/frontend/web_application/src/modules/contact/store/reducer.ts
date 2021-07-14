@@ -119,7 +119,7 @@ export function requestContacts(
   };
 }
 
-export function requestContact(contactId): RequestContactAction {
+export function requestContact(contactId: string): RequestContactAction {
   return {
     type: REQUEST_CONTACT,
     payload: {
