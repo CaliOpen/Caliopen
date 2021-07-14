@@ -89,7 +89,17 @@ function TagInput({ i18n, tag, onUpdateSuccess, onDeleteSuccess }: Props) {
           aria-label={i18n._('settings.tag.action.save-tag', undefined, {
             defaults: 'Save',
           })}
-          icon={pending ? <Spinner isLoading display="inline" /> : 'check'}
+          icon={
+            pending ? (
+              <Spinner
+                svgTitleId="save-tag-spinner"
+                isLoading
+                display="inline"
+              />
+            ) : (
+              'check'
+            )
+          }
           disabled={pending}
         />
       </FormGrid>
@@ -111,7 +121,17 @@ function TagInput({ i18n, tag, onUpdateSuccess, onDeleteSuccess }: Props) {
           })}
           disabled={pending}
           onClick={handleDeleteTag}
-          icon={pending ? <Spinner isLoading display="inline" /> : 'remove'}
+          icon={
+            pending ? (
+              <Spinner
+                svgTitleId="delete-tag-spinner"
+                isLoading
+                display="inline"
+              />
+            ) : (
+              'remove'
+            )
+          }
         />
       )}
       {tagErrors && (

@@ -41,7 +41,15 @@ class VerifyDevice extends Component {
     return (
       <Button
         icon={
-          this.state.sending ? <Spinner isLoading display="inline" /> : 'check'
+          this.state.sending ? (
+            <Spinner
+              svgTitleId="verify-device-spinner"
+              isLoading
+              display="inline"
+            />
+          ) : (
+            'check'
+          )
         }
         shape="plain"
         className="m-device-verify__button"

@@ -108,7 +108,7 @@ function OpenPGPKey({
   return (
     <div className={classnames(['m-openpgp-key', className])}>
       <div className="m-openpgp-key__main">
-        <Spinner isLoading={loading} />
+        <Spinner svgTitleId="page-pgpkey-spinner" isLoading={loading} />
         {keyDetails && (
           <>
             <div className="m-openpgp-key__icon">

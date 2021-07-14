@@ -184,7 +184,11 @@ class AttachmentManager extends Component {
                 )}
                 icon={
                   this.state.isFetching[attachement.temp_id] ? (
-                    <Spinner isLoading display="inline" />
+                    <Spinner
+                      svgTitleId="attachement-delete-spinner"
+                      isLoading
+                      display="inline"
+                    />
                   ) : (
                     <Icon type="remove" />
                   )
@@ -203,7 +207,11 @@ class AttachmentManager extends Component {
           onClick={this.handleOpenImportModal}
           icon={
             this.state.isAttachmentsLoading ? (
-              <Spinner isLoading display="inline" />
+              <Spinner
+                svgTitleId="attachement-import-spinner"
+                isLoading
+                display="inline"
+              />
             ) : (
               <Icon type="paperclip" />
             )

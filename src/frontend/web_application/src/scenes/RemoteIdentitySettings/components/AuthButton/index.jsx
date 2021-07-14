@@ -78,7 +78,10 @@ class AuthButton extends Component {
             disabled={this.state.hasActivity}
           >
             {this.state.hasActivity ? (
-              <Spinner isloading />
+              <Spinner
+                svgTitleId={`authorize-provider-${providerName}-spinner`}
+                isloading
+              />
             ) : (
               <ProviderIcon
                 className="m-oauth-button__logo"

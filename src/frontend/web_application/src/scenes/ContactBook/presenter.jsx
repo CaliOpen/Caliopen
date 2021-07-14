@@ -274,7 +274,11 @@ class ContactBook extends Component {
                             noDecoration
                             icon={
                               this.state.isDeleting ? (
-                                <Spinner isLoading display="inline" />
+                                <Spinner
+                                  svgTitleId="delete-contacts-spinner"
+                                  isLoading
+                                  display="inline"
+                                />
                               ) : (
                                 'trash'
                               )

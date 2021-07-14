@@ -67,7 +67,7 @@ class ValidateDevice extends Component {
             className="s-validate-device__feedback"
             borderContext="disabled"
           >
-            <Spinner isLoading />{' '}
+            <Spinner svgTitleId="device-verification-spinner" isLoading />{' '}
             <Trans id="device.validation.in_progress">In progress.</Trans>
           </Section>
         );

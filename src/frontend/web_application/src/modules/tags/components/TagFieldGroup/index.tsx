@@ -58,7 +58,13 @@ function TagFieldGroup({
       />
       <Button
         className="m-tags-search__button"
-        icon={isFetching ? <Spinner isLoading display="inline" /> : 'plus'}
+        icon={
+          isFetching ? (
+            <Spinner svgTitleId="tag-add-spinner" isLoading display="inline" />
+          ) : (
+            'plus'
+          )
+        }
         disabled={isFetching}
         onClick={handleSubmit}
         aria-label={i18n._('tags.action.add', undefined, { defaults: 'Add' })}

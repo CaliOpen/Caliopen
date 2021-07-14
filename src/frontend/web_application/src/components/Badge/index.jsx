@@ -103,7 +103,17 @@ class Badge extends PureComponent {
             className={buttonClassName}
             display="inline"
             onClick={onDelete}
-            icon={isLoading ? <Spinner isLoading display="inline" /> : 'remove'}
+            icon={
+              isLoading ? (
+                <Spinner
+                  svgTitleId="badge-spinner"
+                  isLoading
+                  display="inline"
+                />
+              ) : (
+                'remove'
+              )
+            }
             aria-label={ariaLabel}
           />
         )}

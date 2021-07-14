@@ -198,7 +198,7 @@ function OpenPGPImportForm({ i18n, cancel, onSuccess }: Props) {
           type="submit"
           shape="plain"
         >
-          <Spinner isLoading={isLoading} />
+          <Spinner svgTitleId="add-pgpkey-spinner" isLoading={isLoading} />
           <Trans id="user.openpgp.action.add">Add</Trans>
         </Button>{' '}
         {/* @ts-ignore */}

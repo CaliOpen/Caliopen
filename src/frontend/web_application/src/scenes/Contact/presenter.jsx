@@ -337,7 +337,11 @@ class Contact extends Component {
                           display="inline"
                           icon={
                             this.state.isDeleting ? (
-                              <Spinner isLoading display="inline" />
+                              <Spinner
+                                svgTitleId="delete-contact-spinner"
+                                isLoading
+                                display="inline"
+                              />
                             ) : (
                               'trash'
                             )
@@ -577,7 +581,17 @@ class Contact extends Component {
         <Button
           type="submit"
           responsive="icon-only"
-          icon={hasActivity ? <Spinner isLoading display="inline" /> : 'check'}
+          icon={
+            hasActivity ? (
+              <Spinner
+                svgTitleId="validate-contact-spinner"
+                isLoading
+                display="inline"
+              />
+            ) : (
+              'check'
+            )
+          }
           className="s-contact__action"
           shape="plain"
           disabled={hasActivity || !valid}

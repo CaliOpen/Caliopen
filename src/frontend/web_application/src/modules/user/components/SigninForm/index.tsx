@@ -226,7 +226,13 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
                 shape="plain"
                 disabled={!isValid || isLoading}
                 icon={
-                  isLoading ? <Spinner isLoading display="inline" /> : undefined
+                  isLoading ? (
+                    <Spinner
+                      svgTitleId="signin-spinner"
+                      isLoading
+                      display="inline"
+                    />
+                  ) : undefined
                 }
               >
                 <Trans id="signin.action.login">Login</Trans>

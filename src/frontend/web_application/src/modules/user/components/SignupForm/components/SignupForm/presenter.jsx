@@ -368,7 +368,13 @@ class SignupForm extends Component {
                   shape="plain"
                   disabled={isValidating}
                   icon={
-                    isValidating ? <Spinner isLoading display="inline" /> : null
+                    isValidating ? (
+                      <Spinner
+                        svgTitleId="signup-spinner"
+                        isLoading
+                        display="inline"
+                      />
+                    ) : null
                   }
                 >
                   <Trans id="signup.action.create">Create</Trans>

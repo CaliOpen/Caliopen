@@ -421,7 +421,13 @@ function DraftMessage(props: DraftMessageProps) {
           onClick={handleSend}
           disabled={!canSend}
         >
-          {isSending && <Spinner display="inline" theme="bright" />}
+          {isSending && (
+            <Spinner
+              svgTitleId="send-draft-spinner"
+              display="inline"
+              theme="bright"
+            />
+          )}
           {/* @ts-ignore */}
           {!isSending && <Icon type="paper-plane" />}{' '}
           <Trans id="draft-message.action.send">Send</Trans>

@@ -37,7 +37,7 @@ function TagsSettings({ i18n }: Props) {
           })}
         >
           {!initialized && status !== 'rejected' ? (
-            <Spinner isLoading />
+            <Spinner svgTitleId="tags-spinner" isLoading />
           ) : (
             tags.map((tag) => (
               <TagInput
