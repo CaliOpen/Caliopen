@@ -81,7 +81,7 @@ export const typeAssoc = {
   'window-maximize': 'fa fa-window-maximize',
 };
 
-type Type = keyof typeof typeAssoc;
+export type Type = keyof typeof typeAssoc;
 
 const svgGlyphs = {
   mastodon: (

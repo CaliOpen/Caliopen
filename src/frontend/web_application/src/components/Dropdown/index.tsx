@@ -45,6 +45,7 @@ interface DropdownProps {
   closeOnClick?: CloseOn;
   closeOnScroll?: boolean; // should Dropdown close on windows scroll ?
   isMenu?: boolean;
+  /** even if controlled (`doNotClose`), some behaviors (resize) can autoclose dropdown, so `onToggle` must be handled */
   onToggle?: (visibility: boolean) => void;
   show?: boolean;
   displayFirstLayer?: boolean;
@@ -67,14 +68,14 @@ function Dropdown({
   closeOnScroll = false,
   isMenu = false,
   onToggle = () => {},
-  // show = false,
+  show = false,
   displayFirstLayer = false,
   innerRef,
   dropdownControlRef,
 }: DropdownProps) {
   const dropdownRef = useForwardedRef<HTMLDivElement>(innerRef);
 
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(show);
 
   React.useEffect(() => {
     const unsubscribeResizeEvent = addEventListener('resize', () => {
@@ -193,19 +194,24 @@ function Dropdown({
   };
 
   const handleToggleVisibility = (visibility: boolean) => {
-    setIsOpen(visibility);
     onToggle(visibility);
+    if (closeOnClick !== 'doNotClose') {
+      setIsOpen(visibility);
+    }
   };
 
   // Since dropdown position is computed according to previous position, the
   // memoization makes sure styles are kept during multiples re-render.
-  const dropdownStyle = React.useMemo(() => getStyles(isOpen), [isOpen]);
+  const dropdownStyle = React.useMemo(() => getStyles(isOpen || show), [
+    isOpen,
+    show,
+  ]);
 
   const dropdownProps = {
     id,
     className: classnames(
       'm-dropdown',
-      { 'm-dropdown--is-open': isOpen },
+      { 'm-dropdown--is-open': isOpen || show },
       { 'm-dropdown--is-menu': isMenu },
       { 'm-dropdown--display-first-layer': displayFirstLayer },
       className
