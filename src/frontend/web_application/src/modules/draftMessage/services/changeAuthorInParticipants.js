@@ -11,7 +11,7 @@ const isIdentityParticipant = ({ identity, participant }) =>
 /**
  * 1. retrieve the identity used in participants
  * 2. or retrieve the participant associated to the user
- * 3. Set as author
+ * 3. Set as author (it will be filtered in draft because we only want recipients)
  * 4. In case of no detections, a draft cannot be sent so all participants will be recipient
  * but it will have no effects
  */
@@ -33,11 +33,8 @@ export const changeAuthorInParticipants = ({
       isUserParticipant({ user, participant })
     );
 
-  return participants.reduce((acc, participant) => {
-    if (authorParticipant === participant) {
-      return [...acc, { ...participant, type: 'From' }];
-    }
-
-    return [...acc, { ...participant, type: 'To' }];
-  }, []);
+  return participants.map((participant) => ({
+    ...participant,
+    type: participant === authorParticipant ? 'From' : 'To',
+  }));
 };

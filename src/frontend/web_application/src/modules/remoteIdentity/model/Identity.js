@@ -18,6 +18,8 @@ export class Identity {
     Object.assign(this, props);
   }
 
+  identity_id;
+
   display_name;
 
   credentials = {};

@@ -2,7 +2,7 @@ import { Message, Participant } from 'src/modules/message';
 import { IDraftMessagePayload } from 'src/modules/message/types';
 import { calcSyncDraft } from './calcSyncDraft';
 
-describe('modules identity - service - calcSyncDraft', () => {
+describe.skip('modules identity - service - calcSyncDraft', () => {
   const messageBase: Message = {
     message_id: '111',
     discussion_id: '112',

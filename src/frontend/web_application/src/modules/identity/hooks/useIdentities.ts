@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Identity } from 'src/modules/remoteIdentity';
 import { getIdentities } from '../actions/getIdentities';
 import { identitiesSelector } from '../selectors/identitiesSelector';
 
@@ -7,7 +8,7 @@ const remoteIdentitystateSelector = (state) => state.remoteIdentity;
 const localIdentityStateSelector = (state) => state.localIdentity;
 
 export function useIdentities(): {
-  identities: Array<any>;
+  identities: Array<Identity>;
   isFetching: boolean;
 } {
   const dispatch = useDispatch();

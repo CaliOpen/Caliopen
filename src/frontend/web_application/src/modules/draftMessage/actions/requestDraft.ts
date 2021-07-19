@@ -3,7 +3,7 @@ import {
   getDraft as getDiscussionDraftBase,
   getMessage,
   getLastMessage,
-  Message,
+  Participant,
 } from '../../message';
 import { getUser } from '../../user';
 import { getDefaultIdentity } from './getDefaultIdentity';
@@ -43,7 +43,9 @@ export const createDiscussionDraft = ({ discussionId, values }) => async (
       participants: parentMessage?.participants,
       user,
       identity,
-    }),
+    })
+      // we only want recipients in draft message
+      .filter((participant: Participant) => participant.type !== 'From'),
     identity_id: identity?.identity_id,
     ...values,
   });
