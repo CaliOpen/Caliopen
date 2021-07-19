@@ -40,7 +40,6 @@ import ToggleAdvancedFormButton from './components/ToggleAdvancedFormButton';
 import './draft-message-quick.scss';
 import { useAvailableIdentities } from 'src/modules/draftIdentity';
 import { RootState } from 'src/store/reducer';
-import { AppDispatch } from 'src/types';
 
 export const KEY = {
   ENTER: 13,

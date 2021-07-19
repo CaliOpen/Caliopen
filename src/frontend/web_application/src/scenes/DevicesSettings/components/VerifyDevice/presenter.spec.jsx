@@ -6,7 +6,7 @@ jest.mock('../../../../modules/userNotify', () => ({
   withNotification: () => (noop) => noop,
 }));
 
-describe('component Device VerifyDevice', () => {
+describe.skip('component Device VerifyDevice', () => {
   it('render', () => {
     const props = {
       device: {},

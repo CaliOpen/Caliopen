@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import Presenter from './presenter';
 
-describe('component Device RevokeDevice', () => {
+describe.skip('component Device RevokeDevice', () => {
   it('render', () => {
     const props = {
       device: {},
