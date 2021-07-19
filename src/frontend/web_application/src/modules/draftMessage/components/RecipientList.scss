@@ -1,5 +1,5 @@
-@import '../../../../styles/vendor/bootstrap_foundation-sites';
-@import '../../../../styles/object/o-form-element';
+@import '../../../styles/vendor/bootstrap_foundation-sites';
+@import '../../../styles/object/o-form-element';
 
 .m-recipient-list {
   @include o-form-element;

@@ -1,11 +1,14 @@
-export const ASSOC_PROTOCOL_ICON = {
-  email: 'envelope',
-  mastodon: 'mastodon',
-  twitter: 'twitter',
-  unknown: 'question-circle',
-};
+import { Type } from 'src/components/Icon';
+import { Protocol } from 'src/store/modules/participant-suggestions';
 
-export const getIconType = (protocol) =>
+export enum ASSOC_PROTOCOL_ICON {
+  email = 'envelope',
+  mastodon = 'mastodon',
+  twitter = 'twitter',
+  unknown = 'question-circle',
+}
+
+export const getIconType = (protocol: Protocol): Type =>
   ASSOC_PROTOCOL_ICON[protocol] || ASSOC_PROTOCOL_ICON.unknown;
 
 export default {

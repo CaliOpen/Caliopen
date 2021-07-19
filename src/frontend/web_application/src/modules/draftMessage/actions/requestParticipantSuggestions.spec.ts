@@ -34,10 +34,7 @@ describe('modules draftMessage - actions - requestParticipantSuggestions', () =>
         payload: {},
       },
     ];
-    const action = requestParticipantSuggestions({
-      terms: 'foo',
-      context: 'msg_compose',
-    });
+    const action = requestParticipantSuggestions('foo', 'msg_compose');
 
     const result = await store.dispatch(action);
     expect(result).toEqual({
