@@ -218,11 +218,7 @@ function DraftMessage(props: DraftMessageProps) {
 
   const canSend = (isReply || hasRecipients) && !isSending && isValid;
 
-  const handleIdentityChange = async ({
-    identity,
-  }: {
-    identity: IIdentity;
-  }) => {
+  const handleIdentityChange = async (identity: IIdentity) => {
     if (!draftMessageFormData) {
       return;
     }

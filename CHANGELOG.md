@@ -7,6 +7,11 @@ and this project adheres to
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Fixed
+
+- Advanced draft suggestions correctly displayed.
+
 ## [0.24.3] 2021-06-14
 
 ### Fixed

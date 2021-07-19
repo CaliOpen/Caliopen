@@ -54,13 +54,15 @@ export default function Recipients({
   const [firstRecipient] = (isOne2One && draftMessage.recipients) || [];
 
   if (isOne2One) {
-    const handleChangeOne2OneRecipient = (ev) => {
+    const handleChangeOne2OneRecipient: React.ComponentProps<
+      typeof RecipientSelector
+    >['onChange'] = (recipient) => {
       // TODO: select the identity that match the new protocol
-      const participant = ev.target.value;
+      const recipients = recipient ? [recipient] : [];
       dispatch(
         editDraft({
           ...draftMessage,
-          recipients: [participant],
+          recipients,
         })
       );
     };
@@ -75,14 +77,16 @@ export default function Recipients({
     );
   }
 
+  // XXX: remove this behavior: always allow to change the recipients, it will need to adjust the parent_id property
+
   return (
     <div>
-      <Trans id="messages.compose.form.to.label">To</Trans>
+      <Trans id="messages.compose.form.to.label">To:</Trans>{' '}
       {draftMessage.recipients.map((recipient) => (
         <span key={`${recipient.address}_${recipient.protocol}`}>
           {/* @ts-ignore */}
           <Icon type={getIconType(recipient.protocol)} rightSpaced />
-          {recipient.address}
+          {recipient.address}{' '}
         </span>
       ))}
     </div>
