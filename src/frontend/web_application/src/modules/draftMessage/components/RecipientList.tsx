@@ -76,7 +76,6 @@ function RecipientList({
 }: Props): JSX.Element {
   const dispatch = useDispatch();
   const searchInputRef = React.useRef<HTMLInputElement>(null);
-  const wrapperRef = React.useRef<HTMLDivElement>(null);
   const [searchTerms, setSearchTerms] = React.useState('');
   const [activeSearchResultIndex, setActiveSearchResultIndex] = React.useState(
     0
@@ -99,7 +98,6 @@ function RecipientList({
       recipient,
     ];
 
-    resetSearch();
     onRecipientsChange(nextRecipients);
   };
 
@@ -138,22 +136,22 @@ function RecipientList({
     const unsubscribeClickEvent = addEventListener(
       'click',
       (ev: React.SyntheticEvent<HTMLElement>) => {
-        const recipientListClick =
-          wrapperRef.current === ev.target ||
-          wrapperRef.current?.contains(ev.target as Node);
+        const searchClick =
+          searchInputRef.current === ev.target ||
+          searchInputRef.current?.contains(ev.target as Node);
 
-        if (recipientListClick) {
+        if (searchClick) {
           setSearchOpened((prev) => !prev);
-
           return;
         }
+
+        // Note that suggestions onClick stop propation, so it never comes here when a suggestion is clicked
 
         if (searchTerms.length > 0) {
           addUnknownParticipant(searchTerms);
           resetSearch();
+          setSearchOpened(false);
         }
-
-        setSearchOpened(false);
       }
     );
 
@@ -195,7 +193,7 @@ function RecipientList({
     }
   };
 
-  const makeAddKnownParticipant = (suggestion: Suggestion) => () => {
+  const addKnownParticipant = (suggestion: Suggestion) => {
     const { address, protocol, label } = suggestion;
     addRecipient(
       new Participant({
@@ -277,15 +275,21 @@ function RecipientList({
     }
 
     if (keyCode === KEY.ENTER && searchResults.length > 0) {
-      makeAddKnownParticipant(searchResults[activeSearchResultIndex])();
+      addKnownParticipant(searchResults[activeSearchResultIndex]);
       resetSearch();
-    } else if (
+      setSearchOpened(false);
+      return;
+    }
+
+    if (
       ([KEY.ENTER, KEY.TAB].indexOf(keyCode) !== -1 ||
         [KEY.COMMA, KEY.SEMICOLON].indexOf(key) !== -1) &&
       searchTerms.length > 0
     ) {
       addUnknownParticipant(searchTerms);
       resetSearch();
+      setSearchOpened(false);
+      return;
     }
 
     if ([KEY.COMMA, KEY.SEMICOLON].indexOf(key) !== -1) {
@@ -311,7 +315,12 @@ function RecipientList({
     return (
       <Button
         display="expanded"
-        onClick={makeAddKnownParticipant(suggestion)}
+        onClick={(ev) => {
+          ev.stopPropagation();
+          addKnownParticipant(suggestion);
+          resetSearch();
+          setSearchOpened(false);
+        }}
         className="m-recipient-list__search-result"
         color={index === activeSearchResultIndex ? 'active' : undefined}
       >
@@ -336,7 +345,6 @@ function RecipientList({
 
   return (
     <div
-      ref={wrapperRef}
       onClick={handleClickRecipientList}
       role="presentation"
       className={classnames('m-recipient-list', className)}

@@ -27,13 +27,14 @@ export default function Recipients({
       (ident) => ident.identity_id === draftMessage.identity_id
     );
 
-    const handleRecipientsChange = (recipients: Recipient[]) =>
+    const handleRecipientsChange = (recipients: Recipient[]) => {
       dispatch(
         editDraft({
           ...draftMessage,
           recipients,
         })
       );
+    };
 
     return (
       <RecipientList
