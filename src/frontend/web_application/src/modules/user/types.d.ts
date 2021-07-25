@@ -10,7 +10,7 @@ export interface UserPayload {
   given_name?: string;
   name?: string;
   password?: string;
-  params?: object;
+  params?: Record<string, unknown>;
   privacy_features?: PrivacyFeature;
   pi?: PI;
   user_id: string;

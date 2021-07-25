@@ -27,10 +27,14 @@ type KeysByFingerPrint = {
   };
 };
 
-function OpenPGPPrivateKeys() {
+function OpenPGPPrivateKeys(): React.ReactNode {
   const [keys, setKeys] = React.useState<KeysByFingerPrint>();
   const [editMode, setEditMode] = React.useState(false);
   const [formType, setFormType] = React.useState<FormType>(FORM_TYPE_GENERATE);
+
+  const loadKeys = () => {
+    getPrimaryKeysByFingerprint().then(setKeys);
+  };
 
   React.useEffect(() => {
     loadKeys();
@@ -39,10 +43,6 @@ function OpenPGPPrivateKeys() {
   const handleKeyAddedSuccess = () => {
     setEditMode(false);
     loadKeys();
-  };
-
-  const loadKeys = () => {
-    getPrimaryKeysByFingerprint().then(setKeys);
   };
 
   const handleClickEditMode = () => {

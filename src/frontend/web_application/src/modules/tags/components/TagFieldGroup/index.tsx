@@ -24,8 +24,8 @@ function TagFieldGroup({
   onChange,
 }: TagFieldGroupProps) {
   const handleChange = (ev) => {
-    const terms = ev.target.value;
-    onChange(terms);
+    const nextTerms = ev.target.value;
+    onChange(nextTerms);
   };
 
   const handleSubmit = () => {

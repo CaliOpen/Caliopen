@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { Trans, withI18n, withI18nProps } from '@lingui/react';
-import { Redirect, useLocation, withRouter } from 'react-router-dom';
-import { usernameNormalizer } from '../../services/usernameNormalizer';
-import { withDevice, STATUS_VERIFIED } from '../../../device';
+import { compose } from 'redux';
+import { Redirect, useLocation } from 'react-router-dom';
 import {
   Link,
   Spinner,
@@ -14,8 +13,9 @@ import {
   FormColumn,
 } from 'src/components';
 import getClient from 'src/services/api-client';
+import { usernameNormalizer } from '../../services/usernameNormalizer';
+import { withDevice, STATUS_VERIFIED } from '../../../device';
 import './style.scss';
-import { compose } from 'redux';
 
 const CONTEXT_SAFE = 'safe';
 // const CONTEXT_PUBLIC = 'public';

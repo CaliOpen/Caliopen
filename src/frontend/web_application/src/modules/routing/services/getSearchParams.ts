@@ -8,10 +8,12 @@ type TResult = {
 export function getSearchParams(queryString: string): TResult {
   const paramsIterator = new URLSearchParams(queryString);
   const res: TResult = {};
-  paramsIterator.forEach((value, key) => {
+  paramsIterator.forEach((_val, key) => {
     const values = paramsIterator
       .getAll(key)
-      .map((value) => (isFinite(parseFloat(value)) ? toNumber(value) : value));
+      .map((value) =>
+        Number.isFinite(parseFloat(value)) ? toNumber(value) : value
+      );
     res[key] = values.length > 1 ? values : values[0];
   });
 

@@ -67,7 +67,7 @@ interface RemoveMultipleFromCollectionAction {
 
 interface InvalidateAction {
   type: typeof INVALIDATE_CONTACTS;
-  payload: {};
+  payload: Record<string, unknown>;
 }
 
 type ContactAction =

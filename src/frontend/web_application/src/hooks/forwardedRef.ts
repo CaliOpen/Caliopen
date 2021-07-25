@@ -13,6 +13,7 @@ export function useForwardedRef<T extends HTMLElement>(
     if (typeof ref === 'function') {
       ref(innerRef.current);
     } else {
+      // eslint-disable-next-line no-param-reassign
       ref.current = innerRef.current;
     }
   }, [ref]);

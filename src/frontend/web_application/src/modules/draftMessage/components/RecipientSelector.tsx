@@ -141,9 +141,9 @@ function RecipientSelector({ contactId, className, current, onChange }: Props) {
 
   const value = current ? computeValue(current) : undefined;
 
-  const handleChange = (value) => {
+  const handleChange = (nextValue) => {
     const selected = availableRecipients.find(
-      (recipient) => computeValue(recipient) === value
+      (recipient) => computeValue(recipient) === nextValue
     );
     onChange(selected);
   };

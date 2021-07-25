@@ -8,38 +8,35 @@ import { useHistory } from 'react-router-dom';
 import { useCurrentTab, useCloseTab } from 'src/modules/tab';
 import { IDraftMessageFormData } from 'src/modules/draftMessage/types';
 import { useScrollToMe } from 'src/modules/scroll';
+import { useAvailableIdentities } from 'src/modules/draftIdentity';
+import { RootState } from 'src/store/reducer';
 import {
   Button,
   Spinner,
   FieldErrors,
   Link,
   PlaceholderBlock,
-} from '../../../../components';
+} from 'src/components';
 
 import {
   LockedMessage,
   messageEncryptionStatusSelector,
-} from '../../../../modules/encryption';
+} from 'src/modules/encryption';
 import {
   discussionDraftSelector,
   getOrCreateDiscussionDraft,
   saveDraft,
   validate,
   sendDraft,
-} from '../../../../modules/draftMessage';
-import { messageSelector } from '../../../../modules/message';
-import { notifyError } from '../../../../modules/userNotify';
+} from 'src/modules/draftMessage';
+import { messageSelector } from 'src/modules/message';
+import { notifyError } from 'src/modules/userNotify';
 
-import { isMessageEncrypted } from '../../../../services/encryption';
-import {
-  STATUS_DECRYPTED,
-  STATUS_ERROR,
-} from '../../../../store/modules/encryption';
+import { isMessageEncrypted } from 'src/services/encryption';
+import { STATUS_DECRYPTED, STATUS_ERROR } from 'src/store/modules/encryption';
 
 import ToggleAdvancedFormButton from './components/ToggleAdvancedFormButton';
 import './draft-message-quick.scss';
-import { useAvailableIdentities } from 'src/modules/draftIdentity';
-import { RootState } from 'src/store/reducer';
 
 export const KEY = {
   ENTER: 13,

@@ -23,7 +23,7 @@ if (BUILD_TARGET !== 'server') {
 if (BUILD_TARGET === 'server') {
   const {
     getSubRequestHeaders,
-  } = require('../../../server/api/lib/sub-request-manager'); // eslint-disable-line global-require
+  } = require('../../../server/api/lib/sub-request-manager'); // eslint-disable-line global-require,@typescript-eslint/no-var-requires
   headers = {
     ...headers,
     ...getSubRequestHeaders(),

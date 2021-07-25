@@ -1,6 +1,8 @@
 import { Type } from 'src/components/Icon';
 import { Protocol } from 'src/store/modules/participant-suggestions';
 
+// XXX: unexpected lint error
+// eslint-disable-next-line no-shadow
 export enum ASSOC_PROTOCOL_ICON {
   email = 'envelope',
   mastodon = 'mastodon',

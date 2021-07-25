@@ -108,15 +108,19 @@ function ContactItem({
   const onCheckboxChange = (ev) => {
     const { checked } = ev.target;
 
-    onSelectEntity &&
+    if (onSelectEntity) {
       onSelectEntity(checked ? 'add' : 'remove', contact.contact_id);
+    }
   };
 
   const handleClickContact = () => {
-    onClickContact && onClickContact(contact);
+    if (onClickContact) {
+      onClickContact(contact);
+    }
   };
 
-  const renderClickable = (clikableProps) => onClickContact ? (
+  const renderClickable = (clikableProps) =>
+    onClickContact ? (
       <Button noDecoration onClick={handleClickContact} {...clikableProps} />
     ) : (
       <Link

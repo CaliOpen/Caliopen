@@ -73,7 +73,7 @@ function RecipientList({
   recipients = [],
   identity,
   onRecipientsChange,
-}: Props): React.ReactNode {
+}: Props): JSX.Element {
   const dispatch = useDispatch();
   const searchInputRef = React.useRef<HTMLInputElement>(null);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
@@ -172,7 +172,7 @@ function RecipientList({
       )
   );
 
-  const doSearch: (terms: string) => Promise<any> = debounce(
+  const doSearch = debounce<(terms: string) => any>(
     (terms: string) =>
       dispatch(requestParticipantSuggestions(terms, 'msg_compose')),
     1 * 1000,
@@ -228,7 +228,7 @@ function RecipientList({
       return;
     }
 
-    const {value} = ev.target;
+    const { value } = ev.target;
 
     if (!value.length) {
       resetSearch();

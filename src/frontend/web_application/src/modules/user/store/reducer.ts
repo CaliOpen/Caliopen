@@ -32,7 +32,7 @@ interface RequestUserFailAction {
 
 interface InvalidateAction {
   type: typeof INVALIDATE_USER;
-  payload: {};
+  payload: Record<string, unknown>;
 }
 
 interface UpdateUserAction {

@@ -16,6 +16,7 @@ const DropdownControl = withDropdownControl(
     // FIXME: onKeyDown is actually not handled, but for screen-reader, dropdown is hidden and an actual native select is provided
     const handleEv = () => {};
     return (
+      // eslint-disable-next-line jsx-a11y/interactive-supports-focus
       <div
         role="button"
         onClick={handleEv}
@@ -64,16 +65,19 @@ function AdvancedSelectFieldGroup({
 }: Props) {
   const dropdownControlRef = React.useRef<HTMLDivElement>(null);
 
-  const createHandleClick = (value) => () => {
-    onChange(value);
+  const createHandleClick = (nextValue) => () => {
+    onChange(nextValue);
   };
 
   const handleRawChange: React.ChangeEventHandler<HTMLSelectElement> = (ev) => {
     onChange(ev.currentTarget.value);
   };
 
-  const renderSelected = ({ advancedlabel, label }: Partial<Option> = {}) => {
-    const text = advancedlabel || label || placeholder;
+  const renderSelected = ({
+    advancedlabel,
+    label: selectedLabel,
+  }: Partial<Option> = {}) => {
+    const text = advancedlabel || selectedLabel || placeholder;
     if (inline) {
       return text;
     }

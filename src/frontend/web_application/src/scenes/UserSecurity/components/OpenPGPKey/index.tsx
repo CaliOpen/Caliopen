@@ -72,7 +72,10 @@ function OpenPGPKey({
     getPGPManager().then(async ({ getKeyFromASCII }) => {
       const pubKey = await getKeyFromASCII(publicKeyArmored);
 
-      pubKey && setKeyDetails(await getKeyDetails(pubKey));
+      if (pubKey) {
+        setKeyDetails(await getKeyDetails(pubKey));
+      }
+
       setIsLoading(false);
     });
   }, [publicKeyArmored]);

@@ -15,7 +15,7 @@ interface Infos {
 }
 
 export interface IIdentity {
-  credentials?: {};
+  credentials?: Record<string, unknown>;
   display_name: string;
   identity_id: string;
   /** address or username */

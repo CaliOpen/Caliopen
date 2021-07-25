@@ -26,6 +26,10 @@ export class DraftMessageFormData implements IDraftMessageFormData {
   identity_id: string;
 }
 
+export function mapRecipientToParticipant(recipient: Recipient): Participant {
+  return recipient;
+}
+
 export function mapDraftMessageFormDataToMessage(
   formData: DraftMessageFormData
 ): IDraftMessagePayload {
@@ -65,8 +69,4 @@ export function mapMessageToDraftMessageFormData(
 }
 export function mapParticipantToRecipient(participant: Participant): Recipient {
   return participant;
-}
-
-export function mapRecipientToParticipant(recipient: Recipient): Participant {
-  return recipient;
 }

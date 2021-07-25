@@ -47,6 +47,7 @@
       }
     ],
     "import/prefer-default-export": 0,
+    "no-plusplus": "off",
     "prefer-destructuring":"warn",
     "jsx-a11y/label-has-associated-control": [
       "error",

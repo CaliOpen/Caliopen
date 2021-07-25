@@ -11,7 +11,7 @@ import './style.scss';
 
 interface NewDraftProps {
   scrollManager: {
-    scrollToTarget: Function;
+    scrollToTarget: () => string;
   };
   location: {
     hash: string;
@@ -23,6 +23,14 @@ function NewDraft(props: NewDraftProps) {
   const closeTab = useCloseTab();
   const tab = useCurrentTab();
   const { messageId } = useParams<{ messageId?: string }>();
+
+  const handleCloseTab = () => closeTab(tab);
+
+  // TODO: rollback pour garder le redirect si c'est pas draft
+  const redirectDiscussion = (message: Message) => {
+    history.push(`/discussions/${message.discussion_id}#${message.message_id}`);
+    handleCloseTab();
+  };
 
   React.useEffect(() => {
     if (messageId) {
@@ -44,14 +52,6 @@ function NewDraft(props: NewDraftProps) {
     redirectDiscussion(message);
   };
 
-  const handleCloseTab = () => closeTab(tab);
-
-  // TODO: rollback pour garder le redirect si c'est pas draft
-  const redirectDiscussion = (message: Message) => {
-    history.push(`/discussions/${message.discussion_id}#${message.message_id}`);
-    handleCloseTab();
-  };
-
   const getHash = () => {
     const { location } = props;
 
@@ -71,7 +71,6 @@ function NewDraft(props: NewDraftProps) {
   return (
     <div className="s-new-draft">
       <DraftMessage
-        // @ts-ignore
         scrollToMe={hash === 'compose' ? scrollToTarget : undefined}
         className="s-new-draft__form"
         messageId={messageId}
