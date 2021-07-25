@@ -1,4 +1,4 @@
-import isEqual from 'lodash.isequal';
+import isEqual from 'lodash/isEqual';
 
 // /!\ this function is not recursive; sub-objects are not properly calculated
 // actually remote-identity patch requires full sub-objects : credentials & infos

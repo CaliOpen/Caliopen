@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classnames from 'classnames';
-import throttle from 'lodash.throttle';
+import throttle from 'lodash/throttle';
 import { useForwardedRef } from 'src/hooks/forwardedRef';
 import { getDropdownStyle } from './services/getDropdownStyle';
 import { addEventListener } from '../../services/event-manager';

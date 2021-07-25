@@ -1,4 +1,4 @@
-import throttle from 'lodash.throttle';
+import throttle from 'lodash/throttle';
 import { IDraftMessagePayload } from 'src/modules/message/types';
 import { calcSyncDraft } from '../services/calcSyncDraft';
 import { updateMessage } from '../../../store/actions/message';

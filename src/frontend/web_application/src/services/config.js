@@ -1,4 +1,4 @@
-import merge from 'lodash.merge';
+import merge from 'lodash/merge';
 
 let config =
   BUILD_TARGET === 'browser' && typeof window !== 'undefined'

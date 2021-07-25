@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withI18n } from '@lingui/react';
-import isEqual from 'lodash.isequal';
+import isEqual from 'lodash/isEqual';
 import { withUser } from 'src/modules/user';
 import MessageNotificationHandler from '../MessageNotificationHandler';
 import { getConfig } from '../../../device/services/storage';

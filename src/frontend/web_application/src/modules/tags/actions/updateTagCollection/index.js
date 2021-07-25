@@ -1,4 +1,4 @@
-import isEqual from 'lodash.isequal';
+import isEqual from 'lodash/isEqual';
 import {
   requestMessage,
   updateTags as updateMessageTags,

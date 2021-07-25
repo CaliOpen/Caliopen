@@ -1,4 +1,4 @@
-import merge from 'lodash.merge';
+import merge from 'lodash/merge';
 import defaults from '../../config/server.default';
 import envVars from '../../config/server.env-var';
 

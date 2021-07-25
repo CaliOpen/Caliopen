@@ -1,4 +1,4 @@
-import throttle from 'lodash.throttle';
+import throttle from 'lodash/throttle';
 import JsSHA from 'jssha';
 import { updateTagCollection } from './updateTagCollection';
 import { getTagNamesInCommon } from '../services/getTagNamesInCommon';

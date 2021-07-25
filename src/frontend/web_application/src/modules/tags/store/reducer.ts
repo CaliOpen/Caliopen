@@ -1,4 +1,3 @@
-import fromPairs from 'lodash/fromPairs';
 import { AxiosActionPayload, PagerParams, ResourceStatus } from 'src/types';
 import { TagPayload } from '../types';
 import calcObjectForPatch from '../../../services/api-patch';

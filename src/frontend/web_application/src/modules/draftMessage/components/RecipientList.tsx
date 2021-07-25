@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash/debounce';
 import { Trans } from '@lingui/react';
 import {
   Dropdown,

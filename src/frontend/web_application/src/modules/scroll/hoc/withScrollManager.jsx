@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash/debounce';
 import { withRouter } from 'react-router-dom';
 import { withCurrentTab, withUpdateTab, Tab } from '../../tab';
 import { addEventListener } from '../../../services/event-manager';

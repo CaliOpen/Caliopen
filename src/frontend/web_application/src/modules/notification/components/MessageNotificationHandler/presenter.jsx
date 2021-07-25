@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withI18n } from '@lingui/react';
-import isEqual from 'lodash.isequal';
+import isEqual from 'lodash/isEqual';
 import { withSettings } from '../../../settings';
 import { notify as browserNotify } from '../../../../services/browser-notification';
 

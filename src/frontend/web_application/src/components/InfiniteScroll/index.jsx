@@ -1,6 +1,6 @@
 import { Component, Children } from 'react';
 import PropTypes from 'prop-types';
-import throttle from 'lodash.throttle';
+import throttle from 'lodash/throttle';
 import { addEventListener } from '../../services/event-manager';
 
 const THROTTLE_INTERVAL = 100;
