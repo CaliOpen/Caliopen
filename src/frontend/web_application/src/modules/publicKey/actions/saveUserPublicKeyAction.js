@@ -1,4 +1,4 @@
-import isEqual from 'lodash.isequal';
+import isEqual from 'lodash/isEqual';
 import { addAddressesToContact, updateContact } from '../../contact';
 import { PROTOCOL_EMAIL } from '../../remoteIdentity';
 import { updatePublicKey } from './updatePublicKey';

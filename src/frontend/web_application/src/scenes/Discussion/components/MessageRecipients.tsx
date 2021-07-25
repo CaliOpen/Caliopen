@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { withI18n } from '@lingui/react';
-import { I18n } from '@lingui/core';
+import { withI18n, withI18nProps } from '@lingui/react';
 import { useUser } from 'src/modules/user';
 import { Message } from 'src/modules/message';
 import {
@@ -9,10 +8,9 @@ import {
   isUserRecipient,
 } from '../../../services/message';
 
-interface Props {
+interface Props extends withI18nProps {
   message: Message;
   shorten?: boolean;
-  i18n: I18n;
 }
 function MessageRecipients({ message, shorten = false, i18n }: Props) {
   const { user } = useUser();

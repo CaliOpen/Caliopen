@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import throttle from 'lodash.throttle';
+import throttle from 'lodash/throttle';
 import { Icon, Button } from '../../../../components';
 import { addEventListener } from '../../../../services/event-manager';
 import { NavbarItem } from '../Navbar/components';

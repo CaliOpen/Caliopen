@@ -8,7 +8,7 @@ import TagSearch from './components/TagSearch';
 import TagInput from './components/TagInput';
 import './style.scss';
 
-interface Props extends withI18nProps {}
+type Props = withI18nProps;
 
 function TagsSettings({ i18n }: Props) {
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ function TagsSettings({ i18n }: Props) {
           })}
         >
           {!initialized && status !== 'rejected' ? (
-            <Spinner isLoading />
+            <Spinner svgTitleId="tags-spinner" isLoading />
           ) : (
             tags.map((tag) => (
               <TagInput

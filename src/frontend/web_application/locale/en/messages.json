@@ -257,7 +257,7 @@
   "messages.compose.action.remove-recipient": "Remove recipient",
   "messages.compose.form.body.label": "Type your message here...",
   "messages.compose.form.subject.label": "Subject",
-  "messages.compose.form.to.label": "To",
+  "messages.compose.form.to.label": "To:",
   "messages.participants.and_x_others": "{first} and {number, plural, one {# other} other {# others}}",
   "new-device-info.i-understand": "I understand",
   "new-device-info.learn-more": "Learn more",

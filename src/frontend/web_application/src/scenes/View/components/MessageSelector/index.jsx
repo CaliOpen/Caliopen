@@ -52,7 +52,17 @@ class MessageSelector extends Component {
     if (count === 0) {
       return (
         <ActionBarButton
-          icon={isDeleting ? <Spinner isLoading display="inline" /> : 'trash'}
+          icon={
+            isDeleting ? (
+              <Spinner
+                svgTitleId="delete-messages-spinner"
+                isLoading
+                display="inline"
+              />
+            ) : (
+              'trash'
+            )
+          }
           disabled
           aria-label={i18n._('message-list.action.delete', null, {
             defaults: 'Delete selected',
@@ -77,7 +87,17 @@ class MessageSelector extends Component {
         }
         render={(confirm) => (
           <ActionBarButton
-            icon={isDeleting ? <Spinner isLoading display="inline" /> : 'trash'}
+            icon={
+              isDeleting ? (
+                <Spinner
+                  svgTitleId="delete-messages-spinner"
+                  isLoading
+                  display="inline"
+                />
+              ) : (
+                'trash'
+              )
+            }
             onClick={confirm}
             aria-label={i18n._('message-list.action.delete', null, {
               defaults: 'Delete selected',

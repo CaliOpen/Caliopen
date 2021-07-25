@@ -67,7 +67,7 @@ interface RemoveMultipleFromCollectionAction {
 
 interface InvalidateAction {
   type: typeof INVALIDATE_CONTACTS;
-  payload: {};
+  payload: Record<string, unknown>;
 }
 
 type ContactAction =
@@ -119,7 +119,7 @@ export function requestContacts(
   };
 }
 
-export function requestContact(contactId): RequestContactAction {
+export function requestContact(contactId: string): RequestContactAction {
   return {
     type: REQUEST_CONTACT,
     payload: {

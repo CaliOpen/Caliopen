@@ -72,7 +72,10 @@ function OpenPGPKey({
     getPGPManager().then(async ({ getKeyFromASCII }) => {
       const pubKey = await getKeyFromASCII(publicKeyArmored);
 
-      pubKey && setKeyDetails(await getKeyDetails(pubKey));
+      if (pubKey) {
+        setKeyDetails(await getKeyDetails(pubKey));
+      }
+
       setIsLoading(false);
     });
   }, [publicKeyArmored]);
@@ -108,7 +111,7 @@ function OpenPGPKey({
   return (
     <div className={classnames(['m-openpgp-key', className])}>
       <div className="m-openpgp-key__main">
-        <Spinner isLoading={loading} />
+        <Spinner svgTitleId="page-pgpkey-spinner" isLoading={loading} />
         {keyDetails && (
           <>
             <div className="m-openpgp-key__icon">

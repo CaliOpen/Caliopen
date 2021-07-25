@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
-import { getLastMessage } from './getLastMessage';
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
+import { getLastMessage } from './getLastMessage';
 
 const mockStore = configureMockStore(getDefaultMiddleware());
 jest.mock('./fetchMessages', () => ({

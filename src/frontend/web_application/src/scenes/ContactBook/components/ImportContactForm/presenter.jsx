@@ -63,7 +63,15 @@ class ImportContactForm extends Component {
             type="submit"
             shape="plain"
             icon={
-              isLoading ? <Spinner isLoading display="inline" /> : 'download'
+              isLoading ? (
+                <Spinner
+                  svgTitleId="import-contact-spinner"
+                  isLoading
+                  display="inline"
+                />
+              ) : (
+                'download'
+              )
             }
             disabled={isLoading}
           >

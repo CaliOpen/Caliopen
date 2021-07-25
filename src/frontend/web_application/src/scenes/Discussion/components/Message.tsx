@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Trans, withI18n } from '@lingui/react';
-import { I18n } from '@lingui/core';
+import { Trans, withI18n, withI18nProps } from '@lingui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import VisibilitySensor from 'react-visibility-sensor';
-import { useHistory } from 'react-router';
+import { useHistory, Router } from 'react-router-dom';
 import { Modal } from 'src/components';
 import { isMessageEncrypted } from 'src/services/encryption';
 import { STATUS_DECRYPTED } from 'src/store/modules/encryption';
@@ -14,20 +13,17 @@ import {
   deleteMessage,
 } from 'src/modules/message';
 import { ManageEntityTags, updateTagCollection } from 'src/modules/tags';
-import { Router } from 'react-router-dom';
 import { reply } from 'src/modules/draftMessage';
 import { useSettings } from 'src/modules/settings';
 import { useScrollToMe } from 'src/modules/scroll';
+import { RootState } from 'src/store/reducer';
 import MailMessage from './MailMessage';
 import InstantMessage from './InstantMessage';
-import { RootState } from 'src/store/reducer';
 
-interface Props {
+interface Props extends withI18nProps {
   message: MessageClass;
-  scrollToMe: Function;
+  scrollToMe: () => string;
   noInteractions?: boolean;
-  // injected
-  i18n: I18n;
   onDeleteMessageSuccess: () => any;
 }
 
@@ -137,7 +133,7 @@ function Message({
             title={
               <Trans
                 id="tags.header.title"
-                defaults={'Tags <0>(Total: {nb})</0>'}
+                defaults="Tags <0>(Total: {nb})</0>"
                 values={{ nb: message.tags ? message.tags.length : 0 }}
                 components={[<span className="m-tags-form__count" />]}
               />

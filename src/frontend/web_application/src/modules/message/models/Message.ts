@@ -1,8 +1,8 @@
+/* eslint-disable max-classes-per-file,camelcase */
 import { IDraftMessagePayload } from 'src/modules/message/types';
 import { v4 as uuidv4 } from 'uuid';
 import { Participant } from './Participant';
 
-/* eslint-disable camelcase */
 export class Message {
   constructor(props = {}) {
     Object.assign(this, props);

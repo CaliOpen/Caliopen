@@ -1,10 +1,12 @@
 import { AxiosError } from 'axios';
 
 import configureAppStore from './store/configure-store';
+import { RootState } from './store/reducer';
 
 // redux ----------------------------------------
 
 export type AppDispatch = ReturnType<typeof configureAppStore>['dispatch'];
+export type GetState = () => RootState;
 
 export interface AxiosActionPayload<P = any, D = any> {
   request: {
@@ -27,7 +29,9 @@ export interface PagerParams {
   limit?: number;
 }
 
-export type PatchPayload<E extends { [key: string]: any } = {}> = Partial<E> & {
+export type PatchPayload<
+  E extends { [key: string]: any } = Record<string, unknown>
+> = Partial<E> & {
   current_state: Partial<E>;
 };
 

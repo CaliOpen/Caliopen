@@ -10,7 +10,3 @@ export const server = setupServer(
   ...tagsHandlers,
   ...userHandlers
 );
-
-server.listen({
-  onUnhandledRequest: 'warn',
-});

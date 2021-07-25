@@ -60,7 +60,13 @@ function TagSearch({ i18n, onCreateSuccess }: Props) {
       />
       <Button
         className="m-add-tag__button"
-        icon={pending ? <Spinner isLoading display="inline" /> : 'plus'}
+        icon={
+          pending ? (
+            <Spinner svgTitleId="add-tag-spinner" isLoading display="inline" />
+          ) : (
+            'plus'
+          )
+        }
         disabled={pending}
         shape="plain"
         onClick={handleSubmit}

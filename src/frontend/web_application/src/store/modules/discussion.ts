@@ -189,14 +189,6 @@ function discussionByParticipantsHashReducer(state = hashInitialState, action) {
   }
 }
 
-export function getNextOffset(state: State): number {
-  return state.discussions.length;
-}
-
-export function hasMore(state: State): boolean {
-  return state.total > state.discussions.length;
-}
-
 export interface Discussion {
   id: string;
 }
@@ -216,6 +208,14 @@ export interface State {
     max: number;
   };
   total: number;
+}
+
+export function getNextOffset(state: State): number {
+  return state.discussions.length;
+}
+
+export function hasMore(state: State): boolean {
+  return state.total > state.discussions.length;
 }
 
 const initialState: State = {

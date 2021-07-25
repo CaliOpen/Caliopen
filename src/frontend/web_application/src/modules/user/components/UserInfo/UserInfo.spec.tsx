@@ -21,12 +21,12 @@ describe('component UserInfo', () => {
   const user = generateUser();
   beforeEach(() => {
     server.use(
-      rest.get('/api/v1/me', (req, res, ctx) => {
-        return res(ctx.json(user), ctx.status(200));
-      }),
-      rest.get('/api/v1/settings', (req, res, ctx) => {
-        return res(ctx.json(settings), ctx.status(200));
-      })
+      rest.get('/api/v1/me', (req, res, ctx) =>
+        res(ctx.json(user), ctx.status(200))
+      ),
+      rest.get('/api/v1/settings', (req, res, ctx) =>
+        res(ctx.json(settings), ctx.status(200))
+      )
     );
   });
 

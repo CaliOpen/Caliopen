@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import throttle from 'lodash.throttle';
+import throttle from 'lodash/throttle';
 import classnames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import { Trans, withI18n } from '@lingui/react';
@@ -252,7 +252,7 @@ class Discussion extends Component {
     const title = (
       <Trans
         id="tags.header.title"
-        defaults={'Tags <0>(Total: {nb})</0>'}
+        defaults="Tags <0>(Total: {nb})</0>"
         values={{ nb }}
         components={[<span className="m-tags-form__count" />]}
       />

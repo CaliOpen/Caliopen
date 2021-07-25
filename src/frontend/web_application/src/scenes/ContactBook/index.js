@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { deleteContacts } from '../../modules/contact';
+import { loadMoreContacts, deleteContacts } from 'src/modules/contact';
+
+import { requestContacts, hasMore } from 'src/modules/contact/store/reducer';
 import { withUser } from '../../modules/user';
 import { updateContactTags } from '../../modules/tags';
-import { loadMoreContacts } from 'src/modules/contact';
-import { requestContacts, hasMore } from 'src/modules/contact/store/reducer';
 import Presenter from './presenter';
 
 const contactStateSelector = (state) => state.contact;

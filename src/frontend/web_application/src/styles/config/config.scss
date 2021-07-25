@@ -23,15 +23,15 @@ $co-radius: 0.2rem;
 $co-margin: 1.5rem;
 $co-margin_: (
   // 10px
-    xsmall: 0.625rem,
+  xsmall: 0.625rem,
   // 16px
-    small: 1rem,
+  small: 1rem,
   // 24px
-    medium: 1.5rem,
+  medium: 1.5rem,
   // 42px
-    large: 2.625rem,
+  large: 2.625rem,
   // 80px
-    xlarge: 5rem
+  xlarge: 5rem
 );
 
 $co-font__size: 1rem;
@@ -47,35 +47,35 @@ $co-component__spacing: 0.5rem;
 
 $co-form__width: (
   // 160 px
-    small: 10rem,
+  small: 10rem,
   // 208 px
-    medium: 13rem,
+  medium: 13rem,
   // 256 px
-    large: 16rem,
+  large: 16rem,
   // 380 px
-    xlarge: 23.75rem
+  xlarge: 23.75rem
 );
 
 $co-form__height: (
   // 24 px
-    small: 1.5rem,
+  small: 1.5rem,
   // 36 px
-    medium: 2.25rem,
+  medium: 2.25rem,
   // 48 px
-    large: 3rem
+  large: 3rem
 );
 
 $co-form__spacing: (
   // 4 px
-    xsmall: 0.25rem,
+  xsmall: 0.25rem,
   // 10 px
-    small: 0.625rem,
+  small: 0.625rem,
   // 15 px
-    medium: 0.9375rem,
+  medium: 0.9375rem,
   // 25 px
-    large: 1.5625rem,
+  large: 1.5625rem,
   // 42px
-    xlarge: 2.625rem
+  xlarge: 2.625rem
 );
 
 $co-grid__gutter: $co-margin;

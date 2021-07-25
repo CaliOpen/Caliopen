@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
-import { Trans, withI18n } from '@lingui/react';
+import { Trans, withI18n, withI18nProps } from '@lingui/react';
 import {
   Button,
   Icon,
@@ -47,11 +47,11 @@ import { messageEncryptionStatusSelector } from 'src/modules/encryption/selector
 import { IIdentity } from 'src/modules/identity/types';
 import { isMessageEncrypted } from 'src/services/encryption';
 import { useAvailableIdentities } from 'src/modules/draftIdentity';
+import { RootState } from 'src/store/reducer';
 import IdentitySelector from './components/IdentitySelector';
 import Recipients from './components/Recipients';
 import './draft-message-advanced.scss';
 import './draft-message-placeholder.scss';
-import { RootState } from 'src/store/reducer';
 
 function useDraftMessage(messageId: string): DraftMessageFormData | undefined {
   const dispatch = useDispatch();
@@ -159,13 +159,12 @@ function isSubjectSupported(
   return getIdentityProtocol(currIdentity) === PROTOCOL_EMAIL;
 }
 
-interface DraftMessageProps {
-  scrollToMe: Function;
+interface DraftMessageProps extends withI18nProps {
+  scrollToMe?: () => string;
   className?: string;
   messageId: string;
-  onDeleteMessageSuccessfull: Function;
+  onDeleteMessageSuccessfull: () => void;
   onSent: (message: Message) => void;
-  i18n: any;
 }
 
 function DraftMessage(props: DraftMessageProps) {
@@ -189,6 +188,7 @@ function DraftMessage(props: DraftMessageProps) {
   const hasSubject =
     draftMessageFormData &&
     isSubjectSupported(availableIdentities, draftMessageFormData);
+
   const identity = availableIdentities.find(
     (ident) => ident.identity_id === draftMessageFormData?.identity_id
   );
@@ -218,13 +218,9 @@ function DraftMessage(props: DraftMessageProps) {
 
   const canSend = (isReply || hasRecipients) && !isSending && isValid;
 
-  const handleIdentityChange = async ({
-    identity,
-  }: {
-    identity: IIdentity;
-  }) => {
+  const handleIdentityChange = async (nextIdentity: IIdentity) => {
     if (!draftMessageFormData) {
-      return;
+      return undefined;
     }
     const prevIdentity = availableIdentities.find(
       (ident) => ident.identity_id === draftMessageFormData?.identity_id
@@ -235,13 +231,13 @@ function DraftMessage(props: DraftMessageProps) {
     if (
       !isReply &&
       prevIdentity &&
-      prevIdentity.protocol !== identity.protocol
+      prevIdentity.protocol !== nextIdentity.protocol
     ) {
       // force protocol for all recipients
       recipients = (draftMessageFormData?.recipients || []).map(
         (participant) => ({
           ...participant,
-          protocol: identity.protocol,
+          protocol: nextIdentity.protocol,
         })
       );
     }
@@ -249,7 +245,7 @@ function DraftMessage(props: DraftMessageProps) {
     const draft = {
       ...draftMessageFormData,
       ...(recipients ? { recipients } : {}),
-      identity_id: identity.identity_id,
+      identity_id: nextIdentity.identity_id,
     };
 
     return dispatch(saveDraft(draft, { withThrottle: true }));
@@ -257,7 +253,7 @@ function DraftMessage(props: DraftMessageProps) {
 
   const handleChange = (ev) => {
     if (!draftMessageFormData) {
-      return;
+      return undefined;
     }
 
     const { name, value } = ev.target;
@@ -287,15 +283,15 @@ function DraftMessage(props: DraftMessageProps) {
     setIsSending(true);
 
     try {
-      const message = await dispatch(onSendDraft(draftMessageFormData));
+      const messageToSend = await dispatch(onSendDraft(draftMessageFormData));
 
       // @ts-ignore
-      onSent(message);
+      onSent(messageToSend);
       setIsSending(false);
     } catch (err) {
       dispatch(
         notifyError({
-          message: i18n._('draft.feedback.send-error', null, {
+          message: i18n._('draft.feedback.send-error', undefined, {
             defaults: 'Unable to send the message',
           }),
         })
@@ -421,7 +417,13 @@ function DraftMessage(props: DraftMessageProps) {
           onClick={handleSend}
           disabled={!canSend}
         >
-          {isSending && <Spinner display="inline" theme="bright" />}
+          {isSending && (
+            <Spinner
+              svgTitleId="send-draft-spinner"
+              display="inline"
+              theme="bright"
+            />
+          )}
           {/* @ts-ignore */}
           {!isSending && <Icon type="paper-plane" />}{' '}
           <Trans id="draft-message.action.send">Send</Trans>

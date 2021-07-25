@@ -67,7 +67,7 @@ class AppLoader extends Component {
   renderLoader() {
     return this.renderContent(
       <Fragment>
-        <Spinner isLoading />
+        <Spinner svgTitleId="app-spinner" isLoading />
         {this.renderActivity()}
       </Fragment>
     );

@@ -19,8 +19,9 @@ import {
 import {
   ERROR_NEED_PASSPHRASE,
   ERROR_WRONG_PASSPHRASE,
+  getPublicKeyFromPrivateKey,
 } from 'src/services/encryption';
-import { getPublicKeyFromPrivateKey } from 'src/services/encryption';
+
 import './OpenPGPForm.scss';
 
 const ERROR_REQUIRED = 'required';
@@ -119,14 +120,14 @@ function OpenPGPImportForm({ i18n, cancel, onSuccess }: Props) {
   const handleImportSubmit = async (event) => {
     event.preventDefault();
 
-    const errors = validate(importValues);
+    const importErrors = validate(importValues);
 
     if (!user) {
       return;
     }
 
-    if (errors) {
-      setErrors(errors);
+    if (importErrors) {
+      setErrors(importErrors);
       return;
     }
 
@@ -198,7 +199,7 @@ function OpenPGPImportForm({ i18n, cancel, onSuccess }: Props) {
           type="submit"
           shape="plain"
         >
-          <Spinner isLoading={isLoading} />
+          <Spinner svgTitleId="add-pgpkey-spinner" isLoading={isLoading} />
           <Trans id="user.openpgp.action.add">Add</Trans>
         </Button>{' '}
         {/* @ts-ignore */}

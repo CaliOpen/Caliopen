@@ -148,7 +148,7 @@ function OpenPGPGenerateForm({ i18n, cancel, onSuccess }: Props) {
       <div className="m-account-openpgp-form__field-group">
         {/* @ts-ignore */}
         <Button type="submit" shape="plain">
-          <Spinner isLoading={isLoading} />{' '}
+          <Spinner svgTitleId="create-pgpkey-spinner" isLoading={isLoading} />{' '}
           <Trans id="user.openpgp.action.create">Create</Trans>
         </Button>{' '}
         {/* @ts-ignore */}

@@ -48,7 +48,17 @@ class DiscussionSelector extends Component {
     if (count === 0) {
       return (
         <Button
-          icon={isDeleting ? <Spinner isLoading display="inline" /> : 'trash'}
+          icon={
+            isDeleting ? (
+              <Spinner
+                svgTitleId="delete-discussions-spinner"
+                isLoading
+                display="inline"
+              />
+            ) : (
+              'trash'
+            )
+          }
           disabled
           aria-label={i18n._('timeline.action.delete', null, {
             defaults: 'Delete selected',
@@ -71,7 +81,17 @@ class DiscussionSelector extends Component {
         }
         render={(confirm) => (
           <Button
-            icon={isDeleting ? <Spinner isLoading display="inline" /> : 'trash'}
+            icon={
+              isDeleting ? (
+                <Spinner
+                  svgTitleId="delete-discussion-confirm-spinner"
+                  isLoading
+                  display="inline"
+                />
+              ) : (
+                'trash'
+              )
+            }
             onClick={confirm}
             aria-label={i18n._('timeline.action.delete', null, {
               defaults: 'Delete selected',

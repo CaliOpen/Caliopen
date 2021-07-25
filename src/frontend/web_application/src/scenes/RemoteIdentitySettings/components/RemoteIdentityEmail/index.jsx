@@ -768,7 +768,11 @@ class RemoteIdentityEmail extends Component {
               className="m-remote-identity-email__action"
               icon={
                 this.state.hasActivity ? (
-                  <Spinner isloading display="inline" />
+                  <Spinner
+                    svgTitleId="save-remote-email-spinner"
+                    isloading
+                    display="inline"
+                  />
                 ) : (
                   'email'
                 )

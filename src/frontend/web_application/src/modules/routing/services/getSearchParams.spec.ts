@@ -1,4 +1,5 @@
 import { getSearchParams } from './getSearchParams';
+
 describe('routing > services > getSearchparams', () => {
   it('receive empty string', () => {
     expect(getSearchParams('')).toEqual({});

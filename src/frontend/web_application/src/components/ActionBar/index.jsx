@@ -35,7 +35,11 @@ class ActionBar extends PureComponent {
             'm-action-bar__loading--is-loading': isLoading,
           })}
         >
-          <Spinner isLoading={isLoading} display="inline" />
+          <Spinner
+            svgTitleId="action-bar-spinner"
+            isLoading={isLoading}
+            display="inline"
+          />
         </div>
         {actionsNode && (
           <div className="m-action-bar__actions">{actionsNode}</div>

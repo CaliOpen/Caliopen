@@ -2,11 +2,11 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import PiwikReactRouter from 'piwik-react-router';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import {
-  install as PWAOfflineInstall,
-  applyUpdate,
-} from 'offline-plugin/runtime';
+// import {
+//   install as PWAOfflineInstall,
+//   applyUpdate,
+//   // eslint-disable-next-line import/no-extraneous-dependencies
+// } from 'offline-plugin/runtime';
 import App from './App';
 import configureStore from './store/configure-store';
 import { initialState as initialStateSettings } from './store/modules/settings';

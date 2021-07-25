@@ -18,6 +18,7 @@ const authenticateAfterSignup = async (req, res, next) => {
       body: { username, password, device, context: CONTEXT_SAFE },
       success: async (user) => {
         await authenticate(res, { user });
+
         const redirect = req.query.redirect || DEFAULT_REDIRECT;
         res.redirect(redirect);
       },

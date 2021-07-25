@@ -4,14 +4,14 @@ import Spinner from '.';
 
 describe('component Spinner', () => {
   it('render', () => {
-    render(<Spinner isLoading />);
+    render(<Spinner svgTitleId="page-spinner" isLoading />);
 
-    expect(screen.getByText('Loading …')).toBeVisible();
+    expect(screen.getByText('Loading …')).toBeInTheDocument();
   });
 
   it('does not render', () => {
-    render(<Spinner isLoading={false} />);
+    render(<Spinner svgTitleId="page-spinner" isLoading={false} />);
 
-    expect(screen.queryByText('Loading …')).not.toBeVisible();
+    expect(screen.queryByText('Loading …')).not.toBeInTheDocument();
   });
 });

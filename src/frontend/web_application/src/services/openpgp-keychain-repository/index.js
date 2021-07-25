@@ -76,7 +76,7 @@ export async function saveKey(publicKeyArmored, privateKeyArmored) {
     throw new Error(error);
   }
 
-  return;
+  return undefined;
 }
 
 export async function deleteKey(fingerprint) {

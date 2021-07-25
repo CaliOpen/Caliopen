@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import throttle from 'lodash.throttle';
-import isEqual from 'lodash.isequal';
+import { throttle, isEqual } from 'lodash';
 import { Trans } from '@lingui/react';
 import { withScrollManager, ScrollDetector } from '../../modules/scroll';
 import {

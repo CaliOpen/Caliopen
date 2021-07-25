@@ -30,28 +30,18 @@ jest.mock('src/modules/user/services/isAuthenticated', () => ({
 describe('ContactAssociation', () => {
   beforeEach(() => {
     server.use(
-      rest.get('/api/v2/contacts', (req, res, ctx) => {
-        return res(
-          ctx.json({ contacts, total: contacts.length }),
-          ctx.status(200)
-        );
-      })
+      rest.get('/api/v2/contacts', (req, res, ctx) =>
+        res(ctx.json({ contacts, total: contacts.length }), ctx.status(200))
+      )
     );
   });
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-  // This test is unstable for some reasons :/
   it('render', async () => {
     render(<ContactAssociation />, { wrapper: AllProviders });
-
     await waitForElementToBeRemoved(
-      screen.getByRole('list', { name: 'Contact list is loading.' })
+      screen.getByRole('list', { name: 'Contact list is loading.' }),
+      { timeout: 1000 }
     );
-
     const expectedName = `${contacts[0].given_name} ${contacts[0].family_name}`;
-
-    // trigger another render because of multiple fetches?
-    expect(await screen.findByText(expectedName)).toBeVisible();
-  }, 100000); // TIMEOUT
+    expect(screen.getByText(expectedName)).toBeVisible();
+  });
 });

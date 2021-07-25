@@ -1,13 +1,13 @@
-import isEqual from 'lodash.isequal';
+import isEqual from 'lodash/isEqual';
 import {
   requestMessage,
   updateTags as updateMessageTags,
-} from '../../../../store/modules/message';
+} from 'src/store/modules/message';
 import {
   requestContact,
   updateTags as updateContactTags,
 } from 'src/modules/contact/store/reducer';
-import { tryCatchAxiosPromise } from '../../../../services/api-client';
+import { tryCatchAxiosPromise } from 'src/services/api-client';
 import { requestTags } from '../requestTags';
 import { createTag } from '../createTag';
 import { getTagLabel } from '../../services/getTagLabel';

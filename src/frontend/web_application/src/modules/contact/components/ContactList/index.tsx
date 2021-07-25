@@ -10,6 +10,7 @@ import {
   formatName,
   getContactTitle,
 } from 'src/services/contact';
+import { useSelector } from 'react-redux';
 import { useContacts } from '../../hooks/useContacts';
 import { DEFAULT_SORT_DIR } from '../../consts';
 import { ContactPayload, TSortDir } from '../../types';
@@ -18,7 +19,6 @@ import ContactItem from './components/ContactItem';
 import { stateSelector as contactStateSelector } from '../../store';
 
 import './style.scss';
-import { useSelector } from 'react-redux';
 import { contactSelector } from '../../selectors/contactSelector';
 import ContactItemPlaceholder from './components/ContactItemPlaceholder';
 
@@ -28,8 +28,8 @@ const MODE_CONTACT_BOOK = 'contact-book';
 
 type TMode = typeof MODE_ASSOCIATION | typeof MODE_CONTACT_BOOK;
 
-const getNavLetter = (sortDir: TSortDir) => {
-  return ALPHA.split('').sort((a, b) => {
+const getNavLetter = (sortDir: TSortDir) =>
+  ALPHA.split('').sort((a, b) => {
     switch (sortDir) {
       default:
       case 'ASC':
@@ -38,7 +38,6 @@ const getNavLetter = (sortDir: TSortDir) => {
         return (b || '').localeCompare(a);
     }
   });
-};
 
 interface NavProps {
   sortDir: TSortDir;
@@ -198,9 +197,6 @@ export default withI18n()(ContactList);
 
 // XXX: pattern experimentation, does static component funct easy to use in the child?
 // may be an anti-pattern
-export const isLoadingSelector = (state: RootState) => {
-  return (
-    contactStateSelector(state).status === 'pending' ||
-    userStore.stateSelector(state).status === 'pending'
-  );
-};
+export const isLoadingSelector = (state: RootState) =>
+  contactStateSelector(state).status === 'pending' ||
+  userStore.stateSelector(state).status === 'pending';

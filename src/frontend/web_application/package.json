@@ -68,11 +68,7 @@
     "jssha": "^2.3.1",
     "linkifyjs": "^2.1.9",
     "locale": "^0.1.0",
-    "lodash.debounce": "^4.0.8",
-    "lodash.intersection": "^4.4.0",
-    "lodash.isequal": "^4.5.0",
-    "lodash.merge": "^4.6.2",
-    "lodash.throttle": "^4.1.1",
+    "lodash": "^4.17.21",
     "mime-types": "^2.1.28",
     "mimemessage": "^1.0.5",
     "moment": "^2.29.1",
@@ -124,9 +120,9 @@
     "@babel/preset-react": "^7.13.13",
     "@babel/preset-typescript": "^7.13.0",
     "@lingui/cli": "^2.9.1",
-    "@testing-library/jest-dom": "^5.12.0",
-    "@testing-library/react": "^11.2.6",
-    "@testing-library/user-event": "^13.1.8",
+    "@testing-library/jest-dom": "5.14.1",
+    "@testing-library/react": "12.0.0",
+    "@testing-library/user-event": "^13.1.9",
     "@types/classnames": "^2.3.1",
     "@types/jest": "^26.0.23",
     "@types/lingui__react": "^2.8.3",
@@ -172,7 +168,7 @@
     "jasmine-spec-reporter": "^6.0.0",
     "jest-cli": "^26.6.3",
     "mini-css-extract-plugin": "^1.6.0",
-    "msw": "^0.28.2",
+    "msw": "^0.30.1",
     "npm-run-all": "^4.1.5",
     "null-loader": "^4.0.1",
     "offline-plugin": "^5.0.6",
@@ -213,6 +209,7 @@
     ]
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [
       "<rootDir>/test/unit/setup.ts"
     ],

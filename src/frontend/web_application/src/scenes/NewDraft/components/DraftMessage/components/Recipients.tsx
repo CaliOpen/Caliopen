@@ -2,17 +2,18 @@ import * as React from 'react';
 import { Trans } from '@lingui/react';
 import { useDispatch } from 'react-redux';
 import { editDraft } from 'src/store/modules/draft-message';
-import { Icon } from '../../../../../components';
-import { getIconType } from '../../../../../services/protocols-config';
-import RecipientList from '../../../../../modules/draftMessage/components/RecipientList';
-import { DraftMessageFormData } from '../../../../../modules/draftMessage';
-import RecipientSelector from '../../../../../modules/draftMessage/components/RecipientSelector';
-import Recipient from '../../../../../modules/draftMessage/components/Recipient/presenter';
+import { Icon } from 'src/components';
+import { getIconType } from 'src/services/protocols-config';
+import RecipientList from 'src/modules/draftMessage/components/RecipientList';
+import { DraftMessageFormData } from 'src/modules/draftMessage';
+import { Recipient } from 'src/modules/draftMessage/types';
+import RecipientSelector from 'src/modules/draftMessage/components/RecipientSelector';
+import { IIdentity } from 'src/modules/identity/types';
 
 interface RecipientsProps {
   draftMessage: DraftMessageFormData;
   className?: string;
-  availableIdentities: any[];
+  availableIdentities: IIdentity[];
 }
 
 export default function Recipients({
@@ -26,12 +27,14 @@ export default function Recipients({
       (ident) => ident.identity_id === draftMessage.identity_id
     );
 
-    const handleRecipientsChange = (recipients) => dispatch(
+    const handleRecipientsChange = (recipients: Recipient[]) => {
+      dispatch(
         editDraft({
           ...draftMessage,
           recipients,
         })
       );
+    };
 
     return (
       <RecipientList
@@ -52,13 +55,15 @@ export default function Recipients({
   const [firstRecipient] = (isOne2One && draftMessage.recipients) || [];
 
   if (isOne2One) {
-    const handleChangeOne2OneRecipient = (ev) => {
+    const handleChangeOne2OneRecipient: React.ComponentProps<
+      typeof RecipientSelector
+    >['onChange'] = (recipient) => {
       // TODO: select the identity that match the new protocol
-      const participant = ev.target.value;
+      const recipients = recipient ? [recipient] : [];
       dispatch(
         editDraft({
           ...draftMessage,
-          recipients: [participant],
+          recipients,
         })
       );
     };
@@ -73,14 +78,16 @@ export default function Recipients({
     );
   }
 
+  // XXX: remove this behavior: always allow to change the recipients, it will need to adjust the parent_id property
+
   return (
     <div>
-      <Trans id="messages.compose.form.to.label">To</Trans>
+      <Trans id="messages.compose.form.to.label">To:</Trans>{' '}
       {draftMessage.recipients.map((recipient) => (
         <span key={`${recipient.address}_${recipient.protocol}`}>
           {/* @ts-ignore */}
           <Icon type={getIconType(recipient.protocol)} rightSpaced />
-          {recipient.address}
+          {recipient.address}{' '}
         </span>
       ))}
     </div>

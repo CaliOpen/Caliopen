@@ -16,7 +16,7 @@ class I18nLoader extends Component {
   };
 
   static getCatalogSync = (language) => {
-    // eslint-disable-next-line global-require, import/no-dynamic-require
+    // eslint-disable-next-line global-require, import/no-dynamic-require, @typescript-eslint/no-var-requires
     const catalog = require(`../../../../../locale/${language}/messages.js`);
 
     return catalog;
