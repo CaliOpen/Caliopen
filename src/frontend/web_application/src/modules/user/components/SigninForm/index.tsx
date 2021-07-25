@@ -231,6 +231,7 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
                       svgTitleId="signin-spinner"
                       isLoading
                       display="inline"
+                      theme="bright"
                     />
                   ) : undefined
                 }

@@ -11,6 +11,7 @@ and this project adheres to
 ### Fixed
 
 - Advanced draft suggestions correctly displayed.
+- Color of signin & signup spinner button set to bright.
 
 ## [0.24.3] 2021-06-14
 

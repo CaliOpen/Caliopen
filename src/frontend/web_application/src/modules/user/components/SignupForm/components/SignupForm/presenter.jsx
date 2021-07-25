@@ -373,6 +373,7 @@ class SignupForm extends Component {
                         svgTitleId="signup-spinner"
                         isLoading
                         display="inline"
+                        theme="bright"
                       />
                     ) : null
                   }
