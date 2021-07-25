@@ -172,14 +172,17 @@ function RecipientList({
       )
   );
 
-  const doSearch = debounce<(terms: string) => any>(
-    (terms: string) =>
-      dispatch(requestParticipantSuggestions(terms, 'msg_compose')),
-    1 * 1000,
-    {
-      leading: false,
-      trailing: true,
-    }
+  const doSearch = React.useCallback(
+    debounce<(terms: string) => any>(
+      (terms: string) =>
+        dispatch(requestParticipantSuggestions(terms, 'msg_compose')),
+      1 * 1000,
+      {
+        leading: false,
+        trailing: true,
+      }
+    ),
+    []
   );
 
   const focusSearch = () => {

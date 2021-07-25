@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { v1 as uuidV1 } from 'uuid';
 import classnames from 'classnames';
 import Label from '../Label';
 import FieldGroup from '../FieldGroup';
