@@ -113,10 +113,14 @@ export const requestParticipantSuggestions = (
   const participantSuggestion = suggestionPayloads
     .filter((payload) => payload.source === 'participant')
     // deduplicate addresses
-    .filter((payload: ParticipantSuggestionPayload) => !contactSuggestions.some((contactSuggestion) => (
-          payload.protocol === contactSuggestion.protocol &&
-          payload.address === contactSuggestion.address
-        )))
+    .filter(
+      (payload: ParticipantSuggestionPayload) =>
+        !contactSuggestions.some(
+          (contactSuggestion) =>
+            payload.protocol === contactSuggestion.protocol &&
+            payload.address === contactSuggestion.address
+        )
+    )
 
     .map((payload: ParticipantSuggestionPayload) => getSuggestion(payload));
 

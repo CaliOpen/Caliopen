@@ -131,7 +131,7 @@ export interface ContactCommon {
   user_id: string;
 }
 
-export type ContactPayload = ContactCommon
+export type ContactPayload = ContactCommon;
 //  ---------------------------------------------
 
 export type TSortDir = 'ASC' | 'DESC';

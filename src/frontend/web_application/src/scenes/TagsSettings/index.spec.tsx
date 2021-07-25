@@ -4,7 +4,7 @@ import {
   screen,
   waitForElementToBeRemoved,
 } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+// import userEvent from '@testing-library/user-event';
 import { rest } from 'msw';
 import { server } from 'test/server';
 import { AllProviders } from 'test/providers';
@@ -81,7 +81,9 @@ describe('TagsSettings', () => {
     ];
 
     server.use(
-      rest.get('/api/v2/tags', (req, res, ctx) => res(ctx.json({ tags, total: tags.length }), ctx.status(200))),
+      rest.get('/api/v2/tags', (req, res, ctx) =>
+        res(ctx.json({ tags, total: tags.length }), ctx.status(200))
+      ),
       rest.post('/api/v2/tags', (req, res, ctx) => {
         // @ts-ignore
         const { label } = req.body;
@@ -123,7 +125,9 @@ describe('TagsSettings', () => {
     ];
 
     server.use(
-      rest.get('/api/v2/tags', (req, res, ctx) => res(ctx.json({ tags, total: tags.length }), ctx.status(200))),
+      rest.get('/api/v2/tags', (req, res, ctx) =>
+        res(ctx.json({ tags, total: tags.length }), ctx.status(200))
+      ),
       rest.patch('/api/v2/tags/:name', (req, res, ctx) => {
         // @ts-ignore
         const { label } = req.body;

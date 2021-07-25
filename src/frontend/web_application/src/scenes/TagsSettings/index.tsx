@@ -8,7 +8,7 @@ import TagSearch from './components/TagSearch';
 import TagInput from './components/TagInput';
 import './style.scss';
 
-type Props = withI18nProps
+type Props = withI18nProps;
 
 function TagsSettings({ i18n }: Props) {
   const dispatch = useDispatch();

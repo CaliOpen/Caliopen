@@ -21,7 +21,7 @@
     "import/extensions": [".js", ".jsx", ".ts", ".tsx", ".d.ts"]
   },
   "rules": {
-    "arrow-body-style":"warn",
+    "arrow-body-style": "warn",
     // usefull until UNSAFE_componentWill... is removed
     "camelcase": "warn",
     "import/extensions": [
@@ -48,7 +48,7 @@
     ],
     "import/prefer-default-export": 0,
     "no-plusplus": "off",
-    "prefer-destructuring":"warn",
+    "prefer-destructuring": "warn",
     "jsx-a11y/label-has-associated-control": [
       "error",
       {
@@ -82,7 +82,10 @@
     "react/no-unused-state": "warn",
     "react/prefer-stateless-function": "warn",
     "react/prop-types": "off",
-    "react/require-default-props": ["warn", { "ignoreFunctionalComponents": true}],
+    "react/require-default-props": [
+      "warn",
+      { "ignoreFunctionalComponents": true }
+    ],
     "react/static-property-placement": ["warn", "static public field"],
     "react/state-in-constructor": "off",
     "prefer-promise-reject-errors": "warn",

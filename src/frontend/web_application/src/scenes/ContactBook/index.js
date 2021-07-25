@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { loadMoreContacts , deleteContacts } from 'src/modules/contact';
+import { loadMoreContacts, deleteContacts } from 'src/modules/contact';
 
 import { requestContacts, hasMore } from 'src/modules/contact/store/reducer';
 import { withUser } from '../../modules/user';

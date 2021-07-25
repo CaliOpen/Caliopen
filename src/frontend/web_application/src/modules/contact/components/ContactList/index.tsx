@@ -28,7 +28,8 @@ const MODE_CONTACT_BOOK = 'contact-book';
 
 type TMode = typeof MODE_ASSOCIATION | typeof MODE_CONTACT_BOOK;
 
-const getNavLetter = (sortDir: TSortDir) => ALPHA.split('').sort((a, b) => {
+const getNavLetter = (sortDir: TSortDir) =>
+  ALPHA.split('').sort((a, b) => {
     switch (sortDir) {
       default:
       case 'ASC':
@@ -196,7 +197,6 @@ export default withI18n()(ContactList);
 
 // XXX: pattern experimentation, does static component funct easy to use in the child?
 // may be an anti-pattern
-export const isLoadingSelector = (state: RootState) => (
-    contactStateSelector(state).status === 'pending' ||
-    userStore.stateSelector(state).status === 'pending'
-  );
+export const isLoadingSelector = (state: RootState) =>
+  contactStateSelector(state).status === 'pending' ||
+  userStore.stateSelector(state).status === 'pending';
