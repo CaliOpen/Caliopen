@@ -29,7 +29,9 @@ export interface PagerParams {
   limit?: number;
 }
 
-export type PatchPayload<E extends { [key: string]: any } = {}> = Partial<E> & {
+export type PatchPayload<
+  E extends { [key: string]: any } = Record<string, unknown>
+> = Partial<E> & {
   current_state: Partial<E>;
 };
 

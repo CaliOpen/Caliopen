@@ -77,6 +77,13 @@ function Dropdown({
 
   const [isOpen, setIsOpen] = React.useState(show);
 
+  const handleToggleVisibility = (visibility: boolean) => {
+    onToggle(visibility);
+    if (closeOnClick !== 'doNotClose') {
+      setIsOpen(visibility);
+    }
+  };
+
   React.useEffect(() => {
     const unsubscribeResizeEvent = addEventListener('resize', () => {
       // this prevent dropdown to be misplaced on window resize
@@ -118,7 +125,7 @@ function Dropdown({
         'click',
         (ev: React.SyntheticEvent<HTMLElement>) => {
           const { target } = ev;
-          let dropdownClick: boolean = false;
+          let dropdownClick = false;
           if (
             dropdownRef &&
             typeof dropdownRef !== 'function' &&
@@ -191,13 +198,6 @@ function Dropdown({
     }
 
     return defaultDropdownStyle;
-  };
-
-  const handleToggleVisibility = (visibility: boolean) => {
-    onToggle(visibility);
-    if (closeOnClick !== 'doNotClose') {
-      setIsOpen(visibility);
-    }
   };
 
   // Since dropdown position is computed according to previous position, the

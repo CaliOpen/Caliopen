@@ -15,11 +15,7 @@ import protocolsConfig, {
   ASSOC_PROTOCOL_ICON,
 } from 'src/services/protocols-config';
 import { addEventListener } from 'src/services/event-manager';
-import {
-  Context,
-  getKey,
-  Suggestion,
-} from 'src/store/modules/participant-suggestions';
+import { getKey, Suggestion } from 'src/store/modules/participant-suggestions';
 import { IIdentity } from 'src/modules/identity/types';
 import { RootState } from 'src/store/reducer';
 import { requestParticipantSuggestions } from '../actions/requestParticipantSuggestions';
@@ -87,6 +83,57 @@ function RecipientList({
   );
   const [searchOpened, setSearchOpened] = React.useState(false);
 
+  const resetSearch = () => {
+    setSearchTerms('');
+    setActiveSearchResultIndex(0);
+  };
+
+  const addRecipient = (recipient: Recipient) => {
+    const compareRecipients = (a: Recipient, b: Recipient) =>
+      a.address === b.address && a.protocol === b.protocol;
+
+    const nextRecipients = [
+      ...recipients.filter(
+        (previousRecipient) => !compareRecipients(previousRecipient, recipient)
+      ),
+      recipient,
+    ];
+
+    resetSearch();
+    onRecipientsChange(nextRecipients);
+  };
+
+  const addUnknownParticipant = (address: string) => {
+    const getProtocol = (search: string) =>
+      Object.keys(protocolsConfig).reduce((previous, current) => {
+        if (!previous && protocolsConfig[current].default) {
+          return current;
+        }
+
+        const { regexp } = protocolsConfig[current];
+
+        if (
+          protocolsConfig[previous].default &&
+          regexp &&
+          regexp.test(search)
+        ) {
+          return current;
+        }
+
+        return previous;
+      });
+
+    const protocol = identity ? identity.protocol : getProtocol(address);
+
+    addRecipient(
+      new Participant({
+        address,
+        protocol,
+        label: address,
+      })
+    );
+  };
+
   React.useEffect(() => {
     const unsubscribeClickEvent = addEventListener(
       'click',
@@ -135,6 +182,45 @@ function RecipientList({
     }
   );
 
+  const focusSearch = () => {
+    searchInputRef.current?.focus();
+  };
+
+  const handleClickRecipientList = (ev) => {
+    if (ev.target === ev.currentTarget) {
+      focusSearch();
+    }
+  };
+
+  const makeAddKnownParticipant = (suggestion: Suggestion) => () => {
+    const { address, protocol, label } = suggestion;
+    addRecipient(
+      new Participant({
+        address,
+        label: label || address,
+        contact_ids: suggestion.contact_id ? [suggestion.contact_id] : [],
+        protocol,
+      })
+    );
+  };
+
+  const removeRecipient = (recipient: Recipient) => {
+    const nextRecipients = recipients.filter((curr) => curr !== recipient);
+    onRecipientsChange(nextRecipients);
+  };
+
+  const editRecipient = (recipient: Recipient) => {
+    removeRecipient(recipient);
+    setSearchTerms(recipient.address);
+    setSearchOpened(true);
+  };
+
+  const eventuallyEditRecipient = () => {
+    if (searchTerms.length === 0 && recipients.length > 0) {
+      editRecipient(recipients[recipients.length - 1]);
+    }
+  };
+
   const handleSearchChange: React.ChangeEventHandler<HTMLInputElement> = (
     ev
   ) => {
@@ -154,12 +240,6 @@ function RecipientList({
     }
 
     setSearchTerms(value);
-  };
-
-  const handleClickRecipientList = (ev) => {
-    if (ev.target === ev.currentTarget) {
-      focusSearch();
-    }
   };
 
   const handleSearchKeydown = (ev: React.KeyboardEvent<HTMLInputElement>) => {
@@ -208,92 +288,6 @@ function RecipientList({
     if ([KEY.COMMA, KEY.SEMICOLON].indexOf(key) !== -1) {
       ev.preventDefault();
     }
-  };
-
-  const focusSearch = () => {
-    searchInputRef.current?.focus();
-  };
-
-  const addRecipient = (recipient: Recipient) => {
-    const compareRecipients = (a: Recipient, b: Recipient) =>
-      a.address === b.address && a.protocol === b.protocol;
-
-    const nextRecipients = [
-      ...recipients.filter(
-        (previousRecipient) => !compareRecipients(previousRecipient, recipient)
-      ),
-      recipient,
-    ];
-
-    resetSearch();
-    onRecipientsChange(nextRecipients);
-  };
-
-  const makeAddKnownParticipant = (suggestion: Suggestion) => {
-    return () => {
-      const { address, protocol, label } = suggestion;
-      addRecipient(
-        new Participant({
-          address,
-          label: label || address,
-          contact_ids: suggestion.contact_id ? [suggestion.contact_id] : [],
-          protocol,
-        })
-      );
-    };
-  };
-
-  const addUnknownParticipant = (address: string) => {
-    const getProtocol = (search: string) =>
-      Object.keys(protocolsConfig).reduce((previous, current) => {
-        if (!previous && protocolsConfig[current].default) {
-          return current;
-        }
-
-        const { regexp } = protocolsConfig[current];
-
-        if (
-          protocolsConfig[previous].default &&
-          regexp &&
-          regexp.test(search)
-        ) {
-          return current;
-        }
-
-        return previous;
-      });
-
-    const protocol = identity ? identity.protocol : getProtocol(address);
-
-    addRecipient(
-      new Participant({
-        address,
-        protocol,
-        label: address,
-      })
-    );
-  };
-
-  const eventuallyEditRecipient = () => {
-    if (searchTerms.length === 0 && recipients.length > 0) {
-      editRecipient(recipients[recipients.length - 1]);
-    }
-  };
-
-  const editRecipient = (recipient: Recipient) => {
-    removeRecipient(recipient);
-    setSearchTerms(recipient.address);
-    setSearchOpened(true);
-  };
-
-  const resetSearch = () => {
-    setSearchTerms('');
-    setActiveSearchResultIndex(0);
-  };
-
-  const removeRecipient = (recipient: Recipient) => {
-    const nextRecipients = recipients.filter((curr) => curr !== recipient);
-    onRecipientsChange(nextRecipients);
   };
 
   const renderSearchResult = (suggestion: Suggestion, index: number) => {

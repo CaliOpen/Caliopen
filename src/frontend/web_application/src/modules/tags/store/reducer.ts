@@ -35,7 +35,7 @@ interface RequestTagsFailAction {
 }
 interface InvalidateAction {
   type: typeof INVALIDATE_TAGS;
-  payload: {};
+  payload: Record<string, unknown>;
 }
 
 type TagAction =

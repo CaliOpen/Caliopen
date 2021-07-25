@@ -21,6 +21,7 @@
     "import/extensions": [".js", ".jsx", ".ts", ".tsx", ".d.ts"]
   },
   "rules": {
+    "arrow-body-style":"warn",
     // usefull until UNSAFE_componentWill... is removed
     "camelcase": "warn",
     "import/extensions": [
@@ -46,6 +47,7 @@
       }
     ],
     "import/prefer-default-export": 0,
+    "prefer-destructuring":"warn",
     "jsx-a11y/label-has-associated-control": [
       "error",
       {
@@ -79,7 +81,7 @@
     "react/no-unused-state": "warn",
     "react/prefer-stateless-function": "warn",
     "react/prop-types": "off",
-    "react/require-default-props": "warn",
+    "react/require-default-props": ["warn", { "ignoreFunctionalComponents": true}],
     "react/static-property-placement": ["warn", "static public field"],
     "react/state-in-constructor": "off",
     "prefer-promise-reject-errors": "warn",
@@ -90,7 +92,11 @@
     "react/jsx-one-expression-per-line": "off",
     "react/jsx-wrap-multilines": "off",
     // ---
-    "@typescript-eslint/ban-ts-comment": "warn"
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/no-empty-function": "off",
+    // disabled base rule since it report incorrect error
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"]
   },
   "globals": {
     "inject": true,
