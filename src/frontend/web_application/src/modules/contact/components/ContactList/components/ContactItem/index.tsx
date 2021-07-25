@@ -116,8 +116,7 @@ function ContactItem({
     onClickContact && onClickContact(contact);
   };
 
-  const renderClickable = (clikableProps) => {
-    return onClickContact ? (
+  const renderClickable = (clikableProps) => onClickContact ? (
       <Button noDecoration onClick={handleClickContact} {...clikableProps} />
     ) : (
       <Link
@@ -126,7 +125,6 @@ function ContactItem({
         {...clikableProps}
       />
     );
-  };
 
   const contactTitle = formatName({ contact, format: contact_display_format });
   const mainAddresses = getMainAddresses({ contact });

@@ -5,9 +5,9 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import { AllProviders } from 'test/providers';
+import userEvent from '@testing-library/user-event';
 import RecipientList from './RecipientList';
 import { Recipient } from '../types';
-import userEvent from '@testing-library/user-event';
 
 // jest.mock('src/modules/draftMessage/components/RecipientList', () => ({
 //   isAuthenticated: () => true,

@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { store } from 'src/modules/user';
 import {
   requestDiscussions,
   hasMore,
@@ -11,7 +12,6 @@ import { getUser } from '../../modules/user/actions/getUser';
 import { withContacts } from '../../modules/contact';
 
 import Presenter from './presenter';
-import { store } from 'src/modules/user';
 
 const discussionStateSelector = (state) => state.discussion;
 

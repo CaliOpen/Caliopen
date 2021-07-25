@@ -77,28 +77,28 @@ interface IM extends NewIM {
 }
 
 interface NewPublicKey {
-  key: string; //description : "DER or PEM key, base64 encoded"
+  key: string; // description : "DER or PEM key, base64 encoded"
   label: string;
 }
 
 interface PublicKey extends NewPublicKey {
   alg?: string;
   crv?: string;
-  date_insert?: string; //format: date-time
-  date_update?: string; //format: date-time
+  date_insert?: string; // format: date-time
+  date_update?: string; // format: date-time
   emails?: string[];
-  expire_date?: string; //format: date-time
+  expire_date?: string; // format: date-time
   fingerprint?: string;
   kty?: string;
   key_id: string;
   type?: string;
   resource_id: string;
   resource_type?: string;
-  size?: number; //format: int32
+  size?: number; // format: int32
   use?: string;
   user_id: string;
-  x?: number; //format: int64
-  y?: number; //format: int64
+  x?: number; // format: int64
+  y?: number; // format: int64
 }
 
 export interface ContactCommon {
@@ -131,7 +131,7 @@ export interface ContactCommon {
   user_id: string;
 }
 
-export interface ContactPayload extends ContactCommon {}
+export type ContactPayload = ContactCommon
 //  ---------------------------------------------
 
 export type TSortDir = 'ASC' | 'DESC';

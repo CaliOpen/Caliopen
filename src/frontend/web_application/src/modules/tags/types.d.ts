@@ -7,4 +7,4 @@ export interface TagPayload extends TagCommon {
   type: 'system' | 'user';
 }
 
-export interface TagAPIPostPayload extends Omit<TagCommon, 'name'> {}
+export type TagAPIPostPayload = Omit<TagCommon, 'name'>

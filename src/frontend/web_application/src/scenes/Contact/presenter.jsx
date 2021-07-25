@@ -281,7 +281,7 @@ class Contact extends Component {
     const title = (
       <Trans
         id="tags.header.title"
-        defaults={'Tags <0>(Total: {nb})</0>'}
+        defaults="Tags <0>(Total: {nb})</0>"
         values={{ nb }}
         components={[<span className="m-tags-form__count" />]}
       />

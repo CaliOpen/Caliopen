@@ -73,7 +73,7 @@ function RecipientList({
   recipients = [],
   identity,
   onRecipientsChange,
-}: Props) {
+}: Props): React.ReactNode {
   const dispatch = useDispatch();
   const searchInputRef = React.useRef<HTMLInputElement>(null);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
@@ -228,7 +228,7 @@ function RecipientList({
       return;
     }
 
-    const value = ev.target.value;
+    const {value} = ev.target;
 
     if (!value.length) {
       resetSearch();

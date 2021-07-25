@@ -38,8 +38,8 @@ export const getDropdownStyle = ({
   let position = 'absolute';
   let height: undefined | string;
   let width: undefined | string;
-  let top: string = `${initTop + controlRect.height}px`;
-  let left: string = `${initLeft}px`;
+  let top = `${initTop + controlRect.height}px`;
+  let left = `${initLeft}px`;
 
   switch (true) {
     case isFullWidth || (isTouchingLeft && isTouchingRight):

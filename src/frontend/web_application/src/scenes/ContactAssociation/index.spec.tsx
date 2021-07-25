@@ -30,12 +30,10 @@ jest.mock('src/modules/user/services/isAuthenticated', () => ({
 describe('ContactAssociation', () => {
   beforeEach(() => {
     server.use(
-      rest.get('/api/v2/contacts', (req, res, ctx) => {
-        return res(
+      rest.get('/api/v2/contacts', (req, res, ctx) => res(
           ctx.json({ contacts, total: contacts.length }),
           ctx.status(200)
-        );
-      })
+        ))
     );
   });
   it('render', async () => {

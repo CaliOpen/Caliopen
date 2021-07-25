@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
-import { updateMessagesTags } from './updateMessagesTags';
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
+import { updateMessagesTags } from './updateMessagesTags';
 
 jest.mock('./updateTagCollection', () => ({
   updateTagCollection: (

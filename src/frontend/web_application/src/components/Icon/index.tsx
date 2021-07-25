@@ -121,7 +121,7 @@ const Icon = ({
   if (!typeAssoc[type]) {
     console.error(`The type "${type}" is not a valid Icon component type`);
   }
-  const typeClassName = typeAssoc[type] || typeAssoc['question'];
+  const typeClassName = typeAssoc[type] || typeAssoc.question;
   const isSVG = typeClassName.startsWith('svg');
   const iconProps = {
     ...props,

@@ -19,8 +19,8 @@ import {
 import {
   ERROR_NEED_PASSPHRASE,
   ERROR_WRONG_PASSPHRASE,
-} from 'src/services/encryption';
-import { getPublicKeyFromPrivateKey } from 'src/services/encryption';
+ getPublicKeyFromPrivateKey } from 'src/services/encryption';
+
 import './OpenPGPForm.scss';
 
 const ERROR_REQUIRED = 'required';

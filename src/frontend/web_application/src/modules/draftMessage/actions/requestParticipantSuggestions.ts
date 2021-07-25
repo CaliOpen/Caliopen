@@ -1,3 +1,6 @@
+import { AppDispatch, GetState } from 'src/types';
+import { ContactPayload } from 'src/modules/contact/types';
+import { differenceWith } from 'lodash';
 import {
   suggest,
   searchSuccess,
@@ -9,9 +12,6 @@ import {
 import { settingsSelector } from '../../settings';
 import { getContact } from '../../contact';
 import { formatName } from '../../../services/contact';
-import { AppDispatch, GetState } from 'src/types';
-import { ContactPayload } from 'src/modules/contact/types';
-import { differenceWith } from 'lodash';
 
 const getSuggestion = ({
   label,
@@ -113,14 +113,10 @@ export const requestParticipantSuggestions = (
   const participantSuggestion = suggestionPayloads
     .filter((payload) => payload.source === 'participant')
     // deduplicate addresses
-    .filter((payload: ParticipantSuggestionPayload) => {
-      return !contactSuggestions.some((contactSuggestion) => {
-        return (
+    .filter((payload: ParticipantSuggestionPayload) => !contactSuggestions.some((contactSuggestion) => (
           payload.protocol === contactSuggestion.protocol &&
           payload.address === contactSuggestion.address
-        );
-      });
-    })
+        )))
 
     .map((payload: ParticipantSuggestionPayload) => getSuggestion(payload));
 

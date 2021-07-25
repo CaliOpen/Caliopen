@@ -12,10 +12,10 @@ import {
   contactSelector,
 } from 'src/modules/contact';
 import { RootState } from 'src/store/reducer';
-import { getIdentityProtocol } from '../services/getIdentityProtocol';
-import { Recipient } from '../types';
 import { ContactPayload } from 'src/modules/contact/types';
 import { ProviderIcon } from 'src/modules/remoteIdentity';
+import { getIdentityProtocol } from '../services/getIdentityProtocol';
+import { Recipient } from '../types';
 
 const PROTOCOL_EMAIL = 'email';
 const PROTOCOL_TWITTER = 'twitter';
