@@ -1,4 +1,6 @@
-import { encode } from '../lib/seal';
+import type { Response } from 'express';
+
+import { encode } from './seal';
 import { getConfig } from '../../config';
 
 export const COOKIE_NAME = 'caliopen.web';
@@ -14,21 +16,20 @@ const getCookieOptions = () => {
   return { ...COOKIE_OPTIONS, domain: hostname };
 };
 
-export const authenticate = (res, { user }) =>
-  new Promise((resolve, reject) => {
-    const {
-      seal: { secret },
-    } = getConfig();
+export const authenticate = (res: Response, { user }) => {
+  const {
+    seal: { secret },
+  } = getConfig();
 
-    encode(user, secret, (err, sealed) => {
-      if (err || !sealed) {
-        return reject('Unexpected Error');
-      }
+  return encode(user, secret).then(
+    (sealed) => {
       res.cookie(COOKIE_NAME, sealed, getCookieOptions());
+    },
+    () => {
+      return Promise.reject('Unexpected Error');
+    }
+  );
+};
 
-      return resolve();
-    });
-  });
-
-export const invalidate = (res) =>
+export const invalidate = (res: Response) =>
   res.clearCookie(COOKIE_NAME, getCookieOptions());
