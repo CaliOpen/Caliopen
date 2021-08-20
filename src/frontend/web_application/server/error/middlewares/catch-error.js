@@ -18,16 +18,16 @@ const catchError = (err, req, res, next) => {
     stack: isDev ? err.stack : '',
   };
 
-  if (req.accepts('html')) {
-    res
-      .status(publicError.status)
-      .render('error.component', { error: publicError });
+  if (req.accepts('json')) {
+    res.status(publicError.status).json(publicError);
 
     return;
   }
 
-  if (req.accepts('json')) {
-    res.status(publicError.status).json(publicError);
+  if (req.accepts('html')) {
+    res
+      .status(publicError.status)
+      .render('error.component', { error: publicError });
 
     return;
   }

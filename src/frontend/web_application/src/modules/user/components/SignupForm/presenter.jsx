@@ -12,6 +12,8 @@ import formValidator, {
   ERR_UNABLE_TO_SIGNUP,
 } from './form-validator';
 
+export const USER_IDENTITIES_ROUTE = '/user/identities';
+
 // totally useless: settings aren't fetch until authenticated
 @withSettings()
 @withI18n()
@@ -114,15 +116,8 @@ class Signup extends Component {
       });
       const { push } = this.props;
 
-      return push('/');
+      return push(USER_IDENTITIES_ROUTE);
     } catch (err) {
-      const isExpectedError =
-        err.response && err.response.status >= 400 && err.response.status < 500;
-
-      if (!isExpectedError) {
-        throw err;
-      }
-
       const localizedErrors = getLocalizedErrors(i18n);
 
       this.setState({

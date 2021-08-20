@@ -7,6 +7,15 @@ and this project adheres to
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Fixed
+
+- Crash after signup, use a subquery instead.
+
+### Changed
+
+- Redirect to external account configuration after signup.
+
 ## [0.24.4] 2021-07-25
 
 ### Fixed
