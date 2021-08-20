@@ -10,7 +10,11 @@ and this project adheres to
 
 ### Fixed
 
-- Update frontend server dependency to correctly handle cookie decoding.
+- Crash after signup, use a subquery instead.
+
+### Changed
+
+- Redirect to external account configuration after signup.
 
 ## [0.24.4] 2021-07-25
 

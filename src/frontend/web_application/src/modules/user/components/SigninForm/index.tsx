@@ -41,7 +41,6 @@ interface SigninProps extends withI18nProps {
 }
 
 const defaultIdentifier = { username: '', password: '' };
-// @withRouter
 function SigninForm({ clientDevice, i18n }: SigninProps) {
   const { search } = useLocation();
   const usernameInput = React.useRef<HTMLInputElement>();
