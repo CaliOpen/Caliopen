@@ -2801,6 +2801,14 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
+"@types/redux-form@^8.3.2":
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/@types/redux-form/-/redux-form-8.3.2.tgz#ab8b63baff010540c2abae88aa0af35a272ef40d"
+  integrity sha512-8XuMIL8bcQB5aVf/I71oLQVWGQH4YyCqJG4UWaUmlGOJFbLnPAr+EiqNGJ3bJlO7H9hHNqo4WhOjLFSwFapbYA==
+  dependencies:
+    "@types/react" "*"
+    redux "^3.6.0 || ^4.0.0"
+
 "@types/redux@^3.6.0":
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/@types/redux/-/redux-3.6.0.tgz#f1ebe1e5411518072e4fdfca5c76e16e74c1399a"
@@ -13061,6 +13069,13 @@ redux@*, redux@^4.0.0, redux@^4.0.5:
   dependencies:
     loose-envify "^1.4.0"
     symbol-observable "^1.2.0"
+
+"redux@^3.6.0 || ^4.0.0":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/redux/-/redux-4.1.1.tgz#76f1c439bb42043f985fbd9bf21990e60bd67f47"
+  integrity sha512-hZQZdDEM25UY2P493kPYuKqviVwZ58lEmGQNeQ+gXa+U0gYPUBf7NKYazbe3m+bs/DzM/ahN12DbF+NG8i0CWw==
+  dependencies:
+    "@babel/runtime" "^7.9.2"
 
 reflect.ownkeys@^0.2.0:
   version "0.2.0"

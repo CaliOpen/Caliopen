@@ -1,16 +1,25 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import './style.scss';
 
+type Size = 'shrink' | 'small' | 'medium' | 'large';
+
+interface FormColumnProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string;
+  bottomSpace?: boolean;
+  size?: Size;
+  fluid?: boolean;
+  rightSpace?: boolean;
+}
 export const FormColumn = ({
   className,
   bottomSpace,
   size,
   fluid,
-  rightSpace,
+  rightSpace = true, // --right-space style is default for FormColumn
   ...props
-}) => {
+}: FormColumnProps) => {
   const colClassName = classnames(
     'm-form-grid__column',
     {
@@ -28,22 +37,12 @@ export const FormColumn = ({
   return <div className={colClassName} {...props} />;
 };
 
-FormColumn.propTypes = {
-  className: PropTypes.string,
-  size: PropTypes.oneOf(['shrink', 'small', 'medium', 'large']),
-  fluid: PropTypes.bool,
-  rightSpace: PropTypes.bool,
-  bottomSpace: PropTypes.bool,
-};
-FormColumn.defaultProps = {
-  className: undefined,
-  size: undefined,
-  fluid: false,
-  bottomSpace: false,
-  rightSpace: true, // --right-space style is default for FormColumn
-};
+interface FormRowProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string;
+  reverse?: boolean;
+}
 
-export const FormRow = ({ className, reverse, ...props }) => {
+export const FormRow = ({ className, reverse, ...props }: FormRowProps) => {
   const rowClassName = classnames(
     'm-form-grid__row',
     {
@@ -55,24 +54,13 @@ export const FormRow = ({ className, reverse, ...props }) => {
   return <div className={rowClassName} {...props} />;
 };
 
-FormRow.propTypes = {
-  className: PropTypes.string,
-  reverse: PropTypes.bool,
-};
-FormRow.defaultProps = {
-  className: undefined,
-  reverse: false,
-};
+interface FormGridProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string;
+  reverse?: boolean;
+}
 
-const FormGrid = ({ className, ...props }) => (
+const FormGrid = ({ className, ...props }: FormGridProps) => (
   <div className={classnames('m-form-grid', className)} {...props} />
 );
-
-FormGrid.propTypes = {
-  className: PropTypes.string,
-};
-FormGrid.defaultProps = {
-  className: undefined,
-};
 
 export default FormGrid;

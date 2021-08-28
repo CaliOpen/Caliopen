@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classnames from 'classnames';
-import { withI18n, Trans } from '@lingui/react';
+import { withI18n, Trans, withI18nProps } from '@lingui/react';
 import type { I18n } from '@lingui/core';
 import { compose } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
@@ -57,10 +57,7 @@ function useDraftMessage(
 
   return draftMessage;
 }
-interface QuickDraftFormProps {
-  // injected props
-  i18n: I18n;
-  // ownProps
+interface QuickDraftFormProps extends withI18nProps {
   encryptionChildren?: React.ReactNode;
   className?: string;
   innerRef: React.Ref<HTMLDivElement>;
