@@ -3,7 +3,6 @@ import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { saveConfig } from 'src/modules/device/services/storage';
 import { cleanup } from '@testing-library/react';
-import './lingui-react';
 import '@testing-library/jest-dom';
 import { server } from '../server';
 

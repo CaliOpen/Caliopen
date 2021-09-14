@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import 'test/unit/lingui-react';
 import PhoneForm from '.';
 
 describe('component PhoneForm', () => {

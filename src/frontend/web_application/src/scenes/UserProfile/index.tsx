@@ -24,7 +24,7 @@ const UserProfile = ({ i18n, submitting, pristine, handleSubmit }: Props) => {
   const [editMode, setEditMode] = React.useState(false);
   const [password, setPassword] = React.useState('');
   const [errorDeleteAccount, setErrorDeleteAccount] = React.useState<
-    void | React.ReactNode[]
+    undefined | React.ReactNode[]
   >();
 
   const { user } = useUser();

@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import 'test/unit/lingui-react';
 import TagItem from '.';
 
 describe('component TagItem', () => {

@@ -39,7 +39,7 @@ describe('ContactAssociation', () => {
     render(<ContactAssociation />, { wrapper: AllProviders });
     await waitForElementToBeRemoved(
       screen.getByRole('list', { name: 'Contact list is loading.' }),
-      { timeout: 1000 }
+      { timeout: 2000 }
     );
     const expectedName = `${contacts[0].given_name} ${contacts[0].family_name}`;
     expect(screen.getByText(expectedName)).toBeVisible();
