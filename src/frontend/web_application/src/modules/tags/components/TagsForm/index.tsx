@@ -119,10 +119,8 @@ function TagsForm({ tagCollection, i18n, updateTags }: TagsFormProps) {
           errors={errors}
           terms={terms}
           onChange={handleSearchChange}
-          input={{
-            innerRef: inputSearchElement,
-          }}
           onSubmit={handleAddNewTag}
+          innerRef={inputSearchElement}
         />
         <Dropdown
           id="search-tag-dropdown"

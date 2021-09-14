@@ -15,7 +15,7 @@ interface Props extends React.ComponentProps<'button'> {
   noDecoration?: boolean;
   disabled?: boolean;
   center?: boolean;
-  innerRef: React.ForwardedRef<any>;
+  innerRef: React.ForwardedRef<HTMLButtonElement>;
 }
 function Button({
   children,
@@ -89,6 +89,6 @@ function Button({
 }
 
 type ButtonProps = Omit<Props, 'innerRef'>;
-export default React.forwardRef<typeof Button, ButtonProps>((props, ref) => (
-  <Button {...props} innerRef={ref} />
-));
+export default React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (props, ref) => <Button {...props} innerRef={ref} />
+);

@@ -3,13 +3,13 @@ import classnames from 'classnames';
 import './style.scss';
 
 interface Props {
-  expanded: boolean;
-  theme: string;
-  bottomSpace: boolean;
-  hasError: boolean;
+  expanded?: boolean;
+  theme?: string;
+  bottomSpace?: boolean;
+  hasError?: boolean;
   className?: string;
-  inputProps: React.InputHTMLAttributes<HTMLInputElement>;
-  innerRef: React.ForwardedRef<any>;
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+  innerRef: React.ForwardedRef<HTMLInputElement>;
 }
 function InputText({
   className,
@@ -43,6 +43,8 @@ function InputText({
   );
 }
 
-export default React.forwardRef<typeof InputText, Props>((props, ref) => (
-  <InputText {...props} innerRef={ref} />
-));
+type TextFieldProps = Omit<Props, 'innerRef'>;
+
+export default React.forwardRef<HTMLInputElement, TextFieldProps>(
+  (props, ref) => <InputText {...props} innerRef={ref} />
+);

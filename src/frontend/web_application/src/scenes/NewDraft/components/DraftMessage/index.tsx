@@ -338,15 +338,18 @@ function DraftMessage(props: DraftMessageProps) {
         )}
         {!parentMessage && hasSubject && (
           <TextFieldGroup
+            id="draft-message_subject"
             className="m-draft-message-advanced__subject"
             display="inline"
             label={
               <Trans id="messages.compose.form.subject.label">Subject</Trans>
             }
-            name="subject"
-            value={draftMessageFormData?.subject}
-            onChange={handleChange}
-            disabled={!identity}
+            inputProps={{
+              name: 'subject',
+              value: draftMessageFormData?.subject,
+              onChange: handleChange,
+              disabled: !identity,
+            }}
           />
         )}
         {isLocked ? (

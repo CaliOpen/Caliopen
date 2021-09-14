@@ -101,11 +101,13 @@ class AuthButton extends Component {
                     below (ex.: username@instance.tld)
                   </Trans>
                 }
-                value={this.state.mastodonAcct}
-                onChange={this.handleAcctChange}
-                name="mastodonAcct"
-                autoComplete="on"
-                required
+                inputProps={{
+                  value: this.state.mastodonAcct,
+                  onChange: this.handleAcctChange,
+                  name: 'mastodonAcct',
+                  autoComplete: 'on',
+                  required: true,
+                }}
               />
             </FormColumn>
           </FormRow>

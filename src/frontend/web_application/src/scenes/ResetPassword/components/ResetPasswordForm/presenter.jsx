@@ -149,20 +149,22 @@ class ResetPasswordForm extends Component {
           <FormRow>
             <FormColumn rightSpace={false} bottomSpace>
               <TextFieldGroup
-                name="password"
-                type="password"
+                inputProps={{
+                  name: 'password',
+                  type: 'password',
+                  value: this.state.formValues.password,
+                  onChange: this.handlePasswordChange,
+                  placeholder: i18n._(
+                    'password.form.new_password.placeholder',
+                    null,
+                    { defaults: 'Enter new password' }
+                  ),
+                  required: true,
+                }}
                 theme="contrasted"
-                value={this.state.formValues.password}
-                onChange={this.handlePasswordChange}
                 label={i18n._('password.form.new_password.label', null, {
                   defaults: 'New password:',
                 })}
-                placeholder={i18n._(
-                  'password.form.new_password.placeholder',
-                  null,
-                  { defaults: 'Enter new password' }
-                )}
-                required
               />
             </FormColumn>
             {this.state.passwordStrength.length !== 0 && (
@@ -172,23 +174,25 @@ class ResetPasswordForm extends Component {
             )}
             <FormColumn rightSpace={false} bottomSpace>
               <TextFieldGroup
-                name="confirmPassword"
-                type="password"
+                inputProps={{
+                  name: 'confirmPassword',
+                  type: 'password',
+                  value: this.state.confirmPassword,
+                  onChange: this.handleConfirmPasswordChange,
+                  placeholder: i18n._(
+                    'password.form.new_password_confirmation.placeholder',
+                    null,
+                    { defaults: 'Password' }
+                  ),
+                  required: true,
+                }}
                 theme="contrasted"
-                value={this.state.confirmPassword}
-                onChange={this.handleConfirmPasswordChange}
                 errors={this.state.formErrors.passwordError}
                 label={i18n._(
                   'password.form.new_password_confirmation.label',
                   null,
                   { defaults: 'New password confirmation:' }
                 )}
-                placeholder={i18n._(
-                  'password.form.new_password_confirmation.placeholder',
-                  null,
-                  { defaults: 'Password' }
-                )}
-                required
               />
             </FormColumn>
             <FormColumn

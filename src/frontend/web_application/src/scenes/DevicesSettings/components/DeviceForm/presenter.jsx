@@ -191,10 +191,12 @@ class DeviceForm extends Component {
                 label={i18n._('device.manage_form.name.label', null, {
                   defaults: 'Name:',
                 })}
-                name="name"
                 id="device-name"
-                value={this.state.device.name}
-                onChange={this.handleFieldChange}
+                inputProps={{
+                  name: 'name',
+                  value: this.state.device.name,
+                  onChange: this.handleFieldChange,
+                }}
               />
             </FormColumn>
             {

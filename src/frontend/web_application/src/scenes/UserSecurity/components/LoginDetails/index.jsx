@@ -29,11 +29,13 @@ class LoginDetails extends Component {
           <Trans id="login.details.title">Login:</Trans>
         </TextBlock>
         <TextFieldGroup
-          className="m-login-details__input"
-          value={user && user.name}
+          inputProps={{
+            className: 'm-login-details__input',
+            value: user && user.name,
+            disabled: true,
+          }}
           label={i18n._('login.details.label', null, { defaults: 'Login:' })}
           showLabelforSr
-          disabled
         />
         {/* TODO: enable editing login info
           <div className="m-login-details__action">

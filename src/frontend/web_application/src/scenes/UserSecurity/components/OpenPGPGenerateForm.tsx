@@ -134,14 +134,17 @@ function OpenPGPGenerateForm({ i18n, cancel, onSuccess }: Props) {
       {hasPassphrase && (
         <div className="m-account-openpgp-form__field-group">
           <TextFieldGroup
+            id="openpgp_passphrase"
             label={i18n._('user.openpgp.form.passphrase.label', undefined, {
               defaults: 'Passphrase',
             })}
-            type="password"
-            value={generateValues.passphrase}
-            onChange={handleGenerateChanges}
-            name="passphrase"
-            autocomplete="new-password"
+            inputProps={{
+              type: 'password',
+              value: generateValues.passphrase,
+              onChange: handleGenerateChanges,
+              name: 'passphrase',
+              autoComplete: 'new-password',
+            }}
           />
         </div>
       )}

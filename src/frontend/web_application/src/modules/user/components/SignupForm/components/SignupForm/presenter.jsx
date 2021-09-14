@@ -217,20 +217,22 @@ class SignupForm extends Component {
               <FormColumn rightSpace={false} bottomSpace>
                 <TextFieldGroup
                   id="signup_username"
-                  name="username"
+                  inputProps={{
+                    name: 'username',
+                    placeholder: i18n._(
+                      'signup.form.username.placeholder',
+                      null,
+                      { defaults: 'username' }
+                    ),
+                    value: this.state.formValues.username,
+                    onChange: this.handleInputChange,
+                    onBlur: this.handleInputBlur,
+                  }}
                   theme="contrasted"
                   label={i18n._('signup.form.username.label', null, {
                     defaults: 'Username',
                   })}
-                  placeholder={i18n._(
-                    'signup.form.username.placeholder',
-                    null,
-                    { defaults: 'username' }
-                  )}
-                  value={this.state.formValues.username}
                   errors={errors.username}
-                  onChange={this.handleInputChange}
-                  onBlur={this.handleInputBlur}
                 />
                 <TextBlock className="s-signup__user">
                   <span className="s-signup__username">
@@ -245,20 +247,22 @@ class SignupForm extends Component {
                 <TextFieldGroup
                   id="signup_password"
                   theme="contrasted"
-                  name="password"
+                  inputProps={{
+                    name: 'password',
+                    placeholder: i18n._(
+                      'signup.form.password.placeholder',
+                      null,
+                      { defaults: 'password' }
+                    ),
+                    type: 'password',
+                    value: this.state.formValues.password,
+                    onChange: this.handlePasswordChange,
+                    onBlur: this.handleInputBlur,
+                  }}
                   label={i18n._('signup.form.password.label', null, {
                     defaults: 'Password',
                   })}
-                  placeholder={i18n._(
-                    'signup.form.password.placeholder',
-                    null,
-                    { defaults: 'password' }
-                  )}
-                  type="password"
-                  value={this.state.formValues.password}
                   errors={errors.password}
-                  onChange={this.handlePasswordChange}
-                  onBlur={this.handleInputBlur}
                 />
               </FormColumn>
               {this.state.passwordStrength.length !== 0 && (
@@ -272,7 +276,17 @@ class SignupForm extends Component {
                 <TextFieldGroup
                   id="signup_recovery_email"
                   theme="contrasted"
-                  name="recovery_email"
+                  inputProps={{
+                    name: 'recovery_email',
+                    placeholder: i18n._(
+                      'signup.form.invitation_email.placeholder',
+                      null,
+                      { defaults: 'example@domain.tld' }
+                    ),
+                    value: this.state.formValues.recovery_email,
+                    onChange: this.handleInputChange,
+                    onBlur: this.handleInputBlur,
+                  }}
                   // Alpha: label "recovery email" replaced by "invitation email"
                   // label={
                   // i18n._('signup.form.recovery_email.label',
@@ -282,15 +296,7 @@ class SignupForm extends Component {
                   label={i18n._('signup.form.invitation_email.label', null, {
                     defaults: 'Invitation email:',
                   })}
-                  placeholder={i18n._(
-                    'signup.form.invitation_email.placeholder',
-                    null,
-                    { defaults: 'example@domain.tld' }
-                  )}
-                  value={this.state.formValues.recovery_email}
                   errors={errors.recovery_email}
-                  onChange={this.handleInputChange}
-                  onBlur={this.handleInputBlur}
                 />
                 <Label
                   htmlFor="signup_recovery_email"
