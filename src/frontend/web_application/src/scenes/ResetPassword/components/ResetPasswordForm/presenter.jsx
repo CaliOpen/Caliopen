@@ -160,8 +160,8 @@ class ResetPasswordForm extends Component {
                     { defaults: 'Enter new password' }
                   ),
                   required: true,
+                  theme: 'contrasted',
                 }}
-                theme="contrasted"
                 label={i18n._('password.form.new_password.label', null, {
                   defaults: 'New password:',
                 })}
@@ -185,8 +185,8 @@ class ResetPasswordForm extends Component {
                     { defaults: 'Password' }
                   ),
                   required: true,
+                  theme: 'contrasted',
                 }}
-                theme="contrasted"
                 errors={this.state.formErrors.passwordError}
                 label={i18n._(
                   'password.form.new_password_confirmation.label',

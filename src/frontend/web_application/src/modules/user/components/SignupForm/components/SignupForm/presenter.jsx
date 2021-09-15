@@ -227,8 +227,8 @@ class SignupForm extends Component {
                     value: this.state.formValues.username,
                     onChange: this.handleInputChange,
                     onBlur: this.handleInputBlur,
+                    expanded: true,
                   }}
-                  theme="contrasted"
                   label={i18n._('signup.form.username.label', null, {
                     defaults: 'Username',
                   })}
@@ -246,7 +246,6 @@ class SignupForm extends Component {
               <FormColumn rightSpace={false} bottomSpace>
                 <TextFieldGroup
                   id="signup_password"
-                  theme="contrasted"
                   inputProps={{
                     name: 'password',
                     placeholder: i18n._(
@@ -258,6 +257,7 @@ class SignupForm extends Component {
                     value: this.state.formValues.password,
                     onChange: this.handlePasswordChange,
                     onBlur: this.handleInputBlur,
+                    expanded: true,
                   }}
                   label={i18n._('signup.form.password.label', null, {
                     defaults: 'Password',
@@ -275,7 +275,6 @@ class SignupForm extends Component {
               <FormColumn rightSpace={false} bottomSpace>
                 <TextFieldGroup
                   id="signup_recovery_email"
-                  theme="contrasted"
                   inputProps={{
                     name: 'recovery_email',
                     placeholder: i18n._(
@@ -286,6 +285,8 @@ class SignupForm extends Component {
                     value: this.state.formValues.recovery_email,
                     onChange: this.handleInputChange,
                     onBlur: this.handleInputBlur,
+                    theme: 'contrasted',
+                    expanded: true,
                   }}
                   // Alpha: label "recovery email" replaced by "invitation email"
                   // label={

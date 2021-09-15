@@ -2,13 +2,12 @@ import * as React from 'react';
 import classnames from 'classnames';
 import './style.scss';
 
-interface Props {
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   expanded?: boolean;
   theme?: string;
   bottomSpace?: boolean;
   hasError?: boolean;
   className?: string;
-  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   innerRef: React.ForwardedRef<HTMLInputElement>;
 }
 function InputText({
@@ -17,8 +16,8 @@ function InputText({
   theme = 'light',
   bottomSpace = false,
   hasError = false,
-  inputProps,
   innerRef,
+  ...inputProps
 }: Props) {
   const inputTextClassName = classnames(
     'm-input-text',

@@ -6,8 +6,7 @@ import FieldGroup from '../FieldGroup';
 
 import './style.scss';
 
-interface Props
-  extends Omit<React.ComponentProps<typeof InputText>, 'innerRef'> {
+interface Props {
   id: string;
   label: React.ReactNode;
   showLabelforSr?: boolean;
@@ -15,6 +14,7 @@ interface Props
   className?: string;
   display?: 'inline' | 'block';
   innerRef: React.ForwardedRef<HTMLInputElement>;
+  inputProps: Omit<React.ComponentProps<typeof InputText>, 'innerRef'>;
 }
 function TextFieldGroup({
   id,
@@ -24,8 +24,7 @@ function TextFieldGroup({
   className,
   display = 'block',
   innerRef,
-  inputProps: { onBlur, ...restInputProps } = {},
-  ...restProps
+  inputProps: { onBlur, className: inputClassName, ...restInputProps } = {},
 }: Props) {
   const [isPristine, setIsPristine] = React.useState(true);
 
@@ -46,9 +45,13 @@ function TextFieldGroup({
     'm-text-field-group--inline__label': display === 'inline',
   });
 
-  const inputClassName = classnames('m-text-field-group__input', {
-    'm-text-field-group--inline__input': display === 'inline',
-  });
+  const inputPropsClassName = classnames(
+    'm-text-field-group__input',
+    {
+      'm-text-field-group--inline__input': display === 'inline',
+    },
+    inputClassName
+  );
 
   const errorsClassName = classnames('m-text-field-group__errors', {
     'm-text-field-group--inline__errors': display === 'inline',
@@ -64,14 +67,11 @@ function TextFieldGroup({
         {label}
       </Label>
       <InputText
-        className={inputClassName}
-        inputProps={{
-          ...restInputProps,
-          id,
-          onBlur: handleBlur,
-        }}
-        {...restProps}
+        id={id}
+        className={inputPropsClassName}
         hasError={hasError}
+        {...restInputProps}
+        onBlur={handleBlur}
         ref={innerRef}
       />
     </FieldGroup>

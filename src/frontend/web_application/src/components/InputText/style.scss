@@ -3,12 +3,18 @@
 
 @mixin input-text {
   @include o-form-element;
+  $baseName: &;
 
   &--dark {
     @include o-form-element--dark;
   }
   &--light {
     @include o-form-element--light;
+
+    &#{$baseName}--error {
+      box-shadow: initial;
+      border-color: $co-color__alert;
+    }
   }
   &--contrasted {
     @include o-form-element--contrasted;

@@ -178,8 +178,8 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
                   name: 'username',
                   value: identifier.username,
                   onChange: handleInputChange,
+                  expanded: true,
                 }}
-                theme="contrasted"
                 label={i18n._('signin.form.username.label', undefined, {
                   defaults: 'Username',
                 })}
@@ -190,7 +190,6 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
             <FormColumn rightSpace={false} bottomSpace>
               <TextFieldGroup
                 id="signin_password"
-                theme="contrasted"
                 label={i18n._('signin.form.password.label', undefined, {
                   defaults: 'Password',
                 })}
@@ -204,6 +203,7 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
                   type: 'password',
                   value: identifier.password,
                   onChange: handleInputChange,
+                  expanded: true,
                 }}
                 errors={errors.password}
                 ref={passwordInput}

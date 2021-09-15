@@ -68,11 +68,11 @@ function About() {
                 By signup today it will be first step to secure your
                 conversations and have all your communications in the same
                 place, it&apos;s easy and free.
-              </Trans>{' '}
-              <Button onClick={handleToggleCreate} shape="plain">
-                <Trans id="about.action.toggle-create">Create</Trans>
-              </Button>
+              </Trans>
             </p>
+            <Button onClick={handleToggleCreate} shape="plain">
+              <Trans id="about.action.toggle-create">Create</Trans>
+            </Button>
           </Section>
           <div
             className={classnames('s-about__signup-form', {

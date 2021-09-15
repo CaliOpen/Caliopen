@@ -45,7 +45,6 @@ function TagFieldGroup({
       defaults: 'Search a tag ...',
     }),
     onChange: handleChange,
-    showLabelforSr: true,
     name: 'terms',
     value: terms,
     autoComplete: 'off',
@@ -58,6 +57,7 @@ function TagFieldGroup({
         label={i18n._('tags.form.search.label', undefined, {
           defaults: 'Search',
         })}
+        showLabelforSr
         inputProps={inputProps}
         errors={errors}
         ref={innerRef}

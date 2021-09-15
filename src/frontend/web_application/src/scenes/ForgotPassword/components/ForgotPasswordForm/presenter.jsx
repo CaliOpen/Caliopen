@@ -105,7 +105,6 @@ class ForgotPasswordForm extends Component {
                   </FormColumn>
                   <FormColumn rightSpace={false} bottomSpace>
                     <TextFieldGroup
-                      theme="contrasted"
                       label={i18n._(
                         'password.forgot-form.username.label',
                         null,
@@ -120,13 +119,13 @@ class ForgotPasswordForm extends Component {
                         name: 'username',
                         value: this.state.formValues.username,
                         onChange: this.handleInputChange,
+                        theme: 'contrasted',
                       }}
                       errors={errors.username}
                     />
                   </FormColumn>
                   <FormColumn rightSpace={false} bottomSpace>
                     <TextFieldGroup
-                      theme="contrasted"
                       label={i18n._(
                         'password.forgot-form.recovery_email.label',
                         null,
@@ -141,6 +140,7 @@ class ForgotPasswordForm extends Component {
                         name: 'recovery_email',
                         value: this.state.formValues.recovery_email,
                         onChange: this.handleInputChange,
+                        theme: 'contrasted',
                       }}
                       errors={errors.recovery_email}
                     />
