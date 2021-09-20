@@ -283,7 +283,7 @@ class ObjectUser(ObjectStorable):
         self_dict = {}
         for att, val in vars(self).items():
             if not att.startswith("_") and val is not None and att != 'user':
-                if isinstance(self._attrs[att], types.ListType):
+                if isinstance(self._attrs[att], (list, tuple)):
                     lst = []
                     if len(att) > 0:
                         if issubclass(self._attrs[att][0], ObjectDictifiable):
@@ -430,8 +430,8 @@ class ObjectUser(ObjectStorable):
         cur_val = getattr(self, key)
         msg = "Patch current_state not consistent with db, step {} key {}"
 
-        if isinstance(current_attr, types.ListType):
-            if not isinstance(cur_val, types.ListType):
+        if isinstance(current_attr, (list, tupe)):
+            if not isinstance(cur_val, (list, tuple)):
                 raise PatchConflict(
                     messag=msg.format(0, key))
 

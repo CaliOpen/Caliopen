@@ -19,10 +19,10 @@ class ResourceTag(ObjectJsonDictifiable):
 
     _attrs = {
         'date_insert': datetime.datetime,
-        'importance_level': types.IntType,
-        'name': types.StringType,
-        'label': types.StringType,
-        'type': types.StringType,
+        'importance_level': int,
+        'name': str,
+        'label': str,
+        'type': str,
     }
 
     _model_class = ModelResourceTag
