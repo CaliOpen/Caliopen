@@ -102,7 +102,7 @@ class Device(BaseUserCore, MixinCoreRelation, MixinCoreNested):
         core = super(Device, cls).create(user, **attrs)
         log.debug('Created device %s' % core.device_id)
         related_cores = {}
-        for k, v in related.iteritems():
+        for k, v in related.items():
             if k in cls._relations:
                 for obj in v:
                     log.debug('Processing object %r' % obj.to_native())
