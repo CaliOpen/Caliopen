@@ -70,15 +70,15 @@ def import_email(email, import_path, format, contact_probability,
     for key, data in emails.items():
         # Prevent creating message too large to fit in db.
         # (should use inject cmd for large messages)
-        size = len(data.as_string())
+        size = len(data.as_bytes())
         if size > max_size:
             log.warn("Message too large to fit into db. \
             Please, use 'inject' cmd for importing large emails.")
             continue
 
-        raw = RawMessage.create(data.as_string())
+        raw = RawMessage.create(data.as_bytes())
         log.debug('Created raw message {}'.format(raw.raw_msg_id))
-        message = MailMessage(data.as_string())
+        message = MailMessage(data.as_bytes())
         dice = random()
         if dice <= contact_probability:
             for participant in message.participants:

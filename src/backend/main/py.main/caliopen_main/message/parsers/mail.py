@@ -214,11 +214,7 @@ class MailMessage(object):
             return s[0][0].decode(charset, "replace"). \
                 encode("utf-8", "replace")
         else:
-            try:
-                return s[0][0].decode('utf-8', errors='ignore')
-            except UnicodeError:
-                log.warn('Invalid subject encoding')
-                return s[0][0]
+            return s[0][0]
 
     @property
     def size(self):

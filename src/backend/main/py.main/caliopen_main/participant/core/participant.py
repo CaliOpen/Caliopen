@@ -43,7 +43,7 @@ def hash_participants_uri(participants):
 
     URIs = list(URIs)
     URIs.sort()
-    hash = hashlib.sha256(''.join(URIs)).hexdigest()
+    hash = hashlib.sha256(''.join(URIs).encode('utf-8)')).hexdigest()
     return {'uris': URIs, 'hash': hash}
 
 
@@ -77,7 +77,7 @@ def participants_from_uris(user, uris, uris_hash):
 
     participants = list(participants)
     participants.sort()
-    participants_hash = hashlib.sha256(''.join(participants)).hexdigest()
+    participants_hash = hashlib.sha256(''.join(participants).encode('utf-8)')).hexdigest()
 
     date = datetime.utcnow()
 
