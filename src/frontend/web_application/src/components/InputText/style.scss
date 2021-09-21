@@ -12,8 +12,8 @@
     @include o-form-element--light;
 
     &#{$baseName}--error {
-      box-shadow: initial;
       border-color: $co-color__alert;
+      box-shadow: initial;
     }
   }
   &--contrasted {

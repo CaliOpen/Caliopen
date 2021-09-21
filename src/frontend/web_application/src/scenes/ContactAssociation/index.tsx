@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createSelector } from 'reselect';
 import { useHistory, useParams } from 'react-router-dom';
 import { Trans, withI18n, withI18nProps } from '@lingui/react';
-import { PageTitle, Button, ActionBar, PlaceholderList } from 'src/components';
+import { PageTitle, Button, ActionBar } from 'src/components';
 import {
   loadMoreContacts,
-  useContacts,
   ContactList,
   ContactListUtility,
 } from 'src/modules/contact';
@@ -14,25 +12,10 @@ import { ContactPayload } from 'src/modules/contact/types';
 import { hasMore } from 'src/modules/contact/store/reducer';
 import { useSearchParams } from 'src/modules/routing';
 import { useCloseTab, useCurrentTab } from 'src/modules/tab';
-import { userSelector, useUser } from 'src/modules/user';
-import { UserPayload } from 'src/modules/user/types';
+
 import { RootState } from 'src/store/reducer';
 
 import './contact-association.scss';
-
-const contactStateSelector = (state: RootState) => state.contact;
-
-type ContactsExceptUserSelected = ContactPayload[];
-const contactsExceptUserSelector = createSelector<
-  RootState,
-  RootState['contact'],
-  UserPayload | undefined,
-  ContactsExceptUserSelected
->([contactStateSelector, userSelector], (contactState, user) =>
-  contactState.contacts
-    .filter((contactId) => contactId !== user?.contact.contact_id)
-    .map((contactId) => contactState.contactsById[contactId])
-);
 
 type Props = withI18nProps;
 

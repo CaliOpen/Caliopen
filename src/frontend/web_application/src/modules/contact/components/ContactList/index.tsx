@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { Trans, withI18n, withI18nProps } from '@lingui/react';
 import classnames from 'classnames';
+import { createSelector } from 'reselect';
 import { RootState } from 'src/store/reducer';
 import { Title, Link, PlaceholderList } from 'src/components';
 import { useSettings } from 'src/modules/settings';
-import { useUser, store as userStore } from 'src/modules/user';
+import { useUser, store as userStore, userSelector } from 'src/modules/user';
 import {
   getFirstLetter,
   formatName,
   getContactTitle,
 } from 'src/services/contact';
+import { UserPayload } from 'src/modules/user/types';
 import { useSelector } from 'react-redux';
 import { useContacts } from '../../hooks/useContacts';
 import { DEFAULT_SORT_DIR } from '../../consts';
@@ -17,7 +19,6 @@ import { ContactPayload, TSortDir } from '../../types';
 
 import ContactItem from './components/ContactItem';
 import { stateSelector as contactStateSelector } from '../../store';
-
 import './style.scss';
 import { contactSelector } from '../../selectors/contactSelector';
 import ContactItemPlaceholder from './components/ContactItemPlaceholder';
@@ -27,6 +28,18 @@ const MODE_ASSOCIATION = 'association';
 const MODE_CONTACT_BOOK = 'contact-book';
 
 type TMode = typeof MODE_ASSOCIATION | typeof MODE_CONTACT_BOOK;
+
+type ContactsExceptUserSelected = ContactPayload[];
+const contactsExceptUserSelector = createSelector<
+  RootState,
+  RootState['contact'],
+  UserPayload | undefined,
+  ContactsExceptUserSelected
+>([contactStateSelector, userSelector], (contactState, user) =>
+  contactState.contacts
+    .filter((contactId) => contactId !== user?.contact.contact_id)
+    .map((contactId) => contactState.contactsById[contactId])
+);
 
 const getNavLetter = (sortDir: TSortDir) =>
   ALPHA.split('').sort((a, b) => {
@@ -85,11 +98,9 @@ function ContactList({
 }: Props) {
   const { contact_display_order, contact_display_format } = useSettings();
   const { user, initialized: userInitialized, status: userStatus } = useUser();
-  const {
-    contacts,
-    initialized: contactsInitialized,
-    status: contactsStatus,
-  } = useContacts();
+  const { initialized: contactsInitialized } = useContacts();
+
+  const contacts = useSelector(contactsExceptUserSelector);
 
   const initialized = userInitialized && contactsInitialized;
   const userContact = useSelector<RootState, void | ContactPayload>(

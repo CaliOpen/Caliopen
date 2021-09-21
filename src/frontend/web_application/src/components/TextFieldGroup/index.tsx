@@ -1,5 +1,6 @@
 import * as React from 'react';
 import classnames from 'classnames';
+import { WrappedFieldProps } from 'redux-form';
 import InputText from '../InputText';
 import Label from '../Label';
 import FieldGroup from '../FieldGroup';
@@ -83,3 +84,21 @@ type TextFieldGroupProps = Omit<Props, 'innerRef'>;
 export default React.forwardRef<HTMLInputElement, TextFieldGroupProps>(
   (props, ref) => <TextFieldGroup {...props} innerRef={ref} />
 );
+
+type ReduxTextFieldGroupProps = WrappedFieldProps & Props;
+
+export const ReduxTextFieldGroup = ({
+  input,
+  meta,
+  inputProps: inputPropsBase,
+  ...props
+}: ReduxTextFieldGroupProps): React.ReactNode => {
+  const inputProps = {
+    ...inputPropsBase,
+    ...input,
+  };
+
+  const errors = meta.error ? [meta.error] : undefined;
+
+  return <TextFieldGroup inputProps={inputProps} errors={errors} {...props} />;
+};
