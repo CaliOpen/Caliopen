@@ -3,8 +3,8 @@
 Here you will find tools for CaliOpen developments.
 There is many possibles scenarios for setup of an environment development, depending on what you want to do.
 
-* [Native](./native-installation.md) for backend development purposes (golang & python)
-* [Frontend development](./frontend-development.md) (js & react)
+* [Native](./install/native-installation.md) for backend development purposes (golang & python)
+* [Frontend development](./install/frontend-development.md) (js & react)
 
 ## Tools
 
