@@ -2,13 +2,13 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Trans, withI18n } from '@lingui/react';
+import { ReduxTextFieldGroup } from 'src/components/TextFieldGroup';
 import renderReduxField from '../../../../services/renderReduxField';
 import {
   Icon,
   Button,
   FieldErrors,
   SelectFieldGroup as SelectFieldGroupBase,
-  TextFieldGroup as TextFieldGroupBase,
   Fieldset,
   Legend,
   FormGrid,
@@ -18,7 +18,6 @@ import {
 import './style.scss';
 
 const PHONE_TYPES = ['', 'work', 'home', 'other'];
-const TextFieldGroup = renderReduxField(TextFieldGroupBase);
 const SelectFieldGroup = renderReduxField(SelectFieldGroupBase);
 
 @withI18n()
@@ -85,12 +84,22 @@ class PhoneForm extends PureComponent {
             </FormColumn>
             <FormColumn size="medium" fluid bottomSpace>
               <Field
-                component={TextFieldGroup}
+                component={ReduxTextFieldGroup}
                 name="number"
                 type="tel"
                 label={i18n._('contact.phone_form.number.label', null, {
                   defaults: 'Number',
                 })}
+                inputProps={{
+                  placeholder: i18n._(
+                    'contact.phone_form.number.placeholder',
+                    null,
+                    {
+                      defaults: 'Number',
+                    }
+                  ),
+                  expanded: true,
+                }}
                 showLabelforSr
                 required
               />

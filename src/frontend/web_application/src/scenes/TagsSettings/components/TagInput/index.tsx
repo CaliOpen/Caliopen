@@ -75,9 +75,9 @@ function TagInput({ i18n, tag, onUpdateSuccess, onDeleteSuccess }: Props) {
       <FormGrid className="m-tag-input">
         <TextFieldGroup
           id="tag_settings_edit_tag"
+          className="m-tag-input__input"
           inputProps={{
             name: tag.name,
-            className: 'm-tag-input__input',
             placeholder: getTagLabel(i18n, tag),
             value: tagLabel,
             onChange: handleChange,

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Trans, withI18n } from '@lingui/react';
 import { Field } from 'redux-form';
+import { ReduxTextFieldGroup } from 'src/components/TextFieldGroup';
 import renderReduxField from '../../../../services/renderReduxField';
 import {
   IDENTITY_TYPE_TWITTER,
@@ -12,7 +13,6 @@ import {
   Icon,
   FieldErrors,
   SelectFieldGroup as SelectFieldGroupBase,
-  TextFieldGroup as TextFieldGroupBase,
   Fieldset,
   Legend,
   FormGrid,
@@ -23,7 +23,6 @@ import {
 import './style.scss';
 
 const IDENTITY_TYPES = [IDENTITY_TYPE_TWITTER, IDENTITY_TYPE_MASTODON];
-const TextFieldGroup = renderReduxField(TextFieldGroupBase);
 const SelectFieldGroup = renderReduxField(SelectFieldGroupBase);
 
 @withI18n()
@@ -76,17 +75,20 @@ class IdentityForm extends PureComponent {
             </FormColumn>
             <FormColumn size="medium" fluid bottomSpace>
               <Field
-                component={TextFieldGroup}
+                component={ReduxTextFieldGroup}
                 name="name"
                 label={i18n._('contact.identity_form.identity.label', null, {
                   defaults: 'Identity',
                 })}
                 showLabelforSr
-                placeholder={i18n._(
-                  'contact.identity_form.identity.placeholder',
-                  null,
-                  { defaults: "username, account's URL..." }
-                )}
+                inputPropos={{
+                  placeholder: i18n._(
+                    'contact.identity_form.identity.placeholder',
+                    null,
+                    { defaults: "username, account's URL..." }
+                  ),
+                  expanded: true,
+                }}
                 required
               />
             </FormColumn>

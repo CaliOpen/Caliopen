@@ -210,7 +210,7 @@ class PasswordForm extends Component {
         <FormColumn size="medium">
           <Field
             name="tfa"
-            component={TextFieldGroup}
+            component={ReduxTextFieldGroup}
             onChange={this.handleInputChange}
             label={i18n._('password.form.tfa.label', null, { defaults: 'TOTP validation code:' })}
             placeholder={i18n._('password.form.tfa.placeholder',

@@ -29,8 +29,8 @@ class LoginDetails extends Component {
           <Trans id="login.details.title">Login:</Trans>
         </TextBlock>
         <TextFieldGroup
+          className="m-login-details__input"
           inputProps={{
-            className: 'm-login-details__input',
             value: user && user.name,
             disabled: true,
           }}

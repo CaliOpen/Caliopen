@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Trans, withI18n } from '@lingui/react';
+import { ReduxTextFieldGroup } from 'src/components/TextFieldGroup';
 import renderReduxField from '../../../../services/renderReduxField';
 import {
   Button,
@@ -18,7 +19,6 @@ import {
 import './style.scss';
 
 const EMAIL_TYPES = ['', 'work', 'home', 'other'];
-const TextFieldGroup = renderReduxField(TextFieldGroupBase);
 const SelectFieldGroup = renderReduxField(SelectFieldGroupBase);
 
 @withI18n()
@@ -64,7 +64,7 @@ class EmailForm extends PureComponent {
           <FormRow>
             <FormColumn size="shrink">
               <Legend>
-                <Icon type="envelope" rightSpaced />
+                <Icon type="envelope" />
                 <span className="m-email-form__legend">
                   <Trans id="contact.email_form.legend">Email</Trans>
                 </span>
@@ -88,12 +88,20 @@ class EmailForm extends PureComponent {
             </FormColumn>
             <FormColumn size="medium" fluid bottomSpace>
               <Field
-                component={TextFieldGroup}
+                component={ReduxTextFieldGroup}
                 name="address"
                 type="email"
                 label={i18n._('contact.email_form.address.label', null, {
                   defaults: 'Address',
                 })}
+                inputProps={{
+                  placeholder: i18n._(
+                    'contact.email_form.address.placeholder',
+                    null,
+                    { defaults: 'Email' }
+                  ),
+                  expanded: true,
+                }}
                 showLabelforSr
                 required
               />

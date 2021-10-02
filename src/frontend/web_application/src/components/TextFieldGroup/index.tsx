@@ -71,6 +71,7 @@ function TextFieldGroup({
         id={id}
         className={inputPropsClassName}
         hasError={hasError}
+        expanded={display === 'block'}
         {...restInputProps}
         onBlur={handleBlur}
         ref={innerRef}

@@ -46,10 +46,10 @@ function TagSearch({ i18n, onCreateSuccess }: Props) {
     <div className="m-add-tag">
       <TextFieldGroup
         id="tag_settings_add_input"
+        className="m-add-tag__input"
         inputProps={{
           name: 'terms',
           value: terms,
-          className: 'm-add-tag__input',
           placeholder: i18n._('tags.form.add.placeholder', undefined, {
             defaults: 'New tag ...',
           }),
