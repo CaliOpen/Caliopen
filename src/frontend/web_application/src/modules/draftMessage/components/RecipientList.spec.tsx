@@ -1,19 +1,8 @@
 import * as React from 'react';
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { AllProviders } from 'test/providers';
-import userEvent from '@testing-library/user-event';
 import RecipientList from './RecipientList';
 import { Recipient } from '../types';
-
-// jest.mock('src/modules/draftMessage/components/RecipientList', () => ({
-//   isAuthenticated: () => true,
-// }));
-
-console.log({ RecipientList });
 
 describe('RecipientList', () => {
   afterEach(() => {
