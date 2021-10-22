@@ -62,7 +62,7 @@ function TagInput({ i18n, tag, onUpdateSuccess, onDeleteSuccess }: Props) {
   const handleDeleteTag = async () => {
     setPending(true);
     try {
-      await deleteTag({ tag });
+      await dispatch(deleteTag({ tag }));
     } catch (errors) {
       setTagErrors(errors.map((err) => err.message));
     }
