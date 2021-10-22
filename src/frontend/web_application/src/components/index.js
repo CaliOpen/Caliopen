@@ -55,6 +55,9 @@ export { default as PasswordStrength } from './PasswordStrength';
 export { default as RadioFieldGroup } from './RadioFieldGroup';
 export { default as SelectFieldGroup } from './SelectFieldGroup';
 export { default as Switch } from './Switch';
-export { default as TextFieldGroup } from './TextFieldGroup';
+export {
+  default as TextFieldGroup,
+  FormikTextFieldGroup,
+} from './TextFieldGroup';
 export { default as Textarea } from './Textarea';
 export { default as TextareaFieldGroup } from './TextareaFieldGroup';

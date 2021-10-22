@@ -1,14 +1,19 @@
 import * as React from 'react';
 import { Trans, withI18n, withI18nProps } from '@lingui/react';
 import { useDispatch } from 'react-redux';
-import { InjectedFormProps, reduxForm } from 'redux-form';
+import { Formik, Form, FormikConfig } from 'formik';
+import { compose } from 'redux';
 import { notifyError, notifySuccess } from 'src/modules/userNotify';
+import { updateContact } from 'src/modules/contact/store';
+import { UserPayload } from 'src/modules/user/types';
+import { invalidate } from 'src/modules/user/store';
 import {
   Section,
   PageTitle,
   Button,
   Confirm,
   TextFieldGroup,
+  Spinner,
 } from '../../components';
 import ProfileForm from './components/ProfileForm';
 import ProfileInfo from './components/ProfileInfo';
@@ -16,10 +21,10 @@ import { signout } from '../../modules/routing';
 import { deleteUser, useUser } from '../../modules/user';
 
 import './style.scss';
-import { compose } from 'redux';
-interface Props extends withI18nProps, InjectedFormProps {}
 
-const UserProfile = ({ i18n, submitting, pristine, handleSubmit }: Props) => {
+type Props = withI18nProps;
+
+const UserProfile = ({ i18n }: Props) => {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = React.useState(false);
   const [password, setPassword] = React.useState('');
@@ -29,20 +34,24 @@ const UserProfile = ({ i18n, submitting, pristine, handleSubmit }: Props) => {
 
   const { user } = useUser();
 
-  const handleSuccess = async () => {
-    setEditMode(false);
-  };
-
-  const handleError = (err) => {
-    console.log({ err });
-
-    dispatch(
-      notifyError({
-        message: i18n._('contact.feedback.unable_to_save', undefined, {
-          defaults: 'Unable to save the contact',
-        }),
-      })
-    );
+  const handleSubmit: FormikConfig<UserPayload>['onSubmit'] = async (
+    values
+  ) => {
+    try {
+      await dispatch(
+        updateContact({ contact: values.contact, original: user?.contact })
+      );
+      dispatch(invalidate());
+      setEditMode(false);
+    } catch (err) {
+      dispatch(
+        notifyError({
+          message: i18n._('contact.feedback.unable_to_save', undefined, {
+            defaults: 'Unable to save the contact',
+          }),
+        })
+      );
+    }
   };
 
   const handlePasswordChange = (ev) => {
@@ -94,10 +103,6 @@ const UserProfile = ({ i18n, submitting, pristine, handleSubmit }: Props) => {
     setErrorDeleteAccount(undefined);
   };
 
-  const toggleEditMode = () => {
-    setEditMode((prev) => !prev);
-  };
-
   return (
     <div className="s-user-profile">
       <PageTitle />
@@ -110,94 +115,109 @@ const UserProfile = ({ i18n, submitting, pristine, handleSubmit }: Props) => {
           defaults: 'Complete your profile',
         })}
       >
-        <form
-          method="post"
-          name="user-profile"
-          onSubmit={(ev) => {
-            // @ts-ignore
-            handleSubmit(ev).then(handleSuccess, handleError);
-          }}
-        >
-          {/* XXX: an errors prop can be passed  */}
-          <ProfileForm editMode={editMode} />
-          <div className="s-user-profile__actions">
-            {!editMode ? (
-              <Button onClick={toggleEditMode} shape="plain">
-                <Trans id="user.action.edit_profile">Edit</Trans>
-              </Button>
-            ) : (
-              <>
-                <Button
-                  type="submit"
-                  shape="plain"
-                  disabled={submitting || pristine}
-                >
-                  <Trans id="user.action.update">Update</Trans>
-                </Button>{' '}
-                <Button onClick={toggleEditMode} shape="hollow">
-                  <Trans id="user.action.cancel_edit">Cancel</Trans>
-                </Button>
-              </>
-            )}
-            <Confirm
-              className="s-user-profile__delete"
-              render={(confirm) => (
-                <Button shape="plain" onClick={confirm} color="alert">
-                  <Trans id="user.action.delete">Delete account</Trans>
-                </Button>
-              )}
-              title={
-                <Trans id="user.delete-form.modal-title">Delete account</Trans>
-              }
-              content={
-                <div className="s-user-profile__modal-delete-form">
-                  <p>
-                    <Trans id="user.delete-form.modal-content">
-                      Are you sure to delete your Caliopen account ?
-                    </Trans>
-                  </p>
-                  <TextFieldGroup
-                    label={i18n._(
-                      'user.delete-form.password.label',
-                      undefined,
-                      {
-                        defaults: 'Password',
-                      }
+        {user ? (
+          <Formik initialValues={user} onSubmit={handleSubmit}>
+            {({ handleReset, isSubmitting, touched }) => (
+              <Form method="post" name="user-profile">
+                {/* XXX: an errors prop can be passed  */}
+                <div className="s-user-profile__profile">
+                  <ProfileForm editMode={editMode} />
+                </div>
+                <div className="s-user-profile__actions">
+                  {!editMode ? (
+                    <Button onClick={() => setEditMode(true)} shape="plain">
+                      <Trans id="user.action.edit_profile">Edit</Trans>
+                    </Button>
+                  ) : (
+                    <>
+                      <Button
+                        type="submit"
+                        shape="plain"
+                        disabled={isSubmitting || !touched}
+                        icon={
+                          isSubmitting ? (
+                            <Spinner
+                              display="inline"
+                              svgTitleId="update-user-spinner"
+                            />
+                          ) : undefined
+                        }
+                      >
+                        <Trans id="user.action.update">Update</Trans>
+                      </Button>{' '}
+                      <Button
+                        onClick={() => {
+                          setEditMode(false);
+                          handleReset();
+                        }}
+                        shape="hollow"
+                      >
+                        <Trans id="user.action.cancel_edit">Cancel</Trans>
+                      </Button>
+                    </>
+                  )}
+                  <Confirm
+                    className="s-user-profile__delete"
+                    render={(confirm) => (
+                      <Button shape="plain" onClick={confirm} color="alert">
+                        <Trans id="user.action.delete">Delete account</Trans>
+                      </Button>
                     )}
-                    placeholder={i18n._(
-                      'user.delete-form.password.placeholder',
-                      undefined,
-                      { defaults: 'password' }
-                    )}
-                    name="password"
-                    type="password"
-                    value={password}
-                    errors={errorDeleteAccount}
-                    onChange={handlePasswordChange}
+                    title={
+                      <Trans id="user.delete-form.modal-title">
+                        Delete account
+                      </Trans>
+                    }
+                    content={
+                      <div className="s-user-profile__modal-delete-form">
+                        <p>
+                          <Trans id="user.delete-form.modal-content">
+                            Are you sure to delete your Caliopen account ?
+                          </Trans>
+                        </p>
+                        <TextFieldGroup
+                          id="user-delete_password"
+                          label={i18n._(
+                            'user.delete-form.password.label',
+                            undefined,
+                            {
+                              defaults: 'Password',
+                            }
+                          )}
+                          inputProps={{
+                            placeholder: i18n._(
+                              'user.delete-form.password.placeholder',
+                              undefined,
+                              { defaults: 'password' }
+                            ),
+                            name: 'password',
+                            type: 'password',
+                            value: password,
+                            onChange: handlePasswordChange,
+                          }}
+                          errors={errorDeleteAccount}
+                        />
+                      </div>
+                    }
+                    confirmButtonContent={
+                      <Trans id="user.delete-form.action.delete">
+                        Delete my Caliopen account
+                      </Trans>
+                    }
+                    onConfirm={handleDeleteAccount}
+                    onCancel={handleCloseDeleteConfirm}
+                    onClose={handleCloseDeleteConfirm}
                   />
                 </div>
-              }
-              confirmButtonContent={
-                <Trans id="user.delete-form.action.delete">
-                  Delete my Caliopen account
-                </Trans>
-              }
-              onConfirm={handleDeleteAccount}
-              onCancel={handleCloseDeleteConfirm}
-              onClose={handleCloseDeleteConfirm}
-            />
-          </div>
-        </form>
+              </Form>
+            )}
+          </Formik>
+        ) : (
+          <Spinner svgTitleId="user-profile-loading" />
+        )}
       </Section>
     </div>
   );
 };
 
-export default compose(
-  withI18n(),
-  reduxForm({
-    form: 'user-profile',
-    enableReinitialize: true,
-    // fixme initialvalues
-  })
-)(UserProfile);
+export default compose(withI18n())(UserProfile);

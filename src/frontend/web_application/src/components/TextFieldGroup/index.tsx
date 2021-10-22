@@ -1,10 +1,10 @@
-import * as React from 'react';
 import classnames from 'classnames';
+import type { FieldProps } from 'formik';
+import * as React from 'react';
 import { WrappedFieldProps } from 'redux-form';
+import FieldGroup from '../FieldGroup';
 import InputText from '../InputText';
 import Label from '../Label';
-import FieldGroup from '../FieldGroup';
-
 import './style.scss';
 
 interface Props {
@@ -82,9 +82,12 @@ function TextFieldGroup({
 
 type TextFieldGroupProps = Omit<Props, 'innerRef'>;
 
-export default React.forwardRef<HTMLInputElement, TextFieldGroupProps>(
-  (props, ref) => <TextFieldGroup {...props} innerRef={ref} />
-);
+const ForwardedTextFieldGroup = React.forwardRef<
+  HTMLInputElement,
+  TextFieldGroupProps
+>((props, ref) => <TextFieldGroup {...props} innerRef={ref} />);
+
+export default ForwardedTextFieldGroup;
 
 type ReduxTextFieldGroupProps = WrappedFieldProps & Props;
 
@@ -103,3 +106,20 @@ export const ReduxTextFieldGroup = ({
 
   return <TextFieldGroup inputProps={inputProps} errors={errors} {...props} />;
 };
+
+type FormikTextFieldGroupProps = FieldProps & Props;
+
+export const FormikTextFieldGroup = ({
+  id,
+  label,
+  field,
+  meta,
+  inputProps,
+}: FormikTextFieldGroupProps): React.ReactElement<Props> => (
+  <ForwardedTextFieldGroup
+    id={id}
+    label={label}
+    inputProps={{ ...inputProps, ...field }}
+    errors={meta?.error ? [meta.error] : undefined}
+  />
+);

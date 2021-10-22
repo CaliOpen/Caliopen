@@ -8,7 +8,7 @@ import { useSettings } from 'src/modules/settings';
 import './style.scss';
 import { useUser } from 'src/modules/user';
 
-function ProfileInfo() {
+function ProfileInfo(): JSX.Element {
   const settings = useSettings();
   const { user } = useUser();
   const format = settings.contact_display_format;

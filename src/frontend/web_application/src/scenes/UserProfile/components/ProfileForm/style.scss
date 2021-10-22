@@ -1,0 +1,12 @@
+@import '../../../../styles/common';
+@import '../../../../styles/vendor/bootstrap_foundation-sites';
+
+.s-profile-form {
+  display: grid;
+  column-gap: map-get($co-margin_, 'xsmall');
+  row-gap: map-get($co-margin_, 'xsmall');
+
+  @include breakpoint(medium) {
+    grid-template-columns: auto auto;
+  }
+}

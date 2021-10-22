@@ -61,6 +61,7 @@
     "express": "^4.16.4",
     "express-http-proxy": "1.6.2",
     "font-awesome": "^4.6.3",
+    "formik": "^2.2.9",
     "foundation-sites": "~6.3.0",
     "history": "^4.10.1",
     "iron": "5.0.6",
