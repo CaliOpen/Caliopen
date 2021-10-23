@@ -8,7 +8,9 @@ describe('scene - ForgotPassword', () => {
   };
 
   it('render', () => {
-    const comp = shallow(<Presenter {...props} />).dive();
+    const comp = shallow(<Presenter {...props} />)
+      .dive()
+      .dive();
 
     expect(comp.text()).toContain('ForgotPasswordForm');
   });

@@ -6,13 +6,13 @@ import {
   RegionDropdown as RegionDropdownBase,
 } from 'react-country-region-selector';
 import { Field } from 'redux-form';
+import { ReduxTextFieldGroup } from 'src/components/TextFieldGroup';
 import renderReduxField from '../../../../services/renderReduxField';
 import {
   Button,
   Icon,
   FieldErrors,
   SelectFieldGroup as SelectFieldGroupBase,
-  TextFieldGroup as TextFieldGroupBase,
   Fieldset,
   Legend,
   FormGrid,
@@ -22,7 +22,6 @@ import {
 import './style.scss';
 
 const ADDRESS_TYPES = ['', 'work', 'home', 'other'];
-const TextFieldGroup = renderReduxField(TextFieldGroupBase);
 const SelectFieldGroup = renderReduxField(SelectFieldGroupBase);
 const CountryDropdown = renderReduxField(CountryDropdownBase);
 const RegionDropdown = renderReduxField(RegionDropdownBase);
@@ -81,14 +80,21 @@ class AddressForm extends PureComponent {
           <FormRow>
             <FormColumn bottomSpace>
               <Field
-                component={TextFieldGroup}
+                component={ReduxTextFieldGroup}
                 name="street"
                 label={i18n._('contact.address_form.street.label', null, {
                   defaults: 'Street',
                 })}
-                placeholder={i18n._('contact.address_form.street.label', null, {
-                  defaults: 'Street',
-                })}
+                inputProps={{
+                  placeholder: i18n._(
+                    'contact.address_form.street.label',
+                    null,
+                    {
+                      defaults: 'Street',
+                    }
+                  ),
+                  expanded: true,
+                }}
                 showLabelforSr
               />
             </FormColumn>
@@ -96,29 +102,35 @@ class AddressForm extends PureComponent {
           <FormRow>
             <FormColumn size="small" bottomSpace>
               <Field
-                component={TextFieldGroup}
+                component={ReduxTextFieldGroup}
                 name="postal_code"
                 label={i18n._('contact.address_form.postal_code.label', null, {
                   defaults: 'Postal Code',
                 })}
-                placeholder={i18n._(
-                  'contact.address_form.postal_code.label',
-                  null,
-                  { defaults: 'Postal Code' }
-                )}
+                inputProps={{
+                  placeholder: i18n._(
+                    'contact.address_form.postal_code.label',
+                    null,
+                    { defaults: 'Postal Code' }
+                  ),
+                  expanded: true,
+                }}
                 showLabelforSr
               />
             </FormColumn>
             <FormColumn size="large" bottomSpace>
               <Field
-                component={TextFieldGroup}
+                component={ReduxTextFieldGroup}
                 name="city"
                 label={i18n._('contact.address_form.city.label', null, {
                   defaults: 'City',
                 })}
-                placeholder={i18n._('contact.address_form.city.label', null, {
-                  defaults: 'City',
-                })}
+                inputProps={{
+                  placeholder: i18n._('contact.address_form.city.label', null, {
+                    defaults: 'City',
+                  }),
+                  expanded: true,
+                }}
                 showLabelforSr
               />
             </FormColumn>

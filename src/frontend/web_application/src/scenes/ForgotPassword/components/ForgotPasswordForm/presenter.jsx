@@ -105,40 +105,44 @@ class ForgotPasswordForm extends Component {
                   </FormColumn>
                   <FormColumn rightSpace={false} bottomSpace>
                     <TextFieldGroup
-                      theme="contrasted"
                       label={i18n._(
                         'password.forgot-form.username.label',
                         null,
                         { defaults: 'Username' }
                       )}
-                      placeholder={i18n._(
-                        'password.forgot-form.username.placeholder',
-                        null,
-                        { defaults: 'Username' }
-                      )}
-                      name="username"
-                      value={this.state.formValues.username}
+                      inputProps={{
+                        placeholder: i18n._(
+                          'password.forgot-form.username.placeholder',
+                          null,
+                          { defaults: 'Username' }
+                        ),
+                        name: 'username',
+                        value: this.state.formValues.username,
+                        onChange: this.handleInputChange,
+                        theme: 'contrasted',
+                      }}
                       errors={errors.username}
-                      onChange={this.handleInputChange}
                     />
                   </FormColumn>
                   <FormColumn rightSpace={false} bottomSpace>
                     <TextFieldGroup
-                      theme="contrasted"
                       label={i18n._(
                         'password.forgot-form.recovery_email.label',
                         null,
                         { defaults: 'Recovery email' }
                       )}
-                      placeholder={i18n._(
-                        'password.forgot-form.recovery_email.placeholder',
-                        null,
-                        { defaults: 'Recovery email' }
-                      )}
-                      name="recovery_email"
-                      value={this.state.formValues.recovery_email}
+                      inputProps={{
+                        placeholder: i18n._(
+                          'password.forgot-form.recovery_email.placeholder',
+                          null,
+                          { defaults: 'Recovery email' }
+                        ),
+                        name: 'recovery_email',
+                        value: this.state.formValues.recovery_email,
+                        onChange: this.handleInputChange,
+                        theme: 'contrasted',
+                      }}
                       errors={errors.recovery_email}
-                      onChange={this.handleInputChange}
                     />
                   </FormColumn>
                   <FormColumn

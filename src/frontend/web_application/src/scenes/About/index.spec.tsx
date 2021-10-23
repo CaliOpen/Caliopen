@@ -5,6 +5,7 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import { AllProviders } from 'test/providers';
+import 'test/unit/lingui-react';
 import About from './index';
 
 jest.mock('src/modules/user/services/isAuthenticated', () => ({

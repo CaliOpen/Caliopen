@@ -5,6 +5,10 @@
   @include flex-grid-row($size: expand);
   margin-top: $co-margin;
 
+  &__profile {
+    margin-bottom: map-get($map: $co-margin_, $key: 'xsmall');
+  }
+
   &__info {
     @include flex-grid-column(12);
   }

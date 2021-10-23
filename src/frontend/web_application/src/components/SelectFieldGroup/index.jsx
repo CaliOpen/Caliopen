@@ -45,6 +45,7 @@ class SelectFieldGroup extends PureComponent {
 
   render() {
     const {
+      id = uuidV1(),
       errors,
       expanded,
       showLabelforSr,
@@ -54,7 +55,6 @@ class SelectFieldGroup extends PureComponent {
       options,
       ...props
     } = this.props;
-    const id = uuidV1();
     const selectWrapperClassName = classnames(
       'm-select-field-group__select-wrapper',
       {

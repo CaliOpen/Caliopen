@@ -43,8 +43,8 @@ interface SigninProps extends withI18nProps {
 const defaultIdentifier = { username: '', password: '' };
 function SigninForm({ clientDevice, i18n }: SigninProps) {
   const { search } = useLocation();
-  const usernameInput = React.useRef<HTMLInputElement>();
-  const passwordInput = React.useRef<HTMLInputElement>();
+  const usernameInput = React.useRef<HTMLInputElement>(null);
+  const passwordInput = React.useRef<HTMLInputElement>(null);
 
   const [context] = React.useState(CONTEXT_SAFE);
   const [identifier, setIdentifier] = React.useState(defaultIdentifier);
@@ -159,61 +159,58 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
       <FormGrid className="s-signin__form">
         <form method="post" onSubmit={handleSignin}>
           {errors.global && (
-            // @ts-ignore
             <FormRow>
-              {/* @ts-ignore */}
               <FormColumn rightSpace={false} bottomSpace>
                 <FieldErrors errors={errors.global} />
               </FormColumn>
             </FormRow>
           )}
-          {/* @ts-ignore */}
           <FormRow>
-            {/* @ts-ignore */}
             <FormColumn rightSpace={false} bottomSpace>
               <TextFieldGroup
                 id="signin_username"
-                theme="contrasted"
+                inputProps={{
+                  placeholder: i18n._(
+                    'signin.form.username.placeholder',
+                    undefined,
+                    { defaults: 'username' }
+                  ),
+                  name: 'username',
+                  value: identifier.username,
+                  onChange: handleInputChange,
+                  expanded: true,
+                }}
                 label={i18n._('signin.form.username.label', undefined, {
                   defaults: 'Username',
                 })}
-                placeholder={i18n._(
-                  'signin.form.username.placeholder',
-                  undefined,
-                  { defaults: 'username' }
-                )}
-                name="username"
-                value={identifier.username}
                 errors={errors.username}
-                onChange={handleInputChange}
-                innerRef={usernameInput}
+                ref={usernameInput}
               />
             </FormColumn>
-            {/* @ts-ignore */}
             <FormColumn rightSpace={false} bottomSpace>
               <TextFieldGroup
                 id="signin_password"
-                theme="contrasted"
                 label={i18n._('signin.form.password.label', undefined, {
                   defaults: 'Password',
                 })}
-                placeholder={i18n._(
-                  'signin.form.password.placeholder',
-                  undefined,
-                  { defaults: 'password' }
-                )}
-                name="password"
-                type="password"
-                value={identifier.password}
+                inputProps={{
+                  placeholder: i18n._(
+                    'signin.form.password.placeholder',
+                    undefined,
+                    { defaults: 'password' }
+                  ),
+                  name: 'password',
+                  type: 'password',
+                  value: identifier.password,
+                  onChange: handleInputChange,
+                  expanded: true,
+                }}
                 errors={errors.password}
-                onChange={handleInputChange}
-                innerRef={passwordInput}
+                ref={passwordInput}
               />
             </FormColumn>
           </FormRow>
-          {/* @ts-ignore */}
           <FormRow>
-            {/* @ts-ignore */}
             <FormColumn
               rightSpace={false}
               className="s-signin__action"
@@ -239,9 +236,7 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
               </Button>
             </FormColumn>
           </FormRow>
-          {/* @ts-ignore */}
           <FormRow>
-            {/* @ts-ignore */}
             <FormColumn rightSpace={false} className="s-signin__link">
               <Link to="/auth/forgot-password">
                 <Trans id="signin.action.forgot_password">
@@ -249,7 +244,6 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
                 </Trans>
               </Link>
             </FormColumn>
-            {/* @ts-ignore */}
             <FormColumn rightSpace={false} className="s-signin__link">
               <Link to="/auth/signup">
                 <Trans id="signin.create_an_account">Create an account</Trans>

@@ -54,7 +54,7 @@ describe('TagsSettings', () => {
     render(<TagsSettings />, { wrapper: AllProviders });
 
     await waitForElementToBeRemoved(screen.getByLabelText('Loading …'), {
-      timeout: 1000,
+      timeout: 2000,
     });
     expect(screen.getByText('Create new tag')).toBeVisible();
   });

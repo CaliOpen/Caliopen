@@ -2,9 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import Presenter from './presenter';
 
-jest.mock('@lingui/react', () => ({
-  withI18n: () => (C) => (props) => <C {...props} />,
-}));
 jest.mock('../../../../modules/routing', () => ({
   withPush: () => (C) => (props) => <C {...props} />,
 }));
@@ -30,6 +27,8 @@ describe('scene - Signup', () => {
   it('render', () => {
     const comp = shallow(<Presenter {...props} />)
       // dive() for each hoc
+      .dive()
+      .dive()
       .dive()
       .dive()
       .dive()

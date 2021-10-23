@@ -2,15 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Trans } from '@lingui/react';
 import { Field } from 'redux-form';
+import { ReduxTextFieldGroup } from 'src/components/TextFieldGroup';
+import { Button } from 'src/components';
 import ContactTitleField from '../ContactTitleField';
-import renderReduxField from '../../../../services/renderReduxField';
-import {
-  Button,
-  TextFieldGroup as TextFieldGroupBase,
-} from '../../../../components';
 import './style.scss';
-
-const TextFieldGroup = renderReduxField(TextFieldGroupBase);
 
 class ContactProfileForm extends Component {
   static propTypes = {
@@ -73,56 +68,73 @@ class ContactProfileForm extends Component {
         {this.state.isExpanded && (
           <div className="m-contact-profile-form__expanded-form">
             <Field
-              component={TextFieldGroup}
+              component={ReduxTextFieldGroup}
+              inputProps={{
+                name: 'name_prefix',
+                placeholder: i18n._(
+                  'contact_profile.form.name-prefix.label',
+                  null,
+                  { defaults: 'Prefix' }
+                ),
+                expanded: true,
+              }}
+              showLabelforSr
               className="m-contact-profile-form__input"
               label={i18n._('contact_profile.form.name-prefix.label', null, {
                 defaults: 'Prefix',
               })}
-              placeholder={i18n._(
-                'contact_profile.form.name-prefix.label',
-                null,
-                { defaults: 'Prefix' }
-              )}
               name="name_prefix"
-              showLabelforSr
             />
             <Field
-              component={TextFieldGroup}
+              component={ReduxTextFieldGroup}
               className="m-contact-profile-form__input"
               label={i18n._('contact_profile.form.firstname.label', null, {
                 defaults: 'Firstname',
               })}
-              placeholder={i18n._(
-                'contact_profile.form.firstname.label',
-                null,
-                { defaults: 'Firstname' }
-              )}
+              inputProps={{
+                placeholder: i18n._(
+                  'contact_profile.form.firstname.label',
+                  null,
+                  { defaults: 'Firstname' }
+                ),
+                expanded: true,
+              }}
               name="given_name"
               showLabelforSr
             />
             <Field
-              component={TextFieldGroup}
+              component={ReduxTextFieldGroup}
               className="m-contact-profile-form__input"
               label={i18n._('contact_profile.form.lastname.label', null, {
                 defaults: 'Lastname',
               })}
-              placeholder={i18n._('contact_profile.form.lastname.label', null, {
-                defaults: 'Lastname',
-              })}
+              inputProps={{
+                placeholder: i18n._(
+                  'contact_profile.form.lastname.label',
+                  null,
+                  {
+                    defaults: 'Lastname',
+                  }
+                ),
+                expanded: true,
+              }}
               name="family_name"
               showLabelforSr
             />
             <Field
-              component={TextFieldGroup}
+              component={ReduxTextFieldGroup}
               className="m-contact-profile-form__input"
               label={i18n._('contact_profile.form.name-suffix.label', null, {
                 defaults: 'Suffix',
               })}
-              placeholder={i18n._(
-                'contact_profile.form.name-suffix.label',
-                null,
-                { defaults: 'Suffix' }
-              )}
+              inputProps={{
+                placeholder: i18n._(
+                  'contact_profile.form.name-suffix.label',
+                  null,
+                  { defaults: 'Suffix' }
+                ),
+                expanded: true,
+              }}
               name="name_suffix"
               showLabelforSr
             />

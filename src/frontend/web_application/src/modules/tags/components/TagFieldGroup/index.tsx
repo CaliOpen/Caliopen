@@ -9,7 +9,8 @@ interface TagFieldGroupProps extends withI18nProps {
   terms: string;
   onSubmit: any;
   onChange: any;
-  input?: any;
+  input?: React.ComponentProps<typeof TextFieldGroup>['inputProps'];
+  innerRef?: React.ComponentProps<typeof TextFieldGroup>['ref'];
   isFetching?: boolean;
   errors: React.ReactNode[];
 }
@@ -22,6 +23,7 @@ function TagFieldGroup({
   errors = [],
   onSubmit,
   onChange,
+  innerRef,
 }: TagFieldGroupProps) {
   const handleChange = (ev) => {
     const nextTerms = ev.target.value;
@@ -39,22 +41,26 @@ function TagFieldGroup({
   const inputProps = {
     ...input,
     className: classnames(input.className, 'm-tags-search__input'),
-    label: i18n._('tags.form.search.label', undefined, { defaults: 'Search' }),
     placeholder: i18n._('tags.form.search.placeholder', undefined, {
       defaults: 'Search a tag ...',
     }),
     onChange: handleChange,
-    showLabelforSr: true,
-    errors,
+    name: 'terms',
+    value: terms,
+    autoComplete: 'off',
   };
 
   return (
     <div className="m-tags-search">
       <TextFieldGroup
-        {...inputProps}
-        name="terms"
-        value={terms}
-        autoComplete="off"
+        id="search_tags"
+        label={i18n._('tags.form.search.label', undefined, {
+          defaults: 'Search',
+        })}
+        showLabelforSr
+        inputProps={inputProps}
+        errors={errors}
+        ref={innerRef}
       />
       <Button
         className="m-tags-search__button"

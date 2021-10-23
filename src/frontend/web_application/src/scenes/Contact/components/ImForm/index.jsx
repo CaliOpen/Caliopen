@@ -2,13 +2,13 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Trans, withI18n } from '@lingui/react';
+import { ReduxTextFieldGroup } from 'src/components/TextFieldGroup';
 import renderReduxField from '../../../../services/renderReduxField';
 import {
   Button,
   Icon,
   FieldErrors,
   SelectFieldGroup as SelectFieldGroupBase,
-  TextFieldGroup as TextFieldGroupBase,
   Fieldset,
   Legend,
   FormGrid,
@@ -18,7 +18,6 @@ import {
 import './style.scss';
 
 const IM_TYPES = ['', 'work', 'home', 'other', 'netmeeting'];
-const TextFieldGroup = renderReduxField(TextFieldGroupBase);
 const SelectFieldGroup = renderReduxField(SelectFieldGroupBase);
 
 @withI18n()
@@ -87,11 +86,21 @@ class ImForm extends PureComponent {
             </FormColumn>
             <FormColumn size="medium" fluid bottomSpace>
               <Field
-                component={TextFieldGroup}
+                component={ReduxTextFieldGroup}
                 name="address"
                 label={i18n._('contact.im_form.address.label', null, {
                   defaults: 'Address',
                 })}
+                inputProps={{
+                  placeholder: i18n._(
+                    'contact.im_form.address.placeholder',
+                    null,
+                    {
+                      defaults: 'Address',
+                    }
+                  ),
+                  expanded: true,
+                }}
                 showLabelforSr
                 required
               />

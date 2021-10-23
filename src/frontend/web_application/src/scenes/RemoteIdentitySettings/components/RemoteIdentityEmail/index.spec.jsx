@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import 'test/unit/lingui-react';
 import RemoteIdentityEmail from '.';
 
 jest.mock('../../../../modules/settings', () => ({

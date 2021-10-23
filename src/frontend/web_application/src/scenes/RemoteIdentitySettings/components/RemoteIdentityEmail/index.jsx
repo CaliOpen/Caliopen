@@ -432,25 +432,27 @@ class RemoteIdentityEmail extends Component {
         <FormRow>
           <FormColumn bottomSpace size="medium">
             <TextFieldGroup
-              type="email"
+              inputProps={{
+                type: 'email',
+                placeholder: i18n._(
+                  'remote_identity.form.identifier.placeholder',
+                  null,
+                  { defaults: 'john@doe.tld' }
+                ),
+                value: this.state.remoteIdentity.identifier,
+                onChange: this.handleParamsChange,
+                onBlur: this.handleBlurIdentifier,
+                name: 'identifier',
+                // specificity of backend: the identifier and protocol are unique and immutable
+                // cf. https://github.com/CaliOpen/Caliopen/blob/d6bbe43cc1098844f53eaec283e08c19c5f871bc/doc/specifications/identities/index.md#model
+                disabled: remoteIdentity && remoteIdentity.identity_id && true,
+                autoComplete: 'email',
+                required: true,
+              }}
               label={
                 <Trans id="remote_identity.form.identifier.label">Email:</Trans>
               }
-              placeholder={i18n._(
-                'remote_identity.form.identifier.placeholder',
-                null,
-                { defaults: 'john@doe.tld' }
-              )}
-              value={this.state.remoteIdentity.identifier}
               errors={this.state.formErrors.identifier}
-              onChange={this.handleParamsChange}
-              onBlur={this.handleBlurIdentifier}
-              name="identifier"
-              // specificity of backend: the identifier and protocol are unique and immutable
-              // cf. https://github.com/CaliOpen/Caliopen/blob/d6bbe43cc1098844f53eaec283e08c19c5f871bc/doc/specifications/identities/index.md#model
-              disabled={remoteIdentity && remoteIdentity.identity_id && true}
-              autoComplete="email"
-              required
             />
           </FormColumn>
         </FormRow>
@@ -478,30 +480,34 @@ class RemoteIdentityEmail extends Component {
           </FormColumn> */}
           <FormColumn bottomSpace fluid>
             <TextFieldGroup
+              inputProps={{
+                value: this.state.remoteIdentity.inserverHostname,
+                onChange: this.handleParamsChange,
+                onBlur: this.createHandleBlurInOutParam('serverHostname'),
+                name: 'inserverHostname',
+                autoComplete: 'on',
+                required: true,
+              }}
               label={
                 <Trans id="remote_identity.form.incomming_mail_server.label">
                   Incoming mail server:
                 </Trans>
               }
-              value={this.state.remoteIdentity.inserverHostname}
               errors={this.state.formErrors.inserverHostname}
-              onChange={this.handleParamsChange}
-              onBlur={this.createHandleBlurInOutParam('serverHostname')}
-              name="inserverHostname"
-              autoComplete="on"
-              required
             />
           </FormColumn>
           <FormColumn bottomSpace size="shrink">
             <TextFieldGroup
+              inputProps={{
+                value: this.state.remoteIdentity.inserverPort,
+                onChange: this.handleParamsChange,
+                name: 'inserverPort',
+                type: 'number',
+                autoComplete: 'on',
+                required: true,
+              }}
               label={<Trans id="remote_identity.form.port.label">Port:</Trans>}
-              value={this.state.remoteIdentity.inserverPort}
               errors={this.state.formErrors.inserverPort}
-              onChange={this.handleParamsChange}
-              name="inserverPort"
-              type="number"
-              autoComplete="on"
-              required
             />
           </FormColumn>
         </FormRow>
@@ -509,31 +515,35 @@ class RemoteIdentityEmail extends Component {
           <FormRow>
             <FormColumn bottomSpace fluid>
               <TextFieldGroup
+                inputProps={{
+                  value: this.state.remoteIdentity.outserverHostname,
+                  onChange: this.handleParamsChange,
+                  name: 'outserverHostname',
+                  autoComplete: 'on',
+                  required: true,
+                }}
                 label={
                   <Trans id="remote_identity.form.outgoing_mail_server.label">
                     Outgoing mail server:
                   </Trans>
                 }
-                value={this.state.remoteIdentity.outserverHostname}
                 errors={this.state.formErrors.outserverHostname}
-                onChange={this.handleParamsChange}
-                name="outserverHostname"
-                autoComplete="on"
-                required
               />
             </FormColumn>
             <FormColumn bottomSpace size="shrink">
               <TextFieldGroup
+                inputProps={{
+                  value: this.state.remoteIdentity.outserverPort,
+                  onChange: this.handleParamsChange,
+                  name: 'outserverPort',
+                  type: 'number',
+                  autoComplete: 'on',
+                  required: true,
+                }}
                 label={
                   <Trans id="remote_identity.form.port.label">Port:</Trans>
                 }
-                value={this.state.remoteIdentity.outserverPort}
                 errors={this.state.formErrors.outserverPort}
-                onChange={this.handleParamsChange}
-                name="outserverPort"
-                type="number"
-                autoComplete="on"
-                required
               />
             </FormColumn>
           </FormRow>
@@ -541,33 +551,37 @@ class RemoteIdentityEmail extends Component {
         <FormRow>
           <FormColumn bottomSpace size="medium">
             <TextFieldGroup
+              inputProps={{
+                value: this.state.remoteIdentity.inusername,
+                onChange: this.handleParamsChange,
+                onBlur: this.createHandleBlurInOutParam('username'),
+                name: 'inusername',
+                autoComplete: 'username',
+                required: true,
+              }}
               label={
                 <Trans id="remote_identity.form.username.label">Login:</Trans>
               }
-              value={this.state.remoteIdentity.inusername}
               errors={this.state.formErrors.inusername}
-              onChange={this.handleParamsChange}
-              onBlur={this.createHandleBlurInOutParam('username')}
-              name="inusername"
-              autoComplete="username"
-              required
             />
           </FormColumn>
           <FormColumn bottomSpace size="medium">
             <TextFieldGroup
+              inputProps={{
+                type: 'password',
+                value: this.state.remoteIdentity.inpassword,
+                onChange: this.handleParamsChange,
+                onBlur: this.createHandleBlurInOutParam('password'),
+                name: 'inpassword',
+                autoComplete: 'new-password',
+                required: true,
+              }}
               label={
                 <Trans id="remote_identity.form.password.label">
                   Password:
                 </Trans>
               }
-              type="password"
-              value={this.state.remoteIdentity.inpassword}
               errors={this.state.formErrors.inpassword}
-              onChange={this.handleParamsChange}
-              onBlur={this.createHandleBlurInOutParam('password')}
-              name="inpassword"
-              autoComplete="new-password"
-              required
             />
           </FormColumn>
         </FormRow>
@@ -583,64 +597,72 @@ class RemoteIdentityEmail extends Component {
             <FormRow>
               <FormColumn bottomSpace fluid>
                 <TextFieldGroup
+                  inputProps={{
+                    value: this.state.remoteIdentity.outserverHostname,
+                    onChange: this.handleParamsChange,
+                    name: 'outserverHostname',
+                    autoComplete: 'on',
+                    required: true,
+                  }}
                   label={
                     <Trans id="remote_identity.form.outgoing_mail_server.label">
                       Outgoing mail server:
                     </Trans>
                   }
-                  value={this.state.remoteIdentity.outserverHostname}
                   errors={this.state.formErrors.outserverHostname}
-                  onChange={this.handleParamsChange}
-                  name="outserverHostname"
-                  autoComplete="on"
-                  required
                 />
               </FormColumn>
               <FormColumn bottomSpace size="shrink">
                 <TextFieldGroup
+                  inputProps={{
+                    value: this.state.remoteIdentity.outserverPort,
+                    onChange: this.handleParamsChange,
+                    name: 'outserverPort',
+                    type: 'number',
+                    autoComplete: 'on',
+                    required: true,
+                  }}
                   label={
                     <Trans id="remote_identity.form.port.label">Port:</Trans>
                   }
-                  value={this.state.remoteIdentity.outserverPort}
                   errors={this.state.formErrors.outserverPort}
-                  onChange={this.handleParamsChange}
-                  name="outserverPort"
-                  type="number"
-                  autoComplete="on"
-                  required
                 />
               </FormColumn>
             </FormRow>
             <FormRow>
               <FormColumn bottomSpace size="medium">
                 <TextFieldGroup
+                  inputProps={{
+                    value: this.state.remoteIdentity.outusername,
+                    onChange: this.handleParamsChange,
+                    name: 'outusername',
+                    autoComplete: 'username',
+                    required: true,
+                  }}
                   label={
                     <Trans id="remote_identity.form.username.label">
                       Login:
                     </Trans>
                   }
-                  value={this.state.remoteIdentity.outusername}
                   errors={this.state.formErrors.outusername}
-                  onChange={this.handleParamsChange}
-                  name="outusername"
-                  autoComplete="username"
-                  required
                 />
               </FormColumn>
               <FormColumn bottomSpace size="medium">
                 <TextFieldGroup
+                  inputProps={{
+                    type: 'password',
+                    value: this.state.remoteIdentity.outpassword,
+                    onChange: this.handleParamsChange,
+                    name: 'outpassword',
+                    autoComplete: 'new-password',
+                    required: true,
+                  }}
                   label={
                     <Trans id="remote_identity.form.password.label">
                       Password:
                     </Trans>
                   }
-                  type="password"
-                  value={this.state.remoteIdentity.outpassword}
                   errors={this.state.formErrors.outpassword}
-                  onChange={this.handleParamsChange}
-                  name="outpassword"
-                  autoComplete="new-password"
-                  required
                 />
               </FormColumn>
             </FormRow>

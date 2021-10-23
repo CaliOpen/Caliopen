@@ -6,7 +6,6 @@ import { getTagLabel } from '../../services/getTagLabel';
 
 import './style.scss';
 
-@withI18n()
 class TagItem extends Component {
   static propTypes = {
     tag: PropTypes.shape({}).isRequired,
@@ -42,4 +41,4 @@ class TagItem extends Component {
   }
 }
 
-export default TagItem;
+export default withI18n()(TagItem);

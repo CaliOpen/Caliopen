@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import 'test/unit/lingui-react';
 import Presenter from './presenter';
 
 jest.mock('../../../../modules/settings', () => ({

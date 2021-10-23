@@ -2,14 +2,13 @@ import * as React from 'react';
 import classnames from 'classnames';
 import './style.scss';
 
-interface Props {
-  expanded: boolean;
-  theme: string;
-  bottomSpace: boolean;
-  hasError: boolean;
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+  expanded?: boolean;
+  theme?: string;
+  bottomSpace?: boolean;
+  hasError?: boolean;
   className?: string;
-  inputProps: React.InputHTMLAttributes<HTMLInputElement>;
-  innerRef: React.ForwardedRef<any>;
+  innerRef: React.ForwardedRef<HTMLInputElement>;
 }
 function InputText({
   className,
@@ -17,8 +16,8 @@ function InputText({
   theme = 'light',
   bottomSpace = false,
   hasError = false,
-  inputProps,
   innerRef,
+  ...inputProps
 }: Props) {
   const inputTextClassName = classnames(
     'm-input-text',
@@ -43,6 +42,8 @@ function InputText({
   );
 }
 
-export default React.forwardRef<typeof InputText, Props>((props, ref) => (
-  <InputText {...props} innerRef={ref} />
-));
+type TextFieldProps = Omit<Props, 'innerRef'>;
+
+export default React.forwardRef<HTMLInputElement, TextFieldProps>(
+  (props, ref) => <InputText {...props} innerRef={ref} />
+);

@@ -170,13 +170,16 @@ function OpenPGPImportForm({ i18n, cancel, onSuccess }: Props) {
       )}
 
       <TextFieldGroup
+        id="pgp-passphrase"
         label={i18n._('user.openpgp.form.passphrase.label', undefined, {
           defaults: 'Passphrase',
         })}
-        value={importValues.passphrase}
-        onChange={handleImportChanges}
-        name="passphrase"
-        type="password"
+        inputProps={{
+          value: importValues.passphrase,
+          onChange: handleImportChanges,
+          name: 'passphrase',
+          type: 'password',
+        }}
       />
       <InputFileGroup
         required

@@ -122,18 +122,20 @@ class PasswordForm extends Component {
         <FormRow className="m-password-form__row">
           <FormColumn size="medium">
             <TextFieldGroup
-              name="password"
-              type="password"
-              onChange={this.handleInputChange}
+              inputProps={{
+                name: 'password',
+                type: 'password',
+                onChange: this.handleInputChange,
+                placeholder: i18n._(
+                  'password.form.current_password.placeholder',
+                  null,
+                  { defaults: 'Enter your current password' }
+                ),
+                required: true,
+              }}
               label={i18n._('password.form.current_password.label', null, {
                 defaults: 'Current password:',
               })}
-              placeholder={i18n._(
-                'password.form.current_password.placeholder',
-                null,
-                { defaults: 'Enter your current password' }
-              )}
-              required
             />
           </FormColumn>
           <FormColumn size="medium">
@@ -147,18 +149,20 @@ class PasswordForm extends Component {
         <FormRow className="m-password-form__row">
           <FormColumn size="medium">
             <TextFieldGroup
-              name="newPassword"
-              type="password"
-              onChange={this.handleNewPasswordChange}
+              inputProps={{
+                name: 'newPassword',
+                type: 'password',
+                onChange: this.handleNewPasswordChange,
+                placeholder: i18n._(
+                  'password.form.new_password.placeholder',
+                  null,
+                  { defaults: 'Enter new password' }
+                ),
+                required: true,
+              }}
               label={i18n._('password.form.new_password.label', null, {
                 defaults: 'New password:',
               })}
-              placeholder={i18n._(
-                'password.form.new_password.placeholder',
-                null,
-                { defaults: 'Enter new password' }
-              )}
-              required
             />
           </FormColumn>
           <FormColumn size="medium">
@@ -181,21 +185,23 @@ class PasswordForm extends Component {
         <FormRow className="m-password-form__row">
           <FormColumn size="medium">
             <TextFieldGroup
-              name="confirmNewPassword"
-              type="password"
-              onChange={this.handleConfirmPasswordChange}
+              inputProps={{
+                name: 'confirmNewPassword',
+                type: 'password',
+                onChange: this.handleConfirmPasswordChange,
+                placeholder: i18n._(
+                  'password.form.new_password_confirmation.placeholder',
+                  null,
+                  { defaults: 'Password' }
+                ),
+                required: true,
+              }}
               errors={this.state.passwordError}
               label={i18n._(
                 'password.form.new_password_confirmation.label',
                 null,
                 { defaults: 'New password confirmation:' }
               )}
-              placeholder={i18n._(
-                'password.form.new_password_confirmation.placeholder',
-                null,
-                { defaults: 'Password' }
-              )}
-              required
             />
           </FormColumn>
         </FormRow>
@@ -204,7 +210,7 @@ class PasswordForm extends Component {
         <FormColumn size="medium">
           <Field
             name="tfa"
-            component={TextFieldGroup}
+            component={ReduxTextFieldGroup}
             onChange={this.handleInputChange}
             label={i18n._('password.form.tfa.label', null, { defaults: 'TOTP validation code:' })}
             placeholder={i18n._('password.form.tfa.placeholder',

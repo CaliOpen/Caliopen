@@ -1,6 +1,8 @@
-import React from 'react';
+import * as React from 'react';
+import { screen, render } from '@testing-library/react';
 import { shallow } from 'enzyme';
-import Presenter from './presenter';
+import { AllProviders } from 'test/providers';
+import DeviceForm from '.';
 
 describe('component Device DeviceForm', () => {
   it('render', () => {
@@ -12,10 +14,10 @@ describe('component Device DeviceForm', () => {
       i18n: { _: (id) => id },
     };
 
-    const comp = shallow(<Presenter {...props} />);
+    render(<DeviceForm {...props} />, { wrapper: AllProviders });
 
-    expect(comp.find('TextFieldGroup').length).toEqual(1);
-    expect(comp.find('SelectFieldGroup').length).toEqual(1);
+    expect(screen.getByRole('textbox', { name: 'Name:' }));
+    expect(screen.getByRole('combobox', { name: 'Type:' }));
   });
 
   // input has been disabled
@@ -29,7 +31,7 @@ describe('component Device DeviceForm', () => {
         i18n: { _: (id) => id },
       };
 
-      const comp = shallow(<Presenter {...props} />);
+      const comp = shallow(<DeviceForm {...props} />);
 
       const inst = comp.instance();
       expect(inst.validateIP('192.168.1.1')).toEqual({ isValid: true });
@@ -44,7 +46,7 @@ describe('component Device DeviceForm', () => {
         i18n: { _: (id) => id },
       };
 
-      const comp = shallow(<Presenter {...props} />);
+      const comp = shallow(<DeviceForm {...props} />);
 
       const inst = comp.instance();
       expect(inst.validateIP('foo')).toEqual({

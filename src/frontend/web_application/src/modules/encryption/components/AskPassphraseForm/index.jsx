@@ -107,11 +107,13 @@ class AskPassphraseForm extends Component {
                 readOnly
               />
               <TextFieldGroup
-                type="password"
-                name={`passphrase-${fingerprint}`}
-                value={this.state.passphrase}
-                onChange={this.handleChange}
-                autocomplete="current-password"
+                inputProps={{
+                  type: 'password',
+                  name: `passphrase-${fingerprint}`,
+                  value: this.state.passphrase,
+                  onChange: this.handleChange,
+                  autocomplete: 'current-password',
+                }}
               />
             </FormColumn>
             <FormColumn>

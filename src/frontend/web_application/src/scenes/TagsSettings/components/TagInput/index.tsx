@@ -62,7 +62,7 @@ function TagInput({ i18n, tag, onUpdateSuccess, onDeleteSuccess }: Props) {
   const handleDeleteTag = async () => {
     setPending(true);
     try {
-      await deleteTag({ tag });
+      await dispatch(deleteTag({ tag }));
     } catch (errors) {
       setTagErrors(errors.map((err) => err.message));
     }
@@ -74,14 +74,17 @@ function TagInput({ i18n, tag, onUpdateSuccess, onDeleteSuccess }: Props) {
     return (
       <FormGrid className="m-tag-input">
         <TextFieldGroup
-          name={tag.name}
+          id="tag_settings_edit_tag"
           className="m-tag-input__input"
+          inputProps={{
+            name: tag.name,
+            placeholder: getTagLabel(i18n, tag),
+            value: tagLabel,
+            onChange: handleChange,
+            autoFocus: true,
+          }}
           label={tag.name}
-          placeholder={getTagLabel(i18n, tag)}
-          value={tagLabel}
-          onChange={handleChange}
           showLabelforSr
-          autoFocus
           errors={tagErrors}
         />
         <Button

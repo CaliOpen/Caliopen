@@ -7,7 +7,7 @@
     "contact_id": "c-john-01",
     "date_insert": "2016-05-09T15:01:42.381000",
     "user_id": "u-john-01",
-    "title": "John",
+    "title": "Dr",
     "given_name": "John Dœuf",
     "pi": { "technic": 87, "context": 45, "comportment": 25, "version": 0 },
     "tags": ["me"],

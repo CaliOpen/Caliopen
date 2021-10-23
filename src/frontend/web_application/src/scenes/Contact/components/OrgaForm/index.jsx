@@ -2,21 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Trans, withI18n } from '@lingui/react';
+import { ReduxTextFieldGroup } from 'src/components/TextFieldGroup';
 import {
   Icon,
   Button,
   FieldErrors,
-  TextFieldGroup as TextFieldGroupBase,
   Fieldset,
   Legend,
   FormGrid,
   FormRow,
   FormColumn,
 } from '../../../../components';
-import renderReduxField from '../../../../services/renderReduxField';
 import './style.scss';
-
-const TextFieldGroup = renderReduxField(TextFieldGroupBase);
 
 @withI18n()
 class OrgaForm extends Component {
@@ -52,61 +49,78 @@ class OrgaForm extends Component {
           <FormRow>
             <FormColumn rightSpace={false} bottomSpace>
               <Field
-                component={TextFieldGroup}
+                component={ReduxTextFieldGroup}
                 name="label"
                 label={i18n._('contact.orga_form.label.label', null, {
                   defaults: 'Label',
                 })}
-                placeholder={i18n._('contact.orga_form.label.label', null, {
-                  defaults: 'Label',
-                })}
+                inputProps={{
+                  placeholder: i18n._('contact.orga_form.label.label', null, {
+                    defaults: 'Label',
+                  }),
+                  expanded: true,
+                }}
               />
             </FormColumn>
             <FormColumn rightSpace={false} bottomSpace>
               <Field
-                component={TextFieldGroup}
+                component={ReduxTextFieldGroup}
                 name="name"
                 label={i18n._('contact.orga_form.name.label', null, {
                   defaults: 'Name',
                 })}
-                placeholder={i18n._('contact.orga_form.name.label', null, {
-                  defaults: 'Name',
-                })}
+                inputProps={{
+                  placeholder: i18n._('contact.orga_form.name.label', null, {
+                    defaults: 'Name',
+                  }),
+                  expanded: true,
+                }}
                 required
               />
             </FormColumn>
             <FormColumn rightSpace={false} bottomSpace>
               <Field
-                component={TextFieldGroup}
+                component={ReduxTextFieldGroup}
                 name="title"
                 label={i18n._('contact.orga_form.title.label', null, {
                   defaults: 'Title',
                 })}
-                placeholder={i18n._('contact.orga_form.title.label', null, {
-                  defaults: 'Title',
-                })}
+                inputProps={{
+                  placeholder: i18n._('contact.orga_form.title.label', null, {
+                    defaults: 'Title',
+                  }),
+                  expanded: true,
+                }}
               />
             </FormColumn>
             <FormColumn rightSpace={false} bottomSpace>
               <Field
-                component={TextFieldGroup}
+                component={ReduxTextFieldGroup}
                 name="department"
                 label={i18n._('contact.orga_form.department.label', null, {
                   defaults: 'Department',
                 })}
-                placeholder={i18n._(
-                  'contact.orga_form.department.label',
-                  null,
-                  { defaults: 'Department' }
-                )}
+                inputProps={{
+                  placeholder: i18n._(
+                    'contact.orga_form.department.label',
+                    null,
+                    { defaults: 'Department' }
+                  ),
+                  expanded: true,
+                }}
               />
             </FormColumn>
             <FormColumn rightSpace={false} bottomSpace>
               <Field
-                component={TextFieldGroup}
+                component={ReduxTextFieldGroup}
                 name="job_description"
                 label={i18n._('contact.orga_form.job_description.label')}
-                placeholder={i18n._('contact.orga_form.job_description.label')}
+                inputProps={{
+                  placeholder: i18n._(
+                    'contact.orga_form.job_description.label'
+                  ),
+                  expanded: true,
+                }}
               />
             </FormColumn>
             <FormColumn className="m-orga-form__col-button">
