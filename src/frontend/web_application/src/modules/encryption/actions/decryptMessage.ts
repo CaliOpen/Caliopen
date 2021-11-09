@@ -12,7 +12,7 @@ import {
   decryptMessageFail,
 } from '../../../store/modules/encryption';
 
-const getKeyPassphrase = (state, fingerprint) => {
+const getKeyPassphrase = (state, fingerprint: string) => {
   const { privateKeysByFingerprint } = state.encryption;
 
   return (
@@ -30,6 +30,7 @@ export const decryptMessage = ({ message }) => async (dispatch, getState) => {
 
   try {
     dispatch(decryptMessageStart({ message }));
+
     const keys = await getKeysForMessage(message);
 
     if (keys.length <= 0) {
@@ -66,7 +67,9 @@ export const decryptMessage = ({ message }) => async (dispatch, getState) => {
 
     if (!usableKey) {
       keys.forEach((key) =>
-        dispatch(askPassphrase({ fingerprint: key.getFingerprint() }))
+        dispatch(
+          askPassphrase({ fingerprint: key.getFingerprint(), error: '' })
+        )
       );
       dispatch(
         needPassphrase({

@@ -1,3 +1,9 @@
+interface Action<Payload = any, Meta = any> {
+  type: string;
+  payload: Payload;
+  meta?: Meta;
+}
+
 export const ASK_PASSPHRASE = 'co/encryption/ASK_PASSPHRASE';
 export const SET_PASSPHRASE = 'co/encryption/SET_PASSPHRASE';
 export const SET_PASSPHRASE_SUCCESS = 'co/encryption/SET_PASSPHRASE_SUCCESS';
@@ -20,7 +26,13 @@ export const STATUS_DECRYPTING = 'decrypting';
 export const STATUS_DECRYPTED = 'decrypted';
 export const STATUS_ERROR = 'error';
 
-export function askPassphrase({ fingerprint, error }) {
+export function askPassphrase({
+  fingerprint,
+  error,
+}: {
+  fingerprint: string;
+  error: any;
+}): Action<{ fingerprint: string; error: string }> {
   return {
     type: ASK_PASSPHRASE,
     payload: {
