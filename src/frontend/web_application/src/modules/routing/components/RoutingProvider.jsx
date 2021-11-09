@@ -8,7 +8,8 @@ import Signin from '../../../scenes/Signin';
 import Signup from '../../../scenes/Signup';
 import ForgotPassword from '../../../scenes/ForgotPassword';
 import ResetPassword from '../../../scenes/ResetPassword';
-import Contact from '../../../scenes/Contact';
+import Contact from '../../../scenes/contact/Contact';
+// import NewContact from '../../../scenes/contact/NewContact';
 import ContactAssociation from '../../../scenes/ContactAssociation';
 import AboutPageLayout from '../../../layouts/AboutPage';
 import AuthPageLayout from '../../../layouts/AuthPage';
@@ -202,8 +203,6 @@ class RoutingProvider extends Component {
                   },
                 },
                 {
-                  // react-router 4.4 (not yet released - 03/03/19) will support array of strings
-                  // path: ['/contacts/:contactId', '/contacts/:contactId/edit'],
                   path: '/contacts/:contactId',
                   exact: false,
                   strict: false,
@@ -228,20 +227,45 @@ class RoutingProvider extends Component {
                     tabMatch: tabMatchForContact,
                   },
                 },
-                {
-                  path: '/new-contact',
-                  component: Contact,
-                  app: 'contact',
-                  tab: {
-                    type: 'default',
-                    icon: 'address-book',
-                    renderLabel: () =>
-                      i18n._('route.new-contact.label', null, {
-                        defaults: 'New contact',
-                      }),
-                    tabMatch: tabMatchRoute,
-                  },
-                },
+                // {
+                //   path: '/contacts/:contactId/edit',
+                //   exact: false,
+                //   strict: false,
+                //   // ---
+                //   component: EditContact,
+                //   app: 'contact',
+                //   tab: {
+                //     type: 'contact',
+                //     icon: 'address-book',
+                //     renderLabel: ({ contact }) => {
+                //       const {
+                //         settings: { contact_display_format: format },
+                //       } = this.props;
+
+                //       return (
+                //         (contact && formatName({ contact, format })) ||
+                //         i18n._('contact.profile.name_not_set', null, {
+                //           defaults: '(N/A)',
+                //         })
+                //       );
+                //     },
+                //     tabMatch: tabMatchForContact,
+                //   },
+                // },
+                // {
+                //   path: '/new-contact',
+                //   component: NewContact,
+                //   app: 'contact',
+                //   tab: {
+                //     type: 'default',
+                //     icon: 'address-book',
+                //     renderLabel: () =>
+                //       i18n._('route.new-contact.label', null, {
+                //         defaults: 'New contact',
+                //       }),
+                //     tabMatch: tabMatchRoute,
+                //   },
+                // },
                 {
                   path: '/search-results',
                   component: SearchResults,

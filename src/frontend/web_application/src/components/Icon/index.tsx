@@ -104,7 +104,7 @@ const SvgIcon = ({ type, iconProps }) => {
 
 interface IconProps {
   className?: string;
-  type: Type;
+  type: Type | string;
   spaced?: boolean;
   rightSpaced?: boolean;
   [key: string]: any;
@@ -116,7 +116,7 @@ const Icon = ({
   spaced = false,
   rightSpaced = false,
   ...props
-}: IconProps) => {
+}: IconProps): React.ReactElement<typeof SvgIcon> => {
   // eslint-disable-next-line no-console
   if (!typeAssoc[type]) {
     console.error(`The type "${type}" is not a valid Icon component type`);

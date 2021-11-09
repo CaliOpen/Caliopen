@@ -1,0 +1,41 @@
+import * as React from 'react';
+import { withI18n, withI18nProps } from '@lingui/react';
+import { Icon } from 'src/components';
+import { ContactCommon } from 'src/modules/contact/types';
+
+interface Props extends withI18nProps {
+  email: NonNullable<ContactCommon['emails']>[number];
+}
+function EmailDetails({ email, i18n }: Props) {
+  const emailTypesTranslations = {
+    work: i18n._('contact.email_type.work', undefined, {
+      defaults: 'Professional',
+    }),
+    home: i18n._('contact.email_type.home', undefined, {
+      defaults: 'Personal',
+    }),
+    other: i18n._('contact.email_type.other', undefined, { defaults: 'Other' }),
+  };
+
+  const address = !email.is_primary ? (
+    email.address
+  ) : (
+    <strong
+      title={i18n._('contact.primary', undefined, { defaults: 'Primary' })}
+    >
+      {email.address}
+    </strong>
+  );
+
+  return (
+    <span className="m-email-details">
+      <Icon rightSpaced type="envelope" />
+      {address}{' '}
+      <small>
+        <em>{emailTypesTranslations[email.type]}</em>
+      </small>
+    </span>
+  );
+}
+
+export default withI18n()(EmailDetails);

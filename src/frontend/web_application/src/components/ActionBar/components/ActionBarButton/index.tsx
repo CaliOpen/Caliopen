@@ -2,7 +2,8 @@ import classnames from 'classnames';
 import * as React from 'react';
 import Button from '../../../Button';
 
-interface Props {
+type ButtonProps = React.ComponentProps<typeof Button>;
+interface Props extends ButtonProps {
   className?: string;
   innerRef: React.ForwardedRef<HTMLButtonElement>;
 }
