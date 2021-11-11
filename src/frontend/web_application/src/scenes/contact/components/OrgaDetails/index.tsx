@@ -1,12 +1,14 @@
-import * as React from "react";
-import { Trans } from "@lingui/react";
-import PropTypes from "prop-types";
+import * as React from 'react';
+import { Trans } from '@lingui/react';
+import { ContactCommon } from 'src/modules/contact/types';
 
-function OrgaDetails(props) {
-  const { organization } = props;
+interface Props {
+  organization: NonNullable<ContactCommon['organizations']>[number];
+}
+function OrgaDetails({ organization }: Props): JSX.Element {
   const department = organization.department
     ? ` (${organization.department})`
-    : "";
+    : '';
   let organizationDescription = `${
     organization.job_description || organization.name
   } ${department}`;
@@ -31,9 +33,5 @@ function OrgaDetails(props) {
 
   return <span title={organization.label}>{organizationDescription}</span>;
 }
-
-OrgaDetails.propTypes = {
-  organization: PropTypes.shape({}).isRequired,
-};
 
 export default OrgaDetails;
