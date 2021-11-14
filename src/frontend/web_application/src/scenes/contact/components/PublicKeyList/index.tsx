@@ -69,7 +69,7 @@ function PublicKeyList({ contactId, i18n }: Props) {
 
   return (
     <>
-      {keyState.publicKeys && (
+      {keyState?.publicKeys && (
         <ul>
           {keyState.publicKeys.map((publicKey) => {
             if (editMode && editingKey === publicKey.key_id) {
