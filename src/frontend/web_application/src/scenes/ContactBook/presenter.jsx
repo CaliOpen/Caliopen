@@ -82,6 +82,7 @@ class ContactBook extends Component {
   };
 
   componentDidMount() {
+    // FIXME: Contacts not filtered by tags
     this.props.requestContacts();
   }
 
