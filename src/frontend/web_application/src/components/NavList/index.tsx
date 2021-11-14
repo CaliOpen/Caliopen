@@ -1,10 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import classnames from 'classnames';
 import NavItem from './components/NavItem';
 import './style.scss';
 
-const NavList = ({ className, dir, ...props }) => {
+interface Props {
+  className?: string;
+  dir?: 'vertical';
+  children?: React.ReactNode;
+}
+const NavList = ({ className, dir, ...props }: Props): JSX.Element => {
   const navClassName = classnames('m-nav-list', {
     'm-nav-list--vertical': dir === 'vertical',
   });
@@ -14,16 +18,6 @@ const NavList = ({ className, dir, ...props }) => {
       <ul className={navClassName} {...props} />
     </nav>
   );
-};
-
-NavList.propTypes = {
-  className: PropTypes.string,
-  dir: PropTypes.oneOf(['vertical']),
-};
-
-NavList.defaultProps = {
-  className: null,
-  dir: null,
 };
 
 export { NavItem };
