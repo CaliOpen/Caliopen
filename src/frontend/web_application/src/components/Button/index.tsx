@@ -72,7 +72,6 @@ function Button({
 
   if (icon) {
     return (
-      // @ts-ignore
       <RawButton {...buttonProps} ref={innerRef}>
         {renderIcon()}
         {children && <span className="m-button__text">{children}</span>}
@@ -81,7 +80,6 @@ function Button({
   }
 
   return (
-    // @ts-ignore
     <RawButton {...buttonProps} ref={innerRef}>
       {children}
     </RawButton>

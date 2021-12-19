@@ -9,6 +9,7 @@ import Signup from '../../../scenes/Signup';
 import ForgotPassword from '../../../scenes/ForgotPassword';
 import ResetPassword from '../../../scenes/ResetPassword';
 import Contact from '../../../scenes/contact/Contact';
+import EditContact from '../../../scenes/contact/EditContact';
 // import NewContact from '../../../scenes/contact/NewContact';
 import ContactAssociation from '../../../scenes/ContactAssociation';
 import AboutPageLayout from '../../../layouts/AboutPage';
@@ -206,8 +207,20 @@ class RoutingProvider extends Component {
                   path: '/contacts/:contactId',
                   exact: false,
                   strict: false,
-                  // ---
-                  component: Contact,
+                  routes: [
+                    {
+                      path: '/contacts/:contactId',
+                      exact: true,
+                      strict: false,
+                      component: Contact,
+                    },
+                    {
+                      path: '/contacts/:contactId/edit',
+                      exact: true,
+                      strict: false,
+                      component: EditContact,
+                    },
+                  ],
                   app: 'contact',
                   tab: {
                     type: 'contact',
@@ -227,31 +240,6 @@ class RoutingProvider extends Component {
                     tabMatch: tabMatchForContact,
                   },
                 },
-                // {
-                //   path: '/contacts/:contactId/edit',
-                //   exact: false,
-                //   strict: false,
-                //   // ---
-                //   component: EditContact,
-                //   app: 'contact',
-                //   tab: {
-                //     type: 'contact',
-                //     icon: 'address-book',
-                //     renderLabel: ({ contact }) => {
-                //       const {
-                //         settings: { contact_display_format: format },
-                //       } = this.props;
-
-                //       return (
-                //         (contact && formatName({ contact, format })) ||
-                //         i18n._('contact.profile.name_not_set', null, {
-                //           defaults: '(N/A)',
-                //         })
-                //       );
-                //     },
-                //     tabMatch: tabMatchForContact,
-                //   },
-                // },
                 // {
                 //   path: '/new-contact',
                 //   component: NewContact,

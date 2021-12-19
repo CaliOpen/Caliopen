@@ -12,70 +12,73 @@ import {
   FormGrid,
   FormRow,
   FormColumn,
-} from 'src/components';
-import './style.scss';
+} from '../../../../components';
 import { ItemProps } from '../FormCollection';
 
-const EMAIL_TYPES = ['', 'work', 'home', 'other'];
+import './style.scss';
 
-function EmailForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
+const IM_TYPES = ['', 'work', 'home', 'other', 'netmeeting'];
+
+function ImForm({ i18n, name, onDelete }: ItemProps & withI18nProps) {
   const addressTypes = {
-    work: i18n._('contact.email_type.work', undefined, {
+    work: i18n._('contact.im_type.work', undefined, {
       defaults: 'Professional',
     }),
-    home: i18n._('contact.email_type.home', undefined, {
-      defaults: 'Personal',
+    home: i18n._('contact.im_type.home', undefined, { defaults: 'Personal' }),
+    other: i18n._('contact.im_type.other', undefined, { defaults: 'Other' }),
+    netmeeting: i18n._('contact.im_type.netmeeting', undefined, {
+      defaults: 'Netmeeting',
     }),
-    other: i18n._('contact.email_type.other', undefined, { defaults: 'Other' }),
   };
 
-  const addressTypeOptions = EMAIL_TYPES.map((value) => ({
+  const addressTypeOptions = IM_TYPES.map((value) => ({
     value,
     label: addressTypes[value] || '',
   }));
 
   return (
-    <FormGrid className="m-email-form">
+    <FormGrid className="m-im-form">
       <Fieldset>
         <FormRow>
           <FormColumn size="shrink">
             <Legend>
-              <Icon type="envelope" />
-              <span className="m-email-form__legend">
-                <Trans id="contact.email_form.legend">Email</Trans>
+              <Icon type="comment" rightSpaced />
+              <span className="m-im-form__legend">
+                <Trans id="contact.im_form.legend">Instant messaging</Trans>
               </span>
             </Legend>
           </FormColumn>
           {/* {errors.length > 0 && (
-              <FormColumn>
-                <FieldErrors errors={errors} />
-              </FormColumn>
-            )} */}
+                <FormColumn>
+                  <FieldErrors errors={errors} />
+                </FormColumn>
+              )} */}
           <FormColumn size="shrink" bottomSpace>
             <Field
               component={FormikSelectFieldGroup}
               name={`${name}.type`}
-              label={i18n._('contact.email_form.type.label', undefined, {
+              label={i18n._('contact.im_form.type.label', undefined, {
                 defaults: 'Type',
               })}
               showLabelforSr
               options={addressTypeOptions}
             />
           </FormColumn>
+
           <FormColumn size="medium" fluid bottomSpace>
             <Field
-              id={`edit-contact_${name}.address`}
               component={FormikTextFieldGroup}
               name={`${name}.address`}
-              type="email"
-              label={i18n._('contact.email_form.address.label', undefined, {
+              label={i18n._('contact.im_form.address.label', undefined, {
                 defaults: 'Address',
               })}
               inputProps={{
                 placeholder: i18n._(
-                  'contact.email_form.address.placeholder',
+                  'contact.im_form.address.placeholder',
                   undefined,
-                  { defaults: 'Email' }
+                  {
+                    defaults: 'Address',
+                  }
                 ),
                 expanded: true,
               }}
@@ -83,8 +86,8 @@ function EmailForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
               required
             />
           </FormColumn>
-          <FormColumn className="m-email-form__col-button">
-            <Button icon="remove" color="alert" onClick={onDelete} />
+          <FormColumn className="m-im-form__col-button">
+            <Button color="alert" icon="remove" onClick={onDelete} />
           </FormColumn>
         </FormRow>
       </Fieldset>
@@ -92,4 +95,4 @@ function EmailForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
   );
 }
 
-export default withI18n()(EmailForm);
+export default withI18n()(ImForm);

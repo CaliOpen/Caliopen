@@ -115,11 +115,13 @@ export const FormikTextFieldGroup = ({
   field,
   meta,
   inputProps,
+  ...props
 }: FormikTextFieldGroupProps): React.ReactElement<Props> => (
   <ForwardedTextFieldGroup
     id={id}
     label={label}
     inputProps={{ ...inputProps, ...field }}
     errors={meta?.error ? [meta.error] : undefined}
+    {...props}
   />
 );

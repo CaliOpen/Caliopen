@@ -1,13 +1,12 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import { Trans, withI18n } from "@lingui/react";
-import { Field } from "redux-form";
-import { ReduxTextFieldGroup } from "src/components/TextFieldGroup";
-import renderReduxField from "../../../../services/renderReduxField";
+import * as React from 'react';
+import { Trans, withI18n, withI18nProps } from '@lingui/react';
+import { Field } from 'formik';
+import { FormikTextFieldGroup } from 'src/components/TextFieldGroup';
+import { FormikSelectFieldGroup } from 'src/components/SelectFieldGroup';
 import {
   IDENTITY_TYPE_TWITTER,
   IDENTITY_TYPE_MASTODON,
-} from "../../../../modules/contact";
+} from 'src/modules/contact';
 import {
   Button,
   Icon,
@@ -18,15 +17,14 @@ import {
   FormGrid,
   FormRow,
   FormColumn,
-} from "../../../../components";
+} from 'src/components';
 
-import "./style.scss";
+import './style.scss';
+import { ItemProps } from '../FormCollection';
 
 const IDENTITY_TYPES = [IDENTITY_TYPE_TWITTER, IDENTITY_TYPE_MASTODON];
-const SelectFieldGroup = renderReduxField(SelectFieldGroupBase);
 
-function IdentityForm(props) {
-  const { i18n, onDelete, errors } = props;
+function IdentityForm({ name, onDelete, i18n }: ItemProps & withI18nProps) {
   const identityTypeOptions = IDENTITY_TYPES.map((value) => ({
     value,
     label: value,
@@ -36,11 +34,11 @@ function IdentityForm(props) {
     <FormGrid className="m-identity-form">
       <Fieldset>
         <FormRow>
-          {errors.length > 0 && (
+          {/* {errors.length > 0 && (
             <FormColumn>
               <FieldErrors errors={errors} />
             </FormColumn>
-          )}
+          )} */}
           <FormColumn size="shrink">
             <Legend>
               <Icon rightSpaced type="user" />
@@ -51,10 +49,10 @@ function IdentityForm(props) {
           </FormColumn>
           <FormColumn size="shrink" bottomSpace>
             <Field
-              component={SelectFieldGroup}
-              name="type"
-              label={i18n._("contact.identity_form.service.label", null, {
-                defaults: "Service",
+              component={FormikSelectFieldGroup}
+              name={`${name}.type`}
+              label={i18n._('contact.identity_form.service.label', undefined, {
+                defaults: 'Service',
               })}
               options={identityTypeOptions}
               showLabelforSr
@@ -63,16 +61,16 @@ function IdentityForm(props) {
           </FormColumn>
           <FormColumn size="medium" fluid bottomSpace>
             <Field
-              component={ReduxTextFieldGroup}
-              name="name"
-              label={i18n._("contact.identity_form.identity.label", null, {
-                defaults: "Identity",
+              component={FormikTextFieldGroup}
+              name={`${name}.name`}
+              label={i18n._('contact.identity_form.identity.label', undefined, {
+                defaults: 'Identity',
               })}
               showLabelforSr
               inputPropos={{
                 placeholder: i18n._(
-                  "contact.identity_form.identity.placeholder",
-                  null,
+                  'contact.identity_form.identity.placeholder',
+                  undefined,
                   { defaults: "username, account's URL..." }
                 ),
                 expanded: true,
@@ -89,14 +87,4 @@ function IdentityForm(props) {
   );
 }
 
-IdentityForm.propTypes = {
-  errors: PropTypes.arrayOf(PropTypes.string),
-  onDelete: PropTypes.func.isRequired,
-  i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
-};
-
-IdentityForm.defaultProps = {
-  errors: [],
-};
-
-export default IdentityForm;
+export default withI18n()(IdentityForm);
