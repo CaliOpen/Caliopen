@@ -1,13 +1,15 @@
 import { Trans, withI18n, withI18nProps } from '@lingui/react';
 import { FieldArray, Form, Formik, FormikConfig } from 'formik';
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import {
   Button,
   FormColumn,
   FormGrid,
   FormRow,
+  Spinner,
   TextItem,
   TextList,
   Title,
@@ -17,6 +19,7 @@ import {
   updateContact,
   IDENTITY_TYPE_TWITTER,
 } from 'src/modules/contact';
+import { getContact } from 'src/modules/contact/query';
 import { invalidate, requestContact } from 'src/modules/contact/store';
 import { ContactCommon, ContactPayload } from 'src/modules/contact/types';
 import { notifyError } from 'src/modules/userNotify';
@@ -38,13 +41,19 @@ function EditContact({
 }: Props): React.ReactElement<typeof ContactPageWrapper> {
   const dispatch = useDispatch();
   const { contactId } = useParams<{ contactId: string }>();
-  const contact = useSelector<RootState, undefined | ContactCommon>((state) =>
-    contactSelector(state, contactId)
+  const { data: contact, isFetching } = useQuery(['contact', contactId], () =>
+    getContact(contactId)
   );
 
-  React.useEffect(() => {
-    dispatch(requestContact(contactId));
-  }, [contactId]);
+  const { push } = useHistory();
+
+  // TODO: posting / deleting
+  const hasActivity = isFetching;
+  const valid = true;
+
+  const handleCancel = () => {
+    push(`/contacts/${contactId}`);
+  };
 
   if (!contact) {
     return <>TODO</>;
@@ -151,7 +160,7 @@ function EditContact({
               </Title>
               <FieldArray
                 name="organizations"
-                render={({ remove, push }) => (
+                render={({ remove, push: pushOrga }) => (
                   <TextList>
                     {values.organizations?.map((item, index) => (
                       <TextItem key={index}>
@@ -165,7 +174,11 @@ function EditContact({
                       <FormGrid>
                         <FormRow>
                           <FormColumn>
-                            <Button icon="plus" shape="plain" onClick={push}>
+                            <Button
+                              icon="plus"
+                              shape="plain"
+                              onClick={pushOrga}
+                            >
                               <Trans id="contact.action.add-organization">
                                 Add an organization
                               </Trans>
@@ -182,7 +195,7 @@ function EditContact({
               </Title>
               <FieldArray
                 name="identities"
-                render={({ remove, push }) => (
+                render={({ remove, push: pushIdentity }) => (
                   <TextList>
                     {values.identities?.map((item, index) => (
                       <TextItem key={index} large>
@@ -200,7 +213,7 @@ function EditContact({
                               icon="plus"
                               shape="plain"
                               onClick={() =>
-                                push({ type: IDENTITY_TYPE_TWITTER })
+                                pushIdentity({ type: IDENTITY_TYPE_TWITTER })
                               }
                             >
                               <Trans id="contact.action.add-identity">
@@ -214,39 +227,38 @@ function EditContact({
                   </TextList>
                 )}
               />
-              {/* {this.renderEditBar()} */}
-              {/* <div className="s-contact__edit-bar">
-        <Button
-          onClick={this.handleCancel}
-          responsive="icon-only"
-          icon="remove"
-          className="s-contact__action"
-          shape="plain"
-          color="disabled"
-        >
-          <Trans id="contact.action.cancel_edit">Cancel</Trans>
-        </Button>
-        <Button
-          type="submit"
-          responsive="icon-only"
-          icon={
-            hasActivity ? (
-              <Spinner
-                svgTitleId="validate-contact-spinner"
-                isLoading
-                display="inline"
-              />
-            ) : (
-              'check'
-            )
-          }
-          className="s-contact__action"
-          shape="plain"
-          disabled={hasActivity || !valid}
-        >
-          <Trans id="contact.action.validate_edit">Validate</Trans>
-        </Button>
-      </div> */}
+              <div className="s-contact__edit-bar">
+                <Button
+                  onClick={handleCancel}
+                  responsive="icon-only"
+                  icon="remove"
+                  className="s-contact__action"
+                  shape="plain"
+                  color="disabled"
+                >
+                  <Trans id="contact.action.cancel_edit">Cancel</Trans>
+                </Button>
+                <Button
+                  type="submit"
+                  responsive="icon-only"
+                  icon={
+                    hasActivity ? (
+                      <Spinner
+                        svgTitleId="validate-contact-spinner"
+                        isLoading
+                        display="inline"
+                      />
+                    ) : (
+                      'check'
+                    )
+                  }
+                  className="s-contact__action"
+                  shape="plain"
+                  disabled={hasActivity || !valid}
+                >
+                  <Trans id="contact.action.validate_edit">Validate</Trans>
+                </Button>
+              </div>
             </Form>
           )}
         </Formik>
