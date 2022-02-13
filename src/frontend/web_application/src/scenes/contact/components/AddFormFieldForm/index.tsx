@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Trans, withI18nProps, withI18n } from '@lingui/react';
 import { FieldArray } from 'formik';
-import TextList, { TextItem } from '../../../../components/TextList';
 import {
   Button,
   Icon,
@@ -10,15 +9,37 @@ import {
   FormRow,
   FormColumn,
   Legend,
-} from '../../../../components';
+  TextList,
+  TextItem,
+} from 'src/components';
+import {
+  EmailPayload,
+  IMPayload,
+  PhonePayload,
+} from 'src/modules/contact/types';
 import './style.scss';
+
+type FormType = 'emails' | 'phones' | 'ims';
+type FormData = PhonePayload | EmailPayload | IMPayload;
+const getNewFormData = (formType: FormType): FormData | undefined => {
+  switch (formType) {
+    case 'emails':
+      return { type: '', address: '' };
+    case 'phones':
+      return { type: '', number: '' };
+    case 'ims':
+      return { type: '', address: '' };
+    default:
+      return undefined;
+  }
+};
 
 type Props = withI18nProps;
 
 function AddFormFieldForm({
   i18n,
 }: Props): React.ReactElement<typeof TextList> {
-  const [formType, setFormType] = React.useState('emails');
+  const [formType, setFormType] = React.useState<FormType>('emails');
 
   const handleSelectChange = (ev) => {
     const { value } = ev.target;
@@ -43,12 +64,6 @@ function AddFormFieldForm({
         defaults: 'IM',
       }),
       value: 'ims',
-    },
-    {
-      label: i18n._('contact.form-selector.address_form.label', undefined, {
-        defaults: 'Address',
-      }),
-      value: 'addresses',
     },
     // ...(hasBirthday ? [] : [{
     //   label:
@@ -93,7 +108,11 @@ function AddFormFieldForm({
               <FieldArray
                 name={formType}
                 render={({ push }) => (
-                  <Button icon="plus" shape="plain" onClick={push}>
+                  <Button
+                    icon="plus"
+                    shape="plain"
+                    onClick={() => push(getNewFormData(formType))}
+                  >
                     <Trans id="contact.action.add_new_field">Add new</Trans>
                   </Button>
                 )}

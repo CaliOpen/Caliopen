@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { withI18n, withI18nProps } from '@lingui/react';
 import { Icon } from 'src/components';
-import { ContactCommon } from 'src/modules/contact/types';
+import { Email } from 'src/modules/contact/types';
 
 interface Props extends withI18nProps {
-  email: NonNullable<ContactCommon['emails']>[number];
+  email: Email;
 }
 function EmailDetails({ email, i18n }: Props) {
   const emailTypesTranslations = {

@@ -15,7 +15,7 @@ import {
 import { ContactAvatarLetter } from 'src/modules/avatar';
 import { contactSelector } from 'src/modules/contact';
 import { requestContact } from 'src/modules/contact/store';
-import { ContactCommon } from 'src/modules/contact/types';
+import { Contact } from 'src/modules/contact/types';
 import { getAveragePI } from 'src/modules/pi';
 import { useSettings } from 'src/modules/settings';
 import { formatName } from 'src/services/contact';
@@ -40,7 +40,7 @@ function Contact():
     dispatch(requestContact(contactId));
   }, [contactId]);
 
-  const contact = useSelector<RootState, undefined | ContactCommon>((state) =>
+  const contact = useSelector<RootState, undefined | Contact>((state) =>
     contactSelector(state, contactId)
   );
 

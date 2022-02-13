@@ -5,6 +5,9 @@ import {
 } from '../store/reducer';
 import { userSelector } from '../../user';
 
+/**
+ * @deprecated, use useMutation
+ */
 export const updateContact = ({ contact, original }) => async (
   dispatch,
   getState

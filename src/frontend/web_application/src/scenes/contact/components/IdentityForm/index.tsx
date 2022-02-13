@@ -10,14 +10,13 @@ import {
 import {
   Button,
   Icon,
-  FieldErrors,
-  SelectFieldGroup as SelectFieldGroupBase,
   Fieldset,
   Legend,
   FormGrid,
   FormRow,
   FormColumn,
 } from 'src/components';
+import { validateRequired } from 'src/modules/form/services/validators';
 
 import './style.scss';
 import { ItemProps } from '../FormCollection';
@@ -34,11 +33,6 @@ function IdentityForm({ name, onDelete, i18n }: ItemProps & withI18nProps) {
     <FormGrid className="m-identity-form">
       <Fieldset>
         <FormRow>
-          {/* {errors.length > 0 && (
-            <FormColumn>
-              <FieldErrors errors={errors} />
-            </FormColumn>
-          )} */}
           <FormColumn size="shrink">
             <Legend>
               <Icon rightSpaced type="user" />
@@ -63,19 +57,20 @@ function IdentityForm({ name, onDelete, i18n }: ItemProps & withI18nProps) {
             <Field
               component={FormikTextFieldGroup}
               name={`${name}.name`}
+              validate={validateRequired(i18n)}
               label={i18n._('contact.identity_form.identity.label', undefined, {
                 defaults: 'Identity',
               })}
               showLabelforSr
-              inputPropos={{
+              inputProps={{
                 placeholder: i18n._(
                   'contact.identity_form.identity.placeholder',
                   undefined,
                   { defaults: "username, account's URL..." }
                 ),
                 expanded: true,
+                required: true,
               }}
-              required
             />
           </FormColumn>
           <FormColumn className="m-identity-form__col-button">

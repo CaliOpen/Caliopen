@@ -1,14 +1,14 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { getBaseUrl } from '../config';
 import { importanceLevelHeader } from '../importance-level';
 import { queryStringify } from '../../modules/routing';
 import { getSignatureHeaders } from '../../modules/device/services/signature';
 import UploadFileAsFormField from '../../modules/file/services/uploadFileAsFormField';
 
-let client;
-let signingClient;
+let client: AxiosInstance;
+let signingClient: AxiosInstance;
 
-let headers = {
+let headers: Record<string, string> = {
   ...importanceLevelHeader,
   'X-Caliopen-PI': '0;100',
 };
@@ -30,12 +30,12 @@ if (BUILD_TARGET === 'server') {
   };
 }
 
-const buildClient = () =>
+const buildClient = (): AxiosInstance =>
   axios.create({
     baseURL: getBaseUrl(),
     responseType: 'json',
     headers,
-    paramsSerializer: (params) => queryStringify(params, headers),
+    paramsSerializer: (params) => queryStringify(params),
     transformRequest: [
       (data) => {
         if (data instanceof UploadFileAsFormField) {
@@ -44,10 +44,11 @@ const buildClient = () =>
 
         return data;
       },
+      // @ts-ignore: typed as undef or not an array
     ].concat(axios.defaults.transformRequest),
   });
 
-export const getUnsignedClient = () => {
+export const getUnsignedClient = (): AxiosInstance => {
   if (!client) {
     client = buildClient();
   }
@@ -55,7 +56,7 @@ export const getUnsignedClient = () => {
   return client;
 };
 
-export default function getClient() {
+export default function getClient(): AxiosInstance {
   if (!signingClient) {
     signingClient = buildClient();
 
@@ -96,6 +97,9 @@ export const handleClientResponseError = (payload) => {
   return payload.error.response.data.errors;
 };
 
+/**
+ * @deprecated
+ */
 export const tryCatchAxiosAction = async (action) => {
   try {
     const response = await action();
@@ -106,6 +110,9 @@ export const tryCatchAxiosAction = async (action) => {
   }
 };
 
+/**
+ * @deprecated
+ */
 export const tryCatchAxiosPromise = async (prom) => {
   try {
     const response = await prom;
@@ -116,6 +123,9 @@ export const tryCatchAxiosPromise = async (prom) => {
   }
 };
 
+/**
+ * @deprecated
+ */
 export function handleAxiosPromise(prom) {
   return prom.then(handleClientResponseSuccess, (err) =>
     Promise.reject(handleClientResponseError(err))

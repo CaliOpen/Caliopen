@@ -16,7 +16,7 @@ import {
   deleteContact,
   invalidate as invalidateContacts,
 } from 'src/modules/contact/store/reducer';
-import { ContactCommon } from 'src/modules/contact/types';
+import { Contact } from 'src/modules/contact/types';
 import { ScrollDetector } from 'src/modules/scroll';
 import { useCloseTab } from 'src/modules/tab';
 import {
@@ -40,7 +40,7 @@ const updateTagCollection = (
     type,
     entity,
     tags: tagCollection,
-  }: { type: 'contact'; entity: ContactCommon; tags: TagPayload[] }
+  }: { type: 'contact'; entity: Contact; tags: TagPayload[] }
 ) => async (dispatch, getState) => {
   const result = await dispatch(
     updateTagCollectionBase(i18n, {
@@ -63,7 +63,7 @@ interface Props extends withI18nProps {
   children: React.ReactNode;
   hasActivity?: boolean;
   contactId?: string;
-  contact?: ContactCommon;
+  contact?: Contact;
 
   isNew?: boolean;
   isEditing?: boolean;

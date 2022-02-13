@@ -1,7 +1,7 @@
 import { PI, PrivacyFeature } from 'src/modules/pi/types';
 
 // Entity ---------------------------------------
-interface NewPostalAddress {
+interface PostalAddressPayload {
   address_id?: string;
   city: string;
   country?: string;
@@ -13,31 +13,33 @@ interface NewPostalAddress {
   type?: string;
 }
 
-interface PostalAddress extends NewPostalAddress {
+interface PostalAddress extends PostalAddressPayload {
   address_id: string;
   city: string;
 }
 
-interface Email {
+interface EmailPayload {
+  address: string;
+  type: string;
+}
+interface Email extends EmailPayload {
   email_id: string;
   is_primary: number;
   date_update?: string;
   label?: string;
-  address: string;
-  type: string;
 }
 
-interface NewSocialIdentity {
+interface SocialIdentityPayload {
   infos?: { [key: string]: any };
   name: string;
   type: string;
 }
 
-interface SocialIdentity extends NewSocialIdentity {
+interface SocialIdentity extends SocialIdentityPayload {
   social_id: string;
 }
 
-interface NewOrganization {
+interface OrganizationPayload {
   department?: string;
   is_primary?: boolean;
   job_description?: string;
@@ -47,24 +49,24 @@ interface NewOrganization {
   type?: string;
 }
 
-interface Organization extends NewOrganization {
+interface Organization extends OrganizationPayload {
   deleted?: boolean;
   organization_id: string;
 }
 
-interface NewPhone {
+interface PhonePayload {
   is_primary?: boolean;
   number: string;
   type?: string;
   uri?: string;
 }
 
-interface Phone extends NewPhone {
+interface Phone extends PhonePayload {
   phone_id: string;
   normalized_number?: string;
 }
 
-interface NewIM {
+interface IMPayload {
   address: string;
   is_primary?: boolean;
   label?: string;
@@ -72,16 +74,16 @@ interface NewIM {
   type?: string;
 }
 
-interface IM extends NewIM {
+interface IM extends IMPayload {
   im_id: string;
 }
 
-interface NewPublicKey {
+interface PublicKeyPayload {
   key: string; // description : "DER or PEM key, base64 encoded"
   label: string;
 }
 
-interface PublicKey extends NewPublicKey {
+interface PublicKey extends PublicKeyPayload {
   alg?: string;
   crv?: string;
   date_insert?: string; // format: date-time
@@ -101,8 +103,28 @@ interface PublicKey extends NewPublicKey {
   y?: number; // format: int64
 }
 
-export interface ContactCommon {
+interface ContactCommon {
   additional_name?: string;
+  avatar?: string;
+  contact_id: string;
+  date_insert?: string;
+  date_update?: string;
+  deleted?: string; // date-time
+  family_name?: string;
+  given_name?: string;
+  groups?: string[];
+  infos?: {
+    // object
+    birthday?: string;
+  };
+  name_prefix?: string;
+  name_suffix?: string;
+  tags?: string[];
+  title?: string;
+  user_id: string;
+}
+
+interface Contact extends ContactCommon {
   addresses?: PostalAddress[];
   avatar?: string;
   contact_id: string;
@@ -110,28 +132,24 @@ export interface ContactCommon {
   date_update?: string;
   deleted?: string; // date-time
   emails?: Email[];
-  family_name?: string;
-  given_name?: string;
-  groups?: string[];
   identities?: SocialIdentity[];
   ims?: IM[];
-  infos?: {
-    // object
-    birthday?: string;
-  };
-  name_prefix?: string;
-  name_suffix?: string;
   organizations?: Organization[];
   phones?: Phone[];
   pi?: PI;
   privacy_features?: PrivacyFeature;
   public_keys?: PublicKey[];
-  tags?: string[];
-  title?: string;
   user_id: string;
 }
 
-export type ContactPayload = ContactCommon;
+export interface ContactPayload extends ContactCommon {
+  addresses?: PostalAddressPayload[];
+  identities?: SocialIdentityPayload[];
+  organizations?: OrganizationPayload[];
+  emails?: EmailPayload[];
+  phones?: PhonePayload[];
+  ims?: IMPayload[];
+}
 //  ---------------------------------------------
 
 export type TSortDir = 'ASC' | 'DESC';

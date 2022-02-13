@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { withI18n, withI18nProps } from '@lingui/react';
 import { Icon } from 'src/components';
-import { ContactCommon } from 'src/modules/contact/types';
+import { PostalAddress } from 'src/modules/contact/types';
 import './style.scss';
 
 interface Props extends withI18nProps {
-  address: NonNullable<ContactCommon['addresses']>[number];
+  address: PostalAddress;
 }
 
 function AddressDetails({ i18n, address }: Props) {

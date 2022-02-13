@@ -6,13 +6,13 @@ import { FormikSelectFieldGroup } from 'src/components/SelectFieldGroup';
 import {
   Button,
   Icon,
-  FieldErrors,
   Fieldset,
   Legend,
   FormGrid,
   FormRow,
   FormColumn,
 } from 'src/components';
+import { validateRequired } from 'src/modules/form/services/validators';
 import './style.scss';
 import { ItemProps } from '../FormCollection';
 
@@ -46,11 +46,6 @@ function EmailForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
               </span>
             </Legend>
           </FormColumn>
-          {/* {errors.length > 0 && (
-              <FormColumn>
-                <FieldErrors errors={errors} />
-              </FormColumn>
-            )} */}
           <FormColumn size="shrink" bottomSpace>
             <Field
               component={FormikSelectFieldGroup}
@@ -67,6 +62,7 @@ function EmailForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
               id={`edit-contact_${name}.address`}
               component={FormikTextFieldGroup}
               name={`${name}.address`}
+              validate={validateRequired(i18n)}
               type="email"
               label={i18n._('contact.email_form.address.label', undefined, {
                 defaults: 'Address',
@@ -78,9 +74,9 @@ function EmailForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
                   { defaults: 'Email' }
                 ),
                 expanded: true,
+                required: true,
               }}
               showLabelforSr
-              required
             />
           </FormColumn>
           <FormColumn className="m-email-form__col-button">

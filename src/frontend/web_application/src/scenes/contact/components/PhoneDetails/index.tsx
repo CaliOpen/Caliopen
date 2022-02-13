@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { withI18n, withI18nProps } from '@lingui/react';
 import { Icon } from 'src/components';
-import { ContactCommon } from 'src/modules/contact/types';
+import { Phone } from 'src/modules/contact/types';
 
 interface Props extends withI18nProps {
-  phone: NonNullable<ContactCommon['phones']>[number];
+  phone: Phone;
 }
 function PhoneDetails({ phone, i18n }: Props) {
   const typeTranslations = {

@@ -1,17 +1,15 @@
 import { createSelector } from 'reselect';
 import { RootState } from 'src/store/reducer';
 import { stateSelector } from '../store';
-import { ContactCommon, ContactPayload } from '../types';
+import { Contact } from '../types';
 
-export const contactSelector = (
-  state: RootState,
-  contactId: string
-): ContactCommon => stateSelector(state).contactsById[contactId];
+export const contactSelector = (state: RootState, contactId: string): Contact =>
+  stateSelector(state).contactsById[contactId];
 
 export const contactsSelector = createSelector<
   RootState,
   RootState['contact'],
-  ContactPayload[]
+  Contact[]
 >(stateSelector, ({ contacts, contactsById }) =>
   contacts.map((contactId) => contactsById[contactId])
 );

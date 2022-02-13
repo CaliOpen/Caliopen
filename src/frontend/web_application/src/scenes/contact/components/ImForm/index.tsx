@@ -6,13 +6,13 @@ import { FormikSelectFieldGroup } from 'src/components/SelectFieldGroup';
 import {
   Button,
   Icon,
-  FieldErrors,
   Fieldset,
   Legend,
   FormGrid,
   FormRow,
   FormColumn,
-} from '../../../../components';
+} from 'src/components';
+import { validateRequired } from 'src/modules/form/services/validators';
 import { ItemProps } from '../FormCollection';
 
 import './style.scss';
@@ -48,11 +48,6 @@ function ImForm({ i18n, name, onDelete }: ItemProps & withI18nProps) {
               </span>
             </Legend>
           </FormColumn>
-          {/* {errors.length > 0 && (
-                <FormColumn>
-                  <FieldErrors errors={errors} />
-                </FormColumn>
-              )} */}
           <FormColumn size="shrink" bottomSpace>
             <Field
               component={FormikSelectFieldGroup}
@@ -69,6 +64,7 @@ function ImForm({ i18n, name, onDelete }: ItemProps & withI18nProps) {
             <Field
               component={FormikTextFieldGroup}
               name={`${name}.address`}
+              validate={validateRequired(i18n)}
               label={i18n._('contact.im_form.address.label', undefined, {
                 defaults: 'Address',
               })}
@@ -81,9 +77,9 @@ function ImForm({ i18n, name, onDelete }: ItemProps & withI18nProps) {
                   }
                 ),
                 expanded: true,
+                required: true,
               }}
               showLabelforSr
-              required
             />
           </FormColumn>
           <FormColumn className="m-im-form__col-button">

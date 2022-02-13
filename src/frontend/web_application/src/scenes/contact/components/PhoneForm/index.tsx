@@ -6,13 +6,13 @@ import { FormikSelectFieldGroup } from 'src/components/SelectFieldGroup';
 import {
   Icon,
   Button,
-  FieldErrors,
   Fieldset,
   Legend,
   FormGrid,
   FormRow,
   FormColumn,
-} from '../../../../components';
+} from 'src/components';
+import { validateRequired } from 'src/modules/form/services/validators';
 import './style.scss';
 import { ItemProps } from '../FormCollection';
 
@@ -67,6 +67,7 @@ function PhoneForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
               id={`edit-contact_${name}.number`}
               component={FormikTextFieldGroup}
               name={`${name}.number`}
+              validate={validateRequired(i18n)}
               type="tel"
               label={i18n._('contact.phone_form.number.label', undefined, {
                 defaults: 'Number',
@@ -80,9 +81,9 @@ function PhoneForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
                   }
                 ),
                 expanded: true,
+                required: true,
               }}
               showLabelforSr
-              required
             />
           </FormColumn>
           <FormColumn className="m-phone-form__col-button">

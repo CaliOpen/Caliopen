@@ -9,17 +9,17 @@ import {
 import { Field, FieldProps, getIn, useFormikContext } from 'formik';
 import { FormikSelectFieldGroup } from 'src/components/SelectFieldGroup';
 import { FormikTextFieldGroup } from 'src/components/TextFieldGroup';
-import { ContactCommon, ContactPayload } from 'src/modules/contact/types';
+import { ContactPayload } from 'src/modules/contact/types';
 import {
   Button,
   Icon,
-  FieldErrors,
   Fieldset,
   Legend,
   FormGrid,
   FormRow,
   FormColumn,
-} from '../../../../components';
+} from 'src/components';
+import { validateRequired } from 'src/modules/form/services/validators';
 import './style.scss';
 import { ItemProps } from '../FormCollection';
 
@@ -81,7 +81,7 @@ const RegionField = ({
 };
 
 function AddressForm({ onDelete, name, i18n }: ItemProps & withI18nProps) {
-  const { values } = useFormikContext<ContactCommon>();
+  const { values } = useFormikContext<ContactPayload>();
   const country = values[`${name}.country`];
 
   const addressTypes = {
@@ -165,6 +165,7 @@ function AddressForm({ onDelete, name, i18n }: ItemProps & withI18nProps) {
           <FormColumn size="large" bottomSpace>
             <Field
               component={FormikTextFieldGroup}
+              validate={validateRequired(i18n)}
               name={`${name}.city`}
               label={i18n._('contact.address_form.city.label', undefined, {
                 defaults: 'City',
@@ -178,6 +179,7 @@ function AddressForm({ onDelete, name, i18n }: ItemProps & withI18nProps) {
                   }
                 ),
                 expanded: true,
+                required: true,
               }}
               showLabelforSr
             />

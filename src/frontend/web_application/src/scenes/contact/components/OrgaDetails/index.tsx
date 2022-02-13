@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Trans } from '@lingui/react';
-import { ContactCommon } from 'src/modules/contact/types';
+import { Organization } from 'src/modules/contact/types';
 
 interface Props {
-  organization: NonNullable<ContactCommon['organizations']>[number];
+  organization: Organization;
 }
 function OrgaDetails({ organization }: Props): JSX.Element {
   const department = organization.department

@@ -5,13 +5,13 @@ import { FormikTextFieldGroup } from 'src/components/TextFieldGroup';
 import {
   Icon,
   Button,
-  FieldErrors,
   Fieldset,
   Legend,
   FormGrid,
   FormRow,
   FormColumn,
-} from '../../../../components';
+} from 'src/components';
+import { validateRequired } from 'src/modules/form/services/validators';
 import './style.scss';
 import { ItemProps } from '../FormCollection';
 
@@ -30,11 +30,6 @@ function OrgaForm({
               <Trans id="contact.orga_form.legend">Organization</Trans>
             </Legend>
           </FormColumn>
-          {/* {errors.length > 0 && (
-            <FormColumn>
-              <FieldErrors errors={errors} />
-            </FormColumn>
-          )} */}
         </FormRow>
         <FormRow>
           <FormColumn rightSpace={false} bottomSpace>
@@ -60,6 +55,7 @@ function OrgaForm({
             <Field
               component={FormikTextFieldGroup}
               name={`${name}.name`}
+              validate={validateRequired(i18n)}
               label={i18n._('contact.orga_form.name.label', undefined, {
                 defaults: 'Name',
               })}
@@ -68,8 +64,8 @@ function OrgaForm({
                   defaults: 'Name',
                 }),
                 expanded: true,
+                required: true,
               }}
-              required
             />
           </FormColumn>
           <FormColumn rightSpace={false} bottomSpace>
