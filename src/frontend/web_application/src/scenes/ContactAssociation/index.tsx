@@ -8,7 +8,7 @@ import {
   ContactList,
   ContactListUtility,
 } from 'src/modules/contact';
-import { ContactPayload } from 'src/modules/contact/types';
+import { Contact } from 'src/modules/contact/types';
 import { hasMore } from 'src/modules/contact/store/reducer';
 import { useSearchParams } from 'src/modules/routing';
 import { useCloseTab, useCurrentTab } from 'src/modules/tab';
@@ -34,7 +34,7 @@ function ContactAssociation({ i18n }: Props) {
     hasMore(state.contact)
   );
 
-  const handleClickContact = (contact: ContactPayload) => {
+  const handleClickContact = (contact: Contact) => {
     push(
       `/contacts/${contact.contact_id}/edit?address=${address}&protocol=${protocol}&label=${label}`
     );

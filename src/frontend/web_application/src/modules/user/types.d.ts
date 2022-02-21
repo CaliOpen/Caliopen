@@ -1,10 +1,10 @@
 import { PatchPayload } from 'src/types';
-import { ContactPayload } from 'src/modules/contact/types';
+import { Contact } from 'src/modules/contact/types';
 import { PI, PrivacyFeature } from 'src/modules/pi/types';
 
 // Entity ---------------------------------------
 export interface UserPayload {
-  contact: ContactPayload;
+  contact: Contact;
   date_insert?: string; // format: date-time
   family_name?: string;
   given_name?: string;

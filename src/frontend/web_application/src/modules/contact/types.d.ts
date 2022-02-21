@@ -106,7 +106,6 @@ interface PublicKey extends PublicKeyPayload {
 interface ContactCommon {
   additional_name?: string;
   avatar?: string;
-  contact_id: string;
   date_insert?: string;
   date_update?: string;
   deleted?: string; // date-time
@@ -121,7 +120,6 @@ interface ContactCommon {
   name_suffix?: string;
   tags?: string[];
   title?: string;
-  user_id: string;
 }
 
 interface Contact extends ContactCommon {
@@ -149,6 +147,7 @@ export interface ContactPayload extends ContactCommon {
   emails?: EmailPayload[];
   phones?: PhonePayload[];
   ims?: IMPayload[];
+  contact_id?: string;
 }
 //  ---------------------------------------------
 
