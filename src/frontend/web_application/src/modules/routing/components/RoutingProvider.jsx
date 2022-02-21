@@ -10,7 +10,7 @@ import ForgotPassword from '../../../scenes/ForgotPassword';
 import ResetPassword from '../../../scenes/ResetPassword';
 import Contact from '../../../scenes/contact/Contact';
 import EditContact from '../../../scenes/contact/EditContact';
-// import NewContact from '../../../scenes/contact/NewContact';
+import NewContact from '../../../scenes/contact/NewContact';
 import ContactAssociation from '../../../scenes/ContactAssociation';
 import AboutPageLayout from '../../../layouts/AboutPage';
 import AuthPageLayout from '../../../layouts/AuthPage';
@@ -240,20 +240,20 @@ class RoutingProvider extends Component {
                     tabMatch: tabMatchForContact,
                   },
                 },
-                // {
-                //   path: '/new-contact',
-                //   component: NewContact,
-                //   app: 'contact',
-                //   tab: {
-                //     type: 'default',
-                //     icon: 'address-book',
-                //     renderLabel: () =>
-                //       i18n._('route.new-contact.label', null, {
-                //         defaults: 'New contact',
-                //       }),
-                //     tabMatch: tabMatchRoute,
-                //   },
-                // },
+                {
+                  path: '/new-contact',
+                  component: NewContact,
+                  app: 'contact',
+                  tab: {
+                    type: 'default',
+                    icon: 'address-book',
+                    renderLabel: () =>
+                      i18n._('route.new-contact.label', null, {
+                        defaults: 'New contact',
+                      }),
+                    tabMatch: tabMatchRoute,
+                  },
+                },
                 {
                   path: '/search-results',
                   component: SearchResults,

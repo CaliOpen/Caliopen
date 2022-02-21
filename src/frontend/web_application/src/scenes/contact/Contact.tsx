@@ -152,7 +152,7 @@ function Contact():
   }
 
   return (
-    <ContactPageWrapper contact={contact} contactId={contactId}>
+    <ContactPageWrapper contact={contact}>
       <div className="s-contact__main-title s-contact-main-title">
         <>
           <div className="s-contact-main-title__avatar">

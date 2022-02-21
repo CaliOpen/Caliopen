@@ -18,7 +18,7 @@ import {
 } from 'src/modules/contact/store/reducer';
 import { Contact } from 'src/modules/contact/types';
 import { ScrollDetector } from 'src/modules/scroll';
-import { useCloseTab } from 'src/modules/tab';
+import { useCloseTab, useCurrentTab } from 'src/modules/tab';
 import {
   getCleanedTagCollection,
   getTagLabel,
@@ -62,47 +62,52 @@ const updateTagCollection = (
 interface Props extends withI18nProps {
   children: React.ReactNode;
   hasActivity?: boolean;
-  contactId?: string;
   contact?: Contact;
-
-  isNew?: boolean;
   isEditing?: boolean;
 }
 function ContactPageWrapper({
   children,
   hasActivity,
-  contactId,
   contact,
   i18n,
-  isNew,
   isEditing,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
   const { push } = useHistory();
   const closeTab = useCloseTab();
+  const currentTab = useCurrentTab();
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [isTagModalOpen, setIsTagModalOpen] = React.useState(false);
   const { user } = useUser();
   const { tags } = useTags();
   const contactIsUser =
-    contactId && user && user.contact.contact_id === contactId;
+    contact?.contact_id &&
+    user &&
+    user.contact.contact_id === contact?.contact_id;
 
   const nbTags = contact?.tags?.length || 0;
 
   const handleDelete = async () => {
+    if (!contact) {
+      return;
+    }
+
     setIsDeleting(true);
     try {
       await dispatch(deleteContact({ contactId }));
       dispatch(invalidateContacts());
       push('/contacts');
-      closeTab();
+      closeTab(currentTab);
     } catch (err) {
       setIsDeleting(false);
     }
   };
 
   const handleClickEditContact = () => {
-    push(`/contacts/${contactId}/edit`);
+    if (!contact) {
+      return;
+    }
+    push(`/contacts/${contact.contact_id}/edit`);
   };
 
   const handleTagsChange = (nextTags) => {
@@ -132,10 +137,10 @@ function ContactPageWrapper({
               isLoading={hasActivity || isDeleting}
               actionsNode={
                 <div className="s-contact-action-bar">
-                  <Trans id="contact.action-bar.label">Contact:</Trans>
-                  {!isNew && (
+                  {contact && (
                     <>
-                      {!contactIsUser && contact && (
+                      <Trans id="contact.action-bar.label">Contact:</Trans>
+                      {!contactIsUser && (
                         <Confirm
                           onConfirm={handleDelete}
                           title={
@@ -186,38 +191,37 @@ function ContactPageWrapper({
                           </Trans>
                         </ActionBarButton>
                       )}
-                    </>
-                  )}
-                  <ActionBarButton
-                    onClick={() => setIsTagModalOpen(true)}
-                    display="inline"
-                    noDecoration
-                    icon="tag"
-                  >
-                    <Trans id="contact.action.edit_tags">Edit tags</Trans>
-                  </ActionBarButton>
-
-                  {contact && (
-                    <Modal
-                      isOpen={isTagModalOpen}
-                      contentLabel={i18n._('tags.header.label', undefined, {
-                        defaults: 'Tags',
-                      })}
-                      title={
-                        <Trans
-                          id="tags.header.title"
-                          defaults="Tags <0>(Total: {nb})</0>"
-                          values={{ nb: nbTags }}
-                          components={[<span className="m-tags-form__count" />]}
+                      <ActionBarButton
+                        onClick={() => setIsTagModalOpen(true)}
+                        display="inline"
+                        noDecoration
+                        icon="tag"
+                      >
+                        <Trans id="contact.action.edit_tags">Edit tags</Trans>
+                      </ActionBarButton>
+                      <Modal
+                        isOpen={isTagModalOpen}
+                        contentLabel={i18n._('tags.header.label', undefined, {
+                          defaults: 'Tags',
+                        })}
+                        title={
+                          <Trans
+                            id="tags.header.title"
+                            defaults="Tags <0>(Total: {nb})</0>"
+                            values={{ nb: nbTags }}
+                            components={[
+                              <span className="m-tags-form__count" />,
+                            ]}
+                          />
+                        }
+                        onClose={() => setIsTagModalOpen(false)}
+                      >
+                        <ManageEntityTags
+                          entity={contact}
+                          onChange={handleTagsChange}
                         />
-                      }
-                      onClose={() => setIsTagModalOpen(false)}
-                    >
-                      <ManageEntityTags
-                        entity={contact}
-                        onChange={handleTagsChange}
-                      />
-                    </Modal>
+                      </Modal>
+                    </>
                   )}
                 </div>
               }
