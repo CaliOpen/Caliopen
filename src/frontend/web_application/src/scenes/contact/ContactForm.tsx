@@ -216,7 +216,7 @@ function ContactForm({
                 shape="plain"
                 color="disabled"
               >
-                <Trans id="contact.action.cancel_edit">Cancel</Trans>
+                <Trans id="contact.action.cancel">Cancel</Trans>
               </Button>
               <Button
                 type="submit"
@@ -236,7 +236,7 @@ function ContactForm({
                 shape="plain"
                 disabled={hasActivity}
               >
-                <Trans id="contact.action.validate_edit">Validate</Trans>
+                <Trans id="contact.action.save">Save</Trans>
               </Button>
             </div>
           </Form>
