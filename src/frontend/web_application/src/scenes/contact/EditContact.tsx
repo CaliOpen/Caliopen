@@ -46,7 +46,7 @@ function EditContact(): React.ReactElement<typeof ContactPageWrapper> {
   }
 
   if (!contact) {
-    return <>TODO</>;
+    return <div>TODO</div>;
   }
 
   const handleSubmit: FormikConfig<ContactPayload>['onSubmit'] = async (
