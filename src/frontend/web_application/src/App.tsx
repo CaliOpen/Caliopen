@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Provider, ProviderProps } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { I18nLoader } from './modules/i18n';
 import { WithSettings } from './modules/settings';
 import { DeviceProvider } from './modules/device';
@@ -46,6 +47,7 @@ export default function App({
             )}
           />
         </Provider>
+        <ReactQueryDevtools />
       </QueryClientProvider>
     </InstallPromptProvider>
   );
