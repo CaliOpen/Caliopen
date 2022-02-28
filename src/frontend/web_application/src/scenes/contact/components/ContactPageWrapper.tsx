@@ -12,10 +12,6 @@ import {
   PageTitle,
   Spinner,
 } from 'src/components';
-import {
-  deleteContact,
-  invalidate as invalidateContacts,
-} from 'src/modules/contact/store/reducer';
 import { Contact } from 'src/modules/contact/types';
 import { ScrollDetector } from 'src/modules/scroll';
 import { useCloseTab, useCurrentTab } from 'src/modules/tab';
@@ -29,6 +25,9 @@ import {
 import { TagPayload } from 'src/modules/tags/types';
 import { userSelector, useUser } from 'src/modules/user';
 import { requestUser } from 'src/modules/user/store';
+import { getConfigDelete, deleteContact } from 'src/modules/contact/query';
+import { useMutation } from 'react-query';
+import { notifyError } from 'src/modules/userNotify';
 
 import '../style.scss';
 import '../contact-action-bar.scss';
@@ -76,10 +75,17 @@ function ContactPageWrapper({
   const { push } = useHistory();
   const closeTab = useCloseTab();
   const currentTab = useCurrentTab();
-  const [isDeleting, setIsDeleting] = React.useState(false);
   const [isTagModalOpen, setIsTagModalOpen] = React.useState(false);
   const { user } = useUser();
   const { tags } = useTags();
+
+  const queryConfig = getConfigDelete(contact?.contact_id);
+  const { mutateAsync, isLoading: isDeleting } = useMutation<
+    unknown,
+    unknown,
+    string
+  >(queryConfig.queryKey, deleteContact);
+
   const contactIsUser =
     contact?.contact_id &&
     user &&
@@ -92,14 +98,20 @@ function ContactPageWrapper({
       return;
     }
 
-    setIsDeleting(true);
     try {
-      await dispatch(deleteContact({ contactId }));
-      dispatch(invalidateContacts());
+      await mutateAsync(contact.contact_id);
       push('/contacts');
       closeTab(currentTab);
     } catch (err) {
-      setIsDeleting(false);
+      dispatch(
+        notifyError({
+          message: (
+            <Trans id="contact.feedback.unable_to_delete">
+              Unable to delete the contact
+            </Trans>
+          ),
+        })
+      );
     }
   };
 
