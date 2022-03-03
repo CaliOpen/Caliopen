@@ -1,5 +1,6 @@
 import base64 from 'base64-js';
 import { ec as EC } from 'elliptic';
+import { AxiosRequestConfig } from 'axios';
 import { getSignatureHeaders } from '.';
 import { CURVE_TYPE } from '../ecdsa';
 import UploadFileAsFormField from '../../../file/services/uploadFileAsFormField';
@@ -19,7 +20,7 @@ describe('HTTP Request signature headers', () => {
   });
 
   it('Creates a verifiable signature from URL', async () => {
-    const req = { method: 'get', url: '/run/to/the/hills' };
+    const req: AxiosRequestConfig = { method: 'get', url: '/run/to/the/hills' };
     const hash =
       '11ef093b532721968d7d7f7123bf498379f9455695fc7ec4d8bf4d98ab230c3c';
 
@@ -36,7 +37,7 @@ describe('HTTP Request signature headers', () => {
   });
 
   it('Creates a signature from URL + params', async () => {
-    const req = {
+    const req: AxiosRequestConfig = {
       method: 'get',
       url: '/run',
       params: {
@@ -90,7 +91,7 @@ describe('HTTP Request signature headers', () => {
       ]),
       'attachment'
     );
-    const req = {
+    const req: AxiosRequestConfig = {
       method: 'post',
       url: '/run',
       data: file,

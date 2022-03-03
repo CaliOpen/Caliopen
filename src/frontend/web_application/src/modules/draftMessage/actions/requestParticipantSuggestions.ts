@@ -1,6 +1,5 @@
 import { AppDispatch, GetState } from 'src/types';
-import { ContactPayload } from 'src/modules/contact/types';
-import { differenceWith } from 'lodash';
+import { Contact } from 'src/modules/contact/types';
 import {
   suggest,
   searchSuccess,
@@ -27,9 +26,7 @@ const getSuggestion = ({
   ...opts,
 });
 
-const createGetContactSuggestions = (format: string) => (
-  contact: ContactPayload
-) => {
+const createGetContactSuggestions = (format: string) => (contact: Contact) => {
   let suggestions: Suggestion[] = [];
 
   if (contact.emails) {
@@ -66,8 +63,8 @@ const createGetContactSuggestions = (format: string) => (
 };
 
 const createExtractSuggestionsFromContacts = (
-  getContactSuggestions: (contact: ContactPayload) => Suggestion[]
-) => (contacts: ContactPayload[]) =>
+  getContactSuggestions: (contact: Contact) => Suggestion[]
+) => (contacts: Contact[]) =>
   contacts.reduce<Suggestion[]>(
     (acc, contact) => [...acc, ...getContactSuggestions(contact)],
     []
@@ -105,7 +102,7 @@ export const requestParticipantSuggestions = (
   );
 
   // @ts-ignore: dispatch thunk
-  const contacts: ContactPayload[] = await dispatch(getContacts(contactIds));
+  const contacts: Contact[] = await dispatch(getContacts(contactIds));
   // @ts-ignore: dispatch didn't transform axios action in response
   const suggestionPayloads: SuggestionPayload[] = axiosResponse.payload.data;
   const contactSuggestions = extractSuggsFromContacts(contacts.filter(Boolean));

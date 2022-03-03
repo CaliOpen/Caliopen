@@ -9,7 +9,7 @@ import {
 } from 'src/modules/tags';
 import { Button, Link, TextBlock, Icon, Checkbox, Badge } from 'src/components';
 import { formatName } from 'src/services/contact';
-import { ContactPayload } from 'src/modules/contact/types';
+import { Contact } from 'src/modules/contact/types';
 import { useSettings } from 'src/modules/settings';
 import './style.scss';
 
@@ -86,10 +86,10 @@ const getMainAddresses = ({ contact }) =>
   }, []);
 
 interface Props extends withI18nProps {
-  contact: ContactPayload;
+  contact: Contact;
   className?: string;
   onSelectEntity?: (action: 'add' | 'remove', contactId: string) => void;
-  onClickContact?: (contact: ContactPayload) => void;
+  onClickContact?: (contact: Contact) => void;
   isContactSelected?: boolean;
   selectDisabled: boolean;
 }

@@ -1,6 +1,6 @@
 import { PagerParams, AxiosActionPayload, ResourceStatus } from 'src/types';
 import calcObjectForPatch from 'src/services/api-patch';
-import { ContactPayload } from '../types';
+import { Contact } from '../types';
 
 export const REQUEST_CONTACTS = 'co/contact/REQUEST_CONTACTS';
 export const REQUEST_CONTACTS_SUCCESS = 'co/contact/REQUEST_CONTACTS_SUCCESS';
@@ -36,7 +36,7 @@ interface RequestContactsSuccessAction {
   type: typeof REQUEST_CONTACTS_SUCCESS;
   payload: {
     data: {
-      contacts: ContactPayload[];
+      contacts: Contact[];
       total: number;
     };
   };
@@ -54,14 +54,14 @@ interface RequestContactAction {
 interface RequestContactSuccessAction {
   type: typeof REQUEST_CONTACT_SUCCESS;
   payload: {
-    data: ContactPayload;
+    data: Contact;
   };
 }
 
 interface RemoveMultipleFromCollectionAction {
   type: typeof REMOVE_MULTIPLE_FROM_COLLECTION;
   payload: {
-    contacts: ContactPayload[];
+    contacts: Contact[];
   };
 }
 
@@ -89,7 +89,7 @@ interface ContactState {
   didInvalidate: boolean;
   // ---
   contactsById: {
-    [id: string]: ContactPayload;
+    [id: string]: Contact;
   };
   contacts: string[];
   total: number;
@@ -149,6 +149,9 @@ export function invalidate() {
   };
 }
 
+/**
+ * @deprecated, use useMutation
+ */
 export function updateContact({ contact, original }) {
   const data = calcObjectForPatch(contact, original);
 
@@ -251,10 +254,7 @@ function contactsByIdReducer(state = {}, action: ContactsByReducerAction) {
   }
 }
 
-const filterContactIds = (
-  contactsIds: string[],
-  contacts: ContactPayload[]
-) => {
+const filterContactIds = (contactsIds: string[], contacts: Contact[]) => {
   const contactIdsToRemove = contacts.map((contact) => contact.contact_id);
 
   return contactsIds.filter(

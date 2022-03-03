@@ -86,6 +86,7 @@
     "react-loadable": "^5.5.0",
     "react-modal": "^3.12.1",
     "react-moment": "^0.9.7",
+    "react-query": "^3.34.14",
     "react-redux": "^7.2.2",
     "react-redux-notify": "^4.2.1",
     "react-router-dom": "^5.2.0",

@@ -1,0 +1,9 @@
+@import '../../../../styles/common';
+@import '../../../../styles/vendor/bootstrap_foundation-sites';
+
+.m-orga-form {
+  &__col-button {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

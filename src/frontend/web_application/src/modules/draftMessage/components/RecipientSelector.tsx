@@ -12,7 +12,7 @@ import {
   contactSelector,
 } from 'src/modules/contact';
 import { RootState } from 'src/store/reducer';
-import { ContactPayload } from 'src/modules/contact/types';
+import { Contact } from 'src/modules/contact/types';
 import { ProviderIcon } from 'src/modules/remoteIdentity';
 import { getIdentityProtocol } from '../services/getIdentityProtocol';
 import { Recipient } from '../types';
@@ -37,7 +37,7 @@ interface Props {
 }
 
 function RecipientSelector({ contactId, className, current, onChange }: Props) {
-  const contact = useSelector<RootState, void | ContactPayload>((state) =>
+  const contact = useSelector<RootState, void | Contact>((state) =>
     contactSelector(state, contactId)
   );
   const availableProtocols = useSelector(availableProtocolsSelector);

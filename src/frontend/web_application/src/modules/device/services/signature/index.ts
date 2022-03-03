@@ -1,5 +1,6 @@
 import base64 from 'base64-js';
 import SHA from 'jssha';
+import { AxiosRequestConfig } from 'axios';
 import { getKeypair, sign } from '../ecdsa';
 import { getConfig } from '../storage';
 import { buildURL } from '../../../routing';
@@ -29,9 +30,14 @@ const toByteArray = (str) => {
   return byteArray;
 };
 
-const buildMessage = async ({ method, url, params, data }: Request) => {
+const buildMessage = async ({
+  method,
+  url,
+  params,
+  data,
+}: AxiosRequestConfig) => {
   const sha256 = new SHA('SHA-256', 'ARRAYBUFFER');
-  const methodBytes = toByteArray(method.toUpperCase());
+  const methodBytes = toByteArray(method?.toUpperCase());
   const builtURL = toByteArray(buildURL(url, params));
 
   sha256.update(methodBytes.buffer);
@@ -51,7 +57,7 @@ const buildMessage = async ({ method, url, params, data }: Request) => {
 };
 
 export const signRequest = async (
-  req: Request,
+  req: AxiosRequestConfig,
   privateKey: string
 ): Promise<string> => {
   const message = await buildMessage(req);
@@ -60,7 +66,7 @@ export const signRequest = async (
 };
 
 export const getSignatureHeaders = async (
-  req: Request,
+  req: AxiosRequestConfig,
   device?: Device
 ): Promise<Record<string, string>> => {
   const { id, priv } = device || getConfig();

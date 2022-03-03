@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import type { FieldProps } from 'formik';
+import { FieldProps, getIn } from 'formik';
 import * as React from 'react';
 import { WrappedFieldProps } from 'redux-form';
 import FieldGroup from '../FieldGroup';
@@ -25,7 +25,12 @@ function TextFieldGroup({
   className,
   display = 'block',
   innerRef,
-  inputProps: { onBlur, className: inputClassName, ...restInputProps } = {},
+  inputProps: {
+    onBlur,
+    className: inputClassName,
+    required,
+    ...restInputProps
+  } = {},
 }: Props) {
   const [isPristine, setIsPristine] = React.useState(true);
 
@@ -44,6 +49,7 @@ function TextFieldGroup({
   const labelClassName = classnames('m-text-field-group__label', {
     'show-for-sr': showLabelforSr,
     'm-text-field-group--inline__label': display === 'inline',
+    'm-text-field-group__label--required': required,
   });
 
   const inputPropsClassName = classnames(
@@ -74,6 +80,7 @@ function TextFieldGroup({
         expanded={display === 'block'}
         {...restInputProps}
         onBlur={handleBlur}
+        required={required}
         ref={innerRef}
       />
     </FieldGroup>
@@ -113,13 +120,21 @@ export const FormikTextFieldGroup = ({
   id,
   label,
   field,
-  meta,
+  // for some reason meta is not set
+  // meta,
+  form,
   inputProps,
+  ...props
 }: FormikTextFieldGroupProps): React.ReactElement<Props> => (
   <ForwardedTextFieldGroup
     id={id}
     label={label}
     inputProps={{ ...inputProps, ...field }}
-    errors={meta?.error ? [meta.error] : undefined}
+    errors={
+      getIn(form?.errors, field.name) && getIn(form.touched, field.name)
+        ? [getIn(form.errors, field.name)]
+        : undefined
+    }
+    {...props}
   />
 );

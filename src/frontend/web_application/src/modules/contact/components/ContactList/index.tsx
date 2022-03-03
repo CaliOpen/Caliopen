@@ -15,7 +15,7 @@ import { UserPayload } from 'src/modules/user/types';
 import { useSelector } from 'react-redux';
 import { useContacts } from '../../hooks/useContacts';
 import { DEFAULT_SORT_DIR } from '../../consts';
-import { ContactPayload, TSortDir } from '../../types';
+import { Contact, TSortDir } from '../../types';
 
 import ContactItem from './components/ContactItem';
 import { stateSelector as contactStateSelector } from '../../store';
@@ -29,7 +29,7 @@ const MODE_CONTACT_BOOK = 'contact-book';
 
 type TMode = typeof MODE_ASSOCIATION | typeof MODE_CONTACT_BOOK;
 
-type ContactsExceptUserSelected = ContactPayload[];
+type ContactsExceptUserSelected = Contact[];
 const contactsExceptUserSelector = createSelector<
   RootState,
   RootState['contact'],
@@ -84,7 +84,7 @@ function Nav({ sortDir, firstLettersWithContacts = [] }: NavProps) {
 interface Props extends withI18nProps {
   selectedContactsIds?: string[]; // mode contact_book
   onSelectEntity?: () => void; // mode contact_book
-  onClickContact?: (contact: ContactPayload) => void; // mode association
+  onClickContact?: (contact: Contact) => void; // mode association
   sortDir?: TSortDir;
   mode: TMode;
 }
@@ -97,13 +97,13 @@ function ContactList({
   selectedContactsIds,
 }: Props) {
   const { contact_display_order, contact_display_format } = useSettings();
-  const { user, initialized: userInitialized, status: userStatus } = useUser();
+  const { user, initialized: userInitialized } = useUser();
   const { initialized: contactsInitialized } = useContacts();
 
   const contacts = useSelector(contactsExceptUserSelector);
 
   const initialized = userInitialized && contactsInitialized;
-  const userContact = useSelector<RootState, void | ContactPayload>(
+  const userContact = useSelector<RootState, void | Contact>(
     (state) => user && contactSelector(state, user?.contact.contact_id)
   );
 

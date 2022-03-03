@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Trans, withI18n, withI18nProps } from '@lingui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import VisibilitySensor from 'react-visibility-sensor';
-import { useHistory, Router } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Modal } from 'src/components';
 import { isMessageEncrypted } from 'src/services/encryption';
 import { STATUS_DECRYPTED } from 'src/store/modules/encryption';
@@ -19,6 +19,8 @@ import { useScrollToMe } from 'src/modules/scroll';
 import { RootState } from 'src/store/reducer';
 import MailMessage from './MailMessage';
 import InstantMessage from './InstantMessage';
+
+type ManageEntityTagsProps = React.ComponentProps<typeof ManageEntityTags>;
 
 interface Props extends withI18nProps {
   message: MessageClass;
@@ -56,10 +58,11 @@ function Message({
     }
   };
 
-  const handleTagsChange = async ({ tags }) =>
+  const handleTagsChange: ManageEntityTagsProps['onChange'] = async (tags) => {
     dispatch(
       updateTagCollection(i18n, { type: 'message', entity: message, tags })
     );
+  };
 
   const handleOpenTags = () => {
     setTagModalOpen(true);
@@ -140,11 +143,7 @@ function Message({
             }
             onClose={handleCloseTags}
           >
-            <ManageEntityTags
-              type="message"
-              entity={message}
-              onChange={handleTagsChange}
-            />
+            <ManageEntityTags entity={message} onChange={handleTagsChange} />
           </Modal>
         )}
       </>

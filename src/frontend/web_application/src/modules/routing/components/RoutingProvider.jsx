@@ -8,7 +8,9 @@ import Signin from '../../../scenes/Signin';
 import Signup from '../../../scenes/Signup';
 import ForgotPassword from '../../../scenes/ForgotPassword';
 import ResetPassword from '../../../scenes/ResetPassword';
-import Contact from '../../../scenes/Contact';
+import Contact from '../../../scenes/contact/Contact';
+import EditContact from '../../../scenes/contact/EditContact';
+import NewContact from '../../../scenes/contact/NewContact';
 import ContactAssociation from '../../../scenes/ContactAssociation';
 import AboutPageLayout from '../../../layouts/AboutPage';
 import AuthPageLayout from '../../../layouts/AuthPage';
@@ -28,7 +30,7 @@ import ApplicationSettings from '../../../scenes/ApplicationSettings';
 import Tags from '../../../scenes/TagsSettings';
 import Discussion from '../../../scenes/Discussion';
 import ContactBook from '../../../scenes/ContactBook';
-import PageNotFound from '../../../scenes/PageNotFound';
+import PageNotFound from '../../../scenes/error/PageNotFound';
 import DevicesSettings from '../../../scenes/DevicesSettings';
 import NewDeviceInfo from '../../../scenes/NewDeviceInfo';
 import ValidateDevice from '../../../scenes/ValidateDevice';
@@ -202,13 +204,23 @@ class RoutingProvider extends Component {
                   },
                 },
                 {
-                  // react-router 4.4 (not yet released - 03/03/19) will support array of strings
-                  // path: ['/contacts/:contactId', '/contacts/:contactId/edit'],
                   path: '/contacts/:contactId',
                   exact: false,
                   strict: false,
-                  // ---
-                  component: Contact,
+                  routes: [
+                    {
+                      path: '/contacts/:contactId',
+                      exact: true,
+                      strict: false,
+                      component: Contact,
+                    },
+                    {
+                      path: '/contacts/:contactId/edit',
+                      exact: true,
+                      strict: false,
+                      component: EditContact,
+                    },
+                  ],
                   app: 'contact',
                   tab: {
                     type: 'contact',
@@ -230,7 +242,7 @@ class RoutingProvider extends Component {
                 },
                 {
                   path: '/new-contact',
-                  component: Contact,
+                  component: NewContact,
                   app: 'contact',
                   tab: {
                     type: 'default',

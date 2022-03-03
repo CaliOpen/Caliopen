@@ -16,8 +16,8 @@ import { TagAPIPostPayload, TagCommon, TagPayload } from '../../types';
 import './style.scss';
 
 interface TagsFormProps extends withI18nProps {
-  tagCollection: TagPayload[];
-  updateTags: (tags: (TagAPIPostPayload | TagPayload)[]) => Promise<void>;
+  tagCollection: (TagPayload | TagCommon)[];
+  updateTags: (tags: (TagAPIPostPayload | TagPayload)[]) => void;
 }
 
 function useFoundTags(
