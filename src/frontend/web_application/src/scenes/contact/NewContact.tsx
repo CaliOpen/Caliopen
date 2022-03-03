@@ -114,6 +114,8 @@ function NewContact(): React.ReactElement<typeof ContactPageWrapper> {
         handleCancel={handleCancel}
         handleSubmit={handleSubmit}
         hasActivity={isUpdating}
+        initialProfileSectionOpen
+        formName="new-contact"
       />
     </ContactPageWrapper>
   );

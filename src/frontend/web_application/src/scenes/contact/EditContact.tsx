@@ -4,6 +4,7 @@ import * as React from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
+import type { APIAxiosError } from 'src/services/api-client/types';
 import {
   getConfigOne,
   getContact,
@@ -11,6 +12,9 @@ import {
 } from 'src/modules/contact/query';
 import { Contact, ContactPayload } from 'src/modules/contact/types';
 import { notifyError } from 'src/modules/userNotify';
+import { getNewContact } from 'src/services/contact';
+import PageNotFound from 'src/scenes/error/PageNotFound';
+import PageError from 'src/scenes/error/PageError';
 import ContactPageWrapper from './components/ContactPageWrapper';
 import ContactForm from './ContactForm';
 import {
@@ -19,39 +23,44 @@ import {
   handleContactSaveErrors,
 } from './services/handleContactSaveErrors';
 
+const emptyContact = getNewContact();
+
 function EditContact(): React.ReactElement<typeof ContactPageWrapper> {
   const dispatch = useDispatch();
   const { push } = useHistory();
   const { contactId } = useParams<{ contactId: string }>();
   const queryConfig = getConfigOne(contactId);
-  const { data: contact, isFetching, isError } = useQuery(
-    queryConfig.queryKey,
-    () => getContact(contactId)
-  );
+  const { data: contact, isFetching, isError, error } = useQuery<
+    Contact,
+    APIAxiosError
+  >(queryConfig.queryKey, () => getContact(contactId));
   const { mutateAsync, isLoading: isUpdating } = useMutation<
     unknown,
     unknown,
     { value: ContactPayload; original: Contact }
   >(queryConfig.queryKey, updateContact);
 
-  // TODO: posting / deleting
   const hasActivity = isFetching || isUpdating;
 
   const handleCancel = () => {
     push(`/contacts/${contactId}`);
   };
 
-  if (!contact && isError) {
-    return <>TODO ERROR</>;
+  // XXX: problem, API return status 500 instead of 404 in this case
+  if (!contact && isError && error?.response?.status === 404) {
+    return <PageNotFound />;
   }
 
-  if (!contact) {
-    return <div>TODO</div>;
+  if (!contact && isError) {
+    return <PageError />;
   }
 
   const handleSubmit: FormikConfig<ContactPayload>['onSubmit'] = async (
     value
   ) => {
+    if (!contact) {
+      return;
+    }
     try {
       await mutateAsync({ value, original: contact });
       push(`/contacts/${contactId}`);
@@ -116,12 +125,13 @@ function EditContact(): React.ReactElement<typeof ContactPageWrapper> {
   };
 
   return (
-    <ContactPageWrapper contact={contact} isEditing>
+    <ContactPageWrapper contact={contact} isEditing hasActivity={hasActivity}>
       <ContactForm
-        initialValues={contact}
+        initialValues={contact || emptyContact}
         handleCancel={handleCancel}
         handleSubmit={handleSubmit}
         hasActivity={hasActivity}
+        formName={`edit-contact_${contact}`}
       />
     </ContactPageWrapper>
   );

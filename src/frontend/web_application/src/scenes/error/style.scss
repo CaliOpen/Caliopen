@@ -1,12 +1,45 @@
 @import '../../styles/common';
 @import '../../styles/vendor/bootstrap_foundation-sites';
 
-.s-page-not-found {
+.s-page-not-found,
+.s-error {
   padding-top: 5 * $co-margin;
   padding-bottom: 5 * $co-margin;
   background-color: $co-color__fg__back;
   text-align: center;
 
+  &__thanks {
+    color: $co-color__fg__text--high;
+  }
+
+  &__ascii-short,
+  &__ascii {
+    margin-right: auto;
+    margin-left: auto;
+    overflow: hidden;
+    font-family: monospace, monospace; // https://github.com/necolas/normalize.css/issues/519#issuecomment-197131966
+    font-size: 9px;
+    line-height: 9px;
+    text-align: left;
+  }
+
+  &__ascii {
+    display: none;
+    width: 500px;
+    @include breakpoint(medium) {
+      display: block;
+    }
+  }
+  &__ascii-short {
+    width: 120px;
+
+    @include breakpoint(medium) {
+      display: none;
+    }
+  }
+}
+
+.s-page-not-found {
   &__title {
     position: relative;
     margin-bottom: 3 * $co-margin;
@@ -56,36 +89,6 @@
         16px 44px 0 #c8efff, 24px 44px 0 #c8efff, 48px 44px 0 #c8efff,
         52px 44px 0 #c8efff, 56px 44px 0 #c8efff, 24px 48px 0 #c8efff,
         56px 48px 0 #c8efff, 24px 52px 0 #c8efff, 56px 52px 0 #c8efff;
-    }
-  }
-
-  &__thanks {
-    color: $co-color__fg__text--high;
-  }
-
-  &__ascii-short,
-  &__ascii {
-    margin-right: auto;
-    margin-left: auto;
-    overflow: hidden;
-    font-family: monospace, monospace; // https://github.com/necolas/normalize.css/issues/519#issuecomment-197131966
-    font-size: 9px;
-    line-height: 9px;
-    text-align: left;
-  }
-
-  &__ascii {
-    display: none;
-    width: 500px;
-    @include breakpoint(medium) {
-      display: block;
-    }
-  }
-  &__ascii-short {
-    width: 120px;
-
-    @include breakpoint(medium) {
-      display: none;
     }
   }
 }

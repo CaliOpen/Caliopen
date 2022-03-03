@@ -30,7 +30,7 @@ import ApplicationSettings from '../../../scenes/ApplicationSettings';
 import Tags from '../../../scenes/TagsSettings';
 import Discussion from '../../../scenes/Discussion';
 import ContactBook from '../../../scenes/ContactBook';
-import PageNotFound from '../../../scenes/PageNotFound';
+import PageNotFound from '../../../scenes/error/PageNotFound';
 import DevicesSettings from '../../../scenes/DevicesSettings';
 import NewDeviceInfo from '../../../scenes/NewDeviceInfo';
 import ValidateDevice from '../../../scenes/ValidateDevice';

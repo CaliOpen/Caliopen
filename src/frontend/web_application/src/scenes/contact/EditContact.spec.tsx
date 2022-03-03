@@ -51,8 +51,10 @@ describe('EditContact', () => {
       wrapper: AllProviders,
     });
 
-    await waitForElementToBeRemoved(screen.getByText('TODO'));
     expect(await screen.findByText('Contact details')).toBeInTheDocument();
+    expect(
+      await screen.findByRole('button', { name: 'Fry' })
+    ).toBeInTheDocument();
 
     userEvent.click(screen.getByRole('button', { name: 'Fry' }));
     userEvent.clear(screen.getByRole('textbox', { name: 'Firstname' }));

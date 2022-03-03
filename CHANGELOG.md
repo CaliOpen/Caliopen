@@ -7,6 +7,11 @@ and this project adheres to
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Change
+
+- Improve contact edit form. Better error handling.
+
 ## [0.24.6] 2021-10-23
 
 ### Fixed

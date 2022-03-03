@@ -13,6 +13,7 @@ import {
 } from 'src/components';
 import { IDENTITY_TYPE_TWITTER } from 'src/modules/contact';
 import { ContactPayload } from 'src/modules/contact/types';
+import FormikPersist from 'src/modules/form/components/FormikPersist';
 import ContactProfileForm from './components/ContactProfileForm';
 import EmailForm from './components/EmailForm';
 import ImForm from './components/ImForm';
@@ -27,25 +28,31 @@ interface Props {
   handleSubmit: FormikConfig<ContactPayload>['onSubmit'];
   handleCancel: () => void;
   hasActivity: boolean;
+  initialProfileSectionOpen?: boolean;
+  formName: string;
 }
 function ContactForm({
   initialValues,
   handleSubmit,
   handleCancel,
   hasActivity,
+  initialProfileSectionOpen,
+  formName,
 }: Props): JSX.Element {
   return (
     <div className="s-contact__form">
       <Formik<ContactPayload>
         initialValues={initialValues}
         onSubmit={handleSubmit}
+        enableReinitialize
       >
         {({ values }) => (
           <Form method="post" name="edit-contact">
+            <FormikPersist name={formName} />
             <Title hr>
               <Trans id="contact.edit_contact.title">Edit the contact</Trans>
             </Title>
-            <ContactProfileForm isNew={!initialValues?.contact_id} />
+            <ContactProfileForm isNew={initialProfileSectionOpen} />
             <div>
               <Title hr>
                 <Trans id="contact.contact-details.title">
