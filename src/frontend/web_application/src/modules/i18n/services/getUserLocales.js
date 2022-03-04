@@ -6,9 +6,9 @@ export const getUserLocales = () => {
 
     return [
       ...languages,
-      ...(window.navigator.language ||
+      window.navigator.language ||
         window.navigator.userLanguage ||
-        DEFAULT_LOCALE),
+        DEFAULT_LOCALE,
     ];
   }
 

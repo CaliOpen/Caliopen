@@ -14,6 +14,7 @@ jest.mock('src/modules/user/services/isAuthenticated', () => ({
 
 // XXX: use a hook instead
 const Comp = () => (
+  // @ts-ignore
   <WithUser render={(user) => (user ? <UserInfo user={user} /> : 'loading')} />
 );
 
