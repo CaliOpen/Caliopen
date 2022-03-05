@@ -31,9 +31,10 @@ type TMode = typeof MODE_ASSOCIATION | typeof MODE_CONTACT_BOOK;
 
 type ContactsExceptUserSelected = Contact[];
 const contactsExceptUserSelector = createSelector<
-  RootState,
-  RootState['contact'],
-  UserPayload | undefined,
+  [
+    (state: RootState) => RootState['contact'],
+    (state: RootState) => UserPayload | undefined
+  ],
   ContactsExceptUserSelected
 >([contactStateSelector, userSelector], (contactState, user) =>
   contactState.contacts
