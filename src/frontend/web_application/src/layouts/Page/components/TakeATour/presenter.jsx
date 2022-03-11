@@ -197,6 +197,7 @@ class TakeATour extends Component {
           step={this.state.tourStep}
           onRequestClose={this.handleclose}
           steps={steps}
+          // eslint-disable-next-line react/no-unstable-nested-components
           badgeContent={(current, total) => (
             <Trans
               id="take-a-tour.current-step"

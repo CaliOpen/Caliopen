@@ -2,8 +2,8 @@ import React from 'react';
 import WithProviders from '../components/WithProviders';
 
 export const withProviders = () => (WrappedComp) => {
-  const Wrapper = (props) => (
-    <WithProviders
+  function Wrapper(props) {
+  return <WithProviders
       render={({ providers, isFetching }) => (
         <WrappedComp
           providers={providers}
@@ -12,7 +12,7 @@ export const withProviders = () => (WrappedComp) => {
         />
       )}
     />
-  );
+}
   Wrapper.displayName = `Wrapper(${
     WrappedComp.displayName || WrappedComp.name || 'Component'
   })`;

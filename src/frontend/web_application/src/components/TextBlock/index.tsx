@@ -10,7 +10,7 @@ interface Props {
   weight?: 'strong';
   children: React.ReactNode;
 }
-const TextBlock = ({
+function TextBlock({
   inline = false,
   nowrap = true,
   size,
@@ -18,7 +18,7 @@ const TextBlock = ({
   className,
   children,
   ...props
-}: Props) => {
+}: Props) {
   const textBlockClassName = classnames(
     'm-text-block',
     {
@@ -35,6 +35,6 @@ const TextBlock = ({
       {children}
     </span>
   );
-};
+}
 
 export default TextBlock;

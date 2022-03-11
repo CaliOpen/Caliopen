@@ -17,7 +17,7 @@ type CloseOn =
   | typeof DO_NOT_CLOSE;
 
 export const withDropdownControl = (WrappedComponent) => {
-  const WithDropdownControl = (props, ref) => {
+  function WithDropdownControl(props, ref) {
     if (!ref) {
       throw new Error(
         `a ref is mandatory for a dropdown controller created with "${
@@ -27,7 +27,7 @@ export const withDropdownControl = (WrappedComponent) => {
     }
 
     return <WrappedComponent role="button" tabIndex="0" ref={ref} {...props} />;
-  };
+  }
 
   // does this work since it is a forwarded component
   WithDropdownControl.displayName = `WithDropdownControl(${

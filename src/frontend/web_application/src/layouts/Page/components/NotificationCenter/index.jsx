@@ -7,8 +7,8 @@ const notificationCustomStyles = {
   containerTopRight: 'l-notification-center',
 };
 
-const NotificationCenter = () => (
-  <Notify customStyles={notificationCustomStyles} />
-);
+function NotificationCenter() {
+  return <Notify customStyles={notificationCustomStyles} />
+}
 
 export default NotificationCenter;

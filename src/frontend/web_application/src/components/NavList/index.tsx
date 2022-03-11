@@ -8,7 +8,7 @@ interface Props {
   dir?: 'vertical';
   children?: React.ReactNode;
 }
-const NavList = ({ className, dir, ...props }: Props): JSX.Element => {
+function NavList({ className, dir, ...props }: Props): JSX.Element {
   const navClassName = classnames('m-nav-list', {
     'm-nav-list--vertical': dir === 'vertical',
   });
@@ -18,7 +18,7 @@ const NavList = ({ className, dir, ...props }: Props): JSX.Element => {
       <ul className={navClassName} {...props} />
     </nav>
   );
-};
+}
 
 export { NavItem };
 

@@ -14,8 +14,8 @@ const navLinks = [
   { title: 'myothermyself@caliopen.local', to: '/settings/signatures' },
 ];
 
-const SettingsSignatures = ({ i18n }) => (
-  <div className="s-settings-signatures">
+function SettingsSignatures({ i18n }) {
+  return <div className="s-settings-signatures">
     <PageTitle />
     {navLinks && (
       <NavList dir="vertical" className="s-settings-signatures__menu">
@@ -42,7 +42,7 @@ const SettingsSignatures = ({ i18n }) => (
       </Section>
     </div>
   </div>
-);
+}
 
 SettingsSignatures.propTypes = {
   i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,

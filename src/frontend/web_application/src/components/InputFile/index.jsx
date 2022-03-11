@@ -10,7 +10,7 @@ import Icon from '../Icon';
 
 import './style.scss';
 
-const InputFile = ({ onChange, className, accept, errors, multiple, id }) => {
+function InputFile({ onChange, className, accept, errors, multiple, id }) {
   const actualId = id || uuidV1();
 
   return (
@@ -40,7 +40,7 @@ const InputFile = ({ onChange, className, accept, errors, multiple, id }) => {
       {errors.length > 0 && <FieldErrors errors={errors} />}
     </div>
   );
-};
+}
 
 InputFile.propTypes = {
   onChange: PropTypes.func.isRequired,

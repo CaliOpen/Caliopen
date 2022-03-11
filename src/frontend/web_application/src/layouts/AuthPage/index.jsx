@@ -4,7 +4,7 @@ import { Brand } from '../../components';
 import { getConfig } from '../../services/config';
 import './style.scss';
 
-const AuthPage = ({ children }) => {
+function AuthPage({ children }) {
   const { version, motd } = getConfig();
 
   return (
@@ -26,7 +26,7 @@ const AuthPage = ({ children }) => {
       </div>
     </div>
   );
-};
+}
 
 AuthPage.propTypes = {
   children: PropTypes.node.isRequired,

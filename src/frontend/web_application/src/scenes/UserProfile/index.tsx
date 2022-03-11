@@ -24,7 +24,7 @@ import './style.scss';
 
 type Props = withI18nProps;
 
-const UserProfile = ({ i18n }: Props) => {
+function UserProfile({ i18n }: Props) {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = React.useState(false);
   const [password, setPassword] = React.useState('');
@@ -229,6 +229,6 @@ const UserProfile = ({ i18n }: Props) => {
       </Section>
     </div>
   );
-};
+}
 
 export default compose(withI18n())(UserProfile);

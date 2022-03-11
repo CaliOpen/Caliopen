@@ -4,12 +4,12 @@ import { withI18n } from '@lingui/react';
 import { Button, Icon, Spinner } from '../../../../../../components';
 import './toggle-advanced-draft-button.scss';
 
-const ToggleAdvancedFormButton = ({
+function ToggleAdvancedFormButton({
   i18n,
   handleToggleAdvancedForm,
   hasActivity,
-}) => (
-  <Button
+}) {
+  return <Button
     display="expanded"
     shape="plain"
     className="m-toggle-advanced-draft-button"
@@ -30,7 +30,7 @@ const ToggleAdvancedFormButton = ({
     )}
     <Icon type="caret-down" />
   </Button>
-);
+}
 
 ToggleAdvancedFormButton.propTypes = {
   i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,

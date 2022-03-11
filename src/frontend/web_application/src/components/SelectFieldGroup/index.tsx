@@ -119,14 +119,14 @@ export default SelectFieldGroup;
 
 type FormikSelectFieldGroupProps = FieldProps & Props;
 
-export const FormikSelectFieldGroup = ({
+export function FormikSelectFieldGroup({
   id,
   label,
   field,
   form,
   meta,
   ...props
-}: FormikSelectFieldGroupProps): React.ReactElement<Props> => {
+}: FormikSelectFieldGroupProps): React.ReactElement<Props> {
   const inputProps = { ...props, ...field };
   return (
     <SelectFieldGroup
@@ -136,4 +136,4 @@ export const FormikSelectFieldGroup = ({
       {...inputProps}
     />
   );
-};
+}

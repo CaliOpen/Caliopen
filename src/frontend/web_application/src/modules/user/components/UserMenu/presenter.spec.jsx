@@ -9,7 +9,9 @@ jest.mock('../../../../modules/settings', () => ({
 jest.mock('../../../../modules/userNotify', () => ({
   withNotification: () => (C) => C,
 }));
-jest.mock('../../../../components/PageTitle', () => () => null);
+jest.mock('../../../../components/PageTitle', () => function() {
+  return null
+});
 jest.mock('../../../../modules/userNotify/hoc/withNotification', () => ({
   withNotification: () => (noop) => noop,
 }));

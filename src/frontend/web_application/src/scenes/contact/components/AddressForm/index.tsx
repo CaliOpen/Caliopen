@@ -27,13 +27,13 @@ const ADDRESS_TYPES = ['', 'work', 'home', 'other'];
 
 type CountryFieldProps = FieldProps & CountryDropdownProps;
 
-const CountryField = ({
+function CountryField({
   id,
   form,
   field,
   meta,
   ...props
-}: CountryFieldProps): React.ReactElement<CountryDropdownProps> => {
+}: CountryFieldProps): React.ReactElement<CountryDropdownProps> {
   const onChange = (val, evt) => field.onChange(evt);
 
   return (
@@ -45,20 +45,20 @@ const CountryField = ({
       onChange={onChange}
     />
   );
-};
+}
 
 type RegionFieldProps = FieldProps<
   NonNullable<ContactPayload['addresses']>[number]['region']
 > &
   RegionDropdownProps & { countryFieldName: string };
-const RegionField = ({
+function RegionField({
   countryFieldName,
   id,
   form,
   field,
   meta,
   ...props
-}: RegionFieldProps): React.ReactElement<RegionDropdownProps> => {
+}: RegionFieldProps): React.ReactElement<RegionDropdownProps> {
   const { values } = useFormikContext<ContactPayload>();
   const country: string = getIn(values, countryFieldName);
 
@@ -78,7 +78,7 @@ const RegionField = ({
       onChange={onChange}
     />
   );
-};
+}
 
 function AddressForm({
   onDelete,

@@ -8,7 +8,7 @@ import { getTagLabelFromName, withTags } from '../../../../modules/tags';
 
 import './style.scss';
 
-const TagList = ({ className, i18n, tags: allTags, message }) => {
+function TagList({ className, i18n, tags: allTags, message }) {
   if (!message.tags || message.tags.length === 0) {
     return null;
   }
@@ -30,7 +30,7 @@ const TagList = ({ className, i18n, tags: allTags, message }) => {
       ))}
     </ul>
   );
-};
+}
 
 TagList.propTypes = {
   i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,

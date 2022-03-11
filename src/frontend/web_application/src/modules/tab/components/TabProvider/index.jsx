@@ -6,9 +6,9 @@ import { Tab } from '../../model/Tab';
 import { TabContext } from '../../contexts/TabContext';
 import { RoutingConsumer, findTabbableRouteConfig } from '../../../routing';
 
-const withRoutes = () => (C) => (props) => (
-  <RoutingConsumer render={({ routes }) => <C routes={routes} {...props} />} />
-);
+const withRoutes = () => (C) => function(props) {
+  return <RoutingConsumer render={({ routes }) => <C routes={routes} {...props} />} />
+};
 
 @withRouter
 @withRoutes()

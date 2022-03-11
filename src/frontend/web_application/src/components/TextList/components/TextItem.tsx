@@ -7,11 +7,11 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const TextItem = ({
+function TextItem({
   className,
   large = false,
   ...props
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const itemClassName = classnames(
     'm-text-list__item',
     {
@@ -21,6 +21,6 @@ const TextItem = ({
   );
 
   return <li className={itemClassName} {...props} />;
-};
+}
 
 export default TextItem;

@@ -154,8 +154,7 @@ function Contact():
   return (
     <ContactPageWrapper contact={contact}>
       <div className="s-contact__main-title s-contact-main-title">
-        <>
-          <div className="s-contact-main-title__avatar">
+        <div className="s-contact-main-title__avatar">
             <ContactAvatarLetter
               contact={contact}
               contactDisplayFormat={settings.contact_display_format}
@@ -181,11 +180,9 @@ function Contact():
             </TextBlock>
           )}
           {/* <ContactStats className="stats" /> */}
-        </>
       </div>
       <div className="s-contact__contact-details">
-        <>
-          <Title hr>
+        <Title hr>
             <Trans
               id="contact.contact-details.title"
               message="Contact details"
@@ -208,15 +205,12 @@ function Contact():
           <TextList className="s-contact__details-group">
             {restOfDetails}
           </TextList>
-        </>
       </div>
       <div className="s-contact__keys">
-        <>
-          <Title hr>
+        <Title hr>
             <Trans id="contact.keys.title" message="Public keys" />
           </Title>
           <PublicKeyList contactId={contactId} />
-        </>
       </div>
     </ContactPageWrapper>
   );

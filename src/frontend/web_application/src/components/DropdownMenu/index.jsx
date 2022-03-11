@@ -7,8 +7,8 @@ import './style.scss';
 export { withDropdownControl };
 
 // @deprecated: use Dropdown
-const DropdownMenu = ({ className, hasTriangle, ...props }) => (
-  <Dropdown
+function DropdownMenu({ className, hasTriangle, ...props }) {
+  return <Dropdown
     className={classnames(
       'm-dropdown-menu',
       { 'm-dropdown-menu--has-triangle': hasTriangle },
@@ -16,7 +16,7 @@ const DropdownMenu = ({ className, hasTriangle, ...props }) => (
     )}
     {...props}
   />
-);
+}
 DropdownMenu.propTypes = {
   className: PropTypes.string,
   hasTriangle: PropTypes.bool,

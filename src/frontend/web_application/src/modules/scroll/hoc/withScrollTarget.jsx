@@ -17,9 +17,9 @@ export const withScrollTarget = ({ namespace = 'scrollTarget' } = {}) => (
 
     state = { alreadyScrolledContext: undefined };
 
-    componentDidMount = () => this.scroll();
+    componentDidMount() { return this.scroll(); }
 
-    componentDidUpdate = () => this.scroll();
+    componentDidUpdate() { return this.scroll(); }
 
     getRef = (ref) => {
       this.element = ref;

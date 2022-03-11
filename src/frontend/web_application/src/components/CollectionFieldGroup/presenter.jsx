@@ -4,13 +4,13 @@ import DeleteFieldGroup from './components/DeleteFieldGroup';
 import AddFieldGroup from './components/AddFieldGroup';
 import './style.scss';
 
-const CollectionFieldGroup = ({
+function CollectionFieldGroup({
   collection,
   defaultValue,
   addTemplate,
   editTemplate,
   onChange,
-}) => {
+}) {
   const handleAdd = ({ item }) => {
     onChange([item, ...collection]);
   };
@@ -46,7 +46,7 @@ const CollectionFieldGroup = ({
       ))}
     </div>
   );
-};
+}
 
 CollectionFieldGroup.propTypes = {
   collection: PropTypes.arrayOf(

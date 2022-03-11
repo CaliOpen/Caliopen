@@ -46,12 +46,12 @@ function FormikPersistor({
   return null;
 }
 
-const FormikPersist = ({
+function FormikPersist({
   name,
 }: {
   name: string;
-}): React.ReactElement<typeof FormikConsumer> => (
-  <FormikConsumer>
+}): React.ReactElement<typeof FormikConsumer> {
+  return <FormikConsumer>
     {({ values, errors, setValues, setErrors }) => (
       <FormikPersistor
         name={name}
@@ -62,6 +62,6 @@ const FormikPersist = ({
       />
     )}
   </FormikConsumer>
-);
+}
 
 export default FormikPersist;

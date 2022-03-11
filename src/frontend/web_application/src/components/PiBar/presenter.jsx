@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import Icon from '../Icon';
 import './style.scss';
 
-const PiBar = ({ level, className }) => {
+function PiBar({ level, className }) {
   const classNameModifiers = {
     disabled: 'm-pi-bar--disabled',
     ugly: 'm-pi-bar--ugly',
@@ -55,7 +55,7 @@ const PiBar = ({ level, className }) => {
       </div>
     </div>
   );
-};
+}
 
 PiBar.propTypes = {
   level: PropTypes.number,

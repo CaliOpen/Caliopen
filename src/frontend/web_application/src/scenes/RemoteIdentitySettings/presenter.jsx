@@ -100,9 +100,7 @@ class RemoteIdentitySettings extends Component {
             onError={this.handleError}
           />
         </div>
-        <Fragment>
-          {identities.map((identity) => this.renderIdentity(identity))}
-        </Fragment>
+        {identities.map((identity) => this.renderIdentity(identity))}
       </div>
     );
   }

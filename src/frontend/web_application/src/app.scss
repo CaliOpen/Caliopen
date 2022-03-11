@@ -1,8 +1,9 @@
-@import './styles/common';
-@import './styles/vendor/bootstrap_foundation-sites';
+@import "./styles/common";
+@import "./styles/vendor/bootstrap_foundation-sites";
 
 // CSS Exports
 @include foundation-global-styles;
+
 // @include foundation-grid;
 // @include foundation-flex-grid;
 // @include foundation-typography;
@@ -17,6 +18,7 @@
 // @include foundation-close-button;
 @include foundation-menu;
 @include foundation-menu-icon;
+
 // @include foundation-drilldown-menu;
 // @include foundation-dropdown;
 // @include foundation-dropdown-menu;

@@ -29,6 +29,7 @@ class NotificationProvider extends Component {
   };
 
   componentDidMount() {
+    // eslint-disable-next-line import/extensions
     import('../../services/notification.worker.js').then(
       ({ default: Worker }) => {
         this.setState(

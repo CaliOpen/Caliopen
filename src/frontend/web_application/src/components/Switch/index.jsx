@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.scss';
 
-const Switch = ({ label, id, ...inputProps }) => (
-  <div className="m-switch">
+function Switch({ label, id, ...inputProps }) {
+  return <div className="m-switch">
     <input
       type="checkbox"
       className="m-switch__input"
@@ -14,7 +14,7 @@ const Switch = ({ label, id, ...inputProps }) => (
       <span className="show-for-sr">{label}</span>
     </label>
   </div>
-);
+}
 
 Switch.propTypes = {
   label: PropTypes.node.isRequired,

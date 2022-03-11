@@ -6,7 +6,7 @@ import { getConfig } from '../../services/config';
 import { BackgroundImage } from '../../modules/pi';
 import './style.scss';
 
-const AboutPage = ({ children }) => {
+function AboutPage({ children }) {
   const { version } = getConfig();
 
   return (
@@ -47,7 +47,7 @@ const AboutPage = ({ children }) => {
       </footer>
     </BackgroundImage>
   );
-};
+}
 
 AboutPage.propTypes = {
   children: PropTypes.node.isRequired,

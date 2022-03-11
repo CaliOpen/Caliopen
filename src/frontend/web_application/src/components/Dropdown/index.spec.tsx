@@ -6,7 +6,7 @@ import Dropdown, { withDropdownControl } from '.';
 
 const DropdownControl = withDropdownControl(Button);
 
-const Comp = () => {
+function Comp() {
   const ref = React.useRef<HTMLButtonElement>(null);
 
   return (
@@ -18,9 +18,9 @@ const Comp = () => {
       </Dropdown>
     </>
   );
-};
+}
 
-const CompControlled = () => {
+function CompControlled() {
   const ref = React.useRef<HTMLDivElement>(null);
   const [visible, setVisible] = React.useState(false);
 
@@ -41,7 +41,7 @@ const CompControlled = () => {
       </Dropdown>
     </>
   );
-};
+}
 
 describe('component > Dropdown', () => {
   it('toggle dropdown', async () => {
