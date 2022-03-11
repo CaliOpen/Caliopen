@@ -86,22 +86,26 @@ class ReduxedInputFileGroup extends React.PureComponent {
   validate = (file) => {
     // @ts-expect-error ts-migrate(2339) FIXME: Property 'i18n' does not exist on type 'Readonly<{... Remove this comment to see the full error message
     const { i18n, maxSize } = this.props;
-    const errors = [];
+    const errors: React.ReactElement<any>[] = [];
 
     if (!file) {
       return Promise.reject(
-        i18n._('input-file-group.error.file_is_required', null, {
-          defaults: 'A file is required',
+        i18n._(/* i18n */ 'input-file-group.error.file_is_required', null, {
+          message: 'A file is required',
         })
       );
     }
 
     if (maxSize && file.size > maxSize) {
       errors.push(
-        // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'Element' is not assignable to pa... Remove this comment to see the full error message
-        <Trans id="input-file-group.error.max_size">
-          The file size must be under <FileSize size={maxSize} />
-        </Trans>
+        // ts-expect-error ts-migrate(2345) FIXME: Argument of type 'Element' is not assignable to pa... Remove this comment to see the full error message
+        <Trans
+          id="input-file-group.error.max_size"
+          message="The file size must be under {filesize}"
+          values={{
+            filesize: <FileSize size={maxSize} />,
+          }}
+        />
       );
     }
 

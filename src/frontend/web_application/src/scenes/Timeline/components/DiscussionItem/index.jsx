@@ -172,8 +172,8 @@ class DiscussionItem extends PureComponent {
         {/*
         <div className="s-discussion-item__select">
           <Checkbox
-            label={i18n._('message-list.action.select_single_discussion', null,
-              { defaults: 'Select/deselect this discussion' })}
+            label={i18n._(/* i18n  'message-list.action.select_single_discussion', null,
+              { message: 'Select/deselect this discussion' })}
             onChange={this.onCheckboxChange}
             id={discussionId}
             checked={isDiscussionSelected}

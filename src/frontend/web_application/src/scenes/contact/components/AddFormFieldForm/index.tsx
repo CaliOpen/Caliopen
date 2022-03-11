@@ -48,26 +48,38 @@ function AddFormFieldForm({
 
   const typeOptions = [
     {
-      label: i18n._('contact.form-selector.email_form.label', undefined, {
-        defaults: 'Email',
-      }),
+      label: i18n._(
+        /* i18n */ 'contact.form-selector.email_form.label',
+        undefined,
+        {
+          message: 'Email',
+        }
+      ),
       value: 'emails',
     },
     {
-      label: i18n._('contact.form-selector.phone_form.label', undefined, {
-        defaults: 'Phone',
-      }),
+      label: i18n._(
+        /* i18n */ 'contact.form-selector.phone_form.label',
+        undefined,
+        {
+          message: 'Phone',
+        }
+      ),
       value: 'phones',
     },
     {
-      label: i18n._('contact.form-selector.im_form.label', undefined, {
-        defaults: 'IM',
-      }),
+      label: i18n._(
+        /* i18n */ 'contact.form-selector.im_form.label',
+        undefined,
+        {
+          message: 'IM',
+        }
+      ),
       value: 'ims',
     },
     // ...(hasBirthday ? [] : [{
     //   label:
-    //    i18n._('contact.form-selector.birthday_form.label', undefined, { defaults: 'Birthday' }),
+    //    i18n._(/* i18n */ 'contact.form-selector.birthday_form.label', undefined, { message: 'Birthday' }),
     //   value: 'info.birthday',
     // }]),
   ];
@@ -81,9 +93,10 @@ function AddFormFieldForm({
               <Legend>
                 <Icon type="crosshairs" rightSpaced />
                 <span className="m-add-form-field-form__legend">
-                  <Trans id="contact.form-selector.add_new_field.label">
-                    Add a new field
-                  </Trans>
+                  <Trans
+                    id="contact.form-selector.add_new_field.label"
+                    message="Add a new field"
+                  />
                 </span>
               </Legend>
             </FormColumn>
@@ -95,9 +108,9 @@ function AddFormFieldForm({
                 options={typeOptions}
                 showLabelforSr
                 label={i18n._(
-                  'contact.form-selector.add_new_field.label',
+                  /* i18n */ 'contact.form-selector.add_new_field.label',
                   undefined,
-                  { defaults: 'Add a new field' }
+                  { message: 'Add a new field' }
                 )}
               />
             </FormColumn>
@@ -113,7 +126,10 @@ function AddFormFieldForm({
                     shape="plain"
                     onClick={() => push(getNewFormData(formType))}
                   >
-                    <Trans id="contact.action.add_new_field">Add new</Trans>
+                    <Trans
+                      id="contact.action.add_new_field"
+                      message="Add new"
+                    />
                   </Button>
                 )}
               />

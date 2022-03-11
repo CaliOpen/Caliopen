@@ -214,9 +214,10 @@ class Timeline extends Component {
                       displaySwitch
                       showTextLabel
                       label={
-                        <Trans id="timeline.action.display-spam">
-                          Show spam
-                        </Trans>
+                        <Trans
+                          id="timeline.action.display-spam"
+                          message="Show spam"
+                        />
                       }
                       onChange={this.handleToggleShowSpam}
                       checked={hasSpam}
@@ -258,7 +259,7 @@ class Timeline extends Component {
         {hasMore && (
           <div className="s-timeline__load-more">
             <Button shape="hollow" onClick={this.loadMore}>
-              <Trans id="general.action.load_more">Load more</Trans>
+              <Trans id="general.action.load_more" message="Load more" />
             </Button>
           </div>
         )}

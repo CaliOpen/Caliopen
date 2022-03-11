@@ -187,7 +187,10 @@ function ContactItem({
         {!selectDisabled && (
           <Checkbox
             label={
-              <Trans id="contact-book.action.select">Select the contact</Trans>
+              <Trans
+                id="contact-book.action.select"
+                message="Select the contact"
+              />
             }
             showLabelforSr
             onChange={onCheckboxChange}

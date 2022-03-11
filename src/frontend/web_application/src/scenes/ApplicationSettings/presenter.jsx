@@ -34,8 +34,8 @@ class ApplicationSettings extends PureComponent {
     await requestSettings();
 
     return notifySuccess({
-      message: i18n._('settings.form.feedback.successfull', null, {
-        defaults: 'Settings successfully updated!',
+      message: i18n._(/* i18n */ 'settings.form.feedback.successfull', null, {
+        message: 'Settings successfully updated!',
       }),
     });
   };
@@ -43,9 +43,13 @@ class ApplicationSettings extends PureComponent {
   handleError = () => {
     const { i18n, notifyError } = this.props;
     notifyError({
-      message: i18n._('settings.form.feedback.unexpected-error', null, {
-        defaults: 'Error when updating settings.',
-      }),
+      message: i18n._(
+        /* i18n */ 'settings.form.feedback.unexpected-error',
+        null,
+        {
+          message: 'Error when updating settings.',
+        }
+      ),
     });
   };
 
@@ -65,8 +69,8 @@ class ApplicationSettings extends PureComponent {
         )}
         <div className="s-application-settings__col-sections">
           <Section
-            title={i18n._('settings.interface.title', null, {
-              defaults: 'Customize your interface',
+            title={i18n._(/* i18n */ 'settings.interface.title', null, {
+              message: 'Customize your interface',
             })}
           >
             <InterfaceSettings />
@@ -74,8 +78,8 @@ class ApplicationSettings extends PureComponent {
         </div>
         <div className="s-application-settings__col-sections">
           <Section
-            title={i18n._('settings.message.title', null, {
-              defaults: 'Messages settings',
+            title={i18n._(/* i18n */ 'settings.message.title', null, {
+              message: 'Messages settings',
             })}
           >
             <MessageSettings />
@@ -84,8 +88,8 @@ class ApplicationSettings extends PureComponent {
         <div className="s-application-settings__col-sections">
           <Section
             className="s-application-settings__section"
-            title={i18n._('settings.contact.title', null, {
-              defaults: 'Contact settings',
+            title={i18n._(/* i18n */ 'settings.contact.title', null, {
+              message: 'Contact settings',
             })}
           >
             <ContactSettings />
@@ -93,16 +97,20 @@ class ApplicationSettings extends PureComponent {
         </div>
         <div className="s-application-settings__col-sections">
           <Section
-            title={i18n._('settings.notification.title', null, {
-              defaults: 'Notifications settings',
+            title={i18n._(/* i18n */ 'settings.notification.title', null, {
+              message: 'Notifications settings',
             })}
           >
             <NotificationSettings />
           </Section>
           <Section
-            title={i18n._('settings.desktop_notification.title', null, {
-              defaults: 'Desktop notifications settings',
-            })}
+            title={i18n._(
+              /* i18n */ 'settings.desktop_notification.title',
+              null,
+              {
+                message: 'Desktop notifications settings',
+              }
+            )}
           >
             <DesktopNotificationSettings />
           </Section>
@@ -110,9 +118,10 @@ class ApplicationSettings extends PureComponent {
 
         <div className="s-application-settings__action">
           <Button type="submit" shape="plain" icon="check">
-            <Trans id="settings.presentation.update.action">
-              Save settings
-            </Trans>
+            <Trans
+              id="settings.presentation.update.action"
+              message="Save settings"
+            />
           </Button>
         </div>
       </form>

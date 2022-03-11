@@ -57,9 +57,8 @@ interface Props extends withI18nProps {
 
 function OpenPGPImportForm({ i18n, cancel, onSuccess }: Props) {
   const dispatch = useDispatch();
-  const [importValues, setImportValues] = React.useState<ImportValue>(
-    initImportValues
-  );
+  const [importValues, setImportValues] =
+    React.useState<ImportValue>(initImportValues);
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [errors, setErrors] = React.useState<Errors>({});
@@ -68,29 +67,29 @@ function OpenPGPImportForm({ i18n, cancel, onSuccess }: Props) {
 
   const errorsLabels = {
     [ERROR_REQUIRED]: i18n._(
-      'openpgp.feedback.private-key-required',
+      /* i18n */ 'openpgp.feedback.private-key-required',
       undefined,
-      { defaults: 'A file is required (extension .asc)' }
+      { message: 'A file is required (extension .asc)' }
     ),
     [ERROR_UNABLE_READ_PRIVATE_KEY]: i18n._(
-      'openpgp.feedback.unable-read-private-key',
+      /* i18n */ 'openpgp.feedback.unable-read-private-key',
       undefined,
-      { defaults: 'Unable to read private key' }
+      { message: 'Unable to read private key' }
     ),
     [ERROR_FINGERPRINTS_NOT_MATCH]: i18n._(
-      'openpgp.feedback.fingerprints-not-match',
+      /* i18n */ 'openpgp.feedback.fingerprints-not-match',
       undefined,
-      { defaults: 'Fingerprints do not match' }
+      { message: 'Fingerprints do not match' }
     ),
     [ERROR_NEED_PASSPHRASE]: i18n._(
-      'openpgp.feedback.need-passphrase',
+      /* i18n */ 'openpgp.feedback.need-passphrase',
       undefined,
-      { defaults: 'Passphrase is needed to retrieve public key' }
+      { message: 'Passphrase is needed to retrieve public key' }
     ),
     [ERROR_WRONG_PASSPHRASE]: i18n._(
-      'openpgp.feedback.wrong-passphrase',
+      /* i18n */ 'openpgp.feedback.wrong-passphrase',
       undefined,
-      { defaults: 'Cannot decrypt with current passphrase' }
+      { message: 'Cannot decrypt with current passphrase' }
     ),
   };
 
@@ -171,9 +170,13 @@ function OpenPGPImportForm({ i18n, cancel, onSuccess }: Props) {
 
       <TextFieldGroup
         id="pgp-passphrase"
-        label={i18n._('user.openpgp.form.passphrase.label', undefined, {
-          defaults: 'Passphrase',
-        })}
+        label={i18n._(
+          /* i18n */ 'user.openpgp.form.passphrase.label',
+          undefined,
+          {
+            message: 'Passphrase',
+          }
+        )}
         inputProps={{
           value: importValues.passphrase,
           onChange: handleImportChanges,
@@ -184,9 +187,13 @@ function OpenPGPImportForm({ i18n, cancel, onSuccess }: Props) {
       <InputFileGroup
         required
         className="m-account-openpgp-form__field-group"
-        descr={i18n._('user.openpgp.form.private-key.label', undefined, {
-          defaults: 'Private key',
-        })}
+        descr={i18n._(
+          /* i18n */ 'user.openpgp.form.private-key.label',
+          undefined,
+          {
+            message: 'Private key',
+          }
+        )}
         onInputChange={handleFileChanges}
         name="privateKeyArmored"
         accept="application/x-pgp"
@@ -203,11 +210,11 @@ function OpenPGPImportForm({ i18n, cancel, onSuccess }: Props) {
           shape="plain"
         >
           <Spinner svgTitleId="add-pgpkey-spinner" isLoading={isLoading} />
-          <Trans id="user.openpgp.action.add">Add</Trans>
+          <Trans id="user.openpgp.action.add" message="Add" />
         </Button>{' '}
         {/* @ts-ignore */}
         <Button onClick={handleCancelForm} shape="hollow">
-          <Trans id="general.action.cancel">Cancel</Trans>
+          <Trans id="general.action.cancel" message="Cancel" />
         </Button>
       </div>
     </form>

@@ -20,13 +20,15 @@ const PHONE_TYPES = ['', 'work', 'home', 'other'];
 
 function PhoneForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
   const addressTypes = {
-    work: i18n._('contact.phone_type.work', undefined, {
-      defaults: 'Professional',
+    work: i18n._(/* i18n */ 'contact.phone_type.work', undefined, {
+      message: 'Professional',
     }),
-    home: i18n._('contact.phone_type.home', undefined, {
-      defaults: 'Personal',
+    home: i18n._(/* i18n */ 'contact.phone_type.home', undefined, {
+      message: 'Personal',
     }),
-    other: i18n._('contact.phone_type.other', undefined, { defaults: 'Other' }),
+    other: i18n._(/* i18n */ 'contact.phone_type.other', undefined, {
+      message: 'Other',
+    }),
   };
 
   const typeOptions = PHONE_TYPES.map((value) => ({
@@ -47,7 +49,7 @@ function PhoneForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
             <Legend>
               <Icon rightSpaced type="phone" />
               <span className="m-phone-form__legend">
-                <Trans id="contact.phone_form.legend">Phone</Trans>
+                <Trans id="contact.phone_form.legend" message="Phone" />
               </span>
             </Legend>
           </FormColumn>
@@ -55,9 +57,13 @@ function PhoneForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
             <Field
               component={FormikSelectFieldGroup}
               name={`${name}.type`}
-              label={i18n._('contact.phone_form.type.label', undefined, {
-                defaults: 'Type',
-              })}
+              label={i18n._(
+                /* i18n */ 'contact.phone_form.type.label',
+                undefined,
+                {
+                  message: 'Type',
+                }
+              )}
               showLabelforSr
               options={typeOptions}
             />
@@ -69,15 +75,19 @@ function PhoneForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
               name={`${name}.number`}
               validate={validateRequired(i18n)}
               type="tel"
-              label={i18n._('contact.phone_form.number.label', undefined, {
-                defaults: 'Number',
-              })}
+              label={i18n._(
+                /* i18n */ 'contact.phone_form.number.label',
+                undefined,
+                {
+                  message: 'Number',
+                }
+              )}
               inputProps={{
                 placeholder: i18n._(
-                  'contact.phone_form.number.placeholder',
+                  /* i18n */ 'contact.phone_form.number.placeholder',
                   undefined,
                   {
-                    defaults: 'Number',
+                    message: 'Number',
                   }
                 ),
                 expanded: true,

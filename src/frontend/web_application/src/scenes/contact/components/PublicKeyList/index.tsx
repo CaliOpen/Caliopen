@@ -106,10 +106,10 @@ function PublicKeyList({ contactId, i18n }: Props) {
                   href={getPublicKeyDataUrl(publicKey)}
                   download={`${publicKey.label}.pubkey.asc`}
                   title={i18n._(
-                    'contact.public_key_list.download_key',
+                    /* i18n */ 'contact.public_key_list.download_key',
                     undefined,
                     {
-                      defaults: 'Download key',
+                      message: 'Download key',
                     }
                   )}
                 >
@@ -134,9 +134,10 @@ function PublicKeyList({ contactId, i18n }: Props) {
         />
       ) : (
         <Button onClick={enterAddMode} icon="key" type="button" shape="plain">
-          <Trans id="contact.public_keys_list.add_key.label">
-            Add public key
-          </Trans>
+          <Trans
+            id="contact.public_keys_list.add_key.label"
+            message="Add public key"
+          />
         </Button>
       )}
     </>

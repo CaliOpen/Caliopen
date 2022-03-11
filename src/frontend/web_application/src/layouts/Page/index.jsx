@@ -72,7 +72,7 @@ class Page extends Component {
                   display="inline-block"
                 >
                   <span className="l-header__button-label">
-                    <Trans id="header.help.menu">Help & info</Trans>
+                    <Trans id="header.help.menu" message="Help & info" />
                   </span>
                   <Icon
                     type={
@@ -101,9 +101,10 @@ class Page extends Component {
                         href="https://github.com/CaliOpen/Caliopen/blob/master/CHANGELOG.md"
                         target="_blank"
                       >
-                        <Trans id="header.help.last-changes">
-                          Last changes
-                        </Trans>
+                        <Trans
+                          id="header.help.last-changes"
+                          message="Last changes"
+                        />
                       </Link>
                     </VerticalMenuItem>
                     <VerticalMenuItem>
@@ -113,7 +114,7 @@ class Page extends Component {
                         href="https://feedback.caliopen.org/t/questions-frequemment-posees-frequently-asked-questions/162"
                         target="_blank"
                       >
-                        <Trans id="header.help.faq">FAQ [fr]</Trans>
+                        <Trans id="header.help.faq" message="FAQ [fr]" />
                       </Link>
                     </VerticalMenuItem>
                     <VerticalMenuItem>
@@ -123,7 +124,7 @@ class Page extends Component {
                         href="https://feedback.caliopen.org"
                         target="_blank"
                       >
-                        <Trans id="header.help.feedback">Feedback</Trans>
+                        <Trans id="header.help.feedback" message="Feedback" />
                       </Link>
                     </VerticalMenuItem>
                     <VerticalMenuItem>
@@ -133,9 +134,10 @@ class Page extends Component {
                         href="/privacy-policy.html"
                         target="_blank"
                       >
-                        <Trans id="header.help.privacy-policy">
-                          Privacy Policy
-                        </Trans>
+                        <Trans
+                          id="header.help.privacy-policy"
+                          message="Privacy Policy"
+                        />
                       </Link>
                     </VerticalMenuItem>
                     <InstallButton />

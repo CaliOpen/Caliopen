@@ -48,7 +48,7 @@ class RemoteIdentityDetails extends Component {
           <FormColumn bottomSpace>
             <Trans
               id="remote_identity.last_connection"
-              defaults="Last connection: <0/>"
+              message="Last connection: <0/>"
               components={[
                 <LastConnection lastCheck={remoteIdentity.last_check} />,
               ]}

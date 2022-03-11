@@ -342,6 +342,7 @@
   "passwords.form.error.user_not_found": "",
   "pwa.action.install": "",
   "pwa.feedback.install-success": "",
+  "remote-identity-settings.unexpected-error": "",
   "remote_identity.action.cancel": "Abbrechen",
   "remote_identity.action.delete": "",
   "remote_identity.action.edit": "",

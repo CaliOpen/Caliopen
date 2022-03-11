@@ -31,9 +31,8 @@ interface Props extends withI18nProps {
 
 function OpenPGPGenerateForm({ i18n, cancel, onSuccess }: Props) {
   const dispatch = useDispatch();
-  const [generateValues, setGenerateValues] = React.useState(
-    initGenerateValues
-  );
+  const [generateValues, setGenerateValues] =
+    React.useState(initGenerateValues);
   const [hasPassphrase, setHasPassphrase] = React.useState<boolean>(false);
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -103,8 +102,8 @@ function OpenPGPGenerateForm({ i18n, cancel, onSuccess }: Props) {
       {emailOptions.length > 1 && (
         <SelectFieldGroup
           className="m-account-openpgp-form__field-group"
-          label={i18n._('user.openpgp.form.email.label', undefined, {
-            defaults: 'Email:',
+          label={i18n._(/* i18n */ 'user.openpgp.form.email.label', undefined, {
+            message: 'Email:',
           })}
           value={generateValues.email}
           onChange={handleGenerateChanges}
@@ -115,16 +114,16 @@ function OpenPGPGenerateForm({ i18n, cancel, onSuccess }: Props) {
       )}
       {emailOptions.length === 1 && (
         <p className="m-account-openpgp-form__field-group">
-          <Trans id="user.openpgp.form.email.label">Email:</Trans>{' '}
+          <Trans id="user.openpgp.form.email.label" message="Email:" />{' '}
           {generateValues.email}
         </p>
       )}
       <div className="m-account-openpgp-form__field-group">
-        <Trans id="user.openpgp.has-passphrase">Enable passphrase</Trans>{' '}
+        <Trans id="user.openpgp.has-passphrase" message="Enable passphrase" />{' '}
         <CheckboxFieldGroup
           displaySwitch
-          label={i18n._('user.openpgp.has-passphrase', undefined, {
-            defaults: 'Enable passphrase',
+          label={i18n._(/* i18n */ 'user.openpgp.has-passphrase', undefined, {
+            message: 'Enable passphrase',
           })}
           value={hasPassphrase}
           onChange={handleToggleHasPassprase}
@@ -135,9 +134,13 @@ function OpenPGPGenerateForm({ i18n, cancel, onSuccess }: Props) {
         <div className="m-account-openpgp-form__field-group">
           <TextFieldGroup
             id="openpgp_passphrase"
-            label={i18n._('user.openpgp.form.passphrase.label', undefined, {
-              defaults: 'Passphrase',
-            })}
+            label={i18n._(
+              /* i18n */ 'user.openpgp.form.passphrase.label',
+              undefined,
+              {
+                message: 'Passphrase',
+              }
+            )}
             inputProps={{
               type: 'password',
               value: generateValues.passphrase,
@@ -152,11 +155,11 @@ function OpenPGPGenerateForm({ i18n, cancel, onSuccess }: Props) {
         {/* @ts-ignore */}
         <Button type="submit" shape="plain">
           <Spinner svgTitleId="create-pgpkey-spinner" isLoading={isLoading} />{' '}
-          <Trans id="user.openpgp.action.create">Create</Trans>
+          <Trans id="user.openpgp.action.create" message="Create" />
         </Button>{' '}
         {/* @ts-ignore */}
         <Button onClick={handleCancelForm} shape="hollow">
-          <Trans id="general.action.cancel">Cancel</Trans>
+          <Trans id="general.action.cancel" message="Cancel" />
         </Button>
       </div>
     </form>

@@ -30,7 +30,7 @@ export const contactValidation = (values) => {
             <Trans
               id="contact.form.identity.not_twitter"
               values={{ name: identity.name }}
-              defaults="The twitter username {name} is invalid. It should be between 1 or 15 characters with no special characters. For example «caliopen_org»."
+              message="The twitter username {name} is invalid. It should be between 1 or 15 characters with no special characters. For example «caliopen_org»."
             />
           );
           hasError = true;
@@ -44,7 +44,7 @@ export const contactValidation = (values) => {
             <Trans
               id="contact.form.identity.not_mastodon"
               values={{ name: identity.name }}
-              defaults="The mastodon username {name} is invalid. It should be in the format of an email. For example «my_friend@mastodon.instance»."
+              message="The mastodon username {name} is invalid. It should be in the format of an email. For example «my_friend@mastodon.instance»."
             />
           );
           hasError = true;

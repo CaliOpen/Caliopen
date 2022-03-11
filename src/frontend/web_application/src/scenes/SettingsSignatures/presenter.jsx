@@ -31,8 +31,8 @@ const SettingsSignatures = ({ i18n }) => (
     )}
     <div className="s-settings-signatures__panel">
       <Section
-        title={i18n._('settings.signatures.title', {
-          defaults: 'Update your signature',
+        title={i18n._(/* i18n */ 'settings.signatures.title', {
+          message: 'Update your signature',
         })}
       >
         <SignatureForm

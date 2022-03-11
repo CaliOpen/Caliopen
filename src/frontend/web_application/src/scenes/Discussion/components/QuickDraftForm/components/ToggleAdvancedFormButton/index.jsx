@@ -13,8 +13,8 @@ const ToggleAdvancedFormButton = ({
     display="expanded"
     shape="plain"
     className="m-toggle-advanced-draft-button"
-    title={i18n._('draft-message.action.toggle-advanced', null, {
-      defaults: 'Toggle advanced or quick message form',
+    title={i18n._(/* i18n */ 'draft-message.action.toggle-advanced', null, {
+      message: 'Toggle advanced or quick message form',
     })}
     onClick={handleToggleAdvancedForm}
     disabled={hasActivity}

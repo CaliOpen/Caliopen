@@ -61,18 +61,19 @@ function TagsForm({ tagCollection, i18n, updateTags }: TagsFormProps) {
       } catch (err) {
         if (foundTags.length !== 1) {
           setErrors([
-            <Trans id="settings.tag.form.error.create_fail">
-              Unable to create the tag. A tag with the same id may already
-              exist.
-            </Trans>,
+            <Trans
+              id="settings.tag.form.error.create_fail"
+              message="Unable to create the tag. A tag with the same id may already exist."
+            />,
           ]);
           return;
         }
 
         setErrors([
-          <Trans id="settings.tag.form.error.update_failed">
-            Unexpected error occured
-          </Trans>,
+          <Trans
+            id="settings.tag.form.error.update_failed"
+            message="Unexpected error occured"
+          />,
         ]);
       }
     }
@@ -84,9 +85,10 @@ function TagsForm({ tagCollection, i18n, updateTags }: TagsFormProps) {
       updateTags([...tagCollection, tag]);
     } catch (err) {
       setErrors([
-        <Trans id="settings.tag.form.error.update_failed">
-          Unexpected error occured
-        </Trans>,
+        <Trans
+          id="settings.tag.form.error.update_failed"
+          message="Unexpected error occured"
+        />,
       ]);
     }
   };
@@ -97,9 +99,10 @@ function TagsForm({ tagCollection, i18n, updateTags }: TagsFormProps) {
       updateTags(tagCollection.filter((item) => item !== tag));
     } catch (err) {
       setErrors([
-        <Trans id="settings.tag.form.error.update_failed">
-          Unexpected error occured
-        </Trans>,
+        <Trans
+          id="settings.tag.form.error.update_failed"
+          message="Unexpected error occured"
+        />,
       ]);
     }
   };

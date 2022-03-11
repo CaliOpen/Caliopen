@@ -33,7 +33,9 @@ class TagItem extends Component {
         className="m-tag-item"
         onDelete={this.handleDeleteTag}
         isLoading={this.state.isTagCollectionUpdating}
-        ariaLabel={i18n._('tags.action.remove', null, { defaults: 'Remove' })}
+        ariaLabel={i18n._(/* i18n */ 'tags.action.remove', null, {
+          message: 'Remove',
+        })}
       >
         {getTagLabel(i18n, tag)}
       </Badge>

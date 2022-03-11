@@ -22,8 +22,8 @@ export const validate = ({
 
   if (!identity) {
     return [
-      i18n._('draft-message.errors.missing-identity', undefined, {
-        defaults: 'An identity is mandatory to create a draft',
+      i18n._(/* i18n */ 'draft-message.errors.missing-identity', undefined, {
+        message: 'An identity is mandatory to create a draft',
       }),
     ];
   }
@@ -38,10 +38,10 @@ export const validate = ({
   ) {
     errors.push(
       i18n._(
-        'draft-message.errors.invalid-participant',
+        /* i18n */ 'draft-message.errors.invalid-participant',
         { protocol },
         {
-          defaults:
+          message:
             'According to your identity, all your participants must use a {protocol} address to contact them all together',
         }
       )
@@ -55,9 +55,9 @@ export const validate = ({
   ) {
     errors.push(
       i18n._(
-        'draft-message.errors.empty-body',
+        /* i18n */ 'draft-message.errors.empty-body',
         { protocol },
-        { defaults: 'The body cannot be empty for a {protocol} message.' }
+        { message: 'The body cannot be empty for a {protocol} message.' }
       )
     );
   }

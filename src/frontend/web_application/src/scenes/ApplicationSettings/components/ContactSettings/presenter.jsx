@@ -34,24 +34,24 @@ class ContactsForm extends Component {
     const { i18n } = this.props;
     this.i18n = {
       'given_name, family_name': i18n._(
-        'settings.contact.display_format.options.first_last',
+        /* i18n */ 'settings.contact.display_format.options.first_last',
         null,
-        { defaults: 'Firstname, Lastname' }
+        { message: 'Firstname, Lastname' }
       ),
       'family_name, given_name': i18n._(
-        'settings.contact.display_format.options.last_first',
+        /* i18n */ 'settings.contact.display_format.options.last_first',
         null,
-        { defaults: 'Lastname, Firstname' }
+        { message: 'Lastname, Firstname' }
       ),
       given_name: i18n._(
-        'settings.contact.display_order_by.options.firstname',
+        /* i18n */ 'settings.contact.display_order_by.options.firstname',
         null,
-        { defaults: 'Firstname' }
+        { message: 'Firstname' }
       ),
       family_name: i18n._(
-        'settings.contact.display_order_by.options.lastname',
+        /* i18n */ 'settings.contact.display_order_by.options.lastname',
         null,
-        { defaults: 'Lastname' }
+        { message: 'Lastname' }
       ),
     };
   }
@@ -69,9 +69,13 @@ class ContactsForm extends Component {
             <Field
               component={SelectFieldGroup}
               name="contact_display_format"
-              label={i18n._('settings.contacts.display.label', null, {
-                defaults: 'Display',
-              })}
+              label={i18n._(
+                /* i18n */ 'settings.contacts.display.label',
+                null,
+                {
+                  message: 'Display',
+                }
+              )}
               options={displayFormatOptions}
               expanded
             />
@@ -80,8 +84,8 @@ class ContactsForm extends Component {
             <Field
               component={SelectFieldGroup}
               name="contact_display_order"
-              label={i18n._('settings.contacts.order.label', null, {
-                defaults: 'Order by',
+              label={i18n._(/* i18n */ 'settings.contacts.order.label', null, {
+                message: 'Order by',
               })}
               options={displayOrderByOptions}
               expanded

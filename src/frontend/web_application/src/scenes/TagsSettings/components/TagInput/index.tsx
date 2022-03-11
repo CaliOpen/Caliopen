@@ -89,9 +89,13 @@ function TagInput({ i18n, tag, onUpdateSuccess, onDeleteSuccess }: Props) {
         />
         <Button
           onClick={handleUpdateTag}
-          aria-label={i18n._('settings.tag.action.save-tag', undefined, {
-            defaults: 'Save',
-          })}
+          aria-label={i18n._(
+            /* i18n */ 'settings.tag.action.save-tag',
+            undefined,
+            {
+              message: 'Save',
+            }
+          )}
           icon={
             pending ? (
               <Spinner
@@ -119,9 +123,13 @@ function TagInput({ i18n, tag, onUpdateSuccess, onDeleteSuccess }: Props) {
       {tag.type === TAG_TYPE_USER && (
         <Button
           className="m-tag-input__delete"
-          aria-label={i18n._('settings.tags.action.delete', undefined, {
-            defaults: 'Delete',
-          })}
+          aria-label={i18n._(
+            /* i18n */ 'settings.tags.action.delete',
+            undefined,
+            {
+              message: 'Delete',
+            }
+          )}
           disabled={pending}
           onClick={handleDeleteTag}
           icon={

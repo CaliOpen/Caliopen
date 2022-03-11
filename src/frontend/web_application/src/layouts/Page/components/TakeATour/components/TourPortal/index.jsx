@@ -132,7 +132,7 @@ class TourPortal extends TourPortalBase {
               <div className="m-tour-portal__close">
                 <Button onClick={onRequestClose} icon="remove">
                   <span className="show-for-sr">
-                    <Trans id="take-a-tour.action.close">Close</Trans>
+                    <Trans id="take-a-tour.action.close" message="Close" />
                   </span>
                 </Button>
               </div>

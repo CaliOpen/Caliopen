@@ -20,25 +20,26 @@ const AboutPage = ({ children }) => {
           </li>
           <li className="l-about-page__footer-entry">
             <Link href="https://www.caliopen.org" target="_blank">
-              <Trans id="about.footer.link-website">About</Trans>
+              <Trans id="about.footer.link-website" message="About" />
             </Link>
           </li>
           <li className="l-about-page__footer-entry">
             <Link href="https://www.caliopen.org/blog" target="_blank">
-              <Trans id="about.footer.link-blog">Blog</Trans>
+              <Trans id="about.footer.link-blog" message="Blog" />
             </Link>
           </li>
           <li className="l-about-page__footer-entry">
             <Link href="https://github.com/CaliOpen/Caliopen" target="_blank">
               <Icon type="github" />{' '}
-              <Trans id="about.footer.link-source-code">Open Source</Trans>
+              <Trans id="about.footer.link-source-code" message="Open Source" />
             </Link>
           </li>
           <li className="l-about-page__footer-entry">
             <Link href="/privacy-policy.html" target="_blank">
-              <Trans id="about.footer.link-privacy-policy">
-                Privacy Policy
-              </Trans>
+              <Trans
+                id="about.footer.link-privacy-policy"
+                message="Privacy Policy"
+              />
             </Link>
           </li>
           <li className="l-about-page__footer-entry">{version}</li>

@@ -41,8 +41,8 @@ function TagFieldGroup({
   const inputProps = {
     ...input,
     className: classnames(input.className, 'm-tags-search__input'),
-    placeholder: i18n._('tags.form.search.placeholder', undefined, {
-      defaults: 'Search a tag ...',
+    placeholder: i18n._(/* i18n */ 'tags.form.search.placeholder', undefined, {
+      message: 'Search a tag ...',
     }),
     onChange: handleChange,
     name: 'terms',
@@ -54,8 +54,8 @@ function TagFieldGroup({
     <div className="m-tags-search">
       <TextFieldGroup
         id="search_tags"
-        label={i18n._('tags.form.search.label', undefined, {
-          defaults: 'Search',
+        label={i18n._(/* i18n */ 'tags.form.search.label', undefined, {
+          message: 'Search',
         })}
         showLabelforSr
         inputProps={inputProps}
@@ -73,7 +73,9 @@ function TagFieldGroup({
         }
         disabled={isFetching}
         onClick={handleSubmit}
-        aria-label={i18n._('tags.action.add', undefined, { defaults: 'Add' })}
+        aria-label={i18n._(/* i18n */ 'tags.action.add', undefined, {
+          message: 'Add',
+        })}
       />
     </div>
   );

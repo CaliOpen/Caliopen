@@ -33,9 +33,13 @@ class DesktopNotificationSettings extends Component {
     const { i18n } = this.props;
 
     return notify({
-      message: i18n._('settings.desktop_notification.feedback.enabled', null, {
-        defaults: 'Desktop notifications are enabled',
-      }),
+      message: i18n._(
+        /* i18n */ 'settings.desktop_notification.feedback.enabled',
+        null,
+        {
+          message: 'Desktop notifications are enabled',
+        }
+      ),
       force: true,
     });
   };
@@ -44,9 +48,10 @@ class DesktopNotificationSettings extends Component {
   renderNoSupport() {
     return (
       <div>
-        <Trans id="settings.desktop_notification.no_support">
-          Notifications are not supported by your browser
-        </Trans>
+        <Trans
+          id="settings.desktop_notification.no_support"
+          message="Notifications are not supported by your browser"
+        />
       </div>
     );
   }
@@ -57,14 +62,16 @@ class DesktopNotificationSettings extends Component {
         <div>
           <span className="m-desktop-notifications--allowed">
             <Icon type="check" />{' '}
-            <Trans id="settings.desktop_notification.desktop_notifications_enabled">
-              Desktop notifications enabled
-            </Trans>{' '}
+            <Trans
+              id="settings.desktop_notification.desktop_notifications_enabled"
+              message="Desktop notifications enabled"
+            />{' '}
           </span>{' '}
           <Button onClick={this.handleClickTestBrowser} display="inline">
-            <Trans id="settings.desktop_notification.action.test_desktop_notification">
-              Check desktop notifications
-            </Trans>
+            <Trans
+              id="settings.desktop_notification.action.test_desktop_notification"
+              message="Check desktop notifications"
+            />
           </Button>
         </div>
       );
@@ -74,9 +81,10 @@ class DesktopNotificationSettings extends Component {
       return (
         <div className="m-desktop-notifications--denied">
           <Icon type="remove" />{' '}
-          <Trans id="settings.desktop_notification.disabled">
-            Notifications are disabled, please check your browser settings
-          </Trans>
+          <Trans
+            id="settings.desktop_notification.disabled"
+            message="Notifications are disabled, please check your browser settings"
+          />
         </div>
       );
     }
@@ -84,9 +92,10 @@ class DesktopNotificationSettings extends Component {
     return (
       <div>
         <Button onClick={this.handleRequestBrowserNotification}>
-          <Trans id="settings.desktop_notification.action.request-desktop_notification_permission">
-            Enable desktop notifications
-          </Trans>
+          <Trans
+            id="settings.desktop_notification.action.request-desktop_notification_permission"
+            message="Enable desktop notifications"
+          />
         </Button>
       </div>
     );

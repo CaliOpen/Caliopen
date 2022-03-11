@@ -106,7 +106,10 @@ class MessageResultItem extends PureComponent {
             )}
             {message.is_draft && (
               <span className="s-message-result-item__draft-prefix">
-                <Trans id="timeline.draft-prefix">Draft in progress:</Trans>{' '}
+                <Trans
+                  id="timeline.draft-prefix"
+                  message="Draft in progress:"
+                />{' '}
               </span>
             )}
             {message.subject && (

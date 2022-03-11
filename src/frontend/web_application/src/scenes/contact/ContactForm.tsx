@@ -50,14 +50,18 @@ function ContactForm({
           <Form method="post" name="edit-contact">
             <FormikPersist name={formName} />
             <Title hr>
-              <Trans id="contact.edit_contact.title">Edit the contact</Trans>
+              <Trans
+                id="contact.edit_contact.title"
+                message="Edit the contact"
+              />
             </Title>
             <ContactProfileForm isNew={initialProfileSectionOpen} />
             <div>
               <Title hr>
-                <Trans id="contact.contact-details.title">
-                  Contact details
-                </Trans>
+                <Trans
+                  id="contact.contact-details.title"
+                  message="Contact details"
+                />
               </Title>
               <FieldArray
                 name="emails"
@@ -108,7 +112,7 @@ function ContactForm({
               <AddFormFieldForm />
             </div>
             <Title hr>
-              <Trans id="contact.addresses">Addresses</Trans>
+              <Trans id="contact.addresses" message="Addresses" />
             </Title>
             <FieldArray
               name="addresses"
@@ -131,9 +135,10 @@ function ContactForm({
                             shape="plain"
                             onClick={handlePush({})}
                           >
-                            <Trans id="contact.action.add-address">
-                              Add an address
-                            </Trans>
+                            <Trans
+                              id="contact.action.add-address"
+                              message="Add an address"
+                            />
                           </Button>
                         </FormColumn>
                       </FormRow>
@@ -143,7 +148,7 @@ function ContactForm({
               )}
             />
             <Title hr>
-              <Trans id="contact.organization">Organization</Trans>
+              <Trans id="contact.organization" message="Organization" />
             </Title>
             <FieldArray
               name="organizations"
@@ -166,9 +171,10 @@ function ContactForm({
                             shape="plain"
                             onClick={() => pushOrga({})}
                           >
-                            <Trans id="contact.action.add-organization">
-                              Add an organization
-                            </Trans>
+                            <Trans
+                              id="contact.action.add-organization"
+                              message="Add an organization"
+                            />
                           </Button>
                         </FormColumn>
                       </FormRow>
@@ -178,7 +184,7 @@ function ContactForm({
               )}
             />
             <Title hr>
-              <Trans id="contact.identities">Identities</Trans>
+              <Trans id="contact.identities" message="Identities" />
             </Title>
             <FieldArray
               name="identities"
@@ -203,9 +209,10 @@ function ContactForm({
                               pushIdentity({ type: IDENTITY_TYPE_TWITTER })
                             }
                           >
-                            <Trans id="contact.action.add-identity">
-                              Add an identity
-                            </Trans>
+                            <Trans
+                              id="contact.action.add-identity"
+                              message="Add an identity"
+                            />
                           </Button>
                         </FormColumn>
                       </FormRow>
@@ -223,7 +230,7 @@ function ContactForm({
                 shape="plain"
                 color="disabled"
               >
-                <Trans id="contact.action.cancel">Cancel</Trans>
+                <Trans id="contact.action.cancel" message="Cancel" />
               </Button>
               <Button
                 type="submit"
@@ -243,7 +250,7 @@ function ContactForm({
                 shape="plain"
                 disabled={hasActivity}
               >
-                <Trans id="contact.action.save">Save</Trans>
+                <Trans id="contact.action.save" message="Save" />
               </Button>
             </div>
           </Form>

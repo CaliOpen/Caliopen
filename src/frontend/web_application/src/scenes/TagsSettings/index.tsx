@@ -23,8 +23,8 @@ function TagsSettings({ i18n }: Props) {
     <div className="s-tags-settings">
       <div className="s-tags-settings__create">
         <Section
-          title={i18n._('settings.tags.title.create', undefined, {
-            defaults: 'Create new tag',
+          title={i18n._(/* i18n */ 'settings.tags.title.create', undefined, {
+            message: 'Create new tag',
           })}
         >
           <TagSearch onCreateSuccess={handleInvalidate} />
@@ -32,8 +32,8 @@ function TagsSettings({ i18n }: Props) {
       </div>
       <div className="s-tags-settings__tags">
         <Section
-          title={i18n._('settings.tags.title', undefined, {
-            defaults: 'Tags',
+          title={i18n._(/* i18n */ 'settings.tags.title', undefined, {
+            message: 'Tags',
           })}
         >
           {!initialized && status !== 'rejected' ? (

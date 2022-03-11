@@ -84,9 +84,10 @@ function OpenPGPPrivateKeys(): React.ReactNode {
               name={FORM_TYPE_GENERATE}
               {...generateHollowProp}
             >
-              <Trans id="user.openpgp.action.switch-generate-key">
-                Generate key
-              </Trans>
+              <Trans
+                id="user.openpgp.action.switch-generate-key"
+                message="Generate key"
+              />
             </Button>{' '}
             {/* @ts-ignore */}
             <Button
@@ -94,9 +95,10 @@ function OpenPGPPrivateKeys(): React.ReactNode {
               name={FORM_TYPE_IMPORT}
               {...rawHollowProp}
             >
-              <Trans id="user.openpgp.action.switch-import-raw-key">
-                Import key
-              </Trans>
+              <Trans
+                id="user.openpgp.action.switch-import-raw-key"
+                message="Import key"
+              />
             </Button>
           </div>
           <div className="m-account-openpgp__form">
@@ -118,7 +120,10 @@ function OpenPGPPrivateKeys(): React.ReactNode {
         <div className="m-account-openpgp__toggle-edit">
           {/* @ts-ignore */}
           <Button onClick={handleClickEditMode} shape="plain" icon="plus">
-            <Trans id="user.openpgp.action.edit-keys">Edit and add keys</Trans>
+            <Trans
+              id="user.openpgp.action.edit-keys"
+              message="Edit and add keys"
+            />
           </Button>
         </div>
       )}

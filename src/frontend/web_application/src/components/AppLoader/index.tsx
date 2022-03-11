@@ -8,30 +8,38 @@ import './style.scss';
 
 function Activity() {
   const activities = [
-    <Trans id="app-loader.activity.macaroons">
-      Baking macaroons, wait a moment please
-    </Trans>,
-    <Trans id="app-loader.activity.cats">
-      Feeding the cats, wait a moment please
-    </Trans>,
-    <Trans id="app-loader.activity.chicken">
-      Telling the chicken to get out from the kitchen, wait a moment please
-    </Trans>,
-    <Trans id="app-loader.activity.beckett">
-      Waiting for Godot, he'll soon be there, trust me
-    </Trans>,
-    <Trans id="app-loader.activity.newcat">
-      Trying to tell if there is a new cat in house, wait a moment please
-    </Trans>,
-    <Trans id="app-loader.activity.ipaddr">
-      Forging new ip addresses, wait a moment please
-    </Trans>,
-    <Trans id="app-loader.activity.oof">
-      Configuring OpenOffice firewall, wait a moment please
-    </Trans>,
-    <Trans id="app-loader.activity.trolls">
-      Correcting wrong people on the Internet, wait a moment please
-    </Trans>,
+    <Trans
+      id="app-loader.activity.macaroons"
+      message="Baking macaroons, wait a moment please"
+    />,
+    <Trans
+      id="app-loader.activity.cats"
+      message="Feeding the cats, wait a moment please"
+    />,
+    <Trans
+      id="app-loader.activity.chicken"
+      message="Telling the chicken to get out from the kitchen, wait a moment please"
+    />,
+    <Trans
+      id="app-loader.activity.beckett"
+      message="Waiting for Godot, he'll soon be there, trust me"
+    />,
+    <Trans
+      id="app-loader.activity.newcat"
+      message="Trying to tell if there is a new cat in house, wait a moment please"
+    />,
+    <Trans
+      id="app-loader.activity.ipaddr"
+      message="Forging new ip addresses, wait a moment please"
+    />,
+    <Trans
+      id="app-loader.activity.oof"
+      message="Configuring OpenOffice firewall, wait a moment please"
+    />,
+    <Trans
+      id="app-loader.activity.trolls"
+      message="Correcting wrong people on the Internet, wait a moment please"
+    />,
   ];
   const now = new Date();
   const hour = now.getHours();
@@ -74,15 +82,17 @@ function AppLoader({
           ) : (
             <>
               <p>
-                <Trans id="app-loader.feedback.failure">
-                  Something went wrong. Are you offline ?
-                </Trans>
+                <Trans
+                  id="app-loader.feedback.failure"
+                  message="Something went wrong. Are you offline ?"
+                />
               </p>
               <p>
                 <Link href={fallbackUrl}>
-                  <Trans id="app-loader.action.retry">
-                    Please click here to retry
-                  </Trans>
+                  <Trans
+                    id="app-loader.action.retry"
+                    message="Please click here to retry"
+                  />
                 </Link>
               </p>
             </>

@@ -16,8 +16,8 @@ function StylezedScreenshot({ className, i18n, type }: Props) {
         <img
           className={className}
           src={smartphoneSrc}
-          alt={i18n._('screenshot.smartphone', undefined, {
-            defaults: 'blurry screenshot of Caliopen for smartphone',
+          alt={i18n._(/* i18n */ 'screenshot.smartphone', undefined, {
+            message: 'blurry screenshot of Caliopen for smartphone',
           })}
         />
       );
@@ -27,8 +27,8 @@ function StylezedScreenshot({ className, i18n, type }: Props) {
         <img
           className={className}
           src={desktopSrc}
-          alt={i18n._('screenshot.desktop', undefined, {
-            defaults: 'blurry screenshot of Caliopen for desktop',
+          alt={i18n._(/* i18n */ 'screenshot.desktop', undefined, {
+            message: 'blurry screenshot of Caliopen for desktop',
           })}
         />
       );

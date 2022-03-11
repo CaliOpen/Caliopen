@@ -39,12 +39,20 @@ class ImportContactButton extends PureComponent {
     return (
       <Modal
         isOpen={this.state.isImportModalOpen}
-        contentLabel={i18n._('import-contact.action.import_contacts', null, {
-          defaults: 'Import contacts',
-        })}
-        title={i18n._('import-contact.action.import_contacts', null, {
-          defaults: 'Import contacts',
-        })}
+        contentLabel={i18n._(
+          /* i18n */ 'import-contact.action.import_contacts',
+          null,
+          {
+            message: 'Import contacts',
+          }
+        )}
+        title={i18n._(
+          /* i18n */ 'import-contact.action.import_contacts',
+          null,
+          {
+            message: 'Import contacts',
+          }
+        )}
         onClose={this.handleCloseImportModal}
       >
         <ImportContact
@@ -67,7 +75,7 @@ class ImportContactButton extends PureComponent {
           display="block"
           onClick={this.handleOpenImportModal}
         >
-          <Trans id="contact-book.action.import">Import</Trans>
+          <Trans id="contact-book.action.import" message="Import" />
         </Button>
         {this.renderImportModal()}
       </Fragment>

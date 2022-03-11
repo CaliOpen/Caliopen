@@ -10,14 +10,14 @@ interface Props extends withI18nProps {
 
 function AddressDetails({ i18n, address }: Props) {
   const addressTypesTranslations = {
-    work: i18n._('contact.address_type.work', undefined, {
-      defaults: 'Professional',
+    work: i18n._(/* i18n */ 'contact.address_type.work', undefined, {
+      message: 'Professional',
     }),
-    home: i18n._('contact.address_type.home', undefined, {
-      defaults: 'Personal',
+    home: i18n._(/* i18n */ 'contact.address_type.home', undefined, {
+      message: 'Personal',
     }),
-    other: i18n._('contact.address_type.other', undefined, {
-      defaults: 'Other',
+    other: i18n._(/* i18n */ 'contact.address_type.other', undefined, {
+      message: 'Other',
     }),
   };
 

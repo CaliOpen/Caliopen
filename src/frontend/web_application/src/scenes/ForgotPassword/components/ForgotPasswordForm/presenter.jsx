@@ -58,7 +58,7 @@ class ForgotPasswordForm extends Component {
     return (
       <div className="m-forgot-password-form">
         <Title>
-          <Trans id="password.forgot-form.title">Forgot password</Trans>
+          <Trans id="password.forgot-form.title" message="Forgot password" />
         </Title>
         <FormGrid className="m-forgot-password-form">
           <form method="post" onSubmit={this.handleSubmit}>
@@ -89,7 +89,10 @@ class ForgotPasswordForm extends Component {
                     bottomSpace
                   >
                     <Link button plain expanded to="/auth/signin">
-                      <Trans id="password.forgot-form.action.login">Ok</Trans>
+                      <Trans
+                        id="password.forgot-form.action.login"
+                        message="Ok"
+                      />
                     </Link>
                   </FormColumn>
                 </FormRow>
@@ -106,15 +109,15 @@ class ForgotPasswordForm extends Component {
                   <FormColumn rightSpace={false} bottomSpace>
                     <TextFieldGroup
                       label={i18n._(
-                        'password.forgot-form.username.label',
+                        /* i18n */ 'password.forgot-form.username.label',
                         null,
-                        { defaults: 'Username' }
+                        { message: 'Username' }
                       )}
                       inputProps={{
                         placeholder: i18n._(
-                          'password.forgot-form.username.placeholder',
+                          /* i18n */ 'password.forgot-form.username.placeholder',
                           null,
-                          { defaults: 'Username' }
+                          { message: 'Username' }
                         ),
                         name: 'username',
                         value: this.state.formValues.username,
@@ -127,15 +130,15 @@ class ForgotPasswordForm extends Component {
                   <FormColumn rightSpace={false} bottomSpace>
                     <TextFieldGroup
                       label={i18n._(
-                        'password.forgot-form.recovery_email.label',
+                        /* i18n */ 'password.forgot-form.recovery_email.label',
                         null,
-                        { defaults: 'Recovery email' }
+                        { message: 'Recovery email' }
                       )}
                       inputProps={{
                         placeholder: i18n._(
-                          'password.forgot-form.recovery_email.placeholder',
+                          /* i18n */ 'password.forgot-form.recovery_email.placeholder',
                           null,
-                          { defaults: 'Recovery email' }
+                          { message: 'Recovery email' }
                         ),
                         name: 'recovery_email',
                         value: this.state.formValues.recovery_email,
@@ -151,7 +154,10 @@ class ForgotPasswordForm extends Component {
                     bottomSpace
                   >
                     <Button type="submit" display="expanded" shape="plain">
-                      <Trans id="password.forgot-form.action.send">Send</Trans>
+                      <Trans
+                        id="password.forgot-form.action.send"
+                        message="Send"
+                      />
                     </Button>
                   </FormColumn>
                   <FormColumn
@@ -159,7 +165,10 @@ class ForgotPasswordForm extends Component {
                     className="m-forgot-password-form__link"
                   >
                     <Link to="/auth/signin">
-                      <Trans id="password.forgot-form.cancel">Cancel</Trans>
+                      <Trans
+                        id="password.forgot-form.cancel"
+                        message="Cancel"
+                      />
                     </Link>
                   </FormColumn>
                 </FormRow>

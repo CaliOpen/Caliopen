@@ -148,18 +148,19 @@ class SignupForm extends Component {
       <Modal
         className="s-signup__modal"
         isOpen={this.state.isModalOpen}
-        contentLabel={i18n._('signup.privacy.modal.label', null, {
-          defaults: 'About Piwik',
+        contentLabel={i18n._(/* i18n */ 'signup.privacy.modal.label', null, {
+          message: 'About Piwik',
         })}
-        title={i18n._('signup.privacy.modal.label', null, {
-          defaults: 'About Piwik',
+        title={i18n._(/* i18n */ 'signup.privacy.modal.label', null, {
+          message: 'About Piwik',
         })}
         onClose={this.handleCloseModal}
       >
         <p>
-          <Trans id="signup.privacy.modal.title">
-            Caliopen is under development !
-          </Trans>
+          <Trans
+            id="signup.privacy.modal.title"
+            message="Caliopen is under development !"
+          />
         </p>
         <p>
           <Trans id="signup.privacy.modal.text.alpha_tester">
@@ -189,7 +190,7 @@ class SignupForm extends Component {
           </Trans>
         </p>
         <Button shape="plain" onClick={this.handleCloseModal}>
-          <Trans id="signup.privacy.modal.close">Ok got it !</Trans>
+          <Trans id="signup.privacy.modal.close" message="Ok got it !" />
         </Button>
       </Modal>
     );
@@ -220,17 +221,17 @@ class SignupForm extends Component {
                   inputProps={{
                     name: 'username',
                     placeholder: i18n._(
-                      'signup.form.username.placeholder',
+                      /* i18n */ 'signup.form.username.placeholder',
                       null,
-                      { defaults: 'username' }
+                      { message: 'username' }
                     ),
                     value: this.state.formValues.username,
                     onChange: this.handleInputChange,
                     onBlur: this.handleInputBlur,
                     expanded: true,
                   }}
-                  label={i18n._('signup.form.username.label', null, {
-                    defaults: 'Username',
+                  label={i18n._(/* i18n */ 'signup.form.username.label', null, {
+                    message: 'Username',
                   })}
                   errors={errors.username}
                 />
@@ -249,9 +250,9 @@ class SignupForm extends Component {
                   inputProps={{
                     name: 'password',
                     placeholder: i18n._(
-                      'signup.form.password.placeholder',
+                      /* i18n */ 'signup.form.password.placeholder',
                       null,
-                      { defaults: 'password' }
+                      { message: 'password' }
                     ),
                     type: 'password',
                     value: this.state.formValues.password,
@@ -259,8 +260,8 @@ class SignupForm extends Component {
                     onBlur: this.handleInputBlur,
                     expanded: true,
                   }}
-                  label={i18n._('signup.form.password.label', null, {
-                    defaults: 'Password',
+                  label={i18n._(/* i18n */ 'signup.form.password.label', null, {
+                    message: 'Password',
                   })}
                   errors={errors.password}
                 />
@@ -278,9 +279,9 @@ class SignupForm extends Component {
                   inputProps={{
                     name: 'recovery_email',
                     placeholder: i18n._(
-                      'signup.form.invitation_email.placeholder',
+                      /* i18n */ 'signup.form.invitation_email.placeholder',
                       null,
-                      { defaults: 'example@domain.tld' }
+                      { message: 'example@domain.tld' }
                     ),
                     value: this.state.formValues.recovery_email,
                     onChange: this.handleInputChange,
@@ -290,13 +291,17 @@ class SignupForm extends Component {
                   }}
                   // Alpha: label "recovery email" replaced by "invitation email"
                   // label={
-                  // i18n._('signup.form.recovery_email.label',
-                  //  null, { defaults: 'Backup email address' })
+                  // i18n._(/* i18n */ 'signup.form.recovery_email.label',
+                  //  null, { message: 'Backup email address' })
                   // }
-                  // placeholder={i18n._('signup.form.recovery_email.placeholder', null, { defaults: '' })}
-                  label={i18n._('signup.form.invitation_email.label', null, {
-                    defaults: 'Invitation email:',
-                  })}
+                  // placeholder={i18n._(/* i18n */ 'signup.form.recovery_email.placeholder', null, { message: '' })}
+                  label={i18n._(
+                    /* i18n */ 'signup.form.invitation_email.label',
+                    null,
+                    {
+                      message: 'Invitation email:',
+                    }
+                  )}
                   errors={errors.recovery_email}
                 />
                 <Label
@@ -316,8 +321,8 @@ class SignupForm extends Component {
                   <CheckboxFieldGroup
                     id="signup_tos"
                     className="s-signup__tos-checkbox"
-              label={i18n._('signup.form.tos.label',
-                null, { defaults: 'I agree Terms and conditions' })}
+              label={i18n._(/* i18n  'signup.form.tos.label',
+                null, { message: 'I agree Terms and conditions' })}
                     name="tos"
                     checked={this.state.formValues.tos}
                     errors={errors.tos}
@@ -333,7 +338,10 @@ class SignupForm extends Component {
                 bottomSpace
               >
                 <Subtitle>
-                  <Trans id="signup.form.privacy.title">Privacy policy</Trans>
+                  <Trans
+                    id="signup.form.privacy.title"
+                    message="Privacy policy"
+                  />
                 </Subtitle>
                 <p className="s-signup__privacy-text">
                   <Trans id="signup.form.privacy.intro">
@@ -345,16 +353,23 @@ class SignupForm extends Component {
                     onClick={this.handleOpenModal}
                     display="inline"
                   >
-                    <Trans id="signup.form.privacy.more_info">More info</Trans>
+                    <Trans
+                      id="signup.form.privacy.more_info"
+                      message="More info"
+                    />
                   </Button>
                 </p>
                 {this.renderModal()}
                 <CheckboxFieldGroup
                   id="signup_privacy"
                   className="s-signup__privacy-checkbox"
-                  label={i18n._('signup.form.privacy.checkbox.label', null, {
-                    defaults: 'I understand and agree',
-                  })}
+                  label={i18n._(
+                    /* i18n */ 'signup.form.privacy.checkbox.label',
+                    null,
+                    {
+                      message: 'I understand and agree',
+                    }
+                  )}
                   name="privacy"
                   checked={this.state.formValues.privacy}
                   errors={errors.privacy}
@@ -385,14 +400,17 @@ class SignupForm extends Component {
                     ) : null
                   }
                 >
-                  <Trans id="signup.action.create">Create</Trans>
+                  <Trans id="signup.action.create" message="Create" />
                 </Button>
               </FormColumn>
             </FormRow>
             <FormRow>
               <FormColumn rightSpace={false} className="s-signup__link">
                 <Link to="/auth/signin">
-                  <Trans id="signup.go_signin">I already have an account</Trans>
+                  <Trans
+                    id="signup.go_signin"
+                    message="I already have an account"
+                  />
                 </Link>
               </FormColumn>
             </FormRow>

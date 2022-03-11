@@ -38,14 +38,16 @@ class ImportContactsButton extends Component {
     <Modal
       isOpen={this.state.isImportModalOpen}
       contentLabel={
-        <Trans id="import-contact.action.import_contacts">
-          Import contacts
-        </Trans>
+        <Trans
+          id="import-contact.action.import_contacts"
+          message="Import contacts"
+        />
       }
       title={
-        <Trans id="import-contact.action.import_contacts">
-          Import contacts
-        </Trans>
+        <Trans
+          id="import-contact.action.import_contacts"
+          message="Import contacts"
+        />
       }
       onClose={this.handleCloseImportModal}
     >
@@ -67,9 +69,10 @@ class ImportContactsButton extends Component {
           className={className}
           onClick={this.handleOpenImportModal}
         >
-          <Trans id="import-contact.action.import_contacts">
-            Import contacts
-          </Trans>
+          <Trans
+            id="import-contact.action.import_contacts"
+            message="Import contacts"
+          />
         </Button>
         {this.renderImportModal()}
       </Fragment>

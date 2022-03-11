@@ -64,8 +64,8 @@ class MessageSelector extends Component {
             )
           }
           disabled
-          aria-label={i18n._('message-list.action.delete', null, {
-            defaults: 'Delete selected',
+          aria-label={i18n._(/* i18n */ 'message-list.action.delete', null, {
+            message: 'Delete selected',
           })}
         />
       );
@@ -75,9 +75,10 @@ class MessageSelector extends Component {
       <Confirm
         onConfirm={this.handleDelete}
         title={
-          <Trans id="message-list.confirm-delete.title">
-            Delete message(s)
-          </Trans>
+          <Trans
+            id="message-list.confirm-delete.title"
+            message="Delete message(s)"
+          />
         }
         content={
           <Trans id="message-list.confirm-delete.content">
@@ -99,8 +100,8 @@ class MessageSelector extends Component {
               )
             }
             onClick={confirm}
-            aria-label={i18n._('message-list.action.delete', null, {
-              defaults: 'Delete selected',
+            aria-label={i18n._(/* i18n */ 'message-list.action.delete', null, {
+              message: 'Delete selected',
             })}
           />
         )}
@@ -109,14 +110,8 @@ class MessageSelector extends Component {
   }
 
   render() {
-    const {
-      i18n,
-      count,
-      totalCount,
-      checked,
-      isDeleting,
-      indeterminate,
-    } = this.props;
+    const { i18n, count, totalCount, checked, isDeleting, indeterminate } =
+      this.props;
 
     return (
       <div className="m-message-selector">
@@ -130,14 +125,14 @@ class MessageSelector extends Component {
             <Trans
               id="message-list.selected"
               values={{ count, totalCount }}
-              defaults="{count, plural, one {#/{totalCount} message:} other {#/{totalCount} messages:}}"
+              message="{count, plural, one {#/{totalCount} message:} other {#/{totalCount} messages:}}"
             />
           </span>
         )}
         <span className="m-message-selector__checkbox">
           <Checkbox
-            label={i18n._('message-list.action.select_all', null, {
-              defaults: 'Select/deselect all messages',
+            label={i18n._(/* i18n */ 'message-list.action.select_all', null, {
+              message: 'Select/deselect all messages',
             })}
             id="message-list-selector"
             checked={checked}

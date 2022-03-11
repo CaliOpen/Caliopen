@@ -158,23 +158,27 @@ function QuickDraftForm({
 
     if (draftMessage && recipientsList && identifier) {
       return i18n._(
-        'draft-message.form.placeholder.quick-reply',
+        /* i18n */ 'draft-message.form.placeholder.quick-reply',
         { recipients: recipientsList, protocol: identifier },
-        { defaults: 'Quick reply to {recipients} from {protocol}' }
+        { message: 'Quick reply to {recipients} from {protocol}' }
       );
     }
 
     if (draftMessage && identifier) {
       return i18n._(
-        'draft-message.form.placeholder.quick-reply-no-recipients',
+        /* i18n */ 'draft-message.form.placeholder.quick-reply-no-recipients',
         { identifier },
-        { defaults: 'Quick reply from {identifier}' }
+        { message: 'Quick reply from {identifier}' }
       );
     }
 
-    return i18n._('draft-message.form.placeholder.quick-start', undefined, {
-      defaults: 'Start a new discussion',
-    });
+    return i18n._(
+      /* i18n */ 'draft-message.form.placeholder.quick-start',
+      undefined,
+      {
+        message: 'Start a new discussion',
+      }
+    );
   };
 
   const handleSend = async (ev) => {
@@ -198,8 +202,8 @@ function QuickDraftForm({
     } catch (err) {
       dispatch(
         notifyError({
-          message: i18n._('draft.feedback.send-error', undefined, {
-            defaults: 'Unable to send the message',
+          message: i18n._(/* i18n */ 'draft.feedback.send-error', undefined, {
+            message: 'Unable to send the message',
           }),
         })
       );
@@ -258,7 +262,7 @@ function QuickDraftForm({
         <p>
           <Trans
             id="draft-message.action.fix-error-on-advanced-form"
-            defaults="Unable to send the message, you can fix it or delete it in the <0>Advanced form</0>"
+            message="Unable to send the message, you can fix it or delete it in the <0>Advanced form</0>"
             components={[<Link to={`/messages/${draftMessage.message_id}`} />]}
           />
         </p>
@@ -317,12 +321,14 @@ function QuickDraftForm({
                   'paper-plane'
                 )
               }
-              title={i18n._('draft-message.action.send', undefined, {
-                defaults: 'Send',
+              title={i18n._(/* i18n */ 'draft-message.action.send', undefined, {
+                message: 'Send',
               })}
               className={classnames('m-draft-message-quick__send-button', {
-                'm-draft-message-quick__send-button--encrypted': encryptionEnabled,
-                'm-draft-message-quick__send-button--unencrypted': !encryptionEnabled,
+                'm-draft-message-quick__send-button--encrypted':
+                  encryptionEnabled,
+                'm-draft-message-quick__send-button--unencrypted':
+                  !encryptionEnabled,
               })}
               disabled={!canSend}
             />

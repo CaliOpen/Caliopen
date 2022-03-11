@@ -15,7 +15,7 @@ import {
 import { ContactAvatarLetter } from 'src/modules/avatar';
 import { contactSelector } from 'src/modules/contact';
 import { requestContact } from 'src/modules/contact/store';
-import { Contact } from 'src/modules/contact/types';
+import { Contact as IContact } from 'src/modules/contact/types';
 import { getAveragePI } from 'src/modules/pi';
 import { useSettings } from 'src/modules/settings';
 import { formatName } from 'src/services/contact';
@@ -40,7 +40,7 @@ function Contact():
     dispatch(requestContact(contactId));
   }, [contactId]);
 
-  const contact = useSelector<RootState, undefined | Contact>((state) =>
+  const contact = useSelector<RootState, undefined | IContact>((state) =>
     contactSelector(state, contactId)
   );
 
@@ -174,7 +174,7 @@ function Contact():
           {contact.organizations && contact.organizations.length > 0 && (
             <TextBlock className="s-contact-main-title__organizations">
               <Icon type="building" rightSpaced />
-              <Trans id="contact.organizations">Organizations:</Trans>{' '}
+              <Trans id="contact.organizations" message="Organizations:" />{' '}
               {contact.organizations.map((orga) => (
                 <OrgaDetails key={orga.organization_id} organization={orga} />
               ))}
@@ -186,7 +186,10 @@ function Contact():
       <div className="s-contact__contact-details">
         <>
           <Title hr>
-            <Trans id="contact.contact-details.title">Contact details</Trans>
+            <Trans
+              id="contact.contact-details.title"
+              message="Contact details"
+            />
           </Title>
           <TextList className="s-contact__details-group">
             {contact.emails?.map((email) => (
@@ -210,7 +213,7 @@ function Contact():
       <div className="s-contact__keys">
         <>
           <Title hr>
-            <Trans id="contact.keys.title">Public keys</Trans>
+            <Trans id="contact.keys.title" message="Public keys" />
           </Title>
           <PublicKeyList contactId={contactId} />
         </>

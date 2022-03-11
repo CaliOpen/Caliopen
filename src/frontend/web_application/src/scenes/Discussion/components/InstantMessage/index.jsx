@@ -95,18 +95,19 @@ class InstantMessage extends PureComponent {
     const numberRecipients = recipients.length;
 
     if (numberRecipients === 0) {
-      return i18n._('message.participants.me', null, { defaults: 'Me' });
+      return i18n._(/* i18n */ 'message.participants.me', null, {
+        message: 'Me',
+      });
     }
     if (!shorten || numberRecipients === 1) {
       return recipients.join(', ');
     }
 
     return i18n._(
-      'messages.participants.and_x_others',
+      /* i18n */ 'messages.participants.and_x_others',
       { first: recipients[0], number: numberRecipients - 1 },
       {
-        defaults:
-          '{first} and {number, plural, one {# other} other {# others}}',
+        message: '{first} and {number, plural, one {# other} other {# others}}',
       }
     );
   };
@@ -124,7 +125,7 @@ class InstantMessage extends PureComponent {
 
     return isUserRecipient(message, user)
       ? [
-          i18n._('message.participants.me', null, { defaults: 'Me' }),
+          i18n._(/* i18n */ 'message.participants.me', null, { message: 'Me' }),
           ...this.getRecipientsLabels(getRecipientsExceptUser(message, user)),
         ]
       : this.getRecipientsLabels(getRecipients(message));
@@ -158,23 +159,24 @@ class InstantMessage extends PureComponent {
         <Button
           onClick={this.handleReply}
           icon="reply"
-          title={i18n._('message-list.message.action.reply', null, {
-            defaults: 'Reply',
+          title={i18n._(/* i18n */ 'message-list.message.action.reply', null, {
+            message: 'Reply',
           })}
         />
         <Button
           onClick={onOpenTags}
           icon="tags"
-          title={i18n._('message-list.message.action.tags', null, {
-            defaults: 'Tags',
+          title={i18n._(/* i18n */ 'message-list.message.action.tags', null, {
+            message: 'Tags',
           })}
         />
         <Confirm
           onConfirm={this.handleMessageDelete}
           title={
-            <Trans id="message-list.message.confirm-delete.title">
-              Delete a message
-            </Trans>
+            <Trans
+              id="message-list.message.confirm-delete.title"
+              message="Delete a message"
+            />
           }
           content={
             <Trans id="message-list.message.confirm-delete.content">
@@ -186,9 +188,13 @@ class InstantMessage extends PureComponent {
             <Button
               onClick={confirm}
               icon="trash"
-              title={i18n._('message-list.message.action.delete', null, {
-                defaults: 'Delete',
-              })}
+              title={i18n._(
+                /* i18n */ 'message-list.message.action.delete',
+                null,
+                {
+                  message: 'Delete',
+                }
+              )}
             />
           )}
         />
@@ -197,12 +203,20 @@ class InstantMessage extends PureComponent {
           icon={message.is_unread ? 'envelope-open' : 'envelope'}
           title={
             message.is_unread
-              ? i18n._('message-list.message.action.mark_as_read', null, {
-                  defaults: 'Mark as read',
-                })
-              : i18n._('message-list.message.action.mark_as_unread', null, {
-                  defaults: 'Mark as unread',
-                })
+              ? i18n._(
+                  /* i18n */ 'message-list.message.action.mark_as_read',
+                  null,
+                  {
+                    message: 'Mark as read',
+                  }
+                )
+              : i18n._(
+                  /* i18n */ 'message-list.message.action.mark_as_unread',
+                  null,
+                  {
+                    message: 'Mark as unread',
+                  }
+                )
           }
         />
       </div>

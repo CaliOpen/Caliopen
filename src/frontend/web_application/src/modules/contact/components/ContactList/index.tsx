@@ -118,9 +118,13 @@ function ContactList({
               renderItem={() => (
                 <ContactItemPlaceholder className="m-contact-list__contact" />
               )}
-              title={i18n._('contact-asociation.loading', undefined, {
-                defaults: 'Contact list is loading.',
-              })}
+              title={i18n._(
+                /* i18n */ 'contact-asociation.loading',
+                undefined,
+                {
+                  message: 'Contact list is loading.',
+                }
+              )}
             />
           </div>
         </div>
@@ -160,7 +164,10 @@ function ContactList({
         {userContact && (
           <div className="m-contact-list__group">
             <Title caps hr size="large" className="m-contact-list__alpha-title">
-              <Trans id="contact-book.my-contact-details">Mes coordonées</Trans>
+              <Trans
+                id="contact-book.my-contact-details"
+                message="My contact details"
+              />
             </Title>
             <ContactItem
               className="m-contact-list__contact"

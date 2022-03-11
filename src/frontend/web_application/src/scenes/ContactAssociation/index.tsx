@@ -53,8 +53,8 @@ function ContactAssociation({ i18n }: Props) {
   return (
     <div className="s-contact-association">
       <PageTitle
-        title={i18n._('header.menu.contact-association', undefined, {
-          defaults: 'Contact association',
+        title={i18n._(/* i18n */ 'header.menu.contact-association', undefined, {
+          message: 'Contact association',
         })}
       />
       <ActionBar
@@ -69,9 +69,10 @@ function ContactAssociation({ i18n }: Props) {
               icon="plus"
               onClick={handleClickNewContact}
             >
-              <Trans id="contact-association.action.add-new-contact">
-                Add new contact
-              </Trans>
+              <Trans
+                id="contact-association.action.add-new-contact"
+                message="Add new contact"
+              />
             </Button>
           </div>
         }
@@ -80,7 +81,7 @@ function ContactAssociation({ i18n }: Props) {
       {hasMoreContacts && (
         <div className="s-contact-book-list__load-more">
           <Button shape="hollow" onClick={loadMore}>
-            <Trans id="general.action.load_more">Load more</Trans>
+            <Trans id="general.action.load_more" message="Load more" />
           </Button>
         </div>
       )}

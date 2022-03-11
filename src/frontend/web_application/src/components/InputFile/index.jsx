@@ -22,7 +22,7 @@ const InputFile = ({ onChange, className, accept, errors, multiple, id }) => {
           shape="plain"
         />
         <span className="m-input-file__label__text">
-          <Trans id="input-file.add_a_file.label">Add a file</Trans>
+          <Trans id="input-file.add_a_file.label" message="Add a file" />
         </span>
         <span className="m-input-file__label__icon">
           <Icon type="folder" />

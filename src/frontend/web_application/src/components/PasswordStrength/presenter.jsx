@@ -21,14 +21,14 @@ class PasswordStrength extends PureComponent {
     const { strength, className, i18n } = this.props;
 
     const feedbacks = {
-      weak: i18n._('password_strength.feedback.weak', null, {
-        defaults: 'Strength: weak',
+      weak: i18n._(/* i18n */ 'password_strength.feedback.weak', null, {
+        message: 'Strength: weak',
       }),
-      moderate: i18n._('password_strength.feedback.moderate', null, {
-        defaults: 'Strength: moderate',
+      moderate: i18n._(/* i18n */ 'password_strength.feedback.moderate', null, {
+        message: 'Strength: moderate',
       }),
-      strong: i18n._('password_strength.feedback.strong', null, {
-        defaults: 'Strength: strong',
+      strong: i18n._(/* i18n */ 'password_strength.feedback.strong', null, {
+        message: 'Strength: strong',
       }),
     };
 

@@ -57,9 +57,10 @@ class NewIdentity extends Component {
     return (
       <Section
         title={
-          <Trans id="remote_identity.add_account">
-            Add an external account
-          </Trans>
+          <Trans
+            id="remote_identity.add_account"
+            message="Add an external account"
+          />
         }
         titleProps={{ size: 'large' }}
         className="m-new-identity"
@@ -76,7 +77,7 @@ class NewIdentity extends Component {
           <Trans
             id="remote_identity.how_to"
             components={[<p />, <br />]}
-            defaults={`
+            message={`
             <0>
               External accounts are fetched every 15 minutes. <1 />
               Currently there is no indicator to inform that the account is correctly configured until first try is done.
@@ -85,18 +86,20 @@ class NewIdentity extends Component {
           />
         </Callout>
         <Title hr>
-          <Trans id="remote_identity.choose-provider.title">
-            Select a provider
-          </Trans>
+          <Trans
+            id="remote_identity.choose-provider.title"
+            message="Select a provider"
+          />
         </Title>
         <ul className="m-provider-list">
           {providers.includes(PROVIDER_GMAIL) && (
             <li className="m-provider-list__provider">
               <ProviderButtonContainer
                 label={
-                  <Trans id="remote_identity.gmail.help">
-                    You will be redirected to gmail authentication
-                  </Trans>
+                  <Trans
+                    id="remote_identity.gmail.help"
+                    message="You will be redirected to gmail authentication"
+                  />
                 }
               >
                 <AuthButton
@@ -155,9 +158,10 @@ class NewIdentity extends Component {
                   type="email"
                   rightSpaced
                 />
-                <Trans id="remote_identity.action.toggle-email-form">
-                  Email (via IMAP)
-                </Trans>
+                <Trans
+                  id="remote_identity.action.toggle-email-form"
+                  message="Email (via IMAP)"
+                />
               </ProviderButton>
             </ProviderButtonContainer>
           </li>

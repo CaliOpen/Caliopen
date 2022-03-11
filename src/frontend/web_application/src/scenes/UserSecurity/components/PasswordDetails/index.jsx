@@ -49,9 +49,10 @@ class PasswordDetails extends Component {
       <div className="m-password-details">
         {!this.state.editMode && (
           <TextBlock className="m-password-details__title">
-            <Trans id="password.details.password_strength.title">
-              Password strength:
-            </Trans>
+            <Trans
+              id="password.details.password_strength.title"
+              message="Password strength:"
+            />
           </TextBlock>
         )}
         {this.state.editMode ? (
@@ -67,7 +68,7 @@ class PasswordDetails extends Component {
         {!this.state.editMode && (
           <div className="m-password-details__action">
             <Button onClick={this.toggleEditMode}>
-              <Trans id="password.details.action.change">Change</Trans>
+              <Trans id="password.details.action.change" message="Change" />
             </Button>
           </div>
         )}

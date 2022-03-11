@@ -29,9 +29,10 @@ class ComposeContactButton extends PureComponent {
         className={className}
         icon="user"
       >
-        <Trans id="call-to-action.action.create_contact">
-          Create a contact
-        </Trans>
+        <Trans
+          id="call-to-action.action.create_contact"
+          message="Create a contact"
+        />
       </Button>
     );
   }

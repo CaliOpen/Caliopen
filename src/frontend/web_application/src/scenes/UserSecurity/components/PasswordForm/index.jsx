@@ -76,9 +76,9 @@ class PasswordForm extends Component {
     this.setState((prevState) => {
       const { newPassword } = prevState.formValues;
       const error = i18n._(
-        'password.form.new_password_confirmation.error',
+        /* i18n */ 'password.form.new_password_confirmation.error',
         null,
-        { defaults: "Passwords don't match" }
+        { message: "Passwords don't match" }
       );
       const passwordError = newPassword === value ? [] : [error];
 
@@ -127,22 +127,27 @@ class PasswordForm extends Component {
                 type: 'password',
                 onChange: this.handleInputChange,
                 placeholder: i18n._(
-                  'password.form.current_password.placeholder',
+                  /* i18n */ 'password.form.current_password.placeholder',
                   null,
-                  { defaults: 'Enter your current password' }
+                  { message: 'Enter your current password' }
                 ),
                 required: true,
               }}
-              label={i18n._('password.form.current_password.label', null, {
-                defaults: 'Current password:',
-              })}
+              label={i18n._(
+                /* i18n */ 'password.form.current_password.label',
+                null,
+                {
+                  message: 'Current password:',
+                }
+              )}
             />
           </FormColumn>
           <FormColumn size="medium">
             <div className="m-password-form__tip">
-              <Trans id="password.form.current_password.tip">
-                The password you want to replace.
-              </Trans>
+              <Trans
+                id="password.form.current_password.tip"
+                message="The password you want to replace."
+              />
             </div>
           </FormColumn>
         </FormRow>
@@ -154,22 +159,27 @@ class PasswordForm extends Component {
                 type: 'password',
                 onChange: this.handleNewPasswordChange,
                 placeholder: i18n._(
-                  'password.form.new_password.placeholder',
+                  /* i18n */ 'password.form.new_password.placeholder',
                   null,
-                  { defaults: 'Enter new password' }
+                  { message: 'Enter new password' }
                 ),
                 required: true,
               }}
-              label={i18n._('password.form.new_password.label', null, {
-                defaults: 'New password:',
-              })}
+              label={i18n._(
+                /* i18n */ 'password.form.new_password.label',
+                null,
+                {
+                  message: 'New password:',
+                }
+              )}
             />
           </FormColumn>
           <FormColumn size="medium">
             <div className="m-password-form__tip">
-              <Trans id="password.form.new_password.tip">
-                The password you want to use from now.
-              </Trans>
+              <Trans
+                id="password.form.new_password.tip"
+                message="The password you want to use from now."
+              />
             </div>
           </FormColumn>
           {this.state.passwordStrength.length !== 0 && (
@@ -190,17 +200,17 @@ class PasswordForm extends Component {
                 type: 'password',
                 onChange: this.handleConfirmPasswordChange,
                 placeholder: i18n._(
-                  'password.form.new_password_confirmation.placeholder',
+                  /* i18n */ 'password.form.new_password_confirmation.placeholder',
                   null,
-                  { defaults: 'Password' }
+                  { message: 'Password' }
                 ),
                 required: true,
               }}
               errors={this.state.passwordError}
               label={i18n._(
-                'password.form.new_password_confirmation.label',
+                /* i18n */ 'password.form.new_password_confirmation.label',
                 null,
-                { defaults: 'New password confirmation:' }
+                { message: 'New password confirmation:' }
               )}
             />
           </FormColumn>
@@ -212,17 +222,15 @@ class PasswordForm extends Component {
             name="tfa"
             component={ReduxTextFieldGroup}
             onChange={this.handleInputChange}
-            label={i18n._('password.form.tfa.label', null, { defaults: 'TOTP validation code:' })}
-            placeholder={i18n._('password.form.tfa.placeholder',
-              null, { defaults: 'Enter 2-auth code' })}
+            label={i18n._(/* i18n 'password.form.tfa.label', null, { message: 'TOTP validation code:' })}
+            placeholder={i18n._(/* i18n 'password.form.tfa.placeholder',
+              null, { message: 'Enter 2-auth code' })}
             disabled
           />
         </FormColumn>
         <FormColumn size="medium">
           <div className="m-password-form__tip">
-            <Trans id="password.form.tfa.tip">
-              Only if you have enabled the 2-Factor Authentification method.
-            </Trans>
+            <Trans id="password.form.tfa.tip" message="Only if you have enabled the 2-Factor Authentification method." />
           </div>
         </FormColumn>
       </FormRow>
@@ -239,14 +247,15 @@ class PasswordForm extends Component {
               onClick={this.handleSubmit}
               {...submitButtonProps}
             >
-              <Trans id="password.form.action.validate">
-                Apply modifications
-              </Trans>
+              <Trans
+                id="password.form.action.validate"
+                message="Apply modifications"
+              />
             </Button>
           </FormColumn>
           <FormColumn size="shrink" className="m-password-form__action">
             <Button shape="hollow" display="expanded" onClick={onCancel}>
-              <Trans id="password.form.action.cancel">Cancel</Trans>
+              <Trans id="password.form.action.cancel" message="Cancel" />
             </Button>
           </FormColumn>
         </FormRow>

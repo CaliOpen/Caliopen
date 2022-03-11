@@ -8,12 +8,12 @@ function PageNotFound({ i18n }: withI18nProps) {
   return (
     <div className="s-page-not-found">
       <PageTitle
-        title={i18n._('page_not_found.page_title', undefined, {
-          defaults: 'Page not found',
+        title={i18n._(/* i18n */ 'page_not_found.page_title', undefined, {
+          message: 'Page not found',
         })}
       />
       <h2 className="s-page-not-found__title">
-        <Trans id="page_not_found.title">Unicorn not found</Trans>
+        <Trans id="page_not_found.title" message="Unicorn not found" />
       </h2>
 
       <CaliopenAscii />

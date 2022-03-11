@@ -20,7 +20,7 @@ interface Props {
 
 const noop = () => {};
 const defaultConfirmButton = (
-  <Trans id="confirm.action.confirm">Yes I&apos;m sure</Trans>
+  <Trans id="confirm.action.confirm" message="Yes I'm sure" />
 );
 
 /**
@@ -67,7 +67,7 @@ function Confirm({
         {content}
         <div className="m-confirm__actions">
           <Button shape="plain" onClick={handleCancel}>
-            <Trans id="confirm.action.cancel">Cancel</Trans>
+            <Trans id="confirm.action.cancel" message="Cancel" />
           </Button>{' '}
           <Button shape="plain" color="alert" onClick={handleConfirm}>
             {confirmButtonContent}

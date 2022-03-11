@@ -22,8 +22,9 @@ class UserSecurity extends Component {
   };
 
   componentDidMount() {
-    /* eslint-disable-next-line */
-    this.saveKey = require('../../services/openpgp-keychain-repository').saveKey;
+    this.saveKey =
+      /* eslint-disable-next-line */
+      require('../../services/openpgp-keychain-repository').saveKey;
 
     this.props.requestUser();
   }
@@ -41,8 +42,8 @@ class UserSecurity extends Component {
     this.setState({ updated: true }, () => {
       const { requestUser, notifySuccess, i18n } = this.props;
       notifySuccess({
-        message: i18n._('password.form.feedback.successfull', null, {
-          defaults: 'Password updated!',
+        message: i18n._(/* i18n */ 'password.form.feedback.successfull', null, {
+          message: 'Password updated!',
         }),
         duration: 0,
       });
@@ -55,17 +56,25 @@ class UserSecurity extends Component {
 
     if (response.status === 424) {
       return notifyError({
-        message: i18n._('password.form.feedback.error-old-password', null, {
-          defaults: 'Wrong old password.',
-        }),
+        message: i18n._(
+          /* i18n */ 'password.form.feedback.error-old-password',
+          null,
+          {
+            message: 'Wrong old password.',
+          }
+        ),
         duration: 0,
       });
     }
 
     return notifyError({
-      message: i18n._('password.form.feedback.unexpected-error', null, {
-        defaults: 'Error when updating password.',
-      }),
+      message: i18n._(
+        /* i18n */ 'password.form.feedback.unexpected-error',
+        null,
+        {
+          message: 'Error when updating password.',
+        }
+      ),
       duration: 0,
     });
   };
@@ -81,9 +90,13 @@ class UserSecurity extends Component {
         <PageTitle />
         <form method="post" name="user_security_form">
           <Section
-            title={i18n._('user.security.section_password.title', null, {
-              defaults: 'Customize your interface',
-            })}
+            title={i18n._(
+              /* i18n */ 'user.security.section_password.title',
+              null,
+              {
+                message: 'Customize your interface',
+              }
+            )}
           >
             <div className="s-user-account-security__credentials">
               <div className="s-user-account-security__login">
@@ -101,16 +114,20 @@ class UserSecurity extends Component {
         </form>
         {/* TODO: enable TFA section
           <Section
-          title={i18n._('user.security.section_tfa.title',
-            null, { defaults: '2-factor authentication' })}
+          title={i18n._(/* i18n 'user.security.section_tfa.title',
+            null, { message: '2-factor authentication' })}
           >
             <TFAForm user={user} />
           </Section>
           */}
         <Section
-          title={i18n._('user.security.section_pgpkeys.title', null, {
-            defaults: 'PGP private keys',
-          })}
+          title={i18n._(
+            /* i18n */ 'user.security.section_pgpkeys.title',
+            null,
+            {
+              message: 'PGP private keys',
+            }
+          )}
         >
           <OpenPGPPrivateKeys />
         </Section>

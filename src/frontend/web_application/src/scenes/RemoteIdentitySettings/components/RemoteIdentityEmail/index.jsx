@@ -183,9 +183,10 @@ class RemoteIdentityEmail extends Component {
         this.setState({
           formErrors: {
             identifier: [
-              <Trans id="remote_identity.form.identifier.error.uniqueness">
-                This address is already configured
-              </Trans>,
+              <Trans
+                id="remote_identity.form.identifier.error.uniqueness"
+                message="This address is already configured"
+              />,
             ],
           },
         });
@@ -334,49 +335,55 @@ class RemoteIdentityEmail extends Component {
       {
         formProperty: 'identifier',
         error: (
-          <Trans id="remote_identity.form.identifier.error">
-            a valid email is required
-          </Trans>
+          <Trans
+            id="remote_identity.form.identifier.error"
+            message="a valid email is required"
+          />
         ),
       },
       {
         formProperty: 'inserverHostname',
         error: (
-          <Trans id="remote_identity.form.serverHostname.error">
-            mail server is required
-          </Trans>
+          <Trans
+            id="remote_identity.form.serverHostname.error"
+            message="mail server is required"
+          />
         ),
       },
       {
         formProperty: 'inserverPort',
         error: (
-          <Trans id="remote_identity.form.serverPort.error">
-            port is required
-          </Trans>
+          <Trans
+            id="remote_identity.form.serverPort.error"
+            message="port is required"
+          />
         ),
       },
       {
         formProperty: 'outserverHostname',
         error: (
-          <Trans id="remote_identity.form.serverHostname.error">
-            mail server is required
-          </Trans>
+          <Trans
+            id="remote_identity.form.serverHostname.error"
+            message="mail server is required"
+          />
         ),
       },
       {
         formProperty: 'outserverPort',
         error: (
-          <Trans id="remote_identity.form.serverPort.error">
-            port is required
-          </Trans>
+          <Trans
+            id="remote_identity.form.serverPort.error"
+            message="port is required"
+          />
         ),
       },
       {
         formProperty: 'protocol',
         error: (
-          <Trans id="remote_identity.form.protocol.error">
-            protocol is required
-          </Trans>
+          <Trans
+            id="remote_identity.form.protocol.error"
+            message="protocol is required"
+          />
         ),
       },
       ...(!remoteIdentity.identity_id ||
@@ -388,33 +395,37 @@ class RemoteIdentityEmail extends Component {
             {
               formProperty: 'inusername',
               error: (
-                <Trans id="remote_identity.form.username.error">
-                  login is required
-                </Trans>
+                <Trans
+                  id="remote_identity.form.username.error"
+                  message="login is required"
+                />
               ),
             },
             {
               formProperty: 'inpassword',
               error: (
-                <Trans id="remote_identity.form.password.error">
-                  password is required
-                </Trans>
+                <Trans
+                  id="remote_identity.form.password.error"
+                  message="password is required"
+                />
               ),
             },
             {
               formProperty: 'outusername',
               error: (
-                <Trans id="remote_identity.form.username.error">
-                  login is required
-                </Trans>
+                <Trans
+                  id="remote_identity.form.username.error"
+                  message="login is required"
+                />
               ),
             },
             {
               formProperty: 'outpassword',
               error: (
-                <Trans id="remote_identity.form.password.error">
-                  password is required
-                </Trans>
+                <Trans
+                  id="remote_identity.form.password.error"
+                  message="password is required"
+                />
               ),
             },
           ]
@@ -435,9 +446,9 @@ class RemoteIdentityEmail extends Component {
               inputProps={{
                 type: 'email',
                 placeholder: i18n._(
-                  'remote_identity.form.identifier.placeholder',
+                  /* i18n */ 'remote_identity.form.identifier.placeholder',
                   null,
-                  { defaults: 'john@doe.tld' }
+                  { message: 'john@doe.tld' }
                 ),
                 value: this.state.remoteIdentity.identifier,
                 onChange: this.handleParamsChange,
@@ -450,7 +461,10 @@ class RemoteIdentityEmail extends Component {
                 required: true,
               }}
               label={
-                <Trans id="remote_identity.form.identifier.label">Email:</Trans>
+                <Trans
+                  id="remote_identity.form.identifier.label"
+                  message="Email:"
+                />
               }
               errors={this.state.formErrors.identifier}
             />
@@ -460,7 +474,7 @@ class RemoteIdentityEmail extends Component {
           <FormRow>
             <FormColumn bottomSpace>
               <TextBlock weight="strong">
-                <Trans id="remote_identity.form.inserver">In server</Trans>
+                <Trans id="remote_identity.form.inserver" message="In server" />
               </TextBlock>
             </FormColumn>
           </FormRow>
@@ -468,7 +482,7 @@ class RemoteIdentityEmail extends Component {
         <FormRow>
           {/* <FormColumn bottomSpace size="medium">
             <SelectFieldGroup
-              label={<Trans id="remote_identity.form.protocol.label">Protocol:</Trans>}
+              label={<Trans id="remote_identity.form.protocol.label" message="Protocol:" />}
               value={this.state.remoteIdentity.protocol}
               options={MAIL_PROTOCOLS.map(key => ({ value: key, label: key }))}
               errors={this.state.formErrors.protocol}
@@ -489,9 +503,10 @@ class RemoteIdentityEmail extends Component {
                 required: true,
               }}
               label={
-                <Trans id="remote_identity.form.incomming_mail_server.label">
-                  Incoming mail server:
-                </Trans>
+                <Trans
+                  id="remote_identity.form.incomming_mail_server.label"
+                  message="Incoming mail server:"
+                />
               }
               errors={this.state.formErrors.inserverHostname}
             />
@@ -506,7 +521,9 @@ class RemoteIdentityEmail extends Component {
                 autoComplete: 'on',
                 required: true,
               }}
-              label={<Trans id="remote_identity.form.port.label">Port:</Trans>}
+              label={
+                <Trans id="remote_identity.form.port.label" message="Port:" />
+              }
               errors={this.state.formErrors.inserverPort}
             />
           </FormColumn>
@@ -523,9 +540,10 @@ class RemoteIdentityEmail extends Component {
                   required: true,
                 }}
                 label={
-                  <Trans id="remote_identity.form.outgoing_mail_server.label">
-                    Outgoing mail server:
-                  </Trans>
+                  <Trans
+                    id="remote_identity.form.outgoing_mail_server.label"
+                    message="Outgoing mail server:"
+                  />
                 }
                 errors={this.state.formErrors.outserverHostname}
               />
@@ -541,7 +559,7 @@ class RemoteIdentityEmail extends Component {
                   required: true,
                 }}
                 label={
-                  <Trans id="remote_identity.form.port.label">Port:</Trans>
+                  <Trans id="remote_identity.form.port.label" message="Port:" />
                 }
                 errors={this.state.formErrors.outserverPort}
               />
@@ -560,7 +578,10 @@ class RemoteIdentityEmail extends Component {
                 required: true,
               }}
               label={
-                <Trans id="remote_identity.form.username.label">Login:</Trans>
+                <Trans
+                  id="remote_identity.form.username.label"
+                  message="Login:"
+                />
               }
               errors={this.state.formErrors.inusername}
             />
@@ -577,9 +598,10 @@ class RemoteIdentityEmail extends Component {
                 required: true,
               }}
               label={
-                <Trans id="remote_identity.form.password.label">
-                  Password:
-                </Trans>
+                <Trans
+                  id="remote_identity.form.password.label"
+                  message="Password:"
+                />
               }
               errors={this.state.formErrors.inpassword}
             />
@@ -590,7 +612,10 @@ class RemoteIdentityEmail extends Component {
             <FormRow>
               <FormColumn bottomSpace>
                 <TextBlock weight="strong">
-                  <Trans id="remote_identity.form.outserver">Out server</Trans>
+                  <Trans
+                    id="remote_identity.form.outserver"
+                    message="Out server"
+                  />
                 </TextBlock>
               </FormColumn>
             </FormRow>
@@ -605,9 +630,10 @@ class RemoteIdentityEmail extends Component {
                     required: true,
                   }}
                   label={
-                    <Trans id="remote_identity.form.outgoing_mail_server.label">
-                      Outgoing mail server:
-                    </Trans>
+                    <Trans
+                      id="remote_identity.form.outgoing_mail_server.label"
+                      message="Outgoing mail server:"
+                    />
                   }
                   errors={this.state.formErrors.outserverHostname}
                 />
@@ -623,7 +649,10 @@ class RemoteIdentityEmail extends Component {
                     required: true,
                   }}
                   label={
-                    <Trans id="remote_identity.form.port.label">Port:</Trans>
+                    <Trans
+                      id="remote_identity.form.port.label"
+                      message="Port:"
+                    />
                   }
                   errors={this.state.formErrors.outserverPort}
                 />
@@ -640,9 +669,10 @@ class RemoteIdentityEmail extends Component {
                     required: true,
                   }}
                   label={
-                    <Trans id="remote_identity.form.username.label">
-                      Login:
-                    </Trans>
+                    <Trans
+                      id="remote_identity.form.username.label"
+                      message="Login:"
+                    />
                   }
                   errors={this.state.formErrors.outusername}
                 />
@@ -658,9 +688,10 @@ class RemoteIdentityEmail extends Component {
                     required: true,
                   }}
                   label={
-                    <Trans id="remote_identity.form.password.label">
-                      Password:
-                    </Trans>
+                    <Trans
+                      id="remote_identity.form.password.label"
+                      message="Password:"
+                    />
                   }
                   errors={this.state.formErrors.outpassword}
                 />
@@ -728,14 +759,16 @@ class RemoteIdentityEmail extends Component {
         {remoteIdentity.identity_id && (
           <Confirm
             title={
-              <Trans id="remote_identity.confirm-delete.title">
-                Delete the external account
-              </Trans>
+              <Trans
+                id="remote_identity.confirm-delete.title"
+                message="Delete the external account"
+              />
             }
             content={
-              <Trans id="remote_identity.confirm-delete.content">
-                The external account will deactivated then deleted.
-              </Trans>
+              <Trans
+                id="remote_identity.confirm-delete.content"
+                message="The external account will deactivated then deleted."
+              />
             }
             onConfirm={this.handleDelete}
             render={(confirm) => (
@@ -745,7 +778,7 @@ class RemoteIdentityEmail extends Component {
                 color="alert"
                 className="m-remote-identity-email__action"
               >
-                <Trans id="remote_identity.action.delete">Delete</Trans>
+                <Trans id="remote_identity.action.delete" message="Delete" />
               </Button>
             )}
           />
@@ -756,7 +789,7 @@ class RemoteIdentityEmail extends Component {
             shape="hollow"
             className="m-remote-identity-email__action"
           >
-            <Trans id="remote_identity.action.edit">Edit</Trans>
+            <Trans id="remote_identity.action.edit" message="Edit" />
           </Button>
         )}
         {this.state.editing && (
@@ -766,7 +799,7 @@ class RemoteIdentityEmail extends Component {
               shape="hollow"
               className="m-remote-identity-email__action"
             >
-              <Trans id="remote_identity.action.cancel">Cancel</Trans>
+              <Trans id="remote_identity.action.cancel" message="Cancel" />
             </Button>
             <Button
               onClick={this.handlToggleAdvanced}
@@ -774,14 +807,16 @@ class RemoteIdentityEmail extends Component {
               className="m-remote-identity-email__action"
             >
               {!this.state.advancedForm && (
-                <Trans id="remote_identity.action.toggle-advanced-form">
-                  Advanced
-                </Trans>
+                <Trans
+                  id="remote_identity.action.toggle-advanced-form"
+                  message="Advanced"
+                />
               )}
               {this.state.advancedForm && (
-                <Trans id="remote_identity.action.toggle-simple-form">
-                  Simple
-                </Trans>
+                <Trans
+                  id="remote_identity.action.toggle-simple-form"
+                  message="Simple"
+                />
               )}
             </Button>
             <Button
@@ -801,7 +836,7 @@ class RemoteIdentityEmail extends Component {
               }
               disabled={this.state.hasActivity}
             >
-              <Trans id="remote_identity.action.save">Save</Trans>
+              <Trans id="remote_identity.action.save" message="Save" />
             </Button>
           </Fragment>
         )}

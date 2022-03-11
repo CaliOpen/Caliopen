@@ -60,12 +60,15 @@ ${this.state.errorInfo && this.state.errorInfo.componentStack}
             </header>
             <section className="l-error-boundary__body">
               <h2>
-                <Trans id="error-boundary.title">Something went wrong.</Trans>
+                <Trans
+                  id="error-boundary.title"
+                  message="Something went wrong."
+                />
               </h2>
               <div className="l-error-boundary__description">
                 <Trans
                   id="error-boundary.description"
-                  defaults="<0>We are are very sorry, an error occured on your account. It is what we call a «BSOD», that should never happens (but sometimes it does).</0><1>You can help us to resolve this bug by creating a new post on our feedback website (see link below). We will try to answer as soon as possible.</1><2>Of course you can browse <3>feedback.caliopen.org</3> and help us to improve Caliopen.</2>"
+                  message="<0>We are are very sorry, an error occured on your account. It is what we call a «BSOD», that should never happens (but sometimes it does).</0><1>You can help us to resolve this bug by creating a new post on our feedback website (see link below). We will try to answer as soon as possible.</1><2>Of course you can browse <3>feedback.caliopen.org</3> and help us to improve Caliopen.</2>"
                   components={[
                     <p />,
                     <p />,
@@ -84,16 +87,18 @@ ${this.state.errorInfo && this.state.errorInfo.componentStack}
                   target="_blank"
                   rel="noreferrer noopener"
                 >
-                  <Trans id="error-boundary.send-feedback">
-                    Send us a feedback
-                  </Trans>
+                  <Trans
+                    id="error-boundary.send-feedback"
+                    message="Send us a feedback"
+                  />
                 </Link>
               </div>
               <div>
                 <Link href="/" button plain>
-                  <Trans id="error-boundary.back-to-home">
-                    Go back to home
-                  </Trans>
+                  <Trans
+                    id="error-boundary.back-to-home"
+                    message="Go back to home"
+                  />
                 </Link>
               </div>
               <details

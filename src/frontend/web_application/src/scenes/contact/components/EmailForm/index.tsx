@@ -20,13 +20,15 @@ const EMAIL_TYPES = ['', 'work', 'home', 'other'];
 
 function EmailForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
   const addressTypes = {
-    work: i18n._('contact.email_type.work', undefined, {
-      defaults: 'Professional',
+    work: i18n._(/* i18n */ 'contact.email_type.work', undefined, {
+      message: 'Professional',
     }),
-    home: i18n._('contact.email_type.home', undefined, {
-      defaults: 'Personal',
+    home: i18n._(/* i18n */ 'contact.email_type.home', undefined, {
+      message: 'Personal',
     }),
-    other: i18n._('contact.email_type.other', undefined, { defaults: 'Other' }),
+    other: i18n._(/* i18n */ 'contact.email_type.other', undefined, {
+      message: 'Other',
+    }),
   };
 
   const addressTypeOptions = EMAIL_TYPES.map((value) => ({
@@ -42,7 +44,7 @@ function EmailForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
             <Legend>
               <Icon type="envelope" />
               <span className="m-email-form__legend">
-                <Trans id="contact.email_form.legend">Email</Trans>
+                <Trans id="contact.email_form.legend" message="Email" />
               </span>
             </Legend>
           </FormColumn>
@@ -50,9 +52,13 @@ function EmailForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
             <Field
               component={FormikSelectFieldGroup}
               name={`${name}.type`}
-              label={i18n._('contact.email_form.type.label', undefined, {
-                defaults: 'Type',
-              })}
+              label={i18n._(
+                /* i18n */ 'contact.email_form.type.label',
+                undefined,
+                {
+                  message: 'Type',
+                }
+              )}
               showLabelforSr
               options={addressTypeOptions}
             />
@@ -64,14 +70,18 @@ function EmailForm({ onDelete, i18n, name }: ItemProps & withI18nProps) {
               name={`${name}.address`}
               validate={validateRequired(i18n)}
               type="email"
-              label={i18n._('contact.email_form.address.label', undefined, {
-                defaults: 'Address',
-              })}
+              label={i18n._(
+                /* i18n */ 'contact.email_form.address.label',
+                undefined,
+                {
+                  message: 'Address',
+                }
+              )}
               inputProps={{
                 placeholder: i18n._(
-                  'contact.email_form.address.placeholder',
+                  /* i18n */ 'contact.email_form.address.placeholder',
                   undefined,
-                  { defaults: 'Email' }
+                  { message: 'Email' }
                 ),
                 expanded: true,
                 required: true,

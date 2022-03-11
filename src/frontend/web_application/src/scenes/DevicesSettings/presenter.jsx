@@ -27,11 +27,8 @@ class DevicesSettings extends PureComponent {
   }
 
   componentDidUpdate() {
-    const {
-      requestDevices,
-      didInvalidate,
-      isFetching,
-    } = this.props.devicesProps;
+    const { requestDevices, didInvalidate, isFetching } =
+      this.props.devicesProps;
 
     if (didInvalidate && !isFetching) {
       requestDevices();
@@ -59,7 +56,7 @@ class DevicesSettings extends PureComponent {
               <div>
                 <Trans
                   id="devices.feedback.unverified_device_more"
-                  defaults={`
+                  message={`
                   To respect privacy and security rules, your discussions
                   history will not fully appear according to Privacy settings
                   <0/>

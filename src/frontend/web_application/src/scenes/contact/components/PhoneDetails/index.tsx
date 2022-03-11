@@ -8,13 +8,15 @@ interface Props extends withI18nProps {
 }
 function PhoneDetails({ phone, i18n }: Props) {
   const typeTranslations = {
-    work: i18n._('contact.phone_type.work', undefined, {
-      defaults: 'Professional',
+    work: i18n._(/* i18n */ 'contact.phone_type.work', undefined, {
+      message: 'Professional',
     }),
-    home: i18n._('contact.phone_type.home', undefined, {
-      defaults: 'Personal',
+    home: i18n._(/* i18n */ 'contact.phone_type.home', undefined, {
+      message: 'Personal',
     }),
-    other: i18n._('contact.phone_type.other', undefined, { defaults: 'Other' }),
+    other: i18n._(/* i18n */ 'contact.phone_type.other', undefined, {
+      message: 'Other',
+    }),
   };
 
   return (

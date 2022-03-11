@@ -69,17 +69,19 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
 
     if (values.username.length === 0) {
       errs.username = [
-        <Trans id="signin.feedback.required_username">
-          A username is required
-        </Trans>,
+        <Trans
+          id="signin.feedback.required_username"
+          message="A username is required"
+        />,
       ];
     }
 
     if (values.password.length === 0) {
       errs.password = [
-        <Trans id="signin.feedback.required_password">
-          A password is required
-        </Trans>,
+        <Trans
+          id="signin.feedback.required_password"
+          message="A password is required"
+        />,
       ];
     }
 
@@ -120,7 +122,10 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
       if (isExpectedError) {
         setErrors({
           global: [
-            <Trans id="signin.feedback.invalid">Credentials are invalid</Trans>,
+            <Trans
+              id="signin.feedback.invalid"
+              message="Credentials are invalid"
+            />,
           ],
         });
       } else {
@@ -171,18 +176,22 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
                 id="signin_username"
                 inputProps={{
                   placeholder: i18n._(
-                    'signin.form.username.placeholder',
+                    /* i18n */ 'signin.form.username.placeholder',
                     undefined,
-                    { defaults: 'username' }
+                    { message: 'username' }
                   ),
                   name: 'username',
                   value: identifier.username,
                   onChange: handleInputChange,
                   expanded: true,
                 }}
-                label={i18n._('signin.form.username.label', undefined, {
-                  defaults: 'Username',
-                })}
+                label={i18n._(
+                  /* i18n */ 'signin.form.username.label',
+                  undefined,
+                  {
+                    message: 'Username',
+                  }
+                )}
                 errors={errors.username}
                 ref={usernameInput}
               />
@@ -190,14 +199,18 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
             <FormColumn rightSpace={false} bottomSpace>
               <TextFieldGroup
                 id="signin_password"
-                label={i18n._('signin.form.password.label', undefined, {
-                  defaults: 'Password',
-                })}
+                label={i18n._(
+                  /* i18n */ 'signin.form.password.label',
+                  undefined,
+                  {
+                    message: 'Password',
+                  }
+                )}
                 inputProps={{
                   placeholder: i18n._(
-                    'signin.form.password.placeholder',
+                    /* i18n */ 'signin.form.password.placeholder',
                     undefined,
-                    { defaults: 'password' }
+                    { message: 'password' }
                   ),
                   name: 'password',
                   type: 'password',
@@ -232,21 +245,25 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
                   ) : undefined
                 }
               >
-                <Trans id="signin.action.login">Login</Trans>
+                <Trans id="signin.action.login" message="Login" />
               </Button>
             </FormColumn>
           </FormRow>
           <FormRow>
             <FormColumn rightSpace={false} className="s-signin__link">
               <Link to="/auth/forgot-password">
-                <Trans id="signin.action.forgot_password">
-                  Forgot password?
-                </Trans>
+                <Trans
+                  id="signin.action.forgot_password"
+                  message="Forgot password?"
+                />
               </Link>
             </FormColumn>
             <FormColumn rightSpace={false} className="s-signin__link">
               <Link to="/auth/signup">
-                <Trans id="signin.create_an_account">Create an account</Trans>
+                <Trans
+                  id="signin.create_an_account"
+                  message="Create an account"
+                />
               </Link>
             </FormColumn>
           </FormRow>

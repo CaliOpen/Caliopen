@@ -1,15 +1,9 @@
-import { i18nMark, withI18nProps } from '@lingui/react';
+import type { I18n } from '@lingui/core';
 import { TagCommon } from '../../types';
 
 export const TAG_IMPORTANT = 'IMPORTANT';
 export const TAG_INBOX = 'INBOX';
 export const TAG_SPAM = 'SPAM';
-
-const SYSTEM_TAGS = {
-  [TAG_IMPORTANT]: i18nMark('tags.label.important'),
-  [TAG_INBOX]: i18nMark('tags.label.inbox'),
-  [TAG_SPAM]: i18nMark('tags.label.spam'),
-};
 
 export const getCleanedTagCollection = (
   tags: TagCommon[],
@@ -21,21 +15,31 @@ export const getTag = (
   name: string
 ): TagCommon | undefined => tags.find((item) => item.name === name);
 
-export const getTagLabel = (
-  i18n: withI18nProps['i18n'],
-  tag: TagCommon
-): string => {
+export const getTagLabel = (i18n: I18n, tag: TagCommon): string => {
   if (!tag.label) {
-    return SYSTEM_TAGS[tag.name]
-      ? i18n._(SYSTEM_TAGS[tag.name], undefined, { defaults: tag.name })
-      : tag.name;
+    switch (tag.name) {
+      case TAG_IMPORTANT:
+        return i18n._(/* i18n */ 'tags.label.important', undefined, {
+          message: tag.name,
+        });
+      case TAG_INBOX:
+        return i18n._(/* i18n */ 'tags.label.inbox', undefined, {
+          message: tag.name,
+        });
+      case TAG_SPAM:
+        return i18n._(/* i18n */ 'tags.label.spam', undefined, {
+          message: tag.name,
+        });
+      default:
+        return tag.name;
+    }
   }
 
   return tag.label;
 };
 
 export const getTagLabelFromName = (
-  i18n: withI18nProps['i18n'],
+  i18n: I18n,
   tags: TagCommon[],
   name: string
 ): string => {

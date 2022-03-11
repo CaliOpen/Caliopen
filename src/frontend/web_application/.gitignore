@@ -18,4 +18,5 @@ npm-debug.log
 
 # lingui
 locale/_build
-locale/**/*.js
+locale/**/*.ts
+locale/**/*.d.ts

@@ -26,7 +26,9 @@ function MessageRecipients({ message, shorten = false, i18n }: Props) {
   const recipients =
     user && isUserRecipient(message, user)
       ? [
-          i18n._('message.participants.me', undefined, { defaults: 'Me' }),
+          i18n._(/* i18n */ 'message.participants.me', undefined, {
+            message: 'Me',
+          }),
           ...getRecipientsLabels(getRecipientsExceptUser(message, user)),
         ]
       : getRecipientsLabels(getRecipients(message));
@@ -34,15 +36,17 @@ function MessageRecipients({ message, shorten = false, i18n }: Props) {
   const numberRecipients = recipients.length;
 
   if (numberRecipients === 0) {
-    return i18n._('message.participants.me', undefined, { defaults: 'Me' });
+    return i18n._(/* i18n */ 'message.participants.me', undefined, {
+      message: 'Me',
+    });
   }
   if (!shorten || numberRecipients === 1) return recipients.join(', ');
 
   const recipientsStr = i18n._(
-    'messages.participants.and_x_others',
+    /* i18n */ 'messages.participants.and_x_others',
     { first: recipients[0], number: numberRecipients - 1 },
     {
-      defaults: '{first} and {number, plural, one {# other} other {# others}}',
+      message: '{first} and {number, plural, one {# other} other {# others}}',
     }
   );
 

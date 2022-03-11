@@ -27,7 +27,7 @@ function OrgaForm({
           <FormColumn>
             <Legend>
               <Icon rightSpaced type="building" />
-              <Trans id="contact.orga_form.legend">Organization</Trans>
+              <Trans id="contact.orga_form.legend" message="Organization" />
             </Legend>
           </FormColumn>
         </FormRow>
@@ -36,15 +36,19 @@ function OrgaForm({
             <Field
               component={FormikTextFieldGroup}
               name={`${name}.label`}
-              label={i18n._('contact.orga_form.label.label', undefined, {
-                defaults: 'Label',
-              })}
+              label={i18n._(
+                /* i18n */ 'contact.orga_form.label.label',
+                undefined,
+                {
+                  message: 'Label',
+                }
+              )}
               inputProps={{
                 placeholder: i18n._(
-                  'contact.orga_form.label.label',
+                  /* i18n */ 'contact.orga_form.label.label',
                   undefined,
                   {
-                    defaults: 'Label',
+                    message: 'Label',
                   }
                 ),
                 expanded: true,
@@ -56,13 +60,21 @@ function OrgaForm({
               component={FormikTextFieldGroup}
               name={`${name}.name`}
               validate={validateRequired(i18n)}
-              label={i18n._('contact.orga_form.name.label', undefined, {
-                defaults: 'Name',
-              })}
+              label={i18n._(
+                /* i18n */ 'contact.orga_form.name.label',
+                undefined,
+                {
+                  message: 'Name',
+                }
+              )}
               inputProps={{
-                placeholder: i18n._('contact.orga_form.name.label', undefined, {
-                  defaults: 'Name',
-                }),
+                placeholder: i18n._(
+                  /* i18n */ 'contact.orga_form.name.label',
+                  undefined,
+                  {
+                    message: 'Name',
+                  }
+                ),
                 expanded: true,
                 required: true,
               }}
@@ -72,15 +84,19 @@ function OrgaForm({
             <Field
               component={FormikTextFieldGroup}
               name={`${name}.title`}
-              label={i18n._('contact.orga_form.title.label', undefined, {
-                defaults: 'Title',
-              })}
+              label={i18n._(
+                /* i18n */ 'contact.orga_form.title.label',
+                undefined,
+                {
+                  message: 'Title',
+                }
+              )}
               inputProps={{
                 placeholder: i18n._(
-                  'contact.orga_form.title.label',
+                  /* i18n */ 'contact.orga_form.title.label',
                   undefined,
                   {
-                    defaults: 'Title',
+                    message: 'Title',
                   }
                 ),
                 expanded: true,
@@ -91,14 +107,18 @@ function OrgaForm({
             <Field
               component={FormikTextFieldGroup}
               name={`${name}.department`}
-              label={i18n._('contact.orga_form.department.label', undefined, {
-                defaults: 'Department',
-              })}
+              label={i18n._(
+                /* i18n */ 'contact.orga_form.department.label',
+                undefined,
+                {
+                  message: 'Department',
+                }
+              )}
               inputProps={{
                 placeholder: i18n._(
-                  'contact.orga_form.department.label',
+                  /* i18n */ 'contact.orga_form.department.label',
                   undefined,
-                  { defaults: 'Department' }
+                  { message: 'Department' }
                 ),
                 expanded: true,
               }}
@@ -108,16 +128,20 @@ function OrgaForm({
             <Field
               component={FormikTextFieldGroup}
               name={`${name}.job_description`}
-              label={i18n._('contact.orga_form.job_description.label')}
+              label={i18n._(
+                /* i18n */ 'contact.orga_form.job_description.label'
+              )}
               inputProps={{
-                placeholder: i18n._('contact.orga_form.job_description.label'),
+                placeholder: i18n._(
+                  /* i18n */ 'contact.orga_form.job_description.label'
+                ),
                 expanded: true,
               }}
             />
           </FormColumn>
           <FormColumn className="m-orga-form__col-button" rightSpace={false}>
             <Button icon="remove" color="alert" onClick={onDelete}>
-              <Trans id="contact.orga_form.remove-button">Remove</Trans>
+              <Trans id="contact.orga_form.remove-button" message="Remove" />
             </Button>
           </FormColumn>
         </FormRow>

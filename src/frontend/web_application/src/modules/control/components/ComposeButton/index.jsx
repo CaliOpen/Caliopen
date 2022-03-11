@@ -33,7 +33,7 @@ class ComposeButton extends PureComponent {
         icon="pencil"
       >
         <span className="m-control-compose-button__label">
-          <Trans id="call-to-action.action.compose">Compose</Trans>
+          <Trans id="call-to-action.action.compose" message="Compose" />
         </span>
         <span className="m-control-compose-button__icon">
           <Icon type="plus" />

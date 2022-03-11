@@ -31,7 +31,7 @@ class DeviceInformation extends PureComponent {
           <div className="m-device-information__info">
             {isCurrentDevice && (
               <TextBlock className="m-device-information__current-device">
-                (<Trans id="device.current_device">Current device</Trans>)
+                (<Trans id="device.current_device" message="Current device" />)
               </TextBlock>
             )}
             <TextBlock className="m-device-information__name">
@@ -40,7 +40,7 @@ class DeviceInformation extends PureComponent {
             {/* TODO: display connected status for device
             <span className="m-device-information__status">
               device.isConnected && (
-                <Trans id="device.status.connected">Connected</Trans>
+                <Trans id="device.status.connected" message="Connected" />
                 {' '}
                 <Icon type="check" className="m-device-information__status-icon" />
               )

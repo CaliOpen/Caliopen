@@ -49,7 +49,9 @@ class RemoteIdentitySettings extends Component {
       errorMessage = error.data.errors[0].message;
     } else {
       errorMessage = this.props.i18n._(
-        'new identity failed. See console for error'
+        /* i18n */ 'remote-identity-settings.unexpected-error',
+        undefined,
+        { message: 'Unexpected error occured' }
       );
     }
     const { notifyError } = this.props;

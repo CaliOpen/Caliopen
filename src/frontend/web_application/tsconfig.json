@@ -8,6 +8,7 @@
     "baseUrl": ".",
     "paths": {
       "src": ["src"],
+      "locale": ["locale"],
       "test": ["test"],
     },
     "jsx": "react", // use typescript to transpile jsx to js

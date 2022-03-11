@@ -51,8 +51,8 @@ class Presenter extends Component {
     const { notifyInfo, i18n } = this.props;
 
     notifyInfo({
-      message: i18n._('next-feature.generic', null, {
-        defaults:
+      message: i18n._(/* i18n */ 'next-feature.generic', null, {
+        message:
           'This feature is not available for now but is planned to be added to Caliopen.',
       }),
     });
@@ -88,17 +88,17 @@ class Presenter extends Component {
             <Separator />
             <VerticalMenuItem>
               <Link to="/contacts" expanded button>
-                <Trans id="header.menu.contacts">Contacts</Trans>
+                <Trans id="header.menu.contacts" message="Contacts" />
               </Link>
             </VerticalMenuItem>
             <VerticalMenuItem>
               <Link to="/user/profile" expanded button>
-                <Trans id="header.menu.account">Account</Trans>
+                <Trans id="header.menu.account" message="Account" />
               </Link>
             </VerticalMenuItem>
             <VerticalMenuItem>
               <Link to="/settings/application" expanded button>
-                <Trans id="header.menu.settings">Settings</Trans>
+                <Trans id="header.menu.settings" message="Settings" />
               </Link>
             </VerticalMenuItem>
             <VerticalMenuItem>
@@ -108,7 +108,7 @@ class Presenter extends Component {
                 display="expanded"
                 onClick={this.handleClickNewFeature}
               >
-                <Trans id="header.menu.agenda">Agenda</Trans>
+                <Trans id="header.menu.agenda" message="Agenda" />
               </Button>
             </VerticalMenuItem>
             <VerticalMenuItem>
@@ -118,18 +118,18 @@ class Presenter extends Component {
                 display="expanded"
                 onClick={this.handleClickNewFeature}
               >
-                <Trans id="header.menu.files">Files</Trans>
+                <Trans id="header.menu.files" message="Files" />
               </Button>
             </VerticalMenuItem>
             <VerticalMenuItem>
               {user && (
                 <Link href="/auth/signout" button expanded>
-                  <Trans id="header.menu.signout">Signout</Trans>
+                  <Trans id="header.menu.signout" message="Signout" />
                 </Link>
               )}
               {!user && (
                 <Link to="/auth/signin" button expanded>
-                  <Trans id="header.menu.signin">Signin</Trans>
+                  <Trans id="header.menu.signin" message="Signin" />
                 </Link>
               )}
             </VerticalMenuItem>

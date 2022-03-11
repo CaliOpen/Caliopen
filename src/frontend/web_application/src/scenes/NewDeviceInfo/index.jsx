@@ -44,17 +44,21 @@ class NewDeviceInfo extends PureComponent {
       <Modal
         isOpen={this.state.isModalOpen}
         className="s-new-device-info__modal"
-        title={i18n._('new-device-info.modal.title', null, {
-          defaults: 'About new device',
+        title={i18n._(/* i18n */ 'new-device-info.modal.title', null, {
+          message: 'About new device',
         })}
         onClose={this.handleCloseModal}
       >
         <div
           dangerouslySetInnerHTML={{
-            __html: i18n._('new-device-info.learn-more.content', null, {
-              defaults:
-                "<p>In order to compute the Privacy Index (PI) of a message, Caliopen needs to know more about the terminal you're using to consult said message: by nature a laptop isn't as private as a desktop (since you will be using your laptop in public more often).</p><p>Likewise a shared terminal (e.g. a free access computer in a public place) cannot be considered as private as your personal computer only you use.</p><p>Caliopen will take into account the informations you enter on the next screen, to better assess whether your more private messages can be displayed without a risk to be read by a third party: by default only the messages adapted to your terminal's privacy will be displayed.</p><p>It is therefore important to precisely describe a terminal's attributes on the first use, so that Caliopen can more effectively protect your privacy.</p>",
-            }),
+            __html: i18n._(
+              /* i18n */ 'new-device-info.learn-more.content',
+              null,
+              {
+                message:
+                  "<p>In order to compute the Privacy Index (PI) of a message, Caliopen needs to know more about the terminal you're using to consult said message: by nature a laptop isn't as private as a desktop (since you will be using your laptop in public more often).</p><p>Likewise a shared terminal (e.g. a free access computer in a public place) cannot be considered as private as your personal computer only you use.</p><p>Caliopen will take into account the informations you enter on the next screen, to better assess whether your more private messages can be displayed without a risk to be read by a third party: by default only the messages adapted to your terminal's privacy will be displayed.</p><p>It is therefore important to precisely describe a terminal's attributes on the first use, so that Caliopen can more effectively protect your privacy.</p>",
+              }
+            ),
           }}
         />
       </Modal>
@@ -81,11 +85,11 @@ class NewDeviceInfo extends PureComponent {
             onClick={this.handleOpenModal}
             className="s-new-device-info__learn-more"
           >
-            <Trans id="new-device-info.learn-more">Learn more</Trans>
+            <Trans id="new-device-info.learn-more" message="Learn more" />
           </Button>
           {this.renderModal()}
           <Link plain button to={URL_DEVICES}>
-            <Trans id="new-device-info.i-understand">I understand</Trans>
+            <Trans id="new-device-info.i-understand" message="I understand" />
           </Link>
         </div>
       </div>

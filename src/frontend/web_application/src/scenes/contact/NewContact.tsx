@@ -71,7 +71,7 @@ function NewContact(): React.ReactElement<typeof ContactPageWrapper> {
               <p key={`${contactErr.type}_${address}`}>
                 <Trans
                   id="contact.feedback.unable_to_save_address_already_used"
-                  defaults='The address "{address}" belongs to <0>{name}</0>. You can remove it from that contact before using it here.'
+                  message='The address "{address}" belongs to <0>{name}</0>. You can remove it from that contact before using it here.'
                   values={{
                     name:
                       (contactsById[ownerContactId] &&
@@ -86,9 +86,10 @@ function NewContact(): React.ReactElement<typeof ContactPageWrapper> {
           default:
             return (
               <p key={index}>
-                <Trans id="contact.feedback.unable_to_save">
-                  Unable to save the contact
-                </Trans>
+                <Trans
+                  id="contact.feedback.unable_to_save"
+                  message="Unable to save the contact"
+                />
               </p>
             );
         }

@@ -19,6 +19,7 @@ module.exports = {
     // to match paths in ts config
     alias: {
       src: path.resolve(__dirname, '../src'),
+      locale: path.resolve(__dirname, '../locale'),
     },
   },
 };

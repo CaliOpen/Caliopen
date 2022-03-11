@@ -154,7 +154,10 @@ function RecipientSelector({ contactId, className, current, onChange }: Props) {
       dropdownId="recipient-dropdown-select"
       className={classnames(className)}
       label={
-        <Trans id="draft-message.form.contact-recipient-selector">To:</Trans>
+        <Trans
+          id="draft-message.form.contact-recipient-selector"
+          message="To:"
+        />
       }
       inline
       options={options}

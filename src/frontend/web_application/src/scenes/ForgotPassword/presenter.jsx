@@ -53,18 +53,22 @@ class ForgotPassword extends Component {
 
     const localizedErrors = {
       [ERROR_IDENTIFIANTS_MISMATCH]: i18n._(
-        'passwords.form.error.identifiants_mismatch',
+        /* i18n */ 'passwords.form.error.identifiants_mismatch',
         null,
-        { defaults: "Identifiers don't match." }
+        { message: "Identifiers don't match." }
       ),
       [ERROR_USER_NOT_FOUND]: i18n._(
-        'passwords.form.error.user_not_found',
+        /* i18n */ 'passwords.form.error.user_not_found',
         null,
-        { defaults: 'User not found.' }
+        { message: 'User not found.' }
       ),
-      [STATUS_INVALID_FORM]: i18n._('passwords.form.error.empty', null, {
-        defaults: 'At least one field is required.',
-      }),
+      [STATUS_INVALID_FORM]: i18n._(
+        /* i18n */ 'passwords.form.error.empty',
+        null,
+        {
+          message: 'At least one field is required.',
+        }
+      ),
     };
 
     const errors = {

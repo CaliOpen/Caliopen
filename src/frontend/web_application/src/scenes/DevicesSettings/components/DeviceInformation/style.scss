@@ -7,7 +7,7 @@
 
   &__icon {
     @include flex-grid-size(shrink);
-    padding-right: $co-margin / 2;
+    padding-right: calc($co-margin / 2);
     color: $co-color__primary;
     font-size: $co-component__height;
     line-height: $co-component__height;
