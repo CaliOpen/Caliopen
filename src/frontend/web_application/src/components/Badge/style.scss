@@ -22,7 +22,7 @@ $m-badge--large__padding: ($m-badge--large__height - $m-badge--large__font-size)
   white-space: nowrap;
 
   &--right-spaced {
-    margin-right: $co-margin / 4;
+    margin-right: calc($co-margin / 4);
   }
 
   &--is-link {

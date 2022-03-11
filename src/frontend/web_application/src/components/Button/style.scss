@@ -7,7 +7,7 @@
   text-align: left;
 
   &__text {
-    margin-left: $co-margin / 4;
+    margin-left: calc($co-margin / 4);
   }
 
   &--center {

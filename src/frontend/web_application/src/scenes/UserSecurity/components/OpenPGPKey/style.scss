@@ -12,7 +12,7 @@
 
   &__icon {
     flex: 0 1;
-    margin-right: $co-margin / 4;
+    margin-right: calc($co-margin / 4);
   }
 
   &__fingerprint {

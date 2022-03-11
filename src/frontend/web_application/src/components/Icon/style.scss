@@ -3,12 +3,12 @@
 
 .m-icon {
   &--spaced {
-    margin-right: $co-margin / 4;
-    margin-left: $co-margin / 4;
+    margin-right: calc($co-margin / 4);
+    margin-left: calc($co-margin / 4);
   }
 
   &--right-spaced {
-    margin-right: $co-margin / 4;
+    margin-right: calc($co-margin / 4);
   }
 
   &--svg svg {

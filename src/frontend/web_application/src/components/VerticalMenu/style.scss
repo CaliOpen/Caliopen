@@ -10,7 +10,7 @@
     float: left;
     width: 1px;
     height: auto;
-    margin: 0 ($co-margin / 4);
+    margin: 0 (calc($co-margin / 4));
   }
 }
 
@@ -23,7 +23,7 @@
     // float: none;
     // width: auto;
     height: 1px;
-    margin: ($co-margin / 4) 0;
+    margin: (calc($co-margin / 4)) 0;
   }
 }
 

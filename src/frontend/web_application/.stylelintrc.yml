@@ -33,7 +33,7 @@ rules:
   #   }]
   #
   selector-max-class:
-    - 1
+    - 2
     - severity: 'warning'
 
   # Property sort order, inspired from SMACCS

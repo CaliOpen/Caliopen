@@ -3,7 +3,7 @@
 
 .s-devices-settings {
   @include flex-grid-row($size: expand);
-  padding: $co-margin / 2;
+  padding: calc($co-margin / 2);
 
   &__info,
   &__device {
@@ -11,8 +11,8 @@
   }
 
   &__device {
-    margin-top: $co-margin / 2;
-    margin-bottom: $co-margin / 2;
+    margin-top: calc($co-margin / 2);
+    margin-bottom: calc($co-margin / 2);
   }
 
   @include breakpoint(large) {

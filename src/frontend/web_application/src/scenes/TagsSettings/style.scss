@@ -3,7 +3,7 @@
 
 .s-tags-settings {
   @include flex-grid-row($size: expand);
-  padding: $co-margin ($co-margin / 2);
+  padding: $co-margin (calc($co-margin / 2));
   background: $co-color__fg__back;
 
   &__tags,

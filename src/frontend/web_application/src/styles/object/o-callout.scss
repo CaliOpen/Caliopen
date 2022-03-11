@@ -6,8 +6,8 @@
 }
 
 @mixin o-callout-base {
-  margin-bottom: $co-margin / 2;
-  padding: $co-margin / 2;
+  margin-bottom: calc($co-margin / 2);
+  padding: calc($co-margin / 2);
 
   border: 1px solid $co-color__fg__border;
   border-radius: $co-radius;

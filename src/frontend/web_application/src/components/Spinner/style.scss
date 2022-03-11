@@ -13,7 +13,7 @@
   $baseName: &;
   &--inline-block {
     display: inline-block;
-    padding: ($co-margin / 2);
+    padding: (calc($co-margin / 2));
   }
 
   &__icon {
