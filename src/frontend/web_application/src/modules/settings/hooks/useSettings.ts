@@ -6,9 +6,8 @@ import { settingsSelector } from '../selectors/settings';
 import { Settings } from '../types';
 
 const isToFetchSelector = (state) => {
-  const { settings, isFetching, isInvalidated, didLostAuth } = settingsSelector(
-    state
-  );
+  const { settings, isFetching, isInvalidated, didLostAuth } =
+    settingsSelector(state);
 
   return (!settings || isInvalidated || didLostAuth) && !isFetching;
 };

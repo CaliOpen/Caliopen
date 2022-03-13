@@ -4,13 +4,15 @@ import classnames from 'classnames';
 import './style.scss';
 
 function Subtitle({ children, actions, hr, className, ...props }) {
-  return <div
-    className={classnames('m-subtitle', { 'm-subtitle--hr': hr }, className)}
-    {...props}
-  >
-    <h3 className="m-subtitle__text">{children}</h3>
-    {actions && <span className="m-subtitle__actions">{actions}</span>}
-  </div>
+  return (
+    <div
+      className={classnames('m-subtitle', { 'm-subtitle--hr': hr }, className)}
+      {...props}
+    >
+      <h3 className="m-subtitle__text">{children}</h3>
+      {actions && <span className="m-subtitle__actions">{actions}</span>}
+    </div>
+  );
 }
 
 Subtitle.propTypes = {

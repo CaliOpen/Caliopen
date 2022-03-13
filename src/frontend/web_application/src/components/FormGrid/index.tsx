@@ -59,7 +59,7 @@ interface FormGridProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 function FormGrid({ className, ...props }: FormGridProps) {
-  return <div className={classnames('m-form-grid', className)} {...props} />
+  return <div className={classnames('m-form-grid', className)} {...props} />;
 }
 
 export default FormGrid;

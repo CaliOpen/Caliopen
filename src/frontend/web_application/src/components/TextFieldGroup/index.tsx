@@ -126,15 +126,17 @@ export function FormikTextFieldGroup({
   inputProps,
   ...props
 }: FormikTextFieldGroupProps): React.ReactElement<Props> {
-  return <ForwardedTextFieldGroup
-    id={id}
-    label={label}
-    inputProps={{ ...inputProps, ...field }}
-    errors={
-      getIn(form?.errors, field.name) && getIn(form.touched, field.name)
-        ? [getIn(form.errors, field.name)]
-        : undefined
-    }
-    {...props}
-  />
+  return (
+    <ForwardedTextFieldGroup
+      id={id}
+      label={label}
+      inputProps={{ ...inputProps, ...field }}
+      errors={
+        getIn(form?.errors, field.name) && getIn(form.touched, field.name)
+          ? [getIn(form.errors, field.name)]
+          : undefined
+      }
+      {...props}
+    />
+  );
 }

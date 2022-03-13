@@ -13,60 +13,59 @@ import { IDraftMessageFormData } from '../types';
 
 const UPDATE_WAIT_TIME = 5 * 1000;
 
-const createDraft = (draftMessage: IDraftMessagePayload) => async (
-  dispatch
-): Promise<Message> => {
-  try {
-    const message = await dispatch(createMessage({ message: draftMessage }));
-    const nextDraft = calcSyncDraft(draftMessage, message);
-    dispatch(syncDraft(nextDraft));
+const createDraft =
+  (draftMessage: IDraftMessagePayload) =>
+  async (dispatch): Promise<Message> => {
+    try {
+      const message = await dispatch(createMessage({ message: draftMessage }));
+      const nextDraft = calcSyncDraft(draftMessage, message);
+      dispatch(syncDraft(nextDraft));
 
-    return message;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+      return message;
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  };
 
-const updateDraft = (
-  draftMessage: IDraftMessagePayload,
-  message: Message
-) => async (dispatch): Promise<Message> => {
-  try {
-    const messageUpToDate = await dispatch(
-      updateMessage({ message: draftMessage, original: message })
+const updateDraft =
+  (draftMessage: IDraftMessagePayload, message: Message) =>
+  async (dispatch): Promise<Message> => {
+    try {
+      const messageUpToDate = await dispatch(
+        updateMessage({ message: draftMessage, original: message })
+      );
+      const nextDraft = calcSyncDraft(draftMessage, message);
+      dispatch(syncDraft(nextDraft));
+
+      return messageUpToDate;
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  };
+
+const createOrUpdateDraft =
+  (draftMessage: IDraftMessagePayload) =>
+  async (dispatch): Promise<Message> => {
+    const participants = await dispatch(
+      consolidateParticipants(draftMessage.participants)
     );
-    const nextDraft = calcSyncDraft(draftMessage, message);
-    dispatch(syncDraft(nextDraft));
+    const consolidatedDraft = { ...draftMessage, participants };
 
-    return messageUpToDate;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+    let message;
+    try {
+      message = await dispatch(
+        getMessage({ messageId: draftMessage.message_id })
+      );
+    } catch (err) {
+      // new draft: nothing to do
+    }
 
-const createOrUpdateDraft = (draftMessage: IDraftMessagePayload) => async (
-  dispatch
-): Promise<Message> => {
-  const participants = await dispatch(
-    consolidateParticipants(draftMessage.participants)
-  );
-  const consolidatedDraft = { ...draftMessage, participants };
+    if (message) {
+      return dispatch(updateDraft(consolidatedDraft, message));
+    }
 
-  let message;
-  try {
-    message = await dispatch(
-      getMessage({ messageId: draftMessage.message_id })
-    );
-  } catch (err) {
-    // new draft: nothing to do
-  }
-
-  if (message) {
-    return dispatch(updateDraft(consolidatedDraft, message));
-  }
-
-  return dispatch(createDraft(consolidatedDraft));
-};
+    return dispatch(createDraft(consolidatedDraft));
+  };
 
 const throttled = {};
 const createThrottle = (
@@ -92,43 +91,45 @@ const createThrottle = (
     { leading: false }
   );
 
-export const saveDraft = (
-  draft: IDraftMessageFormData,
-  {
-    withThrottle = false,
-    force = false,
-  }: { withThrottle?: boolean; force?: boolean } = {}
-) => async (dispatch): Promise<void | Message> => {
-  dispatch(editDraftBase(draft));
+export const saveDraft =
+  (
+    draft: IDraftMessageFormData,
+    {
+      withThrottle = false,
+      force = false,
+    }: { withThrottle?: boolean; force?: boolean } = {}
+  ) =>
+  async (dispatch): Promise<void | Message> => {
+    dispatch(editDraftBase(draft));
 
-  if (throttled[draft.message_id]) {
-    throttled[draft.message_id].cancel();
-  }
+    if (throttled[draft.message_id]) {
+      throttled[draft.message_id].cancel();
+    }
 
-  const { body, recipients } = draft;
+    const { body, recipients } = draft;
 
-  if (
-    body.length === 0 &&
-    (!recipients || recipients.length === 0) &&
-    force === false
-  ) {
-    // do not create draft until body & recipients are filled
-    return undefined;
-  }
+    if (
+      body.length === 0 &&
+      (!recipients || recipients.length === 0) &&
+      force === false
+    ) {
+      // do not create draft until body & recipients are filled
+      return undefined;
+    }
 
-  const draftMessage = mapDraftMessageFormDataToMessage(draft);
+    const draftMessage = mapDraftMessageFormDataToMessage(draft);
 
-  if (!withThrottle) {
-    return dispatch(createOrUpdateDraft(draftMessage));
-  }
+    if (!withThrottle) {
+      return dispatch(createOrUpdateDraft(draftMessage));
+    }
 
-  return new Promise((resolve, reject) => {
-    throttled[draft.message_id] = createThrottle(
-      resolve,
-      reject,
-      dispatch,
-      draftMessage
-    );
-    throttled[draft.message_id]();
-  });
-};
+    return new Promise((resolve, reject) => {
+      throttled[draft.message_id] = createThrottle(
+        resolve,
+        reject,
+        dispatch,
+        draftMessage
+      );
+      throttled[draft.message_id]();
+    });
+  };

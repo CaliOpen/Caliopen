@@ -7,11 +7,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-function TextItem({
-  className,
-  large = false,
-  ...props
-}: Props): JSX.Element {
+function TextItem({ className, large = false, ...props }: Props): JSX.Element {
   const itemClassName = classnames(
     'm-text-list__item',
     {

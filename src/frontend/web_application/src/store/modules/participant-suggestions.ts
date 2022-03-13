@@ -98,8 +98,8 @@ export default function reducer(state = initialState, action: Action) {
       return {
         ...state,
         resultsByKey: {
-          [getKey(action.payload.terms, action.payload.context)]: action.payload
-            .results,
+          [getKey(action.payload.terms, action.payload.context)]:
+            action.payload.results,
         },
       };
     default:

@@ -8,7 +8,7 @@ const notificationCustomStyles = {
 };
 
 function NotificationCenter() {
-  return <Notify customStyles={notificationCustomStyles} />
+  return <Notify customStyles={notificationCustomStyles} />;
 }
 
 export default NotificationCenter;

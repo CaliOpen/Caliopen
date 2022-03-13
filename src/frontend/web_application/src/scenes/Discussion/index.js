@@ -144,42 +144,45 @@ const mapStateToProps = createSelector(
   }
 );
 
-const deleteDiscussion = ({ discussionId, messages }) => async (dispatch) => {
-  await Promise.all(
-    messages.map((message) => dispatch(deleteMessageRaw({ message })))
-  );
+const deleteDiscussion =
+  ({ discussionId, messages }) =>
+  async (dispatch) => {
+    await Promise.all(
+      messages.map((message) => dispatch(deleteMessageRaw({ message })))
+    );
 
-  return dispatch(invalidate('discussion', discussionId));
-};
+    return dispatch(invalidate('discussion', discussionId));
+  };
 
-const updateDiscussionTags = ({ i18n, messages, tags }) => async (dispatch) =>
-  Promise.all(
-    messages.map((message) =>
-      dispatch(
-        updateTagCollection(i18n, { type: 'message', entity: message, tags })
+const updateDiscussionTags =
+  ({ i18n, messages, tags }) =>
+  async (dispatch) =>
+    Promise.all(
+      messages.map((message) =>
+        dispatch(
+          updateTagCollection(i18n, { type: 'message', entity: message, tags })
+        )
       )
-    )
-  );
+    );
 
 const onMessageReply = (message) => async (dispatch) => {
   dispatch(reply(message));
 };
 
-const requestDiscussionAndDraft = ({ discussionId }) => async (
-  dispatch,
-  getState
-) => {
-  const discussion = await dispatch(requestDiscussion({ discussionId }));
-  const draftMessage = messagesDraftByDiscussionIdSelector(getState(), {
-    discussionId,
-  }).pop();
+const requestDiscussionAndDraft =
+  ({ discussionId }) =>
+  async (dispatch, getState) => {
+    const discussion = await dispatch(requestDiscussion({ discussionId }));
+    const draftMessage = messagesDraftByDiscussionIdSelector(getState(), {
+      discussionId,
+    }).pop();
 
-  if (!draftMessage) {
-    await dispatch(getDraft({ discussionId }));
-  }
+    if (!draftMessage) {
+      await dispatch(getDraft({ discussionId }));
+    }
 
-  return discussion;
-};
+    return discussion;
+  };
 
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators(

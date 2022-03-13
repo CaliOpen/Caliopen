@@ -15,33 +15,35 @@ const navLinks = [
 ];
 
 function SettingsSignatures({ i18n }) {
-  return <div className="s-settings-signatures">
-    <PageTitle />
-    {navLinks && (
-      <NavList dir="vertical" className="s-settings-signatures__menu">
-        {navLinks.map((link) => (
-          // this should be identities.map(identity => ... )
-          <NavItem active={false} large key={link.title}>
-            <Link noDecoration {...link}>
-              {link.title}
-            </Link>
-          </NavItem>
-        ))}
-      </NavList>
-    )}
-    <div className="s-settings-signatures__panel">
-      <Section
-        title={i18n._(/* i18n */ 'settings.signatures.title', {
-          message: 'Update your signature',
-        })}
-      >
-        <SignatureForm
-          settings={fakeSignaturesSettings}
-          onSubmit={(str) => str}
-        />
-      </Section>
+  return (
+    <div className="s-settings-signatures">
+      <PageTitle />
+      {navLinks && (
+        <NavList dir="vertical" className="s-settings-signatures__menu">
+          {navLinks.map((link) => (
+            // this should be identities.map(identity => ... )
+            <NavItem active={false} large key={link.title}>
+              <Link noDecoration {...link}>
+                {link.title}
+              </Link>
+            </NavItem>
+          ))}
+        </NavList>
+      )}
+      <div className="s-settings-signatures__panel">
+        <Section
+          title={i18n._(/* i18n */ 'settings.signatures.title', {
+            message: 'Update your signature',
+          })}
+        >
+          <SignatureForm
+            settings={fakeSignaturesSettings}
+            onSubmit={(str) => str}
+          />
+        </Section>
+      </div>
     </div>
-  </div>
+  );
 }
 
 SettingsSignatures.propTypes = {

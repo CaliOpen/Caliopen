@@ -8,11 +8,13 @@ interface Props extends ButtonProps {
   innerRef: React.ForwardedRef<HTMLButtonElement>;
 }
 function ActionBarButton({ className, innerRef, ...props }: Props) {
-  return <Button
-    ref={innerRef}
-    className={classnames('m-action-bar__action-btn', className)}
-    {...props}
-  />
+  return (
+    <Button
+      ref={innerRef}
+      className={classnames('m-action-bar__action-btn', className)}
+      {...props}
+    />
+  );
 }
 
 type ActionBarButtonProps = Omit<Props, 'innerRef'>;

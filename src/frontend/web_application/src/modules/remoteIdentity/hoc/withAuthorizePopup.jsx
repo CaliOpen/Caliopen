@@ -92,7 +92,7 @@ export const withAuthorizePopup = () => (C) => {
     authorizePopup,
   };
 
-  return function(props) {
-  return <C {...authorizeProps} {...props} />
-};
+  return function (props) {
+    return <C {...authorizeProps} {...props} />;
+  };
 };

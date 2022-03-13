@@ -11,35 +11,36 @@ import { mapMessageToDraftMessageFormData } from '../models';
  *
  * @param messageInReply Message
  */
-export const reply = (messageInReply: Message) => async (
-  dispatch,
-  getState
-): Promise<Message> => {
-  const discussionId = messageInReply.discussion_id;
-  const draftMessage = await dispatch(getDraft({ discussionId }));
+export const reply =
+  (messageInReply: Message) =>
+  async (dispatch, getState): Promise<Message> => {
+    const discussionId = messageInReply.discussion_id;
+    const draftMessage = await dispatch(getDraft({ discussionId }));
 
-  // FIXME: change subject & co? (not only parent_id)
-  const draft = draftMessage
-    ? {
-        ...mapMessageToDraftMessageFormData(draftMessage),
-        parent_id: messageInReply.message_id,
-      }
-    : await dispatch(
-        createDiscussionDraft({
-          discussionId,
-          values: {
-            parent_id: messageInReply.message_id,
-          },
-        })
-      );
+    // FIXME: change subject & co? (not only parent_id)
+    const draft = draftMessage
+      ? {
+          ...mapMessageToDraftMessageFormData(draftMessage),
+          parent_id: messageInReply.message_id,
+        }
+      : await dispatch(
+          createDiscussionDraft({
+            discussionId,
+            values: {
+              parent_id: messageInReply.message_id,
+            },
+          })
+        );
 
-  await dispatch(
-    saveDraft(draft, {
-      withThrottle: false,
-      force: true,
-    })
-  );
-  const message = messageSelector(getState(), { messageId: draft.message_id });
+    await dispatch(
+      saveDraft(draft, {
+        withThrottle: false,
+        force: true,
+      })
+    );
+    const message = messageSelector(getState(), {
+      messageId: draft.message_id,
+    });
 
-  return message;
-};
+    return message;
+  };

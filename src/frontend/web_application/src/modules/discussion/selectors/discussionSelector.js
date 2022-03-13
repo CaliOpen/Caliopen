@@ -5,9 +5,8 @@ export const discussionSelector = (state, { discussionId }) =>
 
 export const shouldFetchSelector = (state, id) => {
   const discussion = discussionSelector(state, { discussionId: id });
-  const { didInvalidate, isFetching } = getModuleStateSelector('discussion')(
-    state
-  );
+  const { didInvalidate, isFetching } =
+    getModuleStateSelector('discussion')(state);
 
   return (!discussion || didInvalidate) && !isFetching;
 };

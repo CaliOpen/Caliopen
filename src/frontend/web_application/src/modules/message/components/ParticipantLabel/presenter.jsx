@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 function Layout({ className, ...props }) {
-  return <span className={classnames(className)} {...props} />
+  return <span className={classnames(className)} {...props} />;
 }
 Layout.propTypes = {
   className: PropTypes.string,

@@ -4,10 +4,12 @@ import Link from '.';
 
 jest.mock('react-router-dom', () => {
   function BaseLink({ children, ...props }) {
-  return <a href="" {...props}>
-      {children}
-    </a>
-}
+    return (
+      <a href="" {...props}>
+        {children}
+      </a>
+    );
+  }
 
   return {
     Link: BaseLink,

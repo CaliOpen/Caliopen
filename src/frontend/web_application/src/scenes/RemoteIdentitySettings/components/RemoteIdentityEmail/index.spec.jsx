@@ -5,9 +5,10 @@ import RemoteIdentityEmail from '.';
 
 jest.mock('../../../../modules/settings', () => ({
   WithSettings: ({ render }) => render({}, false),
-  withSettings: () => (C) => function(props) {
-  return <C {...props} />
-},
+  withSettings: () => (C) =>
+    function (props) {
+      return <C {...props} />;
+    },
 }));
 
 describe('component RemoteIdentityEmail', () => {

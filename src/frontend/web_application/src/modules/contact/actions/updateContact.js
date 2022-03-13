@@ -8,16 +8,15 @@ import { userSelector } from '../../user';
 /**
  * @deprecated, use useMutation
  */
-export const updateContact = ({ contact, original }) => async (
-  dispatch,
-  getState
-) => {
-  await dispatch(updateContactBase({ contact, original }));
-  const userContact = userSelector(getState()).contact;
+export const updateContact =
+  ({ contact, original }) =>
+  async (dispatch, getState) => {
+    await dispatch(updateContactBase({ contact, original }));
+    const userContact = userSelector(getState()).contact;
 
-  if (userContact.contact_id === contact.contact_id) {
-    dispatch(requestUser());
-  }
+    if (userContact.contact_id === contact.contact_id) {
+      dispatch(requestUser());
+    }
 
-  return dispatch(requestContact(contact.contact_id));
-};
+    return dispatch(requestContact(contact.contact_id));
+  };

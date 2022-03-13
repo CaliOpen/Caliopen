@@ -202,10 +202,10 @@ function Dropdown({
 
   // Since dropdown position is computed according to previous position, the
   // memoization makes sure styles are kept during multiples re-render.
-  const dropdownStyle = React.useMemo(() => getStyles(isOpen || show), [
-    isOpen,
-    show,
-  ]);
+  const dropdownStyle = React.useMemo(
+    () => getStyles(isOpen || show),
+    [isOpen, show]
+  );
 
   const dropdownProps = {
     id,

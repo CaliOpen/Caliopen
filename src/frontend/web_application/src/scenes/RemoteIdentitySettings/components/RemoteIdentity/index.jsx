@@ -24,11 +24,8 @@ class RemoteIdentity extends Component {
   };
 
   renderType() {
-    const {
-      onRemoteIdentityDelete,
-      onRemoteIdentityChange,
-      remoteIdentity,
-    } = this.props;
+    const { onRemoteIdentityDelete, onRemoteIdentityChange, remoteIdentity } =
+      this.props;
 
     const renderComponent = (C) => (
       <C

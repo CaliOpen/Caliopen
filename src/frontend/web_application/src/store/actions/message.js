@@ -4,9 +4,11 @@ import {
 } from '../modules/message';
 import { tryCatchAxiosAction } from '../../services/api-client';
 
-export const updateMessage = ({ message, original }) => (dispatch) =>
-  tryCatchAxiosAction(async () => {
-    await dispatch(updateMessageBase({ message, original }));
+export const updateMessage =
+  ({ message, original }) =>
+  (dispatch) =>
+    tryCatchAxiosAction(async () => {
+      await dispatch(updateMessageBase({ message, original }));
 
-    return dispatch(requestMessage(message.message_id));
-  });
+      return dispatch(requestMessage(message.message_id));
+    });

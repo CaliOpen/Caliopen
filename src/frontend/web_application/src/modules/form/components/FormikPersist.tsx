@@ -51,17 +51,19 @@ function FormikPersist({
 }: {
   name: string;
 }): React.ReactElement<typeof FormikConsumer> {
-  return <FormikConsumer>
-    {({ values, errors, setValues, setErrors }) => (
-      <FormikPersistor
-        name={name}
-        setValues={setValues}
-        setErrors={setErrors}
-        values={values}
-        errors={errors}
-      />
-    )}
-  </FormikConsumer>
+  return (
+    <FormikConsumer>
+      {({ values, errors, setValues, setErrors }) => (
+        <FormikPersistor
+          name={name}
+          setValues={setValues}
+          setErrors={setErrors}
+          values={values}
+          errors={errors}
+        />
+      )}
+    </FormikConsumer>
+  );
 }
 
 export default FormikPersist;

@@ -3,18 +3,17 @@ import { getDefaultMiddleware } from '@reduxjs/toolkit';
 import { updateMessagesTags } from './updateMessagesTags';
 
 jest.mock('./updateTagCollection', () => ({
-  updateTagCollection: (
-    i18n,
-    { type, entity, tags: tagCollection, lazy = false }
-  ) => (dispatch) => {
-    const tags = tagCollection.map((tag) => tag.name);
-    dispatch({
-      type: 'updateTagCollection',
-      payload: { type, message_id: entity.message_id, tags, lazy },
-    });
+  updateTagCollection:
+    (i18n, { type, entity, tags: tagCollection, lazy = false }) =>
+    (dispatch) => {
+      const tags = tagCollection.map((tag) => tag.name);
+      dispatch({
+        type: 'updateTagCollection',
+        payload: { type, message_id: entity.message_id, tags, lazy },
+      });
 
-    return Promise.resolve({ ...entity, tags });
-  },
+      return Promise.resolve({ ...entity, tags });
+    },
 }));
 jest.mock('../../../store/modules/message', () => ({
   invalidateAll: () => (dispatch) => {

@@ -57,13 +57,8 @@ export const withDevices = () => (WrappedComponent) => {
     }
 
     render() {
-      const {
-        devices,
-        requestDevices,
-        isFetching,
-        didInvalidate,
-        ...props
-      } = this.props;
+      const { devices, requestDevices, isFetching, didInvalidate, ...props } =
+        this.props;
 
       const devicesProps = {
         devices,

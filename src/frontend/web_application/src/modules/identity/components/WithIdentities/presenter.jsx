@@ -27,12 +27,8 @@ class WithIdentities extends Component {
   render() {
     console.warn('DEPRECATED: useIdentities instead');
 
-    const {
-      render,
-      identities,
-      remoteIsFetching,
-      localIsFetching,
-    } = this.props;
+    const { render, identities, remoteIsFetching, localIsFetching } =
+      this.props;
 
     const isFetching = remoteIsFetching || localIsFetching;
 

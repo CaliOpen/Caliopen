@@ -5,12 +5,14 @@ import getClassName from './services/stylesheet-helper';
 import './style.scss';
 
 function AvatarLetter({ word, className, isSelected }) {
-  return <span
-    className={classnames(
-      className,
-      isSelected ? 'm-letter--checked' : getClassName(word)
-    )}
-  />
+  return (
+    <span
+      className={classnames(
+        className,
+        isSelected ? 'm-letter--checked' : getClassName(word)
+      )}
+    />
+  );
 }
 
 AvatarLetter.propTypes = {

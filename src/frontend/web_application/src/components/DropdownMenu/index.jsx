@@ -8,14 +8,16 @@ export { withDropdownControl };
 
 // @deprecated: use Dropdown
 function DropdownMenu({ className, hasTriangle, ...props }) {
-  return <Dropdown
-    className={classnames(
-      'm-dropdown-menu',
-      { 'm-dropdown-menu--has-triangle': hasTriangle },
-      className
-    )}
-    {...props}
-  />
+  return (
+    <Dropdown
+      className={classnames(
+        'm-dropdown-menu',
+        { 'm-dropdown-menu--has-triangle': hasTriangle },
+        className
+      )}
+      {...props}
+    />
+  );
 }
 DropdownMenu.propTypes = {
   className: PropTypes.string,

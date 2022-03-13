@@ -7,7 +7,7 @@ interface Props extends React.ComponentProps<'ul'> {
   className?: string;
 }
 function TextList({ className, ...props }: Props): JSX.Element {
-  return <ul className={classnames('m-text-list', className)} {...props} />
+  return <ul className={classnames('m-text-list', className)} {...props} />;
 }
 
 export { TextItem };

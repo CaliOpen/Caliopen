@@ -19,7 +19,8 @@ export default {
   },
   sms: {},
   email: {
-    regexp: /^[a-z0-9.!#$%&*+=?_{}~-]+@([a-zA-Z0-9]+\.)?[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z]{2,60}$/,
+    regexp:
+      /^[a-z0-9.!#$%&*+=?_{}~-]+@([a-zA-Z0-9]+\.)?[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z]{2,60}$/,
   },
   twitter: {
     // https://help.twitter.com/en/managing-your-account/twitter-username-rules
@@ -27,6 +28,7 @@ export default {
   },
   facebook: {},
   mastodon: {
-    regexp: /^[a-z0-9.!#$%&*+=?_{}~-]+@([a-zA-Z0-9]+\.)?[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z]{2,60}$/,
+    regexp:
+      /^[a-z0-9.!#$%&*+=?_{}~-]+@([a-zA-Z0-9]+\.)?[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z]{2,60}$/,
   },
 };

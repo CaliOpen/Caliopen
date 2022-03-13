@@ -62,13 +62,13 @@ const createGetContactSuggestions = (format: string) => (contact: Contact) => {
   return suggestions;
 };
 
-const createExtractSuggestionsFromContacts = (
-  getContactSuggestions: (contact: Contact) => Suggestion[]
-) => (contacts: Contact[]) =>
-  contacts.reduce<Suggestion[]>(
-    (acc, contact) => [...acc, ...getContactSuggestions(contact)],
-    []
-  );
+const createExtractSuggestionsFromContacts =
+  (getContactSuggestions: (contact: Contact) => Suggestion[]) =>
+  (contacts: Contact[]) =>
+    contacts.reduce<Suggestion[]>(
+      (acc, contact) => [...acc, ...getContactSuggestions(contact)],
+      []
+    );
 
 const getContactIdsFromSuggestions = (results) =>
   results
@@ -81,47 +81,47 @@ const getContacts = (contactIds: string[]) => (dispatch: AppDispatch) =>
     contactIds.map((contactId) => dispatch(getContact({ contactId })))
   );
 
-export const requestParticipantSuggestions = (
-  terms: string,
-  context: Context
-) => async (dispatch: AppDispatch, getState: GetState) => {
-  const { contact_display_format: contactDisplayFormat } = settingsSelector(
-    getState()
-  ).settings;
-  const getContactSuggestions = createGetContactSuggestions(
-    contactDisplayFormat
-  );
-  const extractSuggsFromContacts = createExtractSuggestionsFromContacts(
-    getContactSuggestions
-  );
+export const requestParticipantSuggestions =
+  (terms: string, context: Context) =>
+  async (dispatch: AppDispatch, getState: GetState) => {
+    const { contact_display_format: contactDisplayFormat } = settingsSelector(
+      getState()
+    ).settings;
+    const getContactSuggestions =
+      createGetContactSuggestions(contactDisplayFormat);
+    const extractSuggsFromContacts = createExtractSuggestionsFromContacts(
+      getContactSuggestions
+    );
 
-  const axiosResponse = await dispatch(suggest(terms, context));
-  const contactIds: string[] = getContactIdsFromSuggestions(
+    const axiosResponse = await dispatch(suggest(terms, context));
+    const contactIds: string[] = getContactIdsFromSuggestions(
+      // @ts-ignore: dispatch didn't transform axios action in response
+      axiosResponse.payload.data
+    );
+
+    // @ts-ignore: dispatch thunk
+    const contacts: Contact[] = await dispatch(getContacts(contactIds));
     // @ts-ignore: dispatch didn't transform axios action in response
-    axiosResponse.payload.data
-  );
+    const suggestionPayloads: SuggestionPayload[] = axiosResponse.payload.data;
+    const contactSuggestions = extractSuggsFromContacts(
+      contacts.filter(Boolean)
+    );
 
-  // @ts-ignore: dispatch thunk
-  const contacts: Contact[] = await dispatch(getContacts(contactIds));
-  // @ts-ignore: dispatch didn't transform axios action in response
-  const suggestionPayloads: SuggestionPayload[] = axiosResponse.payload.data;
-  const contactSuggestions = extractSuggsFromContacts(contacts.filter(Boolean));
+    const participantSuggestion = suggestionPayloads
+      .filter((payload) => payload.source === 'participant')
+      // deduplicate addresses
+      .filter(
+        (payload: ParticipantSuggestionPayload) =>
+          !contactSuggestions.some(
+            (contactSuggestion) =>
+              payload.protocol === contactSuggestion.protocol &&
+              payload.address === contactSuggestion.address
+          )
+      )
 
-  const participantSuggestion = suggestionPayloads
-    .filter((payload) => payload.source === 'participant')
-    // deduplicate addresses
-    .filter(
-      (payload: ParticipantSuggestionPayload) =>
-        !contactSuggestions.some(
-          (contactSuggestion) =>
-            payload.protocol === contactSuggestion.protocol &&
-            payload.address === contactSuggestion.address
-        )
-    )
+      .map((payload: ParticipantSuggestionPayload) => getSuggestion(payload));
 
-    .map((payload: ParticipantSuggestionPayload) => getSuggestion(payload));
+    const results = [...contactSuggestions, ...participantSuggestion];
 
-  const results = [...contactSuggestions, ...participantSuggestion];
-
-  return dispatch(searchSuccess(terms, context, results));
-};
+    return dispatch(searchSuccess(terms, context, results));
+  };
