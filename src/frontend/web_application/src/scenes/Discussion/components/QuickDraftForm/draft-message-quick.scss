@@ -12,6 +12,7 @@
 
   &__container {
     @include flex-grid-row($size: expand);
+
     border: 1px solid #9a989b;
     background-color: $co-color__bg__action;
   }
@@ -22,6 +23,7 @@
 
   &__toggle-advanced {
     @include flex-grid-size(shrink);
+
     width: 3.438rem;
     height: 3.438rem;
   }
@@ -30,6 +32,7 @@
     @include flex-grid-size;
     @include o-form-element;
     @include o-form-element--light;
+
     width: 100%;
     border: none;
 
@@ -40,6 +43,7 @@
 
   &__send {
     @include flex-grid-size(shrink);
+
     width: 3.438rem;
     height: 3.438rem;
   }
@@ -51,6 +55,7 @@
 
     &::after {
       @include fa-icon;
+
       position: absolute;
       right: 0;
       bottom: 0;

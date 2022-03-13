@@ -1,9 +1,39 @@
+extends:
+  - stylelint-config-standard-scss
+  - stylelint-config-prettier
+
 plugins:
   - stylelint-scss
   - stylelint-order
 
 # Rule Configuration
 rules:
+  # Override standard rules
+  declaration-block-no-redundant-longhand-properties: null
+  keyframes-name-pattern: null
+  selector-class-pattern: null
+  scss/comment-no-empty: null
+  scss/dollar-variable-pattern: null
+  scss/at-mixin-pattern: null
+  # Rules to fix
+  block-no-empty:
+    - true
+    - severity: 'warning'
+  no-descending-specificity:
+    - true
+    - severity: 'warning'
+  selector-no-vendor-prefix:
+    - true
+    - severity: 'warning'
+  scss/no-global-function-names:
+    - true
+    - severity: 'warning'
+
+  # prettier incompatibility
+  scss/operator-no-newline-after: null
+
+  # Caliopen specific
+
   # Allow a bigger nesting depth max in waiting of:
   # https://github.com/sasstools/sass-lint/issues/603
   max-nesting-depth:

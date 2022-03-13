@@ -32,6 +32,7 @@ $m-contact-list__nav-alpha-color--active: #9a9a9a;
   &__alpha-title {
     margin-right: map_get($co-margin_, 'xsmall');
     margin-left: map_get($co-margin_, 'xsmall');
+
     // usefull for anchor position without incidences
     padding-top: rem-calc($co-component__height + 0.5rem);
     color: $m-contact-list__nav-alpha-color--active;

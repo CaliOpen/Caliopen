@@ -4,6 +4,7 @@
 
 .m-button {
   @include o-clickable;
+
   text-align: left;
 
   &__text {
@@ -21,6 +22,7 @@
 
   &--block {
     @include o-clickable--button;
+
     width: 100%;
   }
 
@@ -43,6 +45,7 @@
     @each $name, $color in $caliopen-palette {
       &.m-button--#{$name} {
         $color-hover: scale-color($color, $lightness: -50%);
+
         border-color: transparent;
         background-color: $color;
         color: $co-color__clickable-text--contrasted;

@@ -1,5 +1,5 @@
 @import '../../styles/object/o-navigation';
-@import '../../styles/object/o-pi-border.scss';
+@import '../../styles/object/o-pi-border';
 @import '../../styles/vendor/bootstrap_foundation-sites';
 
 $item-active-height: 3.125rem + (rem_calc($pi-border__size) * 2); // $m-navbar-item-height--active

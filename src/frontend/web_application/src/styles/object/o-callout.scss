@@ -8,10 +8,10 @@
 @mixin o-callout-base {
   margin-bottom: calc($co-margin / 2);
   padding: calc($co-margin / 2);
-
   border: 1px solid $co-color__fg__border;
   border-radius: $co-radius;
   background-color: $co-color__fg__back;
+
   // box-shadow: $co-shadow;
 
   color: $co-color__fg__text--low;
@@ -23,12 +23,15 @@
   &--success {
     @include o-callout--color($co-color__success);
   }
+
   &--info {
     @include o-callout--color($co-color__info);
   }
+
   &--warning {
     @include o-callout--color($co-color__warning);
   }
+
   &--alert {
     @include o-callout--color($co-color__alert);
   }

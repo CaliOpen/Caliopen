@@ -3,6 +3,7 @@
 .l-notification-center {
   // overrides react-redux-notify/src/components/Notify/Notify.scss
   @include container;
+
   top: 50px; // cf. header
   right: 0;
   flex-direction: column;
@@ -35,9 +36,11 @@
     -webkit-font-smoothing: antialiased;
     font-weight: 700;
     overflow-y: auto;
+
     p:first-child {
       margin-top: 0;
     }
+
     p:last-child {
       margin-bottom: 0;
     }

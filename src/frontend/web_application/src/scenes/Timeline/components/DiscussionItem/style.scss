@@ -5,13 +5,13 @@ $s-discussion-item__spacing: 0.5rem;
 
 .s-discussion-item {
   @include flex-grid-row($size: expand);
+
   position: relative;
   align-items: center;
   min-height: $co-component__height;
   padding-top: $co-component__spacing;
   padding-right: $co-component__spacing;
   padding-bottom: $co-component__spacing;
-
   border-left: 0.5rem solid $co-color__fg__back--lower;
   background-color: $co-color__fg__back--low;
 
@@ -46,6 +46,7 @@ $s-discussion-item__spacing: 0.5rem;
 
   &__col-content {
     @include flex-grid-size;
+
     min-width: 0; // https://github.com/zurb/foundation-sites/pull/8511
   }
 

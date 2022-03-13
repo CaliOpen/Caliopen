@@ -1,5 +1,8 @@
-@import "./styles/common";
-@import "./styles/vendor/bootstrap_foundation-sites";
+@import './styles/common';
+@import './styles/vendor/bootstrap_foundation-sites';
+
+// --- Reset zf-normalizer
+@import 'styles/base/reset';
 
 // CSS Exports
 @include foundation-global-styles;
@@ -26,9 +29,11 @@
 // @include foundation-label;
 // @include foundation-media-object;
 @include foundation-off-canvas;
+
 // @include foundation-orbit;
 // @include foundation-pagination;
 @include foundation-progress-bar;
+
 // @include foundation-slider;
 // @include foundation-sticky;
 // @include foundation-reveal;
@@ -41,10 +46,8 @@
 // @include foundation-top-bar;
 @include foundation-visibility-classes;
 @include foundation-float-classes;
-// @include foundation-flex-classes;
 
-// --- Reset zf-normalizer
-@import 'styles/base/reset';
+// @include foundation-flex-classes;
 
 html {
   @include breakpoint(large) {

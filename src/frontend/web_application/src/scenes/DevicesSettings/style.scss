@@ -3,6 +3,7 @@
 
 .s-devices-settings {
   @include flex-grid-row($size: expand);
+
   padding: calc($co-margin / 2);
 
   &__info,
@@ -19,6 +20,7 @@
     &__info {
       @include flex-grid-column(12);
     }
+
     &__device {
       @include flex-grid-column(6);
     }

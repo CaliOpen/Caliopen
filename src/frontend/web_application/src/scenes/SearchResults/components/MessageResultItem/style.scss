@@ -3,6 +3,7 @@
 
 .s-message-result-item {
   @include flex-grid-row($size: expand);
+
   align-items: center;
   min-height: $co-component__height;
   padding-top: $co-component__spacing;
@@ -26,11 +27,13 @@
 
   &__col-title {
     @include flex-grid-size;
+
     min-width: 0; // https://github.com/zurb/foundation-sites/pull/8511
   }
 
   &__col-date {
     @include flex-grid-column(shrink);
+
     display: none;
     margin-left: auto;
   }
@@ -64,6 +67,7 @@
 
   &__highlights {
     @include flex-grid-column(12);
+
     padding-top: $co-component__spacing;
   }
 

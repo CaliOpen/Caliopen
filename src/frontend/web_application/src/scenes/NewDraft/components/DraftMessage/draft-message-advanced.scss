@@ -4,6 +4,7 @@
 
 .m-draft-message-advanced {
   @include flex-grid-row($size: expand);
+
   background-color: #f6fcff;
 
   &__recipient-list {
@@ -14,6 +15,7 @@
 
   &__toggle-simple {
     @include flex-grid-size(shrink);
+
     width: 3.438rem;
     height: 3.438rem;
   }
@@ -25,6 +27,7 @@
 
   &__container {
     @include flex-grid-size;
+
     max-width: 100%;
     padding-right: map_get($co-margin_, 'xsmall');
     padding-left: map_get($co-margin_, 'xsmall');
@@ -42,6 +45,7 @@
   &__errors,
   &__action-send {
     @include flex-grid-size(12);
+
     padding-right: map_get($co-margin_, 'xsmall');
     background-color: $co-color__bg__action;
 
@@ -77,6 +81,7 @@
 
     &::after {
       @include fa-icon;
+
       position: absolute;
       right: 0;
       bottom: 0;
@@ -84,6 +89,7 @@
       height: 1rem;
       font-size: 1rem;
     }
+
     &--encrypted {
       background-color: map_get($privacy-palette, 'super');
 

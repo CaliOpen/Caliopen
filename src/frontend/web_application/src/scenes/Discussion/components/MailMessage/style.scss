@@ -16,7 +16,7 @@
     'container'
     'actions';
   margin-bottom: 1rem;
-  background-color: #ffffff;
+  background-color: #fff;
 
   &__info {
     grid-area: info;
@@ -24,7 +24,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     padding: 1rem;
-    background-color: #eeeeee;
+    background-color: #eee;
 
     &--super {
       background-color: #edfffc;

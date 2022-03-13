@@ -3,6 +3,7 @@
 
 .m-user-info {
   @include flex-grid-row;
+
   align-items: center;
 
   &__avatar {
@@ -11,6 +12,7 @@
 
   &__username {
     @include flex-grid-column;
+
     overflow: hidden;
     color: $co-color__fg__text;
     font-weight: 600;

@@ -7,6 +7,7 @@ $switch-paddle-radius: 1rem;
 
 .m-switch {
   @include switch-container;
+
   display: inline-block;
   vertical-align: middle;
   height: $switch-height;
@@ -18,6 +19,7 @@ $switch-paddle-radius: 1rem;
 
   &__paddle {
     @include switch-paddle;
+
     background-color: $co-color__fg__back--lower;
   }
 }

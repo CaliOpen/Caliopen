@@ -10,12 +10,14 @@
 
   &__button {
     @include flex-grid-size(shrink);
+
     margin-top: $co-component__spacing;
     margin-left: auto;
   }
 
   &__item {
     @include flex-grid-row;
+
     align-items: center;
     margin-top: 1px;
     background: $co-color__primary--high;
@@ -24,6 +26,7 @@
 
   &__file-name {
     @include flex-grid-column;
+
     color: $co-color__fg__text;
     text-decoration: none;
 
@@ -35,16 +38,18 @@
 
   &__file-size {
     @include flex-grid-column(shrink);
+
     margin-left: auto;
   }
 
   &__file-delete {
     @include flex-grid-size(shrink);
+
     margin-left: auto;
   }
 
   &__encryption-warning {
-    color: map-get($caliopen-palette, 'alert');
+    color: map_get($caliopen-palette, 'alert');
     font-weight: bold;
   }
 }

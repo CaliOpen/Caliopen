@@ -2,16 +2,20 @@
 
 .s-discussion-action-bar {
   @include flex-grid-row($size: expand);
+
   justify-content: flex-end;
 
   &__tags {
     @include flex-grid-column(shrink);
   }
+
   &__actions {
     @include flex-grid-size;
     @include flex-grid-row($size: expand);
+
     justify-content: flex-end;
   }
+
   &__action {
     @include flex-grid-column(shrink);
   }
@@ -20,6 +24,7 @@
     @include breakpoint(small) {
       display: none;
     }
+
     display: block;
     color: $co-color__primary--low;
   }

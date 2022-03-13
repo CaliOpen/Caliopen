@@ -1,6 +1,6 @@
 @import '../../../../styles/common';
 @import '../../../../styles/object/o-navigation';
-@import '../../../../styles/object/o-pi-border.scss';
+@import '../../../../styles/object/o-pi-border';
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
 
 .m-horizontal-scroll {
@@ -40,12 +40,15 @@
     flex: shrink;
   }
 }
+
 .scroll-anchor--left {
   padding: 0 3px 0 12px;
 }
+
 .scroll-anchor--right {
   padding: 0 12px 0 3px;
 }
+
 .scroll-anchor-item {
   margin-right: 0;
   border-top: 0;

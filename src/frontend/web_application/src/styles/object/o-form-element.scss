@@ -46,14 +46,17 @@
     /* Chrome/Opera/Safari */
     color: rgba($color, 0.8);
   }
+
   &::-moz-placeholder {
     /* Firefox 19+ */
     color: rgba($color, 0.8);
   }
+
   &:-ms-input-placeholder {
     /* IE 10+ */
     color: rgba($color, 0.8);
   }
+
   &:-moz-placeholder {
     /* Firefox 18- */
     color: rgba($color, 0.8);
@@ -69,6 +72,7 @@
   @include o-form-element-placeholder($co-color__contrast__text);
 
   @include o-form-element--decorated;
+
   background-color: $co-color__contrast__back--lower;
   color: $co-color__fg__text;
 
@@ -84,6 +88,7 @@
 
 @mixin o-form-element--light {
   @include o-form-element--decorated;
+
   border: 1px solid $co-color__primary;
   background-color: $co-color__fg__back;
   color: $co-color__fg__text;
@@ -102,6 +107,7 @@
 
 @mixin o-form-element--contrasted {
   @include o-form-element--decorated;
+
   border-bottom: 2px solid $co-color__primary;
   background-color: $co-color__bg__back--higher;
   color: $co-color__fg__text;
@@ -123,9 +129,11 @@
 
   &__label {
     @include flex-grid-size(shrink);
+
     display: block;
     padding-right: map_get($co-form__spacing, small);
   }
+
   &__select-wrapper {
     display: block;
     flex: 0 1 auto;
@@ -135,6 +143,7 @@
   &__input {
     display: block;
   }
+
   &__errors {
     @include flex-grid-size(12);
   }

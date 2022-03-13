@@ -24,7 +24,7 @@
 
   &__modal {
     width: 100%;
-    max-width: map-get($co-form__width, 'xlarge');
+    max-width: map_get($co-form__width, 'xlarge');
     max-height: 100%;
     overflow: auto;
   }

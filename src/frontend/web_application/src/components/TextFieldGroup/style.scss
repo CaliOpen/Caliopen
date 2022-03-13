@@ -8,6 +8,7 @@
 
     &--required {
       font-weight: bold;
+
       &::after {
         content: ' *';
       }
@@ -27,7 +28,7 @@
 
     &__label {
       flex: 0 1;
-      margin-right: map-get($co-form__spacing, 'small');
+      margin-right: map_get($co-form__spacing, 'small');
     }
 
     &__input {

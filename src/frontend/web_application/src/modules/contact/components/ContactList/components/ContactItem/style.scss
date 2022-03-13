@@ -2,11 +2,13 @@
 
 .m-contact-item {
   @include flex-grid-row($size: expanded);
+
   align-items: center;
 
   &__title {
     @include flex-grid-size(10);
     @include flex-grid-row;
+
     align-items: center;
     margin-left: map_get($co-margin_, 'xsmall');
     color: $co-color__fg__text--high;
@@ -24,10 +26,13 @@
 
   &__avatar {
     @include flex-grid-size(shrink);
+
     margin-right: map_get($co-margin_, 'xsmall');
   }
+
   &__contact {
     @include flex-grid-size(9);
+
     overflow: hidden;
   }
 
@@ -38,6 +43,7 @@
 
   &__info {
     @include flex-grid-column(12);
+
     order: 3;
     padding-top: map_get($co-margin_, 'xsmall');
     color: $co-color__fg__text--higher;
@@ -51,6 +57,7 @@
   &__contact-title {
     margin-right: $co-component__spacing;
   }
+
   &__contact-prefix,
   &__contact-suffix {
     margin-right: $co-component__spacing;
@@ -69,12 +76,14 @@
 
     &__info {
       @include flex-grid-column(4);
+
       order: 0;
       padding-top: 0;
     }
 
     &__select {
       @include flex-grid-size(shrink);
+
       margin-left: map_get($co-margin_, 'xsmall');
     }
   }

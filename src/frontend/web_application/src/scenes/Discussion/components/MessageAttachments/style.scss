@@ -6,6 +6,7 @@
 
   &__item {
     @include flex-grid-row;
+
     margin-top: $co-component__spacing;
     background: $co-color__fg__border--higher;
     font-size: $co-font__size--small;
@@ -20,11 +21,13 @@
 
   &__size {
     @include flex-grid-column(shrink);
+
     margin-left: auto;
   }
 
   &__icon {
     @include flex-grid-size(shrink);
+
     margin-left: auto;
   }
 }

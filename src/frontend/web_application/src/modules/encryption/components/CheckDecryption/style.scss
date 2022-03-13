@@ -13,6 +13,7 @@
 .m-check-decryption-panel {
   &::before {
     @include fa-icon;
+
     content: $fa-var-lock;
     vertical-align: middle;
     float: left;

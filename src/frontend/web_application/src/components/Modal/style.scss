@@ -1,7 +1,7 @@
 @import '../../styles/common';
 @import '../../styles/vendor/bootstrap_foundation-sites';
 
-$m-modal__overlay-background: rgba(0, 0, 0, 0.75);
+$m-modal__overlay-background: rgb(0 0 0 / 75%);
 
 .m-modal {
   position: absolute;
@@ -14,27 +14,30 @@ $m-modal__overlay-background: rgba(0, 0, 0, 0.75);
   background: $co-color__fg__back;
 
   &__content {
-    padding: map-get($co-form__spacing, 'medium');
+    padding: map_get($co-form__spacing, 'medium');
   }
 
   &__header {
     @include flex-grid-row($size: expanded);
+
     border-bottom: 1px solid $co-color__bg__back;
   }
 
   &__title {
     @include flex-grid-column(shrink);
+
     margin: 0;
-    padding: map-get($co-form__spacing, 'small')
-      map-get($co-form__spacing, 'medium');
+    padding: map_get($co-form__spacing, 'small')
+      map_get($co-form__spacing, 'medium');
     color: $co-color__fg__text--high;
     font-weight: 700;
   }
 
   &__close {
     @include flex-grid-size(shrink);
+
     margin-left: auto; // flew way to align right
-    padding: 0 map-get($co-form__spacing, 'medium');
+    padding: 0 map_get($co-form__spacing, 'medium');
     background: none;
 
     &:hover {

@@ -2,7 +2,7 @@
 
 .m-openpgp-key {
   margin-bottom: 1px;
-  padding: map-get($co-form__spacing, 'small');
+  padding: map_get($co-form__spacing, 'small');
   background: $co-color__fg__back;
 
   &__main {

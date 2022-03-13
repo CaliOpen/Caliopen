@@ -6,7 +6,7 @@ $mini-pi-bar__margin: 1px;
 $mini-pi__height: 3 * ($mini-pi-bar__height + ($mini-pi-bar__margin * 2));
 
 .m-pi-ratings {
-  max-width: map-get($co-pi-width, 'ratings');
+  max-width: map_get($co-pi-width, 'ratings');
   margin-right: auto;
   margin-left: auto;
   font-size: $co-font__size--xsmall;
@@ -14,12 +14,14 @@ $mini-pi__height: 3 * ($mini-pi-bar__height + ($mini-pi-bar__margin * 2));
 
   &__item {
     @include flex-grid-row;
+
     align-items: center;
     padding-top: $co-component__spacing;
   }
 
   &__item-name {
     @include flex-grid-size(5);
+
     padding-right: $co-component__spacing;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -29,11 +31,13 @@ $mini-pi__height: 3 * ($mini-pi-bar__height + ($mini-pi-bar__margin * 2));
 
   &__item-level {
     @include flex-grid-size(5);
+
     background: $co-color__fg__back--lower;
   }
 
   &__item-level-label {
     @include flex-grid-size(2);
+
     text-align: center;
   }
 

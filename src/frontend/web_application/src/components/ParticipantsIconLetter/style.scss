@@ -6,10 +6,8 @@ $m-participants-icon__padding: 0;
 .m-participants-icon {
   display: inline-block;
   vertical-align: baseline;
-
   width: $m-participants-icon__size;
   height: $m-participants-icon__size;
-
   border-radius: 50%;
   overflow: hidden;
 
@@ -17,7 +15,6 @@ $m-participants-icon__padding: 0;
     &::before {
       display: block;
       float: left;
-
       text-align: center;
     }
   }

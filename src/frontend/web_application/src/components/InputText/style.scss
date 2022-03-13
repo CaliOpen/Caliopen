@@ -3,11 +3,13 @@
 
 @mixin input-text {
   @include o-form-element;
+
   $baseName: &;
 
   &--dark {
     @include o-form-element--dark;
   }
+
   &--light {
     @include o-form-element--light;
 
@@ -16,6 +18,7 @@
       box-shadow: initial;
     }
   }
+
   &--contrasted {
     @include o-form-element--contrasted;
   }
@@ -32,8 +35,9 @@
       color: $co-color__fg__text;
     }
   }
+
   &--bottom-space {
-    margin: 0 0 map-get($co-form__spacing, 'medium');
+    margin: 0 0 map_get($co-form__spacing, 'medium');
   }
 }
 

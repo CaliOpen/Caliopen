@@ -4,6 +4,7 @@
   from {
     transform: scale(1) rotate(0deg);
   }
+
   to {
     transform: scale(1) rotate(360deg);
   }
@@ -11,6 +12,7 @@
 
 .m-spinner {
   $baseName: &;
+
   &--inline-block {
     display: inline-block;
     padding: (calc($co-margin / 2));
@@ -19,7 +21,6 @@
   &__icon {
     display: inline-block;
     font-size: 1rem;
-
     animation: m-loading__spin 0.5s infinite linear;
 
     svg {
@@ -28,6 +29,7 @@
       }
     }
   }
+
   &--bright {
     #{$baseName}__icon {
       svg {

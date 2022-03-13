@@ -3,6 +3,7 @@
 
 .s-settings-identities {
   @include flex-grid-row($size: expand);
+
   padding: calc($co-margin / 2);
 
   &__create,
@@ -12,6 +13,7 @@
 
   &__identity {
     @include flex-grid-size(12);
+
     margin-top: calc($co-margin / 2);
     margin-bottom: calc($co-margin / 2);
   }
@@ -19,6 +21,7 @@
   @include breakpoint(large) {
     &__identity {
       @include flex-grid-column(6);
+
       margin-top: calc($co-margin / 2);
       margin-bottom: calc($co-margin / 2);
     }

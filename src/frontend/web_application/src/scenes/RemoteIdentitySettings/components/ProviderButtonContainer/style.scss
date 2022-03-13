@@ -3,6 +3,7 @@
 
 .m-provider-button-container {
   @include flex-grid-row($size: expand);
+
   background-color: #f8f8f8;
 
   &__button {
@@ -11,6 +12,7 @@
 
   &__label {
     @include flex-grid-size(8);
+
     padding: map_get($co-margin_, 'xsmall') map_get($co-margin_, 'small');
     color: $co-color__fg__text--high;
   }

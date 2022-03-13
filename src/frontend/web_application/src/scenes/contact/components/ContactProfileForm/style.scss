@@ -7,6 +7,7 @@
   &__header,
   &__expanded-form {
     @include flex-grid-row($size: expand);
+
     margin-bottom: calc($co-margin / 2);
   }
 
@@ -20,6 +21,7 @@
 
   &__input {
     @include flex-grid-size(12);
+
     margin-bottom: calc($co-margin / 2);
   }
 

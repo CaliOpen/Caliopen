@@ -3,6 +3,7 @@
 
 .s-settings-signatures {
   @include flex-grid-row($size: expand);
+
   margin-top: $co-margin;
 
   &__menu {
@@ -17,6 +18,7 @@
     &__menu {
       @include flex-grid-size(shrink);
     }
+
     &__panel {
       @include flex-grid-size;
     }

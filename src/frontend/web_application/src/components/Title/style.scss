@@ -5,6 +5,7 @@ $m-title__height: $co-component__height !default;
 
 .m-title {
   $baseName: &;
+
   display: block;
 
   &__text {
@@ -22,16 +23,19 @@ $m-title__height: $co-component__height !default;
 
   &--hr {
     @include flex-grid-row;
+
     align-items: center;
     margin-left: 0;
 
     #{$baseName}__text {
       @include flex-grid-size(shrink);
+
       margin-right: map_get($co-margin_, 'small');
     }
 
-    &:after {
+    &::after {
       @include flex-grid-size;
+
       display: block;
       content: '';
       border-top: 2px solid #8dceec;

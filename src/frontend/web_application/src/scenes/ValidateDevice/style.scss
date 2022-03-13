@@ -3,6 +3,7 @@
 
 .s-validate-device {
   @include flex-grid-row($size: expand);
+
   padding: calc($co-margin / 2);
 
   &__feedback {

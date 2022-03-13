@@ -2,6 +2,7 @@
 
 .m-background-image {
   @include o-background-image;
+
   min-height: 100vh;
   background-attachment: fixed;
   background-repeat: no-repeat;

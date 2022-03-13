@@ -3,8 +3,8 @@
 
 .s-profile-form {
   display: grid;
-  column-gap: map-get($co-margin_, 'xsmall');
-  row-gap: map-get($co-margin_, 'xsmall');
+  column-gap: map_get($co-margin_, 'xsmall');
+  row-gap: map_get($co-margin_, 'xsmall');
 
   @include breakpoint(medium) {
     grid-template-columns: auto auto;

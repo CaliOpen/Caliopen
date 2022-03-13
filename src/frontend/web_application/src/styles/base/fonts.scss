@@ -23,6 +23,7 @@ $OpenSansVersion: '1.1.0' !default;
 // Open Sans Regular
 @font-face {
   @include fontdef($OpenSansPath, $OpenSansPrefix, $OpenSansVersion, 'Regular');
+
   font-family: $OpenSansTitle;
   font-style: normal;
   font-weight: normal;
@@ -36,6 +37,7 @@ $OpenSansVersion: '1.1.0' !default;
     $OpenSansVersion,
     'Semibold'
   );
+
   font-family: $OpenSansTitle;
   font-style: normal;
   font-weight: 600;
@@ -44,6 +46,7 @@ $OpenSansVersion: '1.1.0' !default;
 // Open Sans Bold
 @font-face {
   @include fontdef($OpenSansPath, $OpenSansPrefix, $OpenSansVersion, 'Bold');
+
   font-family: $OpenSansTitle;
   font-style: normal;
   font-weight: bold;

@@ -26,7 +26,7 @@ $message_width: 45rem;
 
   &__modal {
     width: 100%;
-    max-width: 2 * map-get($co-form__width, 'xlarge');
+    max-width: 2 * map_get($co-form__width, 'xlarge');
     max-height: 100%;
     overflow: auto;
   }
@@ -38,7 +38,7 @@ $message_width: 45rem;
     padding-bottom: map_get($co-margin_, 'xlarge');
 
     &__actions {
-      margin-top: map-get($co-margin_, 'large');
+      margin-top: map_get($co-margin_, 'large');
     }
   }
 }

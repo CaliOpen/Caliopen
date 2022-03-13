@@ -52,8 +52,10 @@
 
 // $global-font-size: 100%;
 $global-width: $co-site-width;
+
 // $global-lineheight: 1.5;
 $foundation-palette: $caliopen-palette;
+
 // $light-gray: #e6e6e6;
 // $medium-gray: #cacaca;
 // $dark-gray: #8a8a8a;
@@ -61,8 +63,9 @@ $foundation-palette: $caliopen-palette;
 // $white: #fefefe;
 $body-background: $co-color__bg__back;
 $body-font-color: $co-color__fg__text;
-$body-font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Roboto, Arial,
+$body-font-family: 'Open Sans', 'Helvetica Neue', helvetica, roboto, arial,
   sans-serif;
+
 // $body-antialiased: true;
 // $global-margin: 1rem;
 // $global-padding: 1rem;
@@ -86,17 +89,20 @@ $breakpoints: (
   xlarge: 1200px,
   xxlarge: 1440px,
 );
+
 // $breakpoint-classes: (small medium large);
 
 // 3. The Grid
 // -----------
 
 $grid-row-width: $global-width;
+
 // $grid-column-count: 12;
 $grid-column-gutter: (
   small: $co-grid__gutter--small,
   medium: $co-grid__gutter,
 );
+
 // $grid-column-align-edge: true;
 // $block-grid-max: 8;
 
@@ -185,9 +191,9 @@ $grid-column-gutter: (
 
 // $abide-inputs: true;
 // $abide-labels: true;
-// $input-background-invalid: map-get($foundation-palette, alert);
-// $form-label-color-invalid: map-get($foundation-palette, alert);
-// $input-error-color: map-get($foundation-palette, alert);
+// $input-background-invalid: map_get($foundation-palette, alert);
+// $form-label-color-invalid: map_get($foundation-palette, alert);
+// $input-error-color: map_get($foundation-palette, alert);
 // $input-error-font-size: rem-calc(12);
 // $input-error-font-weight: $global-weight-bold;
 
@@ -295,6 +301,7 @@ $grid-column-gutter: (
 
 $dropdown-padding: 0;
 $dropdown-border: 1px solid $co-color__fg__border;
+
 // $dropdown-font-size: 1rem;
 // $dropdown-width: 300px;
 // $dropdown-radius: $global-radius;
@@ -337,8 +344,10 @@ $dropdown-border: 1px solid $co-color__fg__border;
 // $input-prefix-padding: 1rem;
 $form-label-color: $co-color__fg__text--lower;
 $form-label-font-size: inherit;
+
 // $form-label-font-weight: $global-weight-normal;
 $form-label-line-height: inherit;
+
 // $select-background: $white;
 // $select-triangle-color: $dark-gray;
 // $select-radius: $global-radius;
@@ -381,7 +390,7 @@ $form-label-line-height: inherit;
 // $menu-margin-nested: 1rem;
 // $menu-item-padding: 0.7rem 1rem;
 // $menu-item-color-active: $white;
-// $menu-item-background-active: map-get($foundation-palette, primary);
+// $menu-item-background-active: map_get($foundation-palette, primary);
 // $menu-icon-spacing: 0.25rem;
 
 // 23. Meter

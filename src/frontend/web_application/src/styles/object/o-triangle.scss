@@ -8,19 +8,19 @@
   height: 0;
   border: $width solid transparent;
 
-  @if ($position == 'top') {
+  @if $position == 'top' {
     bottom: 100%;
     border-bottom: $border;
   }
-  @if ($position == 'right') {
+  @if $position == 'right' {
     left: 100%;
     border-left: $border;
   }
-  @if ($position == 'bottom') {
+  @if $position == 'bottom' {
     top: 100%;
     border-top: $border;
   }
-  @if ($position == 'left') {
+  @if $position == 'left' {
     right: 100%;
     border-right: $border;
   }

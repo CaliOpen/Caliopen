@@ -11,6 +11,7 @@ $m-badge--large__padding: ($m-badge--large__height - $m-badge--large__font-size)
 
 .m-badge {
   $baseName: &;
+
   display: inline-flex;
   align-items: center;
   height: $m-badge__height;
@@ -34,6 +35,7 @@ $m-badge--large__padding: ($m-badge--large__height - $m-badge--large__font-size)
 
   &__text {
     @include flex-grid-size;
+
     padding: $m-badge__padding;
 
     &--large {
@@ -47,6 +49,7 @@ $m-badge--large__padding: ($m-badge--large__height - $m-badge--large__font-size)
 
   &__button {
     @include flex-grid-size(shrink);
+
     padding: $m-badge__padding;
     color: $co-color__contrast__text;
     font-size: $co-font__size;

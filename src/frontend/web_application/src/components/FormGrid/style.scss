@@ -12,6 +12,7 @@
 
   &__column {
     @include flex-grid-size(12);
+
     display: block;
 
     &--align-center {
@@ -20,6 +21,7 @@
 
     &--fluid {
       @include flex-grid-size;
+
       padding-right: map_get($co-form__spacing, 'xsmall');
     }
 

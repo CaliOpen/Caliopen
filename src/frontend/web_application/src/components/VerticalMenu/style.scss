@@ -28,13 +28,14 @@
 }
 
 @mixin m-menu--height($height) {
-  @if (map-has-key($co-form__height, $height)) {
-    $height: map-get($co-form__height, $height);
+  @if map-has-key($co-form__height, $height) {
+    $height: map_get($co-form__height, $height);
   }
 
   &__item {
     min-height: $height;
   }
+
   &__item-content {
     line-height: $height;
   }
@@ -63,6 +64,7 @@
 
   // @include m-menu--horizontal;
   @include m-menu--height(medium);
+
   //
   // &--horizontal   { @include m-menu--horizontal; }
   // &--vertical { @include m-menu--vertical; }
@@ -70,9 +72,11 @@
   &--small {
     @include m-menu--height(small);
   }
+
   &--medium {
     @include m-menu--height(medium);
   }
+
   &--large {
     @include m-menu--height(large);
   }

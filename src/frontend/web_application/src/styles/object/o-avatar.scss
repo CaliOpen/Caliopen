@@ -7,7 +7,7 @@ $m-avatar__size: (
 
 @mixin m-avatar--size($size) {
   @if type-of($size) == string {
-    $size: map-get($m-avatar__size, $size);
+    $size: map_get($m-avatar__size, $size);
   }
 
   width: $size;

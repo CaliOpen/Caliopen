@@ -2,15 +2,18 @@
 
 .m-sidebar-layout {
   @include flex-grid-row;
+
   background: $co-color__bg__back;
 
   &__left {
     @include flex-grid-size(12);
+
     background-color: $co-color__sidebar__back;
   }
 
   &__panel {
     @include flex-grid-size(12);
+
     background-color: $co-color__fg__back;
   }
 
