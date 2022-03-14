@@ -9,4 +9,5 @@ fi
 
 cd src/frontend/web_application
 yarn
+yarn lingui compile
 yarn test
