@@ -1,7 +1,6 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import { withI18n, Trans, withI18nProps } from '@lingui/react';
-import type { I18n } from '@lingui/core';
 import { compose } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import type { APIAxiosError } from 'src/services/api-client/types';
+import { APIAxiosError } from 'src/services/api-client/types';
 import {
   getConfigOne,
   getContact,

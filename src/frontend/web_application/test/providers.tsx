@@ -10,8 +10,6 @@ import { initialState as initialStateSettings } from 'src/store/modules/settings
 import { getUserLocales } from 'src/modules/i18n';
 import { getDefaultSettings } from 'src/modules/settings';
 
-import { messages } from 'locale/en/messages';
-
 const locales = getUserLocales();
 const settings = getDefaultSettings(locales);
 const initialState = {
@@ -21,7 +19,7 @@ const initialState = {
   },
 };
 
-i18n.load('en', messages);
+i18n.load('en', {});
 
 const queryClient = new QueryClient();
 

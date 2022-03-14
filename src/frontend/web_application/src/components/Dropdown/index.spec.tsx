@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Button } from 'src/components';
+import Button from 'src/components/Button';
 import Dropdown, { withDropdownControl } from '.';
 
 const DropdownControl = withDropdownControl(Button);

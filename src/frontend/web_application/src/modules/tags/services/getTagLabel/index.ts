@@ -1,4 +1,4 @@
-import type { I18n } from '@lingui/core';
+import { I18n } from '@lingui/core';
 import { TagCommon } from '../../types';
 
 export const TAG_IMPORTANT = 'IMPORTANT';

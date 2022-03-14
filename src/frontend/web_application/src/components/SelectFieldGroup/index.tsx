@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { FieldProps } from 'formik';
+import { FieldProps } from 'formik';
 import { v1 as uuidV1 } from 'uuid';
 import classnames from 'classnames';
 import Label from '../Label';
@@ -7,25 +7,13 @@ import FieldGroup from '../FieldGroup';
 
 import './style.scss';
 
-// const propTypeOption = PropTypes.oneOfType([
-//   PropTypes.string,
-//   PropTypes.number,
-// ]);
-// const alphaNumPropType = PropTypes.oneOfType([
-//   PropTypes.string,
-//   PropTypes.number,
-// ]);
-
 const noop = () => {};
 interface Props extends React.InputHTMLAttributes<HTMLSelectElement> {
-  // id?: string;
   label?: React.ReactNode;
   showLabelforSr?: boolean;
-  // value: string | number;
   expanded?: boolean;
   options?: { label: string | number; value: string | number }[];
   errors?: React.ReactNodeArray;
-  // onChange?: () => void;
   className?: string;
 }
 function SelectFieldGroup({
@@ -40,44 +28,6 @@ function SelectFieldGroup({
   className,
   ...props
 }: Props): React.ReactElement<typeof FieldGroup> {
-  // static propTypes = {
-  //   label: PropTypes.node,
-  //   showLabelforSr: PropTypes.bool,
-  //   value: alphaNumPropType,
-  //   expanded: PropTypes.bool,
-  //   options: PropTypes.arrayOf(
-  //     PropTypes.shape({ label: propTypeOption, value: propTypeOption })
-  //   ),
-  //   errors: PropTypes.arrayOf(PropTypes.node),
-  //   onChange: PropTypes.func,
-  //   className: PropTypes.string,
-  // };
-
-  // static defaultProps = {
-  //   label: null,
-  //   showLabelforSr: false,
-  //   value: null,
-  //   expanded: false,
-  //   options: [],
-  //   errors: [],
-  //   onChange: () => {
-  //     // noop
-  //   },
-  //   className: null,
-  // };
-
-  // render() {
-  //   const {
-  //     id = uuidV1(),
-  //     errors,
-  //     expanded,
-  //     showLabelforSr,
-  //     className,
-  //     label,
-  //     onChange,
-  //     options,
-  //     ...props
-  //   } = this.props;
   const selectWrapperClassName = classnames(
     'm-select-field-group__select-wrapper',
     {
