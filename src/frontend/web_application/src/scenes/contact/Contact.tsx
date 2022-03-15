@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/react';
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import {
   ActionBar,
@@ -13,13 +13,14 @@ import {
   Title,
 } from 'src/components';
 import { ContactAvatarLetter } from 'src/modules/avatar';
-import { contactSelector } from 'src/modules/contact';
-import { requestContact } from 'src/modules/contact/store';
+import { getConfigOne, getContact } from 'src/modules/contact/query';
 import { Contact as IContact } from 'src/modules/contact/types';
 import { getAveragePI } from 'src/modules/pi';
 import { useSettings } from 'src/modules/settings';
+import { APIAxiosError } from 'src/services/api-client/types';
 import { formatName } from 'src/services/contact';
-import { RootState } from 'src/store/reducer';
+import PageError from '../error/PageError';
+import PageNotFound from '../error/PageNotFound';
 import AddressDetails from './components/AddressDetails';
 import BirthdayDetails from './components/BirthdayDetails';
 import ContactPageWrapper from './components/ContactPageWrapper';
@@ -33,18 +34,27 @@ import PublicKeyList from './components/PublicKeyList';
 function Contact():
   | JSX.Element
   | React.ReactElement<typeof ContactPageWrapper> {
-  const dispatch = useDispatch();
   const { contactId } = useParams<{ contactId: string }>();
-
-  React.useEffect(() => {
-    dispatch(requestContact(contactId));
-  }, [contactId]);
-
-  const contact = useSelector<RootState, undefined | IContact>((state) =>
-    contactSelector(state, contactId)
+  const queryConfig = getConfigOne(contactId);
+  const {
+    data: contact,
+    isFetching,
+    isError,
+    error,
+  } = useQuery<IContact, APIAxiosError>(queryConfig.queryKey, () =>
+    getContact(contactId)
   );
 
   const settings = useSettings();
+
+  // XXX: problem, API return status 500 instead of 404 in this case
+  if (!contact && isError && error?.response?.status === 404) {
+    return <PageNotFound />;
+  }
+
+  if (!contact && isError) {
+    return <PageError />;
+  }
 
   if (!contact) {
     return (
@@ -152,7 +162,7 @@ function Contact():
   }
 
   return (
-    <ContactPageWrapper contact={contact}>
+    <ContactPageWrapper contact={contact} hasActivity={isFetching}>
       <div className="s-contact__main-title s-contact-main-title">
         <div className="s-contact-main-title__avatar">
           <ContactAvatarLetter
