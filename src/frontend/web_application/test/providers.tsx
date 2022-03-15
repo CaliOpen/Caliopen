@@ -19,8 +19,6 @@ const initialState = {
   },
 };
 
-i18n.load('en', {});
-
 const queryClient = new QueryClient();
 
 export function AllProviders({

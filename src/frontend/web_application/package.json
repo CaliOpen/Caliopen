@@ -24,7 +24,7 @@
     "release:web:server": "NODE_ENV=production webpack --bail --mode production --progress --config webpack/webpack.config.server.js",
     "release:web:browser": "NODE_ENV=production webpack --bail --mode production --progress --config webpack/webpack.config.browser.js",
     "test": "npm-run-all lint test:unit",
-    "test:unit": "jest",
+    "test:unit": "NODE_ENV=test jest",
     "test:unit:watch": "jest --watch",
     "test:unit:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "test:functional": "npm-run-all --sequential -n build:i18n build:browser:test build:server:test test:functional:start",
