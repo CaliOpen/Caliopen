@@ -3,7 +3,7 @@
 $section_border-width: 5px;
 
 .m-section {
-  padding: map-get($co-form__spacing, 'medium');
+  padding: map_get($co-form__spacing, 'medium');
 
   &--plain {
     background-color: $co-color__bg__back--higher;
@@ -20,6 +20,6 @@ $section_border-width: 5px;
   }
 
   &__header {
-    margin-bottom: map-get($co-form__spacing, 'medium');
+    margin-bottom: map_get($co-form__spacing, 'medium');
   }
 }

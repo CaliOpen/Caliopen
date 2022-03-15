@@ -6,6 +6,7 @@
 
   &__title {
     @include flex-grid-size(12);
+
     margin-bottom: $co-margin;
   }
 
@@ -21,6 +22,7 @@
     &__input {
       @include flex-grid-size;
     }
+
     &__action {
       @include flex-grid-column(shrink);
     }

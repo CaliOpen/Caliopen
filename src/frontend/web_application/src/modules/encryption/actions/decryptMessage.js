@@ -23,70 +23,74 @@ const getKeyPassphrase = (state, fingerprint) => {
 };
 
 // XXX: refactor this ASAP
-export const decryptMessage = ({ message }) => async (dispatch, getState) => {
-  if (!isMessageEncrypted(message)) {
-    return message;
-  }
-
-  try {
-    dispatch(decryptMessageStart({ message }));
-    const keys = await getKeysForMessage(message);
-
-    if (keys.length <= 0) {
-      dispatch(needPrivateKey({ message }));
-
+export const decryptMessage =
+  ({ message }) =>
+  async (dispatch, getState) => {
+    if (!isMessageEncrypted(message)) {
       return message;
     }
 
-    let usableKey = keys.find((key) => key.isDecrypted());
-    let passphrase = null;
+    try {
+      dispatch(decryptMessageStart({ message }));
+      const keys = await getKeysForMessage(message);
 
-    if (!usableKey) {
-      const state = getState();
-      usableKey = keys.find((key) =>
-        getKeyPassphrase(state, key.getFingerprint())
-      );
+      if (keys.length <= 0) {
+        dispatch(needPrivateKey({ message }));
 
-      if (usableKey) {
-        passphrase = getKeyPassphrase(state, usableKey.getFingerprint());
-        try {
-          await usableKey.decrypt(passphrase);
-        } catch (e) {
-          dispatch(
-            askPassphrase({
-              fingerprint: usableKey.getFingerprint(),
-              error: e.message,
-            })
-          );
+        return message;
+      }
 
-          return message;
+      let usableKey = keys.find((key) => key.isDecrypted());
+      let passphrase = null;
+
+      if (!usableKey) {
+        const state = getState();
+        usableKey = keys.find((key) =>
+          getKeyPassphrase(state, key.getFingerprint())
+        );
+
+        if (usableKey) {
+          passphrase = getKeyPassphrase(state, usableKey.getFingerprint());
+          try {
+            await usableKey.decrypt(passphrase);
+          } catch (e) {
+            dispatch(
+              askPassphrase({
+                fingerprint: usableKey.getFingerprint(),
+                error: e.message,
+              })
+            );
+
+            return message;
+          }
         }
       }
-    }
 
-    if (!usableKey) {
-      keys.forEach((key) =>
-        dispatch(askPassphrase({ fingerprint: key.getFingerprint() }))
-      );
-      dispatch(
-        needPassphrase({
-          message,
-          fingerprints: keys.map((key) => key.getFingerprint()),
-        })
-      );
+      if (!usableKey) {
+        keys.forEach((key) =>
+          dispatch(askPassphrase({ fingerprint: key.getFingerprint() }))
+        );
+        dispatch(
+          needPassphrase({
+            message,
+            fingerprints: keys.map((key) => key.getFingerprint()),
+          })
+        );
+
+        return message;
+      }
+
+      const decryptedMessage = await decryptMessageConcret(message, [
+        usableKey,
+      ]);
+      dispatch(decryptMessageSuccess({ message, decryptedMessage }));
+
+      return decryptedMessage;
+    } catch (e) {
+      const { message: error } = e;
+
+      dispatch(decryptMessageFail({ message, error }));
 
       return message;
     }
-
-    const decryptedMessage = await decryptMessageConcret(message, [usableKey]);
-    dispatch(decryptMessageSuccess({ message, decryptedMessage }));
-
-    return decryptedMessage;
-  } catch (e) {
-    const { message: error } = e;
-
-    dispatch(decryptMessageFail({ message, error }));
-
-    return message;
-  }
-};
+  };

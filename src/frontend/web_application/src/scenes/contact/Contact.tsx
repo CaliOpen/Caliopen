@@ -15,7 +15,7 @@ import {
 import { ContactAvatarLetter } from 'src/modules/avatar';
 import { contactSelector } from 'src/modules/contact';
 import { requestContact } from 'src/modules/contact/store';
-import { Contact } from 'src/modules/contact/types';
+import { Contact as IContact } from 'src/modules/contact/types';
 import { getAveragePI } from 'src/modules/pi';
 import { useSettings } from 'src/modules/settings';
 import { formatName } from 'src/services/contact';
@@ -40,7 +40,7 @@ function Contact():
     dispatch(requestContact(contactId));
   }, [contactId]);
 
-  const contact = useSelector<RootState, undefined | Contact>((state) =>
+  const contact = useSelector<RootState, undefined | IContact>((state) =>
     contactSelector(state, contactId)
   );
 
@@ -154,66 +154,60 @@ function Contact():
   return (
     <ContactPageWrapper contact={contact}>
       <div className="s-contact__main-title s-contact-main-title">
-        <>
-          <div className="s-contact-main-title__avatar">
-            <ContactAvatarLetter
-              contact={contact}
-              contactDisplayFormat={settings.contact_display_format}
-              size="large"
-            />
-          </div>
-          <div className="s-contact-main-title__name">
-            {formatName({
-              contact,
-              format: settings.contact_display_format,
-            })}
-          </div>
+        <div className="s-contact-main-title__avatar">
+          <ContactAvatarLetter
+            contact={contact}
+            contactDisplayFormat={settings.contact_display_format}
+            size="large"
+          />
+        </div>
+        <div className="s-contact-main-title__name">
+          {formatName({
+            contact,
+            format: settings.contact_display_format,
+          })}
+        </div>
 
-          <div className="s-contact-main-title__pi">{averagePI}</div>
+        <div className="s-contact-main-title__pi">{averagePI}</div>
 
-          {contact.organizations && contact.organizations.length > 0 && (
-            <TextBlock className="s-contact-main-title__organizations">
-              <Icon type="building" rightSpaced />
-              <Trans id="contact.organizations">Organizations:</Trans>{' '}
-              {contact.organizations.map((orga) => (
-                <OrgaDetails key={orga.organization_id} organization={orga} />
-              ))}
-            </TextBlock>
-          )}
-          {/* <ContactStats className="stats" /> */}
-        </>
+        {contact.organizations && contact.organizations.length > 0 && (
+          <TextBlock className="s-contact-main-title__organizations">
+            <Icon type="building" rightSpaced />
+            <Trans id="contact.organizations" message="Organizations:" />{' '}
+            {contact.organizations.map((orga) => (
+              <OrgaDetails key={orga.organization_id} organization={orga} />
+            ))}
+          </TextBlock>
+        )}
+        {/* <ContactStats className="stats" /> */}
       </div>
       <div className="s-contact__contact-details">
-        <>
-          <Title hr>
-            <Trans id="contact.contact-details.title">Contact details</Trans>
-          </Title>
-          <TextList className="s-contact__details-group">
-            {contact.emails?.map((email) => (
-              <TextItem className="s-contact__detail" key={email.email_id}>
-                <EmailDetails email={email} />
-              </TextItem>
-            ))}
-          </TextList>
-          <TextList className="s-contact__details-group">
-            {contact.phones?.map((phone) => (
-              <TextItem className="s-contact__detail" key={phone.phone_id}>
-                <PhoneDetails phone={phone} />
-              </TextItem>
-            ))}
-          </TextList>
-          <TextList className="s-contact__details-group">
-            {restOfDetails}
-          </TextList>
-        </>
+        <Title hr>
+          <Trans id="contact.contact-details.title" message="Contact details" />
+        </Title>
+        <TextList className="s-contact__details-group">
+          {contact.emails?.map((email) => (
+            <TextItem className="s-contact__detail" key={email.email_id}>
+              <EmailDetails email={email} />
+            </TextItem>
+          ))}
+        </TextList>
+        <TextList className="s-contact__details-group">
+          {contact.phones?.map((phone) => (
+            <TextItem className="s-contact__detail" key={phone.phone_id}>
+              <PhoneDetails phone={phone} />
+            </TextItem>
+          ))}
+        </TextList>
+        <TextList className="s-contact__details-group">
+          {restOfDetails}
+        </TextList>
       </div>
       <div className="s-contact__keys">
-        <>
-          <Title hr>
-            <Trans id="contact.keys.title">Public keys</Trans>
-          </Title>
-          <PublicKeyList contactId={contactId} />
-        </>
+        <Title hr>
+          <Trans id="contact.keys.title" message="Public keys" />
+        </Title>
+        <PublicKeyList contactId={contactId} />
       </div>
     </ContactPageWrapper>
   );

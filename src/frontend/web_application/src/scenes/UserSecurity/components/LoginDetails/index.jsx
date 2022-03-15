@@ -26,7 +26,7 @@ class LoginDetails extends Component {
     return (
       <div className="m-login-details">
         <TextBlock className="m-login-details__title">
-          <Trans id="login.details.title">Login:</Trans>
+          <Trans id="login.details.title" message="Login:" />
         </TextBlock>
         <TextFieldGroup
           className="m-login-details__input"
@@ -34,13 +34,15 @@ class LoginDetails extends Component {
             value: user && user.name,
             disabled: true,
           }}
-          label={i18n._('login.details.label', null, { defaults: 'Login:' })}
+          label={i18n._(/* i18n */ 'login.details.label', null, {
+            message: 'Login:',
+          })}
           showLabelforSr
         />
         {/* TODO: enable editing login info
           <div className="m-login-details__action">
           <Button onClick={this.toggleEditMode}>
-            <Trans id="login.details.action.change">Change your login</Trans>
+            <Trans id="login.details.action.change" message="Change your login" />
           </Button>
         </div>
       */}

@@ -2,10 +2,10 @@
 
 .m-desktop-notifications {
   &--allowed {
-    color: map-get($caliopen-palette, 'success');
+    color: map_get($caliopen-palette, 'success');
   }
 
   &--denied {
-    color: map-get($caliopen-palette, 'alert');
+    color: map_get($caliopen-palette, 'alert');
   }
 }

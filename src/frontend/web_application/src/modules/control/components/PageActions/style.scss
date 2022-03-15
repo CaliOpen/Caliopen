@@ -6,6 +6,7 @@
 
   &__action-btns {
     @include flex-grid-size(shrink);
+
     margin-right: $co-margin;
   }
 

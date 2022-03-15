@@ -38,7 +38,7 @@ function DraftDiscussion({ messageId, className }: Props) {
         <TextBlock>
           <Trans
             id="discussion-draft.last-messages"
-            defaults="Last messages with {participants}"
+            message="Last messages with {participants}"
             values={{ participants }}
           />
         </TextBlock>

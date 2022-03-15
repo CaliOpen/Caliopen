@@ -22,15 +22,8 @@ class Title extends PureComponent {
   };
 
   render() {
-    const {
-      children,
-      actions,
-      hr,
-      caps,
-      size,
-      className,
-      ...props
-    } = this.props;
+    const { children, actions, hr, caps, size, className, ...props } =
+      this.props;
 
     const titleClassName = classnames(
       'm-title',

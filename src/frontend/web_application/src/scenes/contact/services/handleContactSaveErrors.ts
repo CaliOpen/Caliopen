@@ -4,6 +4,7 @@ export const CONTACT_ERROR_ADDRESS_UNICITY_CONSTRAINT =
   'address_unicity_constraint';
 export const CONTACT_UNKNOWN_ERROR = 'unknown_error';
 
+// eslint-disable-next-line prefer-regex-literals
 const UNICITY_PARSE_EXPR = new RegExp(
   /^uri <(.*)> belongs to contact ([a-f0-9\\-]+)$/
 );

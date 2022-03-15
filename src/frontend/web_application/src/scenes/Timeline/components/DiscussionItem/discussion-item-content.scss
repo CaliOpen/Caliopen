@@ -39,6 +39,7 @@ $s-discussion-item__spacing: 0.5rem;
   &__subject {
     grid-area: subject;
     color: $co-color__fg__text--lower;
+
     &--unread {
       font-weight: 800;
     }

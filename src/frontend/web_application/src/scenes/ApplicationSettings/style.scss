@@ -3,11 +3,13 @@
 
 .s-application-settings {
   @include flex-grid-row($size: expand);
+
   align-items: stretch;
-  padding: $co-margin ($co-margin / 2);
+  padding: $co-margin (calc($co-margin / 2));
 
   &__col-sections {
     @include flex-grid-column(12);
+
     margin-bottom: $co-margin;
   }
 
@@ -17,6 +19,7 @@
 
   &__action {
     @include flex-grid-column(12);
+
     text-align: right;
   }
 

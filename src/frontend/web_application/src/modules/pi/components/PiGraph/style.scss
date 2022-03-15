@@ -4,7 +4,7 @@ $gridColor: $co-color__fg__back--lower;
 
 .m-pi-graph {
   display: block;
-  max-width: map-get($co-pi-width, 'graph');
+  max-width: map_get($co-pi-width, 'graph');
   margin-right: auto;
   margin-left: auto;
   pointer-events: none;

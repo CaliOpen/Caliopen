@@ -45,11 +45,8 @@ class MessageNotificationHandler extends Component {
       return;
     }
 
-    const {
-      invalidateDiscussions,
-      invalidateCollections,
-      initialized,
-    } = this.props;
+    const { invalidateDiscussions, invalidateCollections, initialized } =
+      this.props;
 
     if (initialized) {
       invalidateDiscussions();
@@ -62,9 +59,13 @@ class MessageNotificationHandler extends Component {
 
       // this notify only when document is not visible
       browserNotify({
-        message: i18n._('desktop.notification.new_messages', [nbNewMessages], {
-          defaults: 'You received {0} new messages',
-        }),
+        message: i18n._(
+          /* i18n */ 'desktop.notification.new_messages',
+          [nbNewMessages],
+          {
+            message: 'You received {0} new messages',
+          }
+        ),
       });
     }
   };

@@ -51,13 +51,13 @@ class AskPassphraseForm extends Component {
     switch (message) {
       case 'Incorrect key passphrase':
         return i18n._(
-          'encryption.ask-passphrase.error.invalid-passphrase',
+          /* i18n */ 'encryption.ask-passphrase.error.invalid-passphrase',
           null,
           'Invalid passphrase'
         );
       default:
         return i18n._(
-          'encrytion.ask-passphrase.error.unknown',
+          /* i18n */ 'encrytion.ask-passphrase.error.unknown',
           null,
           'Unknown error'
         );
@@ -118,7 +118,10 @@ class AskPassphraseForm extends Component {
             </FormColumn>
             <FormColumn>
               <Button type="submit" shape="plain">
-                <Trans id="encryption.ask-passphrase.validate">Validate</Trans>
+                <Trans
+                  id="encryption.ask-passphrase.validate"
+                  message="Validate"
+                />
               </Button>
             </FormColumn>
           </FormRow>

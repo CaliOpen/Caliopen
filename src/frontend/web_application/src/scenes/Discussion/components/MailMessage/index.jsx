@@ -180,7 +180,7 @@ class MailMessage extends Component {
         <div className="s-mail-message__details m-mail-message-details">
           {this.renderAuthor()}
           <TextBlock className="m-mail-message-details__recipients">
-            <Trans id="message.to">To:</Trans>{' '}
+            <Trans id="message.to" message="To:" />{' '}
             <MessageRecipients message={message} shorten />
           </TextBlock>
         </div>
@@ -189,13 +189,13 @@ class MailMessage extends Component {
           <div className="s-mail-message__participants">
             <div className="s-mail-message__participants-from">
               <span className="direction">
-                <Trans id="message.from">From:</Trans>
+                <Trans id="message.from" message="From:" />
               </span>{' '}
               <ParticipantLabel participant={author} />
             </div>
             <div className="s-mail-message__participants-to">
               <span className="direction">
-                <Trans id="message.to">To:</Trans>
+                <Trans id="message.to" message="To:" />
               </span>{' '}
               {recipients.map((participant, i) => (
                 <Fragment key={participant.address}>
@@ -238,7 +238,7 @@ class MailMessage extends Component {
               icon="reply"
               responsive="icon-only"
             >
-              <Trans id="message-list.message.action.reply">Reply</Trans>
+              <Trans id="message-list.message.action.reply" message="Reply" />
             </Button>
             <Button
               onClick={onOpenTags}
@@ -246,14 +246,15 @@ class MailMessage extends Component {
               icon="tags"
               responsive="icon-only"
             >
-              <Trans id="message-list.message.action.tags">Tags</Trans>
+              <Trans id="message-list.message.action.tags" message="Tags" />
             </Button>
             <Confirm
               onConfirm={this.handleMessageDelete}
               title={
-                <Trans id="message-list.message.confirm-delete.title">
-                  Delete a message
-                </Trans>
+                <Trans
+                  id="message-list.message.confirm-delete.title"
+                  message="Delete a message"
+                />
               }
               content={
                 <Trans id="message-list.message.confirm-delete.content">
@@ -268,7 +269,10 @@ class MailMessage extends Component {
                   icon="trash"
                   responsive="icon-only"
                 >
-                  <Trans id="message-list.message.action.delete">Delete</Trans>
+                  <Trans
+                    id="message-list.message.action.delete"
+                    message="Delete"
+                  />
                 </Button>
               )}
             />
@@ -279,13 +283,15 @@ class MailMessage extends Component {
               icon={message.is_unread ? 'envelope-open' : 'envelope'}
             >
               {message.is_unread ? (
-                <Trans id="message-list.message.action.mark_as_read">
-                  Mark as read
-                </Trans>
+                <Trans
+                  id="message-list.message.action.mark_as_read"
+                  message="Mark as read"
+                />
               ) : (
-                <Trans id="message-list.message.action.mark_as_unread">
-                  Mark as unread
-                </Trans>
+                <Trans
+                  id="message-list.message.action.mark_as_unread"
+                  message="Mark as unread"
+                />
               )}
             </Button>
           </footer>

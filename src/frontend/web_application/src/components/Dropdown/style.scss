@@ -24,6 +24,7 @@
   &--has-triangle {
     &::before {
       @include o-triangle('top', 1rem, $co-color__primary--lower);
+
       right: 1rem;
     }
   }

@@ -3,7 +3,8 @@
 
 .m-add-tag {
   @include flex-grid-row($size: expanded);
-  margin-bottom: map-get($co-form__spacing, 'large');
+
+  margin-bottom: map_get($co-form__spacing, 'large');
 
   &__input {
     @include flex-grid-size;

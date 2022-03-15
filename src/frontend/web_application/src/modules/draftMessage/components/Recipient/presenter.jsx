@@ -32,9 +32,13 @@ class Recipient extends Component {
         large
         className={className}
         onDelete={this.handleClickRemove}
-        ariaLabel={i18n._('messages.compose.action.remove-recipient', null, {
-          defaults: 'Remove recipient',
-        })}
+        ariaLabel={i18n._(
+          /* i18n */ 'messages.compose.action.remove-recipient',
+          null,
+          {
+            message: 'Remove recipient',
+          }
+        )}
         color={!isValid ? 'alert' : undefined}
       >
         <Icon type={getIconType(participant.protocol)} rightSpaced />

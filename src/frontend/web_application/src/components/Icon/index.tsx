@@ -96,11 +96,11 @@ const svgGlyphs = {
   ),
 };
 
-const SvgIcon = ({ type, iconProps }) => {
+function SvgIcon({ type, iconProps }) {
   const markup = svgGlyphs[type];
 
   return <span {...iconProps}>{markup}</span>;
-};
+}
 
 interface IconProps {
   className?: string;
@@ -110,13 +110,13 @@ interface IconProps {
   [key: string]: any;
 }
 
-const Icon = ({
+function Icon({
   className,
   type,
   spaced = false,
   rightSpaced = false,
   ...props
-}: IconProps): React.ReactElement<typeof SvgIcon> => {
+}: IconProps): React.ReactElement<typeof SvgIcon> {
   // eslint-disable-next-line no-console
   if (!typeAssoc[type]) {
     console.error(`The type "${type}" is not a valid Icon component type`);
@@ -137,6 +137,6 @@ const Icon = ({
   ) : (
     <i {...iconProps} />
   );
-};
+}
 
 export default Icon;

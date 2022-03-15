@@ -8,11 +8,13 @@
   &__file {
     @include flex-grid-row;
     @include o-form-element--light;
+
     margin-top: $co-margin;
     line-height: $co-component__height;
 
     &__name {
       @include flex-grid-column(6);
+
       overflow: hidden;
       text-overflow: ellipsis;
       font-weight: 600;
@@ -21,6 +23,7 @@
 
     &__size {
       @include flex-grid-column(4);
+
       overflow: hidden;
       text-overflow: ellipsis;
       color: $co-color__fg__text--low;

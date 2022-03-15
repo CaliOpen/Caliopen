@@ -17,23 +17,26 @@ class InstallButton extends Component {
     isInstalled: false,
   };
 
-  handleInstallFactory = ({ defferedPrompt }) => async () => {
-    const { notifySuccess } = this.props;
+  handleInstallFactory =
+    ({ defferedPrompt }) =>
+    async () => {
+      const { notifySuccess } = this.props;
 
-    defferedPrompt.prompt();
-    const { outcome } = await defferedPrompt.userChoice;
+      defferedPrompt.prompt();
+      const { outcome } = await defferedPrompt.userChoice;
 
-    if (outcome === 'accepted') {
-      notifySuccess({
-        message: (
-          <Trans id="pwa.feedback.install-success">
-            Caliopen has been installed on your device.
-          </Trans>
-        ),
-      });
-      this.setState({ isInstalled: true });
-    }
-  };
+      if (outcome === 'accepted') {
+        notifySuccess({
+          message: (
+            <Trans
+              id="pwa.feedback.install-success"
+              message="Caliopen has been installed on your device."
+            />
+          ),
+        });
+        this.setState({ isInstalled: true });
+      }
+    };
 
   render() {
     return (
@@ -56,7 +59,7 @@ class InstallButton extends Component {
                 center={false}
                 onClick={this.handleInstallFactory({ defferedPrompt })}
               >
-                <Trans id="pwa.action.install">Install</Trans>
+                <Trans id="pwa.action.install" message="Install" />
               </Button>
             </VerticalMenuItem>
           );

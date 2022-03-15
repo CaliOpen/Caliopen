@@ -3,11 +3,13 @@ import { shallow } from 'enzyme';
 import Link from '.';
 
 jest.mock('react-router-dom', () => {
-  const BaseLink = ({ children, ...props }) => (
-    <a href="" {...props}>
-      {children}
-    </a>
-  );
+  function BaseLink({ children, ...props }) {
+    return (
+      <a href="" {...props}>
+        {children}
+      </a>
+    );
+  }
 
   return {
     Link: BaseLink,

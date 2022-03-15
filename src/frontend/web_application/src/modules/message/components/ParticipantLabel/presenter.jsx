@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-const Layout = ({ className, ...props }) => (
-  <span className={classnames(className)} {...props} />
-);
+function Layout({ className, ...props }) {
+  return <span className={classnames(className)} {...props} />;
+}
 Layout.propTypes = {
   className: PropTypes.string,
 };

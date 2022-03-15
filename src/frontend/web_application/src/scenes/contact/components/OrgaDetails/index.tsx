@@ -25,9 +25,8 @@ function OrgaDetails({ organization }: Props): JSX.Element {
           orgaName,
           department,
         }}
-      >
-        {jobDesc} at {orgaName} {department}
-      </Trans>
+        message="{jobDesc} at {orgaName} {department}"
+      />
     );
   }
 

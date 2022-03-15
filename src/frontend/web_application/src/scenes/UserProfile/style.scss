@@ -3,10 +3,11 @@
 
 .s-user-profile {
   @include flex-grid-row($size: expand);
+
   margin-top: $co-margin;
 
   &__profile {
-    margin-bottom: map-get($map: $co-margin_, $key: 'xsmall');
+    margin-bottom: map_get($map: $co-margin_, $key: 'xsmall');
   }
 
   &__info {
@@ -25,6 +26,7 @@
     &__info {
       @include flex-grid-size(4);
     }
+
     &__details {
       @include flex-grid-size(8);
     }
@@ -34,6 +36,7 @@
     &__info {
       @include flex-grid-size(3);
     }
+
     &__details {
       @include flex-grid-size(9);
     }

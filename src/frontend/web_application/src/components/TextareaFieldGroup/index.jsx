@@ -27,14 +27,8 @@ class TextareaFieldGroup extends PureComponent {
   };
 
   render() {
-    const {
-      label,
-      errors,
-      onChange,
-      className,
-      inputProps,
-      showLabelForSR,
-    } = this.props;
+    const { label, errors, onChange, className, inputProps, showLabelForSR } =
+      this.props;
     const id = uuidV1();
 
     return (

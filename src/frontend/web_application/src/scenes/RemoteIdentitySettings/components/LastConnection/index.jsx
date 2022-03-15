@@ -30,7 +30,7 @@ class lastConnection extends PureComponent {
       );
     }
 
-    return <Trans id="remote_identity.last_connection.never">Never</Trans>;
+    return <Trans id="remote_identity.last_connection.never" message="Never" />;
   }
 }
 

@@ -37,7 +37,7 @@ function IdentityForm({ name, onDelete, i18n }: ItemProps & withI18nProps) {
             <Legend>
               <Icon rightSpaced type="user" />
               <span className="m-identity-form__legend">
-                <Trans id="contact.identity_form.legend">Identities</Trans>
+                <Trans id="contact.identity_form.legend" message="Identities" />
               </span>
             </Legend>
           </FormColumn>
@@ -45,9 +45,13 @@ function IdentityForm({ name, onDelete, i18n }: ItemProps & withI18nProps) {
             <Field
               component={FormikSelectFieldGroup}
               name={`${name}.type`}
-              label={i18n._('contact.identity_form.service.label', undefined, {
-                defaults: 'Service',
-              })}
+              label={i18n._(
+                /* i18n */ 'contact.identity_form.service.label',
+                undefined,
+                {
+                  message: 'Service',
+                }
+              )}
               options={identityTypeOptions}
               showLabelforSr
               required
@@ -58,15 +62,19 @@ function IdentityForm({ name, onDelete, i18n }: ItemProps & withI18nProps) {
               component={FormikTextFieldGroup}
               name={`${name}.name`}
               validate={validateRequired(i18n)}
-              label={i18n._('contact.identity_form.identity.label', undefined, {
-                defaults: 'Identity',
-              })}
+              label={i18n._(
+                /* i18n */ 'contact.identity_form.identity.label',
+                undefined,
+                {
+                  message: 'Identity',
+                }
+              )}
               showLabelforSr
               inputProps={{
                 placeholder: i18n._(
-                  'contact.identity_form.identity.placeholder',
+                  /* i18n */ 'contact.identity_form.identity.placeholder',
                   undefined,
-                  { defaults: "username, account's URL..." }
+                  { message: "username, account's URL..." }
                 ),
                 expanded: true,
                 required: true,

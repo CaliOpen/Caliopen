@@ -1,5 +1,5 @@
 import { IDraftMessageFormData } from 'src/modules/draftMessage/types';
-import reducer, * as module from './draft-message';
+import reducer, * as drafMessageModule from './draft-message';
 
 describe('ducks module draft-message', () => {
   describe('reducer', () => {
@@ -18,7 +18,9 @@ describe('ducks module draft-message', () => {
         },
       };
       const body = 'foo';
-      expect(reducer(undefined, module.editDraft({ ...draft, body }))).toEqual({
+      expect(
+        reducer(undefined, drafMessageModule.editDraft({ ...draft, body }))
+      ).toEqual({
         ...initialState,
         draftsByMessageId: {
           111: {

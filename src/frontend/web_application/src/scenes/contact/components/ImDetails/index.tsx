@@ -8,11 +8,15 @@ interface Props extends withI18nProps {
 }
 function ImDetails({ im, i18n }: Props) {
   const imTypesTranslations = {
-    work: i18n._('contact.im_type.work', undefined, {
-      defaults: 'Professional',
+    work: i18n._(/* i18n */ 'contact.im_type.work', undefined, {
+      message: 'Professional',
     }),
-    home: i18n._('contact.im_type.home', undefined, { defaults: 'Personal' }),
-    other: i18n._('contact.im_type.other', undefined, { defaults: 'Other' }),
+    home: i18n._(/* i18n */ 'contact.im_type.home', undefined, {
+      message: 'Personal',
+    }),
+    other: i18n._(/* i18n */ 'contact.im_type.other', undefined, {
+      message: 'Other',
+    }),
   };
 
   return (

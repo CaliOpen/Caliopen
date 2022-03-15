@@ -47,8 +47,8 @@ function UserPrivacy({ i18n }: Props) {
 
       <Section
         className="s-user-privacy__info"
-        title={i18n._('user.privacy.improve_pi', undefined, {
-          defaults: 'Improve your privacy index',
+        title={i18n._(/* i18n */ 'user.privacy.improve_pi', undefined, {
+          message: 'Improve your privacy index',
         })}
       >
         <TextList className="s-user-privacy__tips">

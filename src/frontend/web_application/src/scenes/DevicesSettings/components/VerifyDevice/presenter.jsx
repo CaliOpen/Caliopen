@@ -56,7 +56,7 @@ class VerifyDevice extends Component {
         onClick={this.handleVerify}
         disabled={this.state.sending}
       >
-        <Trans id="device.action.verify">Verify this device</Trans>
+        <Trans id="device.action.verify" message="Verify this device" />
       </Button>
     );
   }

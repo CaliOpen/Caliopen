@@ -32,13 +32,15 @@ const mapStateToProps = createSelector(
   })
 );
 
-const onIdentityChange = ({ identity }) => (dispatch) => {
-  if (!identity.identity_id) {
-    return dispatch(createIdentity({ identity }));
-  }
+const onIdentityChange =
+  ({ identity }) =>
+  (dispatch) => {
+    if (!identity.identity_id) {
+      return dispatch(createIdentity({ identity }));
+    }
 
-  return dispatch(updateIdentity({ identity }));
-};
+    return dispatch(updateIdentity({ identity }));
+  };
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(

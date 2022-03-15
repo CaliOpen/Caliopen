@@ -13,18 +13,21 @@ $bar-margin: 7px;
 
   &__icon {
     @include flex-grid-size(shrink);
-    margin-right: map-get($co-form__spacing, 'medium');
+
+    margin-right: map_get($co-form__spacing, 'medium');
   }
 
   &__level {
     @include flex-grid-size(shrink);
-    margin-left: map-get($co-form__spacing, 'medium');
+
+    margin-left: map_get($co-form__spacing, 'medium');
     font-size: $co-font__size--xsmall;
     font-weight: 700;
   }
 
   &__guide {
     @include flex-grid-size;
+
     height: $bar-height;
     margin-top: $bar-margin;
     background-color: $co-color__fg__back--lower;

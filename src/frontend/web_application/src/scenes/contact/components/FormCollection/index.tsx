@@ -62,7 +62,7 @@ function FormCollection({
                         onClick={() => fields.push({ ...defaultValues })}
                       >
                         {addButtonLabel || (
-      <Trans id="contact.action.add_new_field">Add new</Trans>)}
+      <Trans id="contact.action.add_new_field" message="Add new" />)}
                       </Button>
                     </FormColumn>
                   </FormRow>

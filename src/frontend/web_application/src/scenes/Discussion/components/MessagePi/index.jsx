@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { i18nMark, Trans, withI18n } from '@lingui/react';
+import { Trans, withI18n } from '@lingui/react';
 import classnames from 'classnames';
 import { Icon, TextBlock } from '../../../../components';
 import { getAveragePIMessage, getPiClass } from '../../../../modules/pi';
@@ -47,8 +47,8 @@ class MessagePi extends PureComponent {
       return (
         <img
           src={simpleEnvelope}
-          alt={i18n._('message.img.simple-envelope', null, {
-            defaults: 'This message is like a sealed envelop',
+          alt={i18n._(/* i18n */ 'message.img.simple-envelope', null, {
+            message: 'This message is like a sealed envelop',
           })}
         />
       );
@@ -57,8 +57,8 @@ class MessagePi extends PureComponent {
     return (
       <img
         src={postalCard}
-        alt={i18n._('message.img.postal-card', null, {
-          defaults: 'This message is like a postal card',
+        alt={i18n._(/* i18n */ 'message.img.postal-card', null, {
+          message: 'This message is like a postal card',
         })}
       />
     );
@@ -78,7 +78,7 @@ class MessagePi extends PureComponent {
                   message.pi_message.social
                 )}
               />
-              <Trans id="message.pi.comportment">Sender</Trans>
+              <Trans id="message.pi.comportment" message="Sender" />
             </TextBlock>
           </li>
           <li className={getPiClass(message.pi_message.content)}>
@@ -88,7 +88,7 @@ class MessagePi extends PureComponent {
                   message.pi_message.content
                 )}
               />
-              <Trans id="message.pi.context">Departure</Trans>
+              <Trans id="message.pi.context" message="Departure" />
             </TextBlock>
           </li>
           <li className={getPiClass(message.pi_message.transport)}>
@@ -98,7 +98,7 @@ class MessagePi extends PureComponent {
                   message.pi_message.transport
                 )}
               />
-              <Trans id="message.pi.technic">Travel</Trans>
+              <Trans id="message.pi.technic" message="Travel" />
             </TextBlock>
           </li>
         </ul>
@@ -109,18 +109,19 @@ class MessagePi extends PureComponent {
   renderDescription = () => {
     const { message } = this.props;
 
-    const metaphors = {
-      encrypted: i18nMark('message.pi.description.metaphor.encrypted'),
-      plain: i18nMark('message.pi.description.metaphor.unencrypted'),
-    };
-
     return (
       <p className="m-message-pi__metaphor">
-        <Trans
-          id={
-            isMessageEncrypted(message) ? metaphors.encrypted : metaphors.plain
-          }
-        />
+        {isMessageEncrypted(message) ? (
+          <Trans
+            id="message.pi.description.metaphor.encrypted"
+            message="In real life this message would be somewhat equivalent to letter within an envelope."
+          />
+        ) : (
+          <Trans
+            id="message.pi.description.metaphor.unencrypted"
+            message="In real life this message would be somewhat equivalent to a postal card visible by everyone."
+          />
+        )}
       </p>
     );
   };
@@ -171,7 +172,7 @@ class MessagePi extends PureComponent {
           </div>
           <div className="m-message-pi__numeric">
             <span className="m-message-pi__numeric-legend">
-              <Trans id="message.pi.label">Privacy index:</Trans>
+              <Trans id="message.pi.label" message="Privacy index:" />
             </span>
             <span className="m-message-pi__numeric-value">{piValue}</span>
           </div>

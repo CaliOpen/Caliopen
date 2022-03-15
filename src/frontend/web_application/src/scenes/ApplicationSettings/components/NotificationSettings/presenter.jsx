@@ -36,13 +36,17 @@ class NotificationForm extends Component {
   initTranslations() {
     const { i18n } = this.props;
     this.i18n = {
-      off: i18n._('settings.notification.message_preview.options.off', null, {
-        defaults: 'Off',
-      }),
-      always: i18n._(
-        'settings.notification.message_preview.options.always',
+      off: i18n._(
+        /* i18n */ 'settings.notification.message_preview.options.off',
         null,
-        { defaults: 'Always' }
+        {
+          message: 'Off',
+        }
+      ),
+      always: i18n._(
+        /* i18n */ 'settings.notification.message_preview.options.always',
+        null,
+        { message: 'Always' }
       ),
     };
   }
@@ -54,9 +58,9 @@ class NotificationForm extends Component {
     const delayDisappearOptions = DELAY_DISAPPEAR.map((delay) => ({
       value: delay,
       label: i18n._(
-        'settings.notification.delay_disappear.options.second',
+        /* i18n */ 'settings.notification.delay_disappear.options.second',
         { 0: delay },
-        { defaults: '{0} Seconds' }
+        { message: '{0} Seconds' }
       ),
     }));
 
@@ -68,9 +72,13 @@ class NotificationForm extends Component {
               component={CheckboxFieldGroup}
               type="checkbox"
               name="notification_enabled"
-              label={i18n._('settings.notification.enabled.label', null, {
-                defaults: 'Enabled',
-              })}
+              label={i18n._(
+                /* i18n */ 'settings.notification.enabled.label',
+                null,
+                {
+                  message: 'Enabled',
+                }
+              )}
             />
           </FormColumn>
           <FormColumn rightSpace={false} bottomSpace>
@@ -78,9 +86,13 @@ class NotificationForm extends Component {
               component={CheckboxFieldGroup}
               type="checkbox"
               name="notification_sound_enabled"
-              label={i18n._('settings.notification.sound_enabled.label', null, {
-                defaults: 'Sound enabled',
-              })}
+              label={i18n._(
+                /* i18n */ 'settings.notification.sound_enabled.label',
+                null,
+                {
+                  message: 'Sound enabled',
+                }
+              )}
             />
           </FormColumn>
           <FormColumn rightSpace={false} bottomSpace>
@@ -88,9 +100,9 @@ class NotificationForm extends Component {
               component={SelectFieldGroup}
               name="notification_message_preview"
               label={i18n._(
-                'settings.notification.message_preview.label',
+                /* i18n */ 'settings.notification.message_preview.label',
                 null,
-                { defaults: 'Message preview' }
+                { message: 'Message preview' }
               )}
               options={messagePreviewOptions}
               expanded
@@ -101,9 +113,9 @@ class NotificationForm extends Component {
               component={SelectFieldGroup}
               name="notification_delay_disappear"
               label={i18n._(
-                'settings.notification.delay_disappear.label',
+                /* i18n */ 'settings.notification.delay_disappear.label',
                 null,
-                { defaults: 'Display delay' }
+                { message: 'Display delay' }
               )}
               options={delayDisappearOptions}
               expanded

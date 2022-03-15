@@ -1,6 +1,6 @@
 @import '../../../../../../styles/vendor/bootstrap_foundation-sites';
 @import '../../../../../../styles/object/o-navigation';
-@import '../../../../../../styles/object/o-pi-border.scss';
+@import '../../../../../../styles/object/o-pi-border';
 
 $m-navbar-item__content--max-width: 12rem !default;
 $m-navbar-item-height: 2.75rem + (rem_calc($pi-border__size) * 2); // 44px + 3px * 2
@@ -8,6 +8,7 @@ $m-navbar-item-height--active: 3.125rem + (rem_calc($pi-border__size) * 2); // 5
 
 .m-navbar-item {
   $baseClassName: &;
+
   display: flex;
   height: $m-navbar-item-height;
   margin-top: 5px;
@@ -48,9 +49,8 @@ $m-navbar-item-height--active: 3.125rem + (rem_calc($pi-border__size) * 2); // 5
   &__content {
     flex: 1 0;
     max-width: $m-navbar-item__content--max-width;
-    padding-right: $co-margin / 4;
-    padding-left: $co-margin / 2;
-
+    padding-right: calc($co-margin / 4);
+    padding-left: calc($co-margin / 2);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

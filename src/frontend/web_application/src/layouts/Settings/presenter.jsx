@@ -32,23 +32,25 @@ class Settings extends PureComponent {
     const navLinks = [
       {
         key: 'settings.application',
-        label: i18n._('settings.application', null, {
-          defaults: 'Application',
+        label: i18n._(/* i18n */ 'settings.application', null, {
+          message: 'Application',
         }),
         to: '/settings/application',
       },
       {
         key: 'settings.tags',
-        label: i18n._('settings.tags', null, { defaults: 'Tags' }),
+        label: i18n._(/* i18n */ 'settings.tags', null, { message: 'Tags' }),
         to: '/settings/tags',
       },
       {
         key: 'settings.devices',
-        label: i18n._('settings.devices', null, { defaults: 'Devices' }),
+        label: i18n._(/* i18n */ 'settings.devices', null, {
+          message: 'Devices',
+        }),
         to: '/settings/devices',
       },
-      // { key: 'settings.signatures', label: i18n._('settings.signatures', null,
-      // { defaults: 'Signatures' }),
+      // { key: 'settings.signatures', label: i18n._(/* i18n */ 'settings.signatures', null,
+      // { message: 'Signatures' }),
       // to: '/settings/signatures' },
     ].map((link) => ({
       ...link,

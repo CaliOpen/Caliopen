@@ -62,7 +62,7 @@ class BirthdayForm extends React.PureComponent {
               <Legend>
                 <Icon type="envelope" rightSpaced />
                 <span className="m-email-form__legend">
-                  <Trans id="contact.email_form.legend">Email</Trans>
+                  <Trans id="contact.email_form.legend" message="Email" />
                 </span>
               </Legend>
             </FormColumn>
@@ -80,9 +80,13 @@ class BirthdayForm extends React.PureComponent {
                 id="contact-form-birthday"
                 className="m-contact-profile-form__birthday"
                 inputClassName="m-contact-profile-form__birthday-input"
-                label={i18n._('contact_profile.form.birthday.label', null, {
-                  defaults: 'Birthday',
-                })}
+                label={i18n._(
+                  /* i18n */ 'contact_profile.form.birthday.label',
+                  null,
+                  {
+                    message: 'Birthday',
+                  }
+                )}
                 onDateChange={this.handleBirthdayChanges}
                 showMonthDropdown
                 showYearDropdown

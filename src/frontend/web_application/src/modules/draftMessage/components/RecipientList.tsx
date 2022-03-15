@@ -77,9 +77,8 @@ function RecipientList({
   const dispatch = useDispatch();
   const searchInputRef = React.useRef<HTMLInputElement>(null);
   const [searchTerms, setSearchTerms] = React.useState('');
-  const [activeSearchResultIndex, setActiveSearchResultIndex] = React.useState(
-    0
-  );
+  const [activeSearchResultIndex, setActiveSearchResultIndex] =
+    React.useState(0);
   const [searchOpened, setSearchOpened] = React.useState(false);
 
   const resetSearch = () => {
@@ -351,7 +350,7 @@ function RecipientList({
     >
       {!recipients.length && (
         <span className="m-recipient-list__placeholder">
-          <Trans id="messages.compose.form.to.label">To:</Trans>
+          <Trans id="messages.compose.form.to.label" message="To:" />
         </span>
       )}
       {recipients.map((participant) => (

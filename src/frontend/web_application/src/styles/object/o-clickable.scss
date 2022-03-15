@@ -28,6 +28,7 @@
   @each $name, $color in $caliopen-palette {
     &--#{$name} {
       $color-hover: scale-color($color, $lightness: -50%);
+
       border-color: $color;
       color: $color;
 
@@ -40,6 +41,7 @@
         }
       }
     }
+
     // &--#{$name}#{'-plain'} {
     //   background-color: $color-hover;
     //   color: $co-color__fg__text--high;
@@ -57,6 +59,7 @@
     text-decoration: none;
   }
 }
+
 // display: inline, inline-block or expanded (
 @mixin o-clickable--inline {
   display: inline;

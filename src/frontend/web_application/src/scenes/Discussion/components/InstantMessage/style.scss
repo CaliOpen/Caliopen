@@ -9,6 +9,7 @@
 .m-instant-message {
   $baseName: &;
   @include flex-grid-row($size: expand);
+
   max-width: 44.5rem;
   margin-right: initial;
   margin-bottom: 1rem;
@@ -38,6 +39,7 @@
 
   &__info {
     @include flex-grid-size;
+
     background-color: #c5e8f6;
     overflow: hidden;
   }
@@ -52,18 +54,21 @@
   @include breakpoint(medium) {
     &__author {
       @include flex-grid-size(shrink);
+
       padding-right: 0.5rem;
       padding-left: 0;
     }
 
     &__info {
       @include flex-grid-size(6);
+
       flex-basis: 12.125rem;
       padding-bottom: 0.5rem;
     }
 
     &__content {
       @include flex-grid-size;
+
       padding: map_get($co-margin_, 'small');
     }
   }

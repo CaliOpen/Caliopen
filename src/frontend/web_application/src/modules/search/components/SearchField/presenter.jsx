@@ -75,8 +75,8 @@ class SearchField extends Component {
             name="term"
             onChange={this.handleInputChange}
             value={this.state.term}
-            placeholder={i18n._('header.menu.search', null, {
-              defaults: 'Search',
+            placeholder={i18n._(/* i18n */ 'header.menu.search', null, {
+              message: 'Search',
             })}
             className="m-search-field__search-input"
           />
@@ -87,7 +87,7 @@ class SearchField extends Component {
             disabled={this.state.term.length < MIN_TERM_LENGTH}
           >
             <span className="m-search-field__button-label">
-              <Trans id="header.actions.search">Search</Trans>
+              <Trans id="header.actions.search" message="Search" />
             </span>
             <Icon type="search" />
           </Button>

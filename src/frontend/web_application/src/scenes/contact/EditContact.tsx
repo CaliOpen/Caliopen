@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import type { APIAxiosError } from 'src/services/api-client/types';
+import { APIAxiosError } from 'src/services/api-client/types';
 import {
   getConfigOne,
   getContact,
@@ -30,10 +30,14 @@ function EditContact(): React.ReactElement<typeof ContactPageWrapper> {
   const { push } = useHistory();
   const { contactId } = useParams<{ contactId: string }>();
   const queryConfig = getConfigOne(contactId);
-  const { data: contact, isFetching, isError, error } = useQuery<
-    Contact,
-    APIAxiosError
-  >(queryConfig.queryKey, () => getContact(contactId));
+  const {
+    data: contact,
+    isFetching,
+    isError,
+    error,
+  } = useQuery<Contact, APIAxiosError>(queryConfig.queryKey, () =>
+    getContact(contactId)
+  );
   const { mutateAsync, isLoading: isUpdating } = useMutation<
     unknown,
     unknown,
@@ -92,7 +96,7 @@ function EditContact(): React.ReactElement<typeof ContactPageWrapper> {
               <p key={`${contactErr.type}_${address}`}>
                 <Trans
                   id="contact.feedback.unable_to_save_address_already_used"
-                  defaults='The address "{address}" belongs to <0>{name}</0>. You can remove it from that contact before using it here.'
+                  message='The address "{address}" belongs to <0>{name}</0>. You can remove it from that contact before using it here.'
                   values={{
                     name:
                       (contactsById[ownerContactId] &&
@@ -107,9 +111,10 @@ function EditContact(): React.ReactElement<typeof ContactPageWrapper> {
           default:
             return (
               <p key={index}>
-                <Trans id="contact.feedback.unable_to_save">
-                  Unable to save the contact
-                </Trans>
+                <Trans
+                  id="contact.feedback.unable_to_save"
+                  message="Unable to save the contact"
+                />
               </p>
             );
         }

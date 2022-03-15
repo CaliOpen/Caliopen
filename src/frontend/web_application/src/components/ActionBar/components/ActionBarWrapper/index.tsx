@@ -7,13 +7,15 @@ interface Props {
   children: React.ReactNode;
 }
 
-const ActionBarWrapper = ({ isSticky = false, ...props }: Props) => (
-  <div
-    className={classnames('m-action-bar-wrapper', {
-      'm-action-bar-wrapper--sticky': isSticky,
-    })}
-    {...props}
-  />
-);
+function ActionBarWrapper({ isSticky = false, ...props }: Props) {
+  return (
+    <div
+      className={classnames('m-action-bar-wrapper', {
+        'm-action-bar-wrapper--sticky': isSticky,
+      })}
+      {...props}
+    />
+  );
+}
 
 export default ActionBarWrapper;

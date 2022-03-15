@@ -4,10 +4,10 @@
 .m-textarea-field-group {
   &__label {
     display: block;
-    margin-bottom: map-get($co-form__spacing, 'small');
+    margin-bottom: map_get($co-form__spacing, 'small');
   }
 
   &__errors {
-    margin-top: map-get($co-form__spacing, 'medium');
+    margin-top: map_get($co-form__spacing, 'medium');
   }
 }

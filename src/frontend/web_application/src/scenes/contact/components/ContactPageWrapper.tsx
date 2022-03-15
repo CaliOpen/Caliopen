@@ -33,30 +33,32 @@ import '../style.scss';
 import '../contact-action-bar.scss';
 import '../contact-main-title.scss';
 
-const updateTagCollection = (
-  i18n,
-  {
-    type,
-    entity,
-    tags: tagCollection,
-  }: { type: 'contact'; entity: Contact; tags: TagPayload[] }
-) => async (dispatch, getState) => {
-  const result = await dispatch(
-    updateTagCollectionBase(i18n, {
+const updateTagCollection =
+  (
+    i18n,
+    {
       type,
       entity,
       tags: tagCollection,
-    })
-  );
+    }: { type: 'contact'; entity: Contact; tags: TagPayload[] }
+  ) =>
+  async (dispatch, getState) => {
+    const result = await dispatch(
+      updateTagCollectionBase(i18n, {
+        type,
+        entity,
+        tags: tagCollection,
+      })
+    );
 
-  const userContact = userSelector(getState())?.contact;
+    const userContact = userSelector(getState())?.contact;
 
-  if (userContact?.contact_id === entity.contact_id) {
-    dispatch(requestUser());
-  }
+    if (userContact?.contact_id === entity.contact_id) {
+      dispatch(requestUser());
+    }
 
-  return result;
-};
+    return result;
+  };
 
 interface Props extends withI18nProps {
   children: React.ReactNode;
@@ -106,9 +108,10 @@ function ContactPageWrapper({
       dispatch(
         notifyError({
           message: (
-            <Trans id="contact.feedback.unable_to_delete">
-              Unable to delete the contact
-            </Trans>
+            <Trans
+              id="contact.feedback.unable_to_delete"
+              message="Unable to delete the contact"
+            />
           ),
         })
       );
@@ -151,20 +154,21 @@ function ContactPageWrapper({
                 <div className="s-contact-action-bar">
                   {contact && (
                     <>
-                      <Trans id="contact.action-bar.label">Contact:</Trans>
+                      <Trans id="contact.action-bar.label" message="Contact:" />
                       {!contactIsUser && (
                         <Confirm
                           onConfirm={handleDelete}
                           title={
-                            <Trans id="contact.confirm-delete.title">
-                              Delete the contact
-                            </Trans>
+                            <Trans
+                              id="contact.confirm-delete.title"
+                              message="Delete the contact"
+                            />
                           }
                           content={
-                            <Trans id="contact.confirm-delete.content">
-                              The deletion is permanent, are you sure you want
-                              to delete this contact ?
-                            </Trans>
+                            <Trans
+                              id="contact.confirm-delete.content"
+                              message="The deletion is permanent, are you sure you want to delete this contact ?"
+                            />
                           }
                           render={(confirm) => (
                             <ActionBarButton
@@ -183,9 +187,10 @@ function ContactPageWrapper({
                               }
                               noDecoration
                             >
-                              <Trans id="contact.action.delete_contact">
-                                Delete
-                              </Trans>
+                              <Trans
+                                id="contact.action.delete_contact"
+                                message="Delete"
+                              />
                             </ActionBarButton>
                           )}
                         />
@@ -198,9 +203,10 @@ function ContactPageWrapper({
                           noDecoration
                           icon="list-ul"
                         >
-                          <Trans id="contact.action.edit_contact">
-                            Edit contact
-                          </Trans>
+                          <Trans
+                            id="contact.action.edit_contact"
+                            message="Edit contact"
+                          />
                         </ActionBarButton>
                       )}
                       <ActionBarButton
@@ -209,17 +215,24 @@ function ContactPageWrapper({
                         noDecoration
                         icon="tag"
                       >
-                        <Trans id="contact.action.edit_tags">Edit tags</Trans>
+                        <Trans
+                          id="contact.action.edit_tags"
+                          message="Edit tags"
+                        />
                       </ActionBarButton>
                       <Modal
                         isOpen={isTagModalOpen}
-                        contentLabel={i18n._('tags.header.label', undefined, {
-                          defaults: 'Tags',
-                        })}
+                        contentLabel={i18n._(
+                          /* i18n */ 'tags.header.label',
+                          undefined,
+                          {
+                            message: 'Tags',
+                          }
+                        )}
                         title={
                           <Trans
                             id="tags.header.title"
-                            defaults="Tags <0>(Total: {nb})</0>"
+                            message="Tags <0>(Total: {nb})</0>"
                             values={{ nb: nbTags }}
                             components={[
                               <span className="m-tags-form__count" />,

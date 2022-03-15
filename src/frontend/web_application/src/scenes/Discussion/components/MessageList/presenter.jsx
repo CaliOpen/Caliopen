@@ -61,7 +61,7 @@ class MessageList extends Component {
           onClick={loadMore}
           className="m-message-list__load-more"
         >
-          <Trans id="general.action.load_more">Load more</Trans>
+          <Trans id="general.action.load_more" message="Load more" />
         </Button>
       )
     );

@@ -10,6 +10,7 @@
 
   &__input {
     @include o-form-element;
+
     min-width: map_get($co-margin_, 'xlarge');
 
     &--decorated {

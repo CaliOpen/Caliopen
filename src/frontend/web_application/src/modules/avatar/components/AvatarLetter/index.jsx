@@ -4,14 +4,16 @@ import classnames from 'classnames';
 import getClassName from './services/stylesheet-helper';
 import './style.scss';
 
-const AvatarLetter = ({ word, className, isSelected }) => (
-  <span
-    className={classnames(
-      className,
-      isSelected ? 'm-letter--checked' : getClassName(word)
-    )}
-  />
-);
+function AvatarLetter({ word, className, isSelected }) {
+  return (
+    <span
+      className={classnames(
+        className,
+        isSelected ? 'm-letter--checked' : getClassName(word)
+      )}
+    />
+  );
+}
 
 AvatarLetter.propTypes = {
   word: PropTypes.string,

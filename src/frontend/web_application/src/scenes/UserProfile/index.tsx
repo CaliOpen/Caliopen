@@ -24,7 +24,7 @@ import './style.scss';
 
 type Props = withI18nProps;
 
-const UserProfile = ({ i18n }: Props) => {
+function UserProfile({ i18n }: Props) {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = React.useState(false);
   const [password, setPassword] = React.useState('');
@@ -46,9 +46,13 @@ const UserProfile = ({ i18n }: Props) => {
     } catch (err) {
       dispatch(
         notifyError({
-          message: i18n._('contact.feedback.unable_to_save', undefined, {
-            defaults: 'Unable to save the contact',
-          }),
+          message: i18n._(
+            /* i18n */ 'contact.feedback.unable_to_save',
+            undefined,
+            {
+              message: 'Unable to save the contact',
+            }
+          ),
         })
       );
     }
@@ -69,10 +73,10 @@ const UserProfile = ({ i18n }: Props) => {
       dispatch(
         notifySuccess({
           message: (
-            <Trans id="user.feedback.delete_account_sucessful">
-              Your account has been deleted, you will be automatically
-              disconnected.
-            </Trans>
+            <Trans
+              id="user.feedback.delete_account_sucessful"
+              message="Your account has been deleted, you will be automatically disconnected."
+            />
           ),
         })
       );
@@ -86,9 +90,10 @@ const UserProfile = ({ i18n }: Props) => {
         )
       ) {
         setErrorDeleteAccount([
-          <Trans id="user.delete-form.error.incorrect_password">
-            Unable to delete your account, the given password is incorrect.
-          </Trans>,
+          <Trans
+            id="user.delete-form.error.incorrect_password"
+            message="Unable to delete your account, the given password is incorrect."
+          />,
         ]);
       } else {
         setErrorDeleteAccount(errors.map((err) => err.message));
@@ -111,8 +116,8 @@ const UserProfile = ({ i18n }: Props) => {
       </div>
       <Section
         className="s-user-profile__details"
-        title={i18n._('user.profile.form.title', undefined, {
-          defaults: 'Complete your profile',
+        title={i18n._(/* i18n */ 'user.profile.form.title', undefined, {
+          message: 'Complete your profile',
         })}
       >
         {user ? (
@@ -126,7 +131,7 @@ const UserProfile = ({ i18n }: Props) => {
                 <div className="s-user-profile__actions">
                   {!editMode ? (
                     <Button onClick={() => setEditMode(true)} shape="plain">
-                      <Trans id="user.action.edit_profile">Edit</Trans>
+                      <Trans id="user.action.edit_profile" message="Edit" />
                     </Button>
                   ) : (
                     <>
@@ -143,7 +148,7 @@ const UserProfile = ({ i18n }: Props) => {
                           ) : undefined
                         }
                       >
-                        <Trans id="user.action.update">Update</Trans>
+                        <Trans id="user.action.update" message="Update" />
                       </Button>{' '}
                       <Button
                         onClick={() => {
@@ -152,7 +157,7 @@ const UserProfile = ({ i18n }: Props) => {
                         }}
                         shape="hollow"
                       >
-                        <Trans id="user.action.cancel_edit">Cancel</Trans>
+                        <Trans id="user.action.cancel_edit" message="Cancel" />
                       </Button>
                     </>
                   )}
@@ -160,35 +165,40 @@ const UserProfile = ({ i18n }: Props) => {
                     className="s-user-profile__delete"
                     render={(confirm) => (
                       <Button shape="plain" onClick={confirm} color="alert">
-                        <Trans id="user.action.delete">Delete account</Trans>
+                        <Trans
+                          id="user.action.delete"
+                          message="Delete account"
+                        />
                       </Button>
                     )}
                     title={
-                      <Trans id="user.delete-form.modal-title">
-                        Delete account
-                      </Trans>
+                      <Trans
+                        id="user.delete-form.modal-title"
+                        message="Delete account"
+                      />
                     }
                     content={
                       <div className="s-user-profile__modal-delete-form">
                         <p>
-                          <Trans id="user.delete-form.modal-content">
-                            Are you sure to delete your Caliopen account ?
-                          </Trans>
+                          <Trans
+                            id="user.delete-form.modal-content"
+                            message="Are you sure to delete your Caliopen account ?"
+                          />
                         </p>
                         <TextFieldGroup
                           id="user-delete_password"
                           label={i18n._(
-                            'user.delete-form.password.label',
+                            /* i18n */ 'user.delete-form.password.label',
                             undefined,
                             {
-                              defaults: 'Password',
+                              message: 'Password',
                             }
                           )}
                           inputProps={{
                             placeholder: i18n._(
-                              'user.delete-form.password.placeholder',
+                              /* i18n */ 'user.delete-form.password.placeholder',
                               undefined,
-                              { defaults: 'password' }
+                              { message: 'password' }
                             ),
                             name: 'password',
                             type: 'password',
@@ -200,9 +210,10 @@ const UserProfile = ({ i18n }: Props) => {
                       </div>
                     }
                     confirmButtonContent={
-                      <Trans id="user.delete-form.action.delete">
-                        Delete my Caliopen account
-                      </Trans>
+                      <Trans
+                        id="user.delete-form.action.delete"
+                        message="Delete my Caliopen account"
+                      />
                     }
                     onConfirm={handleDeleteAccount}
                     onCancel={handleCloseDeleteConfirm}
@@ -218,6 +229,6 @@ const UserProfile = ({ i18n }: Props) => {
       </Section>
     </div>
   );
-};
+}
 
 export default compose(withI18n())(UserProfile);

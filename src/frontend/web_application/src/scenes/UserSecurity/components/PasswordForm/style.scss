@@ -4,7 +4,7 @@
 .m-password-form {
   &__row {
     align-items: flex-end;
-    margin-bottom: map-get($co-form__spacing, 'large');
+    margin-bottom: map_get($co-form__spacing, 'large');
   }
 
   &__tip {
@@ -15,8 +15,9 @@
   &__action {
     line-height: $co-component__height;
   }
+
   &__strength {
-    margin-top: map-get($co-form__spacing, 'small');
+    margin-top: map_get($co-form__spacing, 'small');
   }
 
   @include breakpoint(medium) {

@@ -43,9 +43,9 @@ class ProviderIcon extends PureComponent {
         className={imageClassName}
         src={`${providerSrc}#${providerName}`}
         alt={i18n._(
-          'remote_identity.provider-logo',
+          /* i18n */ 'remote_identity.provider-logo',
           { name: capitalize(providerName) },
-          { defaults: '{name} logo' }
+          { message: '{name} logo' }
         )}
       />
     );

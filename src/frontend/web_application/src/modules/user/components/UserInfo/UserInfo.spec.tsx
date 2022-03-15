@@ -13,9 +13,14 @@ jest.mock('src/modules/user/services/isAuthenticated', () => ({
 }));
 
 // XXX: use a hook instead
-const Comp = () => (
-  <WithUser render={(user) => (user ? <UserInfo user={user} /> : 'loading')} />
-);
+function Comp() {
+  return (
+    <WithUser
+      // @ts-ignore
+      render={(user) => (user ? <UserInfo user={user} /> : 'loading')}
+    />
+  );
+}
 
 describe('component UserInfo', () => {
   const user = generateUser();

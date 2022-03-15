@@ -34,7 +34,7 @@ function ProfileInfo(): JSX.Element {
           {user && user.contact && formatName({ contact, format })}
         </h4>
         <p>
-          <Trans id="user.profile.subscribed_date">Subscribed on</Trans>{' '}
+          <Trans id="user.profile.subscribed_date" message="Subscribed on" />{' '}
           {user && (
             <Moment
               className="m-user-profile-details__subscribed-date"
@@ -52,7 +52,7 @@ function ProfileInfo(): JSX.Element {
                 <div className="m-user-profile-details__rank-badge" />
                 <div className="m-user-profile-details__rank-info">
                   <h4 className="m-user-profile-details__rank-title">fake rank</h4>
-                  <Link to=""><Trans id="user.action.improve_rank">Improve your rank</Trans></Link>
+                  <Link to=""><Trans id="user.action.improve_rank" message="Improve your rank" /></Link>
                 </div>
               </div>
               */}

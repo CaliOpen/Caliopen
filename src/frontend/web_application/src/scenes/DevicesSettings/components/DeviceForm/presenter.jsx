@@ -86,7 +86,7 @@ class DeviceForm extends Component {
   //
   //   const { i18n } = this.props;
   //
-  //   return { isValid: false, errors: [i18n._('device.feedback.invalid_ip', null, { defaults: 'IP
+  //   return { isValid: false, errors: [i18n._(/* i18n */ 'device.feedback.invalid_ip', null, { message: 'IP
   //   or subnet address is invalid.' })] };
   // }
 
@@ -100,9 +100,10 @@ class DeviceForm extends Component {
       });
       notifySuccess({
         message: (
-          <Trans id="device.feedback.save_success">
-            The device has been saved
-          </Trans>
+          <Trans
+            id="device.feedback.save_success"
+            message="The device has been saved"
+          />
         ),
       });
     } catch (errors) {
@@ -115,33 +116,41 @@ class DeviceForm extends Component {
     const deviceTypes = [
       {
         value: 'desktop',
-        label: i18n._('device.type.desktop', null, { defaults: 'Desktop' }),
+        label: i18n._(/* i18n */ 'device.type.desktop', null, {
+          message: 'Desktop',
+        }),
       },
       {
         value: 'laptop',
-        label: i18n._('device.type.laptop', null, { defaults: 'Laptop' }),
+        label: i18n._(/* i18n */ 'device.type.laptop', null, {
+          message: 'Laptop',
+        }),
       },
       {
         value: 'smartphone',
-        label: i18n._('device.type.smartphone', null, {
-          defaults: 'Smartphone',
+        label: i18n._(/* i18n */ 'device.type.smartphone', null, {
+          message: 'Smartphone',
         }),
       },
       {
         value: 'tablet',
-        label: i18n._('device.type.tablet', null, { defaults: 'Tablet' }),
+        label: i18n._(/* i18n */ 'device.type.tablet', null, {
+          message: 'Tablet',
+        }),
       },
       {
         value: 'other',
-        label: i18n._('device.type.other', null, { defaults: 'Other' }),
+        label: i18n._(/* i18n */ 'device.type.other', null, {
+          message: 'Other',
+        }),
       },
     ];
     // const locationTypes = [
-    //   { label: i18n._('device.location.type.unknown', null, { defaults: 'Unknown' }), value:
+    //   { label: i18n._(/* i18n */ 'device.location.type.unknown', null, { message: 'Unknown' }), value:
     //   'unknown' },
-    //   { label: i18n._('device.location.type.home', null, { defaults: 'Home' }), value: 'home' },
-    //   { label: i18n._('device.location.type.work', null, { defaults: 'Work' }), value: 'work' },
-    //   { label: i18n._('device.location.type.public', null, { defaults: 'Public' }), value:
+    //   { label: i18n._(/* i18n */ 'device.location.type.home', null, { message: 'Home' }), value: 'home' },
+    //   { label: i18n._(/* i18n */ 'device.location.type.work', null, { message: 'Work' }), value: 'work' },
+    //   { label: i18n._(/* i18n */ 'device.location.type.public', null, { message: 'Public' }), value:
     //   'public' },
     // ];
     // const defaultLocation = { address: '', type: locationTypes[0].value };
@@ -162,7 +171,7 @@ class DeviceForm extends Component {
     //       <TextFieldGroup
     //         showLabelforSr
     //         name="address"
-    //         label={i18n._('device.form.locations.address.label', null, { defaults: 'IP or subnet
+    //         label={i18n._(/* i18n */ 'device.form.locations.address.label', null, { message: 'IP or subnet
     //         mask' })}
     //         value={location.address}
     //         onChange={handleChange}
@@ -171,7 +180,7 @@ class DeviceForm extends Component {
     //       <SelectFieldGroup
     //         showLabelforSr
     //         name="type"
-    //         label={i18n._('device.form.locations.type.label', null, { defaults: 'Connection
+    //         label={i18n._(/* i18n */ 'device.form.locations.type.label', null, { message: 'Connection
     //         location' })}
     //         value={location.type}
     //         options={locationTypes}
@@ -188,9 +197,13 @@ class DeviceForm extends Component {
           <FormRow>
             <FormColumn bottomSpace rightSpace={false}>
               <TextFieldGroup
-                label={i18n._('device.manage_form.name.label', null, {
-                  defaults: 'Name:',
-                })}
+                label={i18n._(
+                  /* i18n */ 'device.manage_form.name.label',
+                  null,
+                  {
+                    message: 'Name:',
+                  }
+                )}
                 id="device-name"
                 inputProps={{
                   name: 'name',
@@ -222,9 +235,13 @@ class DeviceForm extends Component {
             <FormColumn rightSpace={false} bottomSpace>
               <SelectFieldGroup
                 className="m-device-form__type"
-                label={i18n._('device.manage_form.type.label', null, {
-                  defaults: 'Type:',
-                })}
+                label={i18n._(
+                  /* i18n */ 'device.manage_form.type.label',
+                  null,
+                  {
+                    message: 'Type:',
+                  }
+                )}
                 name="type"
                 id="device-type"
                 value={this.state.device.type}
@@ -237,9 +254,10 @@ class DeviceForm extends Component {
           <FormRow>
             <FormColumn>
               <Button shape="plain" type="submit">
-                <Trans id="device.action.save_changes">
-                  Save modifications
-                </Trans>
+                <Trans
+                  id="device.action.save_changes"
+                  message="Save modifications"
+                />
               </Button>
             </FormColumn>
           </FormRow>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { calcPolygonPoints, calcGridCoordinates } from '../../services/svg';
 import './style.scss';
 
-const Grid = ({ axeLength }) => {
+function Grid({ axeLength }) {
   const { axeCoordinates, outlinePoints } = calcGridCoordinates({ axeLength });
 
   return (
@@ -25,26 +25,26 @@ const Grid = ({ axeLength }) => {
       ))}
     </g>
   );
-};
+}
 
 Grid.propTypes = {
   axeLength: PropTypes.number.isRequired,
 };
 
-const Polygon = ({ pi, axeLength }) => {
+function Polygon({ pi, axeLength }) {
   const polygonPoints = calcPolygonPoints({ pi, axeLength });
 
   return (
     <polygon className="m-pi-graph__shape" points={polygonPoints.join(' ')} />
   );
-};
+}
 
 Polygon.propTypes = {
   pi: PropTypes.shape({}).isRequired,
   axeLength: PropTypes.number.isRequired,
 };
 
-const PiGraph = ({ pi, gridWidth }) => {
+function PiGraph({ pi, gridWidth }) {
   const viewBox = [0, 0, gridWidth, gridWidth * 0.85]; // 0.85 ratio to avoid margin under PiGraph
   const axeLength = gridWidth / 2;
 
@@ -59,7 +59,7 @@ const PiGraph = ({ pi, gridWidth }) => {
       <Grid axeLength={axeLength} />
     </svg>
   );
-};
+}
 
 PiGraph.propTypes = {
   pi: PropTypes.shape({}).isRequired,

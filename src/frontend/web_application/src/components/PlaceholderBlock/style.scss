@@ -3,6 +3,7 @@
 
 .m-placeholder-block {
   $baseName: &;
+
   height: $co-component__height;
   border-radius: $co-radius;
   background-color: $co-color__fg__back--lower;
@@ -28,6 +29,7 @@
 
   &--avatar {
     @include m-avatar--size(medium);
+
     border-radius: 50%;
 
     &#{$baseName}--large {

@@ -68,7 +68,7 @@ class ValidateDevice extends Component {
             borderContext="disabled"
           >
             <Spinner svgTitleId="device-verification-spinner" isLoading />{' '}
-            <Trans id="device.validation.in_progress">In progress.</Trans>
+            <Trans id="device.validation.in_progress" message="In progress." />
           </Section>
         );
       case STATUS_SUCCEED:
@@ -76,7 +76,7 @@ class ValidateDevice extends Component {
           <Section className="s-validate-device__feedback" borderContext="safe">
             <Trans
               id="device.validation.suceed"
-              defaults="The device is now verified, you can continue to use <0>Caliopen</0>"
+              message="The device is now verified, you can continue to use <0>Caliopen</0>"
               components={[<Link to="/" />]}
             />
           </Section>
@@ -89,7 +89,7 @@ class ValidateDevice extends Component {
           >
             <Trans
               id="device.validation.failed"
-              defaults={`
+              message={`
               The device cannot be verified, the validation link might not be
               valid anymore or may be the device has been revoked.
               <0 />

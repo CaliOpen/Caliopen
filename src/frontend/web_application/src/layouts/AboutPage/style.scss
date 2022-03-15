@@ -36,12 +36,14 @@ $l-auth-page__header-space: (
 
     @include breakpoint(medium) {
       @include flex-grid-column;
+
       text-align: center;
     }
   }
 
   &__footer-brand {
     vertical-align: middle;
+
     // XXX .m-brand forces width 100%
     width: initial !important;
     height: $co-component__height - 1rem;

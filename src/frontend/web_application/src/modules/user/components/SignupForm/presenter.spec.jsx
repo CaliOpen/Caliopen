@@ -3,13 +3,22 @@ import { shallow } from 'enzyme';
 import Presenter from './presenter';
 
 jest.mock('../../../../modules/routing', () => ({
-  withPush: () => (C) => (props) => <C {...props} />,
+  withPush: () => (C) =>
+    function (props) {
+      return <C {...props} />;
+    },
 }));
 jest.mock('../../../../modules/device', () => ({
-  withDevice: () => (C) => (props) => <C {...props} />,
+  withDevice: () => (C) =>
+    function (props) {
+      return <C {...props} />;
+    },
 }));
 jest.mock('../../../../modules/settings/hoc/withSettings', () => {
-  const withSettings = () => (C) => (props) => <C {...props} />;
+  const withSettings = () => (C) =>
+    function (props) {
+      return <C {...props} />;
+    };
 
   return withSettings;
 });

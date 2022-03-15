@@ -11,14 +11,14 @@ interface FormColumnProps extends React.HTMLAttributes<HTMLDivElement> {
   fluid?: boolean;
   rightSpace?: boolean;
 }
-export const FormColumn = ({
+export function FormColumn({
   className,
   bottomSpace,
   size,
   fluid,
   rightSpace = true, // --right-space style is default for FormColumn
   ...props
-}: FormColumnProps) => {
+}: FormColumnProps) {
   const colClassName = classnames(
     'm-form-grid__column',
     {
@@ -34,14 +34,14 @@ export const FormColumn = ({
   );
 
   return <div className={colClassName} {...props} />;
-};
+}
 
 interface FormRowProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
   reverse?: boolean;
 }
 
-export const FormRow = ({ className, reverse, ...props }: FormRowProps) => {
+export function FormRow({ className, reverse, ...props }: FormRowProps) {
   const rowClassName = classnames(
     'm-form-grid__row',
     {
@@ -51,15 +51,15 @@ export const FormRow = ({ className, reverse, ...props }: FormRowProps) => {
   );
 
   return <div className={rowClassName} {...props} />;
-};
+}
 
 interface FormGridProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
   reverse?: boolean;
 }
 
-const FormGrid = ({ className, ...props }: FormGridProps) => (
-  <div className={classnames('m-form-grid', className)} {...props} />
-);
+function FormGrid({ className, ...props }: FormGridProps) {
+  return <div className={classnames('m-form-grid', className)} {...props} />;
+}
 
 export default FormGrid;

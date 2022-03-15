@@ -12,6 +12,7 @@
   &__col-button {
     @include flex-grid-size(shrink);
   }
+
   &__button {
     margin-left: map_get($co-form__spacing, 'medium');
   }

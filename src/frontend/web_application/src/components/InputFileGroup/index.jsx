@@ -72,8 +72,8 @@ class InputFileGroup extends Component {
 
     if (!file) {
       return Promise.reject(
-        i18n._('input-file-group.error.file_is_required', null, {
-          defaults: 'A file is required',
+        i18n._(/* i18n */ 'input-file-group.error.file_is_required', null, {
+          message: 'A file is required',
         })
       );
     }
@@ -89,9 +89,13 @@ class InputFileGroup extends Component {
 
     if (maxSize && file.size > maxSize) {
       errors.push(
-        <Trans id="input-file-group.error.max_size">
-          The file size must be under <FileSize size={maxSize} />
-        </Trans>
+        <Trans
+          id="input-file-group.error.max_size"
+          message="The file size must be under {filesize}"
+          values={{
+            filesize: <FileSize size={maxSize} />,
+          }}
+        />
       );
     }
 

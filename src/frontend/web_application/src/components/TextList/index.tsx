@@ -6,9 +6,9 @@ import './style.scss';
 interface Props extends React.ComponentProps<'ul'> {
   className?: string;
 }
-const TextList = ({ className, ...props }: Props): JSX.Element => (
-  <ul className={classnames('m-text-list', className)} {...props} />
-);
+function TextList({ className, ...props }: Props): JSX.Element {
+  return <ul className={classnames('m-text-list', className)} {...props} />;
+}
 
 export { TextItem };
 

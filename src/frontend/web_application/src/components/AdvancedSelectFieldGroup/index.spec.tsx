@@ -3,7 +3,7 @@ import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AdvancedSelectFieldGroup from '.';
 
-const Comp = () => {
+function Comp() {
   const [val, setVal] = React.useState(undefined);
   const props = {
     selectId: 'test-select',
@@ -21,7 +21,7 @@ const Comp = () => {
   };
 
   return <AdvancedSelectFieldGroup {...props} />;
-};
+}
 describe('component AdvancedSelectFieldGroup', () => {
   // XXX: dropdown event listener make it hard to test
   it.skip('should render', async () => {

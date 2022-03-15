@@ -48,11 +48,12 @@ function IdentitySelector({
       <AdvancedSelectFieldGroup
         selectId="identity-select"
         dropdownId="identity-select-dropdown"
-        label={<Trans id="draft-message.form.identity.label">From:</Trans>}
+        label={<Trans id="draft-message.form.identity.label" message="From:" />}
         placeholder={
-          <Trans id="draft-message.form.identity.placeholder">
-            What&apos;s your identity ?
-          </Trans>
+          <Trans
+            id="draft-message.form.identity.placeholder"
+            message="What's your identity ?"
+          />
         }
         onChange={handleChange}
         value={identityId}

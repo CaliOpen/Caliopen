@@ -5,16 +5,20 @@
   &__action {
     line-height: $co-component__height;
   }
+
   &__link {
     text-align: center;
   }
+
   &__login-safe {
-    background-color: map-get($context-palette, 'safe');
+    background-color: map_get($context-palette, 'safe');
   }
+
   &__login-public {
-    background-color: map-get($context-palette, 'public');
+    background-color: map_get($context-palette, 'public');
   }
+
   &__login-unsecure {
-    background-color: map-get($context-palette, 'unsecure');
+    background-color: map_get($context-palette, 'unsecure');
   }
 }

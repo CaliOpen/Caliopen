@@ -1,6 +1,6 @@
 @import '../../../../../../styles/common';
 @import '../../../../../../styles/object/o-navigation';
-@import '../../../../../../styles/object/o-pi-border.scss';
+@import '../../../../../../styles/object/o-pi-border';
 
 .m-tab {
   border-top: $pi-border__size solid $pi-border__color;
@@ -11,10 +11,10 @@
     &::before {
       display: inline-block;
       vertical-align: middle;
-      width: $co-component__height/1.5;
-      height: $co-component__height/1.5;
-      border-radius: $co-component__height / 3;
-      line-height: $co-component__height / 1.5;
+      width: calc($co-component__height / 1.5);
+      height: calc($co-component__height / 1.5);
+      border-radius: calc($co-component__height / 3);
+      line-height: calc($co-component__height / 1.5);
       text-align: center;
     }
   }

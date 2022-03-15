@@ -1,12 +1,13 @@
 @import '../../../../styles/common';
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
-@import '../../../../styles/object/o-pi-border.scss';
+@import '../../../../styles/object/o-pi-border';
 
 $navbar-item-height: 2.75rem + (rem_calc($pi-border__size) * 2); // $m-navbar-item-height
 
 // XXX: may be move to a layout component (do not forget that it can be recursive)
 .m-action-bar-wrapper {
   background-color: $co-color__fg__back;
+
   &--sticky {
     position: fixed;
     top: $navbar-item-height;

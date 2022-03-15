@@ -17,8 +17,8 @@ $l-error-boundary__header-space: (
   }
 
   &__header {
-    padding-top: map-get($l-error-boundary__header-space, top);
-    padding-bottom: map-get($l-error-boundary__header-space, bottom);
+    padding-top: map_get($l-error-boundary__header-space, top);
+    padding-bottom: map_get($l-error-boundary__header-space, bottom);
     text-align: center;
   }
 

@@ -44,9 +44,13 @@ class ImportContact extends Component {
     this.setState({ hasImported: true }, () => {
       const { onUploadSuccess, notifySuccess, i18n } = this.props;
       notifySuccess({
-        message: i18n._('import-contact.feedback.successfull', null, {
-          defaults: 'Contacts successfully imported',
-        }),
+        message: i18n._(
+          /* i18n */ 'import-contact.feedback.successfull',
+          null,
+          {
+            message: 'Contacts successfully imported',
+          }
+        ),
         duration: 0,
       });
       onUploadSuccess();
@@ -58,8 +62,8 @@ class ImportContact extends Component {
 
     if (response.status === 400) {
       return notifyError({
-        message: i18n._('import-contact.feedback.error-file', null, {
-          defaults: 'This file cannot be used to import contacts',
+        message: i18n._(/* i18n */ 'import-contact.feedback.error-file', null, {
+          message: 'This file cannot be used to import contacts',
         }),
         duration: 0,
       });
@@ -67,17 +71,25 @@ class ImportContact extends Component {
 
     if (response.status === 422) {
       return notifyError({
-        message: i18n._('import-contact.feedback.error-contact', null, {
-          defaults: 'The file is valid but new contacts cannot be created',
-        }),
+        message: i18n._(
+          /* i18n */ 'import-contact.feedback.error-contact',
+          null,
+          {
+            message: 'The file is valid but new contacts cannot be created',
+          }
+        ),
         duration: 0,
       });
     }
 
     return notifyError({
-      message: i18n._('import-contact.feedback.unexpected-error', null, {
-        defaults: 'An unexpected error occured.',
-      }),
+      message: i18n._(
+        /* i18n */ 'import-contact.feedback.unexpected-error',
+        null,
+        {
+          message: 'An unexpected error occured.',
+        }
+      ),
       duration: 0,
     });
   };

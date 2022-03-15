@@ -82,7 +82,7 @@ export default function Recipients({
 
   return (
     <div>
-      <Trans id="messages.compose.form.to.label">To:</Trans>{' '}
+      <Trans id="messages.compose.form.to.label" message="To:" />{' '}
       {draftMessage.recipients.map((recipient) => (
         <span key={`${recipient.address}_${recipient.protocol}`}>
           {/* @ts-ignore */}

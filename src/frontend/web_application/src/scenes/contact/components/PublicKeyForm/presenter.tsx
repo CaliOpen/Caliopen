@@ -74,7 +74,10 @@ class PublicKeyForm extends React.PureComponent {
               <FormColumn bottomSpace>
                 <Legend>
                   <Icon rightSpaced type="key" />
-                  <Trans id="contact.public_key_form.legend">Public Key</Trans>
+                  <Trans
+                    id="contact.public_key_form.legend"
+                    message="Public Key"
+                  />
                 </Legend>
               </FormColumn>
               {errors.length > 0 && (
@@ -88,9 +91,13 @@ class PublicKeyForm extends React.PureComponent {
                 <Field
                   component={TextFieldGroup}
                   name="label"
-                  label={i18n._('contact.public_key_form.label.label', null, {
-                    defaults: 'Key label',
-                  })}
+                  label={i18n._(
+                    /* i18n */ 'contact.public_key_form.label.label',
+                    null,
+                    {
+                      message: 'Key label',
+                    }
+                  )}
                   required
                   accept="application/x-pgp"
                 />
@@ -101,9 +108,13 @@ class PublicKeyForm extends React.PureComponent {
                 <Field
                   component={ReduxedInputFileGroup}
                   fileAsContent
-                  label={i18n._('contact.public_key_form.key.label', null, {
-                    defaults: 'Key (ascii armored)',
-                  })}
+                  label={i18n._(
+                    /* i18n */ 'contact.public_key_form.key.label',
+                    null,
+                    {
+                      message: 'Key (ascii armored)',
+                    }
+                  )}
                   maxSize={getMaxSize()}
                   name="key"
                   required={publicKey === undefined}
@@ -123,18 +134,18 @@ class PublicKeyForm extends React.PureComponent {
                   <Confirm
                     onConfirm={this.handleDelete}
                     title={i18n._(
-                      'contact.public_key_form.confirm_delete.title',
+                      /* i18n */ 'contact.public_key_form.confirm_delete.title',
                       null,
-                      { defaults: 'Delete public key' }
+                      { message: 'Delete public key' }
                     )}
                     content={i18n._(
-                      'contact.public_key_form.confirm_delete.content',
+                      /* i18n */ 'contact.public_key_form.confirm_delete.content',
                       {
                         label: publicKey.label,
                         fingerprint: publicKey.fingerprint,
                       },
                       {
-                        defaults:
+                        message:
                           'Are you sure you want to delete the key "{label} - {fingerprint}" ? This action cannot be undone.',
                       }
                     )}
@@ -146,9 +157,10 @@ class PublicKeyForm extends React.PureComponent {
                         icon="remove"
                         onClick={confirm}
                       >
-                        <Trans id="contact.public_key_form.delete_key">
-                          Delete Key
-                        </Trans>
+                        <Trans
+                          id="contact.public_key_form.delete_key"
+                          message="Delete Key"
+                        />
                       </Button>
                     )}
                   />
@@ -158,7 +170,7 @@ class PublicKeyForm extends React.PureComponent {
                   className="m-public-key-form__button-cancel"
                   onClick={onCancel}
                 >
-                  <Trans id="contact.public_key_form.cancel">Cancel</Trans>
+                  <Trans id="contact.public_key_form.cancel" message="Cancel" />
                 </Button>
                 <Button
                   type="submit"
@@ -166,7 +178,10 @@ class PublicKeyForm extends React.PureComponent {
                   shape="plain"
                   className="m-public-key-form__button-validate"
                 >
-                  <Trans id="contact.public_key_form.validate">Validate</Trans>
+                  <Trans
+                    id="contact.public_key_form.validate"
+                    message="Validate"
+                  />
                 </Button>
               </FormColumn>
             </FormRow>

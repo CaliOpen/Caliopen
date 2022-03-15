@@ -5,15 +5,18 @@ $co-checkbox-size: 14px;
 
 .m-checkbox {
   @include flex-grid-row;
+
   align-items: center;
 
   &__label {
     @include flex-grid-column(shrink);
+
     cursor: pointer;
   }
 
   &__input {
     @include flex-grid-size(shrink);
+
     width: $co-checkbox-size;
     height: $co-checkbox-size;
     border: 1px solid $co-color__primary;

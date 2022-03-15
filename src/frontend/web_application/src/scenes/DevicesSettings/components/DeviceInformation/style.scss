@@ -3,11 +3,13 @@
 
 .m-device-information {
   @include flex-grid-row($size: expand);
+
   margin-bottom: $co-margin;
 
   &__icon {
     @include flex-grid-size(shrink);
-    padding-right: $co-margin / 2;
+
+    padding-right: calc($co-margin / 2);
     color: $co-color__primary;
     font-size: $co-component__height;
     line-height: $co-component__height;
@@ -23,6 +25,7 @@
 
   &__current-device {
     @include flex-grid-size(shrink);
+
     padding-right: $co-component__spacing;
     color: $co-color__primary;
     font-weight: 700;
@@ -30,12 +33,14 @@
 
   &__name {
     @include flex-grid-size(shrink);
+
     color: $co-color__primary--lower;
     font-weight: 700;
   }
 
   &__status {
     @include flex-grid-size(shrink);
+
     margin-left: auto;
     font-size: $co-font__size--xsmall;
     font-weight: 400;

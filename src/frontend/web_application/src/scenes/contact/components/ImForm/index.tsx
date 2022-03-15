@@ -21,13 +21,17 @@ const IM_TYPES = ['', 'work', 'home', 'other', 'netmeeting'];
 
 function ImForm({ i18n, name, onDelete }: ItemProps & withI18nProps) {
   const addressTypes = {
-    work: i18n._('contact.im_type.work', undefined, {
-      defaults: 'Professional',
+    work: i18n._(/* i18n */ 'contact.im_type.work', undefined, {
+      message: 'Professional',
     }),
-    home: i18n._('contact.im_type.home', undefined, { defaults: 'Personal' }),
-    other: i18n._('contact.im_type.other', undefined, { defaults: 'Other' }),
-    netmeeting: i18n._('contact.im_type.netmeeting', undefined, {
-      defaults: 'Netmeeting',
+    home: i18n._(/* i18n */ 'contact.im_type.home', undefined, {
+      message: 'Personal',
+    }),
+    other: i18n._(/* i18n */ 'contact.im_type.other', undefined, {
+      message: 'Other',
+    }),
+    netmeeting: i18n._(/* i18n */ 'contact.im_type.netmeeting', undefined, {
+      message: 'Netmeeting',
     }),
   };
 
@@ -44,7 +48,10 @@ function ImForm({ i18n, name, onDelete }: ItemProps & withI18nProps) {
             <Legend>
               <Icon type="comment" rightSpaced />
               <span className="m-im-form__legend">
-                <Trans id="contact.im_form.legend">Instant messaging</Trans>
+                <Trans
+                  id="contact.im_form.legend"
+                  message="Instant messaging"
+                />
               </span>
             </Legend>
           </FormColumn>
@@ -52,9 +59,13 @@ function ImForm({ i18n, name, onDelete }: ItemProps & withI18nProps) {
             <Field
               component={FormikSelectFieldGroup}
               name={`${name}.type`}
-              label={i18n._('contact.im_form.type.label', undefined, {
-                defaults: 'Type',
-              })}
+              label={i18n._(
+                /* i18n */ 'contact.im_form.type.label',
+                undefined,
+                {
+                  message: 'Type',
+                }
+              )}
               showLabelforSr
               options={addressTypeOptions}
             />
@@ -65,15 +76,19 @@ function ImForm({ i18n, name, onDelete }: ItemProps & withI18nProps) {
               component={FormikTextFieldGroup}
               name={`${name}.address`}
               validate={validateRequired(i18n)}
-              label={i18n._('contact.im_form.address.label', undefined, {
-                defaults: 'Address',
-              })}
+              label={i18n._(
+                /* i18n */ 'contact.im_form.address.label',
+                undefined,
+                {
+                  message: 'Address',
+                }
+              )}
               inputProps={{
                 placeholder: i18n._(
-                  'contact.im_form.address.placeholder',
+                  /* i18n */ 'contact.im_form.address.placeholder',
                   undefined,
                   {
-                    defaults: 'Address',
+                    message: 'Address',
                   }
                 ),
                 expanded: true,

@@ -40,6 +40,7 @@ export default function App({
                         )}
                       />
                     </DeviceProvider>
+                    {/* @ts-ignore */}
                     <NotificationProvider />
                   </RoutingProvider>
                 </ErrorBoundary>

@@ -126,11 +126,15 @@ class AttachmentManager extends Component {
     return (
       <Modal
         isOpen={this.state.isImportModalOpen}
-        contentLabel={i18n._('draft.action.import_attachement', null, {
-          defaults: 'Import attachement',
-        })}
-        title={i18n._('draft.action.import_attachement', null, {
-          defaults: 'Import attachement',
+        contentLabel={i18n._(
+          /* i18n */ 'draft.action.import_attachement',
+          null,
+          {
+            message: 'Import attachement',
+          }
+        )}
+        title={i18n._(/* i18n */ 'draft.action.import_attachement', null, {
+          message: 'Import attachement',
         })}
         onClose={this.handleCloseImportModal}
       >
@@ -146,8 +150,8 @@ class AttachmentManager extends Component {
         <InputFileGroup
           onInputChange={this.handleInputFileChange}
           errors={errors}
-          descr={i18n._('draft.attachement.form.descr', null, {
-            defaults: 'Attach a file.',
+          descr={i18n._(/* i18n */ 'draft.attachement.form.descr', null, {
+            message: 'Attach a file.',
           })}
           maxSize={getMaxSize()}
           multiple={false} // disable multiple due to issue in api cf. #840
@@ -194,9 +198,10 @@ class AttachmentManager extends Component {
                   )
                 }
                 aria-label={i18n._(
+                  /* i18n */
                   'message.compose.action.delete_attachement',
                   null,
-                  { defaults: 'Delete the attachment' }
+                  { message: 'Delete the attachment' }
                 )}
               />
             </li>
@@ -218,9 +223,10 @@ class AttachmentManager extends Component {
           }
           disabled={disabled}
         >
-          <Trans id="message.compose.action.open_import_attachements">
-            Add an attachement
-          </Trans>
+          <Trans
+            id="message.compose.action.open_import_attachements"
+            message="Add an attachement"
+          />
         </Button>
         {this.renderImportModal()}
       </div>

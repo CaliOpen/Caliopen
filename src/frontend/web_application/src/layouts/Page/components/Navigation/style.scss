@@ -1,4 +1,4 @@
-@import '../../../../styles/object/o-pi-border.scss';
+@import '../../../../styles/object/o-pi-border';
 
 .l-navigation {
   margin-bottom: $pi-border__size * -1;
@@ -20,6 +20,7 @@
       display: inline-block;
     }
   }
+
   &__compose-btn {
     padding: 0 0.5rem;
     color: white;

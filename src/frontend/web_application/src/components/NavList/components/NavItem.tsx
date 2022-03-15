@@ -7,12 +7,12 @@ interface Props {
   large?: boolean;
   children?: React.ReactNode;
 }
-const NavItem = ({
+function NavItem({
   className,
   active = false,
   large = false,
   ...props
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const itemClassName = classnames(
     'm-nav-list__item',
     {
@@ -23,6 +23,6 @@ const NavItem = ({
   );
 
   return <li className={itemClassName} {...props} />;
-};
+}
 
 export default NavItem;

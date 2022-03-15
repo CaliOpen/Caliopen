@@ -53,7 +53,7 @@ class ImportContactForm extends Component {
             shape="hollow"
             onClick={onCancel}
           >
-            <Trans id="general.action.cancel">Cancel</Trans>
+            <Trans id="general.action.cancel" message="Cancel" />
           </Button>
         )}
 
@@ -75,7 +75,7 @@ class ImportContactForm extends Component {
             }
             disabled={isLoading}
           >
-            <Trans id="import-contact.action.import">Import</Trans>
+            <Trans id="import-contact.action.import" message="Import" />
           </Button>
         )}
 
@@ -85,7 +85,7 @@ class ImportContactForm extends Component {
             shape="plain"
             onClick={onCancel}
           >
-            <Trans id="import-contact.form.button.close">Close</Trans>
+            <Trans id="import-contact.form.button.close" message="Close" />
           </Button>
         )}
       </div>
@@ -106,17 +106,18 @@ class ImportContactForm extends Component {
           <InputFileGroup
             onInputChange={this.handleInputFileChange}
             errors={errors}
-            descr={i18n._('import-contact.form.descr', null, {
-              defaults: 'You can import one .vcf or .vcard file.',
+            descr={i18n._(/* i18n */ 'import-contact.form.descr', null, {
+              message: 'You can import one .vcf or .vcard file.',
             })}
             fileTypes={VALID_EXT}
             maxSize={getMaxSize()}
           />
         ) : (
           <p>
-            <Trans id="import-contact.form.success">
-              Successfuly imported !
-            </Trans>
+            <Trans
+              id="import-contact.form.success"
+              message="Successfuly imported !"
+            />
           </p>
         )}
         {this.renderButtons()}

@@ -2,8 +2,8 @@
 
 .m-field-errors {
   list-style: none;
-  padding-top: map-get($co-form__spacing, 'xsmall');
-  color: map-get($caliopen-palette, 'alert');
+  padding-top: map_get($co-form__spacing, 'xsmall');
+  color: map_get($caliopen-palette, 'alert');
   font-size: $co-font__size--xsmall;
   font-weight: 700;
 }

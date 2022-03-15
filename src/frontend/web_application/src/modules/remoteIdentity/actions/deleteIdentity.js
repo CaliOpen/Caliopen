@@ -4,10 +4,12 @@ import {
 } from '../../../store/modules/remote-identity';
 import { tryCatchAxiosAction } from '../../../services/api-client';
 
-export const deleteIdentity = ({ identity }) => async (dispatch) => {
-  await tryCatchAxiosAction(() =>
-    dispatch(deleteRemoteIdentityBase({ remoteIdentity: identity }))
-  );
+export const deleteIdentity =
+  ({ identity }) =>
+  async (dispatch) => {
+    await tryCatchAxiosAction(() =>
+      dispatch(deleteRemoteIdentityBase({ remoteIdentity: identity }))
+    );
 
-  return dispatch(removeFromCollection({ remoteIdentity: identity }));
-};
+    return dispatch(removeFromCollection({ remoteIdentity: identity }));
+  };

@@ -2,6 +2,7 @@
 
 .m-contact-result-item {
   @include flex-grid-row($size: expanded);
+
   align-items: center;
   min-height: $co-component__height;
   padding-top: $co-component__spacing;
@@ -25,6 +26,7 @@
 
   &__col-title {
     @include flex-grid-size(shrink);
+
     color: $co-color__primary--lower;
     font-size: $co-font__size;
     font-weight: 600;

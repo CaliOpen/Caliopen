@@ -17,7 +17,7 @@ $m-app-loader__header-space: (
   }
 
   &__header {
-    padding-bottom: map-get($m-app-loader__header-space, bottom);
+    padding-bottom: map_get($m-app-loader__header-space, bottom);
     text-align: center;
   }
 

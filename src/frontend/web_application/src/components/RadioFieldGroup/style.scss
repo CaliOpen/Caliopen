@@ -6,6 +6,7 @@ $co-radio-size: 14px;
 .m-radio-field-group {
   &__entry {
     @include flex-grid-row;
+
     align-items: center;
 
     & > .m-radio-field-group__entry {
@@ -15,11 +16,13 @@ $co-radio-size: 14px;
 
   &__label {
     @include flex-grid-column(shrink);
+
     cursor: pointer;
   }
 
   &__input {
     @include flex-grid-size(shrink);
+
     width: $co-radio-size;
     height: $co-radio-size;
     appearance: none;
@@ -28,7 +31,7 @@ $co-radio-size: 14px;
     background: $co-color__fg__back;
     cursor: pointer;
 
-    &:before {
+    &::before {
       display: none;
       content: ' ';
       position: absolute;
@@ -41,7 +44,7 @@ $co-radio-size: 14px;
     &:checked {
       position: relative;
 
-      &:before {
+      &::before {
         display: block;
         top: 1px;
         bottom: 1px;

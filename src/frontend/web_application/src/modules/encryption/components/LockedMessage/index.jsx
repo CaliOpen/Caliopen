@@ -18,39 +18,47 @@ class LockedMessage extends PureComponent {
     const { encryptionStatus } = this.props;
 
     if (!encryptionStatus) {
-      return <Trans id="encryption.locked-message.status.no-detail">…</Trans>;
+      return (
+        <Trans id="encryption.locked-message.status.no-detail" message="…" />
+      );
     }
 
     switch (encryptionStatus.status) {
       case 'need_passphrase':
         return (
-          <Trans id="encryption.locked-message.status.need_passphrase">
-            Enter your passphrase to unlock.
-          </Trans>
+          <Trans
+            id="encryption.locked-message.status.need_passphrase"
+            message="Enter your passphrase to unlock."
+          />
         );
       case 'decrypting':
         return (
-          <Trans id="encryption.locked-message.status.decrypting">
-            Decryption in progress…
-          </Trans>
+          <Trans
+            id="encryption.locked-message.status.decrypting"
+            message="Decryption in progress…"
+          />
         );
       case 'need_privatekey':
         return (
-          <Trans id="encryption.locked-message.status.need_privatekey">
-            No available private key can decrypt this message.
-          </Trans>
+          <Trans
+            id="encryption.locked-message.status.need_privatekey"
+            message="No available private key can decrypt this message."
+          />
         );
       case 'error':
         return (
           <Fragment>
-            <Trans id="encryption.locked-message.status.error">
-              Error while trying to decrypt.
-            </Trans>
+            <Trans
+              id="encryption.locked-message.status.error"
+              message="Error while trying to decrypt."
+            />
             {` (${encryptionStatus.error})`}
           </Fragment>
         );
       default:
-        return <Trans id="encryption.locked-message.status.no-detail">…</Trans>;
+        return (
+          <Trans id="encryption.locked-message.status.no-detail" message="…" />
+        );
     }
   };
 
@@ -59,9 +67,10 @@ class LockedMessage extends PureComponent {
       <div className="m-encryption-locked-message">
         <div className="m-encryption-locked-message__message">
           <Icon type="lock" className="m-encryption-locked-message__icon" />
-          <Trans id="encryption.locked-message.primary-text">
-            Le contenu de ce message est chiffré.
-          </Trans>
+          <Trans
+            id="encryption.locked-message.primary-text"
+            message="Le contenu de ce message est chiffré."
+          />
           <br />
           <span className="m-encryption-locked-message__status m-encryption-locked-message__status--error">
             {this.renderStatusText()}

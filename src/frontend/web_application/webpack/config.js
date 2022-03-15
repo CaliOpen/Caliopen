@@ -4,7 +4,6 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const StyleLintPlugin = require('stylelint-webpack-plugin');
 const clientOptions = require('../config/client.default.js');
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -35,13 +34,6 @@ const configureSrcTsLoader = ({ isNode } = { isNode: false }) => {
                   {
                     loader: 'ts-loader',
                   },
-                  {
-                    loader: 'eslint-loader',
-                    options: {
-                      cache: true,
-                      failOnError: false,
-                    },
-                  },
                 ],
               },
             ]),
@@ -53,10 +45,6 @@ const configureSrcTsLoader = ({ isNode } = { isNode: false }) => {
 const configureStylesheet = () => {
   return {
     plugins: [
-      new StyleLintPlugin({
-        syntax: 'scss',
-        emitErrors: false,
-      }),
       new OptimizeCssAssetsPlugin({ canPrint: false }),
       new MiniCssExtractPlugin({
         filename: isDev ? 'client.css' : 'client.[hash].css',

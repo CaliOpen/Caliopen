@@ -6,6 +6,7 @@
     &:not(:first-child) {
       margin-left: $co-component__spacing;
     }
+
     &--push-right {
       float: right;
     }

@@ -143,7 +143,10 @@ class SearchResults extends Component {
               className="s-search-results__link"
               to={`/search-results?term=${term}&doctype=message`}
             >
-              <Trans id="search-results.actions.display-all">Display all</Trans>
+              <Trans
+                id="search-results.actions.display-all"
+                message="Display all"
+              />
             </Link>
           </div>
         )}
@@ -163,7 +166,10 @@ class SearchResults extends Component {
               className="s-search-results__link"
               to={`/search-results?term=${term}&doctype=contact`}
             >
-              <Trans id="search-results.actions.display-all">Display all</Trans>
+              <Trans
+                id="search-results.actions.display-all"
+                message="Display all"
+              />
             </Link>
           </div>
         )}
@@ -198,7 +204,7 @@ class SearchResults extends Component {
             {hasMoreByDoctype && hasMoreByDoctype.message && (
               <div className="s-search-results__load-more">
                 <Button shape="hollow" onClick={this.debouncedLoadMore}>
-                  <Trans id="general.action.load_more">Load more</Trans>
+                  <Trans id="general.action.load_more" message="Load more" />
                 </Button>
               </div>
             )}
@@ -213,7 +219,7 @@ class SearchResults extends Component {
             {hasMoreByDoctype && hasMoreByDoctype.contact && (
               <div className="s-search-results__load-more">
                 <Button shape="hollow" onClick={this.debouncedLoadMore}>
-                  <Trans id="general.action.load_more">Load more</Trans>
+                  <Trans id="general.action.load_more" message="Load more" />
                 </Button>
               </div>
             )}

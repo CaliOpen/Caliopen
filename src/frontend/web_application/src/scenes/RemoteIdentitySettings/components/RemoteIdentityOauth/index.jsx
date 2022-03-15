@@ -94,14 +94,16 @@ class RemoteIdentitOauth extends Component {
       <div>
         <Confirm
           title={
-            <Trans id="remote_identity.confirm-delete.title">
-              Delete the external account
-            </Trans>
+            <Trans
+              id="remote_identity.confirm-delete.title"
+              message="Delete the external account"
+            />
           }
           content={
-            <Trans id="remote_identity.confirm-delete.content">
-              The external account will deactivated then deleted.
-            </Trans>
+            <Trans
+              id="remote_identity.confirm-delete.content"
+              message="The external account will deactivated then deleted."
+            />
           }
           onConfirm={this.handleDelete}
           render={(confirm) => (
@@ -111,7 +113,7 @@ class RemoteIdentitOauth extends Component {
               color="alert"
               className="m-remote-identity-email__action"
             >
-              <Trans id="remote_identity.action.delete">Delete</Trans>
+              <Trans id="remote_identity.action.delete" message="Delete" />
             </Button>
           )}
         />

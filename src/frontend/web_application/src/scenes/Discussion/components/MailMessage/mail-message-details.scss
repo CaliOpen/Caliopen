@@ -3,6 +3,7 @@
 
 .m-mail-message-details {
   @include flex-grid-row($size: expand);
+
   margin-right: 1rem;
   margin-left: 1rem;
   padding-top: 0.5rem;
@@ -12,6 +13,7 @@
   &__author,
   &__recipients {
     @include flex-grid-size(12);
+
     color: #858585;
     font-size: 0.825rem;
   }
@@ -31,6 +33,7 @@
     &__author {
       @include flex-grid-size(6);
     }
+
     &__recipients {
       text-align: right;
     }

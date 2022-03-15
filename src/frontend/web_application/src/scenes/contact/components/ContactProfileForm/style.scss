@@ -7,7 +7,8 @@
   &__header,
   &__expanded-form {
     @include flex-grid-row($size: expand);
-    margin-bottom: $co-margin / 2;
+
+    margin-bottom: calc($co-margin / 2);
   }
 
   &__title {
@@ -20,7 +21,8 @@
 
   &__input {
     @include flex-grid-size(12);
-    margin-bottom: $co-margin / 2;
+
+    margin-bottom: calc($co-margin / 2);
   }
 
   &__birthday,
@@ -29,6 +31,6 @@
   }
 
   &__birthday-input {
-    margin-bottom: $co-margin / 2;
+    margin-bottom: calc($co-margin / 2);
   }
 }

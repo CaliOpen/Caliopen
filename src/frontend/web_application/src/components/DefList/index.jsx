@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import './style.scss';
 
-const DefList = ({ className, definitions }) => {
+function DefList({ className, definitions }) {
   const nodes = definitions.reduce((prev, definition) => {
     prev.push(
       <dt className="m-def-list__title" key={prev.length + 1}>
@@ -22,7 +22,7 @@ const DefList = ({ className, definitions }) => {
   }, []);
 
   return <dl className={classnames('m-def-list', className)}>{nodes}</dl>;
-};
+}
 
 DefList.propTypes = {
   className: PropTypes.string,

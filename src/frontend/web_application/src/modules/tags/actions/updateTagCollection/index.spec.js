@@ -3,11 +3,13 @@ import { getDefaultMiddleware } from '@reduxjs/toolkit';
 import { updateTagCollection } from '.';
 
 jest.mock('../createTag', () => ({
-  createTag: ({ label }) => (dispatch) => {
-    dispatch({ type: 'createTag', payload: { label } });
+  createTag:
+    ({ label }) =>
+    (dispatch) => {
+      dispatch({ type: 'createTag', payload: { label } });
 
-    return { label, name: label };
-  },
+      return { label, name: label };
+    },
 }));
 jest.mock('../requestTags', () => ({
   requestTags: () => (dispatch) => {
@@ -28,11 +30,13 @@ jest.mock('../../../../store/modules/message', () => ({
       payload: { data: { tags: [{ label: 'Foo', name: 'foo' }] } },
     });
   },
-  updateTags: ({ message, tags }) => (dispatch) => {
-    dispatch({ type: 'updateTags', payload: { message, tags } });
+  updateTags:
+    ({ message, tags }) =>
+    (dispatch) => {
+      dispatch({ type: 'updateTags', payload: { message, tags } });
 
-    return Promise.resolve({ payload: { data: { location: 'foo' } } });
-  },
+      return Promise.resolve({ payload: { data: { location: 'foo' } } });
+    },
 }));
 
 const mockStore = configureMockStore(getDefaultMiddleware());

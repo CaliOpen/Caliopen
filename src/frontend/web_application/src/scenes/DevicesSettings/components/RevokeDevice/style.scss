@@ -3,22 +3,26 @@
 
 .m-device-revoke {
   @include flex-grid-row($size: expand);
+
   align-items: center;
 
   &__info {
     @include flex-grid-size(12);
+
     padding-right: $co-component__spacing;
     color: $co-color__primary;
   }
 
   &__button {
     @include flex-grid-size(shrink);
+
     margin-top: $co-component__spacing;
   }
 
   @include breakpoint(medium) {
     &__info {
       @include flex-grid-size;
+
       text-align: right;
     }
 

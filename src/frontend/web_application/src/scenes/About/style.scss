@@ -7,6 +7,7 @@
   &__info,
   &__interactions {
     @include flex-grid-column(12);
+
     padding-top: map_get($co-margin_, small);
     padding-bottom: map_get($co-margin_, small);
 
@@ -51,6 +52,7 @@
       display: inline-block;
     }
   }
+
   &__screenshot-smartphone {
     @include breakpoint(medium) {
       display: none;
@@ -59,19 +61,21 @@
 
   &__purpose {
   }
+
   &__purpose-signup {
     margin-top: map_get($co-margin_, large);
   }
 
   &__signup-form {
     max-height: 0;
+
     // allow animation to happen, it must be higher than the actual height
     transition: $co-animation__height-transition;
     overflow: hidden;
 
     &--opened {
       max-height: 100rem;
-      padding: map-get($co-form__spacing, 'medium'); // cf. Section's padding
+      padding: map_get($co-form__spacing, 'medium'); // cf. Section's padding
     }
   }
 

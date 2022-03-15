@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  render,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { rest } from 'msw';
 import reactRouter from 'react-router-dom';
@@ -33,17 +28,19 @@ describe('EditContact', () => {
 
         return res(ctx.status(201));
       }),
-      rest.get('/api/v2/contacts/:id', async (req, res, ctx) =>
-        res(
-          ctx.json(
-            generateContact({
-              contact_id: req.params.id,
-              given_name: 'Fry',
-              family_name: '',
-            })
-          ),
-          ctx.status(200)
-        )
+      rest.get<any, { id: string }>(
+        '/api/v2/contacts/:id',
+        async (req, res, ctx) =>
+          res(
+            ctx.json(
+              generateContact({
+                contact_id: req.params.id,
+                given_name: 'Fry',
+                family_name: '',
+              })
+            ),
+            ctx.status(200)
+          )
       )
     );
 

@@ -1,9 +1,10 @@
 @import '../../styles/common';
 @import '../../styles/vendor/bootstrap_foundation-sites';
-@import '../../styles/object/o-pi-border.scss';
+@import '../../styles/object/o-pi-border';
 
 .m-action-bar {
   position: relative;
+
   // XXX: dirty fix: form elements go in front of action-bar when sticky since the position
   // attribute is also set in @o-form-element-select-wrapper
   z-index: $l-z-index__action-bar;
@@ -16,6 +17,7 @@
 
   &__loading {
     position: absolute;
+
     // XXX: see above
     z-index: $l-z-index__action-bar;
     width: 0;

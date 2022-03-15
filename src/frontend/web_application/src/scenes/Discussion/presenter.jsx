@@ -81,13 +81,8 @@ class Discussion extends Component {
   };
 
   componentDidMount() {
-    const {
-      getUser,
-      user,
-      isUserFetching,
-      requestDiscussion,
-      isFetching,
-    } = this.props;
+    const { getUser, user, isUserFetching, requestDiscussion, isFetching } =
+      this.props;
 
     if (!user && !isUserFetching) {
       getUser();
@@ -252,7 +247,7 @@ class Discussion extends Component {
     const title = (
       <Trans
         id="tags.header.title"
-        defaults="Tags <0>(Total: {nb})</0>"
+        message="Tags <0>(Total: {nb})</0>"
         values={{ nb }}
         components={[<span className="m-tags-form__count" />]}
       />
@@ -261,7 +256,9 @@ class Discussion extends Component {
     return (
       <Modal
         isOpen={this.state.isTagModalOpen}
-        contentLabel={i18n._('tags.header.label', null, { defaults: 'Tags' })}
+        contentLabel={i18n._(/* i18n */ 'tags.header.label', null, {
+          message: 'Tags',
+        })}
         title={title}
         onClose={this.handleCloseTags}
       >
@@ -296,9 +293,10 @@ class Discussion extends Component {
                       />
                     )}
                     <strong className="s-discussion-action-bar__action-label">
-                      <Trans id="discussion.action.label">
-                        Whole discussion
-                      </Trans>
+                      <Trans
+                        id="discussion.action.label"
+                        message="Whole discussion"
+                      />
                       :
                     </strong>
                     <ActionBarButton
@@ -309,7 +307,7 @@ class Discussion extends Component {
                       onClick={this.handleMessageReply}
                       responsive="icon-only"
                     >
-                      <Trans id="discussion.action.reply">Reply</Trans>
+                      <Trans id="discussion.action.reply" message="Reply" />
                     </ActionBarButton>
                     {/*
                       <ActionBarButton
@@ -385,9 +383,10 @@ class Discussion extends Component {
             }}
             badge
           >
-            <Trans id="discussion.action.goto_unread_message">
-              You have unread messages ↑
-            </Trans>
+            <Trans
+              id="discussion.action.goto_unread_message"
+              message="You have unread messages ↑"
+            />
           </Link>
         )}
         <div

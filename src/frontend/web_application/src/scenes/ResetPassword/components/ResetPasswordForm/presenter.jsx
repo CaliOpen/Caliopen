@@ -84,9 +84,9 @@ class ResetPasswordForm extends Component {
     this.setState((prevState) => {
       const { password } = prevState.formValues;
       const error = i18n._(
-        'password.form.new_password_confirmation.error',
+        /* i18n */ 'password.form.new_password_confirmation.error',
         null,
-        { defaults: "Passwords don't match" }
+        { message: "Passwords don't match" }
       );
       const passwordError = password === value ? [] : [error];
 
@@ -108,15 +108,16 @@ class ResetPasswordForm extends Component {
   renderSuccess = () => (
     <div className="m-reset-password-form__success">
       <Icon type="check" rightSpaced />
-      <Trans id="password.reset-form.success">Done!</Trans>
+      <Trans id="password.reset-form.success" message="Done!" />
     </div>
   );
 
   renderInvalid = () => (
     <div className="m-reset-password-form__error">
-      <Trans id="reset-password.form.errors.token_not_found">
-        Token is no more valid. Please retry.
-      </Trans>
+      <Trans
+        id="reset-password.form.errors.token_not_found"
+        message="Token is no more valid. Please retry."
+      />
     </div>
   );
 
@@ -155,16 +156,20 @@ class ResetPasswordForm extends Component {
                   value: this.state.formValues.password,
                   onChange: this.handlePasswordChange,
                   placeholder: i18n._(
-                    'password.form.new_password.placeholder',
+                    /* i18n */ 'password.form.new_password.placeholder',
                     null,
-                    { defaults: 'Enter new password' }
+                    { message: 'Enter new password' }
                   ),
                   required: true,
                   theme: 'contrasted',
                 }}
-                label={i18n._('password.form.new_password.label', null, {
-                  defaults: 'New password:',
-                })}
+                label={i18n._(
+                  /* i18n */ 'password.form.new_password.label',
+                  null,
+                  {
+                    message: 'New password:',
+                  }
+                )}
               />
             </FormColumn>
             {this.state.passwordStrength.length !== 0 && (
@@ -180,18 +185,18 @@ class ResetPasswordForm extends Component {
                   value: this.state.confirmPassword,
                   onChange: this.handleConfirmPasswordChange,
                   placeholder: i18n._(
-                    'password.form.new_password_confirmation.placeholder',
+                    /* i18n */ 'password.form.new_password_confirmation.placeholder',
                     null,
-                    { defaults: 'Password' }
+                    { message: 'Password' }
                   ),
                   required: true,
                   theme: 'contrasted',
                 }}
                 errors={this.state.formErrors.passwordError}
                 label={i18n._(
-                  'password.form.new_password_confirmation.label',
+                  /* i18n */ 'password.form.new_password_confirmation.label',
                   null,
-                  { defaults: 'New password confirmation:' }
+                  { message: 'New password confirmation:' }
                 )}
               />
             </FormColumn>
@@ -205,9 +210,10 @@ class ResetPasswordForm extends Component {
                 type="submit"
                 {...submitButtonProps}
               >
-                <Trans id="password.form.action.validate">
-                  Apply modifications
-                </Trans>
+                <Trans
+                  id="password.form.action.validate"
+                  message="Apply modifications"
+                />
               </Button>
             </FormColumn>
           </FormRow>
@@ -233,15 +239,15 @@ class ResetPasswordForm extends Component {
 
     return (
       <Section
-        title={i18n._('password.reset-form.title', null, {
-          defaults: 'Reset your password',
+        title={i18n._(/* i18n */ 'password.reset-form.title', null, {
+          message: 'Reset your password',
         })}
         className="m-reset-password-form"
       >
         {this.renderSection()}
         <div>
           <Link to="/auth/signin">
-            <Trans id="password.action.go_signin">Signin</Trans>
+            <Trans id="password.action.go_signin" message="Signin" />
           </Link>
         </div>
       </Section>

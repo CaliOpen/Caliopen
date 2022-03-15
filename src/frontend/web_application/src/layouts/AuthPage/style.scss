@@ -13,13 +13,13 @@ $l-auth-page__header-space: (
   background: $co-color__fg__back;
 
   &__content {
-    max-width: map-get($co-form__width, 'xlarge');
+    max-width: map_get($co-form__width, 'xlarge');
     margin: auto;
   }
 
   &__header {
-    padding-top: map-get($l-auth-page__header-space, top);
-    padding-bottom: map-get($l-auth-page__header-space, bottom);
+    padding-top: map_get($l-auth-page__header-space, top);
+    padding-bottom: map_get($l-auth-page__header-space, bottom);
     text-align: center;
   }
 

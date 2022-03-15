@@ -1,11 +1,13 @@
-import reducer, * as module from './message';
+import reducer, * as messageModule from './message';
 
 describe('ducks module message', () => {
   describe('reducer', () => {
     it('reduces SYNC_MESSAGE', () => {
       const initialState = reducer(undefined, { type: '@@INIT' });
       const message = { body: 'foo', message_id: '111', discussion_id: 'a111' };
-      expect(reducer(undefined, module.syncMessage({ message }))).toEqual({
+      expect(
+        reducer(undefined, messageModule.syncMessage({ message }))
+      ).toEqual({
         ...initialState,
         messagesById: {
           111: message,
@@ -17,7 +19,7 @@ describe('ducks module message', () => {
       const initialState = {
         ...reducer(undefined, { type: '@@INIT' }),
       };
-      const action = module.requestMessages('timeline', '0');
+      const action = messageModule.requestMessages('timeline', '0');
       expect(reducer(initialState, action)).toEqual({
         ...initialState,
         messagesCollections: {
@@ -54,7 +56,7 @@ describe('ducks module message', () => {
           },
         },
       };
-      const action = module.invalidate('timeline', '0');
+      const action = messageModule.invalidate('timeline', '0');
       expect(reducer(initialState, action).messagesCollections).toEqual({
         ...initialState.messagesCollections,
         timeline: {
@@ -111,7 +113,7 @@ describe('ducks module message', () => {
           },
         },
       };
-      const action = module.invalidateAll();
+      const action = messageModule.invalidateAll();
       expect(reducer(initialState, action).messagesCollections).toEqual({
         ...initialState.messagesCollections,
         timeline: {
@@ -156,7 +158,7 @@ describe('ducks module message', () => {
         };
         const message = { body: 'foo', message_id: 'a1', discussion_id: 'a' };
         const action = {
-          type: module.REQUEST_MESSAGES_SUCCESS,
+          type: messageModule.REQUEST_MESSAGES_SUCCESS,
           payload: {
             data: {
               total: 2,
@@ -165,7 +167,7 @@ describe('ducks module message', () => {
           },
           meta: {
             previousAction: {
-              type: module.REQUEST_MESSAGES,
+              type: messageModule.REQUEST_MESSAGES,
               payload: {
                 type: 'timeline',
                 key: '0',
@@ -219,7 +221,7 @@ describe('ducks module message', () => {
         };
         const message = { body: 'foo', message_id: 'a1', discussion_id: 'a' };
         const action = {
-          type: module.REQUEST_MESSAGES_SUCCESS,
+          type: messageModule.REQUEST_MESSAGES_SUCCESS,
           payload: {
             data: {
               total: 1,
@@ -228,7 +230,7 @@ describe('ducks module message', () => {
           },
           meta: {
             previousAction: {
-              type: module.REQUEST_MESSAGES,
+              type: messageModule.REQUEST_MESSAGES,
               payload: {
                 type: 'timeline',
                 key: '0',
@@ -271,7 +273,7 @@ describe('ducks module message', () => {
         };
         const message = { body: 'foo', message_id: 'a1', discussion_id: 'a' };
         const action = {
-          type: module.REQUEST_MESSAGE_SUCCESS,
+          type: messageModule.REQUEST_MESSAGE_SUCCESS,
           payload: {
             data: message,
           },
@@ -289,19 +291,25 @@ describe('ducks module message', () => {
 
   describe('hasMore', () => {
     it('return true', () => {
-      expect(module.hasMore({ messages: ['a1'], total: 2 })).toEqual(true);
+      expect(messageModule.hasMore({ messages: ['a1'], total: 2 })).toEqual(
+        true
+      );
     });
     it('return false', () => {
-      expect(module.hasMore({ messages: ['a1'], total: 1 })).toEqual(false);
+      expect(messageModule.hasMore({ messages: ['a1'], total: 1 })).toEqual(
+        false
+      );
     });
   });
 
   describe('getNextOffset', () => {
     it('return 0', () => {
-      expect(module.getNextOffset({ messages: [] })).toEqual(0);
+      expect(messageModule.getNextOffset({ messages: [] })).toEqual(0);
     });
     it('return n', () => {
-      expect(module.getNextOffset({ messages: ['a1', 'a3'] })).toEqual(2);
+      expect(messageModule.getNextOffset({ messages: ['a1', 'a3'] })).toEqual(
+        2
+      );
     });
   });
 });

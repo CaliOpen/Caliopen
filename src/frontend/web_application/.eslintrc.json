@@ -24,6 +24,10 @@
     "arrow-body-style": "warn",
     // usefull until UNSAFE_componentWill... is removed
     "camelcase": "warn",
+    // tmp: FC migration
+    "class-methods-use-this": "warn",
+    "default-case-last": "off",
+    "default-param-last": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -70,6 +74,8 @@
     ],
     "no-async-promise-executor": "warn",
     "react/destructuring-assignment": "off",
+    // tmp: FC migration
+    "react/forbid-prop-types": "warn",
     // useful until babel compile </> directly
     "react/jsx-fragments": "off",
     "react/jsx-props-no-spreading": "off",
@@ -78,6 +84,8 @@
       "warn",
       { "forbid": [">", "\"", "'", "}"] }
     ],
+    // tmp: FC migration
+    "react/no-unused-class-component-methods": "warn",
     "react/no-unused-prop-types": "warn",
     "react/no-unused-state": "warn",
     "react/prefer-stateless-function": "warn",

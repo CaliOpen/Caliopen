@@ -32,13 +32,15 @@ const extractMessagesFromAction = ({ payload, type }) => {
   }
 };
 
-const decryptMessages = ({ messages }) => async (dispatch) => {
-  if (messages.length <= 0) return messages;
+const decryptMessages =
+  ({ messages }) =>
+  async (dispatch) => {
+    if (messages.length <= 0) return messages;
 
-  return Promise.all(
-    messages.map((message) => dispatch(decryptMessage({ message })))
-  );
-};
+    return Promise.all(
+      messages.map((message) => dispatch(decryptMessage({ message })))
+    );
+  };
 
 const findMessagesEncryptedWithKey = (state, fingerprint) => {
   const { messageEncryptionStatusById } = state.encryption;
@@ -50,15 +52,17 @@ const findMessagesEncryptedWithKey = (state, fingerprint) => {
   );
 };
 
-const setPassphrase = ({ fingerprint }) => (dispatch, getState) => {
-  const messages = findMessagesEncryptedWithKey(getState(), fingerprint).map(
-    (message) => message.encryptedMessage
-  );
+const setPassphrase =
+  ({ fingerprint }) =>
+  (dispatch, getState) => {
+    const messages = findMessagesEncryptedWithKey(getState(), fingerprint).map(
+      (message) => message.encryptedMessage
+    );
 
-  dispatch(decryptMessages({ messages }));
-  // discard passphrase after 20 minutes
-  setTimeout(() => dispatch(resetPassphrase({ fingerprint })), 12000000);
-};
+    dispatch(decryptMessages({ messages }));
+    // discard passphrase after 20 minutes
+    setTimeout(() => dispatch(resetPassphrase({ fingerprint })), 12000000);
+  };
 
 export default (store) => (next) => (action) => {
   switch (action.type) {

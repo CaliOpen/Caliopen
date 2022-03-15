@@ -27,7 +27,7 @@ function TagList({ i18n }: Props) {
           to="/contacts"
           className="m-tag-list__tag"
         >
-          <Trans id="tag_list.all_contacts">All contacts</Trans>
+          <Trans id="tag_list.all_contacts" message="All contacts" />
         </Link>
       </NavItem>
       {sortedTags.map((tag) => (

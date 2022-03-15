@@ -8,14 +8,14 @@ $date-picker-text-color: $co-color__fg__text;
 @mixin o-date-picker-popper {
   .react-datepicker-popper[data-placement^='bottom'] {
     .react-datepicker__triangle,
-    .react-datepicker__triangle:before {
+    .react-datepicker__triangle::before {
       border-bottom-color: $date-picker-header-bg;
     }
   }
 
   .react-datepicker-popper[data-placement^='top'] {
     .react-datepicker__triangle,
-    .react-datepicker__triangle:before {
+    .react-datepicker__triangle::before {
       border-top-color: $date-picker-bg;
     }
   }
@@ -47,6 +47,7 @@ $date-picker-text-color: $co-color__fg__text;
       &--previous {
         border-right-color: $date-picker-text-color;
       }
+
       &--next {
         border-left-color: $date-picker-text-color;
       }
@@ -61,7 +62,7 @@ $date-picker-text-color: $co-color__fg__text;
       }
 
       &__dropdown {
-        margin-top: $co-margin / 3;
+        margin-top: calc($co-margin / 3);
 
         select {
           padding: $co-component__spacing / 2;
@@ -86,7 +87,7 @@ $date-picker-text-color: $co-color__fg__text;
     }
 
     &__day-name {
-      margin-top: $co-margin / 3;
+      margin-top: calc($co-margin / 3);
       color: $co-color__fg__text--lower;
       font-size: $co-font__size--xsmall;
     }

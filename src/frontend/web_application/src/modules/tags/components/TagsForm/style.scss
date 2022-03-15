@@ -3,10 +3,10 @@
 
 .m-tags-form {
   width: 100%;
-  max-width: map-get($co-form__width, 'xlarge');
+  max-width: map_get($co-form__width, 'xlarge');
 
   &__count {
-    padding-left: map-get($co-form__spacing, 'small');
+    padding-left: map_get($co-form__spacing, 'small');
     color: $co-color__fg__text--lower;
     font-weight: 400;
   }
@@ -14,13 +14,13 @@
   &__section {
     // XXX: required for the dropdown position
     position: relative;
-    margin-bottom: map-get($co-form__spacing, 'large');
+    margin-bottom: map_get($co-form__spacing, 'large');
   }
 
   &__dropdown {
     // XXX: dirty fix when dropdown has no controller then getDropdownStyle() can not be used correctly
     margin-top: $co-component__height;
-    padding: map-get($co-form__spacing, 'small');
+    padding: map_get($co-form__spacing, 'small');
     background-color: $co-color__fg__back;
   }
 }

@@ -297,13 +297,13 @@ export default function reducer(state = initialState, action: Action): State {
         ...state,
         discussionByParticipantsHash: {
           ...state.discussionByParticipantsHash,
-          [action.meta.previousAction.payload
-            .internalHash]: discussionByParticipantsHashReducer(
-            state.discussionByParticipantsHash[
-              action.meta.previousAction.payload.internalHash
-            ],
-            action
-          ),
+          [action.meta.previousAction.payload.internalHash]:
+            discussionByParticipantsHashReducer(
+              state.discussionByParticipantsHash[
+                action.meta.previousAction.payload.internalHash
+              ],
+              action
+            ),
         },
       };
     default:

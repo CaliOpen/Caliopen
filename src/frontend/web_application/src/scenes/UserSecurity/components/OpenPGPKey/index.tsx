@@ -93,18 +93,20 @@ function OpenPGPKey({
   };
 
   const openpgpStatuses = {
-    invalid: i18n._('openpgp.status.invalid', undefined, {
-      defaults: 'Invalid',
+    invalid: i18n._(/* i18n */ 'openpgp.status.invalid', undefined, {
+      message: 'Invalid',
     }),
-    expired: i18n._('openpgp.status.expired', undefined, {
-      defaults: 'Expired',
+    expired: i18n._(/* i18n */ 'openpgp.status.expired', undefined, {
+      message: 'Expired',
     }),
-    revoked: i18n._('openpgp.status.revoked', undefined, {
-      defaults: 'Revoked',
+    revoked: i18n._(/* i18n */ 'openpgp.status.revoked', undefined, {
+      message: 'Revoked',
     }),
-    valid: i18n._('openpgp.status.valid', undefined, { defaults: 'Valid' }),
-    no_self_cert: i18n._('openpgp.status.no_self_cert', undefined, {
-      defaults: 'No self cert',
+    valid: i18n._(/* i18n */ 'openpgp.status.valid', undefined, {
+      message: 'Valid',
+    }),
+    no_self_cert: i18n._(/* i18n */ 'openpgp.status.no_self_cert', undefined, {
+      message: 'No self cert',
     }),
   };
 
@@ -129,9 +131,10 @@ function OpenPGPKey({
                 href={privateKeyDataUrl}
                 download="private-key.asc"
               >
-                <Trans id="openpgp-key.download">
-                  Save and keep in a safe place.
-                </Trans>
+                <Trans
+                  id="openpgp-key.download"
+                  message="Save and keep in a safe place."
+                />
                 {' '}
                 {/* @ts-ignore */}
                 <Icon type="download" />
@@ -142,7 +145,7 @@ function OpenPGPKey({
                   {/* @ts-ignore */}
                   <Icon type="remove" />
                   <span className="show-for-sr">
-                    <Trans id="openpgp.action.remove-key">Remove</Trans>
+                    <Trans id="openpgp.action.remove-key" message="Remove" />
                   </span>
                 </Button>
               )}

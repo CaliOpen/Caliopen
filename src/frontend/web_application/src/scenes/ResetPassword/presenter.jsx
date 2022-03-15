@@ -64,8 +64,8 @@ class ResetPassword extends Component {
 
     const errors = {
       global: [
-        i18n._('reset-password.form.errors.token_not_found', null, {
-          defaults: 'Token is no more valid. Please retry.',
+        i18n._(/* i18n */ 'reset-password.form.errors.token_not_found', null, {
+          message: 'Token is no more valid. Please retry.',
         }),
       ],
     };

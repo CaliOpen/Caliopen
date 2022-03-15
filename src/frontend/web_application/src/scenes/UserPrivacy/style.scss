@@ -3,6 +3,7 @@
 
 .s-user-privacy {
   @include flex-grid-row($size: expand);
+
   margin-top: $co-margin;
 
   &__pi {

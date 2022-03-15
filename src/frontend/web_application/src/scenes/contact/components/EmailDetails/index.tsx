@@ -8,20 +8,24 @@ interface Props extends withI18nProps {
 }
 function EmailDetails({ email, i18n }: Props) {
   const emailTypesTranslations = {
-    work: i18n._('contact.email_type.work', undefined, {
-      defaults: 'Professional',
+    work: i18n._(/* i18n */ 'contact.email_type.work', undefined, {
+      message: 'Professional',
     }),
-    home: i18n._('contact.email_type.home', undefined, {
-      defaults: 'Personal',
+    home: i18n._(/* i18n */ 'contact.email_type.home', undefined, {
+      message: 'Personal',
     }),
-    other: i18n._('contact.email_type.other', undefined, { defaults: 'Other' }),
+    other: i18n._(/* i18n */ 'contact.email_type.other', undefined, {
+      message: 'Other',
+    }),
   };
 
   const address = !email.is_primary ? (
     email.address
   ) : (
     <strong
-      title={i18n._('contact.primary', undefined, { defaults: 'Primary' })}
+      title={i18n._(/* i18n */ 'contact.primary', undefined, {
+        message: 'Primary',
+      })}
     >
       {email.address}
     </strong>

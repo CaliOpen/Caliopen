@@ -1,5 +1,5 @@
 import flatMap from 'lodash/flatMap';
-import * as module from 'openpgp';
+import * as openPgpModule from 'openpgp';
 
 import {
   ERROR_UNABLE_READ_PUBLIC_KEY,
@@ -11,7 +11,7 @@ const GENERATE_KEY_OPTIONS = {
   numBits: 4096,
 };
 
-export { module };
+export { openPgpModule as module };
 
 // http://monsur.hossa.in/2012/07/20/utf-8-in-javascript.html
 function encodeUTF8(str: string) {
@@ -23,7 +23,7 @@ function encodeUTF8(str: string) {
 // }
 
 export function generateKey(name, email, passphrase, options = {}) {
-  return module.generateKey({
+  return openPgpModule.generateKey({
     ...GENERATE_KEY_OPTIONS,
     ...options,
     userIds: [{ name: encodeUTF8(name), email }],
@@ -32,7 +32,7 @@ export function generateKey(name, email, passphrase, options = {}) {
 }
 
 export async function getKeyFromASCII(armored) {
-  const { keys } = await module.key.readArmored(armored);
+  const { keys } = await openPgpModule.key.readArmored(armored);
 
   if (keys && keys.length) {
     return keys[0];
@@ -43,7 +43,7 @@ export async function getKeyFromASCII(armored) {
 
 export async function encrypt({ content, recipientPubKeys }, key) {
   const keysList = await Promise.all(
-    recipientPubKeys.map((pubkey) => module.key.readArmored(pubkey))
+    recipientPubKeys.map((pubkey) => openPgpModule.key.readArmored(pubkey))
   );
   const publicKeys = flatMap(keysList, ({ keys }) => keys);
 
@@ -53,16 +53,16 @@ export async function encrypt({ content, recipientPubKeys }, key) {
     privateKeys: [key],
   };
 
-  return module.encrypt(options);
+  return openPgpModule.encrypt(options);
 }
 
 export async function decrypt({ content, authorPubKeys = [] }, key) {
   const keysList = await Promise.all(
-    authorPubKeys.map((pubkey) => module.key.readArmored(pubkey))
+    authorPubKeys.map((pubkey) => openPgpModule.key.readArmored(pubkey))
   );
 
   const publicKeys = flatMap(keysList, ({ keys }) => keys);
-  const message = await module.message.readArmored(content);
+  const message = await openPgpModule.message.readArmored(content);
 
   const options = {
     message,
@@ -70,19 +70,17 @@ export async function decrypt({ content, authorPubKeys = [] }, key) {
     privateKey: key,
   };
 
-  module.decrypt(options);
+  openPgpModule.decrypt(options);
 }
 
-export function validatePublicKeyChain(__, publicKeyArmored) {
-  return new Promise((resolve, reject) => {
-    const publicKey = getKeyFromASCII(publicKeyArmored);
+export async function validatePublicKeyChain(__, publicKeyArmored) {
+  const publicKey = await getKeyFromASCII(publicKeyArmored);
 
-    if (!publicKey) {
-      return reject(ERROR_UNABLE_READ_PUBLIC_KEY);
-    }
+  if (!publicKey) {
+    return Promise.reject(ERROR_UNABLE_READ_PUBLIC_KEY);
+  }
 
-    return resolve({ key: publicKey, publicKeyArmored });
-  });
+  return { key: publicKey, publicKeyArmored };
 }
 
 interface ValidateKeyChainPairErrors {

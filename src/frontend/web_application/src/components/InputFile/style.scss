@@ -13,6 +13,7 @@
     @include flex-grid-row;
     @include o-form-element--light;
     @include o-hidden-element--label;
+
     margin-top: $co-margin;
     overflow: hidden;
     line-height: $co-component__height;
@@ -24,12 +25,14 @@
 
     &__text {
       @include flex-grid-column;
+
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
     &__icon {
       @include flex-grid-column(shrink);
+
       margin-left: auto;
     }
   }

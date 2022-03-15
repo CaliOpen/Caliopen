@@ -5,10 +5,11 @@
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
 
 .m-import-contact-form {
-  width: map-get($co-form__width, 'xlarge');
+  width: map_get($co-form__width, 'xlarge');
 
   &__buttons {
     @include flex-grid-row;
+
     justify-content: space-between;
     margin-top: $co-margin;
   }

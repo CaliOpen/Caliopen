@@ -68,9 +68,13 @@ class AddParticipantsToContactBook extends Component {
           display="inline"
           noDecoration
           className={classnames(className)}
-          title={i18n._('message.action.add-participant-to-contacts', null, {
-            defaults: 'Add a participant to the contact book',
-          })}
+          title={i18n._(
+            /* i18n */ 'message.action.add-participant-to-contacts',
+            null,
+            {
+              message: 'Add a participant to the contact book',
+            }
+          )}
         >
           <Icon type="address-book" /> <Icon type="plus" />
         </DropdownControl>
@@ -89,9 +93,13 @@ class AddParticipantsToContactBook extends Component {
                   button
                   expanded
                   to={`/contact-association/${participant.protocol}/${participant.address}?label=${participant.label}`}
-                  title={i18n._('message.action.add-to-contacts', null, {
-                    defaults: 'Add to contact book',
-                  })}
+                  title={i18n._(
+                    /* i18n */ 'message.action.add-to-contacts',
+                    null,
+                    {
+                      message: 'Add to contact book',
+                    }
+                  )}
                 >
                   <TextBlock
                     inline

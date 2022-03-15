@@ -4,6 +4,6 @@
   text-align: center;
 
   &__button {
-    margin-bottom: map-get($co-form__spacing, 'small');
+    margin-bottom: map_get($co-form__spacing, 'small');
   }
 }

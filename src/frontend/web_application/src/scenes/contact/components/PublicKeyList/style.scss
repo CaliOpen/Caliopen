@@ -14,15 +14,15 @@
 
   &__quality-icon {
     &--weak {
-      color: map-get($privacy-palette, 'ugly');
+      color: map_get($privacy-palette, 'ugly');
     }
 
     &--average {
-      color: map-get($privacy-palette, 'good');
+      color: map_get($privacy-palette, 'good');
     }
 
     &--good {
-      color: map-get($privacy-palette, 'super');
+      color: map_get($privacy-palette, 'super');
     }
   }
 }

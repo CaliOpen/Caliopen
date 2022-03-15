@@ -17,6 +17,7 @@
 
   &__recipient {
     @include flex-grid-size(shrink);
+
     display: inline-block;
     margin-right: $co-component__spacing;
     margin-bottom: $co-component__spacing;
@@ -24,6 +25,7 @@
 
   &__search {
     @include flex-grid-size;
+
     position: relative;
   }
 
@@ -49,6 +51,7 @@
 
   &__search-result {
     @include flex-grid-row;
+
     min-height: $co-component__height;
     padding-top: $co-component__spacing;
     padding-bottom: $co-component__spacing;
@@ -58,11 +61,13 @@
 
   &__search-result-title {
     @include flex-grid-size(12);
+
     font-weight: 600;
   }
 
   &__search-result-info {
     @include flex-grid-column(12);
+
     font-size: $co-font__size--small;
     font-style: italic;
   }

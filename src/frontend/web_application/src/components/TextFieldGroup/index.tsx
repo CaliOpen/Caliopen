@@ -98,12 +98,12 @@ export default ForwardedTextFieldGroup;
 
 type ReduxTextFieldGroupProps = WrappedFieldProps & Props;
 
-export const ReduxTextFieldGroup = ({
+export function ReduxTextFieldGroup({
   input,
   meta,
   inputProps: inputPropsBase,
   ...props
-}: ReduxTextFieldGroupProps): React.ReactNode => {
+}: ReduxTextFieldGroupProps): React.ReactNode {
   const inputProps = {
     ...inputPropsBase,
     ...input,
@@ -112,11 +112,11 @@ export const ReduxTextFieldGroup = ({
   const errors = meta.error ? [meta.error] : undefined;
 
   return <TextFieldGroup inputProps={inputProps} errors={errors} {...props} />;
-};
+}
 
 type FormikTextFieldGroupProps = FieldProps & Props;
 
-export const FormikTextFieldGroup = ({
+export function FormikTextFieldGroup({
   id,
   label,
   field,
@@ -125,16 +125,18 @@ export const FormikTextFieldGroup = ({
   form,
   inputProps,
   ...props
-}: FormikTextFieldGroupProps): React.ReactElement<Props> => (
-  <ForwardedTextFieldGroup
-    id={id}
-    label={label}
-    inputProps={{ ...inputProps, ...field }}
-    errors={
-      getIn(form?.errors, field.name) && getIn(form.touched, field.name)
-        ? [getIn(form.errors, field.name)]
-        : undefined
-    }
-    {...props}
-  />
-);
+}: FormikTextFieldGroupProps): React.ReactElement<Props> {
+  return (
+    <ForwardedTextFieldGroup
+      id={id}
+      label={label}
+      inputProps={{ ...inputProps, ...field }}
+      errors={
+        getIn(form?.errors, field.name) && getIn(form.touched, field.name)
+          ? [getIn(form.errors, field.name)]
+          : undefined
+      }
+      {...props}
+    />
+  );
+}

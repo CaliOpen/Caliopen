@@ -6,6 +6,7 @@
   .m-message-pi__meter {
     border-color: map_get($privacy-palette-high, 'ugly');
   }
+
   .m-message-pi__numeric-value {
     color: map_get($privacy-palette, 'ugly');
   }
@@ -16,6 +17,7 @@
   .m-message-pi__meter {
     border-color: map_get($privacy-palette-high, 'bad');
   }
+
   .m-message-pi__numeric-value {
     color: map_get($privacy-palette, 'bad');
   }
@@ -26,6 +28,7 @@
   .m-message-pi__meter {
     border-color: map_get($privacy-palette-high, 'good');
   }
+
   .m-message-pi__numeric-value {
     color: map_get($privacy-palette, 'good');
   }
@@ -36,6 +39,7 @@
   .m-message-pi__meter {
     border-color: map_get($privacy-palette-high, 'super');
   }
+
   .m-message-pi__numeric-value {
     color: map_get($privacy-palette, 'super');
   }
@@ -71,7 +75,7 @@
   &__meter {
     flex-grow: 1;
     width: 45%;
-    border-bottom: 2px solid #999999;
+    border-bottom: 2px solid #999;
 
     &--no-separator {
       border-bottom: none;
@@ -152,7 +156,7 @@
   }
 
   &__metaphor {
-    color: #999999;
+    color: #999;
     font-size: $co-font__size--small;
     font-style: italic;
   }
@@ -167,7 +171,7 @@
     &__metaphor {
       width: 100%;
       padding-bottom: map_get($co-margin_, 'xsmall');
-      border-bottom: 2px solid #999999;
+      border-bottom: 2px solid #999;
       font-size: $co-font__size--xsmall;
     }
   }

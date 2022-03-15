@@ -16,12 +16,8 @@ class WithProviders extends Component {
   };
 
   componentDidMount() {
-    const {
-      providers,
-      requestProviders,
-      didInvalidate,
-      isFetching,
-    } = this.props;
+    const { providers, requestProviders, didInvalidate, isFetching } =
+      this.props;
 
     if ((!providers || didInvalidate) && !isFetching) {
       requestProviders();

@@ -79,7 +79,7 @@ function Message({
   };
 
   const handleReplyMessage = async () => {
-    const draft = ((await dispatch(reply(message))) as any) as MessageClass;
+    const draft = (await dispatch(reply(message))) as any as MessageClass;
     history.push(`/messages/${draft.message_id}`);
   };
 
@@ -130,13 +130,13 @@ function Message({
         {!noInteractions && (
           <Modal
             isOpen={isTagModalOpen}
-            contentLabel={i18n._('tags.header.label', undefined, {
-              defaults: 'Tags',
+            contentLabel={i18n._(/* i18n */ 'tags.header.label', undefined, {
+              message: 'Tags',
             })}
             title={
               <Trans
                 id="tags.header.title"
-                defaults="Tags <0>(Total: {nb})</0>"
+                message="Tags <0>(Total: {nb})</0>"
                 values={{ nb: message.tags ? message.tags.length : 0 }}
                 components={[<span className="m-tags-form__count" />]}
               />

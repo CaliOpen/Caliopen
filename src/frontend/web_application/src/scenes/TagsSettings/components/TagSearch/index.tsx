@@ -34,9 +34,10 @@ function TagSearch({ i18n, onCreateSuccess }: Props) {
       onCreateSuccess();
     } catch (err) {
       setTagErrors([
-        <Trans id="settings.tag.form.error.create_fail">
-          Unable to create the tag. A tag with the same id may already exist.
-        </Trans>,
+        <Trans
+          id="settings.tag.form.error.create_fail"
+          message="Unable to create the tag. A tag with the same id may already exist."
+        />,
       ]);
     }
     setPending(false);
@@ -50,13 +51,17 @@ function TagSearch({ i18n, onCreateSuccess }: Props) {
         inputProps={{
           name: 'terms',
           value: terms,
-          placeholder: i18n._('tags.form.add.placeholder', undefined, {
-            defaults: 'New tag ...',
-          }),
+          placeholder: i18n._(
+            /* i18n */ 'tags.form.add.placeholder',
+            undefined,
+            {
+              message: 'New tag ...',
+            }
+          ),
           onChange: handleChange,
         }}
-        label={i18n._('tags.form.add.label', undefined, {
-          defaults: 'Add a tag',
+        label={i18n._(/* i18n */ 'tags.form.add.label', undefined, {
+          message: 'Add a tag',
         })}
         showLabelforSr
         errors={tagErrors}
@@ -73,7 +78,9 @@ function TagSearch({ i18n, onCreateSuccess }: Props) {
         disabled={pending}
         shape="plain"
         onClick={handleSubmit}
-        aria-label={i18n._('tags.action.add', undefined, { defaults: 'Add' })}
+        aria-label={i18n._(/* i18n */ 'tags.action.add', undefined, {
+          message: 'Add',
+        })}
       />
     </div>
   );

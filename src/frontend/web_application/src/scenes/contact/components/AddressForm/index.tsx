@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Trans, withI18n, withI18nProps } from '@lingui/react';
+import { Trans, useLingui } from '@lingui/react';
 import {
   CountryDropdown,
   CountryDropdownProps,
@@ -27,13 +27,13 @@ const ADDRESS_TYPES = ['', 'work', 'home', 'other'];
 
 type CountryFieldProps = FieldProps & CountryDropdownProps;
 
-const CountryField = ({
+function CountryField({
   id,
   form,
   field,
   meta,
   ...props
-}: CountryFieldProps): React.ReactElement<CountryDropdownProps> => {
+}: CountryFieldProps): React.ReactElement<CountryDropdownProps> {
   const onChange = (val, evt) => field.onChange(evt);
 
   return (
@@ -45,20 +45,20 @@ const CountryField = ({
       onChange={onChange}
     />
   );
-};
+}
 
 type RegionFieldProps = FieldProps<
   NonNullable<ContactPayload['addresses']>[number]['region']
 > &
   RegionDropdownProps & { countryFieldName: string };
-const RegionField = ({
+function RegionField({
   countryFieldName,
   id,
   form,
   field,
   meta,
   ...props
-}: RegionFieldProps): React.ReactElement<RegionDropdownProps> => {
+}: RegionFieldProps): React.ReactElement<RegionDropdownProps> {
   const { values } = useFormikContext<ContactPayload>();
   const country: string = getIn(values, countryFieldName);
 
@@ -78,21 +78,25 @@ const RegionField = ({
       onChange={onChange}
     />
   );
-};
+}
 
-function AddressForm({ onDelete, name, i18n }: ItemProps & withI18nProps) {
+function AddressForm({
+  onDelete,
+  name,
+}: ItemProps): React.ReactElement<typeof FormGrid> {
+  const { i18n } = useLingui();
   const { values } = useFormikContext<ContactPayload>();
   const country = values[`${name}.country`];
 
   const addressTypes = {
-    work: i18n._('contact.address_type.work', undefined, {
-      defaults: 'Professional',
+    work: i18n._(/* i18n */ 'contact.address_type.work', undefined, {
+      message: 'Professional',
     }),
-    home: i18n._('contact.address_type.home', undefined, {
-      defaults: 'Personal',
+    home: i18n._(/* i18n */ 'contact.address_type.home', undefined, {
+      message: 'Personal',
     }),
-    other: i18n._('contact.address_type.other', undefined, {
-      defaults: 'Other',
+    other: i18n._(/* i18n */ 'contact.address_type.other', undefined, {
+      message: 'Other',
     }),
   };
 
@@ -108,7 +112,10 @@ function AddressForm({ onDelete, name, i18n }: ItemProps & withI18nProps) {
           <FormColumn>
             <Legend>
               <Icon rightSpaced type="map-marker" />
-              <Trans id="contact.address_form.legend">Postal address</Trans>
+              <Trans
+                id="contact.address_form.legend"
+                message="Postal address"
+              />
             </Legend>
           </FormColumn>
           {/* {errors.length > 0 && (
@@ -122,15 +129,20 @@ function AddressForm({ onDelete, name, i18n }: ItemProps & withI18nProps) {
             <Field
               component={FormikTextFieldGroup}
               name={`${name}.street`}
-              label={i18n._('contact.address_form.street.label', undefined, {
-                defaults: 'Street',
-              })}
+              label={i18n._(
+                /* i18n */ 'contact.address_form.street.label',
+                undefined,
+                {
+                  message: 'Street',
+                }
+              )}
               inputProps={{
                 placeholder: i18n._(
+                  /* i18n */
                   'contact.address_form.street.label',
                   undefined,
                   {
-                    defaults: 'Street',
+                    message: 'Street',
                   }
                 ),
                 expanded: true,
@@ -145,17 +157,18 @@ function AddressForm({ onDelete, name, i18n }: ItemProps & withI18nProps) {
               component={FormikTextFieldGroup}
               name={`${name}.postal_code`}
               label={i18n._(
-                'contact.address_form.postal_code.label',
+                /* i18n */ 'contact.address_form.postal_code.label',
                 undefined,
                 {
-                  defaults: 'Postal Code',
+                  message: 'Postal Code',
                 }
               )}
               inputProps={{
                 placeholder: i18n._(
+                  /* i18n */
                   'contact.address_form.postal_code.label',
                   undefined,
-                  { defaults: 'Postal Code' }
+                  { message: 'Postal Code' }
                 ),
                 expanded: true,
               }}
@@ -167,15 +180,20 @@ function AddressForm({ onDelete, name, i18n }: ItemProps & withI18nProps) {
               component={FormikTextFieldGroup}
               validate={validateRequired(i18n)}
               name={`${name}.city`}
-              label={i18n._('contact.address_form.city.label', undefined, {
-                defaults: 'City',
-              })}
+              label={i18n._(
+                /* i18n */ 'contact.address_form.city.label',
+                undefined,
+                {
+                  message: 'City',
+                }
+              )}
               inputProps={{
                 placeholder: i18n._(
+                  /* i18n */
                   'contact.address_form.city.label',
                   undefined,
                   {
-                    defaults: 'City',
+                    message: 'City',
                   }
                 ),
                 expanded: true,
@@ -191,7 +209,10 @@ function AddressForm({ onDelete, name, i18n }: ItemProps & withI18nProps) {
               // TODO: insert select-wrapper to fit SelectFieldGroup architecture
             }
             <label className="show-for-sr" htmlFor="contact-adress-country">
-              <Trans id="contact.address_form.country.label">Country</Trans>
+              <Trans
+                id="contact.address_form.country.label"
+                message="Country"
+              />
             </label>
             <Field
               component={CountryField}
@@ -199,9 +220,9 @@ function AddressForm({ onDelete, name, i18n }: ItemProps & withI18nProps) {
               name={`${name}.country`}
               classes="m-address-form__select"
               defaultOptionLabel={i18n._(
-                'contact.address_form.select_country',
+                /* i18n */ 'contact.address_form.select_country',
                 undefined,
-                { defaults: 'Country' }
+                { message: 'Country' }
               )}
             />
           </FormColumn>
@@ -210,7 +231,7 @@ function AddressForm({ onDelete, name, i18n }: ItemProps & withI18nProps) {
               // TODO: insert select-wrapper to fit SelectFieldGroup architecture
             }
             <label className="show-for-sr" htmlFor="contact-adress-region">
-              <Trans id="contact.address_form.region.label">Region</Trans>
+              <Trans id="contact.address_form.region.label" message="Region" />
             </label>
             <Field
               component={RegionField}
@@ -219,9 +240,9 @@ function AddressForm({ onDelete, name, i18n }: ItemProps & withI18nProps) {
               name={`${name}.region`}
               classes="m-address-form__select"
               defaultOptionLabel={i18n._(
-                'contact.address_form.select_region',
+                /* i18n */ 'contact.address_form.select_region',
                 undefined,
-                { defaults: 'Region' }
+                { message: 'Region' }
               )}
               country={country}
             />
@@ -230,9 +251,13 @@ function AddressForm({ onDelete, name, i18n }: ItemProps & withI18nProps) {
             <Field
               component={FormikSelectFieldGroup}
               name={`${name}.type`}
-              label={i18n._('contact.address_form.type.label', undefined, {
-                defaults: 'Type',
-              })}
+              label={i18n._(
+                /* i18n */ 'contact.address_form.type.label',
+                undefined,
+                {
+                  message: 'Type',
+                }
+              )}
               options={addressTypeOptions}
               showLabelforSr
             />
@@ -246,4 +271,4 @@ function AddressForm({ onDelete, name, i18n }: ItemProps & withI18nProps) {
   );
 }
 
-export default withI18n()(AddressForm);
+export default AddressForm;

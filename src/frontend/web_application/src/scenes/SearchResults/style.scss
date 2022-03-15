@@ -10,6 +10,7 @@
 
   &__label {
     @include flex-grid-column(12);
+
     padding-top: $co-component__spacing;
     padding-bottom: $co-component__spacing;
     background: $co-color__bg__back--high;

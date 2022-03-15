@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withI18n } from '@lingui/react';
-import { Badge } from '../../../../components';
+import { Badge } from 'src/components';
 import { getTagLabel } from '../../services/getTagLabel';
 
 import './style.scss';
@@ -33,7 +33,9 @@ class TagItem extends Component {
         className="m-tag-item"
         onDelete={this.handleDeleteTag}
         isLoading={this.state.isTagCollectionUpdating}
-        ariaLabel={i18n._('tags.action.remove', null, { defaults: 'Remove' })}
+        ariaLabel={i18n._(/* i18n */ 'tags.action.remove', null, {
+          message: 'Remove',
+        })}
       >
         {getTagLabel(i18n, tag)}
       </Badge>

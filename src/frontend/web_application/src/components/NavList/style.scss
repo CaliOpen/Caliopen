@@ -8,12 +8,14 @@
 .m-nav-list {
   $baseClassName: &;
   @include flex-grid-row;
+
   list-style: none;
   margin: 0;
   padding: 0;
 
   &__item {
     @include flex-grid-column(shrink);
+
     line-height: $co-font__line-height;
 
     &--large {
@@ -30,7 +32,8 @@
 
     #{$baseClassName}__item {
       @include flex-grid-size(12);
-      margin-bottom: map-get($co-form__spacing, 'small');
+
+      margin-bottom: map_get($co-form__spacing, 'small');
       padding-right: 0;
       padding-left: 0;
     }

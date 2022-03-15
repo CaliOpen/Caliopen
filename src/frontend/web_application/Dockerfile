@@ -3,7 +3,7 @@
 # Author: Caliopen
 # Date: 2016-01-05
 
-FROM node:15 as builder
+FROM node:16 as builder
 MAINTAINER Caliopen
 
 ADD . /srv/caliopen/frontend/
@@ -11,7 +11,7 @@ WORKDIR /srv/caliopen/frontend/
 RUN yarn install
 RUN yarn run release
 
-FROM node:15-alpine
+FROM node:16-alpine
 MAINTAINER Caliopen
 
 WORKDIR /srv/caliopen/frontend/

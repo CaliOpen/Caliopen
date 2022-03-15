@@ -39,12 +39,12 @@ class TakeATour extends Component {
         content: (
           <div>
             <h2>
-              <Trans id="take-a-tour.step.intro.title">Welcome!</Trans>
+              <Trans id="take-a-tour.step.intro.title" message="Welcome!" />
             </h2>
             <div>
               <Trans
                 id="take-a-tour.step.intro.content"
-                defaults={`
+                message={`
                   <0>
                     With using Caliopen, you can access to all of your private
                     messages (Email, and more to come) through a single login.
@@ -77,12 +77,15 @@ class TakeATour extends Component {
         content: (
           <div>
             <h2>
-              <Trans id="take-a-tour.step.search.title">Intuitive search</Trans>
+              <Trans
+                id="take-a-tour.step.search.title"
+                message="Intuitive search"
+              />
             </h2>
             <div>
               <Trans
                 id="take-a-tour.step.search.content"
-                defaults={`
+                message={`
                 <0>
                   Every search can include filters. All of the unencrypted data
                   can be searched.
@@ -102,12 +105,15 @@ class TakeATour extends Component {
         content: (
           <div>
             <h2>
-              <Trans id="take-a-tour.step.user-menu.title">Account menu</Trans>
+              <Trans
+                id="take-a-tour.step.user-menu.title"
+                message="Account menu"
+              />
             </h2>
             <div>
               <Trans
                 id="take-a-tour.step.user-menu.content"
-                defaults={`
+                message={`
                 <0>
                   Keep up-to-date your account information and manage your
                   settings from here!
@@ -127,15 +133,17 @@ class TakeATour extends Component {
         content: (
           <div>
             <h2>
-              <Trans id="take-a-tour.step.call-to-action.title">
-                Create quickly
-              </Trans>
+              <Trans
+                id="take-a-tour.step.call-to-action.title"
+                message="Create quickly"
+              />
             </h2>
             <div>
               <p>
-                <Trans id="take-a-tour.step.call-to-action.content">
-                  Create a new message on the fly.
-                </Trans>
+                <Trans
+                  id="take-a-tour.step.call-to-action.content"
+                  message="Create a new message on the fly."
+                />
               </p>
             </div>
           </div>
@@ -146,12 +154,15 @@ class TakeATour extends Component {
         content: (
           <div>
             <h2>
-              <Trans id="take-a-tour.step.install.title">Installation</Trans>
+              <Trans
+                id="take-a-tour.step.install.title"
+                message="Installation"
+              />
             </h2>
             <div>
               <Trans
                 id="take-a-tour.step.install.content"
-                defaults={`
+                message={`
                 <0>If available, the installation button will be displayed.</0>
                 <1>
                   On android and ios it will add Caliopen to your homescreen. On
@@ -180,34 +191,39 @@ class TakeATour extends Component {
         display="expanded"
         className="m-take-a-tour"
       >
-        <Trans id="take-a-tour.action.toggle">Take a tour</Trans>
+        <Trans id="take-a-tour.action.toggle" message="Take a tour" />
         <Tour
           isOpen={this.state.isTourActive}
           step={this.state.tourStep}
           onRequestClose={this.handleclose}
           steps={steps}
+          // eslint-disable-next-line react/no-unstable-nested-components
           badgeContent={(current, total) => (
             <Trans
               id="take-a-tour.current-step"
-              defaults="Take a tour ({current} of {total})"
+              message="Take a tour ({current} of {total})"
               values={{ current, total }}
             />
           )}
           showNavigation={false}
-          skipButton={i18n._('take-a-tour.action.skip', null, {
-            defaults: 'Skip',
+          skipButton={i18n._(/* i18n */ 'take-a-tour.action.skip', null, {
+            message: 'Skip',
           })}
-          prevButton={i18n._('take-a-tour.action.prev', null, {
-            defaults: 'Previous',
+          prevButton={i18n._(/* i18n */ 'take-a-tour.action.prev', null, {
+            message: 'Previous',
           })}
-          nextButton={i18n._('take-a-tour.action.next', null, {
-            defaults: 'Next',
+          nextButton={i18n._(/* i18n */ 'take-a-tour.action.next', null, {
+            message: 'Next',
           })}
-          lastStepNextButton={i18n._('take-a-tour.action.last-step', null, {
-            defaults: 'Finish',
-          })}
-          closeButton={i18n._('take-a-tour.action.close', null, {
-            defaults: 'Close',
+          lastStepNextButton={i18n._(
+            /* i18n */ 'take-a-tour.action.last-step',
+            null,
+            {
+              message: 'Finish',
+            }
+          )}
+          closeButton={i18n._(/* i18n */ 'take-a-tour.action.close', null, {
+            message: 'Close',
           })}
         />
       </Button>

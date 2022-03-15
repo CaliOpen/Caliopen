@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { getAveragePI, PI_PROPERTIES } from '../../services/pi';
 import './style.scss';
 
-const Rating = ({ name, level, piMax, className, mini }) => {
+function Rating({ name, level, piMax, className, mini }) {
   const pi = level <= piMax ? level : piMax;
   const width = (pi / piMax) * 100;
   const style = { width: `${width}%` };
@@ -45,7 +45,7 @@ const Rating = ({ name, level, piMax, className, mini }) => {
       </div>
     </div>
   );
-};
+}
 
 Rating.propTypes = {
   name: PropTypes.string.isRequired,
@@ -60,7 +60,7 @@ Rating.defaultProps = {
   mini: false,
 };
 
-const Ratings = ({ pi, piMax, displayAveragePi, mini }) => {
+function Ratings({ pi, piMax, displayAveragePi, mini }) {
   const ratingsClassName = classnames('m-pi-ratings', {
     'm-pi-ratings--mini': mini,
   });
@@ -88,7 +88,7 @@ const Ratings = ({ pi, piMax, displayAveragePi, mini }) => {
       ))}
     </div>
   );
-};
+}
 
 Ratings.defaultProps = {
   displayAveragePi: false,

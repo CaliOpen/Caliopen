@@ -5,14 +5,14 @@ import Icon from '../../../Icon';
 import Button from '../../../Button';
 import './style.scss';
 
-const DeleteFieldGroup = ({
+function DeleteFieldGroup({
   template,
   item,
   position,
   onDelete,
   onChange,
   className,
-}) => {
+}) {
   const handleDelete = () => {
     onDelete({ item });
   };
@@ -37,7 +37,7 @@ const DeleteFieldGroup = ({
       </Button>
     </div>
   );
-};
+}
 
 DeleteFieldGroup.propTypes = {
   template: PropTypes.func.isRequired,

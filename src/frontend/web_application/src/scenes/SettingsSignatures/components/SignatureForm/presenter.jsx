@@ -85,8 +85,8 @@ class SignatureForm extends Component {
                   defaultValue: this.state.settings.signature,
                   onChange: this.handleTextareaChange,
                 }}
-                label={i18n._('settings.signature.label', {
-                  defaults: 'Signature',
+                label={i18n._(/* i18n */ 'settings.signature.label', {
+                  message: 'Signature',
                 })}
               />
             </FormColumn>
@@ -98,7 +98,7 @@ class SignatureForm extends Component {
               bottomSpace
             >
               <Button type="submit" onClick={this.handleSubmit} shape="plain">
-                <Trans id="settings.signature.update.action">Save</Trans>
+                <Trans id="settings.signature.update.action" message="Save" />
               </Button>
             </FormColumn>
           </FormRow>

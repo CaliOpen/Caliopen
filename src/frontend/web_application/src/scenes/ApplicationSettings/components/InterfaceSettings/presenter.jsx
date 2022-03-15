@@ -10,6 +10,11 @@ import {
 import renderReduxField from '../../../../services/renderReduxField';
 import { AVAILABLE_LOCALES } from '../../../../modules/i18n';
 
+const languages = {
+  fr_FR: 'Français',
+  en_US: 'English',
+  de_DE: 'Deutsch',
+};
 const SelectFieldGroup = renderReduxField(SelectFieldGroupBase);
 
 class InterfaceSettings extends PureComponent {
@@ -17,30 +22,11 @@ class InterfaceSettings extends PureComponent {
     i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
   };
 
-  UNSAFE_componentWillMount() {
-    this.initTranslations();
-  }
-
   getOptionsFromArray = (options) =>
     options.map((value) => ({
       value,
-      label: this.i18n[value] || value,
+      label: languages[value] || value,
     }));
-
-  initTranslations() {
-    const { i18n } = this.props;
-    this.i18n = {
-      fr_FR: i18n._('settings.interface.language.options.fr', null, {
-        defaults: 'French',
-      }),
-      en_US: i18n._('settings.interface.language.options.en', null, {
-        defaults: 'English',
-      }),
-      de_DE: i18n._('settings.interface.language.options.de', null, {
-        defaults: 'German',
-      }),
-    };
-  }
 
   render() {
     const { i18n } = this.props;
@@ -53,9 +39,13 @@ class InterfaceSettings extends PureComponent {
             <Field
               component={SelectFieldGroup}
               name="default_locale"
-              label={i18n._('settings.interface.language.label', null, {
-                defaults: 'Language',
-              })}
+              label={i18n._(
+                /* i18n */ 'settings.interface.language.label',
+                null,
+                {
+                  message: 'Language',
+                }
+              )}
               options={languageOptions}
               expanded
             />

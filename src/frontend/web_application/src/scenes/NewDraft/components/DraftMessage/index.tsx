@@ -67,15 +67,17 @@ function useDraftMessage(messageId: string): DraftMessageFormData | undefined {
   return draftMessage;
 }
 
-const onDeleteMessage = ({ message }) => async (dispatch) => {
-  dispatch(deleteDraft({ draft: message }));
-  const result = await dispatch(deleteMessage({ message }));
+const onDeleteMessage =
+  ({ message }) =>
+  async (dispatch) => {
+    dispatch(deleteDraft({ draft: message }));
+    const result = await dispatch(deleteMessage({ message }));
 
-  await dispatch(clearDraft({ draft: message }));
-  dispatch(deleteDraftSuccess({ draft: message }));
+    await dispatch(clearDraft({ draft: message }));
+    dispatch(deleteDraftSuccess({ draft: message }));
 
-  return result;
-};
+    return result;
+  };
 
 const uploadAttachments = (draft, attachments) => async (dispatch) => {
   try {
@@ -168,13 +170,8 @@ interface DraftMessageProps extends withI18nProps {
 }
 
 function DraftMessage(props: DraftMessageProps) {
-  const {
-    className,
-    messageId,
-    i18n,
-    onDeleteMessageSuccessfull,
-    onSent,
-  } = props;
+  const { className, messageId, i18n, onDeleteMessageSuccessfull, onSent } =
+    props;
   const [isSending, setIsSending] = React.useState(false);
   const dispatch = useDispatch();
   const draftMessageFormData = useDraftMessage(messageId);
@@ -291,8 +288,8 @@ function DraftMessage(props: DraftMessageProps) {
     } catch (err) {
       dispatch(
         notifyError({
-          message: i18n._('draft.feedback.send-error', undefined, {
-            defaults: 'Unable to send the message',
+          message: i18n._(/* i18n */ 'draft.feedback.send-error', undefined, {
+            message: 'Unable to send the message',
           }),
         })
       );
@@ -330,7 +327,7 @@ function DraftMessage(props: DraftMessageProps) {
                 <Trans
                   id="reply-form.in-reply-to"
                   values={{ 0: parentMessage.excerpt }}
-                  defaults="In reply to: {0}"
+                  message="In reply to: {0}"
                 />
               </Link>
             </TextBlock>
@@ -342,7 +339,10 @@ function DraftMessage(props: DraftMessageProps) {
             className="m-draft-message-advanced__subject"
             display="inline"
             label={
-              <Trans id="messages.compose.form.subject.label">Subject</Trans>
+              <Trans
+                id="messages.compose.form.subject.label"
+                message="Subject"
+              />
             }
             inputProps={{
               name: 'subject',
@@ -358,9 +358,10 @@ function DraftMessage(props: DraftMessageProps) {
           <TextareaFieldGroup
             className="m-draft-advanced__body"
             label={
-              <Trans id="messages.compose.form.body.label">
-                Type your message here...
-              </Trans>
+              <Trans
+                id="messages.compose.form.body.label"
+                message="Type your message here..."
+              />
             }
             showLabelForSR
             inputProps={{
@@ -385,15 +386,16 @@ function DraftMessage(props: DraftMessageProps) {
           <Confirm
             onConfirm={handleDelete}
             title={
-              <Trans id="message-list.message.confirm-delete.title">
-                Delete a message
-              </Trans>
+              <Trans
+                id="message-list.message.confirm-delete.title"
+                message="Delete a message"
+              />
             }
             content={
-              <Trans id="message-list.message.confirm-delete.content">
-                The deletion is permanent, are you sure you want to delete this
-                message ?
-              </Trans>
+              <Trans
+                id="message-list.message.confirm-delete.content"
+                message="The deletion is permanent, are you sure you want to delete this message ?"
+              />
             }
             render={(confirm) => (
               <Button
@@ -402,7 +404,10 @@ function DraftMessage(props: DraftMessageProps) {
                 color="alert"
                 className="m-draft-message-advanced__action-button"
               >
-                <Trans id="message-list.message.action.delete">Delete</Trans>
+                <Trans
+                  id="message-list.message.action.delete"
+                  message="Delete"
+                />
               </Button>
             )}
           />
@@ -413,8 +418,10 @@ function DraftMessage(props: DraftMessageProps) {
             'm-draft-message-advanced__action-button',
             'm-draft-message-advanced__button-send',
             {
-              'm-draft-message-advanced__button-send--encrypted': encryptionEnabled,
-              'm-draft-message-advanced__button-send--unencrypted': !encryptionEnabled,
+              'm-draft-message-advanced__button-send--encrypted':
+                encryptionEnabled,
+              'm-draft-message-advanced__button-send--unencrypted':
+                !encryptionEnabled,
             }
           )}
           onClick={handleSend}
@@ -429,7 +436,7 @@ function DraftMessage(props: DraftMessageProps) {
           )}
           {/* @ts-ignore */}
           {!isSending && <Icon type="paper-plane" />}{' '}
-          <Trans id="draft-message.action.send">Send</Trans>
+          <Trans id="draft-message.action.send" message="Send" />
         </Button>
       </div>
       {errors.length > 0 && (
@@ -439,13 +446,15 @@ function DraftMessage(props: DraftMessageProps) {
       )}
       <div className="m-draft-message-advanced__encryption">
         {encryptionEnabled ? (
-          <Trans id="draft-message.encryption.ok">
-            This message is encrypted
-          </Trans>
+          <Trans
+            id="draft-message.encryption.ok"
+            message="This message is encrypted"
+          />
         ) : (
-          <Trans id="draft-message.encryption.ko">
-            This message is not encrypted
-          </Trans>
+          <Trans
+            id="draft-message.encryption.ko"
+            message="This message is not encrypted"
+          />
         )}
       </div>
     </div>

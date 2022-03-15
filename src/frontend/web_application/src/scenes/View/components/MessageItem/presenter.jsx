@@ -122,7 +122,7 @@ class MessageItem extends Component {
         <TextBlock className="s-message-item__title">
           {message.is_draft && (
             <span className="s-message-item__draft-prefix">
-              <Trans id="timeline.draft-prefix">Draft in progress:</Trans>{' '}
+              <Trans id="timeline.draft-prefix" message="Draft in progress:" />{' '}
             </span>
           )}
           {message.subject && (
@@ -143,8 +143,8 @@ class MessageItem extends Component {
   renderType = () => {
     const { i18n, message } = this.props;
     const typeTranslations = {
-      email: i18n._('message-list.message.protocol.email', null, {
-        defaults: 'email',
+      email: i18n._(/* i18n */ 'message-list.message.protocol.email', null, {
+        message: 'email',
       }),
     };
 
@@ -160,7 +160,10 @@ class MessageItem extends Component {
           />
           <span className="s-message-item__type-label sr-only">
             {messageType}{' '}
-            <Trans id="message-list.message.received-on">received on</Trans>
+            <Trans
+              id="message-list.message.received-on"
+              message="received on"
+            />
           </span>
         </span>
       )
@@ -168,13 +171,8 @@ class MessageItem extends Component {
   };
 
   render() {
-    const {
-      className,
-      i18n,
-      message,
-      isMessageSelected,
-      isDeleting,
-    } = this.props;
+    const { className, i18n, message, isMessageSelected, isDeleting } =
+      this.props;
 
     return (
       <div
@@ -198,9 +196,13 @@ class MessageItem extends Component {
         <div className="s-message-item__col-date">{this.renderDate()}</div>
         <div className="s-message-item__col-select">
           <Checkbox
-            label={i18n._('message-list.action.select_single_message', null, {
-              defaults: 'Select/deselect this message',
-            })}
+            label={i18n._(
+              /* i18n */ 'message-list.action.select_single_message',
+              null,
+              {
+                message: 'Select/deselect this message',
+              }
+            )}
             onChange={this.onCheckboxChange}
             id={message.message_id}
             checked={isMessageSelected}

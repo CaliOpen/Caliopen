@@ -5,14 +5,16 @@ import {
 } from '../../../store/modules/message';
 import { tryCatchAxiosAction } from '../../../services/api-client';
 
-export const createMessage = ({ message }) => async (dispatch) => {
-  await dispatch(createMessageBase({ message }));
+export const createMessage =
+  ({ message }) =>
+  async (dispatch) => {
+    await dispatch(createMessageBase({ message }));
 
-  const messageUpToDate = await tryCatchAxiosAction(() =>
-    dispatch(requestMessage(message.message_id))
-  );
+    const messageUpToDate = await tryCatchAxiosAction(() =>
+      dispatch(requestMessage(message.message_id))
+    );
 
-  await dispatch(addToCollection({ message: messageUpToDate }));
+    await dispatch(addToCollection({ message: messageUpToDate }));
 
-  return messageUpToDate;
-};
+    return messageUpToDate;
+  };

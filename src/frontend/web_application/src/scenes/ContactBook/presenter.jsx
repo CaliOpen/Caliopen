@@ -201,7 +201,7 @@ class ContactBook extends Component {
     const title = (
       <Trans
         id="tags.header.title"
-        defaults="Tags <0>(Total: {nb})</0>"
+        message="Tags <0>(Total: {nb})</0>"
         values={{ nb: tagsInCommon.length }}
         components={[<span className="m-tags-form__count" />]}
       />
@@ -210,14 +210,17 @@ class ContactBook extends Component {
     return (
       <Modal
         isOpen={this.state.isTagModalOpen}
-        contentLabel={i18n._('tags.header.label', null, { defaults: 'Tags' })}
+        contentLabel={i18n._(/* i18n */ 'tags.header.label', null, {
+          message: 'Tags',
+        })}
         title={title}
         onClose={this.handleCloseTags}
       >
         {tagNamesInCommon.length > 1 && (
-          <Trans id="tags.common_tags_applied">
-            Common tags applied to the current selection:
-          </Trans>
+          <Trans
+            id="tags.common_tags_applied"
+            message="Common tags applied to the current selection:"
+          />
         )}
 
         <TagsForm
@@ -249,7 +252,7 @@ class ContactBook extends Component {
                         <Trans
                           id="contact-book.contacts.selected"
                           values={{ count, totalCount }}
-                          defaults="{count, plural, one {#/{totalCount} selected contact:} other {#/{totalCount} selected contacts:}}"
+                          message="{count, plural, one {#/{totalCount} selected contact:} other {#/{totalCount} selected contacts:}}"
                         />
                       </span>
                       <Confirm
@@ -258,14 +261,14 @@ class ContactBook extends Component {
                           <Trans
                             id="contact-book.confirm-delete.title"
                             value={count}
-                            defaults="{count, plural, one {Delete contact} other {Delete contacts}}"
+                            message="{count, plural, one {Delete contact} other {Delete contacts}}"
                           />
                         }
                         content={
                           <Trans
                             id="contact-book.confirm-delete.content"
                             value={count}
-                            defaults="{count, plural, one { The deletion is permanent, are you sure you want to delete this contact? } other { The deletion is permanent, are you sure you want to delete these contacts? }}"
+                            message="{count, plural, one { The deletion is permanent, are you sure you want to delete this contact? } other { The deletion is permanent, are you sure you want to delete these contacts? }}"
                           />
                         }
                         render={(confirm) => (
@@ -287,9 +290,10 @@ class ContactBook extends Component {
                             onClick={confirm}
                             disabled={this.state.isDeleting}
                           >
-                            <Trans id="contact-book.action.delete">
-                              Delete
-                            </Trans>
+                            <Trans
+                              id="contact-book.action.delete"
+                              message="Delete"
+                            />
                           </Button>
                         )}
                       />
@@ -300,9 +304,10 @@ class ContactBook extends Component {
                         icon="tag"
                         onClick={this.handleOpenTags}
                       >
-                        <Trans id="contact-book.action.manage-tags">
-                          Manage tags
-                        </Trans>
+                        <Trans
+                          id="contact-book.action.manage-tags"
+                          message="Manage tags"
+                        />
                       </Button>
                       {this.state.isTagModalOpen && this.renderTagsModal()}
                       {/* <Button
@@ -311,7 +316,7 @@ class ContactBook extends Component {
                         noDecoration
                         icon="share"
                         >
-                        <Trans id="contact-book.action.start-discussion">Start discussion</Trans>
+                        <Trans id="contact-book.action.start-discussion" message="Start discussion" />
                       </Button> */}
                     </Fragment>
                   )}
@@ -326,9 +331,10 @@ class ContactBook extends Component {
                       indeterminate={count > 0 && count < totalCount}
                       onChange={this.handleSelectAllEntitiesChange}
                       label={
-                        <Trans id="contact-book.action.select-all">
-                          Select all contacts
-                        </Trans>
+                        <Trans
+                          id="contact-book.action.select-all"
+                          message="Select all contacts"
+                        />
                       }
                       showLabelforSr={count > 0}
                     />
@@ -355,7 +361,7 @@ class ContactBook extends Component {
         {hasMore && (
           <div className="s-contact-book-list__load-more">
             <Button shape="hollow" onClick={this.loadMore}>
-              <Trans id="general.action.load_more">Load more</Trans>
+              <Trans id="general.action.load_more" message="Load more" />
             </Button>
           </div>
         )}
@@ -369,7 +375,9 @@ class ContactBook extends Component {
     return (
       <div className="s-contact-book">
         <PageTitle
-          title={i18n._('header.menu.contacts', null, { defaults: 'Contacts' })}
+          title={i18n._(/* i18n */ 'header.menu.contacts', null, {
+            message: 'Contacts',
+          })}
         />
         {this.renderActionBar()}
         <SidebarLayout
@@ -377,7 +385,7 @@ class ContactBook extends Component {
             <div className="s-contact-book__sidebar">
               <div>
                 <h2 className="s-contact-book__tags-title">
-                  <Trans id="contact-book.contacts.title">Contacts</Trans>
+                  <Trans id="contact-book.contacts.title" message="Contacts" />
                 </h2>
                 <NavList dir="vertical">
                   <NavItem>
@@ -388,7 +396,7 @@ class ContactBook extends Component {
                       display="block"
                       onClick={this.handleClickAddContact}
                     >
-                      <Trans id="contact-book.action.add">Add</Trans>
+                      <Trans id="contact-book.action.add" message="Add" />
                     </Button>
                   </NavItem>
                   <NavItem>
@@ -401,7 +409,7 @@ class ContactBook extends Component {
               </div>
               <div>
                 <h2 className="s-contact-book__tags-title">
-                  <Trans id="contact-book.groups.title">Groups</Trans>
+                  <Trans id="contact-book.groups.title" message="Groups" />
                 </h2>
                 <TagList />
                 <NavList dir="vertical">
@@ -413,9 +421,10 @@ class ContactBook extends Component {
                       display="block"
                       onClick={this.handleClickEditGroups}
                     >
-                      <Trans id="contact-book.tags.action.edit-groups">
-                        Edit groups
-                      </Trans>
+                      <Trans
+                        id="contact-book.tags.action.edit-groups"
+                        message="Edit groups"
+                      />
                     </Button>
                   </NavItem>
                 </NavList>
