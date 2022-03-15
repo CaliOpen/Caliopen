@@ -11,6 +11,7 @@ and this project adheres to
 ### Fixed
 
 - Update client's dependencies.
+- Load locale at run time on the client.
 
 ## [0.25.0] 2022-03-03
 

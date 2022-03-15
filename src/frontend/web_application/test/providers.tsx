@@ -9,6 +9,7 @@ import configureAppStore from 'src/store/configure-store';
 import { initialState as initialStateSettings } from 'src/store/modules/settings';
 import { getUserLocales } from 'src/modules/i18n';
 import { getDefaultSettings } from 'src/modules/settings';
+import { messages } from 'locale/en/messages';
 
 const locales = getUserLocales();
 const settings = getDefaultSettings(locales);
@@ -18,6 +19,9 @@ const initialState = {
     settings,
   },
 };
+
+i18n.load('en', messages);
+i18n.activate('en');
 
 const queryClient = new QueryClient();
 

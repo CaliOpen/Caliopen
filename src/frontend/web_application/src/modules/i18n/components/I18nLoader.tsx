@@ -4,14 +4,9 @@ import { i18n } from '@lingui/core';
 import { getBestLocale } from '../services/getBestLocale';
 import { getLanguage } from '../services/getLanguage';
 
-function getCatalogSync(language: string) {
-  // eslint-disable-next-line global-require, import/no-dynamic-require, @typescript-eslint/no-var-requires
-  const { messages } = require(`locale/${language}/messages.ts`);
+type Locale = 'en' | 'fr' | 'de' | 'es';
 
-  return messages;
-}
-
-async function getCatalog(language) {
+async function getCatalog(language: Locale) {
   const { messages } = await import(
     /* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */ `locale/${language}/messages.ts`
   );
@@ -21,9 +16,6 @@ async function getCatalog(language) {
 
 const getBestLanguage = (locale: string) =>
   getLanguage(getBestLocale([locale]));
-
-i18n.load('en', getCatalogSync('en'));
-i18n.activate('en');
 
 interface Props {
   locale: string;
