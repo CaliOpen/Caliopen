@@ -31,6 +31,57 @@ import OrgaDetails from './components/OrgaDetails';
 import PhoneDetails from './components/PhoneDetails';
 import PublicKeyList from './components/PublicKeyList';
 
+function ContactPlaceholder() {
+  return (
+    <>
+      <div className="s-contact__tags">
+        <PlaceholderBlock shape="line" display="inline-block" width="small" />
+        <PlaceholderBlock shape="line" display="inline-block" />
+      </div>
+      <div className="s-contact__main-title s-contact-main-title">
+        <div className="s-contact-main-title__avatar">
+          <PlaceholderBlock shape="avatar" size="large" />
+        </div>
+        <div className="s-contact-main-title__name">
+          <PlaceholderBlock display="inline-block" width="large" />
+        </div>
+
+        <div className="s-contact-main-title__pi">
+          <PlaceholderBlock shape="square" />
+        </div>
+      </div>
+      <div className="s-contact__contact-details">
+        <Title hr>
+          <PlaceholderBlock shape="line" display="inline-block" width="large" />
+        </Title>
+        <TextList className="s-contact__details-group">
+          <TextItem>
+            <PlaceholderBlock
+              shape="line"
+              display="inline-block"
+              width="xlarge"
+            />
+          </TextItem>
+          <TextItem>
+            <PlaceholderBlock
+              shape="line"
+              display="inline-block"
+              width="xlarge"
+            />
+          </TextItem>
+          <TextItem>
+            <PlaceholderBlock
+              shape="line"
+              display="inline-block"
+              width="xlarge"
+            />
+          </TextItem>
+        </TextList>
+      </div>
+    </>
+  );
+}
+
 function Contact():
   | JSX.Element
   | React.ReactElement<typeof ContactPageWrapper> {
@@ -58,77 +109,9 @@ function Contact():
 
   if (!contact) {
     return (
-      <div className="s-contact">
-        <PageTitle />
-        <ActionBar
-          className="s-contact-action-bar"
-          isLoading
-          actionsNode={
-            <>
-              <PlaceholderBlock
-                shape="line"
-                display="inline-block"
-                width="small"
-              />
-              :
-              <PlaceholderBlock shape="line" display="inline-block" />
-              <PlaceholderBlock
-                shape="line"
-                display="inline-block"
-                width="large"
-              />
-            </>
-          }
-        />
-        <div className="s-contact__tags">
-          <PlaceholderBlock shape="line" display="inline-block" width="small" />
-          <PlaceholderBlock shape="line" display="inline-block" />
-        </div>
-        <div className="s-contact__main-title s-contact-main-title">
-          <div className="s-contact-main-title__avatar">
-            <PlaceholderBlock shape="avatar" size="large" />
-          </div>
-          <div className="s-contact-main-title__name">
-            <PlaceholderBlock display="inline-block" width="large" />
-          </div>
-
-          <div className="s-contact-main-title__pi">
-            <PlaceholderBlock shape="square" />
-          </div>
-        </div>
-        <div className="s-contact__contact-details">
-          <Title hr>
-            <PlaceholderBlock
-              shape="line"
-              display="inline-block"
-              width="large"
-            />
-          </Title>
-          <TextList className="s-contact__details-group">
-            <TextItem>
-              <PlaceholderBlock
-                shape="line"
-                display="inline-block"
-                width="xlarge"
-              />
-            </TextItem>
-            <TextItem>
-              <PlaceholderBlock
-                shape="line"
-                display="inline-block"
-                width="xlarge"
-              />
-            </TextItem>
-            <TextItem>
-              <PlaceholderBlock
-                shape="line"
-                display="inline-block"
-                width="xlarge"
-              />
-            </TextItem>
-          </TextList>
-        </div>
-      </div>
+      <ContactPageWrapper contact={contact} hasActivity={isFetching}>
+        <ContactPlaceholder />
+      </ContactPageWrapper>
     );
   }
 
