@@ -4,11 +4,11 @@
 .s-contact {
   // prevent margin to collapse
   &::before {
-    clear: both;
-    content: '';
     display: table;
-    margin-top: -1px;
+    content: '';
+    clear: both;
     height: 0;
+    margin-top: -1px;
   }
 
   padding-bottom: map_get($co-margin_, 'xlarge');
