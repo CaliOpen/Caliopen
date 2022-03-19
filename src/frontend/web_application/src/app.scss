@@ -1,11 +1,11 @@
 @import './styles/common';
 @import './styles/vendor/bootstrap_foundation-sites';
 
-// --- Reset zf-normalizer
-@import 'styles/base/reset';
-
 // CSS Exports
 @include foundation-global-styles;
+
+// --- Reset zf-normalizer
+@import 'styles/base/reset';
 
 // @include foundation-grid;
 // @include foundation-flex-grid;
