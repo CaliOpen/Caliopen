@@ -2,6 +2,15 @@
 @import '../../styles/vendor/bootstrap_foundation-sites';
 
 .s-contact {
+  // prevent margin to collapse
+  &::before {
+    display: table;
+    content: '';
+    clear: both;
+    height: 0;
+    margin-top: -1px;
+  }
+
   padding-bottom: map_get($co-margin_, 'xlarge');
   background: $co-color__fg__back;
 

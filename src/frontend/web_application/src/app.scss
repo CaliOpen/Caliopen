@@ -1,11 +1,12 @@
 @import './styles/common';
 @import './styles/vendor/bootstrap_foundation-sites';
 
-// --- Reset zf-normalizer
-@import 'styles/base/reset';
-
 // CSS Exports
 @include foundation-global-styles;
+
+// --- Reset zf-normalizer (after foundation-global-styles)
+// stylelint-disable-next-line no-invalid-position-at-import-rule
+@import 'styles/base/reset';
 
 // @include foundation-grid;
 // @include foundation-flex-grid;

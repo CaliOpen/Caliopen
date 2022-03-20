@@ -9,7 +9,8 @@ import configureAppStore from 'src/store/configure-store';
 import { initialState as initialStateSettings } from 'src/store/modules/settings';
 import { getUserLocales } from 'src/modules/i18n';
 import { getDefaultSettings } from 'src/modules/settings';
-import { messages } from 'locale/en/messages';
+// for some reason, jest won't import correctly `message.ts`
+import messages from 'locale/en/messages.json';
 
 const locales = getUserLocales();
 const settings = getDefaultSettings(locales);
