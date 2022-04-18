@@ -4,12 +4,32 @@
 .m-link {
   @include o-clickable;
 
-  &--text {
-    @include o-clickable--text;
-  }
-
   &--button {
     @include o-clickable--button;
+  }
+
+  // display: inline, inline-block or expanded :
+  &--block {
+    @include o-clickable--button;
+
+    width: 100%;
+  }
+  &--center {
+    text-align: center;
+  }
+  &--expanded {
+    @include o-clickable--button;
+    @include o-clickable--expanded;
+  }
+  &--inline {
+    @include o-clickable--inline;
+  }
+  &--inline-block {
+    @include o-clickable--button;
+  }
+
+  &--text {
+    @include o-clickable--text;
   }
 
   &--badge {
@@ -44,5 +64,9 @@
     @include o-clickable--expanded;
 
     height: 100%;
+  }
+
+  &__text {
+    margin-left: calc($co-margin / 4);
   }
 }

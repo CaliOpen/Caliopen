@@ -88,7 +88,7 @@ class NewDeviceInfo extends PureComponent {
             <Trans id="new-device-info.learn-more" message="Learn more" />
           </Button>
           {this.renderModal()}
-          <Link plain button to={URL_DEVICES}>
+          <Link shape="plain" button to={URL_DEVICES}>
             <Trans id="new-device-info.i-understand" message="I understand" />
           </Link>
         </div>

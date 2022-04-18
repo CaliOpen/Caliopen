@@ -88,7 +88,12 @@ class ForgotPasswordForm extends Component {
                     className="m-forgot-password-form__action"
                     bottomSpace
                   >
-                    <Link button plain expanded to="/auth/signin">
+                    <Link
+                      button
+                      shape="plain"
+                      display="expanded"
+                      to="/auth/signin"
+                    >
                       <Trans
                         id="password.forgot-form.action.login"
                         message="Ok"
