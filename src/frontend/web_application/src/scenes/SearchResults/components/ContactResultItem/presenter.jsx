@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { formatName } from 'src/modules/contact';
 import {
   WithTags,
   getTagLabel,
@@ -7,7 +8,6 @@ import {
 } from '../../../../modules/tags';
 import { ContactAvatarLetter, SIZE_SMALL } from '../../../../modules/avatar';
 import { Badge, Link, TextBlock } from '../../../../components';
-import { formatName } from '../../../../services/contact';
 import Highlights from '../Highlights';
 import './style.scss';
 

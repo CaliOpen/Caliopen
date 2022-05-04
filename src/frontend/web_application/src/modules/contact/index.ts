@@ -8,6 +8,8 @@ export * as ContactListUtility from './components/ContactList';
 export * from './hoc/withContacts';
 export * from './selectors/contactSelector';
 export * from './services/addAddressToContact';
+export * from './services/form';
+export * from './services/format';
 export * from './services/identityTypes';
 export * from './hooks/useContacts';
 export * from './consts';

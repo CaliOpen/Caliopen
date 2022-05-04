@@ -1,4 +1,4 @@
-import * as contactService from './index';
+import * as contactService from './format';
 
 describe('contact services', () => {
   describe('getFirstLetter', () => {
@@ -7,6 +7,7 @@ describe('contact services', () => {
     });
 
     it('default letter is mandatory', () => {
+      // @ts-ignore
       expect(contactService.getFirstLetter('^azdjhk')).toEqual(undefined);
     });
 
@@ -23,6 +24,8 @@ describe('contact services', () => {
 
   describe('formatName', () => {
     const contact = {
+      contact_id: 'abcd-efgh',
+      user_id: '',
       title: 'J.D.',
       given_name: 'John',
       family_name: 'Doe',

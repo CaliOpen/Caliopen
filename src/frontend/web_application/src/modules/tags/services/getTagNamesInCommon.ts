@@ -1,6 +1,10 @@
 import intersection from 'lodash/intersection';
+import { Entity } from '../types';
 
-export const getTagNamesInCommon = (entities, { strict = false } = {}) =>
+export const getTagNamesInCommon = (
+  entities: Entity[],
+  { strict = false } = {}
+) =>
   intersection(
     ...(strict
       ? entities

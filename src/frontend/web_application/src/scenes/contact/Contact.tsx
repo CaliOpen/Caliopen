@@ -18,7 +18,7 @@ import { Contact as IContact } from 'src/modules/contact/types';
 import { getAveragePI } from 'src/modules/pi';
 import { useSettings } from 'src/modules/settings';
 import { APIAxiosError } from 'src/services/api-client/types';
-import { formatName } from 'src/services/contact';
+import { formatName } from 'src/modules/contact';
 import PageError from '../error/PageError';
 import PageNotFound from '../error/PageNotFound';
 import AddressDetails from './components/AddressDetails';

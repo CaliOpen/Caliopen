@@ -36,7 +36,7 @@ import NewDeviceInfo from '../../../scenes/NewDeviceInfo';
 import ValidateDevice from '../../../scenes/ValidateDevice';
 import View from '../../../scenes/View';
 import { renderParticipant } from '../../../services/message';
-import { formatName } from '../../../services/contact';
+import { formatName } from '../../contact';
 import AuthenticatedLayout from './AuthenticatedLayout';
 
 const tabMatchForSettings = ({ pathname }) =>
