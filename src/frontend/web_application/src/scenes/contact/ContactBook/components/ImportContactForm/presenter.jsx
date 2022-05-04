@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Trans, withI18n } from '@lingui/react';
-import { Button, InputFileGroup, Spinner } from '../../../../components';
-import { getMaxSize } from '../../../../services/config';
+import { Button, InputFileGroup, Spinner } from 'src/components';
+import { getMaxSize } from 'src/services/config';
 
 import './style.scss';
 

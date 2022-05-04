@@ -8,3 +8,7 @@ export interface TagPayload extends TagCommon {
 }
 
 export type TagAPIPostPayload = Omit<TagCommon, 'name'>;
+
+export interface Entity {
+  tags?: string[];
+}

@@ -1,19 +1,21 @@
 import { Trans } from '@lingui/react';
+import { AxiosResponse } from 'axios';
 import { FormikConfig } from 'formik';
+import { fromPairs } from 'lodash';
 import * as React from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import {
   createContact,
-  getConfigNew,
+  getQueryKeys,
   getContact,
   PostContactSuccess,
 } from 'src/modules/contact/query';
 import { ContactPayload } from 'src/modules/contact/types';
 import { useCloseTab, useCurrentTab } from 'src/modules/tab';
 import { notifyError } from 'src/modules/userNotify';
-import { getNewContact } from 'src/services/contact';
+import { getNewContact } from 'src/modules/contact';
 import ContactPageWrapper from './components/ContactPageWrapper';
 import ContactForm from './ContactForm';
 import {
@@ -24,23 +26,29 @@ import {
 
 function NewContact(): React.ReactElement<typeof ContactPageWrapper> {
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const closeTab = useCloseTab();
   const currentTab = useCurrentTab();
 
   const { push } = useHistory();
-  const queryConfig = getConfigNew();
 
   const { mutateAsync, isLoading: isUpdating } = useMutation<
-    PostContactSuccess,
+    AxiosResponse<PostContactSuccess>,
     unknown,
     { value: ContactPayload }
-  >(queryConfig.queryKey, createContact);
+  >(createContact, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(getQueryKeys());
+    },
+  });
   const contact = getNewContact();
   const handleSubmit: FormikConfig<ContactPayload>['onSubmit'] = async (
     value
   ) => {
     try {
-      const { contact_id: contactId } = await mutateAsync({ value });
+      const {
+        data: { contact_id: contactId },
+      } = await mutateAsync({ value });
       push(`/contacts/${contactId}`);
       closeTab(currentTab);
     } catch (err) {
@@ -56,9 +64,11 @@ function NewContact(): React.ReactElement<typeof ContactPageWrapper> {
       const contactsUsed = await Promise.all(
         contactIdsToGet?.map((ctId) => getContact(ctId)) || []
       );
-      const contactsById = contactsUsed.reduce(
-        (acc, curr) => ({ ...acc, [curr.contact_id]: curr }),
-        {}
+      const contactsById = fromPairs(
+        contactsUsed.map((response) => [
+          response.data.contact_id,
+          response.data,
+        ])
       );
 
       const message = contactErrors?.map((contactErr, index) => {
@@ -112,8 +122,8 @@ function NewContact(): React.ReactElement<typeof ContactPageWrapper> {
     <ContactPageWrapper isEditing>
       <ContactForm
         initialValues={contact}
-        handleCancel={handleCancel}
-        handleSubmit={handleSubmit}
+        onCancel={handleCancel}
+        onSubmit={handleSubmit}
         hasActivity={isUpdating}
         initialProfileSectionOpen
         formName="new-contact"

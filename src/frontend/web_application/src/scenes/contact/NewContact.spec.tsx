@@ -6,7 +6,7 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { rest } from 'msw';
-import { getNewContact } from 'src/services/contact';
+import { getNewContact } from 'src/modules/contact';
 import { server } from 'test/server';
 import { AllProviders } from 'test/providers';
 import NewContact from './NewContact';

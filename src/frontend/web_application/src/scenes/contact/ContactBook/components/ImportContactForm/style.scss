@@ -1,0 +1,20 @@
+@import 'src/styles/common';
+@import 'src/styles/object/o-clickable';
+@import 'src/styles/object/o-form-element';
+@import 'src/styles/object/o-hidden-element';
+@import 'src/styles/vendor/bootstrap_foundation-sites';
+
+.m-import-contact-form {
+  width: map_get($co-form__width, 'xlarge');
+
+  &__buttons {
+    @include flex-grid-row;
+
+    justify-content: space-between;
+    margin-top: $co-margin;
+  }
+
+  &__button {
+    @include flex-grid-column(shrink);
+  }
+}

@@ -1,9 +1,7 @@
 import { toNumber } from 'lodash';
 
 type Value = string | number;
-type TResult = {
-  [key: string]: Value | Value[];
-};
+type TResult = Record<string, undefined | Value | Value[]>;
 
 export function getSearchParams(queryString: string): TResult {
   const paramsIterator = new URLSearchParams(queryString);

@@ -25,8 +25,8 @@ import {
 import { TagPayload } from 'src/modules/tags/types';
 import { userSelector, useUser } from 'src/modules/user';
 import { requestUser } from 'src/modules/user/store';
-import { getConfigDelete, deleteContact } from 'src/modules/contact/query';
-import { useMutation } from 'react-query';
+import { deleteContact, getQueryKeys } from 'src/modules/contact/query';
+import { useMutation, useQueryClient } from 'react-query';
 import { notifyError } from 'src/modules/userNotify';
 
 import '../style.scss';
@@ -73,6 +73,7 @@ function ContactPageWrapper({
   i18n,
   isEditing,
 }: Props): JSX.Element {
+  const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const { push } = useHistory();
   const closeTab = useCloseTab();
@@ -81,12 +82,18 @@ function ContactPageWrapper({
   const { user } = useUser();
   const { tags } = useTags();
 
-  const queryConfig = getConfigDelete(contact?.contact_id);
   const { mutateAsync, isLoading: isDeleting } = useMutation<
     unknown,
     unknown,
     string
-  >(queryConfig.queryKey, deleteContact);
+  >(deleteContact, {
+    onSuccess: () => {
+      queryClient.removeQueries(
+        getQueryKeys({ contactId: contact?.contact_id })
+      );
+      queryClient.invalidateQueries(getQueryKeys());
+    },
+  });
 
   const contactIsUser =
     contact?.contact_id &&

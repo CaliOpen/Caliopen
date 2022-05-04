@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withI18n } from '@lingui/react';
-import { withNotification } from '../../../../modules/userNotify';
-import getClient from '../../../../services/api-client';
+import { withNotification } from 'src/modules/userNotify';
+import getClient from 'src/services/api-client';
+import UploadFileAsFormField from 'src/modules/file/services/uploadFileAsFormField';
 import ImportContactForm from '../ImportContactForm';
-import UploadFileAsFormField from '../../../../modules/file/services/uploadFileAsFormField';
 
 @withI18n()
 @withNotification()
