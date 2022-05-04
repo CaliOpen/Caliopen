@@ -139,6 +139,9 @@ interface Contact extends ContactCommon {
   public_keys?: PublicKey[];
   user_id: string;
 }
+// ---------------------------------------------
+
+// PAYLOAD -------------------------------------
 
 export interface ContactPayload extends ContactCommon {
   addresses?: PostalAddressPayload[];
@@ -149,6 +152,28 @@ export interface ContactPayload extends ContactCommon {
   ims?: IMPayload[];
   contact_id?: string;
 }
-//  ---------------------------------------------
+
+export interface GETContactListPayload {
+  total: number;
+  contacts: Contact[];
+}
+
+// ---------------------------------------------
+
+// FORM ----------------------------------------
+
+export interface ContactFormData extends ContactPayload {
+  key?: string;
+}
+
+// ---------------------------------------------
+
+// STORE ---------------------------------------
+
+export interface NewContactState {
+  currentKey: undefined | string;
+}
+
+// ---------------------------------------------
 
 export type TSortDir = 'ASC' | 'DESC';

@@ -1,46 +1,28 @@
 import * as React from 'react';
-import { Trans, withI18n, withI18nProps } from '@lingui/react';
+import { Trans, useLingui } from '@lingui/react';
 import classnames from 'classnames';
-import { createSelector } from 'reselect';
-import { RootState } from 'src/store/reducer';
+import { partition } from 'lodash';
 import { Title, Link, PlaceholderList } from 'src/components';
 import { useSettings } from 'src/modules/settings';
-import { useUser, store as userStore, userSelector } from 'src/modules/user';
+import { useUser } from 'src/modules/user';
 import {
   getFirstLetter,
   formatName,
   getContactTitle,
-} from 'src/services/contact';
-import { UserPayload } from 'src/modules/user/types';
-import { useSelector } from 'react-redux';
+} from '../../services/format';
 import { useContacts } from '../../hooks/useContacts';
 import { DEFAULT_SORT_DIR } from '../../consts';
 import { Contact, TSortDir } from '../../types';
 
 import ContactItem from './components/ContactItem';
-import { stateSelector as contactStateSelector } from '../../store';
-import './style.scss';
-import { contactSelector } from '../../selectors/contactSelector';
 import ContactItemPlaceholder from './components/ContactItemPlaceholder';
+import './style.scss';
 
 const ALPHA = '#abcdefghijklmnopqrstuvwxyz';
 const MODE_ASSOCIATION = 'association';
 const MODE_CONTACT_BOOK = 'contact-book';
 
 type TMode = typeof MODE_ASSOCIATION | typeof MODE_CONTACT_BOOK;
-
-type ContactsExceptUserSelected = Contact[];
-const contactsExceptUserSelector = createSelector<
-  [
-    (state: RootState) => RootState['contact'],
-    (state: RootState) => UserPayload | undefined
-  ],
-  ContactsExceptUserSelected
->([contactStateSelector, userSelector], (contactState, user) =>
-  contactState.contacts
-    .filter((contactId) => contactId !== user?.contact.contact_id)
-    .map((contactId) => contactState.contactsById[contactId])
-);
 
 const getNavLetter = (sortDir: TSortDir) =>
   ALPHA.split('').sort((a, b) => {
@@ -72,7 +54,6 @@ function Nav({ sortDir, firstLettersWithContacts = [] }: NavProps) {
             className={classnames('m-contact-list__alpha-letter', {
               'm-contact-list__alpha-letter--active': isActive,
             })}
-            disabled={!isActive}
           >
             {letter}
           </Link>
@@ -82,31 +63,41 @@ function Nav({ sortDir, firstLettersWithContacts = [] }: NavProps) {
   );
 }
 
-interface Props extends withI18nProps {
+const EMPTY_OBJECT = {};
+
+interface Props {
   selectedContactsIds?: string[]; // mode contact_book
-  onSelectEntity?: () => void; // mode contact_book
+  onSelectEntity?: (type: 'add' | 'remove', id: string) => void; // mode contact_book
   onClickContact?: (contact: Contact) => void; // mode association
   sortDir?: TSortDir;
   mode: TMode;
+  contacts: undefined | Contact[];
 }
 function ContactList({
-  i18n,
   onClickContact,
   onSelectEntity,
   mode,
   sortDir = DEFAULT_SORT_DIR,
   selectedContactsIds,
+  contacts,
 }: Props) {
+  const { i18n } = useLingui();
   const { contact_display_order, contact_display_format } = useSettings();
   const { user, initialized: userInitialized } = useUser();
-  const { initialized: contactsInitialized } = useContacts();
+  const { isFetched: contactsInitialized } = useContacts();
 
-  const contacts = useSelector(contactsExceptUserSelector);
+  let userContact;
+  let contactsExceptUser = contacts;
+  if (user?.contact) {
+    const [a, b] = partition(
+      contacts,
+      (contact) => contact.contact_id === user.contact.contact_id
+    );
+    userContact = a[0];
+    contactsExceptUser = b;
+  }
 
   const initialized = userInitialized && contactsInitialized;
-  const userContact = useSelector<RootState, void | Contact>(
-    (state) => user && contactSelector(state, user?.contact.contact_id)
-  );
 
   if (!initialized) {
     return (
@@ -132,24 +123,25 @@ function ContactList({
     );
   }
 
-  const contactsGroupedByLetter = contacts
-    .sort((a, b) =>
-      (a[contact_display_order] || getContactTitle(a)).localeCompare(
-        b[contact_display_order] || getContactTitle(b)
+  const contactsGroupedByLetter =
+    contactsExceptUser
+      ?.sort((a, b) =>
+        (a[contact_display_order] || getContactTitle(a)).localeCompare(
+          b[contact_display_order] || getContactTitle(b)
+        )
       )
-    )
-    .reduce((acc, contact) => {
-      const firstLetter = getFirstLetter(
-        contact[contact_display_order] ||
-          formatName({ contact, format: contact_display_format }),
-        '#'
-      );
+      .reduce((acc, contact) => {
+        const firstLetter = getFirstLetter(
+          contact[contact_display_order] ||
+            formatName({ contact, format: contact_display_format }),
+          '#'
+        );
 
-      return {
-        ...acc,
-        [firstLetter]: [...(acc[firstLetter] || []), contact],
-      };
-    }, {});
+        return {
+          ...acc,
+          [firstLetter]: [...(acc[firstLetter] || []), contact],
+        };
+      }, {}) || EMPTY_OBJECT;
 
   const firstLettersWithContacts = Object.keys(contactsGroupedByLetter);
   const firstLetters = getNavLetter(sortDir);
@@ -212,10 +204,4 @@ function ContactList({
   );
 }
 
-export default withI18n()(ContactList);
-
-// XXX: pattern experimentation, does static component funct easy to use in the child?
-// may be an anti-pattern
-export const isLoadingSelector = (state: RootState) =>
-  contactStateSelector(state).status === 'pending' ||
-  userStore.stateSelector(state).status === 'pending';
+export default ContactList;
