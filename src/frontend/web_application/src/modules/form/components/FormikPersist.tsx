@@ -1,28 +1,31 @@
 import * as React from 'react';
-import { FormikConsumer, FormikErrors } from 'formik';
+import { FormikErrors, useFormikContext } from 'formik';
 
-function clear(key) {
+const computeKey = (name: string): string => `formik.form.${name}`;
+
+export function clearPersisted(name: string) {
+  const key = computeKey(name);
   sessionStorage.removeItem(key);
 }
 
-type FormikPersistorProps = {
+type FormikPersistorProps<Values> = {
   name: string;
-  values: Record<string, string>;
+  values: Values;
   errors: FormikErrors<any>;
-  setValues: (values: Record<string, string>) => void;
-  setErrors: (errors: Record<string, string>) => void;
+  setValues: (values: Values) => void;
+  setErrors: (errors: FormikErrors<Values>) => void;
 };
 
-function FormikPersistor({
+function FormikPersistor<Values = Record<string, string>>({
   name,
   setValues,
   setErrors,
   values,
   errors,
-}: FormikPersistorProps) {
-  const storageKey = `formik.form.${name}`;
+}: FormikPersistorProps<Values>) {
+  const storageKey = computeKey(name);
   React.useLayoutEffect(() => {
-    window.addEventListener('beforeunload', clear);
+    window.addEventListener('beforeunload', () => clearPersisted(name));
   }, []);
 
   React.useEffect(() => {
@@ -35,7 +38,7 @@ function FormikPersistor({
     }
 
     return () => {
-      window.removeEventListener('beforeunload', clear);
+      window.removeEventListener('beforeunload', () => clearPersisted(name));
     };
   }, []);
 
@@ -46,23 +49,20 @@ function FormikPersistor({
   return null;
 }
 
-function FormikPersist({
+function FormikPersist<Values = Record<string, string>>({
   name,
 }: {
   name: string;
-}): React.ReactElement<typeof FormikConsumer> {
+}): React.ReactElement<typeof FormikPersistor> {
+  const { values, errors, setValues, setErrors } = useFormikContext<Values>();
   return (
-    <FormikConsumer>
-      {({ values, errors, setValues, setErrors }) => (
-        <FormikPersistor
-          name={name}
-          setValues={setValues}
-          setErrors={setErrors}
-          values={values}
-          errors={errors}
-        />
-      )}
-    </FormikConsumer>
+    <FormikPersistor
+      name={name}
+      setValues={setValues}
+      setErrors={setErrors}
+      values={values}
+      errors={errors}
+    />
   );
 }
 
