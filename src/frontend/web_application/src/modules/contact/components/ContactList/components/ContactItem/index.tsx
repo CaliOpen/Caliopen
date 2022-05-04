@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classnames from 'classnames';
-import { Trans, withI18n, withI18nProps } from '@lingui/react';
+import { Trans, useLingui } from '@lingui/react';
 import { ContactAvatarLetter, SIZE_MEDIUM } from 'src/modules/avatar';
 import {
   getCleanedTagCollection,
@@ -8,7 +8,7 @@ import {
   useTags,
 } from 'src/modules/tags';
 import { Button, Link, TextBlock, Icon, Checkbox, Badge } from 'src/components';
-import { formatName } from 'src/services/contact';
+import { formatName } from 'src/modules/contact';
 import { Contact } from 'src/modules/contact/types';
 import { useSettings } from 'src/modules/settings';
 import './style.scss';
@@ -85,7 +85,7 @@ const getMainAddresses = ({ contact }) =>
     return [...acc, mainAddress];
   }, []);
 
-interface Props extends withI18nProps {
+interface Props {
   contact: Contact;
   className?: string;
   onSelectEntity?: (action: 'add' | 'remove', contactId: string) => void;
@@ -100,8 +100,8 @@ function ContactItem({
   onClickContact,
   isContactSelected,
   selectDisabled,
-  i18n,
 }: Props) {
+  const { i18n } = useLingui();
   const { tags } = useTags();
   const { contact_display_format } = useSettings();
 
@@ -202,4 +202,4 @@ function ContactItem({
   );
 }
 
-export default withI18n()(ContactItem);
+export default ContactItem;

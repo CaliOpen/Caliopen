@@ -1,70 +1,121 @@
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { flatten } from 'lodash';
 import getClient from 'src/services/api-client';
 import calcObjectForPatch from 'src/services/api-patch';
-import { Contact, ContactPayload } from './types';
+import { Contact, ContactPayload, GETContactListPayload } from './types';
 
 const client = getClient();
-
-// XXX: refactor
-interface QueryConfig {
-  url: string;
-  queryKey: string[] | string;
-}
-
 export interface PostContactSuccess {
   location: string;
   contact_id: string;
 }
 
-export const getConfigNew = (): QueryConfig => ({
-  url: `/api/v2/contacts`,
-  queryKey: ['contact', 'new'],
-});
+type QueryKey = string[] | string;
 
-export const getConfigOne = (contactId: string): QueryConfig => ({
-  url: `/api/v2/contacts/${contactId}`,
-  queryKey: ['contact', contactId],
-});
-
-export const getConfigDelete = (contactId?: string): QueryConfig => ({
-  url: `/api/v2/contacts/${contactId}`,
-  queryKey: ['contact'],
-});
-
-export async function getContact(contactId: string): Promise<Contact> {
-  const { data } = await client.get(getConfigOne(contactId).url);
-
-  return data;
+// ------------------------
+// XXX: refactor
+interface FetchConfig {
+  url: string;
+  fetchParams?: Record<string, string | number>;
+  requestConfig?: AxiosRequestConfig;
 }
-
-export async function createContact({
-  value: payload,
+interface QueryConfig extends FetchConfig {
+  queryKeys: string | string[];
+}
+export const getQueryKeys = ({
+  contactId,
+  fetchParams,
 }: {
-  value: ContactPayload;
-}): Promise<PostContactSuccess> {
-  const { data } = await client.post(getConfigNew().url, payload);
+  contactId?: string;
+  fetchParams?: any;
+} = {}): QueryKey =>
+  // @ts-ignore
+  [
+    'contacts',
+    contactId,
+    fetchParams ? JSON.stringify(fetchParams) : undefined,
+  ].filter(Boolean);
 
-  return data;
+export const getConfigOne = (contactId: string): FetchConfig => ({
+  url: `/api/v2/contacts/${contactId}`,
+});
+
+export const getConfigList = (fetchParams?: any): QueryConfig => ({
+  url: `/api/v2/contacts`,
+  fetchParams,
+  queryKeys: getQueryKeys({ fetchParams }),
+});
+export const getConfigNew = (): FetchConfig => ({
+  url: `/api/v2/contacts`,
+});
+export const getConfigDelete = (contactId?: string): FetchConfig => ({
+  url: `/api/v2/contacts/${contactId}`,
+});
+
+// -----------------
+
+export function getContact(contactId: string) {
+  return client.get<Contact>(getConfigOne(contactId).url);
 }
 
-export async function updateContact({
+export function getContactList(fetchParams) {
+  return client.get<GETContactListPayload>(getConfigList().url, {
+    params: fetchParams,
+  });
+}
+
+const hasMore = (contacts: Contact[], total) => contacts.length < total;
+const getNextOffset = (contacts: Contact[]) => contacts.length;
+
+const getNextPageParam = (
+  lastPage: AxiosResponse<GETContactListPayload>,
+  allPages: AxiosResponse<GETContactListPayload>[]
+) => {
+  const currentContacts = flatten(allPages.map((res) => res.data.contacts));
+
+  if (!hasMore(currentContacts, lastPage.data.total)) {
+    return undefined;
+  }
+  return {
+    offset: getNextOffset(currentContacts),
+  };
+};
+
+const getContactListRecursive = async (
+  fetchParams = {},
+  allPages: AxiosResponse<GETContactListPayload>[] = []
+): Promise<AxiosResponse<GETContactListPayload>[]> => {
+  const response = await getContactList(fetchParams);
+  const nextAllPages = [...allPages, response];
+  const nextPageParams = getNextPageParam(response, nextAllPages);
+
+  if (nextPageParams) {
+    return getContactListRecursive(nextPageParams, nextAllPages);
+  }
+
+  return nextAllPages;
+};
+
+export function getAllContactCollection() {
+  return getContactListRecursive({ limit: 1000 });
+}
+
+export function createContact({ value: payload }: { value: ContactPayload }) {
+  return client.post<PostContactSuccess>(getConfigNew().url, payload);
+}
+
+export function updateContact({
   value,
   original,
 }: {
   value: ContactPayload;
   original: Contact;
-}): Promise<unknown> {
+}) {
   const payload = calcObjectForPatch(value, original);
 
-  const { data } = await client.patch(
-    getConfigOne(original.contact_id).url,
-    payload
-  );
-
-  return data;
+  return client.patch(getConfigOne(original.contact_id).url, payload);
 }
 
-export async function deleteContact(contactId) {
-  const { data } = await client.delete(getConfigDelete(contactId).url);
-
-  return data;
+export function deleteContact(contactId: string) {
+  return client.delete(getConfigDelete(contactId).url);
 }

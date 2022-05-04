@@ -1,25 +1,33 @@
-import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { shouldFetchSelector, stateSelector } from '../store/selectors';
-import { requestContacts } from '../store/reducer';
-import { contactsSelector } from '../selectors/contactSelector';
+import { AxiosResponse } from 'axios';
+import { useIsFetching, useQuery, UseQueryResult } from 'react-query';
+import { flatten } from 'lodash';
+import { APIAxiosError } from 'src/services/api-client/types';
+import { Contact, GETContactListPayload } from '../types';
+import { getAllContactCollection, getConfigList } from '../query';
 
-export function useContacts() {
-  const dispatch = useDispatch();
+type UseContactsResult = UseQueryResult<Contact[], APIAxiosError>;
 
-  const { initialized, status } = useSelector(stateSelector);
-  const shouldFetch = useSelector(shouldFetchSelector);
-  const contacts = useSelector(contactsSelector);
+const queryConfig = getConfigList();
 
-  React.useEffect(() => {
-    if (shouldFetch) {
-      dispatch(requestContacts());
-    }
-  }, [shouldFetch]);
+/**
+ * Load all the contacts (by chunks of 1000) and keep data for 1h.
+ */
+export function useContacts(): UseContactsResult {
+  const result = useQuery<
+    AxiosResponse<GETContactListPayload>[],
+    APIAxiosError,
+    Contact[]
+  >(queryConfig.queryKeys, () => getAllContactCollection(), {
+    // XXX: The data will not be refetched even after a window focus, it is
+    // probably required to invalidate query manually.
+    staleTime: 3600000, // 1h
+    select: (allPages) =>
+      flatten(allPages.map((response) => response.data.contacts)),
+  });
 
-  return {
-    initialized,
-    status,
-    contacts,
-  };
+  return result;
+}
+
+export function useContactsIsFetching(): boolean {
+  return useIsFetching(queryConfig.queryKeys) > 0;
 }
