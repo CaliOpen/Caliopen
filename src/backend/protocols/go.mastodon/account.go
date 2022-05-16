@@ -224,7 +224,7 @@ func (worker *AccountHandler) PollDM() {
 	statuses := make([]*mastodon.Status, 0, 40)
 	var getErr error
 	for {
-		pg.Limit = 40
+		pg.Limit = 1
 		pg.SinceID = ""
 		pg.MinID = ""
 		page, e := worker.mastodonClient.GetTimelineDirect(context.Background(), pg) // GetTimelineDirect will update pg.maxID
@@ -260,6 +260,7 @@ func (worker *AccountHandler) PollDM() {
 			if processErr != nil {
 				log.WithError(processErr).Warnf("[AccountHandler %s] ProcessInDM failed for status: %+v", worker.userAccount.remoteID.String(), statuses[i])
 			} else {
+				log.Infof("[AccountHandler %s] ProcessInDM success for status: %+v", worker.userAccount.remoteID.String(), statuses[i])
 				accountInfos[lastSeenInfosKey] = string(statuses[i].ID)
 			}
 		}

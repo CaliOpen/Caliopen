@@ -37,7 +37,7 @@ func (broker *MastodonBroker) ProcessInDM(userID, remoteID UUID, dm *mastodon.St
 	}
 	// send process order to nats
 	natsMessage := fmt.Sprintf(natsMessageTmpl, natsOrderRaw, userID.String(), remoteID.String(), rawID.String())
-	resp, err := broker.NatsConn.Request(broker.Config.LDAConfig.InTopic, []byte(natsMessage), 10*time.Second)
+	resp, err := broker.NatsConn.Request(broker.Config.LDAConfig.InTopic, []byte(natsMessage), 30*time.Second)
 	if err != nil {
 		if broker.NatsConn.LastError() != nil {
 			log.WithError(broker.NatsConn.LastError()).Warnf("[MastodonBroker] failed to publish inbound request on NATS for user %s. Raw message has been saved with id %s", userID.String(), rawID.String())
