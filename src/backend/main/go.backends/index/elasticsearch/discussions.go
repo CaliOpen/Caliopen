@@ -7,10 +7,11 @@ package index
 import (
 	"context"
 	"encoding/json"
+
 	. "github.com/CaliOpen/Caliopen/src/backend/defs/go-objects"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.main/helpers"
 	"github.com/CaliOpen/Caliopen/src/backend/main/go.main/messages"
-	"github.com/satori/go.uuid"
+	uuid "github.com/satori/go.uuid"
 	"gopkg.in/olivere/elastic.v5"
 )
 
@@ -23,10 +24,10 @@ func (es *ElasticSearchBackend) GetDiscussionsList(filter IndexSearch, withIL bo
 	search = filter.FilterQuery(search, withIL)
 	msgSource := elastic.NewFetchSourceContext(true)
 	msgSource.Include("date_sort", "subject", "participants", "body_plain", "body_html", "importance_level")
-	search.Aggregation("by_uris", elastic.NewTermsAggregation().Field("discussion_id").Size(10e3). // need to fetch all buckets to have an accurate buckets count
-													SubAggregation("sub_bucket", elastic.NewTopHitsAggregation().Sort("date_sort", false).Size(1).FetchSourceContext(msgSource)).
-													SubAggregation("unread_count", elastic.NewFilterAggregation().Filter(elastic.NewTermQuery("is_unread", true))).
-													SubAggregation("importance_level", elastic.NewTermsAggregation().Field("importance_level").Size(100).OrderByTermDesc()))
+	search.Aggregation("by_uris", elastic.NewTermsAggregation().Field("discussion_id.keyword").Size(10e3). // need to fetch all buckets to have an accurate buckets count
+														SubAggregation("sub_bucket", elastic.NewTopHitsAggregation().Sort("date_sort", false).Size(1).FetchSourceContext(msgSource)).
+														SubAggregation("unread_count", elastic.NewFilterAggregation().Filter(elastic.NewTermQuery("is_unread", true))).
+														SubAggregation("importance_level", elastic.NewTermsAggregation().Field("importance_level").Size(100).OrderByTermDesc()))
 	// TODO : attachment count aggr
 
 	var result *elastic.SearchResult
