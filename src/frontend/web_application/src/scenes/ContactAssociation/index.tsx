@@ -1,27 +1,22 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { Trans, withI18n, withI18nProps } from '@lingui/react';
 import { PageTitle, Button, ActionBar } from 'src/components';
 import {
-  loadMoreContacts,
   ContactList,
-  ContactListUtility,
+  useContactsIsFetching,
+  useContacts,
 } from 'src/modules/contact';
 import { Contact } from 'src/modules/contact/types';
-import { hasMore } from 'src/modules/contact/store/reducer';
 import { useSearchParams } from 'src/modules/routing';
 import { useCloseTab, useCurrentTab } from 'src/modules/tab';
-
-import { RootState } from 'src/store/reducer';
 
 import './contact-association.scss';
 
 type Props = withI18nProps;
 
 function ContactAssociation({ i18n }: Props) {
-  const dispatch = useDispatch();
-  const isLoading = useSelector(ContactListUtility.isLoadingSelector);
+  const isLoading = useContactsIsFetching();
   const closeTab = useCloseTab();
   const currentTab = useCurrentTab();
   const { push } = useHistory();
@@ -30,9 +25,7 @@ function ContactAssociation({ i18n }: Props) {
     protocol: string;
   }>();
   const { label } = useSearchParams();
-  const hasMoreContacts = useSelector<RootState, boolean>((state) =>
-    hasMore(state.contact)
-  );
+  const { data: contacts } = useContacts();
 
   const handleClickContact = (contact: Contact) => {
     push(
@@ -44,10 +37,6 @@ function ContactAssociation({ i18n }: Props) {
   const handleClickNewContact = () => {
     push(`/new-contact?address=${address}&protocol=${protocol}&label=${label}`);
     closeTab(currentTab);
-  };
-
-  const loadMore = () => {
-    dispatch(loadMoreContacts());
   };
 
   return (
@@ -77,14 +66,11 @@ function ContactAssociation({ i18n }: Props) {
           </div>
         }
       />
-      <ContactList onClickContact={handleClickContact} mode="association" />
-      {hasMoreContacts && (
-        <div className="s-contact-book-list__load-more">
-          <Button shape="hollow" onClick={loadMore}>
-            <Trans id="general.action.load_more" message="Load more" />
-          </Button>
-        </div>
-      )}
+      <ContactList
+        onClickContact={handleClickContact}
+        mode="association"
+        contacts={contacts}
+      />
     </div>
   );
 }

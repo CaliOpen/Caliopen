@@ -94,7 +94,7 @@ ${this.state.errorInfo && this.state.errorInfo.componentStack}
                 </Link>
               </div>
               <div>
-                <Link href="/" button plain>
+                <Link href="/" button shape="plain">
                   <Trans
                     id="error-boundary.back-to-home"
                     message="Go back to home"

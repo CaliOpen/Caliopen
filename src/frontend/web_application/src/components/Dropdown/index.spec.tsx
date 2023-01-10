@@ -47,28 +47,28 @@ describe('component > Dropdown', () => {
   it('toggle dropdown', async () => {
     render(<Comp />);
 
-    expect(screen.queryByText('Hello world')).not.toBeVisible();
+    expect(screen.queryByText('Hello world')).not.toBeInTheDocument();
     act(() => {
       userEvent.click(screen.getByRole('button', { name: 'Click' }));
     });
-    expect(screen.getByText('Hello world')).toBeVisible();
+    expect(screen.getByText('Hello world')).toBeInTheDocument();
     act(() => {
       userEvent.click(screen.getByText('Outside'));
     });
-    expect(screen.queryByText('Hello world')).not.toBeVisible();
+    expect(screen.queryByText('Hello world')).not.toBeInTheDocument();
   });
 
   it('toggles controlled', () => {
     render(<CompControlled />);
 
-    expect(screen.queryByText('Hello world')).not.toBeVisible();
+    expect(screen.queryByText('Hello world')).not.toBeInTheDocument();
     userEvent.click(screen.getByText('Ctrl'));
-    expect(screen.queryByText('Hello world')).not.toBeVisible();
+    expect(screen.queryByText('Hello world')).not.toBeInTheDocument();
     userEvent.click(screen.getByRole('button', { name: 'Show' }));
-    expect(screen.getByText('Hello world')).toBeVisible();
+    expect(screen.getByText('Hello world')).toBeInTheDocument();
     userEvent.click(screen.getByText('Outside'));
-    expect(screen.getByText('Hello world')).toBeVisible();
+    expect(screen.getByText('Hello world')).toBeInTheDocument();
     userEvent.click(screen.getByRole('button', { name: 'Hide' }));
-    expect(screen.queryByText('Hello world')).not.toBeVisible();
+    expect(screen.queryByText('Hello world')).not.toBeInTheDocument();
   });
 });

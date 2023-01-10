@@ -87,17 +87,17 @@ class Presenter extends Component {
             </VerticalMenuItem>
             <Separator />
             <VerticalMenuItem>
-              <Link to="/contacts" expanded button>
+              <Link to="/contacts" display="expanded" button>
                 <Trans id="header.menu.contacts" message="Contacts" />
               </Link>
             </VerticalMenuItem>
             <VerticalMenuItem>
-              <Link to="/user/profile" expanded button>
+              <Link to="/user/profile" display="expanded" button>
                 <Trans id="header.menu.account" message="Account" />
               </Link>
             </VerticalMenuItem>
             <VerticalMenuItem>
-              <Link to="/settings/application" expanded button>
+              <Link to="/settings/application" display="expanded" button>
                 <Trans id="header.menu.settings" message="Settings" />
               </Link>
             </VerticalMenuItem>
@@ -123,12 +123,12 @@ class Presenter extends Component {
             </VerticalMenuItem>
             <VerticalMenuItem>
               {user && (
-                <Link href="/auth/signout" button expanded>
+                <Link href="/auth/signout" button display="expanded">
                   <Trans id="header.menu.signout" message="Signout" />
                 </Link>
               )}
               {!user && (
-                <Link to="/auth/signin" button expanded>
+                <Link to="/auth/signin" button display="expanded">
                   <Trans id="header.menu.signin" message="Signin" />
                 </Link>
               )}

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import { useQuery } from 'react-query';
-import { getContact } from 'src/modules/contact/query';
+import { getContact, getQueryKeys } from 'src/modules/contact/query';
 import { Icon } from 'src/components';
 import { getTabUrl } from 'src/modules/tab';
 import Tab from '../Tab';
@@ -19,9 +19,11 @@ function ContactTab({
   onRemove,
 }: Props): React.ReactElement<typeof NavbarItem> {
   const { contactId } = tab.getMatch({ routeConfig }).params;
-  const { data: contact } = useQuery(['contact', contactId], () =>
+  const { data } = useQuery(getQueryKeys({ contactId }), () =>
     getContact(contactId)
   );
+
+  const contact = data?.data;
 
   const label = routeConfig.tab.renderLabel({ contact });
 

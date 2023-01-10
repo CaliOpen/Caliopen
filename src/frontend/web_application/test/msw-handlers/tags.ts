@@ -1,4 +1,6 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { rest } from 'msw';
+
 import tags from '../fixtures/tags/data.json';
 
 export const tagsHandlers = [

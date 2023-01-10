@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Moment from 'react-moment';
 import { Trans } from '@lingui/react';
-import { formatName } from 'src/services/contact';
+import { formatName } from 'src/modules/contact';
 import { ContactAvatarLetter } from 'src/modules/avatar';
 import { useSettings } from 'src/modules/settings';
 
@@ -31,7 +31,7 @@ function ProfileInfo(): JSX.Element {
       <div className="m-user-profile-details__name">
         <h3 className="m-user-profile-details__title">{user && user.name}</h3>
         <h4 className="m-user-profile-details__subtitle">
-          {user && user.contact && formatName({ contact, format })}
+          {contact && formatName({ contact, format })}
         </h4>
         <p>
           <Trans id="user.profile.subscribed_date" message="Subscribed on" />{' '}

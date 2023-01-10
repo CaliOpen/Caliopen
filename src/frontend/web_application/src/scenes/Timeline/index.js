@@ -43,7 +43,6 @@ const mapDispatchToProps = (dispatch) =>
       getUser,
       filterImportance,
       // deleteDiscussion: onDeleteMessage,
-      // updateMessagesTags,
     },
     dispatch
   );

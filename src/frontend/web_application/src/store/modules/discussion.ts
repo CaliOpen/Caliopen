@@ -191,6 +191,7 @@ function discussionByParticipantsHashReducer(state = hashInitialState, action) {
 
 export interface Discussion {
   id: string;
+  tags?: string[];
 }
 
 export interface State {

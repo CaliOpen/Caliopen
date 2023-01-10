@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { RawButton } from 'src/components';
 import { ContactPayload } from 'src/modules/contact/types';
 import { settingsSelector } from 'src/modules/settings';
-import { formatName } from 'src/services/contact';
+import { formatName } from 'src/modules/contact';
 import { RootState } from 'src/store/reducer';
 import './style.scss';
 

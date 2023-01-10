@@ -1,22 +1,30 @@
 import * as React from 'react';
-import { Trans, withI18n, withI18nProps } from '@lingui/react';
+import { Trans, useLingui } from '@lingui/react';
+import { useMutation, useQueryClient } from 'react-query';
 import { Button, Spinner } from 'src/components';
 import TextFieldGroup from 'src/components/TextFieldGroup';
-
+import { createTag, getQueryKeys } from 'src/modules/tags/query';
+import { NewTag } from 'src/modules/tags/types';
 import './style.scss';
-import { useDispatch } from 'react-redux';
-import { createTag } from 'src/modules/tags';
-import { isPending } from '@reduxjs/toolkit';
 
-interface Props extends withI18nProps {
-  onCreateSuccess: () => void;
+const noop = () => {};
+
+interface Props {
+  onCreateSuccess?: () => void;
 }
-function TagSearch({ i18n, onCreateSuccess }: Props) {
-  const dispatch = useDispatch();
+function TagSearch({ onCreateSuccess = noop }: Props) {
+  const { i18n } = useLingui();
   const [terms, setTerms] = React.useState('');
-  const [pending, setPending] = React.useState(false);
   const [tagErrors, setTagErrors] = React.useState<React.ReactNode[]>([]);
-
+  const queryClient = useQueryClient();
+  const { mutateAsync, isLoading } = useMutation<unknown, unknown, NewTag>(
+    createTag,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(getQueryKeys());
+      },
+    }
+  );
   const handleChange = (ev) => {
     setTerms(ev.target.value);
     setTagErrors([]);
@@ -26,10 +34,9 @@ function TagSearch({ i18n, onCreateSuccess }: Props) {
     if (terms.length === 0) {
       return;
     }
-    setPending(true);
 
     try {
-      await dispatch(createTag({ label: terms }));
+      await mutateAsync({ label: terms });
       setTerms('');
       onCreateSuccess();
     } catch (err) {
@@ -40,7 +47,6 @@ function TagSearch({ i18n, onCreateSuccess }: Props) {
         />,
       ]);
     }
-    setPending(false);
   };
 
   return (
@@ -69,13 +75,13 @@ function TagSearch({ i18n, onCreateSuccess }: Props) {
       <Button
         className="m-add-tag__button"
         icon={
-          pending ? (
+          isLoading ? (
             <Spinner svgTitleId="add-tag-spinner" isLoading display="inline" />
           ) : (
             'plus'
           )
         }
-        disabled={pending}
+        disabled={isLoading}
         shape="plain"
         onClick={handleSubmit}
         aria-label={i18n._(/* i18n */ 'tags.action.add', undefined, {
@@ -86,4 +92,4 @@ function TagSearch({ i18n, onCreateSuccess }: Props) {
   );
 }
 
-export default withI18n()(TagSearch);
+export default TagSearch;

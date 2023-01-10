@@ -1,18 +1,20 @@
 import { Trans } from '@lingui/react';
 import { FormikConfig } from 'formik';
 import * as React from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
+import { AxiosResponse } from 'axios';
 import { Link, useHistory, useParams } from 'react-router-dom';
+import { fromPairs } from 'lodash';
 import { APIAxiosError } from 'src/services/api-client/types';
 import {
-  getConfigOne,
   getContact,
   updateContact,
+  getQueryKeys,
 } from 'src/modules/contact/query';
+import { getNewContact } from 'src/modules/contact';
 import { Contact, ContactPayload } from 'src/modules/contact/types';
 import { notifyError } from 'src/modules/userNotify';
-import { getNewContact } from 'src/services/contact';
 import PageNotFound from 'src/scenes/error/PageNotFound';
 import PageError from 'src/scenes/error/PageError';
 import ContactPageWrapper from './components/ContactPageWrapper';
@@ -28,21 +30,29 @@ const emptyContact = getNewContact();
 function EditContact(): React.ReactElement<typeof ContactPageWrapper> {
   const dispatch = useDispatch();
   const { push } = useHistory();
+  const queryClient = useQueryClient();
   const { contactId } = useParams<{ contactId: string }>();
-  const queryConfig = getConfigOne(contactId);
   const {
     data: contact,
     isFetching,
     isError,
     error,
-  } = useQuery<Contact, APIAxiosError>(queryConfig.queryKey, () =>
-    getContact(contactId)
+  } = useQuery<AxiosResponse<Contact>, APIAxiosError, Contact>(
+    getQueryKeys({ contactId }),
+    () => getContact(contactId),
+    {
+      select: (response) => response.data,
+    }
   );
   const { mutateAsync, isLoading: isUpdating } = useMutation<
     unknown,
     unknown,
     { value: ContactPayload; original: Contact }
-  >(queryConfig.queryKey, updateContact);
+  >(updateContact, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(getQueryKeys());
+    },
+  });
 
   const hasActivity = isFetching || isUpdating;
 
@@ -81,9 +91,12 @@ function EditContact(): React.ReactElement<typeof ContactPageWrapper> {
       const contactsUsed = await Promise.all(
         contactIdsToGet?.map((ctId) => getContact(ctId)) || []
       );
-      const contactsById = contactsUsed.reduce(
-        (acc, curr) => ({ ...acc, [curr.contact_id]: curr }),
-        {}
+      // XXX: may be it would more efficient to use `useContacts`
+      const contactsById = fromPairs(
+        contactsUsed.map((response) => [
+          response.data.contact_id,
+          response.data,
+        ])
       );
 
       const message = contactErrors?.map((contactErr, index) => {
@@ -133,10 +146,12 @@ function EditContact(): React.ReactElement<typeof ContactPageWrapper> {
     <ContactPageWrapper contact={contact} isEditing hasActivity={hasActivity}>
       <ContactForm
         initialValues={contact || emptyContact}
-        handleCancel={handleCancel}
-        handleSubmit={handleSubmit}
+        onCancel={handleCancel}
+        onSubmit={handleSubmit}
         hasActivity={hasActivity}
-        formName={`edit-contact_${contact}`}
+        formName={`edit-contact_${
+          contact?.contact_id || emptyContact.contact_id || 'empty'
+        }`}
       />
     </ContactPageWrapper>
   );

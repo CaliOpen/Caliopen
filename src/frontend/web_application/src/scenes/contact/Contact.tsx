@@ -1,11 +1,10 @@
 import { Trans } from '@lingui/react';
+import { AxiosResponse } from 'axios';
 import * as React from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import {
-  ActionBar,
   Icon,
-  PageTitle,
   PlaceholderBlock,
   TextBlock,
   TextItem,
@@ -13,12 +12,12 @@ import {
   Title,
 } from 'src/components';
 import { ContactAvatarLetter } from 'src/modules/avatar';
-import { getConfigOne, getContact } from 'src/modules/contact/query';
+import { getContact, getQueryKeys } from 'src/modules/contact/query';
 import { Contact as IContact } from 'src/modules/contact/types';
 import { getAveragePI } from 'src/modules/pi';
 import { useSettings } from 'src/modules/settings';
 import { APIAxiosError } from 'src/services/api-client/types';
-import { formatName } from 'src/services/contact';
+import { formatName } from 'src/modules/contact';
 import PageError from '../error/PageError';
 import PageNotFound from '../error/PageNotFound';
 import AddressDetails from './components/AddressDetails';
@@ -86,15 +85,12 @@ function Contact():
   | JSX.Element
   | React.ReactElement<typeof ContactPageWrapper> {
   const { contactId } = useParams<{ contactId: string }>();
-  const queryConfig = getConfigOne(contactId);
-  const {
-    data: contact,
-    isFetching,
-    isError,
-    error,
-  } = useQuery<IContact, APIAxiosError>(queryConfig.queryKey, () =>
-    getContact(contactId)
-  );
+  const { data, isFetching, isError, error } = useQuery<
+    AxiosResponse<IContact>,
+    APIAxiosError
+  >(getQueryKeys({ contactId }), () => getContact(contactId));
+
+  const contact = data?.data;
 
   const settings = useSettings();
 

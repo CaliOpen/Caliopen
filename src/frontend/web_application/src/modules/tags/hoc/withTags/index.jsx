@@ -1,15 +1,13 @@
-import React, { PureComponent } from 'react';
-import WithTagsBase from '../../components/WithTags';
+import * as React from 'react';
+import { useTags } from '../../hooks/useTags';
 
+/**
+ * @deprecated use `useTags` instead
+ */
 const withTags = () => (WrappedComponent) => {
-  class WithTags extends PureComponent {
-    render() {
-      return (
-        <WithTagsBase
-          render={(tags) => <WrappedComponent tags={tags} {...this.props} />}
-        />
-      );
-    }
+  function WithTags(props) {
+    const { tags } = useTags();
+    return <WrappedComponent tags={tags} {...props} />;
   }
 
   return WithTags;

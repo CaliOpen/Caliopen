@@ -23,4 +23,8 @@
     padding: map_get($co-form__spacing, 'small');
     background-color: $co-color__fg__back;
   }
+
+  &__buttons {
+    text-align: right;
+  }
 }

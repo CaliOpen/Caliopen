@@ -1,0 +1,20 @@
+@import 'src/styles/common';
+@import 'src/styles/vendor/bootstrap_foundation-sites';
+
+.s-contact-book-menu {
+  text-align: right;
+
+  &__action-btn {
+    margin-left: map_get($co-margin_, 'xsmall');
+    color: #0e97c3;
+  }
+
+  &__select-all {
+    display: inline-block;
+    margin-left: map_get($co-margin_, 'xsmall');
+
+    &--label-hidden {
+      margin-right: map_get($co-margin_, 'xsmall');
+    }
+  }
+}

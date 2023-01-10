@@ -55,7 +55,6 @@ class Discussion extends Component {
     deleteMessage: PropTypes.func.isRequired,
     // XXX: waiting for API
     // deleteDiscussion: PropTypes.func.isRequired,
-    updateDiscussionTags: PropTypes.func.isRequired,
     closeTab: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired,
     getUser: PropTypes.func.isRequired,
@@ -188,12 +187,6 @@ class Discussion extends Component {
     push({ hash: 'reply' });
   };
 
-  handleTagsChange = async ({ tags }) => {
-    const { i18n, messages, updateDiscussionTags } = this.props;
-
-    return updateDiscussionTags({ i18n, messages, tags });
-  };
-
   loadMore = () => {
     const { hasMore, isFetching } = this.props;
 
@@ -262,11 +255,7 @@ class Discussion extends Component {
         title={title}
         onClose={this.handleCloseTags}
       >
-        <ManageEntityTags
-          type="discussion"
-          entity={discussion}
-          onChange={this.handleTagsChange}
-        />
+        <ManageEntityTags type="discussion" entity={discussion} />
       </Modal>
     );
   };

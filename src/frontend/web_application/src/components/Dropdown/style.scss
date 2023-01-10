@@ -28,4 +28,8 @@
       right: 1rem;
     }
   }
+
+  &--shadow {
+    box-shadow: $co-shadow;
+  }
 }

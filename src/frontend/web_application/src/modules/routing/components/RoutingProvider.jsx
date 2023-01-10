@@ -29,14 +29,14 @@ import RemoteIdentitySettings from '../../../scenes/RemoteIdentitySettings';
 import ApplicationSettings from '../../../scenes/ApplicationSettings';
 import Tags from '../../../scenes/TagsSettings';
 import Discussion from '../../../scenes/Discussion';
-import ContactBook from '../../../scenes/ContactBook';
+import ContactBook from '../../../scenes/contact/ContactBook';
 import PageNotFound from '../../../scenes/error/PageNotFound';
 import DevicesSettings from '../../../scenes/DevicesSettings';
 import NewDeviceInfo from '../../../scenes/NewDeviceInfo';
 import ValidateDevice from '../../../scenes/ValidateDevice';
 import View from '../../../scenes/View';
 import { renderParticipant } from '../../../services/message';
-import { formatName } from '../../../services/contact';
+import { formatName } from '../../contact';
 import AuthenticatedLayout from './AuthenticatedLayout';
 
 const tabMatchForSettings = ({ pathname }) =>

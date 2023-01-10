@@ -51,6 +51,8 @@ interface DropdownProps {
   displayFirstLayer?: boolean;
   innerRef: React.ForwardedRef<HTMLDivElement>;
   dropdownControlRef: React.MutableRefObject<HTMLElement | null>;
+  /* display css box-shadow */
+  withShadow?: boolean;
 }
 const defaultDropdownStyle: React.CSSProperties = {
   // force postion in order to have the correct width when calc position
@@ -72,6 +74,7 @@ function Dropdown({
   displayFirstLayer = false,
   innerRef,
   dropdownControlRef,
+  withShadow,
 }: DropdownProps) {
   const dropdownRef = useForwardedRef<HTMLDivElement>(innerRef);
 
@@ -167,12 +170,6 @@ function Dropdown({
     };
   }, [isOpen, dropdownRef, dropdownControlRef]);
 
-  // React.useEffect(() => {
-  //   if (show !== isOpen) {
-  //     setIsOpen(show);
-  //   }
-  // }, [show]);
-
   const getStyles = (visibility: boolean): React.CSSProperties => {
     if (!visibility) {
       // dropdown must be at default position when not visible for correct calc when displaying it
@@ -211,9 +208,10 @@ function Dropdown({
     id,
     className: classnames(
       'm-dropdown',
-      { 'm-dropdown--is-open': isOpen || show },
+      { 'm-dropdown--is-open': (isOpen || show) && children },
       { 'm-dropdown--is-menu': isMenu },
       { 'm-dropdown--display-first-layer': displayFirstLayer },
+      { 'm-dropdown--shadow': withShadow },
       className
     ),
     tabIndex: 0,
@@ -221,9 +219,10 @@ function Dropdown({
     style: dropdownStyle,
   };
 
+  // XXX: use native html element <dialog open> ?
   return (
     <div ref={dropdownRef} {...dropdownProps}>
-      {children}
+      {(isOpen || show) && children}
     </div>
   );
 }

@@ -19,46 +19,16 @@ import {
   getCleanedTagCollection,
   getTagLabel,
   ManageEntityTags,
-  updateTagCollection as updateTagCollectionBase,
   useTags,
 } from 'src/modules/tags';
-import { TagPayload } from 'src/modules/tags/types';
-import { userSelector, useUser } from 'src/modules/user';
-import { requestUser } from 'src/modules/user/store';
-import { getConfigDelete, deleteContact } from 'src/modules/contact/query';
-import { useMutation } from 'react-query';
+import { deleteContact, getQueryKeys } from 'src/modules/contact/query';
+import { useMutation, useQueryClient } from 'react-query';
 import { notifyError } from 'src/modules/userNotify';
+import { useUser } from 'src/modules/user';
 
 import '../style.scss';
 import '../contact-action-bar.scss';
 import '../contact-main-title.scss';
-
-const updateTagCollection =
-  (
-    i18n,
-    {
-      type,
-      entity,
-      tags: tagCollection,
-    }: { type: 'contact'; entity: Contact; tags: TagPayload[] }
-  ) =>
-  async (dispatch, getState) => {
-    const result = await dispatch(
-      updateTagCollectionBase(i18n, {
-        type,
-        entity,
-        tags: tagCollection,
-      })
-    );
-
-    const userContact = userSelector(getState())?.contact;
-
-    if (userContact?.contact_id === entity.contact_id) {
-      dispatch(requestUser());
-    }
-
-    return result;
-  };
 
 interface Props extends withI18nProps {
   children: React.ReactNode;
@@ -73,6 +43,7 @@ function ContactPageWrapper({
   i18n,
   isEditing,
 }: Props): JSX.Element {
+  const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const { push } = useHistory();
   const closeTab = useCloseTab();
@@ -81,12 +52,18 @@ function ContactPageWrapper({
   const { user } = useUser();
   const { tags } = useTags();
 
-  const queryConfig = getConfigDelete(contact?.contact_id);
   const { mutateAsync, isLoading: isDeleting } = useMutation<
     unknown,
     unknown,
     string
-  >(queryConfig.queryKey, deleteContact);
+  >(deleteContact, {
+    onSuccess: () => {
+      queryClient.removeQueries(
+        getQueryKeys({ contactId: contact?.contact_id })
+      );
+      queryClient.invalidateQueries(getQueryKeys());
+    },
+  });
 
   const contactIsUser =
     contact?.contact_id &&
@@ -123,20 +100,6 @@ function ContactPageWrapper({
       return;
     }
     push(`/contacts/${contact.contact_id}/edit`);
-  };
-
-  const handleTagsChange = (nextTags) => {
-    if (!contact) {
-      return;
-    }
-
-    dispatch(
-      updateTagCollection(i18n, {
-        type: 'contact',
-        entity: contact,
-        tags: nextTags,
-      })
-    );
   };
 
   return (
@@ -241,10 +204,7 @@ function ContactPageWrapper({
                         }
                         onClose={() => setIsTagModalOpen(false)}
                       >
-                        <ManageEntityTags
-                          entity={contact}
-                          onChange={handleTagsChange}
-                        />
+                        <ManageEntityTags type="contact" entity={contact} />
                       </Modal>
                     </>
                   )}

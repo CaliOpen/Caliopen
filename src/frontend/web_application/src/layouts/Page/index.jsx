@@ -97,7 +97,7 @@ class Page extends Component {
                     <VerticalMenuItem>
                       <Link
                         button
-                        expanded
+                        display="expanded"
                         href="https://github.com/CaliOpen/Caliopen/blob/master/CHANGELOG.md"
                         target="_blank"
                       >
@@ -110,7 +110,7 @@ class Page extends Component {
                     <VerticalMenuItem>
                       <Link
                         button
-                        expanded
+                        display="expanded"
                         href="https://feedback.caliopen.org/t/questions-frequemment-posees-frequently-asked-questions/162"
                         target="_blank"
                       >
@@ -120,7 +120,7 @@ class Page extends Component {
                     <VerticalMenuItem>
                       <Link
                         button
-                        expanded
+                        display="expanded"
                         href="https://feedback.caliopen.org"
                         target="_blank"
                       >
@@ -130,7 +130,7 @@ class Page extends Component {
                     <VerticalMenuItem>
                       <Link
                         button
-                        expanded
+                        display="expanded"
                         href="/privacy-policy.html"
                         target="_blank"
                       >

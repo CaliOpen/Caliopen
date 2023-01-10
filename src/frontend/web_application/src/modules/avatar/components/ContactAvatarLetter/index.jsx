@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { formatName } from 'src/modules/contact/services/format';
 import AvatarLetterWrapper from '../AvatarLetterWrapper';
 import AvatarLetter from '../AvatarLetter';
-import { formatName } from '../../../../services/contact';
 
 class ContactAvatarLetter extends PureComponent {
   static propTypes = {

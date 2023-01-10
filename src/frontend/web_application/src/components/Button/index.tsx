@@ -3,11 +3,13 @@ import classnames from 'classnames';
 import Icon from '../Icon';
 import RawButton from '../RawButton';
 import './style.scss';
+import Spinner from '../Spinner';
 
 interface Props extends React.ComponentProps<'button'> {
   className?: string;
   shape?: 'plain' | 'hollow';
   icon?: React.ReactElement | string;
+  isLoading?: boolean;
   display?: 'inline' | 'inline-block' | 'block' | 'expanded';
   color?: 'success' | 'alert' | 'secondary' | 'active' | 'disabled';
   responsive?: 'icon-only' | 'text-only';
@@ -20,7 +22,10 @@ interface Props extends React.ComponentProps<'button'> {
 function Button({
   children,
   className,
-  icon,
+  isLoading,
+  icon = isLoading ? (
+    <Spinner svgTitleId="badge-spinner" isLoading display="inline" />
+  ) : undefined,
   display = 'inline-block',
   color,
   shape,

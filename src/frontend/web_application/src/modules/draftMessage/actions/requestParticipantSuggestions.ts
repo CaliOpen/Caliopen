@@ -7,10 +7,9 @@ import {
   Suggestion,
   SuggestionPayload,
   ParticipantSuggestionPayload,
-} from '../../../store/modules/participant-suggestions';
+} from 'src/store/modules/participant-suggestions';
+import { formatName, getContact } from 'src/modules/contact';
 import { settingsSelector } from '../../settings';
-import { getContact } from '../../contact';
-import { formatName } from '../../../services/contact';
 
 const getSuggestion = ({
   label,

@@ -127,7 +127,7 @@ function OpenPGPKey({
             <div className="m-openpgp-key__actions">
               <Link
                 button
-                plain
+                shape="plain"
                 href={privateKeyDataUrl}
                 download="private-key.asc"
               >

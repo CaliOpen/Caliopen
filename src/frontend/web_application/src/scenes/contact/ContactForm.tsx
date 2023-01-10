@@ -13,7 +13,9 @@ import {
 } from 'src/components';
 import { IDENTITY_TYPE_TWITTER } from 'src/modules/contact';
 import { ContactPayload } from 'src/modules/contact/types';
-import FormikPersist from 'src/modules/form/components/FormikPersist';
+import FormikPersist, {
+  clearPersisted,
+} from 'src/modules/form/components/FormikPersist';
 import ContactProfileForm from './components/ContactProfileForm';
 import EmailForm from './components/EmailForm';
 import ImForm from './components/ImForm';
@@ -25,20 +27,33 @@ import IdentityForm from './components/IdentityForm';
 
 interface Props {
   initialValues: ContactPayload;
-  handleSubmit: FormikConfig<ContactPayload>['onSubmit'];
-  handleCancel: () => void;
+  onSubmit: FormikConfig<ContactPayload>['onSubmit'];
+  onCancel: () => void;
   hasActivity: boolean;
   initialProfileSectionOpen?: boolean;
   formName: string;
 }
 function ContactForm({
   initialValues,
-  handleSubmit,
-  handleCancel,
+  onSubmit,
+  onCancel,
   hasActivity,
   initialProfileSectionOpen,
   formName,
 }: Props): JSX.Element {
+  const handleSubmit: FormikConfig<ContactPayload>['onSubmit'] = (
+    value,
+    helpers
+  ) => {
+    onSubmit(value, helpers);
+    clearPersisted(formName);
+  };
+
+  const handleCancel = () => {
+    onCancel();
+    clearPersisted(formName);
+  };
+
   return (
     <div className="s-contact__form">
       <Formik<ContactPayload>
