@@ -69,7 +69,8 @@ export const getSignatureHeaders = async (
   req: AxiosRequestConfig,
   device?: Device
 ): Promise<Record<string, string>> => {
-  const { id, priv } = device || getConfig();
+  const { id, priv } = device || getConfig() || {};
+  // XXX: if no access to storage, this won't make sens. Throw?
   const signature = await signRequest(req, priv);
 
   return {

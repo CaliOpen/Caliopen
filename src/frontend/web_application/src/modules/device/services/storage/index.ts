@@ -29,11 +29,11 @@ export const save = ({ id, keypair }) => {
   });
 };
 
-export const getConfig = () => {
+export const getConfig = (): { [key: string]: string } | void => {
   const params = getStorage().findAll(DEVICE_NAMESPACE);
 
   if (!params.length) {
-    return null;
+    return undefined;
   }
 
   return params.reduce(
@@ -45,8 +45,18 @@ export const getConfig = () => {
   );
 };
 
+export interface PublicDevice {
+  device_id: string;
+  ecdsa_key: {
+    curve: string;
+    hash: string;
+    x: string;
+    y: string;
+  };
+}
+
 // XXX: should be a "Model" ?
-export const getPublicDevice = ({ id, keypair }) => {
+export const getPublicDevice = ({ id, keypair }): PublicDevice => {
   const pub = keypair.getPublic();
 
   return {

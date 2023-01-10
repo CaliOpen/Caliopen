@@ -42,6 +42,7 @@
     "@lingui/core": "^3.13.2",
     "@lingui/react": "^3.13.2",
     "@reduxjs/toolkit": "^1.8.0",
+    "@types/zxcvbn": "^4.4.1",
     "argv": "^0.0.2",
     "async-validator": "^3.2.4",
     "axios": "^0.20.0",

@@ -1,11 +1,11 @@
-import Schema from 'async-validator';
+import Schema, { RuleItem, Rules } from 'async-validator';
 import usernameDescriptor, {
   ERR_MIN_MAX,
   ERR_INVALID_CHARACTER,
   ERR_DOTS,
   ERR_DOUBLE_DOTS,
-} from '../../../../services/username-utils/username-validity';
-import usernameAvailability from '../../../../services/username-utils/username-availability';
+} from 'src/services/username-utils/username-validity';
+import { checkAvailability } from 'src/services/username-utils/username-availability';
 
 export const ERR_REQUIRED_TOS = 'ERR_REQUIRED_TOS';
 export const ERR_REQUIRED_PRIVACY = 'ERR_REQUIRED_PRIVACY';
@@ -94,7 +94,12 @@ export const getLocalizedErrors = (i18n) => ({
   ),
 });
 
-const descriptor = {
+const descriptor: {
+  username: RuleItem[];
+  privacy: RuleItem[];
+  recovery_email: RuleItem[];
+  password: RuleItem[];
+} = {
   username: [
     ...usernameDescriptor.username,
     { type: 'string', required: true, message: ERR_REQUIRED_USERNAME },
@@ -110,6 +115,7 @@ const descriptor = {
   //   },
   // ],
   privacy: [
+    // @ts-ignore: outdated lib?
     (rule, value, callback) => {
       if (value !== true) {
         return callback({ message: ERR_REQUIRED_PRIVACY });
@@ -130,24 +136,23 @@ const descriptor = {
 const usernameAvailabilityDescriptor = {
   username: [
     ...descriptor.username,
-    (rule, value, callback) => {
+    async (rule, value, callback) => {
       if (!value) {
         callback();
 
-        return;
+        return undefined;
       }
-      usernameAvailability(value).then((result) => {
-        if (result === true) {
-          return callback();
-        }
+      const result = await checkAvailability(value);
+      if (result === true) {
+        return callback();
+      }
 
-        return callback({ message: ERR_UNAVAILABLE_USERNAME });
-      });
+      return callback({ message: ERR_UNAVAILABLE_USERNAME });
     },
   ],
 };
 
-const makeDescriptor = (type) => {
+const makeDescriptor = (type: string) => {
   switch (type) {
     case 'full':
       return {
@@ -175,9 +180,11 @@ const extractErrors = (fieldsErrors, i18n) => {
     {}
   );
 };
-const validate = (formValues, i18n, descriptorType = false) =>
+
+export const validate = (formValues, i18n, descriptorType = 'username') =>
   new Promise((resolve, reject) => {
-    const validator = new Schema(makeDescriptor(descriptorType));
+    const validator = new Schema(makeDescriptor(descriptorType) as Rules);
+    // @ts-ignore: outdated lib?
     validator.validate(formValues, (errors, fields) => {
       if (errors) {
         return reject(extractErrors(fields, i18n));
@@ -186,5 +193,3 @@ const validate = (formValues, i18n, descriptorType = false) =>
       return resolve(true);
     });
   });
-
-export default { validate };

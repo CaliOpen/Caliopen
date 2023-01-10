@@ -1,1 +1,1 @@
-declare const BUILD_TARGET: 'server' | 'client';
+declare const BUILD_TARGET: 'server' | 'browser';
