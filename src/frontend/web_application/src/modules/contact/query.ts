@@ -1,7 +1,9 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { flatten } from 'lodash';
 import getClient from 'src/services/api-client';
 import calcObjectForPatch from 'src/services/api-patch';
+import { FetchConfig, QueryConfig, QueryKey } from 'src/types';
+import { TagPayload } from '../tags/types';
 import { Contact, ContactPayload, GETContactListPayload } from './types';
 
 const client = getClient();
@@ -10,18 +12,6 @@ export interface PostContactSuccess {
   contact_id: string;
 }
 
-type QueryKey = string[] | string;
-
-// ------------------------
-// XXX: refactor
-interface FetchConfig {
-  url: string;
-  fetchParams?: Record<string, string | number>;
-  requestConfig?: AxiosRequestConfig;
-}
-interface QueryConfig extends FetchConfig {
-  queryKeys: string | string[];
-}
 export const getQueryKeys = ({
   contactId,
   fetchParams,
@@ -51,8 +41,13 @@ export const getConfigNew = (): FetchConfig => ({
 export const getConfigDelete = (contactId?: string): FetchConfig => ({
   url: `/api/v2/contacts/${contactId}`,
 });
+export const getConfigUpdateTags = (contactId?: string): FetchConfig => ({
+  url: `/api/v2/contacts/${contactId}/tags`,
+});
 
 // -----------------
+
+// QUERIES
 
 export function getContact(contactId: string) {
   return client.get<Contact>(getConfigOne(contactId).url);
@@ -100,6 +95,8 @@ export function getAllContactCollection() {
   return getContactListRecursive({ limit: 1000 });
 }
 
+// MUTATIONS
+
 export function createContact({ value: payload }: { value: ContactPayload }) {
   return client.post<PostContactSuccess>(getConfigNew().url, payload);
 }
@@ -119,3 +116,16 @@ export function updateContact({
 export function deleteContact(contactId: string) {
   return client.delete(getConfigDelete(contactId).url);
 }
+
+// --- Sub-resources
+
+export function updateTags(contact: Contact, tags: TagPayload[]) {
+  const payload = {
+    tags: tags.map((tag) => tag.name),
+    current_state: { tags: contact.tags },
+  };
+
+  return client.patch(getConfigUpdateTags(contact.contact_id).url, payload);
+}
+
+// ------------------

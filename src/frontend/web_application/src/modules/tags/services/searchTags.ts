@@ -1,11 +1,11 @@
 import { withI18nProps } from '@lingui/react';
-import { TagCommon } from '../types';
+import { TagPayload } from '../types';
 import { getTagLabel } from './getTagLabel';
 
 const EMPTY_ARRAY = [];
 export function searchTags(
   i18n: withI18nProps['i18n'],
-  tags: TagCommon[],
+  tags: TagPayload[],
   terms: string
 ) {
   if (!terms.length) {

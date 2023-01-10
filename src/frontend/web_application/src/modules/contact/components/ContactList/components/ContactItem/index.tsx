@@ -148,6 +148,7 @@ function ContactItem({
               />
             </div>
             <div className="m-contact-item__contact">
+              {/* FIXME: name is hidden if too long */}
               <TextBlock className="m-contact-item__name">
                 {contact.name_prefix && (
                   <span className="m-contact-item__contact-prefix">

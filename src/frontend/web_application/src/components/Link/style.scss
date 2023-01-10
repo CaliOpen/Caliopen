@@ -14,16 +14,22 @@
 
     width: 100%;
   }
+
   &--center {
     text-align: center;
   }
+
   &--expanded {
     @include o-clickable--button;
     @include o-clickable--expanded;
+
+    height: 100%;
   }
+
   &--inline {
     @include o-clickable--inline;
   }
+
   &--inline-block {
     @include o-clickable--button;
   }
@@ -58,12 +64,6 @@
 
   &--active {
     @include o-clickable--active-text;
-  }
-
-  &--expanded {
-    @include o-clickable--expanded;
-
-    height: 100%;
   }
 
   &__text {

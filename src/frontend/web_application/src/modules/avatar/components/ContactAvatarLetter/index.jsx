@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { formatName } from 'src/modules/contact';
+import { formatName } from 'src/modules/contact/services/format';
 import AvatarLetterWrapper from '../AvatarLetterWrapper';
 import AvatarLetter from '../AvatarLetter';
 

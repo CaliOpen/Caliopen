@@ -80,21 +80,16 @@ class SearchResults extends Component {
     const { term } = this.props;
 
     return (
-      <WithSettings
-        render={({ default_locale: locale }) => (
-          <BlockList className="s-search-results__item">
-            {messages.map((messageHit) => (
-              <MessageResultItem
-                locale={locale}
-                key={messageHit.document.message_id}
-                message={messageHit.document}
-                highlights={messageHit.highlights}
-                term={term}
-              />
-            ))}
-          </BlockList>
-        )}
-      />
+      <BlockList className="s-search-results__item">
+        {messages.map((messageHit) => (
+          <MessageResultItem
+            key={messageHit.document.message_id}
+            message={messageHit.document}
+            highlights={messageHit.highlights}
+            term={term}
+          />
+        ))}
+      </BlockList>
     );
   }
 

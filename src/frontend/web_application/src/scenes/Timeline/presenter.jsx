@@ -41,7 +41,6 @@ class Timeline extends Component {
     isFetching: PropTypes.bool,
     didInvalidate: PropTypes.bool,
     hasMore: PropTypes.bool,
-    // updateDiscussionTags: PropTypes.func.isRequired,
     settings: PropTypes.shape({}).isRequired,
     filterImportance: PropTypes.func.isRequired,
     importanceRange: PropTypes.shape({

@@ -30,16 +30,17 @@ import {
   getCleanedTagCollection,
   getTagNamesInCommon,
   useTags,
-  updateContactTags,
 } from 'src/modules/tags';
 import {
   getQueryKeys,
   deleteContact as baseDeleteContact,
 } from 'src/modules/contact/query';
+import { TagMixed } from 'src/modules/tags/query';
 import TagList from './components/TagList';
 import ImportContactButton from './components/ImportContactButton';
 import './style.scss';
 import './contact-book-menu.scss';
+import { useUpdateContactsTags } from './query';
 
 function getFilteredContacts(contactList, tag) {
   if (tag === '') {
@@ -67,6 +68,7 @@ function ContactBook() {
   const [isTagModalOpen, setIsTagModalOpen] = React.useState(false);
 
   const { data: contactsBase, refetch, isFetching } = useContacts();
+  const { mutateAsync: updateContacsTags } = useUpdateContactsTags();
 
   const contacts = getFilteredContacts(contactsBase, tagSearched);
 
@@ -80,67 +82,13 @@ function ContactBook() {
     },
   });
 
-  // static propTypes = {
-  //   push: PropTypes.func.isRequired,
-  //   requestContacts: PropTypes.func.isRequired,
-  //   loadMoreContacts: PropTypes.func.isRequired,
-  //   deleteContacts: PropTypes.func.isRequired,
-  //   updateContactTags: PropTypes.func.isRequired,
-  //   contacts: PropTypes.arrayOf(PropTypes.shape({})),
-  //   userContact: PropTypes.shape({}),
-  //   tags: PropTypes.arrayOf(PropTypes.shape({})),
-  //   tagSearched: PropTypes.string,
-  //   isFetching: PropTypes.bool,
-  //   didInvalidate: PropTypes.bool,
-  //   hasMore: PropTypes.bool,
-  //   i18n: PropTypes.shape({ _: PropTypes.func }).isRequired,
-  // };
-
-  // static defaultProps = {
-  //   contacts: [],
-  //   userContact: undefined,
-  //   tags: [],
-  //   tagSearched: '',
-  //   isFetching: false,
-  //   didInvalidate: false,
-  //   hasMore: false,
-  // };
-
-  // state = {
-  //   sortDir: DEFAULT_SORT_DIR,
-  //   isDeleting: false,
-  //   selectedEntitiesIds: [],
-  //   isTagModalOpen: false,
-  // };
-
-  // componentDidMount() {
-  //   // FIXME: Contacts not filtered by tags
-  //   this.props.requestContacts();
-  // }
-
-  // UNSAFE_componentWillReceiveProps(nextProps) {
-  //   if (nextProps.didInvalidate && !nextProps.isFetching) {
-  //     this.props.requestContacts();
-  //   }
-  // }
-
   const onSelectEntity = (type: 'add' | 'remove', id: string) => {
     if (type === 'add') {
       setSelectedEntitiesIds((prev) => [...prev, id]);
-      // this.setState((prevState) => ({
-      //   ...prevState,
-      //   selectedEntitiesIds: [...prevState.selectedEntitiesIds, id],
-      // }));
     }
 
     if (type === 'remove') {
       setSelectedEntitiesIds((prev) => [...prev].filter((item) => item !== id));
-      // this.setState((prevState) => ({
-      //   ...prevState,
-      //   selectedEntitiesIds: [...prevState.selectedEntitiesIds].filter(
-      //     (item) => item !== id
-      //   ),
-      // }));
     }
   };
 
@@ -150,10 +98,6 @@ function ContactBook() {
     );
 
     setSelectedEntitiesIds(checked ? contactIds : EMPTY_ARRAY);
-    // this.setState((prevState) => ({
-    //   ...prevState,
-    //   selectedEntitiesIds: checked ? contactIds : [],
-    // }));
   };
 
   const handleSelectAllEntitiesChange = (ev) => {
@@ -162,7 +106,6 @@ function ContactBook() {
   };
 
   const handleDeleteContacts = async () => {
-    // const { contacts, deleteContacts } = this.props;
     const selectedContactIds = new Set(selectedEntitiesIds);
     selectedContactIds.forEach((id) => {
       deleteContact(id, {
@@ -184,59 +127,37 @@ function ContactBook() {
         },
       });
     });
-
-    // this.setState((prevState) => ({
-    //   ...prevState,
-    //   isDeleting: true,
-    // }));
-
-    // await deleteContacts({
-    //   contacts: contacts.filter((contact) =>
-    //     selectedContactIds.has(contact.contact_id)
-    //   ),
-    // });
-
-    // this.setState((prevState) => ({
-    //   ...prevState,
-    //   selectedEntitiesIds: [],
-    //   isDeleting: false,
-    // }));
   };
 
   const handleUploadSuccess = () => {
     refetch();
-    // this.props.requestContacts();
   };
 
   const handleOpenTags = () => {
     setIsTagModalOpen(true);
-    // this.setState((prevState) => ({
-    //   ...prevState,
-    //   isTagModalOpen: true,
-    // }));
   };
 
   const handleCloseTags = () => {
     setIsTagModalOpen(false);
-    // this.setState((prevState) => ({
-    //   ...prevState,
-    //   isTagModalOpen: false,
-    // }));
   };
 
-  const handleTagsChange = (tags) => {
-    // const { updateContactTags, i18n } = this.props;
-
-    // FIXME
-    return dispatch(
-      updateContactTags(i18n, selectedEntitiesIds, tags, {
-        withThrottle: false,
-      })
-    );
+  const handleTagsChange = async (tags: TagMixed[]) => {
+    try {
+      await updateContacsTags({ contactIds: selectedEntitiesIds, tags });
+      setIsTagModalOpen(false);
+    } catch (err) {
+      dispatch(
+        notifyError({
+          message: (
+            <Trans
+              id="contact-book.feedback.unable_to_delete"
+              message="Unable to save tags"
+            />
+          ),
+        })
+      );
+    }
   };
-
-  // const contactsExceptUser = contacts
-  //     .filter((contact) => !user || contact.contact_id !== user?.contact.contact_id)
 
   const selectedEntitiesIdsSet = new Set(selectedEntitiesIds);
   const selectedEntities =
@@ -245,7 +166,6 @@ function ContactBook() {
     ) || EMPTY_ENTITIES;
 
   const tagNamesInCommon = getTagNamesInCommon(selectedEntities);
-
   const tagsInCommon = getCleanedTagCollection(userTags, tagNamesInCommon);
 
   const count = selectedEntitiesIds.length;
@@ -359,8 +279,8 @@ function ContactBook() {
                           )}
 
                           <TagsForm
-                            tagCollection={tagsInCommon}
-                            updateTags={handleTagsChange}
+                            initialTags={tagsInCommon}
+                            onSubmit={handleTagsChange}
                           />
                         </Modal>
                       )}

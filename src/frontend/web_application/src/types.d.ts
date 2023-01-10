@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosRequestConfig } from 'axios';
 
 import configureAppStore from './store/configure-store';
 import { RootState } from './store/reducer';
@@ -41,5 +41,25 @@ export type ResourceStatus =
   | 'resolved'
   | 'rejected'
   | 'invalidated';
+
+//  ---------------------------------------------
+
+// react-query ----------------------------------
+
+// force some reasons, QueryKey from react-query is hard to use (see if solved with rq4)
+export type QueryKey = string[] | string;
+
+export interface MutateConfig {
+  url: string;
+}
+
+export interface FetchConfig {
+  url: string;
+  fetchParams?: Record<string, string | number>;
+}
+
+export interface QueryConfig extends FetchConfig {
+  queryKeys: QueryKey;
+}
 
 //  ---------------------------------------------

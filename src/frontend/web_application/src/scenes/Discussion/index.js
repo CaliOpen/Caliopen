@@ -17,7 +17,7 @@ import {
 } from '../../modules/message';
 import { reply, draftMessagesSelector } from '../../modules/draftMessage';
 import { createMessageCollectionStateSelector } from '../../store/selectors/message';
-import { withTags, updateTagCollection } from '../../modules/tags';
+import { withTags } from '../../modules/tags';
 import { getUser } from '../../modules/user/actions/getUser';
 import { withPush } from '../../modules/routing/hoc/withPush';
 import Discussion from './presenter';
@@ -154,17 +154,6 @@ const deleteDiscussion =
     return dispatch(invalidate('discussion', discussionId));
   };
 
-const updateDiscussionTags =
-  ({ i18n, messages, tags }) =>
-  async (dispatch) =>
-    Promise.all(
-      messages.map((message) =>
-        dispatch(
-          updateTagCollection(i18n, { type: 'message', entity: message, tags })
-        )
-      )
-    );
-
 const onMessageReply = (message) => async (dispatch) => {
   dispatch(reply(message));
 };
@@ -198,7 +187,6 @@ const mapDispatchToProps = (dispatch, ownProps) =>
       requestDiscussion: requestDiscussionAndDraft.bind(null, {
         discussionId: getDiscussionIdFromProps(ownProps),
       }),
-      updateDiscussionTags,
       onMessageReply,
       getUser,
     },

@@ -1,21 +1,25 @@
 import { I18n } from '@lingui/core';
-import { TagCommon } from '../../types';
+import { TagPayload } from '../../types';
 
 export const TAG_IMPORTANT = 'IMPORTANT';
 export const TAG_INBOX = 'INBOX';
 export const TAG_SPAM = 'SPAM';
 
 export const getCleanedTagCollection = (
-  tags: TagCommon[],
-  names: string[]
-): TagCommon[] => tags.filter((tag) => names.includes(tag.name));
+  tags: TagPayload[],
+  namesOrLabels: string[]
+): TagPayload[] =>
+  tags.filter(
+    (tag) =>
+      namesOrLabels.includes(tag.name) || namesOrLabels.includes(tag.label)
+  );
 
 export const getTag = (
-  tags: TagCommon[],
+  tags: TagPayload[],
   name: string
-): TagCommon | undefined => tags.find((item) => item.name === name);
+): TagPayload | undefined => tags.find((item) => item.name === name);
 
-export const getTagLabel = (i18n: I18n, tag: TagCommon): string => {
+export const getTagLabel = (i18n: I18n, tag: TagPayload): string => {
   if (!tag.label) {
     switch (tag.name) {
       case TAG_IMPORTANT:
@@ -40,7 +44,7 @@ export const getTagLabel = (i18n: I18n, tag: TagCommon): string => {
 
 export const getTagLabelFromName = (
   i18n: I18n,
-  tags: TagCommon[],
+  tags: TagPayload[],
   name: string
 ): string => {
   const tag = getTag(tags, name);

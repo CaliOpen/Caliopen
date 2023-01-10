@@ -180,6 +180,9 @@ export function createContact({ contact }) {
   };
 }
 
+/**
+ * @deprecated: use query instead
+ */
 export function updateTags({ contact, tags }) {
   const data = {
     tags,

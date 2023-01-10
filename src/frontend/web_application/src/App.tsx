@@ -13,8 +13,6 @@ import { NotificationProvider } from './modules/notification';
 import ErrorBoundary from './layouts/ErrorBoundary';
 import './app.scss';
 
-const queryClient = new QueryClient();
-
 export interface AppProps {
   store: ProviderProps['store'];
 }
@@ -22,6 +20,8 @@ export interface AppProps {
 export default function App({
   store,
 }: AppProps): React.ReactElement<typeof InstallPromptProvider> {
+  const queryClient = new QueryClient();
+
   return (
     <InstallPromptProvider>
       <QueryClientProvider client={queryClient}>

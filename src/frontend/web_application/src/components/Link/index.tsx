@@ -60,12 +60,10 @@ function Link({
 
   const renderIcon = () => {
     if (React.isValidElement(icon)) {
-      const iconProps = {
-        ...icon.props,
+      return React.cloneElement(icon, {
+        // @ts-ignore: className not recognized as a known prop
         className: classnames(icon.props.className, 'm-link__icon'),
-      };
-
-      return <icon.type {...iconProps} />;
+      });
     }
 
     // @ts-ignore
@@ -90,6 +88,7 @@ function Link({
   }
 
   return (
+    // @ts-ignore: incompatible prop referrerPolicy …
     <a {...linkProps}>
       {icon ? (
         <>

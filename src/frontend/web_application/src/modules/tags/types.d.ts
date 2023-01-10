@@ -1,13 +1,27 @@
-export interface TagCommon {
+export interface TagPayload {
+  type: 'system' | 'user';
   name: string;
   label: string;
 }
+export type NewTag = {
+  label: string;
+};
 
-export interface TagPayload extends TagCommon {
-  type: 'system' | 'user';
+export type TagAPIPost = {
+  parameters: {
+    body: NewTag;
+  };
+};
+
+export interface TagAPIGetList {
+  response: {
+    tags: TagPayload[];
+    total: number;
+  };
 }
 
-export type TagAPIPostPayload = Omit<TagCommon, 'name'>;
+// Entity inheritance
+export type EntityType = 'contact' | 'discussion' | 'message';
 
 export interface Entity {
   tags?: string[];

@@ -171,24 +171,6 @@ export function replyToMessage({ internalId, message }) {
   };
 }
 
-export function updateTags({ message, tags }) {
-  const data = {
-    tags,
-    current_state: { tags: message.tags },
-  };
-
-  return {
-    type: UPDATE_TAGS,
-    payload: {
-      request: {
-        method: 'patch',
-        url: `/api/v2/messages/${message.message_id}/tags`,
-        data,
-      },
-    },
-  };
-}
-
 export function uploadAttachment({ message, attachment }) {
   return {
     type: UPLOAD_ATTACHMENT,

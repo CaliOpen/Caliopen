@@ -1,11 +1,24 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { isBoolean } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import Label from '../Label';
 import './style.scss';
 
-class Checkbox extends Component {
+interface Props
+  extends React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {
+  label: React.ReactNode;
+  id?: string;
+  indeterminate?: boolean;
+  showLabelforSr?: boolean;
+  className?: string;
+}
+
+class Checkbox extends React.Component<Props> {
   static propTypes = {
     label: PropTypes.node.isRequired,
     id: PropTypes.string,
@@ -15,7 +28,7 @@ class Checkbox extends Component {
   };
 
   static defaultProps = {
-    id: uuidv4(),
+    id: undefined,
     indeterminate: null,
     showLabelforSr: false,
     className: undefined,
@@ -23,20 +36,28 @@ class Checkbox extends Component {
 
   state = {};
 
+  selector: null | HTMLInputElement = null;
+
   componentDidMount() {
     // apply the indeterminate attribute of the real checkbox element
-    this.selector.indeterminate = this.props.indeterminate;
+    if (this.selector && isBoolean(this.props.indeterminate)) {
+      this.selector.indeterminate = this.props.indeterminate;
+    }
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.indeterminate !== this.props.indeterminate) {
+    if (
+      this.selector &&
+      isBoolean(this.props.indeterminate) &&
+      prevProps.indeterminate !== this.props.indeterminate
+    ) {
       this.selector.indeterminate = this.props.indeterminate;
     }
   }
 
   render() {
     const {
-      id,
+      id = uuidv4(),
       label,
       showLabelforSr,
       indeterminate,

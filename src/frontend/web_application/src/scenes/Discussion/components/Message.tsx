@@ -12,15 +12,13 @@ import {
   setMessageRead,
   deleteMessage,
 } from 'src/modules/message';
-import { ManageEntityTags, updateTagCollection } from 'src/modules/tags';
+import { ManageEntityTags } from 'src/modules/tags';
 import { reply } from 'src/modules/draftMessage';
 import { useSettings } from 'src/modules/settings';
 import { useScrollToMe } from 'src/modules/scroll';
 import { RootState } from 'src/store/reducer';
 import MailMessage from './MailMessage';
 import InstantMessage from './InstantMessage';
-
-type ManageEntityTagsProps = React.ComponentProps<typeof ManageEntityTags>;
 
 interface Props extends withI18nProps {
   message: MessageClass;
@@ -56,12 +54,6 @@ function Message({
     if (!isLocked && isVisible && message.is_unread) {
       dispatch(setMessageRead({ message, isRead: true }));
     }
-  };
-
-  const handleTagsChange: ManageEntityTagsProps['onChange'] = async (tags) => {
-    dispatch(
-      updateTagCollection(i18n, { type: 'message', entity: message, tags })
-    );
   };
 
   const handleOpenTags = () => {
@@ -107,7 +99,6 @@ function Message({
             settings={settings}
             onOpenTags={handleOpenTags}
             onCloseTags={handleCloseTags}
-            onTagsChange={handleTagsChange}
             onMessageDelete={handleDeleteMessage}
             onMessageRead={handleReadMessage}
             onMessageUnread={handleUnreadMessage}
@@ -120,7 +111,6 @@ function Message({
             message={hasEncryption && !isLocked ? decryptedMessage : message}
             onOpenTags={handleOpenTags}
             onCloseTags={handleCloseTags}
-            onTagsChange={handleTagsChange}
             onMessageDelete={handleDeleteMessage}
             onMessageRead={handleReadMessage}
             onMessageUnread={handleUnreadMessage}
@@ -143,7 +133,7 @@ function Message({
             }
             onClose={handleCloseTags}
           >
-            <ManageEntityTags entity={message} onChange={handleTagsChange} />
+            <ManageEntityTags type="message" entity={message} />
           </Modal>
         )}
       </>

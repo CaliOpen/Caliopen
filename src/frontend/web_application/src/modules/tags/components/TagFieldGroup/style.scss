@@ -2,7 +2,7 @@
 @import '../../../../styles/vendor/bootstrap_foundation-sites';
 
 .m-tags-search {
-  @include flex-grid-row($size: expanded);
+  @include flex-grid-row($size: expand);
 
   margin-bottom: map_get($co-form__spacing, 'large');
 

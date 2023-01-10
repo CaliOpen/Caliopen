@@ -11,7 +11,6 @@ interface TagFieldGroupProps extends withI18nProps {
   onChange: any;
   input?: React.ComponentProps<typeof TextFieldGroup>['inputProps'];
   innerRef?: React.ComponentProps<typeof TextFieldGroup>['ref'];
-  isFetching?: boolean;
   errors: React.ReactNode[];
 }
 
@@ -19,7 +18,6 @@ function TagFieldGroup({
   i18n,
   terms,
   input = {},
-  isFetching = false,
   errors = [],
   onSubmit,
   onChange,
@@ -40,7 +38,7 @@ function TagFieldGroup({
 
   const inputProps = {
     ...input,
-    className: classnames(input.className, 'm-tags-search__input'),
+    className: classnames(input.className),
     placeholder: i18n._(/* i18n */ 'tags.form.search.placeholder', undefined, {
       message: 'Search a tag ...',
     }),
@@ -59,19 +57,13 @@ function TagFieldGroup({
         })}
         showLabelforSr
         inputProps={inputProps}
+        className="m-tags-search__input"
         errors={errors}
         ref={innerRef}
       />
       <Button
         className="m-tags-search__button"
-        icon={
-          isFetching ? (
-            <Spinner svgTitleId="tag-add-spinner" isLoading display="inline" />
-          ) : (
-            'plus'
-          )
-        }
-        disabled={isFetching}
+        icon="plus"
         onClick={handleSubmit}
         aria-label={i18n._(/* i18n */ 'tags.action.add', undefined, {
           message: 'Add',

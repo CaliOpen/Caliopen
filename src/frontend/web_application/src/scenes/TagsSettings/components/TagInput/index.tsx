@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { withI18n, withI18nProps } from '@lingui/react';
-import { useDispatch } from 'react-redux';
-import { getTagLabel, updateTag, deleteTag } from 'src/modules/tags';
+import { useMutation, useQueryClient } from 'react-query';
+import { getTagLabel } from 'src/modules/tags';
+import { getQueryKeys, updateTag, deleteTag } from 'src/modules/tags/query';
 import { TagPayload } from 'src/modules/tags/types';
 import {
   Button,
@@ -15,19 +16,46 @@ import './style.scss';
 
 const TAG_TYPE_USER = 'user';
 
+type ErrorPayload = { message: string }[];
+
 interface Props extends withI18nProps {
   tag: TagPayload;
-  onUpdateSuccess: () => void;
-  onDeleteSuccess: () => void;
 }
 
-function TagInput({ i18n, tag, onUpdateSuccess, onDeleteSuccess }: Props) {
-  const dispatch = useDispatch();
-
+function TagInput({ i18n, tag }: Props) {
   const [tagLabel, setTagLabel] = React.useState(tag.label);
   const [edit, setEdit] = React.useState(false);
-  const [pending, setPending] = React.useState(false);
   const [tagErrors, setTagErrors] = React.useState<string[]>([]);
+
+  const queryClient = useQueryClient();
+  const {
+    mutateAsync: updateTagMutate,
+    isLoading: isUpdating,
+    error,
+  } = useMutation<
+    unknown,
+    ErrorPayload,
+    { value: TagPayload; original: TagPayload }
+  >(updateTag, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(getQueryKeys());
+    },
+  });
+  const { mutateAsync: deleteTagMutate, isLoading: isDeleting } = useMutation<
+    unknown,
+    ErrorPayload,
+    TagPayload
+  >(deleteTag, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(getQueryKeys());
+    },
+  });
+
+  React.useEffect(() => {
+    setTagErrors(error?.map((err) => err.message) || []);
+  }, [error]);
+
+  const pending = isUpdating || isDeleting;
 
   const handleChange = (ev) => {
     setTagLabel(ev.target.value);
@@ -39,35 +67,27 @@ function TagInput({ i18n, tag, onUpdateSuccess, onDeleteSuccess }: Props) {
   };
 
   const handleUpdateTag = async () => {
-    setPending(true);
     try {
-      await dispatch(
-        updateTag({
-          original: tag,
-          tag: {
-            ...tag,
-            label: tagLabel,
-          },
-        })
-      );
+      await updateTagMutate({
+        original: tag,
+        value: {
+          ...tag,
+          label: tagLabel,
+        },
+      });
     } catch (errors) {
       setTagErrors(errors.map((err) => err.message));
     }
 
-    setPending(false);
     setEdit(false);
-    onUpdateSuccess();
   };
 
   const handleDeleteTag = async () => {
-    setPending(true);
     try {
-      await dispatch(deleteTag({ tag }));
+      await deleteTagMutate(tag);
     } catch (errors) {
       setTagErrors(errors.map((err) => err.message));
     }
-    setPending(false);
-    onDeleteSuccess();
   };
 
   if (edit) {
@@ -97,7 +117,7 @@ function TagInput({ i18n, tag, onUpdateSuccess, onDeleteSuccess }: Props) {
             }
           )}
           icon={
-            pending ? (
+            isUpdating ? (
               <Spinner
                 svgTitleId="save-tag-spinner"
                 isLoading

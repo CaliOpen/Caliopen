@@ -1,31 +1,34 @@
-import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { ResourceStatus } from 'src/types';
-import { RootState } from 'src/store/reducer';
-import { shouldFetchSelector, stateSelector } from '../store/selectors';
-import { eventuallyFetchTags } from '../actions/fetchTags';
+import { useQuery, UseQueryResult } from 'react-query';
+import { AxiosResponse } from 'axios';
+import { APIAxiosError } from 'src/services/api-client/types';
+import { TagAPIGetList, TagPayload } from '../types';
+import { getQueryKeys, getTagList } from '../query';
+
+type QueryData = AxiosResponse<TagAPIGetList['response']>;
+type UseQueryTagsResult = UseQueryResult<QueryData, APIAxiosError>;
+
+const EMPTY_TAG_LIST: TagPayload[] = [];
 
 interface HookRes {
-  initialized: boolean;
-  status: ResourceStatus;
-  tags: RootState['tag']['tags'];
+  status: UseQueryTagsResult['status'];
+  tags: NonNullable<UseQueryTagsResult['data']>['data']['tags'];
+  data: UseQueryTagsResult['data'];
+  error: UseQueryTagsResult['error'];
 }
 export function useTags(): HookRes {
-  const dispatch = useDispatch();
-
-  const { initialized, status, tags } = useSelector(stateSelector);
-
-  const shouldFetch = useSelector(shouldFetchSelector);
-
-  React.useEffect(() => {
-    if (shouldFetch) {
-      dispatch(eventuallyFetchTags());
+  const { data, error, status } = useQuery<QueryData, APIAxiosError>(
+    getQueryKeys(),
+    () => getTagList(),
+    {
+      staleTime: 300000, // 5min
     }
-  }, [shouldFetch]);
+  );
 
   return {
-    initialized,
     status,
-    tags,
+    // always return a tag list for convenience, use data instead if needed to test missing data
+    tags: data?.data.tags || EMPTY_TAG_LIST,
+    data,
+    error,
   };
 }

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component TagItem render 1`] = `
+<div
+  id="root"
+>
+  <span
+    class="m-badge m-badge--normal-radius m-tag-item"
+  >
+    <span
+      class="m-badge__text m-badge__text--has-button"
+    >
+      Foo
+    </span>
+    <button
+      aria-label="Remove"
+      class="m-badge__button m-button m-button--center m-button--inline m-button--text m-button--icon"
+      type="button"
+    >
+      <i
+        class="m-button__icon fa fa-remove"
+      />
+    </button>
+  </span>
+</div>
+`;

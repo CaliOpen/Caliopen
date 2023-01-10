@@ -71,5 +71,5 @@ describe('EditContact', () => {
     await waitFor(() =>
       expect(mockHistory.push).toHaveBeenCalledWith(`/contacts/${id}`)
     );
-  });
+  }, 5000);
 });

@@ -52,61 +52,9 @@ export interface TagState {
   total: number;
 }
 // ----------------------------------------------
-
-export function requestTags() {
-  return {
-    type: REQUEST_TAGS,
-    payload: {
-      request: {
-        url: '/api/v2/tags',
-      },
-    },
-  };
-}
-
-export function invalidate() {
-  return {
-    type: INVALIDATE_TAGS,
-    payload: {},
-  };
-}
-
-export function createTag({ tag }) {
-  return {
-    type: CREATE_TAG,
-    payload: {
-      request: {
-        url: '/api/v2/tags',
-        method: 'post',
-        data: tag,
-      },
-    },
-  };
-}
-
-export function requestTag({ name }) {
-  return {
-    type: REQUEST_TAG,
-    payload: {
-      request: {
-        url: `/api/v2/tags/${name}`,
-      },
-    },
-  };
-}
-
-export function deleteTag({ tag }) {
-  return {
-    type: REMOVE_TAG,
-    payload: {
-      request: {
-        method: 'delete',
-        url: `/api/v2/tags/${tag.name}`,
-      },
-    },
-  };
-}
-
+/**
+ * @deprecated
+ */
 export function updateTag({ tag, original }) {
   const data = calcObjectForPatch(tag, original);
 
