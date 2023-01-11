@@ -12,6 +12,7 @@ and this project adheres to
 
 - Update client's dependencies.
 - Load locale at run time on the client.
+- Small improvements in tag managements & Contact book.
 
 ## [0.25.0] 2022-03-03
 
