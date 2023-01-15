@@ -45,7 +45,7 @@
     "@types/zxcvbn": "^4.4.1",
     "argv": "^0.0.2",
     "async-validator": "^3.2.4",
-    "axios": "^0.20.0",
+    "axios": "^0.21.2",
     "babel-runtime": "^6.26.0",
     "base64-js": "^1.5.1",
     "body-parser": "^1.19.2",
