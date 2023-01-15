@@ -1,14 +1,13 @@
-import validator from './form-validator';
+import { validate } from './form-validator';
 
-jest.mock(
-  '../../../../services/username-utils/username-availability',
-  () => () => Promise.resolve(true)
-);
+jest.mock('src/services/username-utils/username-availability', () => ({
+  checkAvailability: () => Promise.resolve(true),
+}));
 
 describe('scene Signup form-validator', () => {
   const i18n = { _: (id) => id };
   it('validates', async () => {
-    const isValid = await validator.validate(
+    const isValid = await validate(
       {
         username: 'bender',
         password: '101121',
@@ -23,7 +22,7 @@ describe('scene Signup form-validator', () => {
   });
   it('render errors for form', async () => {
     try {
-      const isValid = await validator.validate(
+      const isValid = await validate(
         {
           password: '',
           // tos: false,

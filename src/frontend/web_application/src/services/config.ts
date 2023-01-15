@@ -2,9 +2,10 @@ import merge from 'lodash/merge';
 
 let config =
   BUILD_TARGET === 'browser' && typeof window !== 'undefined'
-    ? // eslint-disable-next-line no-underscore-dangle
-      { ...window.__INSTANCE_CONFIG__, ...CALIOPEN_OPTIONS }
-    : CALIOPEN_OPTIONS;
+    ? // @ts-ignore
+      { ...window.__INSTANCE_CONFIG__, ...CALIOPEN_OPTIONS } // eslint-disable-line no-underscore-dangle
+    : // @ts-ignore
+      CALIOPEN_OPTIONS;
 
 const initConfig = (cfg) => {
   config = merge(config, cfg);

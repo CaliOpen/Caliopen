@@ -7,6 +7,11 @@ and this project adheres to
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Fixed
+
+- Handle username availability errors on the client.
+
 ## [0.25.1] 2023-01-12
 
 ### Fixed
