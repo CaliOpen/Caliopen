@@ -6,6 +6,7 @@ describe('services username-utils username-validity', () => {
 
   const validate = (username) =>
     new Promise((resolve, reject) => {
+      // @ts-ignore: old version?
       validator.validate({ username }, (errors, fields) => {
         if (errors) {
           return reject({ errors, fields });

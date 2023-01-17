@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Trans, withI18n, withI18nProps } from '@lingui/react';
-import { compose } from 'redux';
+import { Trans, useLingui } from '@lingui/react';
 import { Redirect, useLocation } from 'react-router-dom';
 import {
   Link,
@@ -13,8 +12,9 @@ import {
   FormColumn,
 } from 'src/components';
 import getClient from 'src/services/api-client';
+import { useDevice } from 'src/modules/device/hooks/useDevice';
 import { usernameNormalizer } from '../../services/usernameNormalizer';
-import { withDevice, STATUS_VERIFIED } from '../../../device';
+import { STATUS_VERIFIED } from '../../../device';
 import './style.scss';
 
 const CONTEXT_SAFE = 'safe';
@@ -35,14 +35,11 @@ interface Errors {
   [key: string]: React.ReactNode[];
 }
 
-interface SigninProps extends withI18nProps {
-  // TODO: move to hook
-  clientDevice?: any;
-}
-
 const defaultIdentifier = { username: '', password: '' };
-function SigninForm({ clientDevice, i18n }: SigninProps) {
+function SigninForm() {
   const { search } = useLocation();
+  const { i18n } = useLingui();
+  const { clientDevice } = useDevice();
   const usernameInput = React.useRef<HTMLInputElement>(null);
   const passwordInput = React.useRef<HTMLInputElement>(null);
 
@@ -273,4 +270,4 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
   );
 }
 
-export default compose(withI18n(), withDevice())(SigninForm);
+export default SigninForm;

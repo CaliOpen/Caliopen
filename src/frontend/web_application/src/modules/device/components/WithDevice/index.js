@@ -18,4 +18,7 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
+/**
+ * @deprecated: use `useDevice` instead
+ */
 export default compose(connect(mapStateToProps, mapDispatchToProps))(Presenter);
