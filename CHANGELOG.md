@@ -11,6 +11,7 @@ and this project adheres to
 ### Fixed
 
 - Handle username availability errors on the client.
+- Remove unexpected errors on login page on first display.
 
 ## [0.25.1] 2023-01-12
 
