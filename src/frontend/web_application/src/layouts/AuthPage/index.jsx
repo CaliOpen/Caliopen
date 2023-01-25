@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Brand } from '../../components';
 import { getConfig } from '../../services/config';
+import NotificationCenter from '../Page/components/NotificationCenter';
 import './style.scss';
 
 function AuthPage({ children }) {
@@ -24,6 +25,7 @@ function AuthPage({ children }) {
           </div>
         </footer>
       </div>
+      <NotificationCenter />
     </div>
   );
 }

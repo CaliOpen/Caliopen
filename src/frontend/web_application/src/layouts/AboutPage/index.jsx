@@ -4,6 +4,7 @@ import { Trans } from '@lingui/react';
 import { Brand, Link, Icon } from '../../components';
 import { getConfig } from '../../services/config';
 import { BackgroundImage } from '../../modules/pi';
+import NotificationCenter from '../Page/components/NotificationCenter';
 import './style.scss';
 
 function AboutPage({ children }) {
@@ -45,6 +46,7 @@ function AboutPage({ children }) {
           <li className="l-about-page__footer-entry">{version}</li>
         </ul>
       </footer>
+      <NotificationCenter />
     </BackgroundImage>
   );
 }

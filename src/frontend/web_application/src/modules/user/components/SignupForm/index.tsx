@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Trans, useLingui } from '@lingui/react';
 import { Link, useHistory } from 'react-router-dom';
-import type ZxcvbrFunc from 'zxcvbn';
+import type ZxcvbnFunc from 'zxcvbn';
 import {
   Button,
   CheckboxFieldGroup,
@@ -19,7 +19,7 @@ import {
 import { useSettings } from 'src/modules/settings';
 import { getConfig } from 'src/services/config';
 
-import { PublicDevice, withDevice } from '../../../device';
+import { useDevice } from '../../../device';
 
 import { signup } from '../../services/signup';
 import {
@@ -32,15 +32,12 @@ import './style.scss';
 
 export const USER_IDENTITIES_ROUTE = '/user/identities';
 
-interface InjectedProps {
-  clientDevice?: PublicDevice;
-}
-
-function Signup({ clientDevice }: InjectedProps) {
+function Signup() {
   const { i18n } = useLingui();
   // totally useless: settings aren't fetch until authenticated
   const settings = useSettings();
   const { push } = useHistory();
+  const { clientDevice } = useDevice();
 
   const [fieldErrors, setFieldErrors] = React.useState<{
     global?: string[];
@@ -82,7 +79,7 @@ function Signup({ clientDevice }: InjectedProps) {
   const [privacy, setPrivacy] = React.useState(false);
   const [recovery_email, setRecoveryEmail] = React.useState('');
 
-  const zxcvbn = React.useRef<typeof ZxcvbrFunc>();
+  const zxcvbn = React.useRef<typeof ZxcvbnFunc>();
 
   React.useEffect(() => {
     import(/* webpackChunkName: "zxcvbn" */ 'zxcvbn').then(
@@ -423,4 +420,4 @@ function Signup({ clientDevice }: InjectedProps) {
   );
 }
 
-export default withDevice()(Signup);
+export default Signup;

@@ -84,6 +84,9 @@ export const handleClientResponseSuccess = (response) => {
   return response.payload.data;
 };
 
+/**
+ * @deprecated unused
+ */
 export const handleClientResponseError = (payload) => {
   if (payload instanceof Error) {
     throw payload;
@@ -130,4 +133,18 @@ export function handleAxiosPromise(prom) {
   return prom.then(handleClientResponseSuccess, (err) =>
     Promise.reject(handleClientResponseError(err))
   );
+}
+
+export interface StandardErrorData {
+  errors: [
+    {
+      message: string;
+      code: number;
+      description: string;
+      component: string;
+      values: number;
+      property: string;
+      type: string;
+    }
+  ];
 }

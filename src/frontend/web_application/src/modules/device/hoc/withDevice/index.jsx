@@ -1,13 +1,11 @@
 import React from 'react';
-import WithDevice from '../../components/WithDevice';
+import { useDevice } from '../../hooks/useDevice';
 
+/**
+ * @deprecated use `useDevice` instead
+ */
 export const withDevice = () => (WrappedComponent) =>
   function (props) {
-    return (
-      <WithDevice
-        render={(deviceProps) => (
-          <WrappedComponent {...props} {...deviceProps} />
-        )}
-      />
-    );
+    const deviceProps = useDevice();
+    return <WrappedComponent {...props} {...deviceProps} />;
   };

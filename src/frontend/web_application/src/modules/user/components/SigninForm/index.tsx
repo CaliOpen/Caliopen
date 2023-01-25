@@ -1,21 +1,23 @@
 import * as React from 'react';
-import { Trans, withI18n, withI18nProps } from '@lingui/react';
-import { compose } from 'redux';
+import { useDispatch } from 'react-redux';
+import { Trans, useLingui } from '@lingui/react';
+import { Field, Form, Formik, FormikHelpers } from 'formik';
 import { Redirect, useLocation } from 'react-router-dom';
 import {
   Link,
-  Spinner,
-  FieldErrors,
-  TextFieldGroup,
-  Button,
   FormGrid,
   FormRow,
   FormColumn,
+  FormikTextFieldGroup,
 } from 'src/components';
 import getClient from 'src/services/api-client';
+import { useDevice } from 'src/modules/device/hooks/useDevice';
+import { validateRequired } from 'src/modules/form/services/validators';
+import { notifyError } from 'src/modules/userNotify';
 import { usernameNormalizer } from '../../services/usernameNormalizer';
-import { withDevice, STATUS_VERIFIED } from '../../../device';
+import { STATUS_VERIFIED } from '../../../device';
 import './style.scss';
+import SubmitButton from './components/SubmitButton';
 
 const CONTEXT_SAFE = 'safe';
 // const CONTEXT_PUBLIC = 'public';
@@ -31,88 +33,38 @@ const getRedirect = (queryString: string) => {
   return paramRedirect ? paramRedirect.split('=')[1] : undefined;
 };
 
-interface Errors {
-  [key: string]: React.ReactNode[];
-}
-
-interface SigninProps extends withI18nProps {
-  // TODO: move to hook
-  clientDevice?: any;
+interface SigninFormValues {
+  username: string;
+  password: string;
 }
 
 const defaultIdentifier = { username: '', password: '' };
-function SigninForm({ clientDevice, i18n }: SigninProps) {
+function SigninForm() {
   const { search } = useLocation();
-  const usernameInput = React.useRef<HTMLInputElement>(null);
-  const passwordInput = React.useRef<HTMLInputElement>(null);
-
+  const { i18n } = useLingui();
+  const dispatch = useDispatch();
+  const { clientDevice } = useDevice();
   const [context] = React.useState(CONTEXT_SAFE);
-  const [identifier, setIdentifier] = React.useState(defaultIdentifier);
 
-  const [errors, setErrors] = React.useState<Errors>({});
-  const [isLoading, setIsLoading] = React.useState(false);
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
   const [shouldRedirectDevice, setShouldRedirectDevice] = React.useState(false);
 
-  React.useEffect(() => {
-    // On mount we want to retrieve form values from browser password manager
-    const username = usernameInput.current?.value || '';
-    const password = passwordInput.current?.value || '';
-
-    if (username || password) {
-      setIdentifier({ username, password });
-    }
-  }, []);
-
-  const validate = (values: { username: string; password: string }) => {
-    const errs: Errors = {};
-
-    if (values.username.length === 0) {
-      errs.username = [
-        <Trans
-          id="signin.feedback.required_username"
-          message="A username is required"
-        />,
-      ];
-    }
-
-    if (values.password.length === 0) {
-      errs.password = [
-        <Trans
-          id="signin.feedback.required_password"
-          message="A password is required"
-        />,
-      ];
-    }
-
-    return errs;
-  };
-
-  React.useEffect(() => {
-    setErrors(validate(identifier));
-  }, [identifier]);
-
-  const handleSignin = async (ev: React.SyntheticEvent) => {
-    ev.preventDefault();
-    if (errors.length) {
-      return;
-    }
-    setIsLoading(true);
-
+  const handleSignin = async (
+    { username, password }: SigninFormValues,
+    { setFieldError }: FormikHelpers<SigninFormValues>
+  ) => {
     try {
       const response = await getClient().post('/auth/signin', {
         context,
-        password: identifier.password,
-        username: usernameNormalizer(identifier.username),
+        password,
+        username: usernameNormalizer(username),
         device: clientDevice,
       });
       if (response.data.device.status !== STATUS_VERIFIED) {
         setShouldRedirectDevice(true);
       }
-      setIsLoading(false);
       setIsAuthenticated(true);
     } catch (err) {
-      setIsLoading(false);
       const isExpectedError =
         err.response &&
         err.response.status >= 400 &&
@@ -120,27 +72,24 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
         err.response.data.errors;
 
       if (isExpectedError) {
-        setErrors({
-          global: [
-            <Trans
-              id="signin.feedback.invalid"
-              message="Credentials are invalid"
-            />,
-          ],
-        });
+        setFieldError(
+          'password',
+          i18n._('signin.feedback.invalid', undefined, {
+            message: 'Credentials are invalid',
+          })
+        );
       } else {
-        throw err;
+        dispatch(
+          notifyError({
+            message: i18n._(
+              /* i18n */ 'general.feedback.unexpected-error',
+              undefined,
+              { message: 'Unexpected error occured' }
+            ),
+          })
+        );
       }
     }
-  };
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-
-    setIdentifier((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
   };
 
   const redirect = getRedirect(search) || '/';
@@ -157,120 +106,87 @@ function SigninForm({ clientDevice, i18n }: SigninProps) {
     return <Redirect push to={redirect} />;
   }
 
-  const isValid = Object.keys(errors).length === 0;
-
   return (
     <div className="s-signin">
       <FormGrid className="s-signin__form">
-        <form method="post" onSubmit={handleSignin}>
-          {errors.global && (
+        <Formik<SigninFormValues>
+          initialValues={defaultIdentifier}
+          onSubmit={handleSignin}
+        >
+          <Form method="post">
             <FormRow>
               <FormColumn rightSpace={false} bottomSpace>
-                <FieldErrors errors={errors.global} />
+                <Field
+                  id="signin_username"
+                  name="username"
+                  component={FormikTextFieldGroup}
+                  validate={validateRequired(i18n)}
+                  inputProps={{
+                    placeholder: i18n._(
+                      'signin.form.username.placeholder',
+                      undefined,
+                      { message: 'username' }
+                    ),
+                    expanded: true,
+                  }}
+                  label={i18n._('signin.form.username.label', undefined, {
+                    message: 'Username',
+                  })}
+                />
+              </FormColumn>
+              <FormColumn rightSpace={false} bottomSpace>
+                <Field
+                  id="signin_password"
+                  name="password"
+                  component={FormikTextFieldGroup}
+                  validate={validateRequired(i18n)}
+                  label={i18n._('signin.form.password.label', undefined, {
+                    message: 'Password',
+                  })}
+                  inputProps={{
+                    placeholder: i18n._(
+                      'signin.form.password.placeholder',
+                      undefined,
+                      { message: 'password' }
+                    ),
+                    type: 'password',
+                    expanded: true,
+                  }}
+                />
               </FormColumn>
             </FormRow>
-          )}
-          <FormRow>
-            <FormColumn rightSpace={false} bottomSpace>
-              <TextFieldGroup
-                id="signin_username"
-                inputProps={{
-                  placeholder: i18n._(
-                    /* i18n */ 'signin.form.username.placeholder',
-                    undefined,
-                    { message: 'username' }
-                  ),
-                  name: 'username',
-                  value: identifier.username,
-                  onChange: handleInputChange,
-                  expanded: true,
-                }}
-                label={i18n._(
-                  /* i18n */ 'signin.form.username.label',
-                  undefined,
-                  {
-                    message: 'Username',
-                  }
-                )}
-                errors={errors.username}
-                ref={usernameInput}
-              />
-            </FormColumn>
-            <FormColumn rightSpace={false} bottomSpace>
-              <TextFieldGroup
-                id="signin_password"
-                label={i18n._(
-                  /* i18n */ 'signin.form.password.label',
-                  undefined,
-                  {
-                    message: 'Password',
-                  }
-                )}
-                inputProps={{
-                  placeholder: i18n._(
-                    /* i18n */ 'signin.form.password.placeholder',
-                    undefined,
-                    { message: 'password' }
-                  ),
-                  name: 'password',
-                  type: 'password',
-                  value: identifier.password,
-                  onChange: handleInputChange,
-                  expanded: true,
-                }}
-                errors={errors.password}
-                ref={passwordInput}
-              />
-            </FormColumn>
-          </FormRow>
-          <FormRow>
-            <FormColumn
-              rightSpace={false}
-              className="s-signin__action"
-              bottomSpace
-            >
-              <Button
-                type="submit"
-                display="expanded"
-                shape="plain"
-                disabled={!isValid || isLoading}
-                icon={
-                  isLoading ? (
-                    <Spinner
-                      svgTitleId="signin-spinner"
-                      isLoading
-                      display="inline"
-                      theme="bright"
-                    />
-                  ) : undefined
-                }
+            <FormRow>
+              <FormColumn
+                rightSpace={false}
+                className="s-signin__action"
+                bottomSpace
               >
-                <Trans id="signin.action.login" message="Login" />
-              </Button>
-            </FormColumn>
-          </FormRow>
-          <FormRow>
-            <FormColumn rightSpace={false} className="s-signin__link">
-              <Link to="/auth/forgot-password">
-                <Trans
-                  id="signin.action.forgot_password"
-                  message="Forgot password?"
-                />
-              </Link>
-            </FormColumn>
-            <FormColumn rightSpace={false} className="s-signin__link">
-              <Link to="/auth/signup">
-                <Trans
-                  id="signin.create_an_account"
-                  message="Create an account"
-                />
-              </Link>
-            </FormColumn>
-          </FormRow>
-        </form>
+                <SubmitButton />
+              </FormColumn>
+            </FormRow>
+            <FormRow>
+              <FormColumn rightSpace={false} className="s-signin__link">
+                <Link to="/auth/forgot-password">
+                  <Trans
+                    id="signin.action.forgot_password"
+                    message="Forgot password?"
+                  />
+                </Link>
+              </FormColumn>
+              <FormColumn rightSpace={false} className="s-signin__link">
+                <Link to="/auth/signup">
+                  <Trans
+                    id="signin.create_an_account"
+                    message="Create an account"
+                  />
+                </Link>
+              </FormColumn>
+            </FormRow>
+          </Form>
+        </Formik>
       </FormGrid>
     </div>
   );
 }
 
-export default compose(withI18n(), withDevice())(SigninForm);
+export default SigninForm;
