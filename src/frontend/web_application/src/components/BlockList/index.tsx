@@ -1,9 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import classnames from 'classnames';
 import './style.scss';
 
-function BlockList({ className, children, ...props }) {
+interface Props {
+  className?: string;
+  children: React.ReactNode[];
+}
+function BlockList({ className, children, ...props }: Props) {
   return (
     <ul className={classnames('m-block-list', className)} {...props}>
       {children.map((comp, key) => (
@@ -14,14 +17,5 @@ function BlockList({ className, children, ...props }) {
     </ul>
   );
 }
-
-BlockList.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.arrayOf(PropTypes.node).isRequired,
-};
-
-BlockList.defaultProps = {
-  className: undefined,
-};
 
 export default BlockList;

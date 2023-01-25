@@ -125,6 +125,7 @@ function OpenPGPGenerateForm({ i18n, cancel, onSuccess }: Props) {
           label={i18n._(/* i18n */ 'user.openpgp.has-passphrase', undefined, {
             message: 'Enable passphrase',
           })}
+          // @ts-ignore
           value={hasPassphrase}
           onChange={handleToggleHasPassprase}
         />

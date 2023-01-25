@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Label from '../Label';
 import './style.scss';
 
-interface Props
+export interface Props
   extends React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement

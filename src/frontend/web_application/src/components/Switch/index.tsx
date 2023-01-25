@@ -1,8 +1,16 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import './style.scss';
 
-function Switch({ label, id, ...inputProps }) {
+export interface Props
+  extends React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {
+  label: React.ReactNode;
+  id: string;
+}
+function Switch({ label, id, ...inputProps }: Props) {
   return (
     <div className="m-switch">
       <input
