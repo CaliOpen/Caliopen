@@ -17,7 +17,6 @@ const middlewares = [
   messageMiddleware,
   searchMiddleware,
 ];
-
 type PreloadedState = ConfigureStoreOptions<RootState>['preloadedState'];
 
 function configureAppStore(preloadedState?: PreloadedState) {

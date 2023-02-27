@@ -11,11 +11,10 @@ import {
   FormikTextFieldGroup,
 } from 'src/components';
 import getClient from 'src/services/api-client';
-import { useDevice } from 'src/modules/device/hooks/useDevice';
 import { validateRequired } from 'src/modules/form/services/validators';
 import { notifyError } from 'src/modules/userNotify';
+import { getClientDevice, STATUS_VERIFIED } from 'src/modules/device';
 import { usernameNormalizer } from '../../services/usernameNormalizer';
-import { STATUS_VERIFIED } from '../../../device';
 import './style.scss';
 import SubmitButton from './components/SubmitButton';
 
@@ -43,7 +42,7 @@ function SigninForm() {
   const { search } = useLocation();
   const { i18n } = useLingui();
   const dispatch = useDispatch();
-  const { clientDevice } = useDevice();
+  const clientDevice = getClientDevice();
   const [context] = React.useState(CONTEXT_SAFE);
 
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
@@ -58,7 +57,7 @@ function SigninForm() {
         context,
         password,
         username: usernameNormalizer(username),
-        device: clientDevice,
+        device: clientDevice.getPublic(),
       });
       if (response.data.device.status !== STATUS_VERIFIED) {
         setShouldRedirectDevice(true);

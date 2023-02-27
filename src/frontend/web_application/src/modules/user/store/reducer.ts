@@ -5,7 +5,6 @@ import {
 } from 'src/types';
 import calcObjectForPatch from 'src/services/api-patch';
 import { UserPatchPayload, UserPayload } from '../types';
-import {} from 'redux-axios-middleware';
 
 export const REQUEST_USER = 'co/user/REQUEST_USER';
 export const REQUEST_USER_SUCCESS = 'co/user/REQUEST_USER_SUCCESS';

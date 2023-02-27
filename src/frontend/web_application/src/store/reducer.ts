@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux';
 import notifyReducer from 'react-redux-notify';
+import {
+  TypedUseSelectorHook,
+  useSelector as useSelectorBase,
+} from 'react-redux';
 import { reducer as formReducer } from 'redux-form';
 import { store as contactStore } from 'src/modules/contact';
 import { store as tagStore } from 'src/modules/tags';
@@ -46,5 +50,7 @@ const reducer = combineReducers({
 });
 
 export type RootState = ReturnType<typeof reducer>;
+
+export const useSelector: TypedUseSelectorHook<RootState> = useSelectorBase;
 
 export default reducer;

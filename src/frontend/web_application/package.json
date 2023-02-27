@@ -122,6 +122,7 @@
     "@testing-library/react": "12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "@types/classnames": "^2.3.1",
+    "@types/elliptic": "^6.4.14",
     "@types/express": "^4.17.13",
     "@types/express-http-proxy": "^1.6.3",
     "@types/iron": "^5.0.2",

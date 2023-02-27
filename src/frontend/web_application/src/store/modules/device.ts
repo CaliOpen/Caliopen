@@ -1,3 +1,4 @@
+import { Device } from 'src/modules/device/types';
 import calcObjectForPatch from '../../services/api-patch';
 
 export const SET_NEW_DEVICE = 'co/device/SET_NEW_DEVICE';
@@ -114,7 +115,13 @@ export function requestDeviceVerification({ token }) {
   };
 }
 
-export function updateDevice({ device, original }) {
+export function updateDevice({
+  device,
+  original,
+}: {
+  device: Device;
+  original: Device;
+}) {
   const data = calcObjectForPatch(device, original);
 
   return {
@@ -133,7 +140,7 @@ function devicesByIdReducer(state, action) {
   switch (action.type) {
     case REQUEST_DEVICES_SUCCESS:
       return action.payload.data.devices.reduce(
-        (acc, device) => ({
+        (acc, device: Device) => ({
           ...acc,
           [device.device_id]: device,
         }),
@@ -153,7 +160,17 @@ function devicesReducer(state, action) {
   }
 }
 
-const initialState = {
+interface State {
+  isFetching: boolean;
+  didInvalidate: boolean;
+  devices: string[];
+  devicesById: Record<string, Device>;
+  total: number;
+  isNew: boolean;
+  isGenerated: boolean;
+}
+
+const initialState: State = {
   isFetching: false,
   didInvalidate: false,
   devices: [],

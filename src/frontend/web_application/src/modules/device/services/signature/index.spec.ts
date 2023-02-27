@@ -4,13 +4,14 @@ import { AxiosRequestConfig } from 'axios';
 import { getSignatureHeaders } from '.';
 import { CURVE_TYPE } from '../ecdsa';
 import UploadFileAsFormField from '../../../file/services/uploadFileAsFormField';
+import { ClientDevice } from '../storage';
 
-jest.mock('../storage', () => ({
-  getConfig: () => ({
-    id: 'THIS-IS-NOT-A-DEVICE',
-    priv: '841daea97dcd00713508fba1934d40116bffbb4004043d7071a41115122f911',
-  }),
-}));
+const device = new ClientDevice({
+  id: 'THIS-IS-NOT-A-DEVICE',
+  priv: '841daea97dcd00713508fba1934d40116bffbb4004043d7071a41115122f911',
+  curve: 'P-256',
+  hash: 'SHA256',
+});
 
 describe('HTTP Request signature headers', () => {
   const ec = new EC(CURVE_TYPE);
@@ -24,7 +25,7 @@ describe('HTTP Request signature headers', () => {
     const hash =
       '11ef093b532721968d7d7f7123bf498379f9455695fc7ec4d8bf4d98ab230c3c';
 
-    const signatureHeaders = await getSignatureHeaders(req);
+    const signatureHeaders = await getSignatureHeaders(req, device);
     expect(signatureHeaders['X-Caliopen-Device-ID']).toEqual(
       'THIS-IS-NOT-A-DEVICE'
     );
@@ -48,7 +49,7 @@ describe('HTTP Request signature headers', () => {
     const hash =
       '9119e04a31dbd4ec86a666e932e9d0102497e31bbff273e4802f08ad38a0b7f6';
 
-    const signatureHeaders = await getSignatureHeaders(req);
+    const signatureHeaders = await getSignatureHeaders(req, device);
     expect(signatureHeaders['X-Caliopen-Device-ID']).toEqual(
       'THIS-IS-NOT-A-DEVICE'
     );
@@ -79,7 +80,7 @@ describe('HTTP Request signature headers', () => {
     const hash =
       '19806d4340f7db759bb7710b0d3344b597121b989197cc006c3b350cdb5c74d0';
 
-    const signatureHeaders = await getSignatureHeaders(req);
+    const signatureHeaders = await getSignatureHeaders(req, device);
 
     expect(signatureHeaders['X-Caliopen-Device-ID']).toEqual(
       'THIS-IS-NOT-A-DEVICE'

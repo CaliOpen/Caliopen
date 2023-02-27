@@ -8,7 +8,7 @@ export const CURVE_TYPE_ASSOC = {
 // it depends on default props in curve p256 https://github.com/indutny/elliptic/blob/master/lib/elliptic/curves.js#L72-L79
 export const HASH_NAME = 'SHA256';
 
-let ec;
+let ec: EC;
 const getEC = () => {
   if (!ec) {
     ec = new EC(CURVE_TYPE);
@@ -17,6 +17,6 @@ const getEC = () => {
   return ec;
 };
 
-export const generate = () => getEC().genKeyPair();
-export const getKeypair = (priv) => getEC().keyFromPrivate(priv, 'hex');
+export const generateKeypair = () => getEC().genKeyPair();
+export const getKeypair = (priv: string) => getEC().keyFromPrivate(priv, 'hex');
 export const sign = (keypair, hash) => keypair.sign(hash);

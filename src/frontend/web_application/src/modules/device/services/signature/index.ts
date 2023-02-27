@@ -2,22 +2,10 @@ import base64 from 'base64-js';
 import SHA from 'jssha';
 import { AxiosRequestConfig } from 'axios';
 import { getKeypair, sign } from '../ecdsa';
-import { getConfig } from '../storage';
 import { buildURL } from '../../../routing';
 import { readAsArrayBuffer } from '../../../file/services';
 import UploadFileAsFormField from '../../../file/services/uploadFileAsFormField';
-
-// XXX: generated from usage
-interface Request {
-  method: string;
-  url: string;
-  params?: Record<string, any>;
-  data?: any;
-}
-interface Device {
-  id: string;
-  priv: string;
-}
+import { ClientDevice } from '../storage';
 
 // see : https://jsperf.com/string-to-uint8array
 const toByteArray = (str) => {
@@ -67,9 +55,9 @@ export const signRequest = async (
 
 export const getSignatureHeaders = async (
   req: AxiosRequestConfig,
-  device?: Device
+  device: ClientDevice
 ): Promise<Record<string, string>> => {
-  const { id, priv } = device || getConfig() || {};
+  const { id, priv } = device.config;
   // XXX: if no access to storage, this won't make sens. Throw?
   const signature = await signRequest(req, priv);
 

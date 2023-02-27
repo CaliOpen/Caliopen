@@ -6,14 +6,6 @@ import { AllProviders } from 'test/providers';
 import { server } from 'test/server';
 import SignupForm from '.';
 
-jest.mock('src/modules/device', () => ({
-  ...(jest.requireActual('src/modules/device') as any),
-  withDevice: () => (C) =>
-    function (props) {
-      return <C {...props} />;
-    },
-}));
-
 describe('scene - Signup', () => {
   it('render', () => {
     render(<SignupForm />, { wrapper: AllProviders });

@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import { getClientDevice } from 'src/modules/device';
 import { getBaseUrl } from '../config';
 import { importanceLevelHeader } from '../importance-level';
 import { queryStringify } from '../../modules/routing';
@@ -61,7 +62,8 @@ export default function getClient(): AxiosInstance {
     signingClient = buildClient();
 
     signingClient.interceptors.request.use(async (config) => {
-      const signatureHeaders = await getSignatureHeaders(config);
+      const device = getClientDevice();
+      const signatureHeaders = await getSignatureHeaders(config, device);
 
       return {
         ...config,
