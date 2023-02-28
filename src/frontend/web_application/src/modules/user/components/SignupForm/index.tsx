@@ -18,8 +18,7 @@ import {
 } from 'src/components';
 import { useSettings } from 'src/modules/settings';
 import { getConfig } from 'src/services/config';
-
-import { useDevice } from '../../../device';
+import { getClientDevice } from 'src/modules/device';
 
 import { signup } from '../../services/signup';
 import {
@@ -37,7 +36,7 @@ function Signup() {
   // totally useless: settings aren't fetch until authenticated
   const settings = useSettings();
   const { push } = useHistory();
-  const { clientDevice } = useDevice();
+  const clientDevice = getClientDevice();
 
   const [fieldErrors, setFieldErrors] = React.useState<{
     global?: string[];
@@ -172,7 +171,7 @@ function Signup() {
     try {
       await signup({
         ...formValues,
-        device: clientDevice,
+        device: clientDevice.getPublic(),
         settings,
       });
 

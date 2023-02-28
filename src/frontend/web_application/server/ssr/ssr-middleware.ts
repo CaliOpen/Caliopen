@@ -3,6 +3,8 @@ import { renderToString } from 'react-dom/server';
 import DocumentTitle from 'react-document-title';
 import serialize from 'serialize-javascript';
 import locale from 'locale';
+
+import { RootState } from 'src/store/reducer';
 import Bootstrap from './components/Bootstrap';
 import configureStore from '../../src/store/configure-store';
 import { getUserLocales } from '../../src/modules/i18n';
@@ -13,9 +15,9 @@ import template from '../../dist/server/template.html';
 import { getConfig } from '../config';
 import { initialState as initialStateSettings } from '../../src/store/modules/settings';
 import { getLogger } from '../logger';
-import { RootState } from 'src/store/reducer';
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace NodeJS {
     interface Global {
       user: any;
@@ -90,9 +92,8 @@ export default (req, res, next) => {
     },
   };
 
-  // @ts-ignore: partial
   const store = configureStore(initialState);
-  var context: { url?: string; action?: string } = {};
+  const context: { url?: string; action?: string } = {};
 
   const html = getMarkup({ store, location: req.url, context });
 

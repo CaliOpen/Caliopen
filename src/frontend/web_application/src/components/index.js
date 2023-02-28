@@ -41,7 +41,6 @@ export {
 export { default as AdvancedSelectFieldGroup } from './AdvancedSelectFieldGroup';
 export { default as Checkbox } from './Checkbox';
 export { default as CheckboxFieldGroup } from './CheckboxFieldGroup';
-export { default as CollectionFieldGroup } from './CollectionFieldGroup';
 export { default as DatePickerGroup } from './DatePickerGroup';
 export { default as FieldErrors, FormikFieldErrors } from './FieldErrors';
 export { default as FieldGroup } from './FieldGroup';

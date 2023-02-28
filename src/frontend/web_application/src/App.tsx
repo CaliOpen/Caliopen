@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { I18nLoader } from './modules/i18n';
 import { WithSettings } from './modules/settings';
-import { DeviceProvider } from './modules/device';
 import { InstallPromptProvider } from './modules/pwa';
 import { SwitchWithRoutes, RoutingConsumer } from './modules/routing';
 import RoutingProvider from './modules/routing/components/RoutingProvider';
@@ -33,13 +32,11 @@ export default function App({
                 <ErrorBoundary>
                   <RoutingProvider settings={settings}>
                     <PageTitle />
-                    <DeviceProvider>
-                      <RoutingConsumer
-                        render={({ routes }) => (
-                          <SwitchWithRoutes routes={routes} />
-                        )}
-                      />
-                    </DeviceProvider>
+                    <RoutingConsumer
+                      render={({ routes }) => (
+                        <SwitchWithRoutes routes={routes} />
+                      )}
+                    />
                     {/* @ts-ignore */}
                     <NotificationProvider />
                   </RoutingProvider>

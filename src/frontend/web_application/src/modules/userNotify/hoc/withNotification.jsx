@@ -18,5 +18,8 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
+/**
+ * @deprecated
+ */
 export const withNotification = () => (Component) =>
   connect(null, mapDispatchToProps)(Component);

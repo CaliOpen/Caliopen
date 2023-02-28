@@ -1,5 +1,13 @@
+import { v4 as uuidV4 } from 'uuid';
 import { getLocalstorage } from '../../../../services/localStorage';
-import { CURVE_TYPE, HASH_NAME, CURVE_TYPE_ASSOC } from '../ecdsa';
+import { Config, PublicDevice } from '../../types';
+import {
+  CURVE_TYPE,
+  HASH_NAME,
+  CURVE_TYPE_ASSOC,
+  getKeypair,
+  generateKeypair,
+} from '../ecdsa';
 
 const DEVICE_NAMESPACE = 'device';
 
@@ -29,10 +37,12 @@ export const save = ({ id, keypair }) => {
   });
 };
 
-export const getConfig = (): { [key: string]: string } | void => {
+const configKeys = ['id', 'priv', 'hash', 'curve'];
+
+export const getConfig = (): Config | void => {
   const params = getStorage().findAll(DEVICE_NAMESPACE);
 
-  if (!params.length) {
+  if (params.length !== configKeys.length) {
     return undefined;
   }
 
@@ -45,27 +55,48 @@ export const getConfig = (): { [key: string]: string } | void => {
   );
 };
 
-export interface PublicDevice {
-  device_id: string;
-  ecdsa_key: {
-    curve: string;
-    hash: string;
-    x: string;
-    y: string;
-  };
+export function initConfig() {
+  const id = uuidV4();
+  const keypair = generateKeypair();
+
+  saveConfig({
+    id,
+    curve: CURVE_TYPE,
+    hash: HASH_NAME,
+    // @ts-ignore: update lib?
+    priv: keypair.priv.toString('hex'),
+  });
 }
 
-// XXX: should be a "Model" ?
-export const getPublicDevice = ({ id, keypair }): PublicDevice => {
-  const pub = keypair.getPublic();
+export class ClientDevice {
+  constructor(config: Config) {
+    this.config = config;
+    this.device_id = config.id;
 
-  return {
-    device_id: id,
-    ecdsa_key: {
+    const keypair = getKeypair(config.priv);
+    const pub = keypair.getPublic();
+
+    this.ecdsa_key = {
       curve: CURVE_TYPE_ASSOC[CURVE_TYPE],
       hash: HASH_NAME,
       x: pub.getX().toString('hex'),
       y: pub.getY().toString('hex'),
-    },
+    };
+  }
+
+  config: Config;
+
+  device_id: string;
+
+  ecdsa_key: {
+    curve: string;
+    hash: typeof HASH_NAME;
+    x: string;
+    y: string;
   };
-};
+
+  getPublic: () => PublicDevice = () => ({
+    device_id: this.device_id,
+    ecdsa_key: this.ecdsa_key,
+  });
+}
