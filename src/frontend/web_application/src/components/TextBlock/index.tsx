@@ -2,14 +2,15 @@ import * as React from 'react';
 import classnames from 'classnames';
 import './style.scss';
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   inline?: boolean;
   nowrap?: boolean;
   className?: string;
   size?: 'small';
   weight?: 'strong';
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
+
 function TextBlock({
   inline = false,
   nowrap = true,
