@@ -11,3 +11,9 @@ export interface IDraftMessagePayload {
   tags?: Array<string>;
   participants?: Array<Participant>;
 }
+
+export interface MessagePI {
+  transport: number;
+  social: number;
+  content: number;
+}
