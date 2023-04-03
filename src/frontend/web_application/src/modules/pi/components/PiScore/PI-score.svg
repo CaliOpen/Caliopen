@@ -1,0 +1,13 @@
+<svg id="PI-score" xmlns="http://www.w3.org/2000/svg" viewBox="-15 0 330 90" width="330" height="90">
+  <script>
+    <![CDATA[
+      window.addEventListener("load", async function() {
+!function(){"use strict";const xmlns="http://www.w3.org/2000/svg";function createElement(tagName,attributes=[]){const el=document.createElementNS(xmlns,tagName);return attributes.forEach(attr=>el.setAttribute(...attr)),el}const bgRect=[60,90],bgCircleR=43,bgCircleStrokeWidth=4,textSize=30,letters=["A","B","C","D","E"],defaultColors=["#038141","#85bb2f","#fecb02","#ee8100","#e63e11"];function main(){var params=new URLSearchParams(document.location.search),letter=params.get("score");let colors=params.get("colors")?.split(",");params=function({colors}){const elements=[];(style=createElement("style")).append(`text {
+    font-family: Sans;
+    font-weight: 800;
+    font-size: ${textSize}px;
+  }`),elements.push(style),letters.forEach((letter,i)=>{i=createElement("rect",[["x",i*bgRect[0]],["y",0],["width",bgRect[0]],["height",bgRect[1]],["fill",colors[i]]]);elements.push(i)});var style=createElement("circle",[["cx",bgRect[0]/2],["cy",bgRect[1]/2],["r",bgCircleR],["stroke","#FFFFFF"],["stroke-width",bgCircleStrokeWidth],["fill","#FFFFFF"],["opacity",0]]);return elements.push(style),letters.forEach((letter,i)=>{var rectWidth=bgRect[0],i=createElement("text",[["x",i*rectWidth+rectWidth/2],["y",bgRect[1]/2+8],["text-anchor","middle"],["fill","#FFFFFF"],["opacity",.5]]);i.append(letter[0]),elements.push(i)}),elements}({colors:colors=5===colors?.length?colors.map(color=>"#"+color):defaultColors});document.getElementById("PI-score").append(...params),letter&&function(letter,colors){var letterIndex=letters.findIndex(item=>item[0]===letter),bgEl=document.getElementsByTagNameNS(xmlns,"rect")[letterIndex],circleEl=document.getElementsByTagNameNS(xmlns,"circle")[0],letterEl=document.getElementsByTagNameNS(xmlns,"text")[letterIndex],cx=bgRect[0]*letterIndex+bgRect[0]/2;circleEl.setAttribute("cx",cx),circleEl.setAttribute("opacity",1),circleEl.setAttribute("fill",colors[letterIndex]),bgEl.setAttribute("opacity",0),letterEl.setAttribute("opacity",1)}(letter,colors)}main()}();
+      }, false);
+    ]]>
+  </script>
+</svg>
