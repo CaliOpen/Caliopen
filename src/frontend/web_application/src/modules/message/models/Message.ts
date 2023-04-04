@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file,camelcase */
-import { IDraftMessagePayload, MessagePI } from 'src/modules/message/types';
-import { PI, PrivacyFeature } from 'src/modules/pi/types';
+import { IDraftMessagePayload } from 'src/modules/message/types';
+import { PI, MessagePI, PrivacyFeature } from 'src/modules/pi/types';
 import { v4 as uuidv4 } from 'uuid';
 import { Participant } from './Participant';
 

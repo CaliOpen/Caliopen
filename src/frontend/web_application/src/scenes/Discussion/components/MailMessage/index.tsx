@@ -59,7 +59,7 @@ export default function MailMessage({
       return <LockedMessage encryptionStatus={encryptionStatus} />;
     }
 
-    const content = encryptionStatus.decryptedMessage || message.body;
+    const content = encryptionStatus?.decryptedMessage || message.body;
 
     if (!message.body_is_plain && content) {
       return (
@@ -135,7 +135,7 @@ export default function MailMessage({
         </TextBlock>
       </div>
       <aside className={classnames('s-mail-message__info', infoPiClassName)}>
-        <MessagePi message={message} illustrate describe />
+        <MessagePi message={message} describe />
         <div className="s-mail-message__participants">
           <div className="s-mail-message__participants-from">
             <span className="direction">

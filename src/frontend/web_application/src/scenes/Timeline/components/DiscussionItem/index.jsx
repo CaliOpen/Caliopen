@@ -5,7 +5,11 @@ import classnames from 'classnames';
 // import { withI18n } from '@lingui/react';
 import { Icon, Link, TextBlock } from '../../../../components';
 import ParticipantsIconLetter from '../../../../components/ParticipantsIconLetter';
-import { getAveragePI, getPiClass } from '../../../../modules/pi';
+import {
+  getAveragePI,
+  getPiClass,
+  PI_PROPERTIES,
+} from '../../../../modules/pi';
 import { ParticipantLabel } from '../../../../modules/message';
 import './style.scss';
 import './discussion-item-content.scss';
@@ -117,7 +121,7 @@ class DiscussionItem extends PureComponent {
     } = this.props.discussion;
 
     // XXX: discussion does not support pi_message yet
-    const piAggregate = getAveragePI(pi);
+    const piAggregate = pi ? getAveragePI(pi, PI_PROPERTIES) : undefined;
 
     // const { isDeleting, isDiscussionSelected, i18n } = this.props;
 

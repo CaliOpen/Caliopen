@@ -7,7 +7,13 @@ import { Modal } from 'src/components';
 import { isMessageEncrypted } from 'src/services/encryption';
 import { STATUS_DECRYPTED } from 'src/store/modules/encryption';
 import { messageEncryptionStatusSelector } from 'src/modules/encryption';
-import { Message as MessageClass, setMessageRead } from 'src/modules/message';
+import {
+  Message as MessageClass,
+  PROTOCOL_EMAIL,
+  PROTOCOL_MASTODON,
+  PROTOCOL_TWITTER,
+  setMessageRead,
+} from 'src/modules/message';
 import { ManageEntityTags } from 'src/modules/tags';
 import { reply } from 'src/modules/draftMessage';
 import { useScrollToMe } from 'src/modules/scroll';
@@ -36,7 +42,6 @@ function Message({
   const encryptionStatus = useSelector((state) =>
     messageEncryptionStatusSelector(state, message.message_id)
   );
-  // @ts-ignore
   const isDecrypted = encryptionStatus?.status === STATUS_DECRYPTED;
   const hasEncryption = isMessageEncrypted(message);
   const isLocked = hasEncryption && !isDecrypted;
@@ -61,6 +66,39 @@ function Message({
     history.push(`/messages/${draft.message_id}`);
   };
 
+  let content: React.ReactNode = null;
+  switch (message.protocol) {
+    default:
+    case PROTOCOL_EMAIL:
+      content = (
+        <MailMessage
+          forwardedRef={ref}
+          message={message}
+          onOpenTags={handleOpenTags}
+          onDeleteMessageSuccess={onDeleteMessageSuccess}
+          onReply={handleReplyMessage}
+          encryptionStatus={encryptionStatus}
+          isLocked={isLocked}
+        />
+      );
+      break;
+
+    case PROTOCOL_TWITTER:
+    case PROTOCOL_MASTODON:
+      content = (
+        <InstantMessage
+          forwardedRef={ref}
+          message={message}
+          onOpenTags={handleOpenTags}
+          onDeleteMessageSuccess={onDeleteMessageSuccess}
+          onReply={handleReplyMessage}
+          encryptionStatus={encryptionStatus}
+          isLocked={isLocked}
+        />
+      );
+      break;
+  }
+
   return (
     <VisibilitySensor
       // @ts-ignore: actually : void|false|string
@@ -70,27 +108,7 @@ function Message({
       scrollThrottle={2000}
     >
       <>
-        {isMail ? (
-          <MailMessage
-            forwardedRef={ref}
-            message={message}
-            onOpenTags={handleOpenTags}
-            onDeleteMessageSuccess={onDeleteMessageSuccess}
-            onReply={handleReplyMessage}
-            encryptionStatus={encryptionStatus}
-            isLocked={isLocked}
-          />
-        ) : (
-          <InstantMessage
-            forwardedRef={ref}
-            message={message}
-            onOpenTags={handleOpenTags}
-            onDeleteMessageSuccess={onDeleteMessageSuccess}
-            onReply={handleReplyMessage}
-            encryptionStatus={encryptionStatus}
-            isLocked={isLocked}
-          />
-        )}
+        {content}
         {!noInteractions && (
           <Modal
             isOpen={isTagModalOpen}

@@ -6,6 +6,12 @@ export interface PI {
   // [additional: string]: any, // XXX: not sure how to type `additionalProperties`
 }
 
+export interface MessagePI {
+  transport: number;
+  social: number;
+  content: number;
+}
+
 type PrivacyFeatureKey =
   | 'is_internal'
   | 'is_spam'

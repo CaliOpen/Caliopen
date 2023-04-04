@@ -161,10 +161,10 @@ export type MessageEncryptionStatus = {
 
 export interface State {
   messageEncryptionStatusById: {
-    [id: string]: MessageEncryptionStatus;
+    [id: string]: void | MessageEncryptionStatus;
   };
   privateKeysByFingerprint: {
-    [fingerprint: string]: {
+    [fingerprint: string]: void | {
       status: PrivateKeysStatus;
       passphrase: string | void;
       error: Error | void;

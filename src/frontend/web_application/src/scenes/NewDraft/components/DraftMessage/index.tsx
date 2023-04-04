@@ -197,9 +197,10 @@ function DraftMessage(props: DraftMessageProps) {
 
   const isLocked =
     isEncrypted &&
+    draftEncryption &&
     ![STATUS_DECRYPTED, STATUS_ERROR].includes(draftEncryption.status);
   const encryptionEnabled =
-    isEncrypted && draftEncryption.status === STATUS_DECRYPTED;
+    isEncrypted && draftEncryption?.status === STATUS_DECRYPTED;
   const isReply = draftMessageFormData?.parent_id && true;
 
   const errors =

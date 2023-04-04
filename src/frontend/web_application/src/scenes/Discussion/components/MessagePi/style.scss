@@ -51,6 +51,10 @@
   flex-wrap: wrap;
   width: 100%;
 
+  &__pi-score {
+    width: 10rem; // compat with aside
+  }
+
   &__progress {
     height: map_get($co-pi-height, 'progressbar');
     margin-bottom: 0;

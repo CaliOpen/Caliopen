@@ -14,7 +14,7 @@ import {
 import { ContactAvatarLetter } from 'src/modules/avatar';
 import { getContact, getQueryKeys } from 'src/modules/contact/query';
 import { Contact as IContact } from 'src/modules/contact/types';
-import { getAveragePI } from 'src/modules/pi';
+import { getAveragePI, PI_PROPERTIES } from 'src/modules/pi';
 import { useSettings } from 'src/modules/settings';
 import { APIAxiosError } from 'src/services/api-client/types';
 import { formatName } from 'src/modules/contact';
@@ -111,7 +111,9 @@ function Contact():
     );
   }
 
-  const averagePI = contact.pi ? getAveragePI(contact.pi) : ' - ';
+  const averagePI = contact.pi
+    ? getAveragePI(contact.pi, PI_PROPERTIES)
+    : ' - ';
   const { identities = [], ims = [], addresses = [], infos } = contact;
   const restOfDetails = [
     ...identities.map((identity) => (

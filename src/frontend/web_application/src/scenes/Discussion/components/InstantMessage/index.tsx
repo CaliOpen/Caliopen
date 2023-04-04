@@ -116,7 +116,7 @@ export default function InstantMessage({
       return <LockedMessage encryptionStatus={encryptionStatus} />;
     }
 
-    const content = encryptionStatus.decryptedMessage || message.body;
+    const content = encryptionStatus?.decryptedMessage || message.body;
     if (!message.body_is_plain && content) {
       return (
         <TextBlock
@@ -173,7 +173,7 @@ export default function InstantMessage({
               <Icon type="caret-down" title={getRecipientsString(false)} />
             </TextBlock>
           </div>
-          <MessagePi illustrate={false} describe={false} message={message} />
+          <MessagePi message={message} />
         </div>
         {!noInteractions && (
           <div className="m-instant-message-aside__actions">

@@ -8,7 +8,7 @@ export interface ConcreteMessageProps {
   onReply: () => any;
   noInteractions?: boolean;
   isLocked: boolean;
-  encryptionStatus: MessageEncryptionStatus;
+  encryptionStatus: void | MessageEncryptionStatus;
   // scrollToMe
   forwardedRef: React.MutableRefObject<any>;
 }

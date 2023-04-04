@@ -7,6 +7,11 @@ and this project adheres to
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Changed
+
+- Replace PI message illustration by a PI score (A to E).
+
 ## [0.25.3] 2023-02-28
 
 ### Fixed
