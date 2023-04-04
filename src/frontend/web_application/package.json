@@ -1,6 +1,6 @@
 {
   "name": "@caliopen/frontend",
-  "version": "0.25.3",
+  "version": "0.26.0",
   "description": "CaliOpen UI is the user interface for CaliOpen.",
   "homepage": "https://caliopen.org/",
   "private": true,
