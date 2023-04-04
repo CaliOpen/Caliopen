@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Trans, withI18n, withI18nProps } from '@lingui/react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import VisibilitySensor from 'react-visibility-sensor';
 import { useHistory } from 'react-router-dom';
 import { Modal } from 'src/components';
@@ -9,14 +9,15 @@ import { STATUS_DECRYPTED } from 'src/store/modules/encryption';
 import { messageEncryptionStatusSelector } from 'src/modules/encryption';
 import {
   Message as MessageClass,
+  PROTOCOL_EMAIL,
+  PROTOCOL_MASTODON,
+  PROTOCOL_TWITTER,
   setMessageRead,
-  deleteMessage,
 } from 'src/modules/message';
 import { ManageEntityTags } from 'src/modules/tags';
 import { reply } from 'src/modules/draftMessage';
-import { useSettings } from 'src/modules/settings';
 import { useScrollToMe } from 'src/modules/scroll';
-import { RootState } from 'src/store/reducer';
+import { useSelector } from 'src/store/reducer';
 import MailMessage from './MailMessage';
 import InstantMessage from './InstantMessage';
 
@@ -38,17 +39,13 @@ function Message({
   const ref = useScrollToMe(`#${message.message_id}`);
   const [isTagModalOpen, setTagModalOpen] = React.useState(false);
 
-  const settings = useSettings();
-  const encryptionStatus = useSelector<RootState>((state) =>
+  const encryptionStatus = useSelector((state) =>
     messageEncryptionStatusSelector(state, message.message_id)
   );
-  // @ts-ignore
   const isDecrypted = encryptionStatus?.status === STATUS_DECRYPTED;
   const hasEncryption = isMessageEncrypted(message);
   const isLocked = hasEncryption && !isDecrypted;
   const isMail = !message.protocol || message.protocol === 'email';
-  // @ts-ignore
-  const decryptedMessage = encryptionStatus?.decryptedMessage;
 
   const onVisibilityChange = (isVisible) => {
     if (!isLocked && isVisible && message.is_unread) {
@@ -64,24 +61,43 @@ function Message({
     setTagModalOpen(false);
   };
 
-  // XXX: move to direct comp
-  const handleDeleteMessage = async () => {
-    await dispatch(deleteMessage({ message }));
-    onDeleteMessageSuccess();
-  };
-
   const handleReplyMessage = async () => {
     const draft = (await dispatch(reply(message))) as any as MessageClass;
     history.push(`/messages/${draft.message_id}`);
   };
 
-  const handleReadMessage = () => {
-    dispatch(setMessageRead({ message, isRead: true }));
-  };
+  let content: React.ReactNode = null;
+  switch (message.protocol) {
+    default:
+    case PROTOCOL_EMAIL:
+      content = (
+        <MailMessage
+          forwardedRef={ref}
+          message={message}
+          onOpenTags={handleOpenTags}
+          onDeleteMessageSuccess={onDeleteMessageSuccess}
+          onReply={handleReplyMessage}
+          encryptionStatus={encryptionStatus}
+          isLocked={isLocked}
+        />
+      );
+      break;
 
-  const handleUnreadMessage = () => {
-    dispatch(setMessageRead({ message, isRead: false }));
-  };
+    case PROTOCOL_TWITTER:
+    case PROTOCOL_MASTODON:
+      content = (
+        <InstantMessage
+          forwardedRef={ref}
+          message={message}
+          onOpenTags={handleOpenTags}
+          onDeleteMessageSuccess={onDeleteMessageSuccess}
+          onReply={handleReplyMessage}
+          encryptionStatus={encryptionStatus}
+          isLocked={isLocked}
+        />
+      );
+      break;
+  }
 
   return (
     <VisibilitySensor
@@ -92,31 +108,7 @@ function Message({
       scrollThrottle={2000}
     >
       <>
-        {isMail ? (
-          <MailMessage
-            forwardedRef={ref}
-            message={hasEncryption && !isLocked ? decryptedMessage : message}
-            settings={settings}
-            onOpenTags={handleOpenTags}
-            onCloseTags={handleCloseTags}
-            onMessageDelete={handleDeleteMessage}
-            onMessageRead={handleReadMessage}
-            onMessageUnread={handleUnreadMessage}
-            onReply={handleReplyMessage}
-            isLocked={isLocked}
-          />
-        ) : (
-          <InstantMessage
-            forwardedRef={ref}
-            message={hasEncryption && !isLocked ? decryptedMessage : message}
-            onOpenTags={handleOpenTags}
-            onCloseTags={handleCloseTags}
-            onMessageDelete={handleDeleteMessage}
-            onMessageRead={handleReadMessage}
-            onMessageUnread={handleUnreadMessage}
-            onReply={handleReplyMessage}
-          />
-        )}
+        {content}
         {!noInteractions && (
           <Modal
             isOpen={isTagModalOpen}

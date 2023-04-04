@@ -20,7 +20,13 @@ export const STATUS_DECRYPTING = 'decrypting';
 export const STATUS_DECRYPTED = 'decrypted';
 export const STATUS_ERROR = 'error';
 
-export function askPassphrase({ fingerprint, error }) {
+export function askPassphrase({
+  fingerprint,
+  error,
+}: {
+  fingerprint: string;
+  error: Error | undefined;
+}) {
   return {
     type: ASK_PASSPHRASE,
     payload: {
@@ -134,12 +140,44 @@ export function resetEncryption({ message }) {
   };
 }
 
-const initialState = {
+export type PrivateKeysStatus = 'ask' | 'ok' | 'ko';
+
+export type EncryptionStatus =
+  | typeof STATUS_NEED_PASSPHRASE
+  | typeof STATUS_NEED_PRIVATEKEY
+  | typeof STATUS_ENCRYPTING
+  | typeof STATUS_ENCRYPTED
+  | typeof STATUS_DECRYPTING
+  | typeof STATUS_DECRYPTED
+  | typeof STATUS_ERROR;
+
+export type MessageEncryptionStatus = {
+  status: EncryptionStatus;
+  keyFingerprint: string; // ?
+  decryptedMessage: string | void;
+  encryptedMessage: string | void;
+  error?: Error;
+};
+
+export interface State {
+  messageEncryptionStatusById: {
+    [id: string]: void | MessageEncryptionStatus;
+  };
+  privateKeysByFingerprint: {
+    [fingerprint: string]: void | {
+      status: PrivateKeysStatus;
+      passphrase: string | void;
+      error: Error | void;
+    };
+  };
+}
+
+const initialState: State = {
   messageEncryptionStatusById: {},
   privateKeysByFingerprint: {},
 };
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state = initialState, action): State {
   switch (action.type) {
     case ASK_PASSPHRASE:
       return {
@@ -173,6 +211,7 @@ export default function reducer(state = initialState, action) {
           [action.payload.fingerprint]: {
             status: 'ko',
             passphrase: undefined,
+            error: undefined,
           },
         },
       };

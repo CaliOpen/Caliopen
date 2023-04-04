@@ -1,5 +1,6 @@
 /* eslint-disable max-classes-per-file,camelcase */
 import { IDraftMessagePayload } from 'src/modules/message/types';
+import { PI, MessagePI, PrivacyFeature } from 'src/modules/pi/types';
 import { v4 as uuidv4 } from 'uuid';
 import { Participant } from './Participant';
 
@@ -45,6 +46,12 @@ export class Message {
   parent_id?: string;
 
   participants: Array<Participant> = [];
+
+  pi_message?: MessagePI;
+
+  privacy_features?: PrivacyFeature;
+
+  pi?: PI;
 
   raw_msg_id: string;
 
