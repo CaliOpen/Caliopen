@@ -25,12 +25,6 @@ def setup_index(user):
     if not client.indices.exists(shard_id):
         setup_shard_index(shard_id)
 
-    # Creates a versioned index with our custom analyzers, tokenizers, etc.
-    m_version = Configuration('global').get('elasticsearch.mappings_version')
-    if m_version == "":
-        raise Exception('Invalid mapping version for shard {0}'.
-                        format(shard_id))
-
     index_name = shard_id
     alias_name = user.user_id
 

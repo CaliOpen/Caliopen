@@ -12,7 +12,6 @@ delivery_agent:
 
 elasticsearch:
     url: http://elasticsearch:9200
-    mappings_version: v6
     shards:
         - caliopen-dev-0001
         - caliopen-dev-0002
