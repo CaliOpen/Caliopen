@@ -74,17 +74,22 @@ def resync_index(**kwargs):
         cpt_contact += 1
 
     cpt_message = 0
+    skip_message = 0
     messages = Message.filter(user_id=user.user_id).timeout(None). \
         allow_filtering()
     for message in messages:
         log.debug('Reindex message %r' % message.message_id)
-        obj = MessageObject(user, message_id=message.message_id)
-        obj.get_db()
-        obj.unmarshall_db()
-        obj.create_index()
-        cpt_message += 1
-    log.info('Sync of {0} contacts, {1} messages'.
-             format(cpt_contact, cpt_message))
+        try:
+            obj = MessageObject(user, message_id=message.message_id)
+            obj.get_db()
+            obj.unmarshall_db()
+            obj.create_index()
+            cpt_message += 1
+        except Exception as exc:
+            skip_message += 1
+            log.exception(exc)
+    log.info('Sync of {0} contacts, {1} messages. Skipped {2} messages.'.
+             format(cpt_contact, cpt_message, skip_message))
     log.info('Create index alias %r' % user.user_id)
     try:
         es_client.indices.put_alias(index=shard_id, name=user.user_id)
