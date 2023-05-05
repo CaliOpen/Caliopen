@@ -7,6 +7,12 @@ and this project adheres to
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Changed
+
+- CLI commands `resync_shard` and `resync_index` does not stop when an error
+  occured.
+
 ## [0.26.1] 2023-05-03
 
 ### Fixed
