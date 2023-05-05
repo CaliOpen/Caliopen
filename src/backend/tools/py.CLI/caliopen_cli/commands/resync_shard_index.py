@@ -43,12 +43,15 @@ def resync_user(user):
     messages = Message.filter(user_id=user.user_id). \
         allow_filtering().timeout(None)
     for message in messages:
-        log.debug('Reindex message %r' % message.message_id)
-        obj = MessageObject(user, message_id=message.message_id)
-        obj.get_db()
-        obj.unmarshall_db()
-        obj.create_index()
-
+        try:
+            log.debug('Reindex message %r' % message.message_id)
+            obj = MessageObject(user, message_id=message.message_id)
+            obj.get_db()
+            obj.unmarshall_db()
+            obj.create_index()
+        except Exception as exc:
+            log.error('{}: reindexing message {} for user {}. Continue'.format(type(exc).__name__, message.message_id, user.user_id))
+            raise
 
 def resync_shard_index(**kwargs):
     """Resync all index of a shard."""
@@ -69,6 +72,7 @@ def resync_shard_index(**kwargs):
 
     users = User._model_class.all()
     cpt = 0
+    skip = 0
     for user in users:
         if user.shard_id not in (old_shard_id, shard_id):
             continue
@@ -76,6 +80,10 @@ def resync_shard_index(**kwargs):
         if user.shard_id != shard_id:
             user.shard_id = shard_id
             user.save()
-        resync_user(user)
-        cpt += 1
-    log.info('Sync {0} users into shards'.format(cpt))
+        try:
+            resync_user(user)
+            cpt += 1
+        except Exception as exc:
+            skip += 1
+            log.exception(exc)
+    log.info('Sync {0} users into shards. Skipped {1} users'.format(cpt, skip))
