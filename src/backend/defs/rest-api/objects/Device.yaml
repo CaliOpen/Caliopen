@@ -1,7 +1,7 @@
 ---
 type: object
 properties:
-  "$ref": NewDevice.yaml#/properties
+  '$ref': NewDevice.yaml#/properties
   device_id:
     type: string
   date_insert:
@@ -12,18 +12,14 @@ properties:
     format: date-time
   ip_creation:
     type: string
-  locations:
-    type: array
-    items:
-      "$ref": DeviceLocation.yaml
   name:
     type: string
   privacy_features:
     type: object
-    "$ref": PrivacyFeatures.yaml
+    '$ref': PrivacyFeatures.yaml
   pi:
     type: object
-    "$ref": PI.yaml
+    '$ref': PI.yaml
   status:
     type: string
   type:
@@ -40,4 +36,3 @@ required:
 - status
 - date_insert
 additionalProperties: false
-
