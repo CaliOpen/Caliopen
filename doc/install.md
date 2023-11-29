@@ -21,7 +21,8 @@ environment._
 - clean-dev-storage.sh: destroy docker volumes used by persistent stores
   (Cassandra and Elasticsearch)
 - gen-swagger-spec.sh: (native) re-generate swagger file and store it into
-  [`src/backend/configs/`](../../src/backend/configs/) directory
+  [`src/backend/configs/`](../../src/backend/configs/) directory and html doc
+  into [`src/backend/doc/api/`](../../src/backend/doc/api/)
 - make_release: python script to build a release
 - manage_package: python script to manage caliopen packages
 - run-tests.sh: start tests in travis, this launch frontend or backend tests

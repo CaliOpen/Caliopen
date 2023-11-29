@@ -5773,12 +5773,6 @@
         "ip_creation": {
           "type": "string"
         },
-        "locations": {
-          "type": "array",
-          "items": {
-            "$ref": "DeviceLocation.yaml"
-          }
-        },
         "name": {
           "type": "string"
         },
@@ -5801,6 +5795,12 @@
         },
         "user_agent": {
           "type": "string"
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeviceLocation"
+          }
         },
         "public_keys": {
           "type": "array",
