@@ -13,7 +13,7 @@
     "@kadira/storybook": "^2.21.0",
     "@kadira/storybook-addon-knobs": "^1.7.1",
     "react": "^16.0.0",
-    "react-dom": "^16.0.0",
+    "react-dom": "^16.0.1",
     "react-storybook-addon-backgrounds": "^0.0.7",
     "storybook-host": "^4.1.4"
   }
