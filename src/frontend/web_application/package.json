@@ -69,7 +69,7 @@
     "mime-types": "^2.1.35",
     "mimemessage": "^1.0.5",
     "moment": "^2.29.1",
-    "moment-timezone": "^0.5.34",
+    "moment-timezone": "^0.5.35",
     "openpgp": "^4.10.10",
     "piwik-react-router": "^0.12.1",
     "prop-types": "^15.8.1",
