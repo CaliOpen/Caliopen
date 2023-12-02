@@ -158,12 +158,13 @@
     to-fast-properties "^2.0.0"
 
 "@caliopen/frontend@../../src/frontend/web_application":
-  version "0.25.0"
+  version "0.25.2"
   dependencies:
     "@babel/runtime" "^7.17.8"
     "@lingui/core" "^3.13.2"
     "@lingui/react" "^3.13.2"
     "@reduxjs/toolkit" "^1.8.0"
+    "@types/zxcvbn" "^4.4.1"
     argv "^0.0.2"
     async-validator "^3.2.4"
     axios "^0.20.0"
@@ -456,6 +457,10 @@
 "@types/tinycolor2@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@types/tinycolor2/-/tinycolor2-1.4.0.tgz#77792ebbbe8a1c9b291cb949fafeb7de121c4c6a"
+
+"@types/zxcvbn@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@types/zxcvbn/-/zxcvbn-4.4.1.tgz#46e42cbdcee681b22181478feaf4af2bc4c1abd2"
 
 abbrev@1:
   version "1.1.1"
@@ -5734,8 +5739,8 @@ typed-styles@^0.0.7:
   resolved "https://registry.yarnpkg.com/typed-styles/-/typed-styles-0.0.7.tgz#93392a008794c4595119ff62dde6809dbc40a3d9"
 
 ua-parser-js@^0.7.9:
-  version "0.7.28"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.28.tgz#8ba04e653f35ce210239c64661685bf9121dec31"
+  version "0.7.33"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.33.tgz#1d04acb4ccef9293df6f70f2c3d22f3030d8b532"
 
 uglify-js@~2.7.3:
   version "2.7.5"
